@@ -1,0 +1,73 @@
+﻿@model dynamic
+@{
+    Layout = null;
+    ViewData["Title"] = "Manager Statistic Page";
+    List<string> locationList = Model.Locations;
+    List<BAL.ViewModels.MeetingViewModel> meetingList = Model.Meetings;
+    BAL.ViewModels.MeetingViewModel createMeet = new();
+    BAL.ViewModels.MeetingViewModel cancelMeet = new();
+    string? search = string.Empty;
+    Layout = "~/Views/Shared/_MASLayout.cshtml";
+}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <div class="main-content">
+        <div class="main">
+            <div class="container-fluid">
+                <section>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="d-flex align-content-center float-right">
+                                        <button class="btn btn-xs btn-orange active" onclick="timeFrame(this)" value="day">Day</button>
+                                        <button class="btn btn-xs btn-orange" onclick="timeFrame(this)" value="week">Week</button>
+                                        <button class="btn btn-xs btn-orange" onclick="timeFrame(this)" value="month">Month</button>
+                                    </div>
+                                    <div id="numOfHome">
+                                        <select name="aaa" id="a1234" style="display: none;">
+                                            <option value="10">2022-06-09 UTC+0700</option>
+                                            <option value="9">2022-06-10 UTC+0700</option>
+                                            <option value="3">2022-06-11 UTC+0700</option>
+                                            <option value="7">2022-06-12 UTC+0700</option>
+                                            <option value="9">2022-06-13 UTC+0700</option>
+                                            <option value="5">2022-06-14 UTC+0700</option>
+                                            <option value="1">2022-06-15 UTC+0700</option>
+                                        </select>
+                                        <select name="bbb" id="b1234" style="display: none;">
+                                            <option value="1">2022-06-09 UTC+0700</option>
+                                            <option value="2">2022-06-10 UTC+0700</option>
+                                            <option value="3">2022-06-11 UTC+0700</option>
+                                            <option value="4">2022-06-12 UTC+0700</option>
+                                            <option value="5">2022-06-13 UTC+0700</option>
+                                            <option value="6">2022-06-14 UTC+0700</option>
+                                            <option value="7">2022-06-15 UTC+0700</option>
+                                        </select>
+                                        <select name="ccc" id="c1234" style="display: none;">
+                                            <option value="30">2022-06-09 UTC+0700</option>
+                                            <option value="19">2022-06-10 UTC+0700</option>
+                                            <option value="21">2022-06-11 UTC+0700</option>
+                                            <option value="1">2022-06-12 UTC+0700</option>
+                                            <option value="1">2022-06-13 UTC+0700</option>
+                                            <option value="2">2022-06-14 UTC+0700</option>
+                                            <option value="2">2022-06-15 UTC+0700</option>
+                                        </select>
+                                    </div>
+                                    <canvas id="chart-Dashboard" width="400" height="200"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+</html>
