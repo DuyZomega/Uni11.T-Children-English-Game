@@ -76,7 +76,7 @@ namespace CEG_WebMVC.Controllers
             return View();
         }
 
-        [HttpGet("GoogleLogin")]
+        /*[HttpGet("GoogleLogin")]
         public IActionResult GoogleLogin()
         {
             var properties = new AuthenticationProperties
@@ -94,13 +94,13 @@ namespace CEG_WebMVC.Controllers
                 return RedirectToAction("Login");
             }
 
-            /*var claim = result.Principal.Identities.FirstOrDefault().Claims.Select(claim => new
+            *//*var claim = result.Principal.Identities.FirstOrDefault().Claims.Select(claim => new
 			{
 				claim.Issuer,
 				claim.OriginalIssuer,
 				claim.Type,
 				claim.Value,
-			});*/
+			});*//*
 
             var code = result.Properties.Items.FirstOrDefault(t => t.Key.Equals(Constants.GOOGLE_ACCESS_TOKEN_KEY_NAME)).Value;
             if (code == null)
@@ -112,7 +112,7 @@ namespace CEG_WebMVC.Controllers
             methcall.SetCookie(Response, Constants.GOOGLE_ACC_COOKIE, userInfo, cookieOptions, jsonOptions, 20);
 
             return RedirectToAction("Register");
-        }
+        }*/
         [HttpGet("Logout")]
         public IActionResult Logout()
         {
