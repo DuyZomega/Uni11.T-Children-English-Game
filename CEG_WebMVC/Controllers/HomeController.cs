@@ -9,7 +9,7 @@ using CEG_WebMVC.Models.Location;
 using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Http.Json;
 using System;
-using BAL.ViewModels.Event;
+/*using CEG_BAL.ViewModels.Event;*/
 using CEG_WebMVC.Models.FieldTrip;
 using CEG_WebMVC.Models.Contest;
 using CEG_WebMVC.Models.Meeting;
@@ -38,13 +38,13 @@ namespace CEG_WebMVC.Controllers
             _httpClient = new HttpClient();
             var contentType = new MediaTypeWithQualityHeaderValue("application/json");
             _httpClient.DefaultRequestHeaders.Accept.Add(contentType);
-            _httpClient.BaseAddress = new Uri(config.GetSection("DefaultApiUrl:ConnectionString").Value);
-            HomeAPI_URL = config.GetSection("DefaultApiUrl:ApiConnectionString").Value;
+            /*_httpClient.BaseAddress = new Uri(config.GetSection("DefaultApiUrl:ConnectionString").Value);
+            HomeAPI_URL = config.GetSection("DefaultApiUrl:ApiConnectionString").Value;*/
         }
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            string MeetingAPI_URL = HomeAPI_URL + "Meeting/All";
+            /*string MeetingAPI_URL = HomeAPI_URL + "Meeting/All";
             string FieldTripAPI_URL_All = HomeAPI_URL + "FieldTrip/All";
             string ContestAPI_URL_All = HomeAPI_URL + "Contest/All";
             dynamic testmodel = new ExpandoObject();
@@ -52,14 +52,14 @@ namespace CEG_WebMVC.Controllers
             {
                 var token = _httpClient.DefaultRequestHeaders.Authorization.Parameter;
             }
-            /*string? role = HttpContext.Session.GetString("ROLE_NAME");
+            *//*string? role = HttpContext.Session.GetString("ROLE_NAME");
             if (string.IsNullOrEmpty(role)) return RedirectToAction("Login", "Auth");
             else if (!role.Equals("Member")) return RedirectToAction("Logout", "Home");
             
             if (string.IsNullOrEmpty(usrId)) return RedirectToAction("Login", "Auth");
 
             string? usrname = HttpContext.Session.GetString("USER_NAME");
-            if (string.IsNullOrEmpty(usrname)) return RedirectToAction("Login", "Auth");*/
+            if (string.IsNullOrEmpty(usrname)) return RedirectToAction("Login", "Auth");*//*
             string? usrId = HttpContext.Session.GetString("USER_ID");
 
             string? role = HttpContext.Session.GetString("ROLE_NAME");
@@ -139,7 +139,8 @@ namespace CEG_WebMVC.Controllers
             testmodel.Meetings = listMeetResponse.Data;
             testmodel.FieldTrips = listFieldTripResponse.Data;
             testmodel.Contests = listContestResponse.Data;
-            return View(testmodel);
+            return View(testmodel);*/
+            return View();
         }
 
         public IActionResult Privacy()

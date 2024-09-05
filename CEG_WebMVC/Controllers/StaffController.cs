@@ -1,22 +1,21 @@
-﻿using BAL.ViewModels;
+﻿/*using CEG_BAL.ViewModels;*/
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Dynamic;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Text.Encodings.Web;
-using static Org.BouncyCastle.Math.EC.ECCurve;
 using Azure;
 using Microsoft.DotNet.MSIdentity.Shared;
 using System.Security.Policy;
-using BAL.ViewModels.Member;
-using BAL.ViewModels.Staff;
+/*using CEG_BAL.ViewModels.Member;
+using CEG_BAL.ViewModels.Staff;*/
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using System.ComponentModel.DataAnnotations;
-using Azure.Storage.Blobs;
-using Azure.Storage.Blobs.Models;
-using DAL.Models;
+/*using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;*/
+using CEG_DAL.Models;
 using Microsoft.AspNetCore.Http.Json;
 using CEG_WebMVC.Models.Meeting;
 using CEG_WebMVC.Models.Contest;
@@ -28,7 +27,7 @@ using CEG_WebMVC.Library;
 
 namespace CEG_WebMVC.Controllers
 {
-    [Route("Staff")]
+    /*[Route("Staff")]
     public class StaffController : Controller
     {
         private readonly ILogger<MeetingController> _logger;
@@ -146,7 +145,7 @@ namespace CEG_WebMVC.Controllers
             return View(testmodel);
         }
         [HttpGet("Meeting/{id:int}")]
-        /*[Route("Staff/Meeting/{id:int}")]*/
+        *//*[Route("Staff/Meeting/{id:int}")]*//*
         public async Task<IActionResult> StaffMeetingDetail(int id)
         {
             string StaffMeetingDetailAPI_URL = StaffAPI_URL + "Meeting/AllParticipants/" + id;
@@ -369,7 +368,7 @@ namespace CEG_WebMVC.Controllers
             return View(testmodel2);
         }
         [HttpGet("FieldTrip/{id:int}")]
-        /*[Route("Staff/FieldTrip/{id:int}")]*/
+        *//*[Route("Staff/FieldTrip/{id:int}")]*//*
         public async Task<IActionResult> StaffFieldTripDetail(int id)
         {
             string StaffFieldTripDetailAPI_URL = StaffAPI_URL + "FieldTrip/AllParticipants/" + id;
@@ -606,7 +605,7 @@ namespace CEG_WebMVC.Controllers
             return View(testmodel3);
         }
         [HttpGet("Contest/{id:int}")]
-        /*[Route("Staff/Contest/{id:int}")]*/
+        *//*[Route("Staff/Contest/{id:int}")]*//*
         public async Task<IActionResult> StaffContestDetail(
             [FromRoute][Required] int id
             )
@@ -885,5 +884,5 @@ namespace CEG_WebMVC.Controllers
             }
             return RedirectToAction("StaffProfile");
         }
-    }
+    }*/
 }

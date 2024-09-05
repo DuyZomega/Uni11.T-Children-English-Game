@@ -1,5 +1,5 @@
-﻿using BAL.ViewModels;
-using BAL.ViewModels.Member;
+﻿/*using CEG_BAL.ViewModels;
+using CEG_BAL.ViewModels.Member;*/
 using CEG_WebMVC.Library;
 using CEG_WebMVC.Models.Transaction;
 using CEG_WebMVC.Models.VnPay;
@@ -10,12 +10,11 @@ using Microsoft.Extensions.Options;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
-using WebAppMVC.Models.Meeting;
-using static Org.BouncyCastle.Math.EC.ECCurve;
+using CEG_WebMVC.Models.Meeting;
 
 namespace CEG_WebMVC.Controllers
 {
-    public class VnPayController : Controller
+    /*public class VnPayController : Controller
     {
         private readonly ILogger<VnPayController> _logger;
         private readonly IConfiguration _config;
@@ -216,5 +215,5 @@ namespace CEG_WebMVC.Controllers
             }
             return View(response);
         }
-    }
+    }*/
 }

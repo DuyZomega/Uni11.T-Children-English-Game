@@ -1,4 +1,4 @@
-﻿using BAL.Services.Interfaces;
+﻿/*using CEG_BAL.Services.Interfaces;*/
 using CEG_WebMVC.Library;
 using CEG_WebMVC.Models.Notification;
 using Microsoft.AspNetCore.Mvc;
@@ -7,12 +7,11 @@ using System.Data;
 using System.Net.Http.Headers;
 using System.Text.Encodings.Web;
 using System.Text.Json;
-using WebAppMVC.Services;
-using static Org.BouncyCastle.Math.EC.ECCurve;
+using CEG_WebMVC.Services;
 
 namespace CEG_WebMVC.Controllers
 {
-    public class SharedController : Controller
+    /*public class SharedController : Controller
     {
         private readonly ILogger<SharedController> _logger;
         private readonly IConfiguration _config;
@@ -58,5 +57,5 @@ namespace CEG_WebMVC.Controllers
 
             return View();
         }
-    }
+    }*/
 }

@@ -1,11 +1,11 @@
-﻿using BAL.ViewModels.Authenticates;
+﻿/*using CEG_BAL.ViewModels.Authenticates;
+using CEG_BAL.ViewModels.Member;
+using CEG_BAL.ViewModels;*/
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Text;
-using BAL.ViewModels.Member;
 using Microsoft.AspNetCore.Authentication;
-using BAL.ViewModels;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
@@ -17,7 +17,7 @@ using CEG_WebMVC.Models.Transaction;
 using CEG_WebMVC.Library;
 namespace CEG_WebMVC.Controllers
 {
-    [Route("Auth")]
+    /*[Route("Auth")]
     public class AuthController : Controller
     {
         private readonly ILogger<AuthController> _logger;
@@ -76,7 +76,7 @@ namespace CEG_WebMVC.Controllers
             return View();
         }
 
-        /*[HttpGet("GoogleLogin")]
+        *//*[HttpGet("GoogleLogin")]
         public IActionResult GoogleLogin()
         {
             var properties = new AuthenticationProperties
@@ -112,7 +112,7 @@ namespace CEG_WebMVC.Controllers
             methcall.SetCookie(Response, Constants.GOOGLE_ACC_COOKIE, userInfo, cookieOptions, jsonOptions, 20);
 
             return RedirectToAction("Register");
-        }*/
+        }*//*
         [HttpGet("Logout")]
         public IActionResult Logout()
         {
@@ -357,5 +357,5 @@ namespace CEG_WebMVC.Controllers
             var url = _vnPayService.CreatePaymentUrl(model, HttpContext);
             return Redirect(url);
         }
-    }
+    }*/
 }

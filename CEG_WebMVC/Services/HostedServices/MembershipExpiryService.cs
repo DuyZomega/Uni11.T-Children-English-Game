@@ -4,17 +4,17 @@ using System.Net.Http.Headers;
 using System.Net.Http;
 using System.Text.Encodings.Web;
 using System.Text.Json;
-using WebAppMVC.Constants;
+using CEG_WebMVC.Library;
 using Microsoft.Extensions.Options;
 using System;
-using WebAppMVC.Models.Member;
-using BAL.ViewModels.Authenticates;
-using WebAppMVC.Models.Manager;
+/*using CEG_WebMVC.Models.Member;
+using CEG_BAL.ViewModels.Authenticates;
+using CEG_WebMVC.Models.Manager;*/
 using CEG_WebMVC.Services.Interfaces;
 
 namespace CEG_WebMVC.Services.HostedServices
 {
-    public class MembershipExpiryService : IHostedService, IDisposable
+    /*public class MembershipExpiryService : IHostedService, IDisposable
     {
         private readonly IServiceScopeFactory _scopeFactory;
         private readonly ILogger<MembershipExpiryService> _logger;
@@ -117,5 +117,5 @@ namespace CEG_WebMVC.Services.HostedServices
             _timer?.Dispose();
             GC.SuppressFinalize(this);
         }
-    }
+    }*/
 }

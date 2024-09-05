@@ -14,4 +14,8 @@
     <ProjectReference Include="..\CEG_DAL\CEG_DAL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ViewModels\" />
+  </ItemGroup>
+
 </Project>

@@ -1,23 +1,22 @@
-﻿using BAL.ViewModels;
+﻿/*using CEG_BAL.ViewModels;*/
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Dynamic;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Text.Encodings.Web;
-using static Org.BouncyCastle.Math.EC.ECCurve;
 using Azure;
 using Microsoft.DotNet.MSIdentity.Shared;
 using System.Security.Policy;
-using BAL.ViewModels.Member;
-using BAL.ViewModels.Manager;
+/*using CEG_BAL.ViewModels.Member;
+using CEG_BAL.ViewModels.Manager;*/
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Azure.Storage.Blobs;
+/*using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
-using Azure.Storage.Blobs.Specialized;
+using Azure.Storage.Blobs.Specialized;*/
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc;
 using CEG_WebMVC.Models.Meeting;
 using CEG_WebMVC.Models.Contest;
@@ -29,7 +28,7 @@ using CEG_WebMVC.Library;
 // thêm crud của meeting, fieldtrip, contest.
 namespace CEG_WebMVC.Controllers
 {
-    [Route("Manager")]
+    /*[Route("Manager")]
     public class ManagerController : Controller
     {
         private readonly ILogger<ManagerController> _logger;
@@ -128,7 +127,7 @@ namespace CEG_WebMVC.Controllers
             return View(testmodel);
         }
         [HttpGet("Meeting/{id:int}")]
-        /*[Route("Manager/Meeting/{id:int}")]*/
+        *//*[Route("Manager/Meeting/{id:int}")]*//*
         public async Task<IActionResult> ManagerMeetingDetail([FromRoute][Required] int id)
         {
             string ManagerMeetingDetailAPI_URL = ManagerAPI_URL + "Meeting/AllParticipants/" + id;
@@ -231,7 +230,7 @@ namespace CEG_WebMVC.Controllers
             return RedirectToAction("ManagerMeetingDetail", new { id });
         }
         [HttpPost("Meeting/Create")]
-        /*[Route("Manager/Meeting/Update/{id:int}")]*/
+        *//*[Route("Manager/Meeting/Update/{id:int}")]*//*
         public async Task<IActionResult> ManagerCreateMeeting([Required] MeetingViewModel createMeeting)
         {
             ManagerAPI_URL += "Meeting/Create";
@@ -411,7 +410,7 @@ namespace CEG_WebMVC.Controllers
             return View(fieldtripIndexVM);
         }
         [HttpGet("FieldTrip/{id:int}")]
-        /*[Route("Manager/FieldTrip/{id:int}")]*/
+        *//*[Route("Manager/FieldTrip/{id:int}")]*//*
         public async Task<IActionResult> ManagerFieldTripDetail(int id)
         {
             string ManagerFieldTripDetailAPI_URL = ManagerAPI_URL + "FieldTrip/AllParticipants/" + id;
@@ -485,7 +484,7 @@ namespace CEG_WebMVC.Controllers
             return View(fieldtripDetailVM);
         }
         [HttpPost("FieldTrip/{id:int}/Update")]
-        /*[Route("Manager/FieldTrip/Update/{id:int}")]*/
+        *//*[Route("Manager/FieldTrip/Update/{id:int}")]*//*
         public async Task<IActionResult> ManagerUpdateFieldTripDetail(
             [FromRoute][Required] int id,
             [Required] FieldTripViewModel updateTrip
@@ -527,7 +526,7 @@ namespace CEG_WebMVC.Controllers
             return RedirectToAction("ManagerFieldTripDetail", new { id });
         }
         [HttpPost("FieldTrip/{id:int}/GettingThere/{getId:int}/Update")]
-        /*[Route("Manager/FieldTrip/Update/{id:int}")]*/
+        *//*[Route("Manager/FieldTrip/Update/{id:int}")]*//*
         public async Task<IActionResult> ManagerUpdateFieldTripGettingThereDetail(
             [FromRoute][Required] int id,
             [FromRoute][Required] int getId,
@@ -572,7 +571,7 @@ namespace CEG_WebMVC.Controllers
             return RedirectToAction("ManagerFieldTripDetail", new { id });
         }
         [HttpPost("FieldTrip/{id:int}/DayByDay/{dayId:int}/Update")]
-        /*[Route("Manager/FieldTrip/Update/{id:int}")]*/
+        *//*[Route("Manager/FieldTrip/Update/{id:int}")]*//*
         public async Task<IActionResult> ManagerUpdateFieldTripDayByDay(
             [FromRoute][Required] int id,
             [FromRoute][Required] int dayId,
@@ -617,7 +616,7 @@ namespace CEG_WebMVC.Controllers
             return RedirectToAction("ManagerFieldTripDetail", new { id });
         }
         [HttpPost("FieldTrip/{id:int}/Inclusion/{incId:int}/Update")]
-        /*[Route("Manager/FieldTrip/Update/{id:int}")]*/
+        *//*[Route("Manager/FieldTrip/Update/{id:int}")]*//*
         public async Task<IActionResult> ManagerUpdateFieldTripInclusion(
             [FromRoute][Required] int id,
             [FromRoute][Required] int incId,
@@ -663,7 +662,7 @@ namespace CEG_WebMVC.Controllers
             return RedirectToAction("ManagerFieldTripDetail", new { id });
         }
         [HttpPost("FieldTrip/{id:int}/TourFeature/{addDeId:int}/Update")]
-        /*[Route("Manager/FieldTrip/Update/{id:int}")]*/
+        *//*[Route("Manager/FieldTrip/Update/{id:int}")]*//*
         public async Task<IActionResult> ManagerUpdateFieldTripTourFeature(
             [FromRoute][Required] int id,
             [FromRoute][Required] int addDeId,
@@ -709,7 +708,7 @@ namespace CEG_WebMVC.Controllers
             return RedirectToAction("ManagerFieldTripDetail", new { id });
         }
         [HttpPost("FieldTrip/{id:int}/Important/{addDeId:int}/Update")]
-        /*[Route("Manager/FieldTrip/Update/{id:int}")]*/
+        *//*[Route("Manager/FieldTrip/Update/{id:int}")]*//*
         public async Task<IActionResult> ManagerUpdateFieldTripImportant(
             [FromRoute][Required] int id,
             [FromRoute][Required] int addDeId,
@@ -755,7 +754,7 @@ namespace CEG_WebMVC.Controllers
             return RedirectToAction("ManagerFieldTripDetail", new { id });
         }
         [HttpPost("FieldTrip/{id:int}/ActAndTras/{addDeId:int}/Update")]
-        /*[Route("Manager/FieldTrip/Update/{id:int}")]*/
+        *//*[Route("Manager/FieldTrip/Update/{id:int}")]*//*
         public async Task<IActionResult> ManagerUpdateFieldTripActAndTras(
             [FromRoute][Required] int id,
             [FromRoute][Required] int addDeId,
@@ -801,7 +800,7 @@ namespace CEG_WebMVC.Controllers
             return RedirectToAction("ManagerFieldTripDetail", new { id });
         }
         [HttpPost("FieldTrip/Create")]
-        /*[Route("Manager/Meeting/Update/{id:int}")]*/
+        *//*[Route("Manager/Meeting/Update/{id:int}")]*//*
         public async Task<IActionResult> ManagerCreateFieldTrip(FieldTripViewModel createFieldTrip)
         {
             ManagerAPI_URL += "FieldTrip/Create";
@@ -844,7 +843,7 @@ namespace CEG_WebMVC.Controllers
         }
 
         [HttpPost("FieldTrip/{tripId:int}/Create/DayByDay")]
-        /*[Route("Manager/Meeting/Update/{id:int}")]*/
+        *//*[Route("Manager/Meeting/Update/{id:int}")]*//*
         public async Task<IActionResult> ManagerCreateFieldTripDayByDay(
             [FromRoute][Required] int tripId,
             [Required] FieldtripDaybyDayViewModel createDayByDay
@@ -890,7 +889,7 @@ namespace CEG_WebMVC.Controllers
         }
 
         [HttpPost("FieldTrip/{tripId:int}/Create/Inclusion")]
-        /*[Route("Manager/Meeting/Update/{id:int}")]*/
+        *//*[Route("Manager/Meeting/Update/{id:int}")]*//*
         public async Task<IActionResult> ManagerCreateFieldTripInclusion(
             [FromRoute][Required] int tripId,
             [Required] FieldtripInclusionViewModel createInclusion
@@ -936,7 +935,7 @@ namespace CEG_WebMVC.Controllers
         }
 
         [HttpPost("FieldTrip/{tripId:int}/Create/TourFeatures")]
-        /*[Route("Manager/Meeting/Update/{id:int}")]*/
+        *//*[Route("Manager/Meeting/Update/{id:int}")]*//*
         public async Task<IActionResult> ManagerCreateFieldTripTourFeatures(
             [FromRoute][Required] int tripId,
             [Required] FieldTripAdditionalDetailViewModel createTourFeatures
@@ -982,7 +981,7 @@ namespace CEG_WebMVC.Controllers
         }
 
         [HttpPost("FieldTrip/{tripId:int}/Create/Important")]
-        /*[Route("Manager/Meeting/Update/{id:int}")]*/
+        *//*[Route("Manager/Meeting/Update/{id:int}")]*//*
         public async Task<IActionResult> ManagerCreateFieldTripImportant(
             [FromRoute][Required] int tripId,
             [Required] FieldTripAdditionalDetailViewModel createImportant
@@ -1028,7 +1027,7 @@ namespace CEG_WebMVC.Controllers
         }
 
         [HttpPost("FieldTrip/{tripId:int}/Create/ActAndTran")]
-        /*[Route("Manager/Meeting/Update/{id:int}")]*/
+        *//*[Route("Manager/Meeting/Update/{id:int}")]*//*
         public async Task<IActionResult> ManagerCreateFieldTripActAndTran(
             [FromRoute][Required] int tripId,
             [Required] FieldTripAdditionalDetailViewModel createActAndTras
@@ -1164,7 +1163,7 @@ namespace CEG_WebMVC.Controllers
             return View(testmodel3);
         }
         [HttpGet("Contest/{id:int}")]
-        /*[Route("Manager/Contest/{id:int}")]*/
+        *//*[Route("Manager/Contest/{id:int}")]*//*
         public async Task<IActionResult> ManagerContestDetail(
             [FromRoute][Required] int id
             )
@@ -1317,7 +1316,7 @@ namespace CEG_WebMVC.Controllers
             return RedirectToAction("ManagerContestDetail", "Manager", new { id });
         }
         [HttpPost("Contest/Create")]
-        /*[Route("Manager/Contest/Update/{id:int}")]*/
+        *//*[Route("Manager/Contest/Update/{id:int}")]*//*
         public async Task<IActionResult> ManagerCreateContest(ContestViewModel createContest)
         {
             ManagerAPI_URL += "Contest/Create";
@@ -1579,12 +1578,12 @@ namespace CEG_WebMVC.Controllers
         {
             _logger.LogInformation(search);
 
-            /*if (search != null || !string.IsNullOrEmpty(search))
+            *//*if (search != null || !string.IsNullOrEmpty(search))
             {
                 search = search.Trim();
                 ManagerAPI_URL += "Manager/Search?meetingName=" + search;
             }
-            else */
+            else *//*
             ManagerAPI_URL += "Manager/MemberStatus";
 
             if (methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.MANAGER) != null)
@@ -1681,5 +1680,5 @@ namespace CEG_WebMVC.Controllers
         {
             return View();
         }
-    }
+    }*/
 }
