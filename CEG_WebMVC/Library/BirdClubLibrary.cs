@@ -2,14 +2,13 @@
 using Microsoft.Extensions.Options;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using WebAppMVC.Constants;
 using System.Text;
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Azure;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace WebAppMVC.Constants
+namespace CEG_WebMVC.Library
 {
     public class BirdClubLibrary
     {
@@ -27,24 +26,26 @@ namespace WebAppMVC.Constants
             string accessToken = null) where T : class
         {
             HttpResponseMessage response = new HttpResponseMessage();
-            if(accessToken != null)
+            if (accessToken != null)
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
             if (methodName.Equals(Constants.GET_METHOD) && inputType == null)
             {
                 response = await _httpClient.GetAsync(url);
             }
-            else if(inputType != null)
+            else if (inputType != null)
             {
-                string json = JsonSerializer.Serialize(inputType,options);
+                string json = JsonSerializer.Serialize(inputType, options);
                 // sử dụng frombody để lấy dữ liệu
                 StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
                 if (methodName.Equals(Constants.POST_METHOD))
                 {
                     response = await _httpClient.PostAsync(url, content);
-                }else if (methodName.Equals(Constants.PUT_METHOD))
+                }
+                else if (methodName.Equals(Constants.PUT_METHOD))
                 {
                     response = await _httpClient.PutAsync(url, content);
-                }else if (methodName.Equals(Constants.DELETE_METHOD))
+                }
+                else if (methodName.Equals(Constants.DELETE_METHOD))
                 {
                     response = await _httpClient.DeleteAsync(url);
                 }
@@ -61,35 +62,35 @@ namespace WebAppMVC.Constants
             return result;
         }
 
-		public void SetCookie(HttpResponse response, string key, object inputType, CookieOptions cookieOptions, JsonSerializerOptions jsonOptions, int? expireTime = null)
-		{
-			string json = JsonSerializer.Serialize(inputType,jsonOptions);
-            if(expireTime.HasValue)
+        public void SetCookie(HttpResponse response, string key, object inputType, CookieOptions cookieOptions, JsonSerializerOptions jsonOptions, int? expireTime = null)
+        {
+            string json = JsonSerializer.Serialize(inputType, jsonOptions);
+            if (expireTime.HasValue)
             {
-				CookieOptions privatecookieOptions = new CookieOptions
+                CookieOptions privatecookieOptions = new CookieOptions
                 {
                     Expires = DateTime.Now.AddMinutes(expireTime.Value),
                     MaxAge = TimeSpan.FromMinutes(10),
                     Secure = true,
                     IsEssential = true,
                 };
-				response.Cookies.Append(key, json, privatecookieOptions);
-			}
+                response.Cookies.Append(key, json, privatecookieOptions);
+            }
             else
-			response.Cookies.Append(key, json, cookieOptions);
-		}
+                response.Cookies.Append(key, json, cookieOptions);
+        }
 
-        public async Task<T> GetCookie<T>(HttpRequest request, string key, JsonSerializerOptions jsonOptions) where T :class
+        public async Task<T> GetCookie<T>(HttpRequest request, string key, JsonSerializerOptions jsonOptions) where T : class
         {
             string value = request.Cookies.FirstOrDefault(c => c.Key == key).Value;
             if (value == null) return null;
             var returnobject = JsonSerializer.Deserialize<T>(value, jsonOptions);
             return returnobject;
-		}
-		public void RemoveCookie(HttpResponse response, string key, CookieOptions cookieOptions, JsonSerializerOptions jsonOptions)
-		{
-			response.Cookies.Delete(key, cookieOptions);
-		}
+        }
+        public void RemoveCookie(HttpResponse response, string key, CookieOptions cookieOptions, JsonSerializerOptions jsonOptions)
+        {
+            response.Cookies.Delete(key, cookieOptions);
+        }
 
         public List<SelectListItem> GetManagerEventStatusSelectableList(string eventStatus)
         {
@@ -170,7 +171,7 @@ namespace WebAppMVC.Constants
         public List<SelectListItem> GetStaffEventParticipationStatusSelectableList(string eventStatus)
         {
             List<SelectListItem> defaultStatusTypes = new();
-            if(eventStatus!= null && eventStatus.Equals(Constants.EVENT_STATUS_CHECKING_IN))
+            if (eventStatus != null && eventStatus.Equals(Constants.EVENT_STATUS_CHECKING_IN))
             {
                 defaultStatusTypes.Add(new SelectListItem { Text = Constants.EVENT_PARTICIPANT_STATUS_CHECKED_IN, Value = Constants.EVENT_PARTICIPANT_STATUS_CHECKED_IN });
                 defaultStatusTypes.Add(new SelectListItem { Text = Constants.EVENT_PARTICIPANT_STATUS_NOT_CHECKED_IN, Value = Constants.EVENT_PARTICIPANT_STATUS_NOT_CHECKED_IN });
@@ -178,7 +179,7 @@ namespace WebAppMVC.Constants
             else
             {
                 defaultStatusTypes.Add(new SelectListItem { Text = Constants.EVENT_PARTICIPANT_STATUS_CHECKED_IN, Value = Constants.EVENT_PARTICIPANT_STATUS_CHECKED_IN, Disabled = true });
-                defaultStatusTypes.Add(new SelectListItem { Text = Constants.EVENT_PARTICIPANT_STATUS_NOT_CHECKED_IN, Value = Constants.EVENT_PARTICIPANT_STATUS_NOT_CHECKED_IN, Selected = true , Disabled = true });
+                defaultStatusTypes.Add(new SelectListItem { Text = Constants.EVENT_PARTICIPANT_STATUS_NOT_CHECKED_IN, Value = Constants.EVENT_PARTICIPANT_STATUS_NOT_CHECKED_IN, Selected = true, Disabled = true });
             }
             return defaultStatusTypes;
         }
@@ -196,7 +197,7 @@ namespace WebAppMVC.Constants
                 case var value when value.Equals(Constants.EVENT_STATUS_OPEN_REGISTRATION):
                     {
                         defaultEventStatus.Add(new SelectListItem { Text = Constants.EVENT_STATUS_NAME_OPEN_REGISTRATION, Value = Constants.EVENT_STATUS_OPEN_REGISTRATION, Selected = true });
-                        defaultEventStatus.Add(new SelectListItem { Text = Constants.EVENT_STATUS_NAME_CLOSED_REGISTRATION, Value = Constants.EVENT_STATUS_CLOSED_REGISTRATION});
+                        defaultEventStatus.Add(new SelectListItem { Text = Constants.EVENT_STATUS_NAME_CLOSED_REGISTRATION, Value = Constants.EVENT_STATUS_CLOSED_REGISTRATION });
                         break;
                     }
                 case var value when value.Equals(Constants.EVENT_STATUS_POSTPONED):
@@ -278,9 +279,9 @@ namespace WebAppMVC.Constants
 
         public T GetValidationTempData<T>(
             ControllerBase context,
-            ITempDataDictionary tempData, 
-            string tempDataName, 
-            string viewObjectName, 
+            ITempDataDictionary tempData,
+            string tempDataName,
+            string viewObjectName,
             JsonSerializerOptions jsonOptions
             ) where T : class
         {
@@ -306,14 +307,14 @@ namespace WebAppMVC.Constants
             if (list != null)
             {
                 List<T> result = new();
-                foreach ( var item in list)
+                foreach (var item in list)
                 {
                     var objectForValidation = JsonSerializer.Deserialize<T>(item.Value.ToString(), jsonOptions);
                     result.Add(objectForValidation);
                     tempData.Remove(item.Key);
                     context.TryValidateModel(objectForValidation, viewObjectNamePrefix + "_" + item.Key.Split("_")[1]);
                 }
-                if( result.Count > 0 )
+                if (result.Count > 0)
                 {
                     return result;
                 }
@@ -321,8 +322,8 @@ namespace WebAppMVC.Constants
             }
             return null;
         }
-        
-        public Dictionary<string,string>? GetValidationModelStateErrorMessageList<T>(
+
+        public Dictionary<string, string>? GetValidationModelStateErrorMessageList<T>(
             ControllerBase context,
             ITempDataDictionary tempData,
             string tempDataNamePrefix,
@@ -521,7 +522,7 @@ namespace WebAppMVC.Constants
                 var ms = new MemoryStream();
                 try
                 {
-                    return new FormFile(stream, 0, stream.Length, null, Path.GetFileName( stream.Name));
+                    return new FormFile(stream, 0, stream.Length, null, Path.GetFileName(stream.Name));
                 }
                 catch (Exception e)
                 {

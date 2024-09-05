@@ -1,0 +1,271 @@
+﻿@model BAL.ViewModels.MemberViewModel
+@{
+    ViewData["Title"] = "Member Profile Page";
+    IFormFile? formFile = null;
+    BAL.ViewModels.Member.UpdateMemberPassword memberPassword = new();
+    List<SelectListItem> genders = new()
+    {
+        new SelectListItem {Text = "Male",Value = "Male"},
+        new SelectListItem {Text = "Female",Value = "Female"},
+        new SelectListItem {Text = "Other",Value = "Other"}
+    };
+    foreach (var gender in genders)
+    {
+        if (Model.Gender.Equals(gender.Text))
+        {
+            gender.Selected = true;
+        }
+    }
+}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+    <link rel='stylesheet' href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css'>
+        <!-- Other-->
+        <link rel="stylesheet" href="https://unpkg.com/filepond-plugin-file-poster/dist/filepond-plugin-file-poster.css" >
+</head>
+
+<body>
+    <hr>
+    <div class="header__breadcrumb container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")" class="text-decoration-none">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Member Profile</li>
+
+            </ol>
+        </nav>
+    </div>
+    <hr>
+
+    <div class="profile container">
+        <div class="row">
+            <div class="navigation col-2" style="background:white">
+                <ul class="slide-menu" style="background-color:white">
+                    <li class="active">
+                        <a href="@Url.Action("MemberProfile", "Member")">
+                            <span><i class="bx bx-user"></i></span>
+                            <span class="title">Account</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("MemberHistoryEvent", "Member")">
+                            <span><i class="bx bx-history"></i></span>
+                            <span class="title">Registered Event</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("MemberBird", "Member")">
+                            <span><i class="bx bx-history"></i></span>
+                            <span class="title">Bird</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("MemberPayment", "Member")">
+                            <span><i class="bx bx-history"></i></span>
+                            <span class="title">Payment</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("MemberNotification", "Member")">
+                            <span><i class="bx bx-history"></i></span>
+                            <span class="title">Notifications</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="main-content col-10">
+                <div id="accordion">
+                    <!-- Thông tin cá nhân -->
+                    <div class="card mb-2">
+                        <div class="card-header card-setting" id="headingOne">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link" data-toggle="collapse" data-target="#profile"
+                                    aria-expanded="true" aria-controls="profile">
+                                    My Profile <i class='bx bx-chevron-right'></i>
+                                </button>
+                            </h5>
+                        </div>
+                        <div class="collapse show" id="profile" aria-labelledby="profile" data-parent="#accordion">
+                            <div class="card-body">
+                                <div class="user-profile">
+                                    <div class="row">
+                                        <div class="col-lg-8">
+                                            <div class="profile-content">
+                                                <div class="contact-infor">
+                                                    <div class="info-content">
+                                                        <form id="form-4" asp-action="MemberUpdate" asp-controller="Member" class="form-check">
+                                                            <div class="row userName-content">
+                                                                <label class="contact-title col-md-5 col-sm-4 mt-3">Account</label>
+                                                                <input asp-for="UserName" id="userName" type="text" name="username"
+                                                                    class="form-control col-md-5 col-sm-8 mt-2" readonly
+                                                                    value="@Model.UserName">
+                                                                <span asp-validation-for="UserName" id="error_message"
+                                                                    class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                                            </div>
+                                                            <div class="row fullName-content">
+                                                                <label class="contact-title col-md-5 col-sm-4 mt-3">FullName</label>
+                                                                <input asp-for="FullName" id="fullName" type="text" name="fullname" value="@Model.FullName"
+                                                                    class="form-control col-md-5 col-sm-8 mt-2">
+                                                                <span asp-validation-for="FullName" id="error_message"
+                                                                    class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                                            </div>
+                                                            <div class="row fullName-content">
+                                                                <label class="contact-title col-md-5 col-sm-4 mt-3">Description</label>
+                                                                <input asp-for="Description" id="description" type="text" name="description" value="@Model.Description"
+                                                                       class="form-control col-md-5 col-sm-8 mt-2">
+                                                                <span asp-validation-for="Description" id="error_message"
+                                                                      class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                                            </div>
+                                                            <div class="row phone-content">
+                                                                <label class="contact-title col-md-5 col-sm-4 mt-3">PhoneNumber</label>
+                                                                <input asp-for="Phone" id="phone" type="tel" name="phone" value="@Model.Phone"
+                                                                    class="form-control col-md-5 col-sm-8 mt-2">
+                                                                <span asp-validation-for="Phone" id="error_message"
+                                                                    class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                                            </div>
+                                                            <div class="row address-content">
+                                                                <label class="contact-title col-md-5 col-sm-4 mt-3">Address</label>
+                                                                <input asp-for="Address" type="text" name="address" value="@Model.Address"
+                                                                    class="form-control col-md-5 col-sm-8 mt-2">
+                                                                <span asp-validation-for="Address" id="error_message"
+                                                                    class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                                            </div>
+                                                            <div class="row email-content">
+                                                                <label
+                                                                    class="contact-title col-md-5 col-sm-4 mt-3">Email</label>
+                                                                <input asp-for="Email" id="email" type="email" name="email" value="@Model.Email"
+                                                                    class="form-control col-md-5 col-sm-8 mt-2">
+                                                                <span asp-validation-for="Email" id="error_message"
+                                                                    class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                                            </div>
+
+                                                            <div class="row gender-content">
+                                                                <label class="contact-title col-md-5 col-sm-4 mt-3">Gender</label>
+                                                                <select class="form-control col-md-5 col-sm-8 mt-2" asp-for="@Model.Gender" asp-items="@genders" class="custom-select" name="gender" id="road">
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="row pt-3 d-flex">
+                                                                <button type="submit" class="offset-5 button--primary text-white px-3" value="Update">
+                                                                    Save Changes
+                                                                </button>
+                                                            </div>
+                                                            <input asp-for="ImagePath" type="text" name="ImagePath" value="@Model.ImagePath" hidden />
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <form asp-action="UploadImage" asp-controller="Member" enctype="multipart/form-data">
+                                                <div class="avatar-wrapper form-group">
+                                                    @*src="~/images/avatar.jpg"*@
+                                                    <img class="profile-pic" src="@Model.ImagePath" />
+                                                    <div class="upload-button">
+                                                        <i class="fa fa-camera" aria-hidden="true"></i>
+                                                    </div>
+                                                    <input asp-for="@formFile" class="file-upload" type="file" accept=".jpg, .jpeg, .png" name="photo" value="@formFile" />
+                                                </div>
+                                                <button type="submit"
+                                                    class="button--primary saving-image text-white">Save Profile Picture</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Change password -->
+                    <div class="card mb-2">
+                        <div class="card-header card-setting" id="headingTwo">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo"
+                                    aria-expanded="false" aria-controls="collapseTwo">
+                                    Change Password <i class='bx bx-chevron-right'></i>
+                                </button>
+                            </h5>
+                        </div>
+                        <div class="collapse" id="collapseTwo" aria-labelledby="headingTwo" data-parent="#accordion">
+                            <div class="card-body">
+                                <div class="card-group d-block">
+                                    <form asp-action="ChangePassword" asp-controller="Member">
+                                        <div class="row form-group">
+                                            <label asp-for=@memberPassword.password class="offset-md-3 col-md-2 col-sm-3 col-form-label">Old Password</label>
+                                            <input asp-for=@memberPassword.password class="col-md-3 col-sm-5 form-control" type="password"
+                                                   name="password" required value=@memberPassword.password>
+                                            <span asp-validation-for=@memberPassword.password class="error-message col-sm-3 mt-2"></span>
+                                        </div>
+                                        <div class="row form-group">
+                                            <label asp-for=@memberPassword.Newpassword class="offset-md-3 col-md-2 col-sm-3 col-form-label">New Password</label>
+                                            <input asp-for=@memberPassword.Newpassword class="col-md-3 col-sm-5 form-control" type="newpassword"
+                                                   name="Newpassword" id="password" required value=@memberPassword.Newpassword>
+                                            <span asp-validation-for=@memberPassword.Newpassword class="error-message col-sm-3 mt-2"></span>
+                                        </div>
+                                        <div class="row form-group">
+                                            <label asp-for=@memberPassword.NewConfirmPassword class="offset-md-3 col-md-2 col-sm-3 col-form-label">Confirm</label>
+                                            <input asp-for=@memberPassword.NewConfirmPassword class="col-md-3 col-sm-5 form-control" type="password" name="newconfirmpassword"
+                                                   id="confirm" required value=@memberPassword.NewConfirmPassword>
+                                            <span asp-validation-for=@memberPassword.NewConfirmPassword class="error-message col-sm-3 mt-2"></span>
+                                        </div>
+                                        <div class="row form-group justify-content-center">
+                                            <button type="submit" class="button--primary">Change</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="alert alert-danger alert-dismissible fade show" id="notif">
+                        <i class='bx bx-message-alt-x p-1'></i>
+                        <strong class="mr-1">Error!</strong>
+                        <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+                            <span><i class='bx bx-x'></i></span>
+                        </button>
+                    </div>
+    </body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+        referrerpolicy="no-referrer"></script>
+        <!-- Jquery Waypoint -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"></script>
+        <!-- BS4 JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.5/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
+@*            <script>
+        Validator({
+            form: '#form-4',
+            errorSelector: '#error_message',
+            rules: [
+                Validator.isNotEmpty('#fullName'),
+                Validator.isTextOnly('#fullName', 'TextOnly'),
+                Validator.isNotEmpty('#phone'),
+                Validator.isNumberOnly('#fullName', 'NumberOnly'),
+                Validator.isNotEmpty('#email'),
+                Validator.isEmail('#email', 'please write correct email'),
+                Validator.minLength('#password', 1, 'password not strong enough'),
+            ]
+        });
+    </script>*@
+<script>
+            $(document).ready(function () {
+    setTimeout(function () {
+        $('#notif').css('display', 'none');
+    }, 3000);
+})
+        </script>
+        <!-- main js -->
+    </html>

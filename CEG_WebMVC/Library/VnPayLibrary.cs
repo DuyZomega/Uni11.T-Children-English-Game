@@ -6,7 +6,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Security.Cryptography;
 using System.Text;
-using WebAppMVC.Models.VnPay;
+using CEG_WebMVC.Models.VnPay;
 
 public class VnPayLibrary
 {
