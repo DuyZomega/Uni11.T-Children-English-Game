@@ -11,7 +11,7 @@ using System.Dynamic;
 using System.Net.Http.Headers;
 using System.Text.Encodings.Web;
 using System.Text.Json;
-using CEG_WebMVC.Models.FieldTrip;
+/*using CEG_WebMVC.Models.FieldTrip;
 using CEG_WebMVC.Models.Meeting;
 using CEG_WebMVC.Models.Contest;
 using CEG_WebMVC.Models.Bird;
@@ -19,7 +19,7 @@ using CEG_WebMVC.Models.Member;
 using CEG_WebMVC.Models.VnPay;
 using CEG_WebMVC.Models.Location;
 using CEG_WebMVC.Models.Transaction;
-using CEG_WebMVC.Models.Notification;
+using CEG_WebMVC.Models.Notification;*/
 using CEG_WebMVC.Services.Interfaces;
 using CEG_WebMVC.Library;
 

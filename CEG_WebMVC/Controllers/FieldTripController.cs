@@ -1,11 +1,12 @@
 ﻿/*using CEG_BAL.ViewModels;
-using CEG_BAL.ViewModels.Authenticates;*/
-using CEG_WebMVC.Library;
+using CEG_BAL.ViewModels.Authenticates;
+using CEG_WebMVC.Models.Meeting;
 using CEG_WebMVC.Models.FieldTrip;
 using CEG_WebMVC.Models.Location;
 using CEG_WebMVC.Models.Member;
 using CEG_WebMVC.Models.Notification;
-using CEG_WebMVC.Models.Transaction;
+using CEG_WebMVC.Models.Transaction;*/
+using CEG_WebMVC.Library;
 using CEG_WebMVC.Models.VnPay;
 using CEG_WebMVC.Services.Interfaces;
 using CEG_DAL.Models;
@@ -18,7 +19,6 @@ using System.Net.Http.Headers;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using CEG_WebMVC.Models.Meeting;
 
 namespace CEG_WebMVC.Controllers
 {

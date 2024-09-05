@@ -7,7 +7,11 @@ using Microsoft.AspNetCore.Authorization;
 using System.Data;
 using System.Web;
 using CEG_DAL.Models;
-/*using CEG_BAL.ViewModels;*/
+/*using CEG_BAL.ViewModels;
+using CEG_WebMVC.Models.Bird;
+using CEG_WebMVC.Models.Member;
+using CEG_WebMVC.Models.Notification;
+using CEG_WebMVC.Models.Transaction;*/
 using System.Dynamic;
 using Microsoft.AspNetCore.Identity;
 using System;
@@ -17,10 +21,6 @@ using System.Text.Encodings.Web;
 /*using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;*/
 using System.ComponentModel.DataAnnotations;
-using CEG_WebMVC.Models.Bird;
-using CEG_WebMVC.Models.Member;
-using CEG_WebMVC.Models.Notification;
-using CEG_WebMVC.Models.Transaction;
 using CEG_WebMVC.Library;
 
 namespace CEG_WebMVC.Controllers

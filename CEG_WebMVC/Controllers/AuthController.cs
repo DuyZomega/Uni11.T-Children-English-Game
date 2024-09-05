@@ -12,8 +12,8 @@ using System.Security.Claims;
 using CEG_WebMVC.Services.Interfaces;
 using CEG_WebMVC.Models.Auth;
 using CEG_WebMVC.Models.VnPay;
-using CEG_WebMVC.Models.Notification;
-using CEG_WebMVC.Models.Transaction;
+/*using CEG_WebMVC.Models.Notification;
+using CEG_WebMVC.Models.Transaction;*/
 using CEG_WebMVC.Library;
 namespace CEG_WebMVC.Controllers
 {

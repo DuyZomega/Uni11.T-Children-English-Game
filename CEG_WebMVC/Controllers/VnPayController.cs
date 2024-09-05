@@ -1,7 +1,8 @@
 ﻿/*using CEG_BAL.ViewModels;
 using CEG_BAL.ViewModels.Member;*/
 using CEG_WebMVC.Library;
-using CEG_WebMVC.Models.Transaction;
+/*using CEG_WebMVC.Models.Transaction;
+using CEG_WebMVC.Models.Meeting;*/
 using CEG_WebMVC.Models.VnPay;
 using CEG_WebMVC.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +11,6 @@ using Microsoft.Extensions.Options;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
-using CEG_WebMVC.Models.Meeting;
 
 namespace CEG_WebMVC.Controllers
 {

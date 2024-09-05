@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CEG_DAL.Repositories.Implements
 {
-    interface class SessionRepositories : RepositoryBase<Session>,ISessionRepositories
+    public class SessionRepositories : RepositoryBase<Session>,ISessionRepositories
     {
         private readonly MyDBContext _dbContext;
         public SessionRepositories(MyDBContext dbContext) : base(dbContext)

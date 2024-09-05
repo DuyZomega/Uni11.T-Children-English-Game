@@ -18,12 +18,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Azure.Storage.Blobs.Models;
 using Azure.Storage.Blobs.Specialized;*/
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc;
-using CEG_WebMVC.Models.Meeting;
+/*using CEG_WebMVC.Models.Meeting;
 using CEG_WebMVC.Models.Contest;
 using CEG_WebMVC.Models.FieldTrip;
 using CEG_WebMVC.Models.Member;
 using CEG_WebMVC.Models.Manager;
-using CEG_WebMVC.Models.Location;
+using CEG_WebMVC.Models.Location;*/
 using CEG_WebMVC.Library;
 // thêm crud của meeting, fieldtrip, contest.
 namespace CEG_WebMVC.Controllers

@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Headers;
 using System.Text.Json;
-/*using CEG_BAL.ViewModels;*/
+/*using CEG_BAL.ViewModels;
+using CEG_WebMVC.Models.Meeting;
+using CEG_WebMVC.Models.Notification;
+using CEG_WebMVC.Models.Location;*/
 using System.Dynamic;
 /*using CEG_BAL.Services.Interfaces;*/
 using System.Text;
@@ -13,9 +16,6 @@ using System.ComponentModel.DataAnnotations;
 using System;
 /*using CEG_BAL.ViewModels.Event;*/
 using Microsoft.AspNetCore.Http.Json;
-using CEG_WebMVC.Models.Meeting;
-using CEG_WebMVC.Models.Notification;
-using CEG_WebMVC.Models.Location;
 using CEG_WebMVC.Library;
 
 namespace CEG_WebMVC.Controllers
