@@ -6,4 +6,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CEG_BAL\CEG_BAL.csproj" />
+    <ProjectReference Include="..\CEG_WebAPI\CEG_WebAPI.csproj" />
+  </ItemGroup>
+
 </Project>
