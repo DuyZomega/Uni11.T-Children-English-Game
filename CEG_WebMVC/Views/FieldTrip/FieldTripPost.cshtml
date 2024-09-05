@@ -1,0 +1,441 @@
+@using System.Globalization
+@model dynamic
+﻿@{
+    ViewData["Title"] = "Field Trip Post Page";
+
+    List<BAL.ViewModels.FieldTripAdditionalDetailViewModel> tourFeatures = Model.TourFeatures;
+    List<BAL.ViewModels.FieldTripAdditionalDetailViewModel> activitiesAndTransportation = Model.ActivitiesAndTransportation;
+    List<BAL.ViewModels.FieldTripAdditionalDetailViewModel> importantToKnow = Model.ImportantToKnow;
+    BAL.ViewModels.FieldTripViewModel fieldtripDetails = Model.FieldTrip;
+    List<BAL.ViewModels.FieldtripDaybyDayViewModel> dayByDays = Model.DayByDays;
+    List<BAL.ViewModels.FieldtripInclusionViewModel> inclusionsList = Model.Inclusions;
+    var inclusions = inclusionsList.Where(inc => inc.Inclusiontype.Equals("Included"));
+    var exclusions = inclusionsList.Where(inc => inc.Inclusiontype.Equals("Excluded"));
+    BAL.ViewModels.FieldtripGettingThereViewModel gettingTheres = Model.GettingThere;
+    List<BAL.ViewModels.FieldtripMediaViewModel> images = Model.Pictures;
+}
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="~/css/FieldTrip.css">
+</head>
+ <body class="background">
+    <div class="member-field-trips-post">
+        <div class="overlap-wrapper">
+            <div class="overlap">
+                <div class="headlines">
+                    <div class="group">
+                        <div class="overlap-2">
+                            <div class="flexcontainer">
+                                <p class="text">
+
+                                    <span class="text-wrapper">Content Description<br /></span>
+                                </p>
+                                <p class="span-wrapper">
+                                    <span class="span">
+                                        @fieldtripDetails.Description
+                                    </span>
+                                </p>
+                            </div>
+                            <div class="flexcontainer-3">
+                                <p class="text">
+
+                                    <span class="text-wrapper">Details<br /></span>
+                                </p>
+                                <p class="span-wrapper">
+                                    <span class="span">
+                                        @fieldtripDetails.Details
+                                    </span>
+                                </p>
+                            </div>
+                            <div class="flexcontainer-2">
+                                <p class="text">
+                                    <span class="text-wrapper">Notes<br /></span>
+                                </p>
+                                <p class="p">
+                                    <span class="span">
+                                        @fieldtripDetails.Note
+                                    </span>
+                                </p>
+                            </div>
+                            <div class="tittle">
+                                <div class="div-wrapper"><div class="text-wrapper-3">Field Trip</div></div>
+                            </div>
+                            @{
+                                if (fieldtripDetails.SpotlightImage != null)
+                                {
+                                    <img class="soi-noi-hoi-thi-chim" src="@fieldtripDetails.SpotlightImage.Image" alt="nt1">
+                                }
+                                else
+                                {
+                                    <img class="soi-noi-hoi-thi-chim" src="~/images/fieldtrip.png" alt="nt1">
+                                }
+                            }
+                        </div>
+                    </div>
+                    <div class="info">
+                        <div class="overlap-3">
+                            <div id="map-container"></div>
+                            <div class="tittle">
+                                <div class="overlap-group-2"><p class="text-wrapper-4" id="dynamicText">@fieldtripDetails.TripName</p></div>
+                            </div>
+                            <div class="text-wrapper-5">From @fieldtripDetails.StartDate.ToString("MM/dd/yyyy") to @fieldtripDetails.EndDate.ToString("MM/dd/syyyy")</div>
+
+
+                            <div class="group-2">
+                                <div class="text-wrapper-6">Participation Limit</div>
+                                <div class="text-wrapper-7">Registration Deadlines</div>
+                                <div class="text-wrapper-8">Location</div>
+                                <div class="text-wrapper-9">Contact</div>
+                                <div class="text-wrapper-10">Organizer</div>
+                                <div class="text-wrapper-17">Fee</div>
+                            </div>
+
+                            <div class="group-3">
+                                <div class="text-wrapper-11">@fieldtripDetails.AreaNumber,@fieldtripDetails.Street,@fieldtripDetails.District,@fieldtripDetails.City</div>
+                                @*<div class="text-wrapper-11">@fieldtripDetails.Street</div>*@
+                                <p class="text-wrapper-12">@fieldtripDetails.NumberOfParticipantsLimit</p>
+                                <div class="text-wrapper-13">@fieldtripDetails.RegistrationDeadline</div>
+                                <div class="text-wrapper-14">ChaoMaoClub@gmail.com</div>
+                                <div class="text-wrapper-15">@fieldtripDetails.Host</div>
+                                <div class="text-wrapper-18"><span class="price-format" data-price="@fieldtripDetails.Fee""></span></div>
+                            </div>
+
+                            @{
+                                if (fieldtripDetails.ParticipationNo != 0 && fieldtripDetails.ParticipationNo != null)
+                                {
+                                    <div class="overlap-group-3 text-wrapper-16">
+                                        <span class="text-success">@ViewBag.PartNumber</span>
+                                    </div>
+                                    if (fieldtripDetails.Status.Equals("OpenRegistration"))
+                                    {
+                                        <div class="register">
+                                            <form asp-action="FieldTripDeRegister" asp-controller="FieldTrip" method="post" asp-route-tripId="@fieldtripDetails.TripId">
+                                                <button class="overlap-group-3 text-wrapper-16 button-rgb" type="submit">Sign Out</button>
+                                            </form>
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <div class="register">
+                                        <form asp-action="FieldTripRegister" asp-controller="FieldTrip" method="post" asp-route-tripId="@fieldtripDetails.TripId">
+                                            <button class="overlap-group-3 text-wrapper-16 button-rgb" type="submit">Register</button>
+                                        </form>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                    <section class="field-trips-section">
+                        <ul class="nav nav-tabs">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#home1">
+                                    <i class='bx bx-home-alt-2'></i>
+                                    <span class="title">Overview</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#home2">
+                                    <i class='bx bx-home-alt-2'></i>
+                                    <span class="title">Day By Day</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#home5">
+                                    <i class='bx bx-home-alt-2'></i>
+                                    <span class="title">Inclusions</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#home6">
+                                    <i class='bx bx-home-alt-2'></i>
+                                    <span class="title">Getting There</span>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <!-- home1 -->
+                            <div class="tab-pane active" id="home1" role="tabpanel">                           
+                                <div class="tour__content__block tour__content__block--consider avoid-break-p">
+                                    <h2>Tour Features</h2>
+                                    <div class="row">
+                                        @{
+                                            foreach (var detail in tourFeatures)
+                                            {
+                                                <div class="col col-12 col-t-6 item">
+                                                    <h4>@detail.Title</h4>
+                                                    <p class="p">@detail.Description</p>
+                                                </div>
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                                <div class="tour__content__block tour__content__block--activities avoid-break-p">
+                                    <h2>Activities &amp; Transportation</h2>
+                                    <ul>
+                                        @{
+                                            foreach (var detail in activitiesAndTransportation)
+                                            {
+                                                <li>
+                                                    <h4>@detail.Title:</h4> <p>@detail.Description</p>
+                                                </li>
+                                            }
+                                        }                                        
+                                    </ul>
+                                </div>
+                                <div class="tour__content__block tour__content__block--accommodations avoid-break-p">
+                                    <h2>Accommodation &amp; Meals</h2>
+                                    <ul>
+                                        <li class="footnote">
+                                            <div class="txt--small txt--normal"><i class="sbi sbi--info-red"></i>Additional accommodation before and at the end of the tour can be arranged for an extra cost</div>
+                                        </li>
+                                        <li class="heading">
+                                            <div>Day</div>
+                                            <div>Accommodation</div>
+                                            <div class="hide show-ti">Meals And Drinks</div>
+                                        </li>
+                                        @{
+                                            foreach (var day in dayByDays)
+                                            {
+                                                <li>
+                                                    <div>@day.Day</div>
+                                                    <div>
+                                                        @day.Accommodation
+
+                                                        <div class="gallery__preview--row">
+                                                            @foreach(var picture in day.Media)
+                                                            {
+                                                                    <div>
+                                                                        <img class="" src="@picture.Image" alt="">
+                                                                    </div>
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                    <div class="txt--small">
+                                                        <div class="hide show-t">
+                                                            @day.MealsAndDrinks
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            }
+                                        }
+                                    </ul>
+                                </div>
+                                <div class="tour__content__block tour__content__block--rates avoid-break-p">
+                                    <h2>Important to Know</h2>
+                                    <ul class="list list--icon list--icon-arrow">
+                                        @{
+                                            @foreach (var imtk in importantToKnow)
+                                            {
+                                                <li>
+                                                    <h4>@imtk.Title:</h4><p>@imtk.Description</p>
+                                                </li>
+                                            }
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="home2" role="tabpanel">
+                                <div class="tour__content__block tour__content__block--daybyday">
+                                    <div class="day">
+                                        <div class="day__header  day__header--text   startend  ">
+                                            <div class="caption  ">
+                                                <h3 class="hide-t"><i class="sbi sbi--map-pin"></i><span>Arrival <span class="txt--small hide show-ti">(See Getting There for more details)</span></span></h3><h3 class="no-title hide show-t"></h3><h2 class="hide show-t startend"><i class="sbi sbi--map-pin"></i><span>Arrival <span class="txt--small hide show-ti">(See <a href="#home6" class="tablink scrolltop" rel="nofollow">Getting There</a> for more details)</span></span></h2>
+                                            </div>
+                                        </div>
+
+                                        <div class="day__inner">
+                                            <div class="day__inner__block">
+                                                <p class="shorten-m" data-shorten="300"></p>
+                                                <ul class="list list--icon list--icon-arrow list--icon-nopadding">
+                                                    <li class="txt--small txt--normal">Accommodation before the tour starts can be arranged for an extra cost.</li>
+                                                </ul>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    @{
+                                        foreach (var day in dayByDays)
+                                        {
+                                            <div class="day">
+                                                <div class="day__header  day__header--photo   ">
+                                                    <div class="photos">
+                                                        <picture>
+                                                            @{
+                                                                if(day.Media.Count > 0)
+                                                                {
+                                                                    <img class="" alt="" src="@day.Media.FirstOrDefault().Image">
+                                                                }
+                                                                else
+                                                                {
+                                                                    <img class="" alt="Day @day.Day Image" src="">
+                                                                }
+                                                            }
+                                                        </picture>
+                                                    </div>
+                                                    <div class="caption  caption--photo  ">
+                                                        <h3><span>Day @day.Day</span></h3><h2 class="hide show-t"><span>@day.MainDestination</span></h2>
+                                                    </div>
+                                                </div>
+
+                                                <div class="day__inner">
+                                                    <div class="day__inner__block">
+                                                        <h2 class="hide-t serif">@day.MainDestination</h2>
+                                                        <p class="shorten-m" data-shorten="300">@day.Description</p>
+                                                    </div>
+                                                    <div class="day__inner__block">
+                                                        <dl>
+                                                            <dt>
+                                                                Main Destination:
+                                                            </dt>
+                                                            <dd>
+                                                                @day.MainDestination
+                                                            </dd>
+                                                            <dt>
+                                                                Accommodation:
+                                                            </dt>
+                                                            <dd>
+                                                                <b class="external show-ti mb-4">@day.Accommodation</b>
+                                                            </dd>
+                                                        </dl>
+                                                        <dl class="no-top-margin">
+                                                            <dt>
+                                                                Meals &amp; Drinks:
+                                                            </dt>
+                                                            <dd class="with-bullet">
+                                                                <b class="external show-ti mb-4">@day.MealsAndDrinks</b>
+                                                            </dd>
+                                                        </dl>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                    
+                                    <div class="day">
+                                        <div class="day__header  day__header--text   startend  ">
+                                            <div class="caption  ">
+                                                <h3 class="hide-t"><i class="sbi sbi--map-pin"></i><span>End of tour <span class="txt--small hide show-ti">(See <a href="https://www.safaribookings.com/gettingthere/t56551" class="tablink scrolltop" rel="nofoll">Getting There</a> for more details)</span></span></h3><h3 class="no-title hide show-t"></h3><h2 class="hide show-t startend"><i class="sbi sbi--map-pin"></i><span>End of tour <span class="txt--small hide show-ti">(See <a href="https://www.safaribookings.com/gettingthere/t56551" class="tablink scrolltop" rel="nofoll">Getting There</a> for more details)</span></span></h2>
+                                            </div>
+                                        </div>
+                                        <div class="day__inner">
+                                            <div class="day__inner__block">
+                                                <p class="shorten-m" data-shorten="300"></p>
+                                                <ul class="list list--icon list--icon-arrow list--icon-nopadding">
+                                                    <li class="txt--small txt--normal">Additional accommodation can be arranged for an extra cost.</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> 
+                            </div>
+                            <div class="tab-pane" id="home5" role="tabpanel">
+                                <div class="tour__content__block tour__content__block--inclusions">
+                                    <h2 class="with-icon"><span><i class="sbi sbi--plus"></i> Included</span></h2>
+                                    <ul class="list list--icon">
+                                        @{
+                                            @foreach (var inclusion in inclusions)
+                                            {
+                                                <li><h4><b>@inclusion.Title:</b></h4> @inclusion.InclusionText <span class="txt--xsmall txt--xgrey">@inclusion.Type</span></li>
+                                            }
+                                        }                                      
+                                    </ul>
+                                </div>
+                                <div class="tour__content__block tour__content__block--inclusions">
+                                    <h2 class="with-icon"><span><i class="sbi sbi--minus"></i> Excluded</span></h2>
+                                    <ul class="list list--icon">
+                                        @{
+                                            @foreach (var exclusion in exclusions)
+                                            {
+                                                <li><h4><b>@exclusion.Title:</b></h4> @exclusion.InclusionText <span class="txt--xsmall txt--xgrey">@exclusion.Type</span></li>
+                                            }
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="home6" role="tabpanel">
+                                <div class="tour__content__block tour__content__block--gettingthere">
+                                    <h2>Getting There</h2>
+                                    <ul>
+                                        <li>
+                                            <div>
+                                                <picture>
+                                                    <img src="https://cfstatic.safaribookings.com/img/svg/icons-red/icon-finish-flag.svg" class="" alt="">
+                                                </picture>
+                                            </div>
+                                            <span>
+                                                @gettingTheres.GettingThereStartEnd
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <div>
+                                                <picture>
+                                                    <img src="https://cfstatic.safaribookings.com/img/svg/icons-red/icon-internationaal-flight.svg" class="" alt="">
+                                                </picture>
+                                            </div>
+                                            <span>
+                                                @gettingTheres.GettingThereFlight
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <div>
+                                                <picture>
+                                                    <img src="https://cfstatic.safaribookings.com/img/svg/icons-red/icon-airport-transfer.svg" class="" alt="">
+                                                </picture>
+                                            </div>
+                                            <span>
+                                                @gettingTheres.GettingThereTransportation
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <div>
+                                                <picture>
+                                                    <img src="https://cfstatic.safaribookings.com/img/svg/icons-red/icon-accomodation-budget.svg" class="" alt="">
+                                                </picture>
+                                            </div>
+                                            <span>
+                                                @gettingTheres.GettingThereAccommodation
+                                            </span>
+                                        </li>
+                                        @*
+                                        <li>
+                                            <div>
+                                                <picture>
+                                                    <img src="https://cfstatic.safaribookings.com/img/svg/icons-red/icon-fly-to.svg" class="" alt="">
+                                                </picture>
+                                            </div>
+                                            <span>
+                                                Fly to/from <b>Kilimanjaro Airport</b> (JRO<span class="hide show-ti">&nbsp;- <a href="https://www.skyscanner.com/transport/flights/VN/JRO" rel="nofollow" target="_blank">Check price</a></span>) near Arusha. Or fly to/from <b>Arusha Airport</b> (ARK<span class="hide show-ti">&nbsp;- <a href="https://www.skyscanner.com/transport/flights/VN/ARK" rel="nofollow" target="_blank">Check price</a></span>) via Dar es Salaam or Nairobi (Kenya)
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <div>
+                                                <picture>
+                                                    <img src="https://cfstatic.safaribookings.com/img/svg/icons-red/icon-airport-transfer.svg" class="" alt="">
+                                                </picture>
+                                            </div>
+                                            <span>
+                                                A <b>transfer</b> from and back to the airport is included
+                                            </span>
+                                        </li>
+                                         *@
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+        referrerpolicy="no-referrer"></script>
+        <!-- Jquery Waypoint -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"></script>
+        <!-- BS4 JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.5/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
