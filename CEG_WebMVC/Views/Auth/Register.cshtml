@@ -1,4 +1,4 @@
-@model BAL.ViewModels.Member.CreateNewMember
+@* @model BAL.ViewModels.Member.CreateNewMember
 @{
 	ViewData["Title"] = "New Member Registration Page";
 	Layout = "~/Views/Shared/_Layout.cshtml";
@@ -37,12 +37,12 @@
 
 						<div class="d-flex box-body justify-content-center">
 							<form class="reg-form" asp-controller="Auth" asp-action="Register">
-								@* @{
+								 @{
 									if (ViewBag.error != null)
 									{
 										<span class="text-danger">@ViewBag.error</span>
 									}
-								} *@
+								}
 								<div class="form-group">
 									<input type="text" placeholder="Username" asp-for="UserName" class="form-control form-data" />
 
@@ -110,4 +110,4 @@
 		</div>
 	</div>
 	</body>
-</html>
+</html> *@

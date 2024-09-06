@@ -2,13 +2,13 @@
 using System.Net.Http.Headers;
 using System.Text.Encodings.Web;
 using System.Text.Json;
-using CEG_WebMVC.Models.Manager;
-using CEG_WebMVC.Models.Member;
+/*using CEG_WebMVC.Models.Manager;
+using CEG_WebMVC.Models.Member;*/
 using CEG_WebMVC.Library;
 
 namespace CEG_WebMVC.Services.HostedServices
 {
-    public class MeetingClosingRegistrationService : IHostedService, IDisposable
+    /*public class MeetingClosingRegistrationService : IHostedService, IDisposable
     {
         private readonly IServiceScopeFactory _scopeFactory;
         private readonly ILogger<MeetingClosingRegistrationService> _logger;
@@ -112,5 +112,5 @@ namespace CEG_WebMVC.Services.HostedServices
             GC.SuppressFinalize(this);
         }
 
-    }
+    }*/
 }

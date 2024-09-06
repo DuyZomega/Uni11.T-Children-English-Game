@@ -1,27 +1,26 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Headers;
 using System.Text.Json;
-using BAL.ViewModels;
+/*using CEG_BAL.ViewModels;
+using CEG_WebMVC.Models.Meeting;
+using CEG_WebMVC.Models.Notification;
+using CEG_WebMVC.Models.Location;*/
 using System.Dynamic;
-using BAL.Services.Interfaces;
+/*using CEG_BAL.Services.Interfaces;*/
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using System.Data;
-using static Org.BouncyCastle.Math.EC.ECCurve;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Text.Encodings.Web;
 using System.ComponentModel.DataAnnotations;
 using System;
-using BAL.ViewModels.Event;
+/*using CEG_BAL.ViewModels.Event;*/
 using Microsoft.AspNetCore.Http.Json;
-using CEG_WebMVC.Models.Meeting;
-using CEG_WebMVC.Models.Notification;
-using CEG_WebMVC.Models.Location;
 using CEG_WebMVC.Library;
 
 namespace CEG_WebMVC.Controllers
 {
-    [Route("Meeting")]
+    /*[Route("Meeting")]
     public class MeetingController : Controller
     {
         private readonly string LocationAPI_URL_All_Road = "/api/Location/AllAddressRoads";
@@ -48,7 +47,7 @@ namespace CEG_WebMVC.Controllers
             _httpClient.BaseAddress = new Uri(config.GetSection("DefaultApiUrl:ConnectionString").Value);
             MeetingAPI_URL = "/api/Meeting";
         }
-        /*private async Task<bool> UpdateMeetingStatus(int? meetingId, string newStatus)
+        *//*private async Task<bool> UpdateMeetingStatus(int? meetingId, string newStatus)
         {
             // Prepare the API URL
             string apiUrl = $"{_config["DefaultApiUrl:ConnectionString"]}/api/Meeting/{meetingId}/{newStatus}";
@@ -69,7 +68,7 @@ namespace CEG_WebMVC.Controllers
             {
                 return false;
             }
-        }*/
+        }*//*
         [HttpGet("Index")]
         public async Task<IActionResult> Index(
     [FromQuery] string meetingName,
@@ -301,8 +300,8 @@ namespace CEG_WebMVC.Controllers
                     + meetPostResponse.ErrorMessage;
                 View("Index");
             }
-            /*if(TempData["PartakeNo"] != null)
-				ViewBag.PartNumber = Int32.Parse(TempData["PartakeNo"].ToString());*/
+            *//*if(TempData["PartakeNo"] != null)
+				ViewBag.PartNumber = Int32.Parse(TempData["PartakeNo"].ToString());*//*
             return View(meetmodel);
         }
 
@@ -445,5 +444,5 @@ namespace CEG_WebMVC.Controllers
 
             return RedirectToAction("MemberHistoryEvent", "Member");
         }
-    }
+    }*/
 }

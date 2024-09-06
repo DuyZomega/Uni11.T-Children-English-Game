@@ -1,31 +1,31 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using WebAppMVC.Models;
+using CEG_WebMVC.Models;
 using System.Diagnostics;
 using System.Text.Json;
 using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Authorization;
 using System.Data;
 using System.Web;
-using DAL.Models;
-using BAL.ViewModels;
-using System.Dynamic;
-using Microsoft.AspNetCore.Identity;
-using System;
-using BAL.ViewModels.Member;
-using System.Text.Encodings.Web;
-using BAL.ViewModels.Event;
-using Azure.Storage.Blobs;
-using Azure.Storage.Blobs.Models;
-using System.ComponentModel.DataAnnotations;
+using CEG_DAL.Models;
+/*using CEG_BAL.ViewModels;
 using CEG_WebMVC.Models.Bird;
 using CEG_WebMVC.Models.Member;
 using CEG_WebMVC.Models.Notification;
-using CEG_WebMVC.Models.Transaction;
+using CEG_WebMVC.Models.Transaction;*/
+using System.Dynamic;
+using Microsoft.AspNetCore.Identity;
+using System;
+/*using CEG_BAL.ViewModels.Member;*/
+using System.Text.Encodings.Web;
+/*using CEG_BAL.ViewModels.Event;*/
+/*using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;*/
+using System.ComponentModel.DataAnnotations;
 using CEG_WebMVC.Library;
 
 namespace CEG_WebMVC.Controllers
 {
-    [Route("Member")]
+    /*[Route("Member")]
     public class MemberController : Controller
     {
         private readonly ILogger<MemberController> _logger;
@@ -608,5 +608,5 @@ namespace CEG_WebMVC.Controllers
             //transactionModel.MemberDetail = memberDetails.Data;
             return View(notificationModel);
         }
-    }
+    }*/
 }

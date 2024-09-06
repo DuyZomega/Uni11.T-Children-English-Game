@@ -1,8 +1,8 @@
-﻿using Azure.Storage.Blobs.Models;
+﻿/*using Azure.Storage.Blobs.Models;
 using Azure.Storage.Blobs;
-using BAL.ViewModels;
-using BAL.ViewModels.Authenticates;
-using DAL.Models;
+using CEG_BAL.ViewModels;
+using CEG_BAL.ViewModels.Authenticates;*/
+using CEG_DAL.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Options;
@@ -11,21 +11,21 @@ using System.Dynamic;
 using System.Net.Http.Headers;
 using System.Text.Encodings.Web;
 using System.Text.Json;
-using WebAppMVC.Models.FieldTrip;
-using WebAppMVC.Models.Meeting;
+/*using CEG_WebMVC.Models.FieldTrip;
+using CEG_WebMVC.Models.Meeting;
 using CEG_WebMVC.Models.Contest;
 using CEG_WebMVC.Models.Bird;
 using CEG_WebMVC.Models.Member;
 using CEG_WebMVC.Models.VnPay;
 using CEG_WebMVC.Models.Location;
 using CEG_WebMVC.Models.Transaction;
-using CEG_WebMVC.Models.Notification;
+using CEG_WebMVC.Models.Notification;*/
 using CEG_WebMVC.Services.Interfaces;
 using CEG_WebMVC.Library;
 
 namespace CEG_WebMVC.Controllers
 {
-    [Route("Contest")]
+    /*[Route("Contest")]
     public class ContestController : Controller
     {
         private readonly ILogger<ContestController> _logger;
@@ -226,11 +226,11 @@ namespace CEG_WebMVC.Controllers
                 return View("Index");
             }
             contestPostAndBird.ContestDetails = contestPostResponse.Data;
-            /*if(birdForContestRegistration != null)
+            *//*if(birdForContestRegistration != null)
             {
                 birdForContestRegistration.BirdMainImage = await methcall.GetCookieForTempFile(Request, Constants.Constants.CREATE_OR_UPDATE_BIRD_PROFILE_PICTURE_VALID, jsonOptions);
                 methcall.RemoveCookieTempFile(Response, Constants.Constants.CREATE_OR_UPDATE_BIRD_PROFILE_PICTURE_VALID, birdForContestRegistration.BirdMainImage, cookieOptions);
-            }*/
+            }*//*
             contestPostAndBird.CreateBirdForContest = methcall.GetValidationTempData<BirdViewModel>(this, TempData, Constants.CREATE_CONTEST_PARTICIPATION_VALID, "createOrSelectedBird", jsonOptions);
             return View(contestPostAndBird);
         }
@@ -260,7 +260,7 @@ namespace CEG_WebMVC.Controllers
             string? accToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
 
             string? usrId = HttpContext.Session.GetString(Constants.USR_ID);
-            /*selectedBird.MemberId = usrId;
+            *//*selectedBird.MemberId = usrId;
             if (selectedBird.BirdMainImage != null && selectedBird.BirdMainImage.Length > 0 )
             {
                 string connectionString = _config.GetSection("AzureStorage:BlobConnectionString").Value;
@@ -283,7 +283,7 @@ namespace CEG_WebMVC.Controllers
                 var image = "https://edwinbirdclubstorage.blob.core.windows.net/images/" + uniqueBlobName;
                 selectedBird.ProfilePic = image;
                 selectedBird.BirdMainImage = null;
-            }*/
+            }*//*
             var contestPostResponse = await methcall.CallMethodReturnObject<GetContestPostResponse>(
                                    _httpClient: _httpClient,
                                    options: jsonOptions,
@@ -524,7 +524,7 @@ namespace CEG_WebMVC.Controllers
         {
             return View();
         }
-        /*[HttpPost]
+        *//*[HttpPost]
         public ActionResult UpdatePlayerElo(double playerElo, List<double> playerElos, List<int> birdPoints)
         {
             // Count the number of players participating
@@ -545,6 +545,6 @@ namespace CEG_WebMVC.Controllers
 
             // Return the updated Elo as JSON response
             return Json(new { updatedElo });
-        }*/
-    }
+        }*//*
+    }*/
 }

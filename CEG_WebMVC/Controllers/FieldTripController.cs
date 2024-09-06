@@ -1,14 +1,15 @@
-﻿using BAL.ViewModels;
-using BAL.ViewModels.Authenticates;
-using CEG_WebMVC.Library;
+﻿/*using CEG_BAL.ViewModels;
+using CEG_BAL.ViewModels.Authenticates;
+using CEG_WebMVC.Models.Meeting;
 using CEG_WebMVC.Models.FieldTrip;
 using CEG_WebMVC.Models.Location;
 using CEG_WebMVC.Models.Member;
 using CEG_WebMVC.Models.Notification;
-using CEG_WebMVC.Models.Transaction;
+using CEG_WebMVC.Models.Transaction;*/
+using CEG_WebMVC.Library;
 using CEG_WebMVC.Models.VnPay;
 using CEG_WebMVC.Services.Interfaces;
-using DAL.Models;
+using CEG_DAL.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Options;
@@ -18,12 +19,10 @@ using System.Net.Http.Headers;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using WebAppMVC.Models.Meeting;
-using static Org.BouncyCastle.Math.EC.ECCurve;
 
 namespace CEG_WebMVC.Controllers
 {
-    [Route("FieldTrip")]
+    /*[Route("FieldTrip")]
     public class FieldTripController : Controller
     {
         private readonly ILogger<FieldTripController> _logger;
@@ -443,5 +442,5 @@ namespace CEG_WebMVC.Controllers
 
             return RedirectToAction("FieldTripPost", new { id = tripId });
         }
-    }
+    }*/
 }

@@ -34,8 +34,8 @@ namespace CEG_WebMVC.Controllers
             _httpClient = new HttpClient();
             var contentType = new MediaTypeWithQualityHeaderValue("application/json");
             _httpClient.DefaultRequestHeaders.Accept.Add(contentType);
-            _httpClient.BaseAddress = new Uri(config.GetSection("DefaultApiUrl:ConnectionString").Value);
-            AdminAPI_URL = "/api/";
+            /*_httpClient.BaseAddress = new Uri(config.GetSection("DefaultApiUrl:ConnectionString").Value);
+            AdminAPI_URL = "/api/";*/
         }
 
         [HttpGet("Index")]
