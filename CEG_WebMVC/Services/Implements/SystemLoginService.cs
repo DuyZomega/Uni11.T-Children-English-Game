@@ -33,8 +33,8 @@ namespace CEG_WebMVC.Services.Implements
             client = new HttpClient();
             var contentType = new MediaTypeWithQualityHeaderValue("application/json");
             client.DefaultRequestHeaders.Accept.Add(contentType);
-            client.BaseAddress = new Uri(config.GetSection("DefaultApiUrl:ConnectionString").Value);
-            AuthenAPI_URL = "/api/User";
+            *//*client.BaseAddress = new Uri(config.GetSection("DefaultApiUrl:ConnectionString").Value);
+            AuthenAPI_URL = "/api/User";*//*
         }
 
         public async Task<string?> GetTokenAsync()

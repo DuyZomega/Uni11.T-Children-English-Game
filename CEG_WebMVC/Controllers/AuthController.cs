@@ -17,13 +17,13 @@ using CEG_WebMVC.Models.Transaction;*/
 using CEG_WebMVC.Library;
 namespace CEG_WebMVC.Controllers
 {
-    /*[Route("Auth")]
+    [Route("Auth")]
     public class AuthController : Controller
     {
         private readonly ILogger<AuthController> _logger;
         private readonly IConfiguration _config;
         private readonly HttpClient client = null;
-        private readonly IVnPayService _vnPayService;
+        //private readonly IVnPayService _vnPayService;
         private string AuthenAPI_URL = "";
         private BirdClubLibrary methcall = new();
         private readonly JsonSerializerOptions jsonOptions = new JsonSerializerOptions
@@ -37,18 +37,18 @@ namespace CEG_WebMVC.Controllers
             Secure = true,
             IsEssential = true,
         };
-        public AuthController(ILogger<AuthController> logger, IConfiguration config, IVnPayService vnPayService)
+        public AuthController(ILogger<AuthController> logger, IConfiguration config)
         {
             _logger = logger;
             _config = config;
             client = new HttpClient();
-            _vnPayService = vnPayService;
+            //_vnPayService = vnPayService;
             var contentType = new MediaTypeWithQualityHeaderValue("application/json");
             client.DefaultRequestHeaders.Accept.Add(contentType);
-            client.BaseAddress = new Uri(config.GetSection("DefaultApiUrl:ConnectionString").Value);
+            /*client.BaseAddress = new Uri(config.GetSection("DefaultApiUrl:ConnectionString").Value);*/
             AuthenAPI_URL = "/api/User";
         }
-        [HttpGet("Register")]
+        /*[HttpGet("Register")]
         public async Task<IActionResult> Register()
         {
             string? role = HttpContext.Session.GetString(Constants.ROLE_NAME);
@@ -63,7 +63,7 @@ namespace CEG_WebMVC.Controllers
                 return View(googleLoginDetails);
             }
             return View();
-        }
+        }*/
         [HttpGet("Login")]
         public IActionResult Login()
         {
@@ -76,7 +76,7 @@ namespace CEG_WebMVC.Controllers
             return View();
         }
 
-        *//*[HttpGet("GoogleLogin")]
+        /*[HttpGet("GoogleLogin")]
         public IActionResult GoogleLogin()
         {
             var properties = new AuthenticationProperties
@@ -84,8 +84,8 @@ namespace CEG_WebMVC.Controllers
                 RedirectUri = Url.Action("GoogleResponse")
             };
             return Challenge(properties, GoogleDefaults.AuthenticationScheme);
-        }
-        public async Task<IActionResult> GoogleResponse()
+        }*/
+        /*public async Task<IActionResult> GoogleResponse()
         {
             var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             if (!result.Succeeded)
@@ -94,13 +94,13 @@ namespace CEG_WebMVC.Controllers
                 return RedirectToAction("Login");
             }
 
-            *//*var claim = result.Principal.Identities.FirstOrDefault().Claims.Select(claim => new
-			{
-				claim.Issuer,
-				claim.OriginalIssuer,
-				claim.Type,
-				claim.Value,
-			});*//*
+            var claim = result.Principal.Identities.FirstOrDefault().Claims.Select(claim => new
+            {
+                claim.Issuer,
+                claim.OriginalIssuer,
+                claim.Type,
+                claim.Value,
+            });
 
             var code = result.Properties.Items.FirstOrDefault(t => t.Key.Equals(Constants.GOOGLE_ACCESS_TOKEN_KEY_NAME)).Value;
             if (code == null)
@@ -112,8 +112,8 @@ namespace CEG_WebMVC.Controllers
             methcall.SetCookie(Response, Constants.GOOGLE_ACC_COOKIE, userInfo, cookieOptions, jsonOptions, 20);
 
             return RedirectToAction("Register");
-        }*//*
-        [HttpGet("Logout")]
+        }*/
+        /*[HttpGet("Logout")]
         public IActionResult Logout()
         {
             client.DefaultRequestHeaders.Authorization = null;
@@ -127,8 +127,8 @@ namespace CEG_WebMVC.Controllers
             // Example: await SignInManager.SignOutAsync();
 
             return RedirectToAction(actionName: "Index", controllerName: "Home");
-        }
-        [HttpPost("Authorize")]
+        }*/
+        /*[HttpPost("Authorize")]
         public async Task<IActionResult> Authorize(AuthenRequest authenRequest)
         {
             AuthenAPI_URL += "/Login";
@@ -189,8 +189,8 @@ namespace CEG_WebMVC.Controllers
                 _logger.LogInformation("Member Login Successful: " + TempData[Constants.ROLE_NAME] + " , Id: " + TempData[Constants.USR_ID]);
                 return base.Redirect(Constants.MEMBER_URL);
             }
-        }
-        [HttpGet("ConfirmRegister")]
+        }*/
+        /*[HttpGet("ConfirmRegister")]
         //[Authorize(Roles = "TempMember")]
         public async Task<IActionResult> ConfirmRegister()
         {
@@ -310,8 +310,8 @@ namespace CEG_WebMVC.Controllers
                 return RedirectToAction("Login", "Auth");
             }
             return RedirectToAction("Login", "Auth");
-        }
-        [HttpPost("Register")]
+        }*/
+        /*[HttpPost("Register")]
         public async Task<IActionResult> RegisterMember(CreateNewMember newmemRequest)
         {
             AuthenAPI_URL += "/RegisterTempMember";
@@ -356,6 +356,6 @@ namespace CEG_WebMVC.Controllers
             };
             var url = _vnPayService.CreatePaymentUrl(model, HttpContext);
             return Redirect(url);
-        }
-    }*/
+        }*/
+    }
 }
