@@ -15,7 +15,7 @@ namespace CEG_BAL.ViewModels
 
         public string Address { get; set; } = null!;
 
-        public virtual Account Account { get; set; } = null!;
+        public virtual AccountViewModel Account { get; set; } = null!;
 
         public virtual ICollection<Class> Classes { get; set; } = new List<Class>();
 

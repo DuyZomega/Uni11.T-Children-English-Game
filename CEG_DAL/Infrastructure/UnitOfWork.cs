@@ -9,19 +9,19 @@ namespace CEG_DAL.Infrastructure
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly MyDBContext _context;
+        private readonly MyDBContext _dbContext;
         public UnitOfWork(MyDBContext context)
         {
-            _context = context;
+            _dbContext = context;
         }
         public void Dispose()
         {
-            _context.Dispose();
+            _dbContext.Dispose();
         }
 
         public void Save()
         {
-            _context.SaveChanges();
+            _dbContext.SaveChanges();
         }
     }
 }
