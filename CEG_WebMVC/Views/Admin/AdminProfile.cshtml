@@ -1,10 +1,10 @@
-﻿@* @model CEG_WebMVC.Models.ViewModels.AdminProfileVM *@
+﻿@model CEG_WebMVC.Models.ViewModels.Admin.AdminProfileVM
 @{
     Layout = "~/Views/Shared/_ALayout.cshtml";
     ViewData["Title"] = "Admin Profile Page";
     IFormFile? formFile = null;
-    //CEG_BAL.ViewModels.Member.UpdateMemberPassword adminPassword = Model.adminPassword;
-    //CEG_BAL.ViewModels.AccountViewModel adminDetail = Model.adminDetail;
+    CEG_BAL.ViewModels.Account.UpdateAccountPassword adminPassword = Model.adminPassword;
+    CEG_BAL.ViewModels.AccountViewModel adminDetail = Model.adminDetail;
     //List<SelectListItem> genders = adminDetail.DefaultUserGenderSelectList;
 }
 <!DOCTYPE html>
@@ -64,7 +64,7 @@
                                             <i class='bx bxs-camera-plus'></i>
                                         </div>
                                     </div>
-                                    @* <div class="profile-name">@adminDetail.FullName</div> *@
+                                    <div class="profile-name">@adminDetail.Fullname</div>
                                 </div>
                                 <div class="col-lg-8">
                                     <div class="profile-content">
@@ -73,28 +73,28 @@
                                                 <h4>Personal Information</h4>
                                             </div>
                                             <div class="info-content">
-                                                @* <form asp-action="AdminProfileUpdate" asp-controller="Admin" class="form-check" method="post">
+                                                <form asp-action="AdminProfileUpdate" asp-controller="Admin" class="form-check" method="post">
                                                     <div class="row username-content">
                                                         <label class="contact-title col-md-5 col-sm-4 mt-3">Username: </label>
 
-                                                        <input asp-for="@adminDetail.UserName" type="text"
+                                                        <input asp-for="@adminDetail.Username" type="text"
                                                                class="form-control col-md-5 col-sm-8 mt-2" readonly
-                                                               value="@adminDetail.UserName">
-                                                        <span asp-validation-for="@adminDetail.UserName" id="error_message"
+                                                               value="@adminDetail.Username">
+                                                        <span asp-validation-for="@adminDetail.Username" id="error_message"
                                                               class="error-message col-md-2 mt-3"></span>
 
                                                     </div>
                                                     <div class="row fullname-content">
                                                         <label class="contact-title col-md-5 col-sm-4 mt-3">Full Name: </label>
 
-                                                        <input asp-for="@adminDetail.FullName" type="text"
+                                                        <input asp-for="@adminDetail.Fullname" type="text"
                                                                class="form-control col-md-5 col-sm-8 mt-2" readonly
-                                                               value="@adminDetail.FullName">
-                                                        <span asp-validation-for="@adminDetail.FullName" id="error_message"
+                                                               value="@adminDetail.Fullname">
+                                                        <span asp-validation-for="@adminDetail.Fullname" id="error_message"
                                                               class="error-message col-md-2 mt-3"></span>
 
                                                     </div>
-                                                    <div class="row phone-content">
+                                                    @* <div class="row phone-content">
                                                         <label class="contact-title col-md-5 col-sm-4 mt-3">Phone Number: </label>
 
                                                         <input asp-for="@adminDetail.Phone" type="tel" value="@adminDetail.Phone"
@@ -102,8 +102,8 @@
                                                         <span asp-validation-for="@adminDetail.Phone" id="error_message"
                                                               class="error-message col-md-2 mt-3"></span>
 
-                                                    </div>
-                                                    <div class="row address-content">
+                                                    </div> *@
+                                                    @* <div class="row address-content">
                                                         <label class="contact-title col-md-5 col-sm-4 mt-3">Address: </label>
 
                                                         <input asp-for="@adminDetail.Address" type="text" value="@adminDetail.Address"
@@ -111,8 +111,8 @@
                                                         <span asp-validation-for="@adminDetail.Address" id="error_message"
                                                               class="error-message col-md-2 mt-3"></span>
 
-                                                    </div>
-                                                    <div class="row email-content">
+                                                    </div> *@
+                                                    @* <div class="row email-content">
                                                         <label class="contact-title col-md-5 col-sm-4 mt-3">Email: </label>
 
                                                         <input asp-for="@adminDetail.Email" type="email" value="@adminDetail.Email"
@@ -120,17 +120,17 @@
                                                         <span asp-validation-for="@adminDetail.Email" id="error_message"
                                                               class="error-message col-md-2 mt-3"></span>
 
-                                                    </div>
-                                                    <div class="row gender-content">
+                                                    </div> *@
+                                                    @* <div class="row gender-content">
                                                         <label class="contact-title col-md-5 col-sm-4 mt-3">Gender: </label>
                                                         <select class="form-control col-md-5 col-sm-8 mt-2" asp-for="@adminDetail.Gender" asp-items="@genders" class="custom-select" id="gender">
                                                         </select>
-                                                    </div>
-                                                    <input asp-for="@adminDetail.ImagePath" type="text" value="@adminDetail.ImagePath" hidden />
+                                                    </div> *@
+                                                    @* <input asp-for="@adminDetail.ImagePath" type="text" value="@adminDetail.ImagePath" hidden /> *@
                                                     <div class="row pt-3 d-flex">
                                                         <button type="submit" class="offset-3 btn btn-success">Confirm Changes</button>
                                                     </div>
-                                                </form> *@
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
@@ -154,12 +154,12 @@
                 <div class="collapse" id="collapseTwo" aria-labelledby="headingTwo" data-parent="#accordion">
                     <div class="card-body">
                         <div class="card-group d-block">
-                            @* <form asp-action="ChangePassword" asp-controller="Admin" method="post">
+                            <form asp-action="ChangePassword" asp-controller="Admin" method="post">
                                 <div class="row form-group">
-                                    <label asp-for=@adminPassword.password class="offset-md-3 col-md-2 col-sm-3 col-form-label">Old Password</label>
-                                    <input asp-for=@adminPassword.password class="col-md-3 col-sm-5 form-control" type="password"
-                                           required value=@adminPassword.password>
-                                    <span asp-validation-for=@adminPassword.password class="error-message col-sm-3 mt-2"></span>
+                                    <label asp-for=@adminPassword.Password class="offset-md-3 col-md-2 col-sm-3 col-form-label">Old Password</label>
+                                    <input asp-for=@adminPassword.Password class="col-md-3 col-sm-5 form-control" type="password"
+                                           required value=@adminPassword.Password>
+                                    <span asp-validation-for=@adminPassword.Password class="error-message col-sm-3 mt-2"></span>
                                 </div>
                                 <div class="row form-group">
                                     <label asp-for=@adminPassword.Newpassword class="offset-md-3 col-md-2 col-sm-3 col-form-label">New Password</label>
@@ -168,15 +168,15 @@
                                     <span asp-validation-for=@adminPassword.Newpassword class="error-message col-sm-3 mt-2"></span>
                                 </div>
                                 <div class="row form-group">
-                                    <label asp-for=@adminPassword.NewConfirmPassword class="offset-md-3 col-md-2 col-sm-3 col-form-label">Confirm</label>
-                                    <input asp-for=@adminPassword.NewConfirmPassword class="col-md-3 col-sm-5 form-control" type="password"
-                                           id="confirm" required value=@adminPassword.NewConfirmPassword>
-                                    <span asp-validation-for=@adminPassword.NewConfirmPassword class="error-message col-sm-3 mt-2"></span>
+                                    <label asp-for=@adminPassword.Newconfirmpassword class="offset-md-3 col-md-2 col-sm-3 col-form-label">Confirm</label>
+                                    <input asp-for=@adminPassword.Newconfirmpassword class="col-md-3 col-sm-5 form-control" type="password"
+                                           id="confirm" required value=@adminPassword.Newconfirmpassword>
+                                    <span asp-validation-for=@adminPassword.Newconfirmpassword class="error-message col-sm-3 mt-2"></span>
                                 </div>
                                 <div class="row form-group justify-content-center">
                                     <button type="submit" class="btn btn-success">Confirm Change</button>
                                 </div>
-                            </form> *@
+                            </form>
                         </div>
                     </div>
                 </div>
