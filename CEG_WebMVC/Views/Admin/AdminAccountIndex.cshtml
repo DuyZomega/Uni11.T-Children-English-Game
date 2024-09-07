@@ -1,7 +1,7 @@
 ﻿@* ﻿@model WebAppMVC.Models.ViewModels.AdminAccountIndexVM *@
 @{
     Layout = null;
-    ViewData["Title"] = "Admin Member Status Page";
+    ViewData["Title"] = "Admin All Account Status Page";
     string? search = string.Empty;
 
     //CEG_BAL.ViewModels.Admin.CreateNewEmployee createEmployee = Model.createEmployee;
@@ -16,6 +16,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
 </head>
 <body>
     <div class="main-content">
@@ -42,7 +43,7 @@
                                 <li class="nav-item">
                                     <a class="nav-link active" data-toggle="tab" href="#home1">
                                         <i class='bx bx-home-alt-2'></i>
-                                        <span>All Club Staffs and Managers</span>
+                                        <span>All Accounts</span>
                                     </a>
                                 </li>             
                             </ul>
@@ -55,7 +56,7 @@
                                     <div class="col-sm-12 d-flex">
                                         <div class="col-sm-6 d-flex address-home">
                                             <div class="rating-room">
-                                                <button class="button--primary btn-success bg-success shadow btn-xs text-white" data-toggle="modal"  data-target="#addEmployee" type="submit">Create New Club Staff or Manager</button>
+                                                <button class="button--primary btn-success bg-success shadow btn-xs text-white" data-toggle="modal"  data-target="#addEmployee" type="submit">Create New Account</button>
                                             </div>
                                         </div>
                                         <div class="col-sm-6 d-flex justify-content-end">
@@ -80,26 +81,26 @@
                                                     <th class="sorting sorting_asc" tabindex="0"
                                                         aria-controls="history-table" rowspan="1"
                                                         colspan="1" aria-sort="ascending"
-                                                        aria-label="Member ID: activate to sort column descending">
-                                                        Club Employee Id
+                                                        aria-label="Account ID: activate to sort column descending">
+                                                        User Account Id
                                                     </th>
                                                     <th class="sorting" tabindex="0"
                                                         aria-controls="history-table" rowspan="1"
                                                         colspan="1"
                                                         aria-label="Member User Name: activate to sort column ascending">
-                                                        Employee User name
+                                                        Account username
                                                     </th>
                                                     <th class="sorting" tabindex="0"
                                                         aria-controls="history-table" rowspan="1"
                                                         colspan="1"
                                                         aria-label="Member Full Name: activate to sort column ascending">
-                                                        Employee Full name
+                                                        Account Full name
                                                     </th>
                                                     <th class="sorting" tabindex="0"
                                                         aria-controls="history-table" rowspan="1"
                                                         colspan="1"
                                                         aria-label="Member Full Name: activate to sort column ascending">
-                                                        Employee Role
+                                                        Account Role
                                                     </th>
                                                     <th class="sorting" tabindex="0"
                                                         aria-controls="history-table" rowspan="1"
@@ -168,7 +169,7 @@
         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
             <div class="modal-content modal-addRoom">
                 <div class="modal-header">
-                    <h4 class="modal-title">Add new Club Staff or Manager</h4>
+                    <h4 class="modal-title">Add new Account</h4>
                 </div>
                 <div class="modal-body">
                     @* <form asp-action="AdminCreateEmployee" asp-controller="Admin" method="post" id="form">
