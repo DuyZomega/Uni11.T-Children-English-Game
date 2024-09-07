@@ -5,7 +5,7 @@
     IFormFile? formFile = null;
     CEG_BAL.ViewModels.Account.UpdateAccountPassword adminPassword = Model.adminPassword;
     CEG_BAL.ViewModels.AccountViewModel adminDetail = Model.adminDetail;
-    //List<SelectListItem> genders = adminDetail.DefaultUserGenderSelectList;
+    List<SelectListItem> genders = Model.DefaultUserGenderSelectList;
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -121,11 +121,11 @@
                                                               class="error-message col-md-2 mt-3"></span>
 
                                                     </div> *@
-                                                    @* <div class="row gender-content">
+                                                    <div class="row gender-content">
                                                         <label class="contact-title col-md-5 col-sm-4 mt-3">Gender: </label>
                                                         <select class="form-control col-md-5 col-sm-8 mt-2" asp-for="@adminDetail.Gender" asp-items="@genders" class="custom-select" id="gender">
                                                         </select>
-                                                    </div> *@
+                                                    </div>
                                                     @* <input asp-for="@adminDetail.ImagePath" type="text" value="@adminDetail.ImagePath" hidden /> *@
                                                     <div class="row pt-3 d-flex">
                                                         <button type="submit" class="offset-3 btn btn-success">Confirm Changes</button>
