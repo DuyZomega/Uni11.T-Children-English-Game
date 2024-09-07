@@ -46,8 +46,8 @@ namespace CEG_WebMVC.Controllers
             return View();
         }
 
-        [HttpGet("List")]
-        public async Task<IActionResult> AdminList()
+        [HttpGet("AccountIndex")]
+        public async Task<IActionResult> AdminAccountIndex()
         {
             /*if (methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN) != null)
                 return Redirect(methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN));*/
