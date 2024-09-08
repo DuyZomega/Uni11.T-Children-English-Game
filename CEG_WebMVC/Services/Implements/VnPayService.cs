@@ -1,5 +1,5 @@
 ﻿using CEG_WebMVC.Services.Interfaces;
-using WebAppMVC.Models.VnPay;
+using CEG_WebMVC.Models.VnPay;
 
 namespace CEG_WebMVC.Services.Implements
 {

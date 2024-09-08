@@ -1,0 +1,231 @@
+﻿@* ﻿@model WebAppMVC.Models.ViewModels.AdminAccountIndexVM *@
+@{
+    Layout = null;
+    ViewData["Title"] = "Admin All Account Status Page";
+    string? search = string.Empty;
+
+    //CEG_BAL.ViewModels.Admin.CreateNewEmployee createEmployee = Model.createEmployee;
+
+    //var memberStatuses = Model.EmployeeStatuses;
+    
+
+    Layout = "~/Views/Shared/_ALayout.cshtml";
+}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
+    <div class="main-content">
+        <div class="main">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="offset-sm-6 col-sm-6  d-flex justify-content-sm-end p-md-0 mt-2 mt-sm-0 ">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumd-item">
+                                <a href="#">Manage</a>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <span>/</span>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+                <section>
+                    <div class="card">
+                        <div class="card-body">
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-tabs">
+                                <!-- dung vong for o day -->
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="tab" href="#home1">
+                                        <i class='bx bx-home-alt-2'></i>
+                                        <span>All Accounts</span>
+                                    </a>
+                                </li>             
+                            </ul>
+                            
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <!-- home1 -->
+                            <div class="tab-pane active" id="home1" role="tabpanel">
+                                <div class="row search">
+                                    <div class="col-sm-12 d-flex">
+                                        <div class="col-sm-6 d-flex address-home">
+                                            <div class="rating-room">
+                                                <button class="button--primary btn-success bg-success shadow btn-xs text-white" data-toggle="modal"  data-target="#addEmployee" type="submit">Create New Account</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6 d-flex justify-content-end">
+                                            <form asp-action="AdminAccountIndex" asp-controller="Admin" method="get" asp-route-search="@search">
+                                                <div>
+                                                    <label>
+                                                        <input asp-for="@search" class="form-control" type="text" name="search" placeholder="Search Username..." value="@search">
+                                                        <i class='bx bx-search-alt'></i>
+                                                    </label>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="history-table_wrapper" class="dataTables_wrapper no-footer">
+                                    <form asp-action="AdminUpdateAccountIndex" asp-controller="Admin" method="post">
+                                        <table id="history-table"
+                                                class="table table-striped table-bordered dataTable no-footer"
+                                                aria-describedby="history-table_info">
+                                            <thead>
+                                                <tr>
+                                                    <th class="sorting sorting_asc" tabindex="0"
+                                                        aria-controls="history-table" rowspan="1"
+                                                        colspan="1" aria-sort="ascending"
+                                                        aria-label="Account ID: activate to sort column descending">
+                                                        User Account Id
+                                                    </th>
+                                                    <th class="sorting" tabindex="0"
+                                                        aria-controls="history-table" rowspan="1"
+                                                        colspan="1"
+                                                        aria-label="Member User Name: activate to sort column ascending">
+                                                        Account username
+                                                    </th>
+                                                    <th class="sorting" tabindex="0"
+                                                        aria-controls="history-table" rowspan="1"
+                                                        colspan="1"
+                                                        aria-label="Member Full Name: activate to sort column ascending">
+                                                        Account Full name
+                                                    </th>
+                                                    <th class="sorting" tabindex="0"
+                                                        aria-controls="history-table" rowspan="1"
+                                                        colspan="1"
+                                                        aria-label="Member Full Name: activate to sort column ascending">
+                                                        Account Role
+                                                    </th>
+                                                    <th class="sorting" tabindex="0"
+                                                        aria-controls="history-table" rowspan="1"
+                                                        colspan="1"
+                                                        aria-label="Status: activate to sort column ascending">
+                                                        Status
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @* @for (int i = 0; i < memberStatuses.Count(); i++)
+                                                {
+                                                    <tr class="@("clicks-row "+ (i%2 == 0 ? "even" : "odd")) " data-href="#"
+                                                        data-bs-toggle="tooltip" data-bs-placement="right"
+                                                        title="More Details">
+                                                        <td class="sorting_1">
+                                                                <input type="hidden" asp-for="@memberStatuses[i].MemberId" name="listRequest[@i].MemberId" value="@memberStatuses[i].MemberId" class="form-control" />
+                                                            @memberStatuses[i].MemberId
+                                                        </td>
+                                                        <td>
+                                                                <input type="hidden" asp-for="@memberStatuses[i].UserName" name="listRequest[@i].UserName" value="@memberStatuses[i].UserName" class="form-control" />
+                                                            @memberStatuses[i].UserName
+                                                        </td>
+                                                        <td>
+                                                                <input type="hidden" asp-for="@memberStatuses[i].FullName" name="listRequest[@i].FullName" value="@memberStatuses[i].FullName" class="form-control" />
+                                                            @memberStatuses[i].FullName
+                                                        </td>
+                                                        <td>
+                                                                <select class="form-control" asp-for="@memberStatuses[i].Role" asp-items="@memberStatuses[i].DefaultEmployeeRoleSelectList" class="custom-select" name="listRequest[@i].Role">
+                                                                </select>
+                                                        </td>
+                                                        <td>
+                                                            @{
+                                                                foreach (var status in defaultStatus)
+                                                                {
+                                                                    if (status.Text.Equals(memberStatuses[i].Status))
+                                                                    {
+                                                                        status.Selected = true;
+                                                                    }
+                                                                }
+                                                            }
+                                                                <select class="form-control" asp-for="@memberStatuses[i].Status" asp-items="@memberStatuses[i].DefaultEmployeeStatusSelectList" class="custom-select" name="listRequest[@i].Status">
+                                                            </select>
+                                                        </td>
+                                                    </tr>
+                                                } *@
+                                            </tbody>
+                                        </table>
+                                        <div class="row col-12 d-flex">
+                                            <div class="rating-room">
+                                                <button class="button--primary btn-success bg-success shadow btn-xs text-white" type="submit" style="margin-left:400px;">Save Changes</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <!-- end tapnet -->
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+    </div>
+    <div id="addEmployee" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content modal-addRoom">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add new Account</h4>
+                </div>
+                <div class="modal-body">
+                    @* <form asp-action="AdminCreateEmployee" asp-controller="Admin" method="post" id="form">
+                        <div class="row p-4">
+                            <div class="col-12">
+                                <div class="row form-group">
+                                    <label asp-for="@createEmployee.UserName" class="col-md-3 col-form-label text-md-right"></label>
+                                    <input asp-for="@createEmployee.UserName" value="@createEmployee.UserName" type="text" placeholder="User Name" required class="form-control col-md-7">
+                                    <span asp-validation-for="@createEmployee.UserName" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@createEmployee.FullName" class="col-md-3 col-form-label text-md-right"></label>
+                                    <input asp-for="@createEmployee.FullName" value="@createEmployee.FullName" type="text" placeholder="Full Name" required class="form-control col-md-7">
+                                    <span asp-validation-for="@createEmployee.FullName" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@createEmployee.Role" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                    <select class="form-control col-md-7 custom-select" asp-for="@createEmployee.Role" asp-items="@createEmployee.DefaultRoleSelectList"></select>
+                                    <span asp-validation-for="@createEmployee.Role" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@createEmployee.Gender" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                    <select class="form-control col-md-7 custom-select" asp-for="@createEmployee.Gender" asp-items="@createEmployee.DefaultUserGenderSelectList"></select>
+                                    <span asp-validation-for="@createEmployee.Gender" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@createEmployee.Email" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                    <input asp-for="@createEmployee.Email" value="@createEmployee.Email" type="email" placeholder="Email" class="form-control col-md-7 mt-3" required>
+                                    <span asp-validation-for="@createEmployee.Email" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@createEmployee.Phone" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                    <input asp-for="@createEmployee.Phone" value="@createEmployee.Phone" type="tel" placeholder="Phone number" class="form-control col-md-7 mt-3" required>
+                                    <span asp-validation-for="@createEmployee.Phone" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@createEmployee.Password" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                    <input asp-for="@createEmployee.Password" value="@createEmployee.Password" type="password" placeholder="Password" class="form-control col-md-7 mt-3" required>
+                                    <span asp-validation-for="@createEmployee.Password" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@createEmployee.ConfirmPassword" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                    <input asp-for="@createEmployee.ConfirmPassword" value="@createEmployee.ConfirmPassword" type="password" placeholder="Confirm Password" class="form-control col-md-7 mt-3" required>
+                                    <span asp-validation-for="@createEmployee.ConfirmPassword" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                </div>
+                            </div>
+                            <div class="modal-footer justify-content-center" style="margin-left:400px;">
+                                <button class="btn btn-success" type="submit" name="action" value="createUser">Create</button>
+                                <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                            </div>
+                        </div>
+                    </form> *@
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

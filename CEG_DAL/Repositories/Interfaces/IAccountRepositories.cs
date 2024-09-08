@@ -10,5 +10,7 @@ namespace CEG_DAL.Repositories.Interfaces
 {
     public interface IAccountRepositories : IRepositoryBase<Account>
     {
+        Task<Account?> GetByLogin(string userName, string password);
+        Task<Account?> GetByIdNoTracking(int id);
     }
 }

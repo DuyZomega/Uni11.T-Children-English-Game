@@ -23,7 +23,7 @@ namespace CEG_BAL.ViewModels
 
         public DateTime? Birhthdate { get; set; }
 
-        public virtual Account Account { get; set; } = null!;
+        public virtual AccountViewModel Account { get; set; } = null!;
 
         public virtual ICollection<Enroll> Enrolls { get; set; } = new List<Enroll>();
 

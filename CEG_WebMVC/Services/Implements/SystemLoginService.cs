@@ -1,13 +1,13 @@
-﻿using BAL.ViewModels.Authenticates;
+﻿/*using CEG_BAL.ViewModels.Authenticates;*/
 using CEG_WebMVC.Services.Interfaces;
 using System.Net.Http.Headers;
 using System.Text.Json;
-using WebAppMVC.Constants;
-using WebAppMVC.Models.Auth;
+using CEG_WebMVC.Library;
+using CEG_WebMVC.Models.Auth;
 
 namespace CEG_WebMVC.Services.Implements
 {
-    public class SystemLoginService : ISystemLoginService
+    /*public class SystemLoginService : ISystemLoginService
     {
         private readonly ILogger<SystemLoginService> _logger;
         private readonly IConfiguration _config;
@@ -33,8 +33,8 @@ namespace CEG_WebMVC.Services.Implements
             client = new HttpClient();
             var contentType = new MediaTypeWithQualityHeaderValue("application/json");
             client.DefaultRequestHeaders.Accept.Add(contentType);
-            client.BaseAddress = new Uri(config.GetSection("DefaultApiUrl:ConnectionString").Value);
-            AuthenAPI_URL = "/api/User";
+            *//*client.BaseAddress = new Uri(config.GetSection("DefaultApiUrl:ConnectionString").Value);
+            AuthenAPI_URL = "/api/User";*//*
         }
 
         public async Task<string?> GetTokenAsync()
@@ -64,5 +64,5 @@ namespace CEG_WebMVC.Services.Implements
 
             return responseAuth.AccessToken;
         }
-    }
+    }*/
 }
