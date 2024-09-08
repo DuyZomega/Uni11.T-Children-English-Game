@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CEG_BAL.ViewModels.Account
+namespace CEG_BAL.ViewModels.Account.Create
 {
-    public class CreateNewAccount
+    public class CreateNewStudent
     {
 
     }

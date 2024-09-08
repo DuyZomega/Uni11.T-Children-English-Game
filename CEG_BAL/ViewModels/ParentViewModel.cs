@@ -1,11 +1,4 @@
-﻿using CEG_DAL.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CEG_BAL.ViewModels
+﻿namespace CEG_BAL.ViewModels
 {
     public class ParentViewModel
     {
@@ -17,8 +10,8 @@ namespace CEG_BAL.ViewModels
 
         public virtual AccountViewModel Account { get; set; } = null!;
 
-        public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();
+        public virtual ICollection<PaymentViewModel> Payments { get; set; } = new List<PaymentViewModel>();
 
-        public virtual ICollection<Student> Students { get; set; } = new List<Student>();
+        public virtual ICollection<StudentViewModel> Students { get; set; } = new List<StudentViewModel>();
     }
 }

@@ -1,4 +1,5 @@
 ﻿using CEG_BAL.ViewModels;
+using CEG_BAL.ViewModels.Account;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace CEG_BAL.Services.Interfaces
     {
         Task<AccountViewModel?> GetByLogin(string userName, string password);
         Task<AccountViewModel?> GetById(int id);
-        void Create(AccountViewModel account);
+        void Create(AccountViewModel account, CreateNewAccount newacc);
         void Update(AccountViewModel account);
     }
 }

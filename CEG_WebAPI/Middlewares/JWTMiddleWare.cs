@@ -1,8 +1,7 @@
+﻿using CEG_BAL.Services.Implements;
+using CEG_BAL.Services.Interfaces;
 
-using BAL.Services.Implements;
-using BAL.Services.Interfaces;
-
-namespace WebAPI.Middlewares
+namespace CEG_WebAPI.Middlewares
 {
     public class JWTMiddleWare
     {

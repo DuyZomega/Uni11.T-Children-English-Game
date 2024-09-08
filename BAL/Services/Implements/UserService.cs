@@ -19,26 +19,23 @@ namespace BAL.Services.Implements
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        private readonly IJWTService _jwtService;
         private readonly IEmailService _emailService;
         private readonly IConfiguration _configuration;
 
         public UserService( IUnitOfWork unitOfWork, 
             IMapper mapper, 
-            IJWTService jWTServices, 
             IEmailService emailSender,
             IConfiguration configuration)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
-            _jwtService = jWTServices;
             _emailService = emailSender;
             _configuration = configuration;
         }
 
         public async Task<AuthenResponse> AuthenticateUser(AuthenRequest request)
         {
-            var user = await _unitOfWork.UserRepository.GetByLogin(request.Username, request.Password);
+            /*var user = await _unitOfWork.UserRepository.GetByLogin(request.Username, request.Password);
             if (user != null && user.MemberDetail != null)
             {
                 if(user.MemberDetail.Status != "Active")
@@ -61,13 +58,13 @@ namespace BAL.Services.Implements
                     ImagePath = user.ImagePath,
                     Status = user.MemberDetail.Status
                 };
-            }
+            }*/
             return null;
         }
 
         public async Task<AuthenResponse> AuthenticateUserEmail(string email)
         {
-            var user = await _unitOfWork.UserRepository.GetByEmail(email);
+            /*var user = await _unitOfWork.UserRepository.GetByEmail(email);
             if (user != null)
             {
                 var accessToken = _jwtService.GenerateJWTToken(user.MemberId, user.UserName, user.MemberDetail.Role, _configuration);
@@ -80,19 +77,20 @@ namespace BAL.Services.Implements
                     ImagePath = user.ImagePath
                 };
             }
-
+            */
             return null;
         }
 
 		public async Task<AuthenResponse> CreateTemporaryNewUser(AuthenRequest request)
 		{
-			var accessToken = _jwtService.GenerateJWTToken(request.Username, "TempMember", _configuration);
+            /*var accessToken = _jwtService.GenerateJWTToken(request.Username, "TempMember", _configuration);
 			return new AuthenResponse()
 			{
 				RoleName = "TempMember",
 				UserName = request.Username,
 				AccessToken = accessToken
-			};
+			};*/
+            return null;
 		}
 
 		public void Create(UserViewModel entity, CreateNewMember newmem = null)

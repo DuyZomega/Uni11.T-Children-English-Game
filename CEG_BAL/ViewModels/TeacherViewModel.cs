@@ -1,11 +1,4 @@
-﻿using CEG_DAL.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CEG_BAL.ViewModels
+﻿namespace CEG_BAL.ViewModels
 {
     public class TeacherViewModel
     {
@@ -17,8 +10,8 @@ namespace CEG_BAL.ViewModels
 
         public virtual AccountViewModel Account { get; set; } = null!;
 
-        public virtual ICollection<Class> Classes { get; set; } = new List<Class>();
+        public virtual ICollection<ClassViewModel> Classes { get; set; } = new List<ClassViewModel>();
 
-        public virtual ICollection<Course> Courses { get; set; } = new List<Course>();
+        public virtual ICollection<CourseViewModel> Courses { get; set; } = new List<CourseViewModel>();
     }
 }
