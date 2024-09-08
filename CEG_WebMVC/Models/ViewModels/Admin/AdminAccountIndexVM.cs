@@ -10,7 +10,7 @@ namespace CEG_WebMVC.Models.ViewModels.Admin
             AccountStatuses = new List<Account.AccountStatusVM>();
             SelectedAccountStatuses = new List<string>();
             createTeacher = new CreateTeacherVM();
-            createParent = new CreateNewParent();
+            createParent = new CreateParentVM();
             createStudent = new CreateNewStudent();
         }
         public List<Account.AccountStatusVM> AccountStatuses { get; set; }
@@ -18,7 +18,7 @@ namespace CEG_WebMVC.Models.ViewModels.Admin
         public List<string> SelectedAccountStatuses { get; set; }
 
         public CreateTeacherVM createTeacher { get; set; }
-        public CreateNewParent createParent { get; set; }
+        public CreateParentVM createParent { get; set; }
         public CreateNewStudent createStudent { get; set; }
     }
 }
