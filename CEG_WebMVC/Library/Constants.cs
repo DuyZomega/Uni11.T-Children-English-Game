@@ -19,10 +19,28 @@ namespace CEG_WebMVC.Library
         public readonly static string MEMBER_CONTEST_REGISTRATION_COOKIE = "Member-Contest-Registration-Cookie";
         public readonly static string MEMBER_CONTEST_BIRD_REGISTRATION_COOKIE = "Member-Contest-Bird-Registration-Cookie";
         public readonly static string MEMBER_CONTEST_REGISTRATION_TRANSACTION_COOKIE = "Member-Contest-Registration-Transaction-Cookie";
+        public readonly static string MEMBERSHIP_RENEWAL_TRANSACTION_COOKIE = "Membership-Renewal-Transaction-Cookie";
 
         public readonly static string NEW_MEMBER_REGISTRATION_TRANSACTION_TYPE = "New-Membership-Registration";
         public readonly static string MEMBER_FIELDTRIP_REGISTRATION_TRANSACTION_TYPE = "Member-FieldTrip-Registration";
         public readonly static string MEMBER_CONTEST_REGISTRATION_TRANSACTION_TYPE = "Member-Contest-Registration";
+        public readonly static string MEMBERSHIP_RENEWAL_TRANSACTION_TYPE = "Membership-Renewal-Transaction-Type";
+
+        public readonly static string ALERT_MEMBER_LOGIN_SUCCESS_NAME = "MemberLogin";
+        public readonly static string ALERT_MEMBER_LOGIN_SUCCESS = "Login as Member successfully!";
+        //public readonly static string ALERT_USER_AVATAR_IMAGE_CHANGE_SUCCESS_NAME = "UserAvatarImageChange";
+        public readonly static string ALERT_USER_AVATAR_IMAGE_UPDATE_SUCCESS = "Successfully changed profile pic!";
+        public readonly static string ALERT_USER_AVATAR_IMAGE_UPDATE_ERROR = "Change Profile avatar failed!";
+        public readonly static string ALERT_USER_PASSWORD_UPDATE_SUCCESS = "Successfully changed user password!";
+        public readonly static string ALERT_USER_PASSWORD_UPDATE_ERROR = "Change user password failed!";
+        public readonly static string ALERT_MANAGER_CREATE_NEWS_SUCCESS = "Successfully create news!";
+        public readonly static string ALERT_MANAGER_CREATE_NEWS_ERROR = "Create news failed!";
+        public readonly static string ALERT_MEMBER_CREATE_BLOG_SUCCESS = "Successfully create your blog!";
+        public readonly static string ALERT_MEMBER_CREATE_BLOG_ERROR = "Create your blog failed!";
+        public readonly static string ALERT_DEFAULT_ERROR_NAME = "Error";
+        public readonly static string ALERT_DEFAULT_SUCCESS_NAME = "Success";
+        public readonly static string ALERT_DEFAULT_ERROR_CHECK = "ErrorCheck";
+        public readonly static string ALERT_DEFAULT_SUCCESS_CHECK = "SuccessCheck";
 
         public readonly static string MEMBER_STATUS_INACTIVE = "Inactive";
         public readonly static string MEMBER_STATUS_ACTIVE = "Active";
@@ -30,15 +48,43 @@ namespace CEG_WebMVC.Library
         public readonly static string MEMBER_STATUS_DENIED = "Denied";
         public readonly static string MEMBER_STATUS_SUSPENDED = "Suspended";
 
+        public readonly static string NEWS_STATUS_DRAFT = "Draft";
+        public readonly static string NEWS_STATUS_ACTIVE = "Active";
+        public readonly static string NEWS_STATUS_HIDDEN = "Hidden";
+        public readonly static string NEWS_STATUS_ARCHIVED = "Archived";
+        public readonly static string NEWS_STATUS_REPORTED = "Reported";
+        public readonly static string NEWS_STATUS_DISABLED = "Disabled";
+
+        public readonly static string NEWS_CATEGORY_ANNOUNCEMENT = "Announcement";
+        public readonly static string NEWS_CATEGORY_MEETING = "Meeting";
+        public readonly static string NEWS_CATEGORY_FIELDTRIP = "Fieldtrip";
+        public readonly static string NEWS_CATEGORY_CONTEST = "Contest";
+        public readonly static string NEWS_CATEGORY_OTHERS = "Others";
+
+        public readonly static string BLOG_STATUS_DRAFT = "Draft";
+        public readonly static string BLOG_STATUS_ACTIVE = "Active";
+        public readonly static string BLOG_STATUS_HIDDEN = "Hidden";
+        public readonly static string BLOG_STATUS_ARCHIVED = "Archived";
+        public readonly static string BLOG_STATUS_REPORTED = "Reported";
+        public readonly static string BLOG_STATUS_DISABLED = "Disabled";
+
+        public readonly static string BLOG_CATEGORY_ANNOUNCEMENT = "Announcement";
+        public readonly static string BLOG_CATEGORY_MEETING = "Meeting";
+        public readonly static string BLOG_CATEGORY_FIELDTRIP = "Fieldtrip";
+        public readonly static string BLOG_CATEGORY_CONTEST = "Contest";
+        public readonly static string BLOG_CATEGORY_OTHERS = "Others";
+
         public readonly static string CREATE_BIRD_VALID = "CBirdValid";
         public readonly static string CREATE_OR_UPDATE_BIRD_PROFILE_PICTURE_VALID = "CBirdProfilePicValid";
         public readonly static string UPDATE_BIRD_VALID = "UBirdValid";
         public readonly static string CREATE_MEETING_VALID = "CMeetingValid";
         public readonly static string UPDATE_MEETING_VALID = "UMeetingValid";
+        public readonly static string UPDATE_MEETING_STATUS_VALID = "UMeetingStatusValid";
         public readonly static string CREATE_MEETING_MEDIA_VALID = "CMeetingMediaValid";
         public readonly static string UPDATE_MEETING_MEDIA_VALID = "UMeetingMediaValid";
         public readonly static string CREATE_FIELDTRIP_VALID = "CFieldTripValid";
         public readonly static string UPDATE_FIELDTRIP_VALID = "UFieldTripValid";
+        public readonly static string UPDATE_FIELDTRIP_STATUS_VALID = "UFieldtripStatusValid";
         public readonly static string UPDATE_FIELDTRIP_GETTHERE_VALID = "UFieldTripGettingThereValid";
         public readonly static string CREATE_FIELDTRIP_DAYBYDAY_VALID = "CFieldTripDayByDayValid";
         public readonly static string UPDATE_FIELDTRIP_DAYBYDAY_VALID = "UFieldTripDayByDayValid";
@@ -54,9 +100,24 @@ namespace CEG_WebMVC.Library
         public readonly static string UPDATE_FIELDTRIP_MEDIA_VALID = "UFieldTripMediaValid";
         public readonly static string CREATE_CONTEST_VALID = "CContestValid";
         public readonly static string UPDATE_CONTEST_VALID = "UContestValid";
+        public readonly static string UPDATE_CONTEST_STATUS_VALID = "UContestStatusValid";
         public readonly static string CREATE_CONTEST_MEDIA_VALID = "CContestMediaValid";
         public readonly static string UPDATE_CONTEST_MEDIA_VALID = "UContestMediaValid";
         public readonly static string CREATE_CONTEST_PARTICIPATION_VALID = "CContestparticipantValid";
+        public readonly static string CREATE_BLOG_VALID = "CBlogValid";
+        public readonly static string UPDATE_BLOG_VALID = "UBlogValid";
+        public readonly static string CREATE_NEWS_VALID = "CNewsValid";
+        public readonly static string UPDATE_NEWS_VALID = "UNewsValid";
+
+        public readonly static string CREATE_EMPLOYEE_DETAILS_VALID = "CEmployeeDetailsValid";
+        public readonly static string UPDATE_MEMBER_DETAILS_VALID = "UMemberDetailsValid";
+        public readonly static string UPDATE_MEMBER_PASSWORD_VALID = "UMemberPasswordValid";
+        public readonly static string UPDATE_MANAGER_DETAILS_VALID = "UManagerDetailsValid";
+        public readonly static string UPDATE_MANAGER_PASSWORD_VALID = "UManagerPasswordValid";
+        public readonly static string UPDATE_STAFF_DETAILS_VALID = "UStaffDetailsValid";
+        public readonly static string UPDATE_STAFF_PASSWORD_VALID = "UStaffPasswordValid";
+        public readonly static string UPDATE_ADMIN_DETAILS_VALID = "UAdminDetailsValid";
+        public readonly static string UPDATE_ADMIN_PASSWORD_VALID = "UAdminPasswordValid";
 
         public readonly static string EVENT_STATUS_ON_HOLD = "OnHold";
         public readonly static string EVENT_STATUS_NAME_ON_HOLD = "On Hold";
@@ -75,10 +136,30 @@ namespace CEG_WebMVC.Library
         public readonly static string EVENT_STATUS_ONGOING = "Ongoing";
         public readonly static string EVENT_STATUS_NAME_ONGOING = "Ongoing";
 
+        public readonly static string EVENT_MEDIA_TYPE_SPOTLIGHT = "Spotlight";
+        public readonly static string EVENT_MEDIA_TYPE_LOCATION_MAP = "LocationMap";
+        public readonly static string EVENT_MEDIA_TYPE_ADDITIONAL = "Additional";
+        public readonly static string FIELDTRIP_MEDIA_TYPE_DAYBYDAY = "DayByDay";
+
+        public readonly static int EVENT_MEETING_MIN_PART_REQ = 10;
+        public readonly static int EVENT_FIELDTRIP_MIN_PART_REQ = 10;
+        public readonly static int EVENT_CONTEST_MIN_PART_REQ = 10;
+
         public readonly static string BIRD_STATUS_ACTIVE = "Active";
         public readonly static string BIRD_STATUS_INJURED = "Injured";
         public readonly static string BIRD_STATUS_INACTIVE = "Inactive";
         public readonly static string BIRD_STATUS_UNAVAILABLE = "Unavailable";
+
+        public readonly static string REQUIRED_ELO_RANGE_DEFAULT_NAME = "Elo Range";
+        public readonly static string REQUIRED_ELO_RANGE_DEFAULT = "500--3000";
+        public readonly static string REQUIRED_ELO_RANGE_BELOW_1000_NAME = "Below 1000 Elo";
+        public readonly static string REQUIRED_ELO_RANGE_BELOW_1000 = "500--1000";
+        public readonly static string REQUIRED_ELO_RANGE_1000_TO_1500_NAME = "1000--1500 Elo";
+        public readonly static string REQUIRED_ELO_RANGE_1000_TO_1500 = "1000--1500";
+        public readonly static string REQUIRED_ELO_RANGE_1500_TO_2000_NAME = "1500--2000 Elo";
+        public readonly static string REQUIRED_ELO_RANGE_1500_TO_2000 = "1500--2000";
+        public readonly static string REQUIRED_ELO_RANGE_ABOVE_2000_NAME = "Above 2000 Elo";
+        public readonly static string REQUIRED_ELO_RANGE_ABOVE_2000 = "2000--3000";
 
         public readonly static string EVENT_PARTICIPANT_STATUS_NOT_CHECKED_IN = "Not Checked-In";
         public readonly static string EVENT_PARTICIPANT_STATUS_CHECKED_IN = "Checked-In";
@@ -114,6 +195,7 @@ namespace CEG_WebMVC.Library
 
         public readonly static string ROLE_NAME = "ROLE_NAME";
         public readonly static string ACC_TOKEN = "ACCESS_TOKEN";
+        //public readonly static string USR_FULL_NAME = "USER_FULL_NAME";
         public readonly static string USR_ID = "USER_ID";
         public readonly static string USR_NAME = "USER_NAME";
         public readonly static string USR_IMAGE = "IMAGE_PATH";
@@ -124,6 +206,11 @@ namespace CEG_WebMVC.Library
         public readonly static string GUEST = "Guest";
         public readonly static string STAFF = "Staff";
         public readonly static string MANAGER = "Manager";
+
+        public readonly static string MALE = "Male";
+        public readonly static string FEMALE = "Female";
+        public readonly static string OTHER = "Other";
+
         public readonly static string GET_METHOD = "GET";
         public readonly static string POST_METHOD = "POST";
         public readonly static string PUT_METHOD = "PUT";
@@ -143,9 +230,24 @@ namespace CEG_WebMVC.Library
         public const string GOOGLE_LINK_GET_TOKEN = "https://accounts.google.com/o/oauth2/token";
         public const string GOOGLE_LINK_GET_USER_INFO = "https://www.googleapis.com/oauth2/v1/userinfo?access_token=";
 
+        /*public const string JWT_SECRET_KEY = "Authentication:JWT:SecretKey";
+        public const string JWT_VALID_ISSUER = "Authentication:JWT:ValidIssuer";
+        public const string JWT_VALID_AUDIENCE = "Authentication:JWT:ValidAudience";*/
+
         public readonly static string TEMP_FILE_LOCATION_FOLDER = "wwwroot/tempFiles";
 
         public readonly static string SYSTEM_DEFAULT_ACCOUNT_USR_NAME = "Authentication:DefaultSystemLogin:Username";
         public readonly static string SYSTEM_DEFAULT_ACCOUNT_USR_PASSWORD = "Authentication:DefaultSystemLogin:Password";
+
+        public readonly static string SYSTEM_DEFAULT_AZURE_CONNECTION_STRING = "AzureStorage:BlobConnectionString";
+        public readonly static string SYSTEM_DEFAULT_AZURE_DEFAULT_BLOB_FOLDER_URL = "AzureStorage:BlobDefaultFolderURL";
+        public readonly static string SYSTEM_DEFAULT_AZURE_DEFAULT_BLOB_FOLDER_NAME = "AzureStorage:BlobContainerName";
+        public readonly static string SYSTEM_DEFAULT_AZURE_BLOB_AVATAR_FOLDER_URL = "AzureStorage:BlobAvatarsContainerNamePath";
+        public readonly static string SYSTEM_DEFAULT_AZURE_BLOB_NEWS_FOLDER_URL = "AzureStorage:BlobNewsContainerNamePath";
+        public readonly static string SYSTEM_DEFAULT_AZURE_BLOB_BLOG_FOLDER_URL = "AzureStorage:BlobBlogContainerNamePath";
+        public readonly static string SYSTEM_DEFAULT_AZURE_BLOB_MEETING_FOLDER_URL = "AzureStorage:BlobMeetingsContainerNamePath";
+        public readonly static string SYSTEM_DEFAULT_AZURE_BLOB_FIELDTRIP_FOLDER_URL = "AzureStorage:BlobFieldTripsContainerNamePath";
+        public readonly static string SYSTEM_DEFAULT_AZURE_BLOB_CONTEST_FOLDER_URL = "AzureStorage:BlobContestsContainerNamePath";
+        public readonly static string SYSTEM_DEFAULT_AZURE_BLOB_BIRD_FOLDER_URL = "AzureStorage:BlobBirdsContainerNamePath";
     }
 }
