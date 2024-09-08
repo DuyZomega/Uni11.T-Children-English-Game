@@ -8,6 +8,8 @@ namespace CEG_BAL.ViewModels.Account
 {
     public class CreateNewAccount
     {
-
+        public string? Username { get; set; }
+        public string? Fullname { get; set; }
+        public string? Role { get; set; }
     }
 }

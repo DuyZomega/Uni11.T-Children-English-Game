@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CEG_BAL.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CEG_WebAPI.Controllers
 {
@@ -6,9 +7,12 @@ namespace CEG_WebAPI.Controllers
     [ApiController]
     public class AccountController : Controller
     {
-        public IActionResult Index()
+        private readonly IAccountService _accountService;
+
+        public AccountController(
+            IAccountService accountService)
         {
-            return View();
+            _accountService = accountService;
         }
     }
 }

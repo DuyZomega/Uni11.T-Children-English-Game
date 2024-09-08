@@ -191,6 +191,9 @@ namespace CEG_BAL.AutoMapperProfile
             CreateMap<Bird, BirdViewModel>().ReverseMap();
             CreateMap<Notification, NotificationViewModel>().ReverseMap();
             CreateMap<Feedback, FeedbackViewModel>().ReverseMap();*/
+
+            CreateMap<Account, AccountViewModel>()
+                .ReverseMap();
         }
     }
 }

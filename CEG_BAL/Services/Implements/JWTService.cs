@@ -1,6 +1,5 @@
-﻿using BAL.Services.Interfaces;
-using BAL.ViewModels.Authenticates;
-using DAL.Models;
+﻿using CEG_BAL.Services.Interfaces;
+using CEG_BAL.ViewModels.Authenticates;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -11,7 +10,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BAL.Services.Implements
+namespace CEG_BAL.Services.Implements
 {
     public class JWTService : IJWTService
     {
@@ -30,16 +29,16 @@ namespace BAL.Services.Implements
             var jwtToken = (JwtSecurityToken)validatedToken;
             var username = jwtToken.Claims.First(x => x.Type == "unique_name").Value;
             var role = jwtToken.Claims.First(x => x.Type == "role").Value;
-            var UserId = jwtToken.Claims.First(x => x.Type == "nameid").Value;
+            var AccountId = jwtToken.Claims.First(x => x.Type == "accountid").Value;
             return new ObjectToken
             {
                 Username = username,
                 Role = role,
-                UserId = UserId,
+                AccountId = AccountId,
             };
         }
 
-        public string GenerateJWTToken(string userID, string username, string role, IConfiguration config, DateTime? expir = null)
+        public string GenerateJWTToken(string accountId, string username, string role, IConfiguration config, DateTime? expir = null)
         {
             var key = Encoding.ASCII.GetBytes(config["AppSettings:SecretKey"]);
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -47,7 +46,7 @@ namespace BAL.Services.Implements
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.NameIdentifier, userID),
+                    new Claim(ClaimTypes.NameIdentifier, accountId),
                     new Claim(ClaimTypes.Name, username),
                     new Claim(ClaimTypes.Role, role)
                 }),
@@ -55,45 +54,20 @@ namespace BAL.Services.Implements
             };
             if (expir != null)
             {
-				// Thời gian hết hạn của JWT
-				tokenDescriptor.Expires = expir;
+                // Thời gian hết hạn của JWT
+                tokenDescriptor.Expires = expir;
             }
-			// Thời gian hết hạn của JWT
-			else tokenDescriptor.Expires = DateTime.UtcNow.AddHours(1);
+            // Thời gian hết hạn của JWT
+            else tokenDescriptor.Expires = DateTime.UtcNow.AddHours(1);
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var tokenString = tokenHandler.WriteToken(token);
             return tokenString;
         }
 
-		public string GenerateJWTToken(string username, string role, IConfiguration config, DateTime? expir = null)
-		{
-			var key = Encoding.ASCII.GetBytes(config["AppSettings:SecretKey"]);
-			var tokenHandler = new JwtSecurityTokenHandler();
-			var tokenDescriptor = new SecurityTokenDescriptor
-			{
-				Subject = new ClaimsIdentity(new Claim[]
-				{
-					new Claim(ClaimTypes.Name, username),
-					new Claim(ClaimTypes.Role, role)
-				}),
-				SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-			};
-			if (expir != null)
-			{
-				// Thời gian hết hạn của JWT
-				tokenDescriptor.Expires = expir;
-			}
-			// Thời gian hết hạn của JWT
-			else tokenDescriptor.Expires = DateTime.UtcNow.AddMinutes(20);
-			var token = tokenHandler.CreateToken(tokenDescriptor);
-			var tokenString = tokenHandler.WriteToken(token);
-			return tokenString;
-		}
-
-		public void RemoveJWTToken(string token, IConfiguration config)
-		{
-			/*var tokenHandler = new JwtSecurityTokenHandler();
+        public void RemoveJWTToken(string token, IConfiguration config)
+        {
+            /*var tokenHandler = new JwtSecurityTokenHandler();
 			var key = Encoding.ASCII.GetBytes(config["AppSettings:SecretKey"]);
 			tokenHandler.ValidateToken(token, new TokenValidationParameters
 			{
@@ -106,6 +80,6 @@ namespace BAL.Services.Implements
 			var username = jwtToken.Claims.First(x => x.Type == "unique_name").Value;
 			var role = jwtToken.Claims.First(x => x.Type == "role").Value;
 			var UserId = jwtToken.Claims.First(x => x.Type == "nameid").Value;*/
-		}
-	}
+        }
+    }
 }
