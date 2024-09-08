@@ -1,12 +1,14 @@
-﻿@* ﻿@model WebAppMVC.Models.ViewModels.AdminAccountIndexVM *@
+﻿@model CEG_WebMVC.Models.ViewModels.Admin.AdminAccountIndexVM
 @{
     Layout = null;
     ViewData["Title"] = "Admin All Account Status Page";
     string? search = string.Empty;
 
-    //CEG_BAL.ViewModels.Admin.CreateNewEmployee createEmployee = Model.createEmployee;
+    CEG_BAL.ViewModels.Account.Create.CreateNewParent createParent = Model.createParent;
+    CEG_WebMVC.Models.ViewModels.Account.Create.CreateTeacherVM createTeacher = Model.createTeacher;
+    CEG_BAL.ViewModels.Account.Create.CreateNewStudent createStudent = Model.createStudent;
 
-    //var memberStatuses = Model.EmployeeStatuses;
+    var accountStatuses = Model.AccountStatuses;
     
 
     Layout = "~/Views/Shared/_ALayout.cshtml";
@@ -56,7 +58,13 @@
                                     <div class="col-sm-12 d-flex">
                                         <div class="col-sm-6 d-flex address-home">
                                             <div class="rating-room">
-                                                <button class="button--primary btn-success bg-success shadow btn-xs text-white" data-toggle="modal"  data-target="#addEmployee" type="submit">Create New Account</button>
+                                                <button class="button--primary btn-success bg-success shadow btn-xs text-white" data-toggle="modal"  data-target="#addParent" type="submit">Create Parent Account</button>
+                                            </div>
+                                            <div class="rating-room">
+                                                <button class="button--primary btn-success bg-success shadow btn-xs text-white" data-toggle="modal"  data-target="#addStudent" type="submit">Create Student Account</button>
+                                            </div>
+                                            <div class="rating-room">
+                                                <button class="button--primary btn-success bg-success shadow btn-xs text-white" data-toggle="modal"  data-target="#addTeacher" type="submit">Create Teacher Account</button>
                                             </div>
                                         </div>
                                         <div class="col-sm-6 d-flex justify-content-end">
@@ -96,12 +104,12 @@
                                                         aria-label="Member Full Name: activate to sort column ascending">
                                                         Account Full name
                                                     </th>
-                                                    <th class="sorting" tabindex="0"
+                                                    @* <th class="sorting" tabindex="0"
                                                         aria-controls="history-table" rowspan="1"
                                                         colspan="1"
                                                         aria-label="Member Full Name: activate to sort column ascending">
                                                         Account Role
-                                                    </th>
+                                                    </th> *@
                                                     <th class="sorting" tabindex="0"
                                                         aria-controls="history-table" rowspan="1"
                                                         colspan="1"
@@ -111,42 +119,33 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @* @for (int i = 0; i < memberStatuses.Count(); i++)
+                                                @for (int i = 0; i < accountStatuses.Count(); i++)
                                                 {
                                                     <tr class="@("clicks-row "+ (i%2 == 0 ? "even" : "odd")) " data-href="#"
                                                         data-bs-toggle="tooltip" data-bs-placement="right"
                                                         title="More Details">
                                                         <td class="sorting_1">
-                                                                <input type="hidden" asp-for="@memberStatuses[i].MemberId" name="listRequest[@i].MemberId" value="@memberStatuses[i].MemberId" class="form-control" />
-                                                            @memberStatuses[i].MemberId
+                                                                <input type="hidden" asp-for="@accountStatuses[i].MemberId" name="listRequest[@i].MemberId" value="@accountStatuses[i].MemberId" class="form-control" />
+                                                            @accountStatuses[i].MemberId
                                                         </td>
                                                         <td>
-                                                                <input type="hidden" asp-for="@memberStatuses[i].UserName" name="listRequest[@i].UserName" value="@memberStatuses[i].UserName" class="form-control" />
-                                                            @memberStatuses[i].UserName
+                                                                <input type="hidden" asp-for="@accountStatuses[i].UserName" name="listRequest[@i].UserName" value="@accountStatuses[i].UserName" class="form-control" />
+                                                            @accountStatuses[i].UserName
                                                         </td>
                                                         <td>
-                                                                <input type="hidden" asp-for="@memberStatuses[i].FullName" name="listRequest[@i].FullName" value="@memberStatuses[i].FullName" class="form-control" />
-                                                            @memberStatuses[i].FullName
+                                                                <input type="hidden" asp-for="@accountStatuses[i].FullName" name="listRequest[@i].FullName" value="@accountStatuses[i].FullName" class="form-control" />
+                                                            @accountStatuses[i].FullName
                                                         </td>
-                                                        <td>
-                                                                <select class="form-control" asp-for="@memberStatuses[i].Role" asp-items="@memberStatuses[i].DefaultEmployeeRoleSelectList" class="custom-select" name="listRequest[@i].Role">
+                                                        @* <td>
+                                                                <select class="form-control" asp-for="@accountStatuses[i].Role" asp-items="@accountStatuses[i].DefaultEmployeeRoleSelectList" class="custom-select" name="listRequest[@i].Role">
                                                                 </select>
-                                                        </td>
+                                                        </td> *@
                                                         <td>
-                                                            @{
-                                                                foreach (var status in defaultStatus)
-                                                                {
-                                                                    if (status.Text.Equals(memberStatuses[i].Status))
-                                                                    {
-                                                                        status.Selected = true;
-                                                                    }
-                                                                }
-                                                            }
-                                                                <select class="form-control" asp-for="@memberStatuses[i].Status" asp-items="@memberStatuses[i].DefaultEmployeeStatusSelectList" class="custom-select" name="listRequest[@i].Status">
+                                                            <select class="form-control" asp-for="@accountStatuses[i].Status" asp-items="@accountStatuses[i].DefaultAccountStatusSelectList" class="custom-select" name="listRequest[@i].Status">
                                                             </select>
                                                         </td>
                                                     </tr>
-                                                } *@
+                                                }
                                             </tbody>
                                         </table>
                                         <div class="row col-12 d-flex">
@@ -165,11 +164,73 @@
             </div>
         </div>
     </div>
-    <div id="addEmployee" class="modal fade" role="dialog">
+    @* <div id="addStudent" class="modal fade" role="dialog">
         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
             <div class="modal-content modal-addRoom">
                 <div class="modal-header">
-                    <h4 class="modal-title">Add new Account</h4>
+                    <h4 class="modal-title">Add new Student Account</h4>
+                </div>
+                <div class="modal-body">
+                    <form asp-action="AdminCreateStudent" asp-controller="Admin" method="post" id="form">
+                        <div class="row p-4">
+                            <div class="col-12">
+                                <div class="row form-group">
+                                    <label asp-for="@createStudent.UserName" class="col-md-3 col-form-label text-md-right"></label>
+                                    <input asp-for="@createStudent.UserName" value="@createStudent.UserName" type="text" placeholder="User Name" required class="form-control col-md-7">
+                                    <span asp-validation-for="@createStudent.UserName" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@createStudent.FullName" class="col-md-3 col-form-label text-md-right"></label>
+                                    <input asp-for="@createStudent.FullName" value="@createStudent.FullName" type="text" placeholder="Full Name" required class="form-control col-md-7">
+                                    <span asp-validation-for="@createStudent.FullName" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@createStudent.Role" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                    <select class="form-control col-md-7 custom-select" asp-for="@createStudent.Role" asp-items="@createStudent.DefaultRoleSelectList"></select>
+                                    <span asp-validation-for="@createStudent.Role" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@createStudent.Gender" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                    <select class="form-control col-md-7 custom-select" asp-for="@createStudent.Gender" asp-items="@createStudent.DefaultUserGenderSelectList"></select>
+                                    <span asp-validation-for="@createStudent.Gender" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@createStudent.Email" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                    <input asp-for="@createStudent.Email" value="@createStudent.Email" type="email" placeholder="Email" class="form-control col-md-7 mt-3" required>
+                                    <span asp-validation-for="@createStudent.Email" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@createStudent.Phone" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                    <input asp-for="@createStudent.Phone" value="@createStudent.Phone" type="tel" placeholder="Phone number" class="form-control col-md-7 mt-3" required>
+                                    <span asp-validation-for="@createStudent.Phone" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@createStudent.Password" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                    <input asp-for="@createStudent.Password" value="@createStudent.Password" type="password" placeholder="Password" class="form-control col-md-7 mt-3" required>
+                                    <span asp-validation-for="@createStudent.Password" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@createStudent.ConfirmPassword" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                    <input asp-for="@createStudent.ConfirmPassword" value="@createStudent.ConfirmPassword" type="password" placeholder="Confirm Password" class="form-control col-md-7 mt-3" required>
+                                    <span asp-validation-for="@createStudent.ConfirmPassword" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                </div>
+                            </div>
+                            <div class="modal-footer justify-content-center" style="margin-left:400px;">
+                                <button class="btn btn-success" type="submit" name="action" value="createUser">Create</button>
+                                <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div> *@
+    <div id="addParent" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content modal-addRoom">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add new Parent Account</h4>
                 </div>
                 <div class="modal-body">
                     @* <form asp-action="AdminCreateEmployee" asp-controller="Admin" method="post" id="form">
@@ -223,6 +284,68 @@
                             </div>
                         </div>
                     </form> *@
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="addTeacher" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content modal-addRoom">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add new Teacher Account</h4>
+                </div>
+                <div class="modal-body">
+                    <form asp-action="AdminCreateTeacher" asp-controller="Admin" method="post" id="form">
+                        <div class="row p-4">
+                            <div class="col-12">
+                                <div class="row form-group">
+                                    <label asp-for="@createTeacher.Account.Username" class="col-md-3 col-form-label text-md-right"></label>
+                                    <input asp-for="@createTeacher.Account.Username" value="@createTeacher.Account.Username" type="text" placeholder="User Name" required class="form-control col-md-7">
+                                    <span asp-validation-for="@createTeacher.Account.Username" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@createTeacher.Account.Fullname" class="col-md-3 col-form-label text-md-right"></label>
+                                    <input asp-for="@createTeacher.Account.Fullname" value="@createTeacher.Account.Fullname" type="text" placeholder="Full Name" required class="form-control col-md-7">
+                                    <span asp-validation-for="@createTeacher.Account.Fullname" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    @* <label asp-for="@createTeacher.Role" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                    <select class="form-control col-md-7 custom-select" asp-for="@createTeacher.Role" asp-items="@createTeacher.DefaultRoleSelectList"></select>
+                                    <span asp-validation-for="@createTeacher.Role" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span> *@
+
+                                    <label asp-for="@createTeacher.Account.Gender" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                    <select class="form-control col-md-7 custom-select" asp-for="@createTeacher.Account.Gender" asp-items="@createTeacher.Account.DefaultAccountGenderSelectList"></select>
+                                    <span asp-validation-for="@createTeacher.Account.Gender" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@createTeacher.Email" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                    <input asp-for="@createTeacher.Email" value="@createTeacher.Email" type="email" placeholder="Email" class="form-control col-md-7 mt-3" required>
+                                    <span asp-validation-for="@createTeacher.Email" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@createTeacher.Phone" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                    <input asp-for="@createTeacher.Phone" value="@createTeacher.Phone" type="tel" placeholder="Phone number" class="form-control col-md-7 mt-3" required>
+                                    <span asp-validation-for="@createTeacher.Phone" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@createTeacher.Account.Password" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                    <input asp-for="@createTeacher.Account.Password" value="@createTeacher.Account.Password" type="password" placeholder="Password" class="form-control col-md-7 mt-3" required>
+                                    <span asp-validation-for="@createTeacher.Account.Password" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@createTeacher.Account.ConfirmPassword" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                    <input asp-for="@createTeacher.Account.ConfirmPassword" value="@createTeacher.Account.ConfirmPassword" type="password" placeholder="Confirm Password" class="form-control col-md-7 mt-3" required>
+                                    <span asp-validation-for="@createTeacher.Account.ConfirmPassword" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                </div>
+                            </div>
+                            <div class="modal-footer justify-content-center" style="margin-left:400px;">
+                                <button class="btn btn-success" type="submit" name="action" value="createUser">Create</button>
+                                <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

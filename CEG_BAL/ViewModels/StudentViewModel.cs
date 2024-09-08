@@ -1,11 +1,4 @@
-﻿using CEG_DAL.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CEG_BAL.ViewModels
+﻿namespace CEG_BAL.ViewModels
 {
     public class StudentViewModel
     {
@@ -25,10 +18,10 @@ namespace CEG_BAL.ViewModels
 
         public virtual AccountViewModel Account { get; set; } = null!;
 
-        public virtual ICollection<Enroll> Enrolls { get; set; } = new List<Enroll>();
+        public virtual ICollection<EnrollViewModel> Enrolls { get; set; } = new List<EnrollViewModel>();
 
-        public virtual Parent Parents { get; set; } = null!;
+        public virtual ParentViewModel Parents { get; set; } = null!;
 
-        public virtual ICollection<StudentProcess> StudentProcesses { get; set; } = new List<StudentProcess>();
+        public virtual ICollection<StudentProcessViewModel> StudentProcesses { get; set; } = new List<StudentProcessViewModel>();
     }
 }

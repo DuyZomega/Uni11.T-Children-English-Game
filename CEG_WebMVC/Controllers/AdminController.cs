@@ -54,7 +54,8 @@ namespace CEG_WebMVC.Controllers
         {
             /*if (methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN) != null)
                 return Redirect(methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN));*/
-            return View();
+            var adminAccounts = new AdminAccountIndexVM();
+            return View(adminAccounts);
         }
 
         [HttpGet("Profile")]
