@@ -29,7 +29,7 @@ namespace CEG_WebMVC.Controllers
             Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
             PropertyNameCaseInsensitive = true,
         };
-        private BirdClubLibrary methcall = new();
+        private ChildrenEnglishGameLibrary methcall = new();
 
         public HomeController(ILogger<HomeController> logger, IConfiguration config)
         {

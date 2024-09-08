@@ -10,9 +10,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace CEG_WebMVC.Library
 {
-    public class BirdClubLibrary
+    public class ChildrenEnglishGameLibrary
     {
-        public BirdClubLibrary()
+        public ChildrenEnglishGameLibrary()
         {
 
         }

@@ -28,7 +28,7 @@ namespace CEG_WebMVC.Controllers
             Secure = true,
             IsEssential = true,
         };
-        private BirdClubLibrary methcall = new();
+        private ChildrenEnglishGameLibrary methcall = new();
 
         public AdminController(ILogger<AdminController> logger, IConfiguration config)
         {

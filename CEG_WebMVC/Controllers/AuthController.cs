@@ -25,7 +25,7 @@ namespace CEG_WebMVC.Controllers
         private readonly HttpClient client = null;
         //private readonly IVnPayService _vnPayService;
         private string AuthenAPI_URL = "";
-        private BirdClubLibrary methcall = new();
+        private ChildrenEnglishGameLibrary methcall = new();
         private readonly JsonSerializerOptions jsonOptions = new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true,
