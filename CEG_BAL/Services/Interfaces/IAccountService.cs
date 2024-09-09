@@ -14,9 +14,10 @@ namespace CEG_BAL.Services.Interfaces
         Task<AuthenResponse> AuthenticateAccount(AuthenRequest request);
         Task<AccountViewModel?> GetByLogin(string userName, string password);
         Task<AccountViewModel?> GetById(int id);
-        void CreateTeacher(AccountViewModel account, CreateNewTeacher newteach);
-        void CreateParent(AccountViewModel account, CreateNewParent newpar);
-        void CreateStudent(AccountViewModel account, CreateNewStudent newstu);
+        void CreateTeacher(AccountViewModel account, CreateNewAccount newTeach);
+        void CreateAccount(AccountViewModel account, CreateNewAccount newAcc);
+        //void CreateStudent(AccountViewModel account, CreateNewStudent newstu);
         void Update(AccountViewModel account);
+        Task<int> GetIdByUsername(string username);
     }
 }

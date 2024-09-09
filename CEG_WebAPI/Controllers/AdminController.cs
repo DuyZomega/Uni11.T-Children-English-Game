@@ -2,6 +2,8 @@
 using CEG_BAL.Services.Interfaces;
 using CEG_BAL.ViewModels;
 using CEG_BAL.ViewModels.Account;
+using CEG_BAL.ViewModels.Account.Create;
+using CEG_BAL.ViewModels.Authenticates;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -127,7 +129,7 @@ namespace CEG_WebAPI.Controllers
         {
             try
             {
-                var result = await _accountService.GetById(upPass.AccountId);
+                var result = await _accountService.GetById(Convert.ToInt32(upPass.AccountId));
                 if (result == null)
                 {
                     return NotFound(new
@@ -211,5 +213,88 @@ namespace CEG_WebAPI.Controllers
                 });
             }
         }*/
+        [HttpPut("CreateTeacher")]
+        [Authorize(Roles = "Admin")]
+        [ProducesResponseType(typeof(AccountViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> CreateTeacher(
+            [FromBody][Required] CreateNewAccount newAcc)
+        {
+            try
+            {
+                if (newAcc.Password == null || newAcc.Password == string.Empty)
+                {
+                    return BadRequest(new
+                    {
+                        Status = false,
+                        ErrorMessage = "Password is Empty !"
+                    });
+                }
+                //var result = await _accountService.GetByEmailModel(newAcc.Email);
+                //if (result != null)
+                //{
+                //    return BadRequest(new
+                //    {
+                //        Status = false,
+                //        ErrorMessage = "Email has already registered !"
+                //    });
+                //}
+                if (!newAcc.Password.Equals(newAcc.ConfirmPassword))
+                {
+                    return BadRequest(new
+                    {
+                        Status = false,
+                        ErrorMessage = "Password and Confirm Password are not the same !"
+                    });
+                }
+                AccountViewModel value = new AccountViewModel()
+                {
+                    Username = newAcc.Username,
+                    Password = newAcc.Password
+                };
+                _accountService.CreateTeacher(value, newAcc);
+                var loguser = new AuthenRequest()
+                {
+                    Username = newAcc.Username,
+                    Password = newAcc.Password
+                };
+                var resultaft = await _accountService.AuthenticateAccount(loguser);
+
+                if (resultaft == null)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, new
+                    {
+                        Status = false,
+                        ErrorMessage = "Error while Registering your Account !"
+
+                    });
+                }
+                return Ok(new
+                {
+                    Status = true,
+                    SuccessMessage = "Account Create successfully !",
+                    Data = resultaft
+                });
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException != null)
+                {
+                    return BadRequest(new
+                    {
+                        Status = false,
+                        ErrorMessage = ex.Message,
+                        InnerExceptionMessage = ex.InnerException.Message
+                    });
+                }
+                // Log the exception if needed
+                return BadRequest(new
+                {
+                    Status = false,
+                    ErrorMessage = ex.Message
+                });
+            }
+        }
     }
 }

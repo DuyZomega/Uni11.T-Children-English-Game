@@ -84,7 +84,7 @@ namespace CEG_BAL.Services.Implements
             return null;
         }
 
-        public void CreateTeacher(AccountViewModel account, CreateNewTeacher newteach)
+        public void CreateTeacher(AccountViewModel account, CreateNewAccount newTeach)
         {
             var acc = _mapper.Map<Account>(account);
             acc.Role.RoleName = "Teacher";
@@ -93,29 +93,33 @@ namespace CEG_BAL.Services.Implements
             _unitOfWork.Save();
         }
 
-        public void CreateParent(AccountViewModel account, CreateNewParent newpar)
+        public void CreateAccount(AccountViewModel account, CreateNewAccount newAcc)
         {
             var acc = _mapper.Map<Account>(account);
-            acc.Role.RoleName = "Parent";
             acc.CreatedDate = DateTime.Now;
             _unitOfWork.AccountRepositories.Create(acc);
             _unitOfWork.Save();
         }
 
-        public void CreateStudent(AccountViewModel account, CreateNewStudent newstu)
-        {
-            var acc = _mapper.Map<Account>(account);
-            acc.Role.RoleName = "Student";
-            acc.CreatedDate = DateTime.Now;
-            _unitOfWork.AccountRepositories.Create(acc);
-            _unitOfWork.Save();
-        }
+        //public void CreateStudent(AccountViewModel account, CreateNewStudent newstu)
+        //{
+        //    var acc = _mapper.Map<Account>(account);
+        //    acc.Role.RoleName = "Student";
+        //    acc.CreatedDate = DateTime.Now;
+        //    _unitOfWork.AccountRepositories.Create(acc);
+        //    _unitOfWork.Save();
+        //}
 
         public void Update(AccountViewModel account)
         {
             var acc = _mapper.Map<Account>(account);
             _unitOfWork.AccountRepositories.Update(acc);
             _unitOfWork.Save();
+        }
+
+        public async Task<int> GetIdByUsername(string username)
+        {
+            return await _unitOfWork.AccountRepositories.GetIdByUsername(username);
         }
     }
 }
