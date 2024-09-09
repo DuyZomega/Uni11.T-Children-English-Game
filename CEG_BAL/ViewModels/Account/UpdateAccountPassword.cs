@@ -11,7 +11,7 @@ namespace CEG_BAL.ViewModels.Account
     public class UpdateAccountPassword
     {
         [Required]
-        public string AccountId { get; set; }
+        public int AccountId { get; set; }
         [Required]
         [RegularExpression(@"^[a-zA-Z0-9]+$", ErrorMessage = "Password is invalid")]
         [DataType(DataType.Password)]
@@ -21,12 +21,12 @@ namespace CEG_BAL.ViewModels.Account
         [RegularExpression(@"^[a-zA-Z0-9]+$", ErrorMessage = "New Password is invalid")]
         [DataType(DataType.Password)]
         [PasswordPropertyText]
-        public string Newpassword { get; set; }
+        public string NewPassword { get; set; }
         [Required]
         [RegularExpression(@"^[a-zA-Z0-9]+$", ErrorMessage = "New Confirm Password is invalid")]
         [DataType(DataType.Password)]
         [PasswordPropertyText]
-        public string Newconfirmpassword { get; set; }
+        public string NewConfirmPassword { get; set; }
         [EmailAddress]
         [DataType(DataType.EmailAddress)]
         [RegularExpression(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", ErrorMessage = "Email is invalid")]
