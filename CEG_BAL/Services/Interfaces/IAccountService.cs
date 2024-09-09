@@ -1,5 +1,5 @@
 ﻿using CEG_BAL.ViewModels;
-using CEG_BAL.ViewModels.Account;
+using CEG_BAL.ViewModels.Account.Create;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +12,9 @@ namespace CEG_BAL.Services.Interfaces
     {
         Task<AccountViewModel?> GetByLogin(string userName, string password);
         Task<AccountViewModel?> GetById(int id);
-        void Create(AccountViewModel account, CreateNewAccount newacc);
+        void CreateTeacher(AccountViewModel account, CreateNewTeacher newteach);
+        void CreateParent(AccountViewModel account, CreateNewParent newpar);
+        void CreateStudent(AccountViewModel account, CreateNewStudent newstu);
         void Update(AccountViewModel account);
     }
 }

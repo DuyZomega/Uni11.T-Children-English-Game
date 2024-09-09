@@ -1,10 +1,9 @@
 ﻿using AutoMapper;
 using CEG_BAL.Services.Interfaces;
 using CEG_BAL.ViewModels;
-using CEG_BAL.ViewModels.Account;
+using CEG_BAL.ViewModels.Account.Create;
 using CEG_DAL.Infrastructure;
 using CEG_DAL.Models;
-using CEG_DAL.Repositories.Interfaces;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -56,9 +55,29 @@ namespace CEG_BAL.Services.Implements
             return null;
         }
 
-        public void Create(AccountViewModel account, CreateNewAccount newacc)
+        public void CreateTeacher(AccountViewModel account, CreateNewTeacher newteach)
         {
             var acc = _mapper.Map<Account>(account);
+            acc.Role.RoleName = "Teacher";
+            acc.CreatedDate = DateTime.Now;
+            _unitOfWork.AccountRepositories.Create(acc);
+            _unitOfWork.Save();
+        }
+
+        public void CreateParent(AccountViewModel account, CreateNewParent newpar)
+        {
+            var acc = _mapper.Map<Account>(account);
+            acc.Role.RoleName = "Parent";
+            acc.CreatedDate = DateTime.Now;
+            _unitOfWork.AccountRepositories.Create(acc);
+            _unitOfWork.Save();
+        }
+
+        public void CreateStudent(AccountViewModel account, CreateNewStudent newstu)
+        {
+            var acc = _mapper.Map<Account>(account);
+            acc.Role.RoleName = "Student";
+            acc.CreatedDate = DateTime.Now;
             _unitOfWork.AccountRepositories.Create(acc);
             _unitOfWork.Save();
         }
