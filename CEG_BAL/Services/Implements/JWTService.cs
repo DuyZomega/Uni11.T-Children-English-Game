@@ -1,5 +1,6 @@
 ﻿using CEG_BAL.Services.Interfaces;
 using CEG_BAL.ViewModels.Authenticates;
+using CEG_DAL.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;

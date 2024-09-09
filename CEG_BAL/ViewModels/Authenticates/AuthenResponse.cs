@@ -12,7 +12,7 @@ namespace CEG_BAL.ViewModels.Authenticates
     {
         [PasswordPropertyText]
         [DataType(DataType.Password)]
-        public string UserId { get; set; }
+        public string AccountId { get; set; }
         [PasswordPropertyText]
         [DataType(DataType.Password)]
         public string? UserName { get; set; }

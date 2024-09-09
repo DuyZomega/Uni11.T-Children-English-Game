@@ -18,12 +18,9 @@ namespace CEG_WebAPI
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+            // Configure services for web app.
 
-            builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            ConfigureServices(builder.Services, builder.Configuration);
 
             var app = builder.Build();
 
@@ -73,6 +70,7 @@ namespace CEG_WebAPI
         {
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IJWTService, JWTService>();
         }
 
         private static void AddSwaggerServices(IServiceCollection services)
