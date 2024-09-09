@@ -115,7 +115,7 @@ namespace CEG_WebMVC.Controllers
 
             return RedirectToAction("Register");
         }*/
-        /*[HttpGet("Logout")]
+        [HttpGet("Logout")]
         public IActionResult Logout()
         {
             client.DefaultRequestHeaders.Authorization = null;
@@ -129,7 +129,7 @@ namespace CEG_WebMVC.Controllers
             // Example: await SignInManager.SignOutAsync();
 
             return RedirectToAction(actionName: "Index", controllerName: "Home");
-        }*/
+        }
         [HttpPost("Authorize")]
         public async Task<IActionResult> Authorize(AuthenRequest authenRequest)
         {
