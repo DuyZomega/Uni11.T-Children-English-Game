@@ -41,5 +41,12 @@ namespace CEG_DAL.Repositories.Implements
             }
             return null;
         }
+
+        public async Task<int> GetIdByUsername(string username)
+        {
+            var result = (from acc in _dbContext.Accounts where acc.Username.Trim().ToLower() == username.Trim().ToLower() select acc).FirstOrDefault();
+            if (result != null) return result.AccountId;
+            return 0;
+        }
     }
 }

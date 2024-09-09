@@ -18,5 +18,6 @@ namespace CEG_BAL.Services.Interfaces
         void CreateParent(AccountViewModel account, CreateNewParent newpar);
         void CreateStudent(AccountViewModel account, CreateNewStudent newstu);
         void Update(AccountViewModel account);
+        Task<int> GetIdByUsername(string username);
     }
 }

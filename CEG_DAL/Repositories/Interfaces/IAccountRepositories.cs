@@ -13,5 +13,6 @@ namespace CEG_DAL.Repositories.Interfaces
         Task<Account?> GetByLogin(string userName, string password);
         Task<Account?> GetByIdNoTracking(int id);
         Task<string> GetRoleByAccountId(int id);
+        Task<int> GetIdByUsername(string username);
     }
 }

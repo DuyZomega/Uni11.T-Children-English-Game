@@ -127,7 +127,7 @@ namespace CEG_WebAPI.Controllers
         {
             try
             {
-                var result = await _accountService.GetById(upPass.AccountId);
+                var result = await _accountService.GetById(Convert.ToInt32(upPass.AccountId));
                 if (result == null)
                 {
                     return NotFound(new
@@ -172,7 +172,7 @@ namespace CEG_WebAPI.Controllers
             }
         }
         [HttpGet("GetId")]
-        [Authorize(Roles = "Admin,Member")]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(AccountViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
