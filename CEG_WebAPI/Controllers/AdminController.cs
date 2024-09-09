@@ -213,17 +213,17 @@ namespace CEG_WebAPI.Controllers
                 });
             }
         }*/
-        [HttpPut("CreateTeacher")]
+        [HttpPost("CreateTeacher")]
         [Authorize(Roles = "Admin")]
-        [ProducesResponseType(typeof(AccountViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(TeacherViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> CreateTeacher(
-            [FromBody][Required] CreateNewAccount newAcc)
+            [FromBody][Required] CreateNewTeacher newAcc)
         {
             try
             {
-                if (newAcc.Password == null || newAcc.Password == string.Empty)
+                if (newAcc.Account.Password == null || newAcc.Account.Password == string.Empty)
                 {
                     return BadRequest(new
                     {
@@ -240,7 +240,7 @@ namespace CEG_WebAPI.Controllers
                 //        ErrorMessage = "Email has already registered !"
                 //    });
                 //}
-                if (!newAcc.Password.Equals(newAcc.ConfirmPassword))
+                if (!newAcc.Account.Password.Equals(newAcc.Account.ConfirmPassword))
                 {
                     return BadRequest(new
                     {
@@ -250,14 +250,14 @@ namespace CEG_WebAPI.Controllers
                 }
                 AccountViewModel value = new AccountViewModel()
                 {
-                    Username = newAcc.Username,
-                    Password = newAcc.Password
+                    Username = newAcc.Account.Username,
+                    Password = newAcc.Account.Password
                 };
                 _accountService.CreateTeacher(value, newAcc);
                 var loguser = new AuthenRequest()
                 {
-                    Username = newAcc.Username,
-                    Password = newAcc.Password
+                    Username = newAcc.Account.Username,
+                    Password = newAcc.Account.Password
                 };
                 var resultaft = await _accountService.AuthenticateAccount(loguser);
 
@@ -267,13 +267,12 @@ namespace CEG_WebAPI.Controllers
                     {
                         Status = false,
                         ErrorMessage = "Error while Registering your Account !"
-
                     });
                 }
                 return Ok(new
                 {
                     Status = true,
-                    SuccessMessage = "Account Create successfully !",
+                    SuccessMessage = "Teacher Account Create successfully !",
                     Data = resultaft
                 });
             }

@@ -84,7 +84,7 @@ namespace CEG_BAL.Services.Implements
             return null;
         }
 
-        public void CreateTeacher(AccountViewModel account, CreateNewAccount newTeach)
+        public void CreateTeacher(AccountViewModel account, CreateNewTeacher newTeach)
         {
             var acc = _mapper.Map<Account>(account);
             acc.Role.RoleName = "Teacher";
