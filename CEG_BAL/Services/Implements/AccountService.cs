@@ -2,6 +2,7 @@
 using CEG_BAL.Services.Interfaces;
 using CEG_BAL.ViewModels;
 using CEG_BAL.ViewModels.Account.Create;
+using CEG_BAL.ViewModels.Authenticates;
 using CEG_DAL.Infrastructure;
 using CEG_DAL.Models;
 using Microsoft.Extensions.Configuration;
@@ -30,6 +31,34 @@ namespace CEG_BAL.Services.Implements
             _mapper = mapper;
             _jwtService = jwtServices;
             _configuration = configuration;
+        }
+
+        public async Task<AuthenResponse> AuthenticateAccount(AuthenRequest request)
+        {
+            var acc = await _unitOfWork.AccountRepositories.GetByLogin(request.Username, request.Password);
+            if (acc != null)
+            {
+                if (acc.Status != "Active")
+                {
+                    return new AuthenResponse()
+                    {
+                        AccountId = acc.AccountId.ToString(),
+                        UserName = acc.Username,
+                        Status = acc.Status,
+                    };
+                }
+                var role = await _unitOfWork.AccountRepositories.GetRoleByAccountId(acc.AccountId);
+                var accessToken = _jwtService.GenerateJWTToken(acc.AccountId.ToString(), acc.Username, role, _configuration);
+                return new AuthenResponse()
+                {
+                    AccountId = acc.AccountId.ToString(),
+                    RoleName = role,
+                    UserName = acc.Username,
+                    AccessToken = accessToken,
+                    Status = acc.Status,
+                };
+            }
+            return null;
         }
 
         public async Task<AccountViewModel?> GetByLogin(string username, string password)
