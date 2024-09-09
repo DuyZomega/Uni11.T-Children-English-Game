@@ -171,8 +171,8 @@ namespace CEG_WebAPI.Controllers
                 });
             }
         }
-        [HttpGet("GetId")]
-        [Authorize(Roles = "Admin")]
+        /*[HttpGet("GetId")]
+        [Authorize(Roles = "Admin,Member")]
         [ProducesResponseType(typeof(AccountViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -210,6 +210,6 @@ namespace CEG_WebAPI.Controllers
                     ErrorMessage = ex.Message
                 });
             }
-        }
+        }*/
     }
 }

@@ -44,16 +44,16 @@ namespace CEG_WebMVC.Controllers
         [HttpGet("Index")]
         public async Task<IActionResult> AdminIndex()
         {
-            /*if (methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN) != null)
-                return Redirect(methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN));*/
+            if (methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN) != null)
+                return Redirect(methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN));
             return View();
         }
 
         [HttpGet("AccountIndex")]
         public async Task<IActionResult> AdminAccountIndex()
         {
-            /*if (methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN) != null)
-                return Redirect(methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN));*/
+            if (methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN) != null)
+                return Redirect(methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN));
             var adminAccounts = new AdminAccountIndexVM();
             return View(adminAccounts);
         }
@@ -63,8 +63,8 @@ namespace CEG_WebMVC.Controllers
         {
             AdminAPI_URL += "Admin/Profile";
 
-            /*if (methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN) != null)
-                return Redirect(methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN));*/
+            if (methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN) != null)
+                return Redirect(methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN));
 
             string? accToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
             string? usrId = HttpContext.Session.GetString(Constants.USR_ID);

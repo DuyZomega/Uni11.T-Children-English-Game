@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using CEG_WebMVC.Library;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.IdentityModel.Tokens;
 using System.ComponentModel.DataAnnotations;
 
 namespace CEG_WebMVC.Models.ViewModels.Account
@@ -7,15 +9,10 @@ namespace CEG_WebMVC.Models.ViewModels.Account
     {
         public AccountStatusVM()
         {
-            DefaultAccountStatusSelectList = new List<SelectListItem>() {
-                new SelectListItem { Text = "Active", Value = "Active", Selected = true },
-                new SelectListItem { Text = "Inactive", Value = "Inactive" },
-                new SelectListItem { Text = "Expired", Value = "Expired" },
-                new SelectListItem { Text = "Denied", Value = "Denied" },
-                new SelectListItem { Text = "Suspended", Value = "Suspended" }
-            };
+            ChildrenEnglishGameLibrary lib = new ChildrenEnglishGameLibrary();
+            DefaultAccountStatusSelectList = lib.GetAccountStatusSelectableList(Status.IsNullOrEmpty() ? Constants.ACCOUNT_STATUS_INACTIVE : Status);
         }
-        public string? MemberId { get; set; }
+        public string? AccountId { get; set; }
         [Required(ErrorMessage = "Account Username is required")]
         [RegularExpression(@"^[a-zA-Z0-9_]+$", ErrorMessage = "Username is invalid")]
         public string UserName { get; set; }
