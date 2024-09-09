@@ -266,7 +266,7 @@ namespace CEG_WebAPI.Controllers
                     return StatusCode(StatusCodes.Status500InternalServerError, new
                     {
                         Status = false,
-                        ErrorMessage = "Error while Registering your Account !"
+                        ErrorMessage = "Error while Registering  Account !"
 
                     });
                 }
