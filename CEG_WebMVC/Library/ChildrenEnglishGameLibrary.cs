@@ -494,15 +494,15 @@ namespace CEG_WebMVC.Library
             {
                 switch (role)
                 {
-                    case var value when value.Equals(Constants.MEMBER):
+                    case var value when value.Equals(Constants.STUDENT):
                         {
                             return Constants.MEMBER_URL;
                         }
-                    case var value when value.Equals(Constants.STAFF):
+                    case var value when value.Equals(Constants.PARENT):
                         {
                             return Constants.STAFF_URL;
                         }
-                    case var value when value.Equals(Constants.MANAGER):
+                    case var value when value.Equals(Constants.TEACHER):
                         {
                             return Constants.MANAGER_URL;
                         }

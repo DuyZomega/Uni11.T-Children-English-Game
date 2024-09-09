@@ -15,6 +15,8 @@ using CEG_WebMVC.Models.VnPay;
 /*using CEG_WebMVC.Models.Notification;
 using CEG_WebMVC.Models.Transaction;*/
 using CEG_WebMVC.Library;
+using CEG_BAL.ViewModels.Authenticates;
+using CEG_WebMVC.Models.ViewModels.Account;
 namespace CEG_WebMVC.Controllers
 {
     [Route("Auth")]
@@ -45,8 +47,8 @@ namespace CEG_WebMVC.Controllers
             //_vnPayService = vnPayService;
             var contentType = new MediaTypeWithQualityHeaderValue("application/json");
             client.DefaultRequestHeaders.Accept.Add(contentType);
-            /*client.BaseAddress = new Uri(config.GetSection("DefaultApiUrl:ConnectionString").Value);*/
-            AuthenAPI_URL = "/api/User";
+            client.BaseAddress = new Uri(config.GetSection("DefaultApiUrl:ConnectionString").Value);
+            AuthenAPI_URL = "/api/Account";
         }
         /*[HttpGet("Register")]
         public async Task<IActionResult> Register()
@@ -128,12 +130,12 @@ namespace CEG_WebMVC.Controllers
 
             return RedirectToAction(actionName: "Index", controllerName: "Home");
         }*/
-        /*[HttpPost("Authorize")]
+        [HttpPost("Authorize")]
         public async Task<IActionResult> Authorize(AuthenRequest authenRequest)
         {
             AuthenAPI_URL += "/Login";
 
-            var authenResponse = await methcall.CallMethodReturnObject<GetAuthenResponse>(
+            var authenResponse = await methcall.CallMethodReturnObject<AuthenResponseVM>(
                 _httpClient: client,
                 options: jsonOptions,
                 methodName: Constants.POST_METHOD,
@@ -141,7 +143,7 @@ namespace CEG_WebMVC.Controllers
                 inputType: authenRequest,
                 _logger: _logger);
 
-            if (authenResponse == null)
+            if (authenResponse == null || authenResponse.Data == null)
             {
                 string? role = HttpContext.Session.GetString(Constants.ROLE_NAME);
 
@@ -158,38 +160,44 @@ namespace CEG_WebMVC.Controllers
             {
                 HttpContext.Session.SetString(Constants.ACC_TOKEN, responseAuth.AccessToken);
                 HttpContext.Session.SetString(Constants.ROLE_NAME, responseAuth.RoleName);
-                HttpContext.Session.SetString(Constants.USR_ID, responseAuth.UserId);
+                HttpContext.Session.SetString(Constants.USR_ID, responseAuth.AccountId);
                 HttpContext.Session.SetString(Constants.USR_NAME, responseAuth.UserName);
-                HttpContext.Session.SetString(Constants.USR_IMAGE, responseAuth.ImagePath);
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", responseAuth.AccessToken);
 
                 TempData[Constants.ACC_TOKEN] = responseAuth.AccessToken;
                 TempData[Constants.ROLE_NAME] = responseAuth.RoleName;
-                TempData[Constants.USR_ID] = responseAuth.UserId;
+                TempData[Constants.USR_ID] = responseAuth.AccountId;
                 TempData[Constants.USR_NAME] = responseAuth.UserName;
-                TempData[Constants.USR_IMAGE] = responseAuth.ImagePath;
             }
-            if (responseAuth!.RoleName == Constants.ADMIN)
+            switch (responseAuth.RoleName)
             {
-                _logger.LogInformation("Admin Login Successful: " + TempData[Constants.ROLE_NAME] + " , Id: " + TempData[Constants.USR_ID]);
-                return base.Redirect(Constants.ADMIN_URL);
+                case var value when value.Equals(Constants.ADMIN):
+                    {
+                        _logger.LogInformation("Admin Login Successful: " + TempData[Constants.ROLE_NAME] + " , Id: " + TempData[Constants.USR_ID]);
+                        return base.Redirect(Constants.ADMIN_URL);
+                    }
+                case var value when value.Equals(Constants.TEACHER):
+                    {
+                        _logger.LogInformation("Teacher Login Successful: " + TempData[Constants.ROLE_NAME] + " , Id: " + TempData[Constants.USR_ID]);
+                        return base.Redirect("");
+                    }
+                case var value when value.Equals(Constants.PARENT):
+                    {
+                        _logger.LogInformation("Parent Login Successful: " + TempData[Constants.ROLE_NAME] + " , Id: " + TempData[Constants.USR_ID]);
+                        return base.Redirect("");
+                    }
+                case var value when value.Equals(Constants.STUDENT):
+                    {
+                        _logger.LogInformation("Student Login Successful: " + TempData[Constants.ROLE_NAME] + " , Id: " + TempData[Constants.USR_ID]);
+                        return base.Redirect("");
+                    }
+                default:
+                    {
+                        _logger.LogInformation("Goofy Ahh Member Login Successful: " + TempData[Constants.ROLE_NAME] + " , Id: " + TempData[Constants.USR_ID]);
+                        return base.Redirect(Constants.MEMBER_URL);
+                    }
             }
-            else if (responseAuth!.RoleName == Constants.MANAGER)
-            {
-                _logger.LogInformation("Manager Login Successful: " + TempData[Constants.ROLE_NAME] + " , Id: " + TempData[Constants.USR_ID]);
-                return base.Redirect(Constants.MANAGER_URL);
-            }
-            else if (responseAuth!.RoleName == Constants.STAFF)
-            {
-                _logger.LogInformation("Staff Login Successful: " + TempData[Constants.ROLE_NAME] + " , Id: " + TempData[Constants.USR_ID]);
-                return base.Redirect(Constants.STAFF_URL);
-            }
-            else
-            {
-                _logger.LogInformation("Member Login Successful: " + TempData[Constants.ROLE_NAME] + " , Id: " + TempData[Constants.USR_ID]);
-                return base.Redirect(Constants.MEMBER_URL);
-            }
-        }*/
+        }
         /*[HttpGet("ConfirmRegister")]
         //[Authorize(Roles = "TempMember")]
         public async Task<IActionResult> ConfirmRegister()

@@ -202,11 +202,13 @@ namespace CEG_WebMVC.Library
         public readonly static string USR_IMAGE = "IMAGE_PATH";
 
         public readonly static string ADMIN = "Admin";
-        public readonly static string MEMBER = "Member";
-        public readonly static string TEMPMEMBER = "TempMember";
+        public readonly static string TEACHER = "Teacher";
+        public readonly static string PARENT = "Parent";
+        public readonly static string STUDENT = "Student";
+        public readonly static string TEMPUSER = "TempUser";
         public readonly static string GUEST = "Guest";
-        public readonly static string STAFF = "Staff";
-        public readonly static string MANAGER = "Manager";
+        /*public readonly static string STAFF = "Staff";
+        public readonly static string MANAGER = "Manager";*/
 
         public readonly static string GENDER_TITLE = "Gender";
         public readonly static string GENDER_MALE = "Male";
