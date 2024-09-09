@@ -1,5 +1,5 @@
 ﻿using CEG_BAL.ViewModels;
-using CEG_BAL.ViewModels.Account;
+using CEG_BAL.ViewModels.Account.Create;
 using System;
 using System.Collections.Generic;
 using System.Linq;

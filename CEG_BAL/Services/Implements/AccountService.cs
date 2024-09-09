@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using CEG_BAL.Services.Interfaces;
 using CEG_BAL.ViewModels;
-using CEG_BAL.ViewModels.Account;
+using CEG_BAL.ViewModels.Account.Create;
 using CEG_DAL.Infrastructure;
 using CEG_DAL.Models;
 using CEG_DAL.Repositories.Interfaces;

@@ -42,11 +42,12 @@ namespace CEG_WebMVC.Library
         public readonly static string ALERT_DEFAULT_ERROR_CHECK = "ErrorCheck";
         public readonly static string ALERT_DEFAULT_SUCCESS_CHECK = "SuccessCheck";
 
-        public readonly static string MEMBER_STATUS_INACTIVE = "Inactive";
-        public readonly static string MEMBER_STATUS_ACTIVE = "Active";
-        public readonly static string MEMBER_STATUS_EXPIRED = "Expired";
-        public readonly static string MEMBER_STATUS_DENIED = "Denied";
-        public readonly static string MEMBER_STATUS_SUSPENDED = "Suspended";
+        public readonly static string ACCOUNT_STATUS_TITLE = "Status";
+        public readonly static string ACCOUNT_STATUS_INACTIVE = "Inactive";
+        public readonly static string ACCOUNT_STATUS_ACTIVE = "Active";
+        public readonly static string ACCOUNT_STATUS_EXPIRED = "Expired";
+        public readonly static string ACCOUNT_STATUS_DENIED = "Denied";
+        public readonly static string ACCOUNT_STATUS_SUSPENDED = "Suspended";
 
         public readonly static string NEWS_STATUS_DRAFT = "Draft";
         public readonly static string NEWS_STATUS_ACTIVE = "Active";
@@ -207,9 +208,10 @@ namespace CEG_WebMVC.Library
         public readonly static string STAFF = "Staff";
         public readonly static string MANAGER = "Manager";
 
-        public readonly static string MALE = "Male";
-        public readonly static string FEMALE = "Female";
-        public readonly static string OTHER = "Other";
+        public readonly static string GENDER_TITLE = "Gender";
+        public readonly static string GENDER_MALE = "Male";
+        public readonly static string GENDER_FEMALE = "Female";
+        public readonly static string GENDER_OTHER = "Other";
 
         public readonly static string GET_METHOD = "GET";
         public readonly static string POST_METHOD = "POST";
