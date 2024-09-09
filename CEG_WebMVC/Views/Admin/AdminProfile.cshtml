@@ -162,16 +162,16 @@
                                     <span asp-validation-for=@adminPassword.Password class="error-message col-sm-3 mt-2"></span>
                                 </div>
                                 <div class="row form-group">
-                                    <label asp-for=@adminPassword.Newpassword class="offset-md-3 col-md-2 col-sm-3 col-form-label">New Password</label>
-                                    <input asp-for=@adminPassword.Newpassword class="col-md-3 col-sm-5 form-control" type="password"
-                                           id="password" required value=@adminPassword.Newpassword>
-                                    <span asp-validation-for=@adminPassword.Newpassword class="error-message col-sm-3 mt-2"></span>
+                                    <label asp-for=@adminPassword.NewPassword class="offset-md-3 col-md-2 col-sm-3 col-form-label">New Password</label>
+                                    <input asp-for=@adminPassword.NewPassword class="col-md-3 col-sm-5 form-control" type="password"
+                                           id="password" required value=@adminPassword.NewPassword>
+                                    <span asp-validation-for=@adminPassword.NewPassword class="error-message col-sm-3 mt-2"></span>
                                 </div>
                                 <div class="row form-group">
-                                    <label asp-for=@adminPassword.Newconfirmpassword class="offset-md-3 col-md-2 col-sm-3 col-form-label">Confirm</label>
-                                    <input asp-for=@adminPassword.Newconfirmpassword class="col-md-3 col-sm-5 form-control" type="password"
-                                           id="confirm" required value=@adminPassword.Newconfirmpassword>
-                                    <span asp-validation-for=@adminPassword.Newconfirmpassword class="error-message col-sm-3 mt-2"></span>
+                                    <label asp-for=@adminPassword.NewConfirmPassword class="offset-md-3 col-md-2 col-sm-3 col-form-label">Confirm</label>
+                                    <input asp-for=@adminPassword.NewConfirmPassword class="col-md-3 col-sm-5 form-control" type="password"
+                                           id="confirm" required value=@adminPassword.NewConfirmPassword>
+                                    <span asp-validation-for=@adminPassword.NewConfirmPassword class="error-message col-sm-3 mt-2"></span>
                                 </div>
                                 <div class="row form-group justify-content-center">
                                     <button type="submit" class="btn btn-success">Confirm Change</button>

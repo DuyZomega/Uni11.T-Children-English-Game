@@ -125,8 +125,8 @@
                                                         data-bs-toggle="tooltip" data-bs-placement="right"
                                                         title="More Details">
                                                         <td class="sorting_1">
-                                                                <input type="hidden" asp-for="@accountStatuses[i].MemberId" name="listRequest[@i].MemberId" value="@accountStatuses[i].MemberId" class="form-control" />
-                                                            @accountStatuses[i].MemberId
+                                                                <input type="hidden" asp-for="@accountStatuses[i].AccountId" name="listRequest[@i].MemberId" value="@accountStatuses[i].AccountId" class="form-control" />
+                                                            @accountStatuses[i].AccountId
                                                         </td>
                                                         <td>
                                                                 <input type="hidden" asp-for="@accountStatuses[i].UserName" name="listRequest[@i].UserName" value="@accountStatuses[i].UserName" class="form-control" />
@@ -150,7 +150,7 @@
                                         </table>
                                         <div class="row col-12 d-flex">
                                             <div class="rating-room">
-                                                <button class="button--primary btn-success bg-success shadow btn-xs text-white" type="submit" style="margin-left:400px;">Save Changes</button>
+                                                <button class="button--primary btn-success bg-success shadow btn-xs text-white" type="submit" style="">Save Changes</button>
                                             </div>
                                         </div>
                                     </form>

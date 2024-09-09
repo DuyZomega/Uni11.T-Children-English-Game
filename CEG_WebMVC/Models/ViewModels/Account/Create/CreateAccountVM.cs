@@ -1,4 +1,5 @@
 ﻿using CEG_BAL.ViewModels;
+using CEG_WebMVC.Library;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace CEG_WebMVC.Models.ViewModels.Account.Create
@@ -7,12 +8,10 @@ namespace CEG_WebMVC.Models.ViewModels.Account.Create
     {
         public CreateAccountVM()
         {
-            DefaultAccountGenderSelectList = new List<SelectListItem>() {
-                new SelectListItem { Text = "Gender", Value = "Gender", Selected = true },
-                new SelectListItem { Text = "Male", Value = "Male" },
-                new SelectListItem { Text = "Female", Value = "Female" },
-                new SelectListItem { Text = "Other", Value = "Other" }
-            };
+            ChildrenEnglishGameLibrary lib = new ChildrenEnglishGameLibrary();
+            DefaultAccountGenderSelectList = lib.GetGenderSelectableList(Constants.GENDER_TITLE);
+            DefaultAccountStatusSelectList = lib.GetAccountStatusSelectableList(Constants.ACCOUNT_STATUS_TITLE);
+
         }
         public string Username { get; set; } = null!;
 
@@ -27,6 +26,7 @@ namespace CEG_WebMVC.Models.ViewModels.Account.Create
         public List<SelectListItem> DefaultAccountGenderSelectList { get; set; }
 
         public string Status { get; set; } = null!;
+        public List<SelectListItem> DefaultAccountStatusSelectList { get; set; }
 
     }
 }

@@ -276,6 +276,114 @@ namespace CEG_WebMVC.Library
             }
             return defaultBirdStatus;
         }
+        public List<SelectListItem> GetGenderSelectableList(string genderName)
+        {
+            List<SelectListItem> defaultGenders = new();
+            switch (genderName)
+            {
+                case var value when value.Equals(Constants.GENDER_MALE):
+                    {
+                        defaultGenders.Add(new SelectListItem { Text = Constants.GENDER_TITLE, Value = "" });
+                        defaultGenders.Add(new SelectListItem { Text = Constants.GENDER_MALE, Value = Constants.GENDER_MALE, Selected = true });
+                        defaultGenders.Add(new SelectListItem { Text = Constants.GENDER_FEMALE, Value = Constants.GENDER_FEMALE });
+                        defaultGenders.Add(new SelectListItem { Text = Constants.GENDER_OTHER, Value = Constants.GENDER_OTHER });
+                        break;
+                    }
+                case var value when value.Equals(Constants.GENDER_FEMALE):
+                    {
+                        defaultGenders.Add(new SelectListItem { Text = Constants.GENDER_TITLE, Value = "" });
+                        defaultGenders.Add(new SelectListItem { Text = Constants.GENDER_MALE, Value = Constants.GENDER_MALE });
+                        defaultGenders.Add(new SelectListItem { Text = Constants.GENDER_FEMALE, Value = Constants.GENDER_FEMALE, Selected = true });
+                        defaultGenders.Add(new SelectListItem { Text = Constants.GENDER_OTHER, Value = Constants.GENDER_OTHER });
+                        break;
+                    }
+                case var value when value.Equals(Constants.GENDER_OTHER):
+                    {
+                        defaultGenders.Add(new SelectListItem { Text = Constants.GENDER_TITLE, Value = "" });
+                        defaultGenders.Add(new SelectListItem { Text = Constants.GENDER_MALE, Value = Constants.GENDER_MALE });
+                        defaultGenders.Add(new SelectListItem { Text = Constants.GENDER_FEMALE, Value = Constants.GENDER_FEMALE });
+                        defaultGenders.Add(new SelectListItem { Text = Constants.GENDER_OTHER, Value = Constants.GENDER_OTHER, Selected = true });
+                        break;
+                    }
+                case var value when value.Equals(Constants.GENDER_TITLE):
+                    {
+                        defaultGenders.Add(new SelectListItem { Text = Constants.GENDER_TITLE, Value = "", Selected = true });
+                        defaultGenders.Add(new SelectListItem { Text = Constants.GENDER_MALE, Value = Constants.GENDER_MALE });
+                        defaultGenders.Add(new SelectListItem { Text = Constants.GENDER_FEMALE, Value = Constants.GENDER_FEMALE });
+                        defaultGenders.Add(new SelectListItem { Text = Constants.GENDER_OTHER, Value = Constants.GENDER_OTHER });
+                        break;
+                    }
+            }
+            return defaultGenders;
+        }
+        public List<SelectListItem> GetAccountStatusSelectableList(string statusName)
+        {
+            List<SelectListItem> defaultStatuses = new();
+            switch (statusName)
+            {
+                case var value when value.Equals(Constants.ACCOUNT_STATUS_INACTIVE):
+                    {
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.ACCOUNT_STATUS_TITLE, Value = "" });
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.ACCOUNT_STATUS_INACTIVE, Value = Constants.ACCOUNT_STATUS_INACTIVE, Selected = true });
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.ACCOUNT_STATUS_ACTIVE, Value = Constants.ACCOUNT_STATUS_ACTIVE });
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.ACCOUNT_STATUS_EXPIRED, Value = Constants.ACCOUNT_STATUS_EXPIRED });
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.ACCOUNT_STATUS_DENIED, Value = Constants.ACCOUNT_STATUS_DENIED });
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.ACCOUNT_STATUS_SUSPENDED, Value = Constants.ACCOUNT_STATUS_SUSPENDED });
+                        break;
+                    }
+                case var value when value.Equals(Constants.ACCOUNT_STATUS_ACTIVE):
+                    {
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.ACCOUNT_STATUS_TITLE, Value = "" });
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.ACCOUNT_STATUS_INACTIVE, Value = Constants.ACCOUNT_STATUS_INACTIVE });
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.ACCOUNT_STATUS_ACTIVE, Value = Constants.ACCOUNT_STATUS_ACTIVE, Selected = true });
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.ACCOUNT_STATUS_EXPIRED, Value = Constants.ACCOUNT_STATUS_EXPIRED });
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.ACCOUNT_STATUS_DENIED, Value = Constants.ACCOUNT_STATUS_DENIED });
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.ACCOUNT_STATUS_SUSPENDED, Value = Constants.ACCOUNT_STATUS_SUSPENDED });
+                        break;
+                    }
+                case var value when value.Equals(Constants.ACCOUNT_STATUS_EXPIRED):
+                    {
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.ACCOUNT_STATUS_TITLE, Value = "" });
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.ACCOUNT_STATUS_INACTIVE, Value = Constants.ACCOUNT_STATUS_INACTIVE });
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.ACCOUNT_STATUS_ACTIVE, Value = Constants.ACCOUNT_STATUS_ACTIVE });
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.ACCOUNT_STATUS_EXPIRED, Value = Constants.ACCOUNT_STATUS_EXPIRED, Selected = true });
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.ACCOUNT_STATUS_DENIED, Value = Constants.ACCOUNT_STATUS_DENIED });
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.ACCOUNT_STATUS_SUSPENDED, Value = Constants.ACCOUNT_STATUS_SUSPENDED });
+                        break;
+                    }
+                case var value when value.Equals(Constants.ACCOUNT_STATUS_DENIED):
+                    {
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.ACCOUNT_STATUS_TITLE, Value = "" });
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.ACCOUNT_STATUS_INACTIVE, Value = Constants.ACCOUNT_STATUS_INACTIVE });
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.ACCOUNT_STATUS_ACTIVE, Value = Constants.ACCOUNT_STATUS_ACTIVE });
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.ACCOUNT_STATUS_EXPIRED, Value = Constants.ACCOUNT_STATUS_EXPIRED });
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.ACCOUNT_STATUS_DENIED, Value = Constants.ACCOUNT_STATUS_DENIED, Selected = true });
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.ACCOUNT_STATUS_SUSPENDED, Value = Constants.ACCOUNT_STATUS_SUSPENDED });
+                        break;
+                    }
+                case var value when value.Equals(Constants.ACCOUNT_STATUS_SUSPENDED):
+                    {
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.ACCOUNT_STATUS_TITLE, Value = "" });
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.ACCOUNT_STATUS_INACTIVE, Value = Constants.ACCOUNT_STATUS_INACTIVE });
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.ACCOUNT_STATUS_ACTIVE, Value = Constants.ACCOUNT_STATUS_ACTIVE });
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.ACCOUNT_STATUS_EXPIRED, Value = Constants.ACCOUNT_STATUS_EXPIRED });
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.ACCOUNT_STATUS_DENIED, Value = Constants.ACCOUNT_STATUS_DENIED });
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.ACCOUNT_STATUS_SUSPENDED, Value = Constants.ACCOUNT_STATUS_SUSPENDED, Selected = true });
+                        break;
+                    }
+                case var value when value.Equals(Constants.ACCOUNT_STATUS_TITLE):
+                    {
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.ACCOUNT_STATUS_TITLE, Value = "", Selected = true });
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.ACCOUNT_STATUS_INACTIVE, Value = Constants.ACCOUNT_STATUS_INACTIVE });
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.ACCOUNT_STATUS_ACTIVE, Value = Constants.ACCOUNT_STATUS_ACTIVE });
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.ACCOUNT_STATUS_EXPIRED, Value = Constants.ACCOUNT_STATUS_EXPIRED });
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.ACCOUNT_STATUS_DENIED, Value = Constants.ACCOUNT_STATUS_DENIED });
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.ACCOUNT_STATUS_SUSPENDED, Value = Constants.ACCOUNT_STATUS_SUSPENDED });
+                        break;
+                    }
+            }
+            return defaultStatuses;
+        }
 
         public T GetValidationTempData<T>(
             ControllerBase context,
@@ -386,15 +494,15 @@ namespace CEG_WebMVC.Library
             {
                 switch (role)
                 {
-                    case var value when value.Equals(Constants.MEMBER):
+                    case var value when value.Equals(Constants.STUDENT):
                         {
                             return Constants.MEMBER_URL;
                         }
-                    case var value when value.Equals(Constants.STAFF):
+                    case var value when value.Equals(Constants.PARENT):
                         {
                             return Constants.STAFF_URL;
                         }
-                    case var value when value.Equals(Constants.MANAGER):
+                    case var value when value.Equals(Constants.TEACHER):
                         {
                             return Constants.MANAGER_URL;
                         }

@@ -127,7 +127,7 @@ namespace CEG_WebAPI.Controllers
         {
             try
             {
-                var result = await _accountService.GetById(upPass.AccountId);
+                var result = await _accountService.GetById(Convert.ToInt32(upPass.AccountId));
                 if (result == null)
                 {
                     return NotFound(new
@@ -171,7 +171,7 @@ namespace CEG_WebAPI.Controllers
                 });
             }
         }
-        [HttpGet("GetId")]
+        /*[HttpGet("GetId")]
         [Authorize(Roles = "Admin,Member")]
         [ProducesResponseType(typeof(AccountViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -210,6 +210,6 @@ namespace CEG_WebAPI.Controllers
                     ErrorMessage = ex.Message
                 });
             }
-        }
+        }*/
     }
 }

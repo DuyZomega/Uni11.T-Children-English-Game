@@ -117,5 +117,10 @@ namespace CEG_BAL.Services.Implements
             _unitOfWork.AccountRepositories.Update(acc);
             _unitOfWork.Save();
         }
+
+        public async Task<int> GetIdByUsername(string username)
+        {
+            return await _unitOfWork.AccountRepositories.GetIdByUsername(username);
+        }
     }
 }

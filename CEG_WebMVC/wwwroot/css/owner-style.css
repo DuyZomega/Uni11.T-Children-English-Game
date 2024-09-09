@@ -917,6 +917,7 @@ html body {
 .card .card-body .row {
     display: -ms-flexbox;
     display: flex;
+    justify-content: center;
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
     margin-right: -15px;
