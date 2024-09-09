@@ -1,8 +1,11 @@
 ﻿using CEG_BAL.ViewModels;
+using CEG_BAL.ViewModels.Account.Create;
 using CEG_WebMVC.Library;
+using CEG_WebMVC.Models.ViewModels.Account;
 using CEG_WebMVC.Models.ViewModels.Admin;
 using Microsoft.AspNetCore.Http.Json;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 using System.Net.Http.Headers;
 using System.Text.Encodings.Web;
 using System.Text.Json;
@@ -54,6 +57,7 @@ namespace CEG_WebMVC.Controllers
         {
             if (methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN) != null)
                 return Redirect(methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN));
+
             var adminAccounts = new AdminAccountIndexVM();
             return View(adminAccounts);
         }
@@ -110,6 +114,51 @@ namespace CEG_WebMVC.Controllers
             adminDetails.Data.DefaultUserGenderSelectList = methcall.GetUserGenderSelectableList(adminDetails.Data.Gender);
             adminInvalids.adminDetail = adminDetails.Data;*/
             return View(adminDataAndErrors);
+        }
+        [HttpPost("Account/Create/Teacher")]
+        //[Authorize(Roles = "TempMember")]
+        public async Task<IActionResult> AdminCreateTeacher(
+            [Required] CreateNewTeacher createTeacher)
+        {
+            AdminAPI_URL += "Admin/CreateTeacher";
+
+            if (methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN) != null)
+                return Redirect(methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN));
+            string? accToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
+
+            if (!ModelState.IsValid)
+            {
+                TempData = methcall.SetValidationTempData(TempData, Constants.CREATE_EMPLOYEE_DETAILS_VALID, createTeacher, jsonOptions);
+                return RedirectToAction("AdminAccountIndex");
+            }
+            var authenResponse = await methcall.CallMethodReturnObject<AuthenResponseVM>(
+                _httpClient: _httpClient,
+                options: jsonOptions,
+                methodName: Constants.PUT_METHOD,
+                url: AdminAPI_URL,
+                inputType: createTeacher,
+                accessToken: accToken,
+                _logger: _logger);
+
+            if (authenResponse == null)
+            {
+                _logger.LogError("Error while registering Teacher account");
+
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while registering Teacher account !";
+
+                return RedirectToAction("AdminAccountIndex");
+            }
+            if (authenResponse.Status)
+            {
+                _logger.LogError("Error while registering Teacher account");
+
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while registering Teacher account !";
+
+                return RedirectToAction("AdminAccountIndex");
+            }
+            TempData["Success"] = ViewBag.Success = "Teacher Account Create Successfully!";
+
+            return RedirectToAction("AdminAccountIndex");
         }
     }
 }
