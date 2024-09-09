@@ -28,5 +28,18 @@ namespace CEG_DAL.Repositories.Implements
         {
             return await _dbContext.Accounts.AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(acc => acc.AccountId == id);
         }
+
+        public async Task<string?> GetRoleByAccountId(int id)
+        {
+            var acc = await _dbContext.Accounts.AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(acc => acc.AccountId == id);
+            if (acc != null)
+            {
+                var roleId = acc.RoleId;
+                var role = await _dbContext.Roles.AsNoTracking().SingleOrDefaultAsync(r => r.RoleId == roleId);
+                var roleName = role.RoleName;
+                return roleName;
+            }
+            return null;
+        }
     }
 }
