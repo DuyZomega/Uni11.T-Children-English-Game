@@ -8,7 +8,7 @@ namespace CEG_BAL.ViewModels.Authenticates
 {
     public class ObjectToken
     {
-        public string? UserId { get; set; }
+        public string? AccountId { get; set; }
         public string Username { get; set; }
         public string Role { get; set; }
     }

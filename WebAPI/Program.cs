@@ -103,7 +103,6 @@ namespace WebAPI
             builder.Services.AddScoped<IMemberService,MemberService>();
             builder.Services.AddScoped<ILocationService,LocationService>();
             builder.Services.AddTransient<IEmailService,EmailService>();
-            builder.Services.AddScoped<IJWTService,JWTService>();
             builder.Services.AddScoped<IMeetingService,MeetingService>();
             builder.Services.AddScoped<IMeetingMediaService,MeetingMediaService>();
             builder.Services.AddScoped<IMeetingParticipantService,MeetingParticipantService>();
