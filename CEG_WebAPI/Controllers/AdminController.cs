@@ -16,12 +16,14 @@ namespace CEG_WebAPI.Controllers
     public class AdminController : ControllerBase
     {
         private readonly IAccountService _accountService;
+        private readonly ITeacherService _teacherService;
         private readonly IConfiguration _config;
 
         public AdminController(
-            IAccountService accountService, IConfiguration config)
+            IAccountService accountService, ITeacherService teacherService, IConfiguration config)
         {
             _accountService = accountService;
+            _teacherService = teacherService;
             _config = config;
         }
         [HttpGet("{id}")]
@@ -213,7 +215,7 @@ namespace CEG_WebAPI.Controllers
                 });
             }
         }*/
-        [HttpPost("CreateTeacher")]
+        /*[HttpPost("CreateTeacher")]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(TeacherViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -253,7 +255,7 @@ namespace CEG_WebAPI.Controllers
                     Username = newAcc.Account.Username,
                     Password = newAcc.Account.Password
                 };
-                _accountService.CreateTeacher(value, newAcc);
+                _teacherService.Create(value, newAcc);
                 var loguser = new AuthenRequest()
                 {
                     Username = newAcc.Account.Username,
@@ -294,6 +296,6 @@ namespace CEG_WebAPI.Controllers
                     ErrorMessage = ex.Message
                 });
             }
-        }
+        }*/
     }
 }
