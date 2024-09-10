@@ -24,6 +24,11 @@ namespace CEG_DAL.Repositories.Implements
             return await _dbContext.Accounts.AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(acc => acc.Username == userName && acc.Password == password);
         }
 
+        public async Task<List<Account>> GetAccountList()
+        {
+            return await _dbContext.Accounts.ToListAsync();
+        }
+
         public async Task<Account?> GetByIdNoTracking(int id)
         {
             return await _dbContext.Accounts.AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(acc => acc.AccountId == id);
@@ -47,6 +52,17 @@ namespace CEG_DAL.Repositories.Implements
             var result = (from acc in _dbContext.Accounts where acc.Username.Trim().ToLower() == username.Trim().ToLower() select acc).FirstOrDefault();
             if (result != null) return result.AccountId;
             return 0;
+        }
+
+        public async Task<int> GenerateNewAccountId()
+        {
+            var lastAcc = await _dbContext.Accounts.OrderByDescending(acc => acc.AccountId).FirstOrDefaultAsync();
+            int newId = 1;
+            if (lastAcc != null)
+            {
+                newId = lastAcc.AccountId + 1;
+            }
+            return newId;
         }
     }
 }

@@ -11,6 +11,6 @@ namespace CEG_BAL.ViewModels
     {
         public string RoleName { get; set; } = null!;
 
-        public virtual ICollection<AccountViewModel> Accounts { get; set; } = new List<AccountViewModel>();
+        //public virtual ICollection<AccountViewModel> Accounts { get; set; } = new List<AccountViewModel>();
     }
 }
