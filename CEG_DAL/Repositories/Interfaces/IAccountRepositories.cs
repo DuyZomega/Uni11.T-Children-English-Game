@@ -16,6 +16,6 @@ namespace CEG_DAL.Repositories.Interfaces
         Task<Account?> GetByUsername(string username);
         Task<string> GetRoleByAccountId(int id);
         Task<int> GetIdByUsername(string username);
-        Task<int> GenerateNewAccountId();
+        int GenerateNewAccountId();
     }
 }

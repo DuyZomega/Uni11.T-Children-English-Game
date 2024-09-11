@@ -17,7 +17,7 @@ namespace CEG_DAL.Repositories.Implements
             _dbContext = dbContext;
         }
 
-        public async Task<int> GetRoleIdByRoleName(string roleName)
+        public int GetRoleIdByRoleName(string roleName)
         {
             var result = (from r in _dbContext.Roles where r.RoleName == roleName select r).FirstOrDefault();
             if (result != null) return result.RoleId;
