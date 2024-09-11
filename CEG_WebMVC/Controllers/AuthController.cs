@@ -16,7 +16,7 @@ using CEG_WebMVC.Models.VnPay;
 using CEG_WebMVC.Models.Transaction;*/
 using CEG_WebMVC.Library;
 using CEG_BAL.ViewModels.Authenticates;
-using CEG_WebMVC.Models.ViewModels.Account;
+using CEG_WebMVC.Models.ViewModels.Account.ResponseVM;
 namespace CEG_WebMVC.Controllers
 {
     [Route("Auth")]
@@ -143,7 +143,7 @@ namespace CEG_WebMVC.Controllers
                 inputType: authenRequest,
                 _logger: _logger);
 
-            if (authenResponse == null || authenResponse.Data == null)
+            if (authenResponse == null || authenResponse.Data == null || !authenResponse.Status)
             {
                 string? role = HttpContext.Session.GetString(Constants.ROLE_NAME);
 

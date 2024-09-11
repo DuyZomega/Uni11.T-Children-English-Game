@@ -50,7 +50,7 @@ namespace CEG_WebMVC
             services.AddControllersWithViews();
 
             // Add AutoMapper
-            services.AddAutoMapper(typeof(MappingProfile));
+            services.AddAutoMapper(typeof(WebVMMappingProfile));
 
             // Add session configuration
             services.AddSession(options =>

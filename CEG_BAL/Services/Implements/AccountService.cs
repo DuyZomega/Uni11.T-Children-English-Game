@@ -96,10 +96,10 @@ namespace CEG_BAL.Services.Implements
             return false;
         }
 
-        public async void Create(AccountViewModel account, CreateNewAccount newAcc)
+        public void Create(AccountViewModel account, CreateNewAccount newAcc)
         {
             var acc = _mapper.Map<Account>(account);
-            acc.AccountId = await _unitOfWork.AccountRepositories.GenerateNewAccountId();
+            acc.AccountId = _unitOfWork.AccountRepositories.GenerateNewAccountId();
             acc.CreatedDate = DateTime.Now;
             acc.Gender = newAcc.Gender;
             acc.Status = "Active";
@@ -108,7 +108,7 @@ namespace CEG_BAL.Services.Implements
                 acc.Fullname = newAcc.Fullname;
                 acc.Username = newAcc.Username;
                 acc.Gender = newAcc.Gender;
-                acc.RoleId = await _unitOfWork.RoleRepositories.GetRoleIdByRoleName(newAcc.Role);
+                acc.RoleId = _unitOfWork.RoleRepositories.GetRoleIdByRoleName(newAcc.Role);
             }
             _unitOfWork.AccountRepositories.Create(acc);
             _unitOfWork.Save();

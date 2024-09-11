@@ -10,6 +10,6 @@ namespace CEG_DAL.Repositories.Interfaces
 {
     public interface IRoleRepositories : IRepositoryBase<Role>
     {
-        Task<int> GetRoleIdByRoleName(string roleName);
+        int GetRoleIdByRoleName(string roleName);
     }
 }
