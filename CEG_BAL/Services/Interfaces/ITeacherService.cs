@@ -10,6 +10,8 @@ namespace CEG_BAL.Services.Interfaces
 {
     public interface ITeacherService
     {
+        //Task<List<TeacherViewModel>> GetTeacherList();
+        //Task<TeacherViewModel?> GetById(int id);
         void Create(TeacherViewModel teacher, CreateNewTeacher newTeach);
         void Update(TeacherViewModel teacher);
     }

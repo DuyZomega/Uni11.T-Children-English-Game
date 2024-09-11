@@ -34,6 +34,11 @@ namespace CEG_DAL.Repositories.Implements
             return await _dbContext.Accounts.AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(acc => acc.AccountId == id);
         }
 
+        public async Task<Account?> GetByUsername(string username)
+        {
+            return await _dbContext.Accounts.AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(acc => acc.Username == username);
+        }
+
         public async Task<string?> GetRoleByAccountId(int id)
         {
             var acc = await _dbContext.Accounts.AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(acc => acc.AccountId == id);
@@ -49,7 +54,7 @@ namespace CEG_DAL.Repositories.Implements
 
         public async Task<int> GetIdByUsername(string username)
         {
-            var result = (from acc in _dbContext.Accounts where acc.Username.Trim().ToLower() == username.Trim().ToLower() select acc).FirstOrDefault();
+            var result = await (from acc in _dbContext.Accounts where acc.Username.Trim().ToLower() == username.Trim().ToLower() select acc).FirstOrDefaultAsync();
             if (result != null) return result.AccountId;
             return 0;
         }
