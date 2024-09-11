@@ -1,8 +1,9 @@
 ﻿using CEG_BAL.ViewModels.Account.Create;
 using CEG_WebMVC.Library;
 using CEG_WebMVC.Models.ViewModels.Account.Create;
+using CEG_WebMVC.Models.ViewModels.Account.Get;
 
-namespace CEG_WebMVC.Models.ViewModels.Admin
+namespace CEG_WebMVC.Models.ViewModels.Admin.Get
 {
     public class AdminAccountIndexVM
     {
@@ -21,7 +22,7 @@ namespace CEG_WebMVC.Models.ViewModels.Admin
             createParent = new CreateParentVM();
             createStudent = new CreateNewStudent();
         }
-        public List<Account.AccountStatusVM> AccountStatuses { get; set; }
+        public List<AccountStatusVM> AccountStatuses { get; set; }
 
         //public List<string> SelectedAccountStatuses { get; set; }
 

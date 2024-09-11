@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.IdentityModel.Tokens;
 using System.ComponentModel.DataAnnotations;
 
-namespace CEG_WebMVC.Models.ViewModels.Account
+namespace CEG_WebMVC.Models.ViewModels.Account.Get
 {
     public class AccountStatusVM
     {
