@@ -15,12 +15,8 @@ namespace CEG_BAL.ViewModels.Account.Create
 
         public string Fullname { get; set; } = null!;
 
-        public DateTime CreatedDate { get; set; }
-
         public string Gender { get; set; } = null!;
 
-        public string Status { get; set; } = null!;
-
-        public virtual RoleViewModel Role { get; set; } = null!;
+        public string Role { get; set; } = null!;
     }
 }

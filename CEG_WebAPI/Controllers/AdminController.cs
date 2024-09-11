@@ -31,7 +31,7 @@ namespace CEG_WebAPI.Controllers
         [ProducesResponseType(typeof(AccountService), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult GetUserById([FromRoute] int id)
+        public IActionResult GetAccountById([FromRoute] int id)
         {
             try
             {
@@ -53,20 +53,11 @@ namespace CEG_WebAPI.Controllers
             }
             catch (Exception ex)
             {
-                if (ex.InnerException != null)
-                {
-                    return BadRequest(new
-                    {
-                        Status = false,
-                        ErrorMessage = ex.Message,
-                        InnerExceptionMessage = ex.InnerException.Message
-                    });
-                }
-                // Log the exception if needed
                 return BadRequest(new
                 {
                     Status = false,
-                    ErrorMessage = ex.Message
+                    ErrorMessage = ex.Message,
+                    InnerExceptionMessage = ex.InnerException?.Message
                 });
             }
         }
@@ -104,20 +95,11 @@ namespace CEG_WebAPI.Controllers
             }
             catch (Exception ex)
             {
-                if (ex.InnerException != null)
-                {
-                    return BadRequest(new
-                    {
-                        Status = false,
-                        ErrorMessage = ex.Message,
-                        InnerExceptionMessage = ex.InnerException.Message
-                    });
-                }
-                // Log the exception if needed
                 return BadRequest(new
                 {
                     Status = false,
-                    ErrorMessage = ex.Message
+                    ErrorMessage = ex.Message,
+                    InnerExceptionMessage = ex.InnerException?.Message
                 });
             }
         }
@@ -158,22 +140,72 @@ namespace CEG_WebAPI.Controllers
             }
             catch (Exception ex)
             {
-                if (ex.InnerException != null)
+                return BadRequest(new
+                {
+                    Status = false,
+                    ErrorMessage = ex.Message,
+                    InnerExceptionMessage = ex.InnerException?.Message
+                });
+            }
+        }
+
+        [HttpPost("Account/Create")]
+        [Authorize(Roles = "Admin")]
+        [ProducesResponseType(typeof(AccountViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> CreateAccount(
+            [FromBody][Required] CreateNewAccount newAcc)
+        {
+            try
+            {
+                if (newAcc.Password == null || newAcc.Password == string.Empty)
                 {
                     return BadRequest(new
                     {
                         Status = false,
-                        ErrorMessage = ex.Message,
-                        InnerExceptionMessage = ex.InnerException.Message
+                        ErrorMessage = "Password is Empty!"
                     });
                 }
-                // Log the exception if needed
+                var resultUsername = await _accountService.IsAccountExistByUsername(newAcc.Username);
+                if (resultUsername)
+                {
+                    return BadRequest(new
+                    {
+                        Status = false,
+                        ErrorMessage = "Username has already been taken!"
+                    });
+                }
+                if (!newAcc.Password.Equals(newAcc.ConfirmPassword))
+                {
+                    return BadRequest(new
+                    {
+                        Status = false,
+                        ErrorMessage = "Password and Confirm Password do not match!"
+                    });
+                }
+                AccountViewModel value = new AccountViewModel()
+                {
+                    Username = newAcc.Username,
+                    Password = newAcc.Password,
+                };
+                _accountService.Create(value, newAcc);
+                return Ok(new
+                {
+                    Status = true,
+                    SuccessMessage = "Account Create successfully !",
+                });
+            }
+            catch (Exception ex)
+            {
                 return BadRequest(new
                 {
                     Status = false,
-                    ErrorMessage = ex.Message
+                    ErrorMessage = ex.Message,
+                    InnerExceptionMessage = ex.InnerException?.Message
                 });
             }
+
         }
         /*[HttpGet("GetId")]
         [Authorize(Roles = "Admin,Member")]
@@ -198,20 +230,11 @@ namespace CEG_WebAPI.Controllers
             }
             catch (Exception ex)
             {
-                if (ex.InnerException != null)
-                {
-                    return BadRequest(new
-                    {
-                        Status = false,
-                        ErrorMessage = ex.Message,
-                        InnerExceptionMessage = ex.InnerException.Message
-                    });
-                }
-                // Log the exception if needed
                 return BadRequest(new
                 {
                     Status = false,
-                    ErrorMessage = ex.Message
+                    ErrorMessage = ex.Message,
+                    InnerExceptionMessage = ex.InnerException?.Message
                 });
             }
         }*/
@@ -280,20 +303,11 @@ namespace CEG_WebAPI.Controllers
             }
             catch (Exception ex)
             {
-                if (ex.InnerException != null)
-                {
-                    return BadRequest(new
-                    {
-                        Status = false,
-                        ErrorMessage = ex.Message,
-                        InnerExceptionMessage = ex.InnerException.Message
-                    });
-                }
-                // Log the exception if needed
                 return BadRequest(new
                 {
                     Status = false,
-                    ErrorMessage = ex.Message
+                    ErrorMessage = ex.Message,
+                    InnerExceptionMessage = ex.InnerException?.Message
                 });
             }
         }*/

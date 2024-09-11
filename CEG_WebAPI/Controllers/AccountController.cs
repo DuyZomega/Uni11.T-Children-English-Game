@@ -163,7 +163,7 @@ namespace CEG_WebAPI.Controllers
         [ProducesResponseType(typeof(AccountViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CreateUser(
+        public async Task<IActionResult> CreateAccount(
             [FromBody][Required] CreateNewAccount newAcc)
         {
             try
@@ -198,7 +198,7 @@ namespace CEG_WebAPI.Controllers
                     Username = newAcc.Username,
                     Password = newAcc.Password
                 };
-                _accountService.CreateAccount(value, newAcc);
+                _accountService.Create(value, newAcc);
                 var loguser = new AuthenRequest()
                 {
                     Username = newAcc.Username,
@@ -211,7 +211,7 @@ namespace CEG_WebAPI.Controllers
                     return StatusCode(StatusCodes.Status500InternalServerError, new
                     {
                         Status = false,
-                        ErrorMessage = "Error while Registering your Account !"
+                        ErrorMessage = "Error while Creating new Account !"
                     });
                 }
                 return Ok(new
