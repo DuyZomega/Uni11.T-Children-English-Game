@@ -9,7 +9,6 @@ namespace CEG_WebMVC.Models.ViewModels.Admin.Get
     {
         public AdminAccountIndexVM()
         {
-            ChildrenEnglishGameLibrary lib = new ChildrenEnglishGameLibrary();
             AccountStatuses = new List<AccountStatusVM>();
                 /*AccountStatuses = new List<Account.AccountStatusVM>() {
                     new Account.AccountStatusVM() { AccountId = "yomamam", FullName= "asdsadadsad", Role= "parent", Status= Constants.ACCOUNT_STATUS_ACTIVE, UserName= "no"},

@@ -20,6 +20,8 @@ namespace CEG_WebMVC.Models.ViewModels.Account.Get
         [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "Fullname is invalid")]
         public string FullName { get; set; }
         [DataType(DataType.DateTime)]
+        public DateTime? CreatedDate { get; set; }
+        public string? Gender { get; set; }
         public string? Role { get; set; }
         public string? Status { get; set; }
         public List<SelectListItem> DefaultAccountStatusSelectList { get; set; }

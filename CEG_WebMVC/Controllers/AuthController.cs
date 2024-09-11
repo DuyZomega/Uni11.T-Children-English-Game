@@ -143,7 +143,7 @@ namespace CEG_WebMVC.Controllers
                 inputType: authenRequest,
                 _logger: _logger);
 
-            if (authenResponse == null || authenResponse.Data == null)
+            if (authenResponse == null || authenResponse.Data == null || !authenResponse.Status)
             {
                 string? role = HttpContext.Session.GetString(Constants.ROLE_NAME);
 

@@ -1,10 +1,14 @@
-﻿using CEG_BAL.ViewModels;
+﻿using AutoMapper;
+using CEG_BAL.ViewModels;
 using CEG_BAL.ViewModels.Account.Create;
 using CEG_WebMVC.Library;
+using CEG_WebMVC.Models.ViewModels.Account.Get;
 using CEG_WebMVC.Models.ViewModels.Account.ResponseVM;
+using CEG_WebMVC.Models.ViewModels.Admin.Get;
 using CEG_WebMVC.Models.ViewModels.Admin.ResponseVM;
 using Microsoft.AspNetCore.Http.Json;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
 using System.Net.Http.Headers;
 using System.Text.Encodings.Web;
@@ -16,6 +20,7 @@ namespace CEG_WebMVC.Controllers
     public class AdminController : Controller
     {
         private readonly ILogger<AdminController> _logger;
+        private readonly IMapper _mapper;
         private readonly IConfiguration _config;
         private readonly HttpClient _httpClient = null;
         private string AdminAPI_URL = "";
@@ -33,15 +38,16 @@ namespace CEG_WebMVC.Controllers
         };
         private ChildrenEnglishGameLibrary methcall = new();
 
-        public AdminController(ILogger<AdminController> logger, IConfiguration config)
+        public AdminController(ILogger<AdminController> logger, IConfiguration config, IMapper mapper)
         {
             _logger = logger;
             _config = config;
+            _mapper = mapper;
             _httpClient = new HttpClient();
             var contentType = new MediaTypeWithQualityHeaderValue("application/json");
             _httpClient.DefaultRequestHeaders.Accept.Add(contentType);
-            /*_httpClient.BaseAddress = new Uri(config.GetSection("DefaultApiUrl:ConnectionString").Value);
-            AdminAPI_URL = "/api/";*/
+            _httpClient.BaseAddress = new Uri(config.GetSection("DefaultApiUrl:ConnectionString").Value);
+            AdminAPI_URL = "/api/";
         }
 
         [HttpGet("Index")]
@@ -75,7 +81,7 @@ namespace CEG_WebMVC.Controllers
 
                 return RedirectToAction("AdminIndex");
             }
-            if (accountListResponse.Status)
+            if (!accountListResponse.Status)
             {
                 _logger.LogError("Error while getting account list");
 
@@ -84,7 +90,12 @@ namespace CEG_WebMVC.Controllers
                 return RedirectToAction("AdminIndex");
             }
             TempData["Success"] = ViewBag.Success = "Account List Get Successfully!";
-            return View(accountListResponse.Data);
+            List<AccountStatusVM> dataList = _mapper.Map<List<AccountStatusVM>>(accountListResponse.Data);
+            AdminAccountIndexVM pageDate = new AdminAccountIndexVM()
+            {
+                AccountStatuses = dataList
+            };
+            return View(pageDate);
         }
         [HttpPost("Account/Create/Teacher")]
         //[Authorize(Roles = "TempMember")]
@@ -119,7 +130,7 @@ namespace CEG_WebMVC.Controllers
 
                 return RedirectToAction("AdminAccountIndex");
             }
-            if (authenResponse.Status)
+            if (!authenResponse.Status)
             {
                 _logger.LogError("Error while registering Teacher account");
 
