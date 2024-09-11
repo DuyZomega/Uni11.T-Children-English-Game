@@ -7,6 +7,7 @@ using System.Text.Json;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Azure;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using AutoMapper;
 
 namespace CEG_WebMVC.Library
 {
@@ -28,27 +29,40 @@ namespace CEG_WebMVC.Library
             HttpResponseMessage response = new HttpResponseMessage();
             if (accessToken != null)
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            if (methodName.Equals(Constants.GET_METHOD) && inputType == null)
+            if ((methodName.Equals(Constants.GET_METHOD) || methodName.Equals(Constants.DELETE_METHOD)) && inputType == null)
             {
-                response = await _httpClient.GetAsync(url);
+				switch (methodName)
+				{
+					case var value when value.Equals(Constants.GET_METHOD):
+						{
+							response = await _httpClient.GetAsync(url);
+							break;
+						}
+					case var value when value.Equals(Constants.DELETE_METHOD):
+						{
+							response = await _httpClient.DeleteAsync(url);
+							break;
+						}
+				}
             }
             else if (inputType != null)
             {
                 string json = JsonSerializer.Serialize(inputType, options);
                 // sử dụng frombody để lấy dữ liệu
                 StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
-                if (methodName.Equals(Constants.POST_METHOD))
+                switch (methodName)
                 {
-                    response = await _httpClient.PostAsync(url, content);
-                }
-                else if (methodName.Equals(Constants.PUT_METHOD))
-                {
-                    response = await _httpClient.PutAsync(url, content);
-                }
-                else if (methodName.Equals(Constants.DELETE_METHOD))
-                {
-                    response = await _httpClient.DeleteAsync(url);
-                }
+                    case var value when value.Equals(Constants.POST_METHOD):
+                        {
+							response = await _httpClient.PostAsync(url, content);
+							break;
+                        }
+					case var value when value.Equals(Constants.PUT_METHOD):
+						{
+							response = await _httpClient.PutAsync(url, content);
+							break;
+						}
+				}
             }
             string jsonResponse = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)

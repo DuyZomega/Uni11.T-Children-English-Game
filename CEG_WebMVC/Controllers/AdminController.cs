@@ -1,10 +1,14 @@
-﻿using CEG_BAL.ViewModels;
+﻿using AutoMapper;
+using CEG_BAL.ViewModels;
 using CEG_BAL.ViewModels.Account.Create;
 using CEG_WebMVC.Library;
-using CEG_WebMVC.Models.ViewModels.Account;
-using CEG_WebMVC.Models.ViewModels.Admin;
+using CEG_WebMVC.Models.ViewModels.Account.Get;
+using CEG_WebMVC.Models.ViewModels.Account.ResponseVM;
+using CEG_WebMVC.Models.ViewModels.Admin.Get;
+using CEG_WebMVC.Models.ViewModels.Admin.ResponseVM;
 using Microsoft.AspNetCore.Http.Json;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
 using System.Net.Http.Headers;
 using System.Text.Encodings.Web;
@@ -16,6 +20,7 @@ namespace CEG_WebMVC.Controllers
     public class AdminController : Controller
     {
         private readonly ILogger<AdminController> _logger;
+        private readonly IMapper _mapper;
         private readonly IConfiguration _config;
         private readonly HttpClient _httpClient = null;
         private string AdminAPI_URL = "";
@@ -33,15 +38,16 @@ namespace CEG_WebMVC.Controllers
         };
         private ChildrenEnglishGameLibrary methcall = new();
 
-        public AdminController(ILogger<AdminController> logger, IConfiguration config)
+        public AdminController(ILogger<AdminController> logger, IConfiguration config, IMapper mapper)
         {
             _logger = logger;
             _config = config;
+            _mapper = mapper;
             _httpClient = new HttpClient();
             var contentType = new MediaTypeWithQualityHeaderValue("application/json");
             _httpClient.DefaultRequestHeaders.Accept.Add(contentType);
-            /*_httpClient.BaseAddress = new Uri(config.GetSection("DefaultApiUrl:ConnectionString").Value);
-            AdminAPI_URL = "/api/";*/
+            _httpClient.BaseAddress = new Uri(config.GetSection("DefaultApiUrl:ConnectionString").Value);
+            AdminAPI_URL = "/api/";
         }
 
         [HttpGet("Index")]
@@ -57,73 +63,49 @@ namespace CEG_WebMVC.Controllers
         {
             if (methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN) != null)
                 return Redirect(methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN));
-
-            var adminAccounts = new AdminAccountIndexVM();
-            return View(adminAccounts);
-        }
-
-        [HttpGet("Profile")]
-        public async Task<IActionResult> AdminProfile()
-        {
-            AdminAPI_URL += "Admin/Profile";
-
-            if (methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN) != null)
-                return Redirect(methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN));
-
+            AdminAPI_URL += "Account/All";
             string? accToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
-            string? usrId = HttpContext.Session.GetString(Constants.USR_ID);
-            string? imagePath = HttpContext.Session.GetString(Constants.USR_IMAGE);
-
-            var adminDataAndErrors = new AdminProfileVM();
-            /*var memberInvalidDetails = methcall.GetValidationTempData<AccountViewModel>(this, TempData, Constants.UPDATE_ADMIN_DETAILS_VALID, "adminDetail", jsonOptions);
-            if (memberInvalidDetails != null)
-            {
-                memberInvalidDetails.ImagePath = imagePath;
-                memberInvalidDetails.DefaultUserGenderSelectList = methcall.GetUserGenderSelectableList(memberInvalidDetails.Gender != null ? memberInvalidDetails.Gender : Constants.MALE);
-                adminInvalids.adminDetail = memberInvalidDetails;
-                return View(adminInvalids);
-            }*/
-
-            /*var adminDetails = await methcall.CallMethodReturnObject<GetMemberProfileResponse>(
+            var accountListResponse = await methcall.CallMethodReturnObject<AdminAccountListResponseVM>(
                 _httpClient: _httpClient,
                 options: jsonOptions,
-                methodName: Constants.POST_METHOD,
+                methodName: Constants.GET_METHOD,
                 url: AdminAPI_URL,
-                _logger: _logger,
-                inputType: usrId,
-                accessToken: accToken);
-            if (adminDetails == null || adminDetails.Data == null)
+                accessToken: accToken,
+                _logger: _logger);
+
+            if (accountListResponse == null)
             {
-                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] =
-                    "Error while processing your request! (Getting Admin Profile!).\n Admin Details Not Found!";
+                _logger.LogError("Error while getting account list");
+
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while getting account list !";
+
                 return RedirectToAction("AdminIndex");
             }
-            else
-            if (!adminDetails.Status)
+            if (!accountListResponse.Status)
             {
-                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] =
-                    "Error while processing your request! (Getting Admin Profile!).\n Admin Details Not Found!"
-                + adminDetails.ErrorMessage;
+                _logger.LogError("Error while getting account list");
+
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while getting account list !";
+
                 return RedirectToAction("AdminIndex");
             }
-            var adminInvalidPasswordUpdate = methcall.GetValidationTempData<UpdateMemberPassword>(this, TempData, Constants.UPDATE_ADMIN_PASSWORD_VALID, "adminPassword", jsonOptions);
-            if (adminInvalidPasswordUpdate != null)
+            TempData["Success"] = ViewBag.Success = "Account List Get Successfully!";
+            List<AccountStatusVM> dataList = _mapper.Map<List<AccountStatusVM>>(accountListResponse.Data);
+            AdminAccountIndexVM pageDate = new AdminAccountIndexVM()
             {
-                adminInvalids.adminPassword = adminInvalidPasswordUpdate;
-            }
-            adminDetails.Data.DefaultUserGenderSelectList = methcall.GetUserGenderSelectableList(adminDetails.Data.Gender);
-            adminInvalids.adminDetail = adminDetails.Data;*/
-            return View(adminDataAndErrors);
+                AccountStatuses = dataList
+            };
+            return View(pageDate);
         }
         [HttpPost("Account/Create/Teacher")]
         //[Authorize(Roles = "TempMember")]
         public async Task<IActionResult> AdminCreateTeacher(
             [Required] CreateNewTeacher createTeacher)
         {
-            AdminAPI_URL += "Admin/CreateTeacher";
 
             if (methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN) != null)
                 return Redirect(methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN));
+            AdminAPI_URL += "Admin/CreateTeacher";
             string? accToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
 
             if (!ModelState.IsValid)
@@ -148,7 +130,7 @@ namespace CEG_WebMVC.Controllers
 
                 return RedirectToAction("AdminAccountIndex");
             }
-            if (authenResponse.Status)
+            if (!authenResponse.Status)
             {
                 _logger.LogError("Error while registering Teacher account");
 

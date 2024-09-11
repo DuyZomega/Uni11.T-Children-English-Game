@@ -1,4 +1,4 @@
-﻿@model CEG_WebMVC.Models.ViewModels.Admin.AdminAccountIndexVM
+﻿@model CEG_WebMVC.Models.ViewModels.Admin.Get.AdminAccountIndexVM
 @{
     Layout = null;
     ViewData["Title"] = "Admin All Account Status Page";
@@ -86,12 +86,12 @@
                                                 aria-describedby="history-table_info">
                                             <thead>
                                                 <tr>
-                                                    <th class="sorting sorting_asc" tabindex="0"
+                                                    @* <th class="sorting sorting_asc" tabindex="0"
                                                         aria-controls="history-table" rowspan="1"
                                                         colspan="1" aria-sort="ascending"
                                                         aria-label="Account ID: activate to sort column descending">
                                                         User Account Id
-                                                    </th>
+                                                    </th> *@
                                                     <th class="sorting" tabindex="0"
                                                         aria-controls="history-table" rowspan="1"
                                                         colspan="1"
@@ -124,11 +124,11 @@
                                                     <tr class="@("clicks-row "+ (i%2 == 0 ? "even" : "odd")) " data-href="#"
                                                         data-bs-toggle="tooltip" data-bs-placement="right"
                                                         title="More Details">
-                                                        <td class="sorting_1">
+                                                        @* <td class="sorting_1">
                                                                 <input type="hidden" asp-for="@accountStatuses[i].AccountId" name="listRequest[@i].MemberId" value="@accountStatuses[i].AccountId" class="form-control" />
                                                             @accountStatuses[i].AccountId
-                                                        </td>
-                                                        <td>
+                                                        </td> *@
+                                                        <td class="sorting_1">
                                                                 <input type="hidden" asp-for="@accountStatuses[i].UserName" name="listRequest[@i].UserName" value="@accountStatuses[i].UserName" class="form-control" />
                                                             @accountStatuses[i].UserName
                                                         </td>

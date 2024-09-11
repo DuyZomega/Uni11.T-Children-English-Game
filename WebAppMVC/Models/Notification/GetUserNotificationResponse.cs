@@ -1,6 +1,6 @@
 ﻿using BAL.ViewModels;
 
-namespace WebAppMVC.Models.Member
+namespace WebAppMVC.Models.Notification
 {
     public class GetUserNotificationResponse : DefaultResponseViewModel<IEnumerable<NotificationViewModel>>
     {
