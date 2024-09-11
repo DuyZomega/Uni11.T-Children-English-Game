@@ -10,5 +10,7 @@ namespace CEG_DAL.Repositories.Interfaces
 {
     public interface IClassRepositories : IRepositoryBase<Class>
     {
+        Task<List<Class>> GetClassList();
+        Task<Class> GetStudentById(int id);
     }
 }
