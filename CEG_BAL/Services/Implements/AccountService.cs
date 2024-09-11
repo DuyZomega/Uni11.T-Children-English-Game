@@ -33,6 +33,11 @@ namespace CEG_BAL.Services.Implements
             _configuration = configuration;
         }
 
+        public async Task<List<AccountViewModel>> GetAccountList()
+        {
+            return _mapper.Map<List<AccountViewModel>>(await _unitOfWork.AccountRepositories.GetAccountList());
+        }
+
         public async Task<AuthenResponse> AuthenticateAccount(AuthenRequest request)
         {
             var acc = await _unitOfWork.AccountRepositories.GetByLogin(request.Username, request.Password);
@@ -84,18 +89,10 @@ namespace CEG_BAL.Services.Implements
             return null;
         }
 
-        public void CreateTeacher(AccountViewModel account, CreateNewAccount newTeach)
+        public async void CreateAccount(AccountViewModel account, CreateNewAccount newAcc)
         {
             var acc = _mapper.Map<Account>(account);
-            acc.Role.RoleName = "Teacher";
-            acc.CreatedDate = DateTime.Now;
-            _unitOfWork.AccountRepositories.Create(acc);
-            _unitOfWork.Save();
-        }
-
-        public void CreateAccount(AccountViewModel account, CreateNewAccount newAcc)
-        {
-            var acc = _mapper.Map<Account>(account);
+            acc.AccountId = await _unitOfWork.AccountRepositories.GenerateNewAccountId();
             acc.CreatedDate = DateTime.Now;
             _unitOfWork.AccountRepositories.Create(acc);
             _unitOfWork.Save();
