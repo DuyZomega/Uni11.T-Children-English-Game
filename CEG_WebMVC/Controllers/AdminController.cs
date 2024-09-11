@@ -1,11 +1,8 @@
 ﻿using CEG_BAL.ViewModels;
 using CEG_BAL.ViewModels.Account.Create;
 using CEG_WebMVC.Library;
-using CEG_WebMVC.Models.ViewModels.Account.Create;
-using CEG_WebMVC.Models.ViewModels.Account.Get;
 using CEG_WebMVC.Models.ViewModels.Account.ResponseVM;
-using CEG_WebMVC.Models.ViewModels.Admin;
-using CEG_WebMVC.Models.ViewModels.Admin.Get;
+using CEG_WebMVC.Models.ViewModels.Admin.ResponseVM;
 using Microsoft.AspNetCore.Http.Json;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
@@ -62,7 +59,6 @@ namespace CEG_WebMVC.Controllers
                 return Redirect(methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN));
             AdminAPI_URL += "Account/All";
             string? accToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
-            var adminAccounts = new AdminAccountIndexVM();
             var accountListResponse = await methcall.CallMethodReturnObject<AdminAccountListResponseVM>(
                 _httpClient: _httpClient,
                 options: jsonOptions,
@@ -88,7 +84,7 @@ namespace CEG_WebMVC.Controllers
                 return RedirectToAction("AdminIndex");
             }
             TempData["Success"] = ViewBag.Success = "Account List Get Successfully!";
-            return View(adminAccounts);
+            return View(accountListResponse.Data);
         }
         [HttpPost("Account/Create/Teacher")]
         //[Authorize(Roles = "TempMember")]

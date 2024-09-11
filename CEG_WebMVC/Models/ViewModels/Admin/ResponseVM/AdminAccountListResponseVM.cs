@@ -1,6 +1,6 @@
 ﻿using CEG_WebMVC.Models.ViewModels.Admin.Get;
 
-namespace CEG_WebMVC.Models.ViewModels.Account.Get
+namespace CEG_WebMVC.Models.ViewModels.Admin.ResponseVM
 {
     public class AdminAccountListResponseVM
     {
@@ -14,7 +14,7 @@ namespace CEG_WebMVC.Models.ViewModels.Account.Get
         {
             Status = false;
         }
-        public AdminAccountIndexVM? Data { get; set; }
+        public List<AdminAccountIndexVM>? Data { get; set; }
         public bool Status { get; set; }
         public string? ErrorMessage { get; set; }
         public string? SuccessMessage { get; set; }
