@@ -66,11 +66,12 @@ namespace CEG_WebAPI
             RegisterServices(services);
         }
 
-        public static void RegisterServices(IServiceCollection services)
+        private static void RegisterServices(IServiceCollection services)
         {
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IJWTService, JWTService>();
+            services.AddScoped<ITeacherService, TeacherService>();
         }
 
         private static void AddSwaggerServices(IServiceCollection services)
