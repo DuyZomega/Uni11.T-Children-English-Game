@@ -15,12 +15,12 @@ namespace CEG_WebMVC.Models.ViewModels.Account.Get
         public string? AccountId { get; set; }
         [Required(ErrorMessage = "Account Username is required")]
         [RegularExpression(@"^[a-zA-Z0-9_]+$", ErrorMessage = "Username is invalid")]
-        public string UserName { get; set; }
+        public string UserName { get; set; } = null!;
         [Required(ErrorMessage = "Full Name is required")]
         [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "Fullname is invalid")]
-        public string FullName { get; set; }
+        public string FullName { get; set; } = null!;
         [DataType(DataType.DateTime)]
-        public DateTime? CreatedDate { get; set; }
+        public DateTime CreatedDate { get; set; }
         public string? Gender { get; set; }
         public string? Role { get; set; }
         public string? Status { get; set; }

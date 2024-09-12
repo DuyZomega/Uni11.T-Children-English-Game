@@ -8,6 +8,13 @@ namespace CEG_BAL.ViewModels.Account.Create
 {
     public class CreateNewTeacher
     {
+        public CreateNewTeacher()
+        {
+            Account = new CreateNewAccount
+            {
+                Role = "Teacher"
+            };
+        }
         public string Email { get; set; }
 
         public string Phone { get; set; }

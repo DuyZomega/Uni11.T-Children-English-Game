@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using CEG_BAL.ViewModels;
 using CEG_BAL.ViewModels.Account.Create;
 using CEG_WebMVC.Library;
+using CEG_WebMVC.Models.ViewModels.Account.Create;
 using CEG_WebMVC.Models.ViewModels.Account.Get;
 using CEG_WebMVC.Models.ViewModels.Account.ResponseVM;
 using CEG_WebMVC.Models.ViewModels.Admin.Get;
@@ -65,6 +65,7 @@ namespace CEG_WebMVC.Controllers
                 return Redirect(methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN));
             AdminAPI_URL += "Account/All";
             string? accToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
+
             var accountListResponse = await methcall.CallMethodReturnObject<AdminAccountListResponseVM>(
                 _httpClient: _httpClient,
                 options: jsonOptions,
@@ -90,35 +91,40 @@ namespace CEG_WebMVC.Controllers
                 return RedirectToAction("AdminIndex");
             }
             TempData["Success"] = ViewBag.Success = "Account List Get Successfully!";
-            List<AccountStatusVM> dataList = _mapper.Map<List<AccountStatusVM>>(accountListResponse.Data);
-            AdminAccountIndexVM pageDate = new AdminAccountIndexVM()
+
+            var teacherTempData = methcall.GetValidationTempData<CreateTeacherVM>(this, TempData, Constants.CREATE_TEACHER_DETAILS_VALID, "createTeacher", jsonOptions);
+
+            AdminAccountIndexVM pageData = new AdminAccountIndexVM()
             {
-                AccountStatuses = dataList
+                AccountStatuses = _mapper.Map<List<AccountStatusVM>>(accountListResponse.Data),
+                createTeacher = teacherTempData != null ? teacherTempData : new CreateTeacherVM()
             };
-            return View(pageDate);
+
+            return View(pageData);
         }
         [HttpPost("Account/Create/Teacher")]
         //[Authorize(Roles = "TempMember")]
         public async Task<IActionResult> AdminCreateTeacher(
-            [Required] CreateNewTeacher createTeacher)
+            [FromForm][Required] CreateTeacherVM createTeacher)
         {
 
             if (methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN) != null)
                 return Redirect(methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN));
-            AdminAPI_URL += "Admin/CreateTeacher";
+            AdminAPI_URL += "Admin/Teacher/Create";
             string? accToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
 
             if (!ModelState.IsValid)
             {
-                TempData = methcall.SetValidationTempData(TempData, Constants.CREATE_EMPLOYEE_DETAILS_VALID, createTeacher, jsonOptions);
+                TempData = methcall.SetValidationTempData(TempData, Constants.CREATE_TEACHER_DETAILS_VALID, createTeacher, jsonOptions);
                 return RedirectToAction("AdminAccountIndex");
             }
+
             var authenResponse = await methcall.CallMethodReturnObject<AuthenResponseVM>(
                 _httpClient: _httpClient,
                 options: jsonOptions,
-                methodName: Constants.PUT_METHOD,
+                methodName: Constants.POST_METHOD,
                 url: AdminAPI_URL,
-                inputType: createTeacher,
+                inputType: _mapper.Map<CreateNewTeacher>(createTeacher),
                 accessToken: accToken,
                 _logger: _logger);
 
