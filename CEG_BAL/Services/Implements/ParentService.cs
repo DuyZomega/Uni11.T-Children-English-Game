@@ -31,14 +31,27 @@ namespace CEG_BAL.Services.Implements
             _jwtService = jwtServices;
             _configuration = configuration;
         }
-        public void Create(ParentViewModel parent, CreateNewParent newPar)
+        public async void Create(ParentViewModel parent, CreateNewParent newPar)
         {
-            var par = _mapper.Map<Parent>(parent);
-            _unitOfWork.ParentRepositories.Create(par);
+            var acc = _mapper.Map<Parent>(parent);
+            acc.Account.AccountId = await _unitOfWork.AccountRepositories.GenerateNewAccountId();
+            acc.Account.CreatedDate = DateTime.Now;
+            acc.Account.Status = "Active";
+            acc.Account.RoleId = await _unitOfWork.RoleRepositories.GetRoleIdByRoleName("Parent");
+            if (newPar != null)
+            {
+                acc.Account.Fullname = newPar.Account.Fullname;
+                acc.Account.Username = newPar.Account.Username;
+                acc.Account.Gender = newPar.Account.Gender;
+                acc.Email = newPar.Email;
+                acc.Phone = newPar.Phone;
+                acc.Address = newPar.Address;
+            }
+            _unitOfWork.ParentRepositories.Create(acc);
             _unitOfWork.Save();
         }
 
-        public async Task<ParentViewModel> GetParentById(int id)
+        public async Task<ParentViewModel?> GetParentById(int id)
         {
             var user = await _unitOfWork.ParentRepositories.GetByIdNoTracking(id);
             if(user != null)
@@ -52,6 +65,13 @@ namespace CEG_BAL.Services.Implements
         public async Task<List<ParentViewModel>> GetParentList()
         {
             return _mapper.Map < List <ParentViewModel >>(await _unitOfWork.ParentRepositories.GetParentList());
+        }
+
+        public async Task<bool> IsParentExistByEmail(string email)
+        {
+            var acc = await _unitOfWork.ParentRepositories.GetByEmail(email);
+            if (acc != null) return true;
+            return false;
         }
 
         public void Update(ParentViewModel parent)

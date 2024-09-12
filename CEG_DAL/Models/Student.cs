@@ -21,9 +21,7 @@ public partial class Student
 
     public int? Points { get; set; }
 
-    public int? Age { get; set; }
-
-    public DateTime? Birhthdate { get; set; }
+    public DateTime? Birthdate { get; set; }
 
     public virtual Account Account { get; set; } = null!;
 

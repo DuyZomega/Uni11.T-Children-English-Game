@@ -12,8 +12,6 @@
 
         public int? Points { get; set; }
 
-        public int? Age { get; set; }
-
         public DateTime? Birhthdate { get; set; }
 
         public virtual AccountViewModel Account { get; set; } = null!;

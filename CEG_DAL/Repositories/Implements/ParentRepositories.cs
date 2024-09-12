@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace CEG_DAL.Repositories.Implements
 {
-    public class ParentRepositories : RepositoryBase<Parent>,IParentRepositories
+    public class ParentRepositories : RepositoryBase<Parent>, IParentRepositories
     {
         private readonly MyDBContext _dbContext;
         public ParentRepositories(MyDBContext dbContext) : base(dbContext)
@@ -18,7 +18,7 @@ namespace CEG_DAL.Repositories.Implements
             _dbContext = dbContext;
         }
 
-        public async Task<Parent> GetByIdNoTracking(int id)
+        public async Task<Parent?> GetByIdNoTracking(int id)
         {
             return await _dbContext.Parents.AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(par => par.ParentsId == id);
         }
@@ -26,6 +26,18 @@ namespace CEG_DAL.Repositories.Implements
         public async Task<List<Parent>> GetParentList()
         {
             return await _dbContext.Parents.ToListAsync();
+        }
+
+        public async Task<Parent?> GetByEmail(string email)
+        {
+            return await _dbContext.Parents.AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(par => par.Email == email);
+        }
+
+        public async Task<int> GetIdByUsername(string username)
+        {
+            var result = await (from p in _dbContext.Parents where p.Account.Username == username select p).FirstOrDefaultAsync();
+            if (result != null)  return result.ParentsId;
+            return 0;
         }
     }
 }

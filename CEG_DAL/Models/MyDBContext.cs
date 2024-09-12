@@ -194,6 +194,7 @@ public partial class MyDBContext : DbContext
 
             entity.HasOne(d => d.GameConfig).WithMany(p => p.Games)
                 .HasForeignKey(d => d.GameConfigId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Game_GameConfig");
         });
 
@@ -424,10 +425,9 @@ public partial class MyDBContext : DbContext
                 .ValueGeneratedNever()
                 .HasColumnName("student_id");
             entity.Property(e => e.AccountId).HasColumnName("account_id");
-            entity.Property(e => e.Age).HasColumnName("age");
-            entity.Property(e => e.Birhthdate)
+            entity.Property(e => e.Birthdate)
                 .HasColumnType("datetime")
-                .HasColumnName("birhthdate");
+                .HasColumnName("birthdate");
             entity.Property(e => e.CurLevel).HasColumnName("cur_level");
             entity.Property(e => e.Description).HasColumnName("description");
             entity.Property(e => e.Highscore).HasColumnName("highscore");

@@ -198,6 +198,10 @@ namespace CEG_BAL.AutoMapperProfile
                 .ReverseMap();
             CreateMap<Teacher, TeacherViewModel>()
                 .ReverseMap();
+            CreateMap<Parent, ParentViewModel>()
+                .ReverseMap();
+            CreateMap<Student, StudentViewModel>()
+                .ReverseMap();
         }
     }
 }

@@ -31,10 +31,24 @@ namespace CEG_BAL.Services.Implements
             _jwtService = jwtServices;
             _configuration = configuration;
         }
-        public void Create(StudentViewModel student, CreateNewStudent newStu)
+        public async void Create(StudentViewModel student, CreateNewStudent newStu)
         {
-            var stu = _mapper.Map<Student>(student);
-            _unitOfWork.StudentRepositories.Create(stu);
+            var acc = _mapper.Map<Student>(student);
+            acc.Account.AccountId = await _unitOfWork.AccountRepositories.GenerateNewAccountId();
+            acc.Account.CreatedDate = DateTime.Now;
+            acc.Account.Status = "Active";
+            acc.Account.RoleId = await _unitOfWork.RoleRepositories.GetRoleIdByRoleName("Student");
+            if (newStu != null)
+            {
+                acc.Account.Fullname = newStu.Account.Fullname;
+                acc.Account.Username = newStu.Account.Username;
+                acc.Account.Gender = newStu.Account.Gender;
+                acc.Description = newStu.Description;
+                acc.Highscore = newStu.Highscore;
+                acc.Birthdate = newStu.Birthdate;
+                acc.ParentsId = await _unitOfWork.ParentRepositories.GetIdByUsername(newStu.ParentUsername);
+            }
+            _unitOfWork.StudentRepositories.Create(acc);
             _unitOfWork.Save();
         }
 

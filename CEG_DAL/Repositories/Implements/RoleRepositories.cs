@@ -1,6 +1,7 @@
 ﻿using CEG_DAL.Infrastructure;
 using CEG_DAL.Models;
 using CEG_DAL.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,9 +18,9 @@ namespace CEG_DAL.Repositories.Implements
             _dbContext = dbContext;
         }
 
-        public int GetRoleIdByRoleName(string roleName)
+        public async Task<int> GetRoleIdByRoleName(string roleName)
         {
-            var result = (from r in _dbContext.Roles where r.RoleName == roleName select r).FirstOrDefault();
+            var result = await (from r in _dbContext.Roles where r.RoleName == roleName select r).FirstOrDefaultAsync();
             if (result != null) return result.RoleId;
             return 0;
         }

@@ -11,6 +11,8 @@ namespace CEG_DAL.Repositories.Interfaces
     public interface IParentRepositories : IRepositoryBase<Parent>
     {
         Task<List<Parent>> GetParentList();
-        Task<Parent> GetByIdNoTracking(int id);
+        Task<Parent?> GetByIdNoTracking(int id);
+        Task<Parent?> GetByEmail(string email);
+        Task<int> GetIdByUsername(string username);
     }
 }
