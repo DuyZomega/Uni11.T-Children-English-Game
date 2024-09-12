@@ -18,6 +18,17 @@ namespace CEG_DAL.Repositories.Implements
             _dbContext = dbContext;
         }
 
+        public async Task<int> GenerateNewCourseId()
+        {
+            var lastCou = await _dbContext.Courses.OrderByDescending(cou => cou.CourseId).FirstOrDefaultAsync();
+            int newId = 1;
+            if (lastCou != null)
+            {
+                newId = lastCou.CourseId + 1;
+            }
+            return newId;
+        }
+
         public async Task<Course> GetByIdNoTracking(int id)
         {
             return await _dbContext.Courses.AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(cou => cou.CourseId == id);
