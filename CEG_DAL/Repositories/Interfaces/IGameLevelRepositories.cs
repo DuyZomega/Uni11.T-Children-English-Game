@@ -10,5 +10,7 @@ namespace CEG_DAL.Repositories.Interfaces
 {
     public interface IGameLevelRepositories : IRepositoryBase<GameLevel>
     {
+        Task<List<GameLevel>> GetGameLevelsList();
+        Task<GameLevel> GetByIdNoTracking(int id);
     }
 }

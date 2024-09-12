@@ -10,5 +10,7 @@ namespace CEG_DAL.Repositories.Interfaces
 {
     public interface IGameConfigRepositories : IRepositoryBase<GameConfig>
     {
+        Task<List<GameConfig>> GetGameConfigsList();
+        Task<GameConfig> GetByIdNoTracking(int id);
     }
 }

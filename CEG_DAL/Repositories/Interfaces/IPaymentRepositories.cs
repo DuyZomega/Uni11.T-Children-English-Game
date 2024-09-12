@@ -10,5 +10,7 @@ namespace CEG_DAL.Repositories.Interfaces
 {
     public interface IPaymentRepositories : IRepositoryBase<Payment>
     {
+        Task<List<Payment>> GetPaymentsList();
+        Task<Payment> GetByIdNoTracking(int id);
     }
 }
