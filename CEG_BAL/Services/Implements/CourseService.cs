@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CEG_DAL.Models;
+using CEG_BAL.ViewModels.Course;
 
 namespace CEG_BAL.Services.Implements
 {
@@ -30,9 +31,20 @@ namespace CEG_BAL.Services.Implements
             _jwtService = jwtServices;
             _configuration = configuration;
         }
-        public void Create(CourseViewModel course)
+        public void Create(CourseViewModel course, CreateNewCourse newCourse)
         {
             var cou = _mapper.Map<Course>(course);
+            cou.CourseId = _unitOfWork.CourseRepositories.GenerateNewCourseId().Result;
+            cou.StartDate = DateTime.Now;
+            cou.Status = "Active";
+            if(newCourse != null)
+            {
+                cou.CourseName = newCourse.CourseName;
+                cou.CourseType = newCourse.CourseType;
+                cou.Description = newCourse.Description;
+                cou.EndDate = newCourse.EndDate;
+                cou.NumberOfStudent = newCourse.NumberOfStudent;
+            }
             _unitOfWork.CourseRepositories.Create(cou);
             _unitOfWork.Save();
         }

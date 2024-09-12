@@ -262,6 +262,7 @@ namespace CEG_WebAPI.Controllers
                 _teacherService.Create(teach, newTeach);
                 return Ok(new
                 {
+                    Data = true,
                     Status = true,
                     SuccessMessage = "Teacher Account Create successfully !",
                 });
@@ -321,12 +322,6 @@ namespace CEG_WebAPI.Controllers
                         ErrorMessage = "Password and Confirm Password do not match!"
                     });
                 }
-                AccountViewModel acc = new AccountViewModel()
-                {
-                    Username = newPar.Account.Username,
-                    Password = newPar.Account.Password,
-                };
-                _accountService.Create(acc, newPar.Account);
                 ParentViewModel par = new ParentViewModel()
                 {
                     Email = newPar.Email,
@@ -336,6 +331,7 @@ namespace CEG_WebAPI.Controllers
                 _parentService.Create(par, newPar);
                 return Ok(new
                 {
+                    Data = true,
                     Status = true,
                     SuccessMessage = "Parent Account Create successfully !",
                 });

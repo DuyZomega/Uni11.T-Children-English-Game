@@ -44,6 +44,7 @@ namespace CEG_BAL.Services.Implements
                 acc.Account.Fullname = newPar.Account.Fullname;
                 acc.Account.Username = newPar.Account.Username;
                 acc.Account.Gender = newPar.Account.Gender;
+                acc.Account.Password = newPar.Account.Password;
                 acc.Email = newPar.Email;
                 acc.Phone = newPar.Phone;
                 acc.Address = newPar.Address;

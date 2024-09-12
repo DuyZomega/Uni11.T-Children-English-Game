@@ -23,12 +23,12 @@ namespace CEG_BAL.ViewModels
 
         public string? Status { get; set; }
 
-        public virtual GameConfig GameConfig { get; set; } = null!;
+        public virtual GameConfigViewModel GameConfig { get; set; } = null!;
 
-        public virtual ICollection<HomeworkResult> HomeworkResults { get; set; } = new List<HomeworkResult>();
+        public virtual ICollection<HomeworkResultViewModel> HomeworkResults { get; set; } = new List<HomeworkResultViewModel>();
 
-        public virtual Course Session { get; set; } = null!;
+        public virtual CourseViewModel Session { get; set; } = null!;
 
-        public virtual ICollection<StudentHomework> StudentHomeworks { get; set; } = new List<StudentHomework>();
+        public virtual ICollection<StudentHomeworkViewModel> StudentHomeworks { get; set; } = new List<StudentHomeworkViewModel>();
     }
 }

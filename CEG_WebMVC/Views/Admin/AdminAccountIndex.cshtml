@@ -263,10 +263,10 @@
                                     <span asp-validation-for="@createParent.Account.Fullname" id="error_message"
                                           class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
-                                    @* <label asp-for="@createParent.Role" class="col-md-3 col-form-label mt-3 text-md-right"></label>
-                                    <select class="form-control col-md-7 custom-select" asp-for="@createParent.Role" asp-items="@createParent.DefaultRoleSelectList"></select>
-                                    <span asp-validation-for="@createParent.Role" id="error_message"
-                                    class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span> *@
+                                    <label asp-for="@createParent.Address" class="col-md-3 col-form-label text-md-right"></label>
+                                    <textarea asp-for="@createParent.Address" value="@createParent.Address" required class="form-control col-md-7"></textarea>
+                                    <span asp-validation-for="@createParent.Address" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
                                     <label asp-for="@createParent.Account.Gender" class="col-md-3 col-form-label mt-3 text-md-right"></label>
                                     <select class="form-control col-md-7 custom-select" asp-for="@createParent.Account.Gender" asp-items="@createParent.Account.DefaultAccountGenderSelectList"></select>
