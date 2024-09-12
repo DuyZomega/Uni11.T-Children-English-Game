@@ -10,5 +10,7 @@ namespace CEG_DAL.Repositories.Interfaces
 {
     public interface IStudentRepositories : IRepositoryBase<Student>
     {
+        Task<List<Student>> GetStudentList();
+        Task<Student?> GetByIdNoTracking(int id);
     }
 }
