@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using CEG_BAL.ViewModels;
+using CEG_BAL.ViewModels.Account.Create;
 using CEG_DAL.Models;
+using CEG_WebMVC.Models.ViewModels.Account.Create;
 using CEG_WebMVC.Models.ViewModels.Account.Get;
 
 namespace CEG_WebMVC.Library
@@ -187,9 +189,25 @@ namespace CEG_WebMVC.Library
             CreateMap<Bird, BirdViewModel>().ReverseMap();
             CreateMap<Notification, NotificationViewModel>().ReverseMap();
             CreateMap<Feedback, FeedbackViewModel>().ReverseMap();*/
-
-            CreateMap<AccountStatusVM, AccountViewModel>()
+            CreateMap<CreateAccountVM, CreateNewAccount>()
                 .ReverseMap();
+            CreateMap<CreateTeacherVM, CreateNewTeacher>()
+                .AfterMap((src, dest) =>
+                {
+                    dest.Account.Role = "Teacher";
+                })
+                .ReverseMap();
+            CreateMap<AccountStatusVM, AccountViewModel>()
+                .AfterMap((src, dest) =>
+                {
+                    dest.Role.RoleName = src.Role;
+                })
+                .ReverseMap()
+                .AfterMap((src, dest) =>
+                {
+                    dest.Role = src.Role.RoleName;
+                })
+                ;
         }
     }
 }
