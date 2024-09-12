@@ -72,6 +72,7 @@ namespace CEG_WebAPI
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IJWTService, JWTService>();
             services.AddScoped<ITeacherService, TeacherService>();
+            services.AddScoped<IParentService, ParentService>();
         }
 
         private static void AddSwaggerServices(IServiceCollection services)
