@@ -4,6 +4,11 @@ namespace CEG_BAL.ViewModels
 {
     public class TeacherViewModel
     {
+        public TeacherViewModel()
+        {
+            Account = new AccountViewModel();
+        }
+        [Required]
         [EmailAddress]
         [DataType(DataType.EmailAddress)]
         [RegularExpression(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", ErrorMessage = "Email is invalid")]

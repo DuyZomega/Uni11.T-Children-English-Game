@@ -517,10 +517,6 @@ public partial class MyDBContext : DbContext
                 .HasColumnName("teacher_id");
             entity.Property(e => e.AccountId).HasColumnName("account_id");
             entity.Property(e => e.Address).HasColumnName("address");
-            entity.Property(e => e.CourseId)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("course_id");
             entity.Property(e => e.Email)
                 .HasMaxLength(50)
                 .HasColumnName("email");

@@ -110,7 +110,7 @@ namespace CEG_WebMVC.Library
         public readonly static string CREATE_NEWS_VALID = "CNewsValid";
         public readonly static string UPDATE_NEWS_VALID = "UNewsValid";
 
-        public readonly static string CREATE_EMPLOYEE_DETAILS_VALID = "CEmployeeDetailsValid";
+        public readonly static string CREATE_TEACHER_DETAILS_VALID = "CTeacherDetailsValid";
         public readonly static string UPDATE_MEMBER_DETAILS_VALID = "UMemberDetailsValid";
         public readonly static string UPDATE_MEMBER_PASSWORD_VALID = "UMemberPasswordValid";
         public readonly static string UPDATE_MANAGER_DETAILS_VALID = "UManagerDetailsValid";

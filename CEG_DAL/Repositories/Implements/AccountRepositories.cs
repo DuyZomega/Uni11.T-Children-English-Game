@@ -26,7 +26,7 @@ namespace CEG_DAL.Repositories.Implements
 
         public async Task<List<Account>> GetAccountList()
         {
-            return await _dbContext.Accounts.ToListAsync();
+            return await _dbContext.Accounts.Include(a => a.Role).ToListAsync();
         }
 
         public async Task<Account?> GetByIdNoTracking(int id)

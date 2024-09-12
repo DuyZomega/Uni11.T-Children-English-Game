@@ -17,6 +17,6 @@ namespace CEG_BAL.ViewModels.Account.Create
 
         public string Gender { get; set; } = null!;
 
-        public string Role { get; set; } = null!;
+        public string Role { get; set; }
     }
 }
