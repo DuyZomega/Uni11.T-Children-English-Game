@@ -119,7 +119,7 @@ namespace CEG_WebMVC.Controllers
                 return RedirectToAction("AdminAccountIndex");
             }
 
-            var authenResponse = await methcall.CallMethodReturnObject<AuthenResponseVM>(
+            var authenResponse = await methcall.CallMethodReturnObject<AdminAccountCreateResponseVM>(
                 _httpClient: _httpClient,
                 options: jsonOptions,
                 methodName: Constants.POST_METHOD,
@@ -145,6 +145,52 @@ namespace CEG_WebMVC.Controllers
                 return RedirectToAction("AdminAccountIndex");
             }
             TempData["Success"] = ViewBag.Success = "Teacher Account Create Successfully!";
+
+            return RedirectToAction("AdminAccountIndex");
+        }
+        [HttpPost("Account/Create/Parent")]
+        //[Authorize(Roles = "TempMember")]
+        public async Task<IActionResult> AdminCreateParent(
+            [FromForm][Required] CreateParentVM createParent)
+        {
+
+            if (methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN) != null)
+                return Redirect(methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN));
+            AdminAPI_URL += "Admin/Parent/Create";
+            string? accToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
+
+            if (!ModelState.IsValid)
+            {
+                TempData = methcall.SetValidationTempData(TempData, Constants.CREATE_PARENT_DETAILS_VALID, createParent, jsonOptions);
+                return RedirectToAction("AdminAccountIndex");
+            }
+
+            var authenResponse = await methcall.CallMethodReturnObject<AdminAccountCreateResponseVM>(
+                _httpClient: _httpClient,
+                options: jsonOptions,
+                methodName: Constants.POST_METHOD,
+                url: AdminAPI_URL,
+                inputType: _mapper.Map<CreateNewParent>(createParent),
+                accessToken: accToken,
+                _logger: _logger);
+
+            if (authenResponse == null)
+            {
+                _logger.LogError("Error while registering Parent account");
+
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while registering Parent account !";
+
+                return RedirectToAction("AdminAccountIndex");
+            }
+            if (!authenResponse.Status)
+            {
+                _logger.LogError("Error while registering Parent account");
+
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while registering Parent account !";
+
+                return RedirectToAction("AdminAccountIndex");
+            }
+            TempData["Success"] = ViewBag.Success = "Parent Account Create Successfully!";
 
             return RedirectToAction("AdminAccountIndex");
         }

@@ -191,6 +191,12 @@ namespace CEG_WebMVC.Library
             CreateMap<Feedback, FeedbackViewModel>().ReverseMap();*/
             CreateMap<CreateAccountVM, CreateNewAccount>()
                 .ReverseMap();
+            CreateMap<CreateParentVM, CreateNewParent>()
+                .AfterMap((src, dest) =>
+                {
+                    dest.Account.Role = "Parent";
+                })
+                .ReverseMap();
             CreateMap<CreateTeacherVM, CreateNewTeacher>()
                 .AfterMap((src, dest) =>
                 {

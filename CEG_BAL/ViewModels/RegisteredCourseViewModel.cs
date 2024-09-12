@@ -15,10 +15,10 @@ namespace CEG_BAL.ViewModels
 
         public DateTime? ConfirmDate { get; set; }
 
-        public virtual Course Course { get; set; } = null!;
+        public virtual CourseViewModel Course { get; set; } = null!;
 
-        public virtual Payment Payment { get; set; } = null!;
+        public virtual PaymentViewModel Payment { get; set; } = null!;
 
-        public virtual ICollection<StudentProcess> StudentProcesses { get; set; } = new List<StudentProcess>();
+        public virtual ICollection<StudentProcessViewModel> StudentProcesses { get; set; } = new List<StudentProcessViewModel>();
     }
 }
