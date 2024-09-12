@@ -10,5 +10,7 @@ namespace CEG_DAL.Repositories.Interfaces
 {
     public interface IRegisteredCourseRepositories : IRepositoryBase<RegisteredCourse>
     {
+        Task<List<RegisteredCourse>> GetRegisteredCoursesList();
+        Task<RegisteredCourse> GetByIdNoTracking(int id);
     }
 }
