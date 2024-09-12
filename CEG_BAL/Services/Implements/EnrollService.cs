@@ -2,24 +2,24 @@
 using CEG_BAL.Services.Interfaces;
 using CEG_BAL.ViewModels;
 using CEG_DAL.Infrastructure;
+using CEG_DAL.Models;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CEG_DAL.Models;
 
 namespace CEG_BAL.Services.Implements
 {
-    public class GameService : IGameService
+    public class EnrollService : IEnrollService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IJWTService _jwtService;
         private readonly IConfiguration _configuration;
 
-        public GameService(
+        public EnrollService(
             IUnitOfWork unitOfWork,
             IMapper mapper,
             IJWTService jwtServices,
@@ -30,33 +30,33 @@ namespace CEG_BAL.Services.Implements
             _jwtService = jwtServices;
             _configuration = configuration;
         }
-        public void Create(GameViewModel game)
+        public void Create(EnrollViewModel model)
         {
-            var gam = _mapper.Map<Game>(game);
-            _unitOfWork.GameRepositories.Create(gam);
+            var en = _mapper.Map<Enroll>(model);
+            _unitOfWork.EnrollRepositories.Create(en);
             _unitOfWork.Save();
         }
 
-        public async Task<GameViewModel> GetGameById(int id)
+        public async Task<EnrollViewModel> GetEnrollById(int id)
         {
-            var user = await _unitOfWork.GameRepositories.GetByIdNoTracking(id);
+            var user = await _unitOfWork.EnrollRepositories.GetByIdNoTracking(id);
             if (user != null)
             {
-                var urs = _mapper.Map<GameViewModel>(user);
+                var urs = _mapper.Map<EnrollViewModel>(user);
                 return urs;
             }
             return null;
         }
 
-        public async Task<List<GameViewModel>> GetGamesList()
+        public async Task<List<EnrollViewModel>> GetEnrollsList()
         {
-            return _mapper.Map<List<GameViewModel>>(await  _unitOfWork.GameRepositories.GetGamesList());
+            return _mapper.Map<List<EnrollViewModel>>(await  _unitOfWork.EnrollRepositories.GetEnrollsList());
         }
 
-        public void Update(GameViewModel game)
+        public void Update(EnrollViewModel model)
         {
-            var gam = _mapper.Map<Game>(game);
-            _unitOfWork.GameRepositories.Update(gam);
+            var en = _mapper.Map<Enroll>(model);
+            _unitOfWork.EnrollRepositories.Update(en);
             _unitOfWork.Save();
         }
     }
