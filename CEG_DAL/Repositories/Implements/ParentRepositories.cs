@@ -18,7 +18,7 @@ namespace CEG_DAL.Repositories.Implements
             _dbContext = dbContext;
         }
 
-        public async Task<Parent> GetByIdNoTracking(int id)
+        public async Task<Parent?> GetByIdNoTracking(int id)
         {
             return await _dbContext.Parents.AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(par => par.ParentsId == id);
         }
@@ -26,6 +26,11 @@ namespace CEG_DAL.Repositories.Implements
         public async Task<List<Parent>> GetParentList()
         {
             return await _dbContext.Parents.ToListAsync();
+        }
+
+        public async Task<Parent?> GetByEmail(string email)
+        {
+            return await _dbContext.Parents.AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(par => par.Email == email);
         }
     }
 }

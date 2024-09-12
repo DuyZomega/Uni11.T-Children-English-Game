@@ -37,7 +37,7 @@ namespace CEG_BAL.Services.Implements
             return _mapper.Map<List<TeacherViewModel>>(await _unitOfWork.TeacherRepositories.GetTeacherList());
         }
 
-        public async Task<TeacherViewModel> GetTeacherById(int id)
+        public async Task<TeacherViewModel?> GetTeacherById(int id)
         {
             var teacher = await _unitOfWork.TeacherRepositories.GetByIdNoTracking(id);
             if (teacher != null)

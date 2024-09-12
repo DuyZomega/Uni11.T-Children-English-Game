@@ -8,5 +8,9 @@ namespace CEG_BAL.ViewModels.Account.Create
 {
     public class CreateNewParent
     {
+        public string Email { get; set; }
+        public string Phone { get; set; }
+        public string Address { get; set; }
+        public virtual CreateNewAccount Account { get; set; }
     }
 }
