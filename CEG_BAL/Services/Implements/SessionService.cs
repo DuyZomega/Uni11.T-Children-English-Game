@@ -12,14 +12,14 @@ using System.Threading.Tasks;
 
 namespace CEG_BAL.Services.Implements
 {
-    public class GameLevelService : IGameLevel
+    public class SessionService : ISessionService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IJWTService _jwtService;
         private readonly IConfiguration _configuration;
 
-        public GameLevelService(
+        public SessionService(
             IUnitOfWork unitOfWork,
             IMapper mapper,
             IJWTService jwtServices,
@@ -30,33 +30,33 @@ namespace CEG_BAL.Services.Implements
             _jwtService = jwtServices;
             _configuration = configuration;
         }
-        public void Create(GameLevelViewModel model)
+        public void Create(SessionViewModel model)
         {
-            var game = _mapper.Map<GameLevel>(model);
-            _unitOfWork.GameLevelRepositories.Create(game);
+            var sess = _mapper.Map<Session>(model);
+            _unitOfWork.SessionRepositories.Create(sess);
             _unitOfWork.Save();
         }
 
-        public async Task<List<GameLevelViewModel>> GetAllGameLevel()
+        public async Task<List<SessionViewModel>> GetAllSessions()
         {
-            return _mapper.Map<List<GameLevelViewModel>>(await _unitOfWork.GameLevelRepositories.GetGameLevelsList());
+            return _mapper.Map<List<SessionViewModel>>(await _unitOfWork.SessionRepositories.GetSessionsList());
         }
 
-        public async Task<GameLevelViewModel> GetGameLevelById(int id)
+        public async Task<SessionViewModel> GetSessionById(int id)
         {
-            var user = await _unitOfWork.GameLevelRepositories.GetByIdNoTracking(id);
+            var user = await _unitOfWork.SessionRepositories.GetByIdNoTracking(id);
             if (user != null)
             {
-                var urs = _mapper.Map<GameLevelViewModel>(user);
+                var urs = _mapper.Map<SessionViewModel>(user);
                 return urs;
             }
             return null;
         }
 
-        public void Update(GameLevelViewModel model)
+        public void Update(SessionViewModel model)
         {
-            var game = _mapper.Map<GameLevel>(model);
-            _unitOfWork.GameLevelRepositories.Update(game);
+            var sess = _mapper.Map<Session>(model);
+            _unitOfWork.SessionRepositories.Update(sess);
             _unitOfWork.Save();
         }
     }

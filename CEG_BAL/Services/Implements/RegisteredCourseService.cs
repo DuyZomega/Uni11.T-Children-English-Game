@@ -12,14 +12,14 @@ using System.Threading.Tasks;
 
 namespace CEG_BAL.Services.Implements
 {
-    public class GameLevelService : IGameLevel
+    public class RegisteredCourseService : IRegisteredCourseService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IJWTService _jwtService;
         private readonly IConfiguration _configuration;
 
-        public GameLevelService(
+        public RegisteredCourseService(
             IUnitOfWork unitOfWork,
             IMapper mapper,
             IJWTService jwtServices,
@@ -30,33 +30,32 @@ namespace CEG_BAL.Services.Implements
             _jwtService = jwtServices;
             _configuration = configuration;
         }
-        public void Create(GameLevelViewModel model)
+        public void Create(RegisteredCourseViewModel model)
         {
-            var game = _mapper.Map<GameLevel>(model);
-            _unitOfWork.GameLevelRepositories.Create(game);
+            var regi = _mapper.Map<RegisteredCourse>(model);
+            _unitOfWork.RegisteredCourseRepositories.Create(regi);
             _unitOfWork.Save();
         }
 
-        public async Task<List<GameLevelViewModel>> GetAllGameLevel()
+        public async Task<List<RegisteredCourseViewModel>> GetAllRegisteredCourse()
         {
-            return _mapper.Map<List<GameLevelViewModel>>(await _unitOfWork.GameLevelRepositories.GetGameLevelsList());
+            return _mapper.Map<List<RegisteredCourseViewModel>>(await  _unitOfWork.RegisteredCourseRepositories.GetRegisteredCoursesList());
         }
 
-        public async Task<GameLevelViewModel> GetGameLevelById(int id)
+        public async Task<RegisteredCourseViewModel> GetRegisteredCourseById(int id)
         {
-            var user = await _unitOfWork.GameLevelRepositories.GetByIdNoTracking(id);
-            if (user != null)
-            {
-                var urs = _mapper.Map<GameLevelViewModel>(user);
+            var user = await _unitOfWork.RegisteredCourseRepositories.GetByIdNoTracking(id);
+            if (user != null) {
+                var urs = _mapper.Map<RegisteredCourseViewModel>(user);
                 return urs;
             }
             return null;
         }
 
-        public void Update(GameLevelViewModel model)
+        public void Update(RegisteredCourseViewModel model)
         {
-            var game = _mapper.Map<GameLevel>(model);
-            _unitOfWork.GameLevelRepositories.Update(game);
+            var regi = _mapper.Map<RegisteredCourse>(model);
+            _unitOfWork.RegisteredCourseRepositories.Update(regi);
             _unitOfWork.Save();
         }
     }

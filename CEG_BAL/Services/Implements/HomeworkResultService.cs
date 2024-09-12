@@ -12,14 +12,14 @@ using System.Threading.Tasks;
 
 namespace CEG_BAL.Services.Implements
 {
-    public class GameLevelService : IGameLevel
+    public class HomeworkResultService : IHomeworkResultService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IJWTService _jwtService;
         private readonly IConfiguration _configuration;
 
-        public GameLevelService(
+        public HomeworkResultService(
             IUnitOfWork unitOfWork,
             IMapper mapper,
             IJWTService jwtServices,
@@ -30,33 +30,33 @@ namespace CEG_BAL.Services.Implements
             _jwtService = jwtServices;
             _configuration = configuration;
         }
-        public void Create(GameLevelViewModel model)
+        public void Create(HomeworkResultViewModel model)
         {
-            var game = _mapper.Map<GameLevel>(model);
-            _unitOfWork.GameLevelRepositories.Create(game);
+            var home = _mapper.Map<HomeworkResult>(model);
+            _unitOfWork.HomeworkResultRepositories.Create(home);
             _unitOfWork.Save();
         }
 
-        public async Task<List<GameLevelViewModel>> GetAllGameLevel()
+        public async Task<List<HomeworkResultViewModel>> GetAllHomeworkResult()
         {
-            return _mapper.Map<List<GameLevelViewModel>>(await _unitOfWork.GameLevelRepositories.GetGameLevelsList());
+            return _mapper.Map<List<HomeworkResultViewModel>>(await _unitOfWork.HomeworkResultRepositories.GetHomeworkResultsList());
         }
 
-        public async Task<GameLevelViewModel> GetGameLevelById(int id)
+        public async Task<HomeworkResultViewModel> GetHomeworkResultById(int id)
         {
-            var user = await _unitOfWork.GameLevelRepositories.GetByIdNoTracking(id);
+            var user = await _unitOfWork.HomeworkResultRepositories.GetByIdNoTracking(id);
             if (user != null)
             {
-                var urs = _mapper.Map<GameLevelViewModel>(user);
+                var urs = _mapper.Map<HomeworkResultViewModel>(user);
                 return urs;
             }
             return null;
         }
 
-        public void Update(GameLevelViewModel model)
+        public void Update(HomeworkResultViewModel model)
         {
-            var game = _mapper.Map<GameLevel>(model);
-            _unitOfWork.GameLevelRepositories.Update(game);
+            var home = _mapper.Map<HomeworkResult>(model);
+            _unitOfWork.HomeworkResultRepositories.Update(home);
             _unitOfWork.Save();
         }
     }

@@ -37,7 +37,7 @@ namespace CEG_BAL.Services.Implements
             _unitOfWork.Save();
         }
 
-        public async Task<GameConfigViewModel> GetById(int id)
+        public async Task<GameConfigViewModel> GetGameConfigById(int id)
         {
             var user = await _unitOfWork.GameConfigRepositories.GetByIdNoTracking(id);
             if (user != null)

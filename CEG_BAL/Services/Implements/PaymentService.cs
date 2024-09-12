@@ -12,14 +12,14 @@ using System.Threading.Tasks;
 
 namespace CEG_BAL.Services.Implements
 {
-    public class GameLevelService : IGameLevel
+    public class PaymentService : IPaymentService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IJWTService _jwtService;
         private readonly IConfiguration _configuration;
 
-        public GameLevelService(
+        public PaymentService(
             IUnitOfWork unitOfWork,
             IMapper mapper,
             IJWTService jwtServices,
@@ -30,33 +30,33 @@ namespace CEG_BAL.Services.Implements
             _jwtService = jwtServices;
             _configuration = configuration;
         }
-        public void Create(GameLevelViewModel model)
+        public void Create(PaymentViewModel model)
         {
-            var game = _mapper.Map<GameLevel>(model);
-            _unitOfWork.GameLevelRepositories.Create(game);
+            var pay = _mapper.Map<Payment>(model);
+            _unitOfWork.PaymentRepositories.Create(pay);
             _unitOfWork.Save();
         }
 
-        public async Task<List<GameLevelViewModel>> GetAllGameLevel()
+        public async Task<List<PaymentViewModel>> GetAllPayment()
         {
-            return _mapper.Map<List<GameLevelViewModel>>(await _unitOfWork.GameLevelRepositories.GetGameLevelsList());
+            return _mapper.Map<List<PaymentViewModel>>(await  _unitOfWork.PaymentRepositories.GetPaymentsList());
         }
 
-        public async Task<GameLevelViewModel> GetGameLevelById(int id)
+        public async Task<PaymentViewModel> GetPaymentById(int id)
         {
-            var user = await _unitOfWork.GameLevelRepositories.GetByIdNoTracking(id);
+            var user = await _unitOfWork.PaymentRepositories.GetByIdNoTracking(id);
             if (user != null)
             {
-                var urs = _mapper.Map<GameLevelViewModel>(user);
+                var urs = _mapper.Map<PaymentViewModel>(user);
                 return urs;
             }
             return null;
         }
 
-        public void Update(GameLevelViewModel model)
+        public void Update(PaymentViewModel model)
         {
-            var game = _mapper.Map<GameLevel>(model);
-            _unitOfWork.GameLevelRepositories.Update(game);
+            var pay = _mapper.Map<Payment>(model);
+            _unitOfWork.PaymentRepositories.Update(pay);
             _unitOfWork.Save();
         }
     }
