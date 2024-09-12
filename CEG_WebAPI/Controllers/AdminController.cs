@@ -18,14 +18,16 @@ namespace CEG_WebAPI.Controllers
         private readonly IAccountService _accountService;
         private readonly ITeacherService _teacherService;
         private readonly IParentService _parentService;
+        private readonly IStudentService _studentService;
         private readonly IConfiguration _config;
 
         public AdminController(
-            IAccountService accountService, ITeacherService teacherService, IParentService parentService, IConfiguration config)
+            IAccountService accountService, ITeacherService teacherService, IParentService parentService, IStudentService studentService, IConfiguration config)
         {
             _accountService = accountService;
             _teacherService = teacherService;
             _parentService = parentService;
+            _studentService = studentService;
             _config = config;
         }
         [HttpGet("{id}")]
@@ -334,6 +336,66 @@ namespace CEG_WebAPI.Controllers
                     Data = true,
                     Status = true,
                     SuccessMessage = "Parent Account Create successfully !",
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    Status = false,
+                    ErrorMessage = ex.Message,
+                    InnerExceptionMessage = ex.InnerException?.Message
+                });
+            }
+        }
+
+        [HttpPost("Student/Create")]
+        [Authorize(Roles = "Admin")]
+        [ProducesResponseType(typeof(StudentViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> CreateStudent(
+            [FromBody][Required] CreateNewStudent newStu)
+        {
+            try
+            {
+                if (newStu.Account.Password == null || newStu.Account.Password == string.Empty)
+                {
+                    return BadRequest(new
+                    {
+                        Status = false,
+                        ErrorMessage = "Password is Empty!"
+                    });
+                }
+                var resultUsername = await _accountService.IsAccountExistByUsername(newStu.Account.Username);
+                if (resultUsername)
+                {
+                    return BadRequest(new
+                    {
+                        Status = false,
+                        ErrorMessage = "Username has already been taken!"
+                    });
+                }
+                if (!newStu.Account.Password.Equals(newStu.Account.ConfirmPassword))
+                {
+                    return BadRequest(new
+                    {
+                        Status = false,
+                        ErrorMessage = "Password and Confirm Password do not match!"
+                    });
+                }
+                StudentViewModel stu = new StudentViewModel()
+                {
+                    Description = newStu.Description,
+                    Highscore = newStu.Highscore,
+                    Birhthdate = newStu.Birthdate,
+                };
+                _studentService.Create(stu, newStu);
+                return Ok(new
+                {
+                    Data = true,
+                    Status = true,
+                    SuccessMessage = "Student Account Create successfully !",
                 });
             }
             catch (Exception ex)
