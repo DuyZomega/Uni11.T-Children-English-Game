@@ -32,5 +32,16 @@ namespace CEG_DAL.Repositories.Implements
         {
             return await _dbContext.Teachers.AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(t => t.Email == email);
         }
+
+        public async Task<int> GenerateNewTeacherId()
+        {
+            var lastAcc = await _dbContext.Teachers.OrderByDescending(acc => acc.TeacherId).FirstOrDefaultAsync();
+            int newId = 1;
+            if (lastAcc != null)
+            {
+                newId = lastAcc.TeacherId + 1;
+            }
+            return newId;
+        }
     }
 }

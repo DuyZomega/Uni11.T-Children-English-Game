@@ -59,6 +59,7 @@ namespace CEG_BAL.Services.Implements
         {
             var acc = _mapper.Map<Teacher>(teacher);
             acc.Account.AccountId = _unitOfWork.AccountRepositories.GenerateNewAccountId().Result;
+            acc.TeacherId = _unitOfWork.TeacherRepositories.GenerateNewTeacherId().Result;
             acc.Account.CreatedDate = DateTime.Now;
             acc.Account.Status = "Active";
             acc.Account.RoleId = _unitOfWork.RoleRepositories.GetRoleIdByRoleName("Teacher").Result;

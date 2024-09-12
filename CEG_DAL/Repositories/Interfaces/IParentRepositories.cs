@@ -14,5 +14,6 @@ namespace CEG_DAL.Repositories.Interfaces
         Task<Parent?> GetByIdNoTracking(int id);
         Task<Parent?> GetByEmail(string email);
         Task<int> GetIdByUsername(string username);
+        Task<int> GenerateNewParentId();
     }
 }
