@@ -2,24 +2,24 @@
 using CEG_BAL.Services.Interfaces;
 using CEG_BAL.ViewModels;
 using CEG_DAL.Infrastructure;
-using CEG_DAL.Models;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CEG_DAL.Models;
 
 namespace CEG_BAL.Services.Implements
 {
-    public class ClassService : IClassService
+    public class GameService : IGameService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IJWTService _jwtService;
         private readonly IConfiguration _configuration;
 
-        public ClassService(
+        public GameService(
             IUnitOfWork unitOfWork,
             IMapper mapper,
             IJWTService jwtServices,
@@ -30,35 +30,32 @@ namespace CEG_BAL.Services.Implements
             _jwtService = jwtServices;
             _configuration = configuration;
         }
-
-        public void Create(ClassViewModel classModel)
+        public void Create(GameViewModel game)
         {
-            var clas = _mapper.Map<Class>(classModel);
-            _unitOfWork.ClassRepositories.Create(clas);
+            var gam = _mapper.Map<Game>(game);
+            _unitOfWork.GameRepositories.Create(gam);
             _unitOfWork.Save();
         }
 
-        public async Task<ClassViewModel> GetClassById(int id)
+        public async Task<GameViewModel> GetGameById(int id)
         {
-            var user = await _unitOfWork.ClassRepositories.GetByIdNoTracking(id);
-            if(user != null)
+            var user = await _unitOfWork.GameRepositories.GetByIdNoTracking(id);
+            if (user != null)
             {
-                var usr = _mapper.Map<ClassViewModel>(user);
-                return usr;
+                var urs = _mapper.Map<GameViewModel>(user);
+                return urs;
             }
             return null;
         }
 
-        public async Task<List<ClassViewModel>> GetClassList()
+        public Task<List<GameViewModel>> GetGamesList()
         {
-            return _mapper.Map<List<ClassViewModel>>(await _unitOfWork.ClassRepositories.GetClassList());
+            throw new NotImplementedException();
         }
 
-        public void Update(ClassViewModel classModel)
+        public void Update(GameViewModel game)
         {
-            var clas = _mapper.Map<Class>(classModel);
-            _unitOfWork.ClassRepositories.Update(clas);
-            _unitOfWork.Save();
+            throw new NotImplementedException();
         }
     }
 }
