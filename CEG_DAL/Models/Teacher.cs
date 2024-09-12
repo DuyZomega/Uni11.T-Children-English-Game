@@ -7,8 +7,6 @@ public partial class Teacher
 {
     public int TeacherId { get; set; }
 
-    public int CourseId { get; set; } 
-
     public int AccountId { get; set; }
 
     public string Email { get; set; } = null!;

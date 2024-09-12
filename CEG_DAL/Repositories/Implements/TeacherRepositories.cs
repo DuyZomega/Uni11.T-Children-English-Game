@@ -27,5 +27,10 @@ namespace CEG_DAL.Repositories.Implements
         {
             return await _dbContext.Teachers.AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(t => t.TeacherId == id);
         }
+
+        public async Task<Teacher?> GetByEmail(string email)
+        {
+            return await _dbContext.Teachers.AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(t => t.Email == email);
+        }
     }
 }

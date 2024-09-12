@@ -7,7 +7,7 @@ public partial class Game
 {
     public int GameId { get; set; }
 
-    public int? GameConfigId { get; set; }
+    public int GameConfigId { get; set; }
 
     public string? DownloadLink { get; set; }
 
@@ -19,7 +19,7 @@ public partial class Game
 
     public string? Type { get; set; }
 
-    public virtual GameConfig? GameConfig { get; set; }
+    public virtual GameConfig GameConfig { get; set; } = null!;
 
     public virtual ICollection<GameLevel> GameLevels { get; set; } = new List<GameLevel>();
 }
