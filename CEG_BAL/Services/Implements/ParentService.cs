@@ -31,13 +31,13 @@ namespace CEG_BAL.Services.Implements
             _jwtService = jwtServices;
             _configuration = configuration;
         }
-        public void Create(ParentViewModel parent, CreateNewParent newPar)
+        public async void Create(ParentViewModel parent, CreateNewParent newPar)
         {
             var acc = _mapper.Map<Parent>(parent);
-            acc.Account.AccountId = _unitOfWork.AccountRepositories.GenerateNewAccountId();
+            acc.Account.AccountId = await _unitOfWork.AccountRepositories.GenerateNewAccountId();
             acc.Account.CreatedDate = DateTime.Now;
             acc.Account.Status = "Active";
-            acc.Account.RoleId = _unitOfWork.RoleRepositories.GetRoleIdByRoleName("Parent");
+            acc.Account.RoleId = await _unitOfWork.RoleRepositories.GetRoleIdByRoleName("Parent");
             if (newPar != null)
             {
                 acc.Account.Fullname = newPar.Account.Fullname;

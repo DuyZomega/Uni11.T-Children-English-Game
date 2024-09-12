@@ -55,13 +55,13 @@ namespace CEG_BAL.Services.Implements
             return false;
         }
 
-        public void Create(TeacherViewModel teacher, CreateNewTeacher newTeach)
+        public async void Create(TeacherViewModel teacher, CreateNewTeacher newTeach)
         {
             var acc = _mapper.Map<Teacher>(teacher);
-            acc.Account.AccountId = _unitOfWork.AccountRepositories.GenerateNewAccountId();
+            acc.Account.AccountId = await _unitOfWork.AccountRepositories.GenerateNewAccountId();
             acc.Account.CreatedDate = DateTime.Now;
             acc.Account.Status = "Active";
-            acc.Account.RoleId = _unitOfWork.RoleRepositories.GetRoleIdByRoleName("Teacher");
+            acc.Account.RoleId = await _unitOfWork.RoleRepositories.GetRoleIdByRoleName("Teacher");
             if (newTeach != null)
             {
                 acc.Account.Fullname = newTeach.Account.Fullname;
