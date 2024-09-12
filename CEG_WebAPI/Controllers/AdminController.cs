@@ -205,8 +205,82 @@ namespace CEG_WebAPI.Controllers
                     InnerExceptionMessage = ex.InnerException?.Message
                 });
             }
-
         }
+
+        [HttpPost("Teacher/Create")]
+        [Authorize(Roles = "Admin")]
+        [ProducesResponseType(typeof(TeacherViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> CreateTeacher(
+            [FromBody][Required] CreateNewTeacher newTeach)
+        {
+            try
+            {
+                if (newTeach.Account.Password == null || newTeach.Account.Password == string.Empty)
+                {
+                    return BadRequest(new
+                    {
+                        Status = false,
+                        ErrorMessage = "Password is Empty!"
+                    });
+                }
+                var resultEmail = await _teacherService.IsTeacherExistByEmail(newTeach.Email);
+                if (resultEmail)
+                {
+                    return BadRequest(new
+                    {
+                        Status = false,
+                        ErrorMessage = "Email has already been registered!"
+                    });
+                }
+                var resultUsername = await _accountService.IsAccountExistByUsername(newTeach.Account.Username);
+                if (resultUsername)
+                {
+                    return BadRequest(new
+                    {
+                        Status = false,
+                        ErrorMessage = "Username has already been taken!"
+                    });
+                }
+                if (!newTeach.Account.Password.Equals(newTeach.Account.ConfirmPassword))
+                {
+                    return BadRequest(new
+                    {
+                        Status = false,
+                        ErrorMessage = "Password and Confirm Password do not match!"
+                    });
+                }
+                AccountViewModel acc = new AccountViewModel()
+                {
+                    Username = newTeach.Account.Username,
+                    Password = newTeach.Account.Password,
+                };
+                _accountService.Create(acc, newTeach.Account);
+                TeacherViewModel teach = new TeacherViewModel()
+                {
+                    Email = newTeach.Email,
+                    Phone = newTeach.Phone,
+                    Address = newTeach.Address,
+                };
+                _teacherService.Create(teach, newTeach);
+                return Ok(new
+                {
+                    Status = true,
+                    SuccessMessage = "Teacher Account Create successfully !",
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    Status = false,
+                    ErrorMessage = ex.Message,
+                    InnerExceptionMessage = ex.InnerException?.Message
+                });
+            }
+        }
+
         /*[HttpGet("GetId")]
         [Authorize(Roles = "Admin,Member")]
         [ProducesResponseType(typeof(AccountViewModel), StatusCodes.Status200OK)]

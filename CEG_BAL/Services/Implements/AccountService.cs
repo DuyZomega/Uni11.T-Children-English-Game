@@ -91,8 +91,8 @@ namespace CEG_BAL.Services.Implements
 
         public async Task<bool> IsAccountExistByUsername(string username)
         {
-            var user = await _unitOfWork.AccountRepositories.GetByUsername(username);
-            if (user != null) return true;
+            var acc = await _unitOfWork.AccountRepositories.GetByUsername(username);
+            if (acc != null) return true;
             return false;
         }
 
@@ -101,7 +101,6 @@ namespace CEG_BAL.Services.Implements
             var acc = _mapper.Map<Account>(account);
             acc.AccountId = _unitOfWork.AccountRepositories.GenerateNewAccountId();
             acc.CreatedDate = DateTime.Now;
-            acc.Gender = newAcc.Gender;
             acc.Status = "Active";
             if (newAcc != null)
             {
