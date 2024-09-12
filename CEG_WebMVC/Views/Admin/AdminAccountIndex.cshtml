@@ -6,7 +6,7 @@
 
     CEG_WebMVC.Models.ViewModels.Account.Create.CreateParentVM createParent = Model.createParent;
     CEG_WebMVC.Models.ViewModels.Account.Create.CreateTeacherVM createTeacher = Model.createTeacher;
-    CEG_BAL.ViewModels.Account.Create.CreateNewStudent createStudent = Model.createStudent;
+    CEG_WebMVC.Models.ViewModels.Account.Create.CreateStudentVM createStudent = Model.createStudent;
 
     var accountStatuses = Model.AccountStatuses;
     
@@ -180,7 +180,7 @@
             </div>
         </div>
     </div>
-    @* <div id="addStudent" class="modal fade" role="dialog">
+    <div id="addStudent" class="modal fade" role="dialog">
         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
             <div class="modal-content modal-addRoom">
                 <div class="modal-header">
@@ -191,44 +191,44 @@
                         <div class="row p-4">
                             <div class="col-12">
                                 <div class="row form-group">
-                                    <label asp-for="@createStudent.UserName" class="col-md-3 col-form-label text-md-right"></label>
-                                    <input asp-for="@createStudent.UserName" value="@createStudent.UserName" type="text" placeholder="User Name" required class="form-control col-md-7">
-                                    <span asp-validation-for="@createStudent.UserName" id="error_message"
+                                    <label asp-for="@createStudent.Account.Username" class="col-md-3 col-form-label text-md-right"></label>
+                                    <input asp-for="@createStudent.Account.Username" value="@createStudent.Account.Username" type="text" placeholder="User Name" required class="form-control col-md-7">
+                                    <span asp-validation-for="@createStudent.Account.Username" id="error_message"
                                           class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
-                                    <label asp-for="@createStudent.FullName" class="col-md-3 col-form-label text-md-right"></label>
-                                    <input asp-for="@createStudent.FullName" value="@createStudent.FullName" type="text" placeholder="Full Name" required class="form-control col-md-7">
-                                    <span asp-validation-for="@createStudent.FullName" id="error_message"
+                                    <label asp-for="@createStudent.Account.Fullname" class="col-md-3 col-form-label text-md-right"></label>
+                                    <input asp-for="@createStudent.Account.Fullname" value="@createStudent.Account.Fullname" type="text" placeholder="Full Name" required class="form-control col-md-7">
+                                    <span asp-validation-for="@createStudent.Account.Fullname" id="error_message"
                                           class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
-                                    <label asp-for="@createStudent.Role" class="col-md-3 col-form-label mt-3 text-md-right"></label>
-                                    <select class="form-control col-md-7 custom-select" asp-for="@createStudent.Role" asp-items="@createStudent.DefaultRoleSelectList"></select>
-                                    <span asp-validation-for="@createStudent.Role" id="error_message"
+                                    <label asp-for="@createStudent.ParentUsername" class="col-md-3 col-form-label text-md-right"></label>
+                                    <input asp-for="@createStudent.ParentUsername" value="@createStudent.ParentUsername" type="text" placeholder="Parent's Account User Name" required class="form-control col-md-7">
+                                    <span asp-validation-for="@createStudent.ParentUsername" id="error_message"
                                           class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
-                                    <label asp-for="@createStudent.Gender" class="col-md-3 col-form-label mt-3 text-md-right"></label>
-                                    <select class="form-control col-md-7 custom-select" asp-for="@createStudent.Gender" asp-items="@createStudent.DefaultUserGenderSelectList"></select>
-                                    <span asp-validation-for="@createStudent.Gender" id="error_message"
+                                    <label asp-for="@createStudent.Birthdate" class="col-md-3 col-form-label text-md-right"></label>
+                                    <input asp-for="@createStudent.Birthdate" value="@createStudent.Birthdate.ToString("yyyy-MM-ddTHH:mm")" type="datetime-local" min="@DateTime.Now.AddYears(-16).ToString("yyyy-MM-ddTHH:mm")" max="@DateTime.Now.AddYears(-12).ToString("yyyy-MM-ddTHH:mm")" asp-format="{0:yyyy-MM-ddTHH:mm}" required class="form-control col-md-7">
+                                    <span asp-validation-for="@createStudent.Birthdate" id="error_message"
                                           class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
-                                    <label asp-for="@createStudent.Email" class="col-md-3 col-form-label mt-3 text-md-right"></label>
-                                    <input asp-for="@createStudent.Email" value="@createStudent.Email" type="email" placeholder="Email" class="form-control col-md-7 mt-3" required>
-                                    <span asp-validation-for="@createStudent.Email" id="error_message"
+                                    <label asp-for="@createStudent.Description" class="col-md-3 col-form-label text-md-right"></label>
+                                    <textarea asp-for="@createStudent.Description" value="@createStudent.Description" required class="form-control col-md-7"></textarea>
+                                    <span asp-validation-for="@createStudent.Description" id="error_message"
                                           class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
-                                    <label asp-for="@createStudent.Phone" class="col-md-3 col-form-label mt-3 text-md-right"></label>
-                                    <input asp-for="@createStudent.Phone" value="@createStudent.Phone" type="tel" placeholder="Phone number" class="form-control col-md-7 mt-3" required>
-                                    <span asp-validation-for="@createStudent.Phone" id="error_message"
+                                    <label asp-for="@createStudent.Account.Gender" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                    <select class="form-control col-md-7 custom-select" asp-for="@createStudent.Account.Gender" asp-items="@createStudent.Account.DefaultAccountGenderSelectList"></select>
+                                    <span asp-validation-for="@createStudent.Account.Gender" id="error_message"
                                           class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
-                                    <label asp-for="@createStudent.Password" class="col-md-3 col-form-label mt-3 text-md-right"></label>
-                                    <input asp-for="@createStudent.Password" value="@createStudent.Password" type="password" placeholder="Password" class="form-control col-md-7 mt-3" required>
-                                    <span asp-validation-for="@createStudent.Password" id="error_message"
+                                    <label asp-for="@createStudent.Account.Password" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                    <input asp-for="@createStudent.Account.Password" value="@createStudent.Account.Password" type="password" placeholder="Password" class="form-control col-md-7 mt-3" required>
+                                    <span asp-validation-for="@createStudent.Account.Password" id="error_message"
                                           class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
-                                    <label asp-for="@createStudent.ConfirmPassword" class="col-md-3 col-form-label mt-3 text-md-right"></label>
-                                    <input asp-for="@createStudent.ConfirmPassword" value="@createStudent.ConfirmPassword" type="password" placeholder="Confirm Password" class="form-control col-md-7 mt-3" required>
-                                    <span asp-validation-for="@createStudent.ConfirmPassword" id="error_message"
+                                    <label asp-for="@createStudent.Account.ConfirmPassword" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                    <input asp-for="@createStudent.Account.ConfirmPassword" value="@createStudent.Account.ConfirmPassword" type="password" placeholder="Confirm Password" class="form-control col-md-7 mt-3" required>
+                                    <span asp-validation-for="@createStudent.Account.ConfirmPassword" id="error_message"
                                           class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
                                 </div>
                             </div>
@@ -241,7 +241,7 @@
                 </div>
             </div>
         </div>
-    </div> *@
+    </div>
     <div id="addParent" class="modal fade" role="dialog">
         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
             <div class="modal-content modal-addRoom">

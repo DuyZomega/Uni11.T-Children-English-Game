@@ -1,8 +1,5 @@
-using CEG_BAL.AutoMapperProfile;
-using CEG_WebMVC.Library;
-using CEG_WebMVC.Services.Interfaces;
+using CEG_WebMVC.Libraries;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.Google;
 
 namespace CEG_WebMVC
 {

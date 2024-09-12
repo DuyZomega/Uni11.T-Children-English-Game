@@ -1,6 +1,5 @@
 ﻿/*using CEG_BAL.ViewModels;
 using CEG_BAL.ViewModels.Member;*/
-using CEG_WebMVC.Library;
 /*using CEG_WebMVC.Models.Transaction;
 using CEG_WebMVC.Models.Meeting;*/
 using CEG_WebMVC.Models.VnPay;

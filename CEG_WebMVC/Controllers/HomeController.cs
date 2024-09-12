@@ -2,19 +2,15 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Text.Json;
-using CEG_WebMVC.Library;
 using System.Net.Http.Headers;
-using System.Dynamic;
 using System.Text.Encodings.Web;
-using Microsoft.AspNetCore.Http.Json;
-using System;
+using CEG_WebMVC.Libraries;
 /*using CEG_BAL.ViewModels.Event;
 using CEG_WebMVC.Models.FieldTrip;
 using CEG_WebMVC.Models.Contest;
 using CEG_WebMVC.Models.Meeting;
 using CEG_WebMVC.Models.Notification;
 using CEG_WebMVC.Models.Location;*/
-using CEG_WebMVC.Models;
 
 namespace CEG_WebMVC.Controllers
 {

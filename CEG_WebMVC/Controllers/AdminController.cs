@@ -1,14 +1,11 @@
 ﻿using AutoMapper;
 using CEG_BAL.ViewModels.Account.Create;
-using CEG_WebMVC.Library;
+using CEG_WebMVC.Libraries;
 using CEG_WebMVC.Models.ViewModels.Account.Create;
 using CEG_WebMVC.Models.ViewModels.Account.Get;
-using CEG_WebMVC.Models.ViewModels.Account.ResponseVM;
 using CEG_WebMVC.Models.ViewModels.Admin.Get;
 using CEG_WebMVC.Models.ViewModels.Admin.ResponseVM;
-using Microsoft.AspNetCore.Http.Json;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
 using System.Net.Http.Headers;
 using System.Text.Encodings.Web;
@@ -191,6 +188,52 @@ namespace CEG_WebMVC.Controllers
                 return RedirectToAction("AdminAccountIndex");
             }
             TempData["Success"] = ViewBag.Success = "Parent Account Create Successfully!";
+
+            return RedirectToAction("AdminAccountIndex");
+        }
+        [HttpPost("Account/Create/Student")]
+        //[Authorize(Roles = "TempMember")]
+        public async Task<IActionResult> AdminCreateStudent(
+            [FromForm][Required] CreateStudentVM createStudent)
+        {
+
+            if (methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN) != null)
+                return Redirect(methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN));
+            AdminAPI_URL += "Admin/Student/Create";
+            string? accToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
+
+            if (!ModelState.IsValid)
+            {
+                TempData = methcall.SetValidationTempData(TempData, Constants.CREATE_STUDENT_DETAILS_VALID, createStudent, jsonOptions);
+                return RedirectToAction("AdminAccountIndex");
+            }
+
+            var authenResponse = await methcall.CallMethodReturnObject<AdminAccountCreateResponseVM>(
+                _httpClient: _httpClient,
+                options: jsonOptions,
+                methodName: Constants.POST_METHOD,
+                url: AdminAPI_URL,
+                inputType: _mapper.Map<CreateNewStudent>(createStudent),
+                accessToken: accToken,
+                _logger: _logger);
+
+            if (authenResponse == null)
+            {
+                _logger.LogError("Error while registering Student account");
+
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while registering Student account !";
+
+                return RedirectToAction("AdminAccountIndex");
+            }
+            if (!authenResponse.Status)
+            {
+                _logger.LogError("Error while registering Student account");
+
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while registering Student account !";
+
+                return RedirectToAction("AdminAccountIndex");
+            }
+            TempData["Success"] = ViewBag.Success = "Student Account Create Successfully!";
 
             return RedirectToAction("AdminAccountIndex");
         }

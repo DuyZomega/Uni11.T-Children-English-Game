@@ -9,7 +9,7 @@ using Azure;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using AutoMapper;
 
-namespace CEG_WebMVC.Library
+namespace CEG_WebMVC.Libraries
 {
     public class ChildrenEnglishGameLibrary
     {
