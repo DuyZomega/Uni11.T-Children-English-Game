@@ -31,14 +31,14 @@ namespace CEG_BAL.Services.Implements
             _jwtService = jwtServices;
             _configuration = configuration;
         }
-        public async void Create(StudentViewModel student, CreateNewStudent newStu)
+        public void Create(StudentViewModel student, CreateNewStudent newStu)
         {
             var acc = _mapper.Map<Student>(student);
-            acc.Account.AccountId = await _unitOfWork.AccountRepositories.GenerateNewAccountId();
-            acc.StudentId = await _unitOfWork.StudentRepositories.GenerateNewStudentId();
+            acc.Account.AccountId = _unitOfWork.AccountRepositories.GenerateNewAccountId().Result;
+            acc.StudentId = _unitOfWork.StudentRepositories.GenerateNewStudentId().Result;
             acc.Account.CreatedDate = DateTime.Now;
             acc.Account.Status = "Active";
-            acc.Account.RoleId = await _unitOfWork.RoleRepositories.GetRoleIdByRoleName("Student");
+            acc.Account.RoleId = _unitOfWork.RoleRepositories.GetRoleIdByRoleName("Student").Result;
             if (newStu != null)
             {
                 acc.Account.Fullname = newStu.Account.Fullname;
@@ -47,7 +47,7 @@ namespace CEG_BAL.Services.Implements
                 acc.Description = newStu.Description;
                 acc.Highscore = newStu.Highscore;
                 acc.Birthdate = newStu.Birthdate;
-                acc.ParentsId = await _unitOfWork.ParentRepositories.GetIdByUsername(newStu.ParentUsername);
+                acc.ParentsId = _unitOfWork.ParentRepositories.GetIdByUsername(newStu.ParentUsername).Result;
             }
             _unitOfWork.StudentRepositories.Create(acc);
             _unitOfWork.Save();

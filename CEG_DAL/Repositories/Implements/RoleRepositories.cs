@@ -20,7 +20,7 @@ namespace CEG_DAL.Repositories.Implements
 
         public async Task<int> GetRoleIdByRoleName(string roleName)
         {
-            var result = await (from r in _dbContext.Roles where r.RoleName == roleName select r).FirstOrDefaultAsync();
+            var result = await _dbContext.Roles.FirstOrDefaultAsync(f => f.RoleName == roleName);
             if (result != null) return result.RoleId;
             return 0;
         }

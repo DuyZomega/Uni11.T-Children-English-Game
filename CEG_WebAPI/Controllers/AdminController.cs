@@ -253,12 +253,6 @@ namespace CEG_WebAPI.Controllers
                         ErrorMessage = "Password and Confirm Password do not match!"
                     });
                 }
-                AccountViewModel acc = new AccountViewModel()
-                {
-                    Username = newTeach.Account.Username,
-                    Password = newTeach.Account.Password,
-                };
-                _accountService.Create(acc, newTeach.Account);
                 TeacherViewModel teach = new TeacherViewModel()
                 {
                     Email = newTeach.Email,

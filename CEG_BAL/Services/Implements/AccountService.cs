@@ -106,6 +106,7 @@ namespace CEG_BAL.Services.Implements
             {
                 acc.Fullname = newAcc.Fullname;
                 acc.Username = newAcc.Username;
+                acc.Password = newAcc.Password;
                 acc.Gender = newAcc.Gender;
                 acc.RoleId = _unitOfWork.RoleRepositories.GetRoleIdByRoleName(newAcc.Role).Result;
             }
