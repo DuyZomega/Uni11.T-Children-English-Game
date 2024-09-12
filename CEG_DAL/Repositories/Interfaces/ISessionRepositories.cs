@@ -10,5 +10,7 @@ namespace CEG_DAL.Repositories.Interfaces
 {
     public interface ISessionRepositories : IRepositoryBase<Session>
     {
+        Task<List<Session>> GetSessionsList();
+        Task<Session> GetByIdNoTracking(int id);
     }
 }
