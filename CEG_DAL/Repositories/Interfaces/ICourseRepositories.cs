@@ -12,5 +12,6 @@ namespace CEG_DAL.Repositories.Interfaces
     {
         Task<List<Course>> GetCoursList();
         Task<Course> GetByIdNoTracking(int id);
+        Task<int> GenerateNewCourseId();
     }
 }
