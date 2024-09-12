@@ -35,6 +35,7 @@ namespace CEG_BAL.Services.Implements
         {
             var acc = _mapper.Map<Student>(student);
             acc.Account.AccountId = await _unitOfWork.AccountRepositories.GenerateNewAccountId();
+            acc.StudentId = await _unitOfWork.StudentRepositories.GenerateNewStudentId();
             acc.Account.CreatedDate = DateTime.Now;
             acc.Account.Status = "Active";
             acc.Account.RoleId = await _unitOfWork.RoleRepositories.GetRoleIdByRoleName("Student");

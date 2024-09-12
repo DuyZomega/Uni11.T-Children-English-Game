@@ -35,6 +35,7 @@ namespace CEG_BAL.Services.Implements
         {
             var acc = _mapper.Map<Parent>(parent);
             acc.Account.AccountId = await _unitOfWork.AccountRepositories.GenerateNewAccountId();
+            acc.ParentsId = await _unitOfWork.ParentRepositories.GenerateNewParentId();
             acc.Account.CreatedDate = DateTime.Now;
             acc.Account.Status = "Active";
             acc.Account.RoleId = await _unitOfWork.RoleRepositories.GetRoleIdByRoleName("Parent");

@@ -99,7 +99,7 @@ namespace CEG_BAL.Services.Implements
         public void Create(AccountViewModel account, CreateNewAccount newAcc)
         {
             var acc = _mapper.Map<Account>(account);
-            acc.AccountId = _unitOfWork.AccountRepositories.GenerateNewAccountId();
+            acc.AccountId = _unitOfWork.AccountRepositories.GenerateNewAccountId().Result;
             acc.CreatedDate = DateTime.Now;
             acc.Status = "Active";
             if (newAcc != null)
@@ -107,7 +107,7 @@ namespace CEG_BAL.Services.Implements
                 acc.Fullname = newAcc.Fullname;
                 acc.Username = newAcc.Username;
                 acc.Gender = newAcc.Gender;
-                acc.RoleId = _unitOfWork.RoleRepositories.GetRoleIdByRoleName(newAcc.Role);
+                acc.RoleId = _unitOfWork.RoleRepositories.GetRoleIdByRoleName(newAcc.Role).Result;
             }
             _unitOfWork.AccountRepositories.Create(acc);
             _unitOfWork.Save();
