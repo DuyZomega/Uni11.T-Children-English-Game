@@ -19,7 +19,7 @@ namespace CEG_BAL.Services.Implements
         private readonly IJWTService _jwtService;
         private readonly IConfiguration _configuration;
 
-        public TeacherService(
+        public ClassService(
             IUnitOfWork unitOfWork,
             IMapper mapper,
             IJWTService jwtServices,

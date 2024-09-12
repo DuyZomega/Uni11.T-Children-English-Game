@@ -40,7 +40,7 @@ namespace CEG_BAL.Services.Implements
 
         public async Task<ParentViewModel> GetParentById(int id)
         {
-            var user = _unitOfWork.ParentRepositories.GetByIdNoTracking(id);
+            var user = await _unitOfWork.ParentRepositories.GetByIdNoTracking(id);
             if(user != null)
             {
                 var usr = _mapper.Map<ParentViewModel>(user);

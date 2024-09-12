@@ -12,5 +12,6 @@ namespace CEG_DAL.Repositories.Interfaces
     {
         Task<List<Teacher>> GetTeacherList();
         Task<Teacher?> GetByIdNoTracking(int id);
+        Task<Teacher?> GetByEmail(string email);
     }
 }
