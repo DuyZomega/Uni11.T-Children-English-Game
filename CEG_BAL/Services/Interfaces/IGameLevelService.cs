@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CEG_BAL.Services.Interfaces
 {
-    public interface IGameLevel
+    public interface IGameLevelService
     {
         void Create(GameLevelViewModel model);
         void Update(GameLevelViewModel model);
