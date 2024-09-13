@@ -5,7 +5,7 @@ using CEG_DAL.Models;
 using CEG_WebMVC.Models.ViewModels.Account.Create;
 using CEG_WebMVC.Models.ViewModels.Account.Get;
 
-namespace CEG_WebMVC.Library
+namespace CEG_WebMVC.Libraries
 {
     public class WebVMMappingProfile : Profile
     {
@@ -201,6 +201,13 @@ namespace CEG_WebMVC.Library
                 .AfterMap((src, dest) =>
                 {
                     dest.Account.Role = "Teacher";
+                })
+                .ReverseMap();
+            CreateMap<CreateStudentVM, CreateNewStudent>()
+                .AfterMap((src, dest) =>
+                {
+                    dest.Highscore = 0;
+                    dest.Account.Role = "Student";
                 })
                 .ReverseMap();
             CreateMap<AccountStatusVM, AccountViewModel>()

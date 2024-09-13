@@ -1,4 +1,4 @@
-﻿using CEG_WebMVC.Library;
+﻿using CEG_WebMVC.Libraries;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.IdentityModel.Tokens;
 using System.ComponentModel.DataAnnotations;
