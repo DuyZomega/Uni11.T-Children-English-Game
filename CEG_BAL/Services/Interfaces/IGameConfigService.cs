@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CEG_BAL.Services.Interfaces
 {
-    public interface IGameConfig
+    public interface IGameConfigService
     {
         void Create(GameConfigViewModel model);
         void Update(GameConfigViewModel model);

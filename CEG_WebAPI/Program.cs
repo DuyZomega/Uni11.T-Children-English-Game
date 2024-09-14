@@ -68,11 +68,23 @@ namespace CEG_WebAPI
 
         private static void RegisterServices(IServiceCollection services)
         {
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IClassService, ClassService>();
+            services.AddScoped<ICourseService, CourseService>();
+            services.AddScoped<IEnrollService, EnrollService>();
+            services.AddScoped<IGameConfigService, GameConfigService>();
+            services.AddScoped<IGameLevelService, GameLevelService>();
+            services.AddScoped<IGameService, GameService>();
+            services.AddScoped<IHomeworkResultService, HomeworkResultService>();
+            services.AddScoped<IHomeworkService, HomeworkService>();
             services.AddScoped<IJWTService, JWTService>();
-            services.AddScoped<ITeacherService, TeacherService>();
             services.AddScoped<IParentService, ParentService>();
+            services.AddScoped<IPaymentService, PaymentService>();
+            services.AddScoped<IRegisteredCourseService, RegisteredCourseService>();
+            services.AddScoped<ISessionService, SessionService>();
+            services.AddScoped<IStudentService, StudentService>();
+            services.AddScoped<ITeacherService, TeacherService>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
 
         private static void AddSwaggerServices(IServiceCollection services)

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace CEG_BAL.Services.Implements
 {
-    public class GameLevelService : IGameLevel
+    public class GameLevelService : IGameLevelService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
