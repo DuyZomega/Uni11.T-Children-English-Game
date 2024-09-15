@@ -1,7 +1,7 @@
 ﻿@* @model CEG_WebMVC.Models.ViewModels.Admin.Get.AdminAccountIndexVM *@
 @{
     Layout = null;
-    ViewData["Title"] = "Admin All Account Status Page";
+    ViewData["Title"] = "Admin All Transactions Page";
     string? search = string.Empty;
 
     //CEG_WebMVC.Models.ViewModels.Account.Create.CreateParentVM createParent = Model.createParent;
@@ -56,11 +56,11 @@
                                     <div class="col-sm-12 d-flex">
                                         <div class="col-sm-6 d-flex address-home">
                                             <div class="rating-room">
-                                                <button class="button--primary btn-success bg-success shadow btn-xs text-white" data-toggle="modal"  data-target="#addParent" type="submit">Create Parent Account</button>
+                                                <button class="button--primary btn-success bg-success shadow btn-xs text-white" data-toggle="modal"  data-target="#addTransaction" type="submit">Create Transaction</button>
                                             </div>
                                         </div>
                                         <div class="col-sm-6 d-flex justify-content-end">
-                                            <form asp-action="AdminAccountIndex" asp-controller="Admin" method="get" asp-route-search="@search">
+                                            <form asp-action="AdminTransactionIndex" asp-controller="Admin" method="get" asp-route-search="@search">
                                                 <div>
                                                     <label>
                                                         <input asp-for="@search" class="form-control" type="text" name="search" placeholder="Search Username..." value="@search">
@@ -172,14 +172,14 @@
             </div>
         </div>
     </div>
-    <div id="addParent" class="modal fade" role="dialog">
+    <div id="addTransaction" class="modal fade" role="dialog">
         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
             <div class="modal-content modal-addRoom">
                 <div class="modal-header">
-                    <h4 class="modal-title">Add new Parent Account</h4>
+                    <h4 class="modal-title">Add new Transaction</h4>
                 </div>
                 <div class="modal-body">
-                    <form asp-action="AdminCreateParent" asp-controller="Admin" method="post" id="form">
+                    <form asp-action="AdminCreateTransaction" asp-controller="Admin" method="post" id="form">
                         <div class="row p-4">
                             <div class="col-12">
                                 @* <div class="row form-group">
