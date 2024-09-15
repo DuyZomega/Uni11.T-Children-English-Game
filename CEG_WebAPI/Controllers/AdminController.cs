@@ -376,6 +376,15 @@ namespace CEG_WebAPI.Controllers
                         ErrorMessage = "Username has already been taken!"
                     });
                 }
+                var resultParentUsername = await _accountService.IsAccountExistByUsername(newStu.ParentUsername);
+                if (!resultParentUsername)
+                {
+                    return BadRequest(new
+                    {
+                        Status = false,
+                        ErrorMessage = "Parent Username not found!"
+                    });
+                }
                 if (!newStu.Account.Password.Equals(newStu.Account.ConfirmPassword))
                 {
                     return BadRequest(new

@@ -55,7 +55,7 @@ namespace CEG_WebMVC.Controllers
             return View();
         }
 
-        [HttpGet("AccountIndex")]
+        [HttpGet("Account/Index")]
         public async Task<IActionResult> AdminAccountIndex()
         {
             if (methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN) != null)
@@ -98,6 +98,27 @@ namespace CEG_WebMVC.Controllers
             };
 
             return View(pageData);
+        }
+        [HttpGet("Class/Index")]
+        public async Task<IActionResult> AdminClassIndex()
+        {
+            if (methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN) != null)
+                return Redirect(methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN));
+            return View();
+        }
+        [HttpGet("Course/Index")]
+        public async Task<IActionResult> AdminCourseIndex()
+        {
+            if (methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN) != null)
+                return Redirect(methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN));
+            return View();
+        }
+        [HttpGet("Transaction/Index")]
+        public async Task<IActionResult> AdminTransactionIndex()
+        {
+            if (methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN) != null)
+                return Redirect(methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN));
+            return View();
         }
         [HttpPost("Account/Create/Teacher")]
         //[Authorize(Roles = "TempMember")]

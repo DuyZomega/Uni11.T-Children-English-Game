@@ -20,7 +20,7 @@ namespace CEG_DAL.Repositories.Implements
 
         public async Task<Parent?> GetByIdNoTracking(int id)
         {
-            return await _dbContext.Parents.AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(par => par.ParentsId == id);
+            return await _dbContext.Parents.AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(par => par.ParentId == id);
         }
 
         public async Task<List<Parent>> GetParentList()
@@ -36,17 +36,17 @@ namespace CEG_DAL.Repositories.Implements
         public async Task<int> GetIdByUsername(string username)
         {
             var result = await (from p in _dbContext.Parents where p.Account.Username == username select p).FirstOrDefaultAsync();
-            if (result != null)  return result.ParentsId;
+            if (result != null)  return result.ParentId;
             return 0;
         }
 
         public async Task<int> GenerateNewParentId()
         {
-            var lastAcc = await _dbContext.Parents.OrderByDescending(acc => acc.ParentsId).FirstOrDefaultAsync();
+            var lastAcc = await _dbContext.Parents.OrderByDescending(acc => acc.ParentId).FirstOrDefaultAsync();
             int newId = 1;
             if (lastAcc != null)
             {
-                newId = lastAcc.ParentsId + 1;
+                newId = lastAcc.ParentId + 1;
             }
             return newId;
         }
