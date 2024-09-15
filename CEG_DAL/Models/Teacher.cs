@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace CEG_DAL.Models;
+﻿namespace CEG_DAL.Models;
 
 public partial class Teacher
 {

@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace CEG_DAL.Models;
+﻿namespace CEG_DAL.Models;
 
 public partial class Parent
 {
-    public int ParentsId { get; set; }
+    public int ParentId { get; set; }
 
     public int AccountId { get; set; }
 

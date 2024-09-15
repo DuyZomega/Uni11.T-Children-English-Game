@@ -7,7 +7,7 @@ public partial class Payment
 {
     public int PaymentId { get; set; }
 
-    public int ParentsId { get; set; }
+    public int ParentId { get; set; }
 
     public DateTime PaymentDate { get; set; }
 
