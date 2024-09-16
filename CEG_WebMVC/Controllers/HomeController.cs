@@ -34,8 +34,8 @@ namespace CEG_WebMVC.Controllers
             _httpClient = new HttpClient();
             var contentType = new MediaTypeWithQualityHeaderValue("application/json");
             _httpClient.DefaultRequestHeaders.Accept.Add(contentType);
-            /*_httpClient.BaseAddress = new Uri(config.GetSection("DefaultApiUrl:ConnectionString").Value);
-            HomeAPI_URL = config.GetSection("DefaultApiUrl:ApiConnectionString").Value;*/
+            _httpClient.BaseAddress = new Uri(config.GetSection(Constants.SYSTEM_DEFAULT_API_HTTPS_URL_CONFIG_PATH).Value);
+            HomeAPI_URL = config.GetSection(Constants.SYSTEM_DEFAULT_API_URL_CONFIG_PATH).Value;
         }
         [HttpGet]
         public async Task<IActionResult> Index()
