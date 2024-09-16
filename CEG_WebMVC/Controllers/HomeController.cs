@@ -2,19 +2,15 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Text.Json;
-using CEG_WebMVC.Library;
 using System.Net.Http.Headers;
-using System.Dynamic;
 using System.Text.Encodings.Web;
-using Microsoft.AspNetCore.Http.Json;
-using System;
+using CEG_WebMVC.Libraries;
 /*using CEG_BAL.ViewModels.Event;
 using CEG_WebMVC.Models.FieldTrip;
 using CEG_WebMVC.Models.Contest;
 using CEG_WebMVC.Models.Meeting;
 using CEG_WebMVC.Models.Notification;
 using CEG_WebMVC.Models.Location;*/
-using CEG_WebMVC.Models;
 
 namespace CEG_WebMVC.Controllers
 {
@@ -38,8 +34,8 @@ namespace CEG_WebMVC.Controllers
             _httpClient = new HttpClient();
             var contentType = new MediaTypeWithQualityHeaderValue("application/json");
             _httpClient.DefaultRequestHeaders.Accept.Add(contentType);
-            /*_httpClient.BaseAddress = new Uri(config.GetSection("DefaultApiUrl:ConnectionString").Value);
-            HomeAPI_URL = config.GetSection("DefaultApiUrl:ApiConnectionString").Value;*/
+            _httpClient.BaseAddress = new Uri(config.GetSection(Constants.SYSTEM_DEFAULT_API_HTTPS_URL_CONFIG_PATH).Value);
+            HomeAPI_URL = config.GetSection(Constants.SYSTEM_DEFAULT_API_URL_CONFIG_PATH).Value;
         }
         [HttpGet]
         public async Task<IActionResult> Index()

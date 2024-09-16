@@ -1,0 +1,296 @@
+﻿@* @model CEG_WebMVC.Models.ViewModels.Admin.Get.AdminAccountIndexVM *@
+@{
+    Layout = null;
+    ViewData["Title"] = "Admin All Classes Page";
+    string? search = string.Empty;
+
+    //CEG_WebMVC.Models.ViewModels.Account.Create.CreateParentVM createParent = Model.createParent;
+
+    //var accountStatuses = Model.AccountStatuses;
+    
+
+    Layout = "~/Views/Shared/_ALayout.cshtml";
+}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
+    <div class="main-content">
+        <div class="main">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="offset-sm-6 col-sm-6  d-flex justify-content-sm-end p-md-0 mt-2 mt-sm-0 ">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumd-item">
+                                <a href="#">Manage</a>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <span>/</span>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+                <section>
+                    <div class="card">
+                        <div class="card-body">
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-tabs">
+                                <!-- dung vong for o day -->
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="tab" href="#home1">
+                                        <i class='bx bx-home-alt-2'></i>
+                                        <span>All Classes</span>
+                                    </a>
+                                </li>             
+                            </ul>
+                            @if (TempData["Success"] != null)
+                            {
+                                <div class="alert alert-success alert-dismissible fade show" id="notif">
+                                    <i class='bx bx-message-alt-x p-1'></i>
+                                    <strong class="mr-1">@TempData["Success"]</strong>
+                                    <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+                                        <span><i class='bx bx-x'></i></span>
+                                    </button>
+                                </div>
+                                TempData["Success"] = null;
+                            }
+                            else if (TempData["Error"] != null)
+                            {
+                                <div class="alert alert-danger alert-dismissible fade show" id="notif">
+                                    <i class='bx bx-message-alt-x p-1'></i>
+                                    <strong class="mr-1">@TempData["Error"]</strong>
+                                    <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+                                        <span><i class='bx bx-x'></i></span>
+                                    </button>
+                                </div>
+                                TempData["Error"] = null;
+                            }
+                            
+                        <!-- Tab panes -->
+                            <div class="tab-content">
+                                <!-- home1 -->
+                                <div class="tab-pane active" id="home1" role="tabpanel">
+                                    <div class="row search">
+                                        <div class="col-sm-12 d-flex">
+                                            <div class="col-sm-6 d-flex address-home">
+                                            </div>
+                                            <div class="col-sm-6 d-flex justify-content-end">
+                                                <form asp-action="AdminCourseIndex" asp-controller="Admin" method="get" asp-route-search="@search">
+                                                    <div>
+                                                        <label>
+                                                            <input asp-for="@search" class="form-control" type="text" name="search" placeholder="Search..." value="@search">
+                                                            <i class='bx bx-search-alt'></i>
+                                                        </label>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row card-content">
+                                        <div class="col-xl-3 col-lg-6 col-sm-6 my-3 item">
+                                            <div class="card1 card-child">
+                                                <div class="card-body add-club">
+                                                    <button class="border-0" data-toggle="modal" data-target="#addClass">
+                                                        <span>Add Class</span>
+                                                        <i class='bx bx-add-to-queue'></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- dung vong for o day -->
+                                        @* @foreach (var data in contestList)
+                                        {
+                                        <div class="col-xl-3 col-lg-6 col-sm-6 my-3">
+                                        <div class="card1 card-child">
+                                        <div class="club-name">
+                                        <span>Contest ID: @data.ContestId</span>
+                                        <div class="status">
+                                        @{
+                                        switch (data.Status)
+                                        {
+                                        case "Ongoing":
+                                        case "CheckingIn":
+                                        case "OpenRegistration":
+                                        {
+                                        <span class="stt1" style="float: left;">Status:<h6>@data.Status</h6></span>
+                                        break;
+                                        }
+                                        case "OnHold":
+                                        case "ClosedRegistration":
+                                        {
+                                        <span class="stt3" style="float: left;">Status:<h6>@data.Status</h6></span>
+                                        break;
+                                        }
+                                        case "Ended":
+                                        case "Postponed":
+                                        case "Cancelled":
+                                        {
+                                        <span class="stt2" style="float: left;">Status:<h6>@data.Status</h6></span>
+                                        break;
+                                        }
+                                        }
+                                        }
+                                        </div>
+                                        </div>
+                                        <div class="card-body">
+                                        <div class="club-title">
+                                        <ul>
+                                        <li>
+                                        <h6>Contest Name:</h6>
+                                        <span>@data.ContestName</span>
+                                        </li>
+                                        <li>
+                                        <h6>Open Registration Date:</h6>
+                                        <span>@data.OpenRegistration.ToString("dd-MM-yyyy HH:mm")</span>
+                                        </li>
+                                        <li>
+                                        <h6>Registration Deadlines:</h6>
+                                        <span>@data.RegistrationDeadline.ToString("dd-MM-yyyy HH:mm")</span>
+                                        </li>
+                                        <li>
+                                        <h6>Start Date:</h6>
+                                        <span>@data.StartDate.ToString("dd-MM-yyyy HH:mm")</span>
+                                        </li>
+                                        <li>
+                                        <h6>End Date:</h6>
+                                        <span>@data.EndDate.ToString("dd-MM-yyyy HH:mm")</span>
+                                        </li>
+                                        <li>
+                                        <h6>Maximum Participants:</h6>
+                                        <span>@data.NumberOfParticipantsLimit</span>
+                                        </li>
+                                        <li>
+                                        <h6>Minimum ELO Required:</h6>
+                                        <span>@data.ReqMinELO</span>
+                                        </li>
+                                        <li>
+                                        <h6>Maximum ELO Required:</h6>
+                                        <span>@data.ReqMaxELO</span>
+                                        </li>
+                                        <li>
+                                        <h6>Location:</h6>
+                                        <span class="truncate">@data.AreaNumber,@data.Street,@data.District,@data.City</span>
+                                        </li>
+                                        <li>
+                                        <h6>Description:</h6>
+                                        <span class="truncate">@data.Description</span>
+                                        </li>
+                                        <li>
+                                        <h6>Note:</h6>
+                                        <span class="truncate">@data.Note</span>
+                                        </li>
+                                        </ul>
+                                        </div>
+                                        </div>
+                                        <div class="form-group mx-auto">
+                                        <form asp-action="Contest" asp-controller="Manager" method="get" asp-route-id="@data.ContestId">
+                                        <button class="btn btn-primary clickable-row" type="submit">See Detail</button>
+                                        </form>
+                                        @{
+                                        if (data.Status.Equals("OnHold") || data.Status.Equals("Postponed") || data.Status.Equals("CheckingIn") || data.Status.Equals("Ongoing"))
+                                        {
+                                        <button class="btn btn-danger" data-toggle="modal" data-target="#deleteContest_@data.ContestId" type="submit">Cancel</button>
+                                        }
+                                        }
+                                        </div>
+                                        </div>
+                                        </div>
+                                        <div id="deleteContest_@data.ContestId" class="modal fade" role="dialog">
+                                        <div class="modal-dialog modal-dialog-centered" role="content">
+                                        <div class="modal-content">
+                                        <div class="card-body">
+                                        <div class="del-title">
+                                        <i class='bx bx-error-circle'></i>
+                                        <h2>Are you sure you want to cancel this Contest ?</h2>
+                                        </div>
+                                        <div class="del-submit d-flex justify-content-center">
+                                        <form asp-action="ManagerCancelContest" asp-controller="Manager" method="post" asp-route-id="@data.ContestId">
+                                        <button type="submit" name="action" value="deleteContest" class="btn btn-success">
+                                        Yes
+                                        </button>
+                                        </form>
+                                        <button class="btn btn-danger" type="button" data-dismiss="modal">No</button>
+                                        </div>
+                                        </div>
+                                        </div>
+                                        </div>
+                                        </div>
+                                        } *@
+                                    </div>
+                                    <!-- end tapnet -->
+                                </div>
+                            </div>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+    </div>
+    <div id="addClass" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content modal-addRoom">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add new Class</h4>
+                </div>
+                <div class="modal-body">
+                    <form asp-action="AdminCreateClass" asp-controller="Admin" method="post" id="form">
+                        <div class="row p-4">
+                            <div class="col-12">
+                                @* <div class="row form-group">
+                                    <label asp-for="@createParent.Account.Username" class="col-md-3 col-form-label text-md-right"></label>
+                                    <input asp-for="@createParent.Account.Username" value="@createParent.Account.Username" type="text" placeholder="User Name" required class="form-control col-md-7">
+                                    <span asp-validation-for="@createParent.Account.Username" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@createParent.Account.Fullname" class="col-md-3 col-form-label text-md-right"></label>
+                                    <input asp-for="@createParent.Account.Fullname" value="@createParent.Account.Fullname" type="text" placeholder="Full Name" required class="form-control col-md-7">
+                                    <span asp-validation-for="@createParent.Account.Fullname" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@createParent.Address" class="col-md-3 col-form-label text-md-right"></label>
+                                    <textarea asp-for="@createParent.Address" value="@createParent.Address" required class="form-control col-md-7"></textarea>
+                                    <span asp-validation-for="@createParent.Address" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@createParent.Account.Gender" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                    <select class="form-control col-md-7 custom-select" asp-for="@createParent.Account.Gender" asp-items="@createParent.Account.DefaultAccountGenderSelectList"></select>
+                                    <span asp-validation-for="@createParent.Account.Gender" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@createParent.Email" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                    <input asp-for="@createParent.Email" value="@createParent.Email" type="email" placeholder="Email" class="form-control col-md-7 mt-3" required>
+                                    <span asp-validation-for="@createParent.Email" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@createParent.Phone" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                    <input asp-for="@createParent.Phone" value="@createParent.Phone" type="tel" placeholder="Phone number" class="form-control col-md-7 mt-3" required>
+                                    <span asp-validation-for="@createParent.Phone" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@createParent.Account.Password" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                    <input asp-for="@createParent.Account.Password" value="@createParent.Account.Password" type="password" placeholder="Password" class="form-control col-md-7 mt-3" required>
+                                    <span asp-validation-for="@createParent.Account.Password" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@createParent.Account.ConfirmPassword" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                    <input asp-for="@createParent.Account.ConfirmPassword" value="@createParent.Account.ConfirmPassword" type="password" placeholder="Confirm Password" class="form-control col-md-7 mt-3" required>
+                                    <span asp-validation-for="@createParent.Account.ConfirmPassword" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                </div> *@
+                            </div>
+                            <div class="modal-footer justify-content-center" style="margin-left:400px;">
+                                <button class="btn btn-success" type="submit" name="action" value="createUser">Create</button>
+                                <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

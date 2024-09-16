@@ -14,9 +14,9 @@ using CEG_WebMVC.Models.Auth;
 using CEG_WebMVC.Models.VnPay;
 /*using CEG_WebMVC.Models.Notification;
 using CEG_WebMVC.Models.Transaction;*/
-using CEG_WebMVC.Library;
 using CEG_BAL.ViewModels.Authenticates;
 using CEG_WebMVC.Models.ViewModels.Account.ResponseVM;
+using CEG_WebMVC.Libraries;
 namespace CEG_WebMVC.Controllers
 {
     [Route("Auth")]
@@ -47,8 +47,8 @@ namespace CEG_WebMVC.Controllers
             //_vnPayService = vnPayService;
             var contentType = new MediaTypeWithQualityHeaderValue("application/json");
             client.DefaultRequestHeaders.Accept.Add(contentType);
-            client.BaseAddress = new Uri(config.GetSection("DefaultApiUrl:ConnectionString").Value);
-            AuthenAPI_URL = "/api/Account";
+            client.BaseAddress = new Uri(config.GetSection(Constants.SYSTEM_DEFAULT_API_HTTPS_URL_CONFIG_PATH).Value);
+            AuthenAPI_URL = config.GetSection(Constants.SYSTEM_DEFAULT_API_URL_CONFIG_PATH).Value;
         }
         /*[HttpGet("Register")]
         public async Task<IActionResult> Register()
@@ -133,7 +133,7 @@ namespace CEG_WebMVC.Controllers
         [HttpPost("Authorize")]
         public async Task<IActionResult> Authorize(AuthenRequest authenRequest)
         {
-            AuthenAPI_URL += "/Login";
+            AuthenAPI_URL += "Account/Login";
 
             var authenResponse = await methcall.CallMethodReturnObject<AuthenResponseVM>(
                 _httpClient: client,

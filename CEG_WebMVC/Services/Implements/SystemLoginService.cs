@@ -2,7 +2,6 @@
 using CEG_WebMVC.Services.Interfaces;
 using System.Net.Http.Headers;
 using System.Text.Json;
-using CEG_WebMVC.Library;
 using CEG_WebMVC.Models.Auth;
 
 namespace CEG_WebMVC.Services.Implements

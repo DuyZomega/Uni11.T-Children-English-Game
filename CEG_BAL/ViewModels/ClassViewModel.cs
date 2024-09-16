@@ -14,10 +14,10 @@ namespace CEG_BAL.ViewModels
 
         public int? NumberOfStudents { get; set; }
 
-        public virtual ICollection<Course> Courses { get; set; } = new List<Course>();
+        public virtual ICollection<CourseViewModel> Courses { get; set; } = new List<CourseViewModel>();
 
-        public virtual ICollection<StudentProcess> StudentProcesses { get; set; } = new List<StudentProcess>();
+        public virtual ICollection<StudentProcessViewModel> StudentProcesses { get; set; } = new List<StudentProcessViewModel>();
 
-        public virtual Teacher Teacher { get; set; } = null!;
+        public virtual TeacherViewModel Teacher { get; set; } = null!;
     }
 }

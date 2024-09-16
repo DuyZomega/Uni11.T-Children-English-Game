@@ -1,5 +1,4 @@
-﻿using CEG_BAL.ViewModels;
-using CEG_WebMVC.Library;
+﻿using CEG_WebMVC.Libraries;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;

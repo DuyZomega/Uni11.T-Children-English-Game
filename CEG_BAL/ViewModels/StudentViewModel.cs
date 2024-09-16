@@ -2,6 +2,10 @@
 {
     public class StudentViewModel
     {
+        public StudentViewModel()
+        {
+            Account = new AccountViewModel();
+        }
         public int Highscore { get; set; }
 
         public string Description { get; set; } = null!;

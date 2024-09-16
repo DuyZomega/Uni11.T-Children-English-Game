@@ -34,8 +34,6 @@ namespace CEG_BAL.Services.Implements
         public void Create(StudentViewModel student, CreateNewStudent newStu)
         {
             var acc = _mapper.Map<Student>(student);
-            acc.Account.AccountId = _unitOfWork.AccountRepositories.GenerateNewAccountId().Result;
-            acc.StudentId = _unitOfWork.StudentRepositories.GenerateNewStudentId().Result;
             acc.Account.CreatedDate = DateTime.Now;
             acc.Account.Status = "Active";
             acc.Account.RoleId = _unitOfWork.RoleRepositories.GetRoleIdByRoleName("Student").Result;
@@ -44,10 +42,11 @@ namespace CEG_BAL.Services.Implements
                 acc.Account.Fullname = newStu.Account.Fullname;
                 acc.Account.Username = newStu.Account.Username;
                 acc.Account.Gender = newStu.Account.Gender;
+                acc.Account.Password = newStu.Account.Password;
                 acc.Description = newStu.Description;
                 acc.Highscore = newStu.Highscore;
                 acc.Birthdate = newStu.Birthdate;
-                acc.ParentsId = _unitOfWork.ParentRepositories.GetIdByUsername(newStu.ParentUsername).Result;
+                acc.ParentId = _unitOfWork.ParentRepositories.GetIdByUsername(newStu.ParentUsername).Result;
             }
             _unitOfWork.StudentRepositories.Create(acc);
             _unitOfWork.Save();

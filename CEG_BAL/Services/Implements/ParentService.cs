@@ -34,8 +34,6 @@ namespace CEG_BAL.Services.Implements
         public void Create(ParentViewModel parent, CreateNewParent newPar)
         {
             var acc = _mapper.Map<Parent>(parent);
-            acc.Account.AccountId = _unitOfWork.AccountRepositories.GenerateNewAccountId().Result;
-            acc.ParentsId = _unitOfWork.ParentRepositories.GenerateNewParentId().Result;
             acc.Account.CreatedDate = DateTime.Now;
             acc.Account.Status = "Active";
             acc.Account.RoleId = _unitOfWork.RoleRepositories.GetRoleIdByRoleName("Parent").Result;
@@ -44,6 +42,7 @@ namespace CEG_BAL.Services.Implements
                 acc.Account.Fullname = newPar.Account.Fullname;
                 acc.Account.Username = newPar.Account.Username;
                 acc.Account.Gender = newPar.Account.Gender;
+                acc.Account.Password = newPar.Account.Password;
                 acc.Email = newPar.Email;
                 acc.Phone = newPar.Phone;
                 acc.Address = newPar.Address;

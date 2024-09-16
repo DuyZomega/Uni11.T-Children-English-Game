@@ -4,7 +4,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace CEG_WebMVC.Library
+namespace CEG_WebMVC.Libraries
 {
     public static class GoogleUtils
     {

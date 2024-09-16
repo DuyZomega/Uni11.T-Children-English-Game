@@ -70,7 +70,7 @@ public partial class MyDBContext : DbContext
         modelBuilder.Entity<Account>(entity =>
         {
             entity.Property(e => e.AccountId)
-                .ValueGeneratedNever()
+                .UseIdentityColumn()
                 .HasColumnName("account_id");
             entity.Property(e => e.CreatedDate)
                 .HasColumnType("datetime")
@@ -300,11 +300,12 @@ public partial class MyDBContext : DbContext
 
         modelBuilder.Entity<Parent>(entity =>
         {
-            entity.HasKey(e => e.ParentsId);
+            entity.ToTable("Parent");
+            entity.HasKey(e => e.ParentId);
 
-            entity.Property(e => e.ParentsId)
-                .ValueGeneratedNever()
-                .HasColumnName("parents_id");
+            entity.Property(e => e.ParentId)
+                .UseIdentityColumn()
+                .HasColumnName("parent_id");
             entity.Property(e => e.AccountId).HasColumnName("account_id");
             entity.Property(e => e.Address).HasColumnName("address");
             entity.Property(e => e.Email).HasColumnName("email");
@@ -330,7 +331,7 @@ public partial class MyDBContext : DbContext
             entity.Property(e => e.ConfirmDate)
                 .HasColumnType("datetime")
                 .HasColumnName("confirm_date");
-            entity.Property(e => e.ParentsId).HasColumnName("parents_id");
+            entity.Property(e => e.ParentId).HasColumnName("parent_id");
             entity.Property(e => e.PaymentDate)
                 .HasColumnType("datetime")
                 .HasColumnName("payment_date");
@@ -340,7 +341,7 @@ public partial class MyDBContext : DbContext
                 .HasColumnName("payment_type");
 
             entity.HasOne(d => d.Parents).WithMany(p => p.Payments)
-                .HasForeignKey(d => d.ParentsId)
+                .HasForeignKey(d => d.ParentId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Payment_Parents");
         });
@@ -380,7 +381,7 @@ public partial class MyDBContext : DbContext
             entity.ToTable("Role");
 
             entity.Property(e => e.RoleId)
-                .ValueGeneratedNever()
+                .UseIdentityColumn()
                 .HasColumnName("role_id");
             entity.Property(e => e.RoleName)
                 .HasMaxLength(50)
@@ -422,7 +423,7 @@ public partial class MyDBContext : DbContext
             entity.ToTable("Student");
 
             entity.Property(e => e.StudentId)
-                .ValueGeneratedNever()
+                .UseIdentityColumn()
                 .HasColumnName("student_id");
             entity.Property(e => e.AccountId).HasColumnName("account_id");
             entity.Property(e => e.Birthdate)
@@ -431,7 +432,7 @@ public partial class MyDBContext : DbContext
             entity.Property(e => e.CurLevel).HasColumnName("cur_level");
             entity.Property(e => e.Description).HasColumnName("description");
             entity.Property(e => e.Highscore).HasColumnName("highscore");
-            entity.Property(e => e.ParentsId).HasColumnName("parents_id");
+            entity.Property(e => e.ParentId).HasColumnName("parent_id");
             entity.Property(e => e.Playtime).HasColumnName("playtime");
             entity.Property(e => e.Points).HasColumnName("points");
 
@@ -441,7 +442,7 @@ public partial class MyDBContext : DbContext
                 .HasConstraintName("FK_Student_Accounts");
 
             entity.HasOne(d => d.Parents).WithMany(p => p.Students)
-                .HasForeignKey(d => d.ParentsId)
+                .HasForeignKey(d => d.ParentId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Student_Parents");
         });
@@ -513,7 +514,7 @@ public partial class MyDBContext : DbContext
             entity.ToTable("Teacher");
 
             entity.Property(e => e.TeacherId)
-                .ValueGeneratedNever()
+                .UseIdentityColumn()
                 .HasColumnName("teacher_id");
             entity.Property(e => e.AccountId).HasColumnName("account_id");
             entity.Property(e => e.Address).HasColumnName("address");

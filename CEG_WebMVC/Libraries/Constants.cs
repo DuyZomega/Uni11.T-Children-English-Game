@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 
-namespace CEG_WebMVC.Library
+namespace CEG_WebMVC.Libraries
 {
     public static class Constants
     {
@@ -111,6 +111,8 @@ namespace CEG_WebMVC.Library
         public readonly static string UPDATE_NEWS_VALID = "UNewsValid";
 
         public readonly static string CREATE_TEACHER_DETAILS_VALID = "CTeacherDetailsValid";
+        public readonly static string CREATE_PARENT_DETAILS_VALID = "CParentDetailsValid";
+        public readonly static string CREATE_STUDENT_DETAILS_VALID = "CStudentDetailsValid";
         public readonly static string UPDATE_MEMBER_DETAILS_VALID = "UMemberDetailsValid";
         public readonly static string UPDATE_MEMBER_PASSWORD_VALID = "UMemberPasswordValid";
         public readonly static string UPDATE_MANAGER_DETAILS_VALID = "UManagerDetailsValid";
@@ -237,6 +239,8 @@ namespace CEG_WebMVC.Library
         /*public const string JWT_SECRET_KEY = "Authentication:JWT:SecretKey";
         public const string JWT_VALID_ISSUER = "Authentication:JWT:ValidIssuer";
         public const string JWT_VALID_AUDIENCE = "Authentication:JWT:ValidAudience";*/
+        public readonly static string SYSTEM_DEFAULT_API_HTTPS_URL_CONFIG_PATH = "DefaultApiUrl:ConnectionString";
+        public readonly static string SYSTEM_DEFAULT_API_URL_CONFIG_PATH = "DefaultApiUrl:ApiUrl";
 
         public readonly static string TEMP_FILE_LOCATION_FOLDER = "wwwroot/tempFiles";
 
