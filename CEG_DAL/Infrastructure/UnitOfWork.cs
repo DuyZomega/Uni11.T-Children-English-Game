@@ -11,7 +11,7 @@ namespace CEG_DAL.Infrastructure
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly MyDBContext _dbContext;
+        private MyDBContext _dbContext;
         private IAccountRepositories _accountRepositories;
         private IClassRepositories _classRepositories;
         private ICourseRepositories _courseRepositories;
@@ -30,9 +30,12 @@ namespace CEG_DAL.Infrastructure
         private IStudentProcessRepositories _studentProcessRepositories;
         private IStudentRepositories _studentRepositories;
         private ITeacherRepositories _teacherRepositories;
-        public UnitOfWork(MyDBContext context)
+        public UnitOfWork()
         {
-            _dbContext = context;
+            if (this._dbContext == null)
+            {
+                this._dbContext = DbFactory.Instance.InitDbContext();
+            }
         }
         public IAccountRepositories AccountRepositories => _accountRepositories ??= new AccountRepositories(_dbContext);
         public IClassRepositories ClassRepositories => _classRepositories ??= new ClassRepositories(_dbContext);

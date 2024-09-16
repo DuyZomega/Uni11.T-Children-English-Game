@@ -11,6 +11,6 @@ namespace CEG_DAL.Repositories.Interfaces
     public interface IClassRepositories : IRepositoryBase<Class>
     {
         Task<List<Class>> GetClassList();
-        Task<Class> GetByIdNoTracking(int id);
+        Task<Class?> GetByIdNoTracking(int id);
     }
 }

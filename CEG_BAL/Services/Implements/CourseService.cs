@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CEG_DAL.Models;
-using CEG_BAL.ViewModels.Course;
+using CEG_BAL.ViewModels.Admin;
 
 namespace CEG_BAL.Services.Implements
 {
@@ -49,7 +49,7 @@ namespace CEG_BAL.Services.Implements
             _unitOfWork.Save();
         }
 
-        public async Task<CourseViewModel> GetCourseById(int id)
+        public async Task<CourseViewModel?> GetCourseById(int id)
         {
             var user = await _unitOfWork.CourseRepositories.GetByIdNoTracking(id);
             if (user != null)

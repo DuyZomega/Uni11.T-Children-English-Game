@@ -35,7 +35,6 @@ namespace CEG_WebAPI
             app.MapControllers();
 
             app.Run();
-
         }
 
         private static void ConfigureServices(IServiceCollection services, IConfiguration config)
@@ -57,10 +56,10 @@ namespace CEG_WebAPI
 
             // Add AutoMapper
             services.AddAutoMapper(typeof(MappingProfile));
-            services.AddDbContext<MyDBContext>(options =>
+            /*services.AddDbContext<MyDBContext>(options =>
             {
                 options.UseSqlServer(config.GetConnectionString("DefaultConnection"));
-            });
+            });*/
 
             // Register custom services
             RegisterServices(services);
@@ -68,6 +67,7 @@ namespace CEG_WebAPI
 
         private static void RegisterServices(IServiceCollection services)
         {
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IClassService, ClassService>();
             services.AddScoped<ICourseService, CourseService>();
@@ -84,7 +84,6 @@ namespace CEG_WebAPI
             services.AddScoped<ISessionService, SessionService>();
             services.AddScoped<IStudentService, StudentService>();
             services.AddScoped<ITeacherService, TeacherService>();
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
 
         private static void AddSwaggerServices(IServiceCollection services)
