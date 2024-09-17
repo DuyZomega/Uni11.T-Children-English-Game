@@ -1,22 +1,18 @@
-﻿@* @model CEG_WebMVC.Models.ViewModels.Admin.Get.AdminAccountIndexVM *@
+﻿@model WebAppMVC.Models.ViewModels.ManagerContestIndexVM
 @{
     Layout = null;
-    ViewData["Title"] = "Admin All Courses Page";
+    ViewData["Title"] = "Manager Contest Page";
+    List<string> locationList = Model.Roads;
+    List<BAL.ViewModels.ContestViewModel> contestList = Model.ContestList;
+    BAL.ViewModels.Manager.CreateNewContestVM createContest = Model.CreateContest;
     string? search = string.Empty;
-
-    //CEG_WebMVC.Models.ViewModels.Account.Create.CreateParentVM createParent = Model.createParent;
-
-    //var accountStatuses = Model.AccountStatuses;
-    
-
-    Layout = "~/Views/Shared/_ALayout.cshtml";
+    Layout = "~/Views/Shared/_MLayout.cshtml";
 }
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewData["Title"]</title>
 </head>
 <body>
     <div class="main-content">
@@ -43,11 +39,10 @@
                                 <li class="nav-item">
                                     <a class="nav-link active" data-toggle="tab" href="#home1">
                                         <i class='bx bx-home-alt-2'></i>
-                                        <span>All Courses</span>
+                                        <span>Contest</span>
                                     </a>
                                 </li>
                             </ul>
-
                             @if (TempData["Success"] != null)
                             {
                                 <div class="alert alert-success alert-dismissible fade show" id="notif">
@@ -70,7 +65,6 @@
                                 </div>
                                 TempData["Error"] = null;
                             }
-
                             <!-- Tab panes -->
                             <div class="tab-content">
                                 <!-- home1 -->
@@ -80,7 +74,7 @@
                                             <div class="col-sm-6 d-flex address-home">
                                             </div>
                                             <div class="col-sm-6 d-flex justify-content-end">
-                                                <form asp-action="AdminCourseIndex" asp-controller="Admin" method="get" asp-route-search="@search">
+                                                <form asp-action="ManagerContest" asp-controller="Manager" method="get" asp-route-search="@search">
                                                     <div>
                                                         <label>
                                                             <input asp-for="@search" class="form-control" type="text" name="search" placeholder="Search..." value="@search">
@@ -95,15 +89,15 @@
                                         <div class="col-xl-3 col-lg-6 col-sm-6 my-3 item">
                                             <div class="card1 card-child">
                                                 <div class="card-body add-club">
-                                                    <button class="border-0" data-toggle="modal" data-target="#addCourse">
-                                                        <span>Add Course</span>
+                                                    <button class="border-0" data-toggle="modal" data-target="#addContest">
+                                                        <span>Add Contest</span>
                                                         <i class='bx bx-add-to-queue'></i>
                                                     </button>
                                                 </div>
                                             </div>
                                         </div>
                                         <!-- dung vong for o day -->
-                                        @* @foreach (var data in contestList)
+                                        @foreach (var data in contestList)
                                         {
                                             <div class="col-xl-3 col-lg-6 col-sm-6 my-3">
                                                 <div class="card1 card-child">
@@ -220,7 +214,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        } *@
+                                        }
                                     </div>
                                     <!-- end tapnet -->
                                 </div>
@@ -231,60 +225,99 @@
             </div>
         </div>
     </div>
-    <div id="addCourse" class="modal fade" role="dialog">
+
+    <!-- add new Room -->
+    <div id="addContest" class="modal fade" role="dialog">
         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
             <div class="modal-content modal-addRoom">
                 <div class="modal-header">
-                    <h4 class="modal-title">Add new Course</h4>
+                    <h4 class="modal-title">Add new Contest</h4>
                 </div>
                 <div class="modal-body">
-                    <form asp-action="AdminCreateCourse" asp-controller="Admin" method="post" id="form">
+                    @*<form asp-action="ManagerCreateContest" asp-controller="Manager" method="get" onsubmit="return submitFunc()" id="form">*@
+                    <form asp-action="ManagerCreateContest" asp-controller="Manager" method="post" id="form">
                         <div class="row p-4">
                             <div class="col-12">
-                                @* <div class="row form-group">
-                                    <label asp-for="@createParent.Account.Username" class="col-md-3 col-form-label text-md-right"></label>
-                                    <input asp-for="@createParent.Account.Username" value="@createParent.Account.Username" type="text" placeholder="User Name" required class="form-control col-md-7">
-                                    <span asp-validation-for="@createParent.Account.Username" id="error_message"
+                                <div class="row form-group">
+                                    <label asp-for="@createContest.ContestName" class="col-md-3 col-form-label text-md-right">Contest Name</label>
+                                    <input asp-for="@createContest.ContestName" value="@createContest.ContestName" type="text" placeholder="Contest Name" required class="form-control col-md-7">
+                                    <span asp-validation-for="@createContest.ContestName" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                </div>
+                                <div class="row form-group">
+                                    <label asp-for="@createContest.OpenRegistration" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                    <input asp-for="@createContest.OpenRegistration" value="@createContest.OpenRegistration.ToString("yyyy-MM-ddTHH:mm")" type="datetime-local" required class="form-control col-md-7 mt-3" min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" asp-format="{0:yyyy-MM-ddTHH:mm}">
+                                    <span asp-validation-for="@createContest.OpenRegistration" id="error_message"
                                           class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
-                                    <label asp-for="@createParent.Account.Fullname" class="col-md-3 col-form-label text-md-right"></label>
-                                    <input asp-for="@createParent.Account.Fullname" value="@createParent.Account.Fullname" type="text" placeholder="Full Name" required class="form-control col-md-7">
-                                    <span asp-validation-for="@createParent.Account.Fullname" id="error_message"
+                                    <label asp-for="@createContest.RegistrationDeadline" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                    <input asp-for="@createContest.RegistrationDeadline" value="@createContest.RegistrationDeadline.ToString("yyyy-MM-ddTHH:mm")" type="datetime-local" required class="form-control col-md-7 mt-3" min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" asp-format="{0:yyyy-MM-ddTHH:mm}">
+                                    <span asp-validation-for="@createContest.RegistrationDeadline" id="error_message"
                                           class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
-                                    <label asp-for="@createParent.Address" class="col-md-3 col-form-label text-md-right"></label>
-                                    <textarea asp-for="@createParent.Address" value="@createParent.Address" required class="form-control col-md-7"></textarea>
-                                    <span asp-validation-for="@createParent.Address" id="error_message"
+                                    <label asp-for="@createContest.StartDate" class="col-md-3 col-form-label mt-3 text-md-right">Start Date</label>
+                                    <input asp-for="@createContest.StartDate" value="@createContest.StartDate.ToString("yyyy-MM-ddTHH:mm")" type="datetime-local" required class="form-control col-md-7 mt-3" min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" asp-format="{0:yyyy-MM-ddTHH:mm}">
+                                    <span asp-validation-for="@createContest.StartDate" id="error_message"
                                           class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
-                                    <label asp-for="@createParent.Account.Gender" class="col-md-3 col-form-label mt-3 text-md-right"></label>
-                                    <select class="form-control col-md-7 custom-select" asp-for="@createParent.Account.Gender" asp-items="@createParent.Account.DefaultAccountGenderSelectList"></select>
-                                    <span asp-validation-for="@createParent.Account.Gender" id="error_message"
+                                    <label asp-for="@createContest.EndDate" class="col-md-3 col-form-label mt-3 text-md-right">End Date</label>
+                                    <input asp-for="@createContest.EndDate" value="@createContest.EndDate.ToString("yyyy-MM-ddTHH:mm")" type="datetime-local" required class="form-control col-md-7 mt-3" min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" asp-format="{0:yyyy-MM-ddTHH:mm}">
+                                    <span asp-validation-for="@createContest.EndDate" id="error_message"
                                           class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
-                                    <label asp-for="@createParent.Email" class="col-md-3 col-form-label mt-3 text-md-right"></label>
-                                    <input asp-for="@createParent.Email" value="@createParent.Email" type="email" placeholder="Email" class="form-control col-md-7 mt-3" required>
-                                    <span asp-validation-for="@createParent.Email" id="error_message"
+                                    <label asp-for="@createContest.NumberOfParticipantsLimit" class="col-md-3 col-form-label mt-3 text-md-right">Maximum Participants</label>
+                                    <input asp-for="@createContest.NumberOfParticipantsLimit" value="@createContest.NumberOfParticipantsLimit" type="number" class="form-control col-md-7 mt-3" required>
+                                    <span asp-validation-for="@createContest.NumberOfParticipantsLimit" id="error_message"
                                           class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
-                                    <label asp-for="@createParent.Phone" class="col-md-3 col-form-label mt-3 text-md-right"></label>
-                                    <input asp-for="@createParent.Phone" value="@createParent.Phone" type="tel" placeholder="Phone number" class="form-control col-md-7 mt-3" required>
-                                    <span asp-validation-for="@createParent.Phone" id="error_message"
+                                    <label asp-for="@createContest.Host" class="col-md-3 col-form-label mt-3 text-md-right">Host</label>
+                                    <input asp-for="@createContest.Host" value="@createContest.Host" type="text" placeholder="Contest Host" class="form-control col-md-7 mt-3" rows="3" required>
+                                    <span asp-validation-for="@createContest.Host" id="error_message"
                                           class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
-                                    <label asp-for="@createParent.Account.Password" class="col-md-3 col-form-label mt-3 text-md-right"></label>
-                                    <input asp-for="@createParent.Account.Password" value="@createParent.Account.Password" type="password" placeholder="Password" class="form-control col-md-7 mt-3" required>
-                                    <span asp-validation-for="@createParent.Account.Password" id="error_message"
+                                    <label asp-for="@createContest.Incharge" class="col-md-3 col-form-label mt-3 text-md-right">Incharge</label>
+                                    <select asp-for="@createContest.Incharge" asp-items="@createContest.StaffNames" placeholder="Staff incharge of Contest" class="custom-select form-control col-md-7 mt-3" required></select>
+                                    <span asp-validation-for="@createContest.Incharge" id="error_message"
                                           class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
-                                    <label asp-for="@createParent.Account.ConfirmPassword" class="col-md-3 col-form-label mt-3 text-md-right"></label>
-                                    <input asp-for="@createParent.Account.ConfirmPassword" value="@createParent.Account.ConfirmPassword" type="password" placeholder="Confirm Password" class="form-control col-md-7 mt-3" required>
-                                    <span asp-validation-for="@createParent.Account.ConfirmPassword" id="error_message"
+                                    <label asp-for="@createContest.Address" class="col-md-3 col-form-label mt-3 text-md-right">Address</label>
+                                    <textarea asp-for="@createContest.Address" value="@createContest.Address" type="text" placeholder="Contest Address..." class="form-control col-md-7 mt-3" rows="3" required></textarea>
+                                    <span asp-validation-for="@createContest.Address" id="error_message"
                                           class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
-                                </div> *@
+
+                                    <label asp-for="@createContest.Description" class="col-md-3 col-form-label mt-3 text-md-right">Description</label>
+                                    <textarea asp-for="@createContest.Description" value="@createContest.Description" type="text" placeholder="Contest description..." class="form-control col-md-7 mt-3" rows="3" required></textarea>
+                                    <span asp-validation-for="@createContest.Description" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@createContest.Fee" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                    <input asp-for="@createContest.Fee" value="@createContest.Fee" type="number" placeholder="5000" class="form-control col-md-7 mt-3" rows="3" required></input>
+                                    <span asp-validation-for="@createContest.Fee" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@createContest.ReqMinELO" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                    <input asp-for="@createContest.ReqMinELO" value="@createContest.ReqMinELO" type="number" placeholder="0" class="form-control col-md-7 mt-3" rows="3" required></input>
+                                    <span asp-validation-for="@createContest.ReqMinELO" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@createContest.ReqMaxELO" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                    <input asp-for="@createContest.ReqMaxELO" value="@createContest.ReqMaxELO" type="number" placeholder="0" class="form-control col-md-7 mt-3" rows="3" required></input>
+                                    <span asp-validation-for="@createContest.ReqMaxELO" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@createContest.Prize" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                    <input asp-for="@createContest.Prize" value="@createContest.Prize" type="number" placeholder="0" class="form-control col-md-7 mt-3" rows="3" required></input>
+                                    <span asp-validation-for="@createContest.Prize" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@createContest.Note" class="col-md-3 col-form-label mt-3 text-md-right">Note</label>
+                                    <textarea asp-for="@createContest.Note" value="@createContest.Note" type="text" placeholder="Meeting Note..." class="form-control col-md-7 mt-3" rows="3" required></textarea>
+                                    <span asp-validation-for="@createContest.Note" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                </div>
                             </div>
-                            <div class="modal-footer justify-content-center" style="margin-left:400px;">
-                                <button class="btn btn-success" type="submit" name="action" value="createUser">Create</button>
+                            <div class="modal-footer justify-content-center">
+                                <button class="btn btn-success" type="submit" name="action" value="createRoom">Save</button>
                                 <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
                             </div>
                         </div>
@@ -293,5 +326,13 @@
             </div>
         </div>
     </div>
+    <script src="~/ckeditor/ckeditor.js"></script>
+    <script src="~/ckfinder/ckfinder.js"></script>
+    <script>
+        var data = {};
+        var editor = CKEDITOR.replace('createContest.Description');
+        CKFinder.setupCKEditor(editor, 'ckfinder/');
+        data["createContest.Description"] = editor.getData();
+    </script>
 </body>
 </html>

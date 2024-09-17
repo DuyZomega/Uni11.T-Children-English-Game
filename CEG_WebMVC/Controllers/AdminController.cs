@@ -4,7 +4,7 @@ using CEG_WebMVC.Libraries;
 using CEG_WebMVC.Models.ViewModels.Account.Create;
 using CEG_WebMVC.Models.ViewModels.Account.Get;
 using CEG_WebMVC.Models.ViewModels.Admin.Get;
-using CEG_WebMVC.Models.ViewModels.Admin.ResponseVM;
+using CEG_WebMVC.Models.ViewModels.Admin.Response;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using System.Net.Http.Headers;
@@ -40,11 +40,12 @@ namespace CEG_WebMVC.Controllers
             _logger = logger;
             _config = config;
             _mapper = mapper;
-            _httpClient = new HttpClient();
-            var contentType = new MediaTypeWithQualityHeaderValue("application/json");
-            _httpClient.DefaultRequestHeaders.Accept.Add(contentType);
-            _httpClient.BaseAddress = new Uri(config.GetSection("DefaultApiUrl:ConnectionString").Value);
-            AdminAPI_URL = "/api/";
+            _httpClient = new HttpClient()
+            {
+                BaseAddress = new Uri(config.GetSection(Constants.SYSTEM_DEFAULT_API_HTTPS_URL_CONFIG_PATH).Value)
+            };
+            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            AdminAPI_URL = config.GetSection(Constants.SYSTEM_DEFAULT_API_URL_CONFIG_PATH).Value;
         }
 
         [HttpGet("Index")]

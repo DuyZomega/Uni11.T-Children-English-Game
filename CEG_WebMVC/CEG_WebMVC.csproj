@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Views\Admin\admincourseindextemplate.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="6.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="8.0.8" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.4" />
@@ -89,6 +93,17 @@
 
   <ItemGroup>
     <_ContentIncludedByDefault Remove="Views\Shared\_ALayout.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Views\Admin\admincourseindextemplate.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\ViewModels\Course\Create\" />
+    <Folder Include="Models\ViewModels\Course\Response\" />
+    <Folder Include="Models\ViewModels\Session\" />
+    <Folder Include="Models\ViewModels\RegisteredClass\" />
   </ItemGroup>
 
 </Project>
