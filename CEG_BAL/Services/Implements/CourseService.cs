@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CEG_DAL.Models;
-using CEG_BAL.ViewModels.Course;
+using CEG_BAL.ViewModels.Admin;
 
 namespace CEG_BAL.Services.Implements
 {
@@ -34,22 +34,18 @@ namespace CEG_BAL.Services.Implements
         public void Create(CourseViewModel course, CreateNewCourse newCourse)
         {
             var cou = _mapper.Map<Course>(course);
-            cou.CourseId = _unitOfWork.CourseRepositories.GenerateNewCourseId().Result;
-            cou.StartDate = DateTime.Now;
             cou.Status = "Active";
             if(newCourse != null)
             {
                 cou.CourseName = newCourse.CourseName;
                 cou.CourseType = newCourse.CourseType;
                 cou.Description = newCourse.Description;
-                cou.EndDate = newCourse.EndDate;
-                cou.NumberOfStudent = newCourse.NumberOfStudent;
             }
             _unitOfWork.CourseRepositories.Create(cou);
             _unitOfWork.Save();
         }
 
-        public async Task<CourseViewModel> GetCourseById(int id)
+        public async Task<CourseViewModel?> GetCourseById(int id)
         {
             var user = await _unitOfWork.CourseRepositories.GetByIdNoTracking(id);
             if (user != null)
@@ -62,7 +58,7 @@ namespace CEG_BAL.Services.Implements
 
         public async Task<List<CourseViewModel>> GetCourseList()
         {
-            return _mapper.Map<List<CourseViewModel>>(await _unitOfWork.CourseRepositories.GetCoursList());
+            return _mapper.Map<List<CourseViewModel>>(await _unitOfWork.CourseRepositories.GetCourseList());
         }
 
         public void Update(CourseViewModel course)
@@ -70,6 +66,13 @@ namespace CEG_BAL.Services.Implements
             var cou = _mapper.Map<Course>(course);
             _unitOfWork.CourseRepositories.Update(cou);
             _unitOfWork.Save();
+        }
+
+        public async Task<bool> IsCourseExistByName(string name)
+        {
+            var cou = await _unitOfWork.CourseRepositories.GetByName(name);
+            if (cou != null) return true;
+            return false;
         }
     }
 }

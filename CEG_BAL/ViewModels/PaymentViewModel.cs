@@ -19,6 +19,6 @@ namespace CEG_BAL.ViewModels
 
         public virtual Parent Parents { get; set; } = null!;
 
-        public virtual ICollection<RegisteredCourse> RegisteredCourses { get; set; } = new List<RegisteredCourse>();
+        public virtual ICollection<RegisteredClass> RegisteredCourses { get; set; } = new List<RegisteredClass>();
     }
 }

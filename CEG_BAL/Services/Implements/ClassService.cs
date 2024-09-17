@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CEG_BAL.Services.Interfaces;
 using CEG_BAL.ViewModels;
+using CEG_BAL.ViewModels.Admin;
 using CEG_DAL.Infrastructure;
 using CEG_DAL.Models;
 using Microsoft.Extensions.Configuration;
@@ -31,14 +32,24 @@ namespace CEG_BAL.Services.Implements
             _configuration = configuration;
         }
 
-        public void Create(ClassViewModel classModel)
+        public void Create(ClassViewModel classModel, CreateNewClass newClass)
         {
             var clas = _mapper.Map<Class>(classModel);
+            if (newClass != null)
+            {
+                clas.ClassName = newClass.ClassName;
+                clas.TeacherId = _unitOfWork.TeacherRepositories.GetIdByUsername(newClass.TeacherName).Result;
+                clas.CourseId = _unitOfWork.CourseRepositories.GetIdByName(newClass.CourseName).Result;
+                clas.StartDate = newClass.StartDate;
+                clas.EndDate = newClass.EndDate;
+                clas.MinimumStudents = newClass.MinStudents;
+                clas.MaximumStudents = newClass.MaxStudents;
+            }
             _unitOfWork.ClassRepositories.Create(clas);
             _unitOfWork.Save();
         }
 
-        public async Task<ClassViewModel> GetClassById(int id)
+        public async Task<ClassViewModel?> GetClassById(int id)
         {
             var user = await _unitOfWork.ClassRepositories.GetByIdNoTracking(id);
             if(user != null)

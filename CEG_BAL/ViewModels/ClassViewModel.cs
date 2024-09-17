@@ -12,12 +12,19 @@ namespace CEG_BAL.ViewModels
 
         public string ClassName { get; set; } = null!;
 
-        public int? NumberOfStudents { get; set; }
+        public int? MinimumStudents { get; set; }
 
-        public virtual ICollection<CourseViewModel> Courses { get; set; } = new List<CourseViewModel>();
+        public int? MaximumStudents { get; set; }
+
+        public DateTime StartDate { get; set; }
+
+        public DateTime EndDate { get; set; }
+
+        //public virtual ICollection<CourseViewModel> Courses { get; set; } = new List<CourseViewModel>();
 
         public virtual ICollection<StudentProcessViewModel> StudentProcesses { get; set; } = new List<StudentProcessViewModel>();
 
         public virtual TeacherViewModel Teacher { get; set; } = null!;
+        public virtual CourseViewModel Course { get; set; } = null!;
     }
 }

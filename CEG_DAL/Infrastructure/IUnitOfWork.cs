@@ -20,7 +20,7 @@ namespace CEG_DAL.Infrastructure
         IHomeworkResultRepositories HomeworkResultRepositories { get; }
         IParentRepositories ParentRepositories { get; }
         IPaymentRepositories PaymentRepositories { get; }
-        IRegisteredCourseRepositories RegisteredCourseRepositories { get; }
+        IRegisteredClassRepositories RegisteredCourseRepositories { get; }
         IRoleRepositories RoleRepositories { get; }
         ISessionRepositories SessionRepositories { get; }
         IStudentHomeworkRepositories StudentHomeworkRepositories { get; }
