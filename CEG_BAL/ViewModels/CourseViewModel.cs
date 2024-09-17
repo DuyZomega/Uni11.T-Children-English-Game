@@ -16,20 +16,14 @@ namespace CEG_BAL.ViewModels
 
         public string Description { get; set; } = null!;
 
-        public DateTime? StartDate { get; set; }
-
-        public DateTime? EndDate { get; set; }
-
-        public int? NumberOfStudent { get; set; }
-
         public string? Status { get; set; }
 
-        public virtual Class Class { get; set; } = null!;
+        public virtual ICollection<ClassViewModel> Classes { get; set; } = new List<ClassViewModel>();
 
-        public virtual Teacher ClassNavigation { get; set; } = null!;
+        public virtual ICollection<HomeworkViewModel> Homeworks { get; set; } = new List<HomeworkViewModel>();
 
-        public virtual ICollection<Homework> Homeworks { get; set; } = new List<Homework>();
+        public virtual ICollection<RegisteredClassViewModel> RegisteredClasses { get; set; } = new List<RegisteredClassViewModel>();
 
-        public virtual ICollection<Session> Sessions { get; set; } = new List<Session>();
+        public virtual ICollection<SessionViewModel> Sessions { get; set; } = new List<SessionViewModel>();
     }
 }

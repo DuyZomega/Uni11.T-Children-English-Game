@@ -99,7 +99,6 @@ namespace CEG_BAL.Services.Implements
         public void Create(AccountViewModel account, CreateNewAccount newAcc)
         {
             var acc = _mapper.Map<Account>(account);
-            acc.AccountId = _unitOfWork.AccountRepositories.GenerateNewAccountId().Result;
             acc.CreatedDate = DateTime.Now;
             acc.Status = "Active";
             if (newAcc != null)

@@ -1,4 +1,7 @@
-﻿namespace CEG_DAL.Models;
+﻿using System;
+using System.Collections.Generic;
+
+namespace CEG_DAL.Models;
 
 public partial class Student
 {
@@ -18,13 +21,15 @@ public partial class Student
 
     public int? Points { get; set; }
 
+    public int? Age { get; set; }
+
     public DateTime? Birthdate { get; set; }
 
     public virtual Account Account { get; set; } = null!;
 
     public virtual ICollection<Enroll> Enrolls { get; set; } = new List<Enroll>();
 
-    public virtual Parent Parents { get; set; } = null!;
+    public virtual Parent Parent { get; set; } = null!;
 
     public virtual ICollection<StudentProcess> StudentProcesses { get; set; } = new List<StudentProcess>();
 }

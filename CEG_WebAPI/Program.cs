@@ -56,10 +56,10 @@ namespace CEG_WebAPI
 
             // Add AutoMapper
             services.AddAutoMapper(typeof(MappingProfile));
-            /*services.AddDbContext<MyDBContext>(options =>
+            services.AddDbContext<MyDBContext>(options =>
             {
                 options.UseSqlServer(config.GetConnectionString("DefaultConnection"));
-            });*/
+            });
 
             // Register custom services
             RegisterServices(services);
@@ -80,7 +80,7 @@ namespace CEG_WebAPI
             services.AddScoped<IJWTService, JWTService>();
             services.AddScoped<IParentService, ParentService>();
             services.AddScoped<IPaymentService, PaymentService>();
-            services.AddScoped<IRegisteredCourseService, RegisteredCourseService>();
+            services.AddScoped<IRegisteredClassService, RegisteredClassService>();
             services.AddScoped<ISessionService, SessionService>();
             services.AddScoped<IStudentService, StudentService>();
             services.AddScoped<ITeacherService, TeacherService>();

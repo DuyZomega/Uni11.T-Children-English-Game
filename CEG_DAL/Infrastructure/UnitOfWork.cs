@@ -11,7 +11,7 @@ namespace CEG_DAL.Infrastructure
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private MyDBContext _dbContext;
+        private readonly MyDBContext _dbContext;
         private IAccountRepositories _accountRepositories;
         private IClassRepositories _classRepositories;
         private ICourseRepositories _courseRepositories;
@@ -23,19 +23,16 @@ namespace CEG_DAL.Infrastructure
         private IHomeworkResultRepositories _homeworkResultRepositories;
         private IParentRepositories _parentRepositories;
         private IPaymentRepositories _paymentRepositories;
-        private IRegisteredCourseRepositories _registeredCourseRepositories;
+        private IRegisteredClassRepositories _registeredCourseRepositories;
         private IRoleRepositories _roleRepositories;
         private ISessionRepositories _sessionRepositories;
         private IStudentHomeworkRepositories _studentHomeworkRepositories;
         private IStudentProcessRepositories _studentProcessRepositories;
         private IStudentRepositories _studentRepositories;
         private ITeacherRepositories _teacherRepositories;
-        public UnitOfWork()
+        public UnitOfWork(MyDBContext context)
         {
-            if (this._dbContext == null)
-            {
-                this._dbContext = DbFactory.Instance.InitDbContext();
-            }
+            _dbContext = context;
         }
         public IAccountRepositories AccountRepositories => _accountRepositories ??= new AccountRepositories(_dbContext);
         public IClassRepositories ClassRepositories => _classRepositories ??= new ClassRepositories(_dbContext);
@@ -48,7 +45,7 @@ namespace CEG_DAL.Infrastructure
         public IHomeworkResultRepositories HomeworkResultRepositories => _homeworkResultRepositories ??= new HomeworkResultRepositories(_dbContext);
         public IParentRepositories ParentRepositories => _parentRepositories ??= new ParentRepositories(_dbContext);
         public IPaymentRepositories PaymentRepositories => _paymentRepositories ??= new PaymentRepositories(_dbContext);
-        public IRegisteredCourseRepositories RegisteredCourseRepositories => _registeredCourseRepositories ??= new RegisteredCourseRepositories(_dbContext);
+        public IRegisteredClassRepositories RegisteredCourseRepositories => _registeredCourseRepositories ??= new RegisteredClassRepositories(_dbContext);
         public IRoleRepositories RoleRepositories => _roleRepositories ??= new RoleRepositories(_dbContext);
         public ISessionRepositories SessionRepositories => _sessionRepositories ??= new SessionRepositories(_dbContext);
         public IStudentHomeworkRepositories StudentHomeworkRepositories => _studentHomeworkRepositories ??= new StudentHomeworkRepositories(_dbContext);

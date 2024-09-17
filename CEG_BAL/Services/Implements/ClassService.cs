@@ -35,7 +35,16 @@ namespace CEG_BAL.Services.Implements
         public void Create(ClassViewModel classModel, CreateNewClass newClass)
         {
             var clas = _mapper.Map<Class>(classModel);
-            clas.ClassName = newClass.ClassName;
+            if (newClass != null)
+            {
+                clas.ClassName = newClass.ClassName;
+                clas.TeacherId = _unitOfWork.TeacherRepositories.GetIdByUsername(newClass.TeacherName).Result;
+                clas.CourseId = _unitOfWork.CourseRepositories.GetIdByName(newClass.CourseName).Result;
+                clas.StartDate = newClass.StartDate;
+                clas.EndDate = newClass.EndDate;
+                clas.MinimumStudents = newClass.MinStudents;
+                clas.MaximumStudents = newClass.MaxStudents;
+            }
             _unitOfWork.ClassRepositories.Create(clas);
             _unitOfWork.Save();
         }

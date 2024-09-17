@@ -21,7 +21,7 @@ public partial class StudentProcess
 
     public virtual ICollection<HomeworkResult> HomeworkResults { get; set; } = new List<HomeworkResult>();
 
-    public virtual RegisteredCourse Session { get; set; } = null!;
+    public virtual RegisteredClass Session { get; set; } = null!;
 
     public virtual Student Student { get; set; } = null!;
 

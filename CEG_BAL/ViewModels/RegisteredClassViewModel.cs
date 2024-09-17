@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CEG_BAL.ViewModels
 {
-    public class RegisteredCourseViewModel
+    public class RegisteredClassViewModel
     {
         public bool? PaymentStatus { get; set; }
 

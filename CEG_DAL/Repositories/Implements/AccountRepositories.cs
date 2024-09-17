@@ -58,16 +58,5 @@ namespace CEG_DAL.Repositories.Implements
             if (result != null) return result.AccountId;
             return 0;
         }
-
-        public async Task<int> GenerateNewAccountId()
-        {
-            var lastAcc = await _dbContext.Accounts.OrderByDescending(acc => acc.AccountId).FirstOrDefaultAsync();
-            int newId = 1;
-            if (lastAcc != null)
-            {
-                newId = lastAcc.AccountId + 1;
-            }
-            return newId;
-        }
     }
 }

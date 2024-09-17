@@ -1,7 +1,10 @@
 ﻿using CEG_BAL.Services.Interfaces;
 using CEG_BAL.ViewModels;
+using CEG_BAL.ViewModels.Admin;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace CEG_WebAPI.Controllers
 {
@@ -10,11 +13,13 @@ namespace CEG_WebAPI.Controllers
     public class ClassController : ControllerBase
     {
         private readonly IClassService _classService;
+        private readonly ICourseService _courseService;
         private readonly IConfiguration _config;
 
-        public ClassController(IClassService classService, IConfiguration config)
+        public ClassController(IClassService classService, ICourseService courseService, IConfiguration config)
         {
             _classService = classService;
+            _courseService = courseService;
             _config = config;
         }
 
@@ -60,7 +65,7 @@ namespace CEG_WebAPI.Controllers
         {
             try
             {
-                var result = _classService.GetClassById(id);
+                var result = await _classService.GetClassById(id);
                 if (result == null)
                 {
                     return NotFound(new
@@ -73,6 +78,44 @@ namespace CEG_WebAPI.Controllers
                 {
                     Status = true,
                     Data = result
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    Status = false,
+                    ErrorMessage = ex.Message,
+                    InnerExceptionMessage = ex.InnerException?.Message
+                });
+            }
+        }
+
+        [HttpPost("Create")]
+        [Authorize(Roles = "Admin")]
+        [ProducesResponseType(typeof(ClassViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> CreateClass([FromBody][Required] CreateNewClass newClass)
+        {
+            try
+            {
+                var resultCourseName = await _courseService.IsCourseExistByName(newClass.CourseName);
+                if (!resultCourseName)
+                {
+                    return BadRequest(new
+                    {
+                        Status = false,
+                        ErrorMessage = "Course Not Found!"
+                    });
+                }
+                ClassViewModel clas = new ClassViewModel();
+                _classService.Create(clas, newClass);
+                return Ok(new
+                {
+                    Data = true,
+                    Status = true,
+                    SuccessMessage = "Class Create Successfully!"
                 });
             }
             catch (Exception ex)

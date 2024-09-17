@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 namespace CEG_DAL.Models;
 
@@ -38,7 +37,7 @@ public partial class MyDBContext : DbContext
 
     public virtual DbSet<Payment> Payments { get; set; }
 
-    public virtual DbSet<RegisteredCourse> RegisteredCourses { get; set; }
+    public virtual DbSet<RegisteredClass> RegisteredClasses { get; set; }
 
     public virtual DbSet<Role> Roles { get; set; }
 
@@ -53,25 +52,14 @@ public partial class MyDBContext : DbContext
     public virtual DbSet<Teacher> Teachers { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        if (!optionsBuilder.IsConfigured)
-        {
-            var builder = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-            IConfigurationRoot configuration = builder.Build();
-            optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
-        }
-    }
-    
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("Server=.;Uid=sa;Pwd=1;Database=ChildrenEnglishGame;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Account>(entity =>
         {
-            entity.Property(e => e.AccountId)
-                .UseIdentityColumn()
-                .HasColumnName("account_id");
+            entity.Property(e => e.AccountId).HasColumnName("account_id");
             entity.Property(e => e.CreatedDate)
                 .HasColumnType("datetime")
                 .HasColumnName("created_date");
@@ -98,14 +86,25 @@ public partial class MyDBContext : DbContext
 
             entity.ToTable("Class");
 
-            entity.Property(e => e.ClassId)
-                .ValueGeneratedNever()
-                .HasColumnName("class_id");
+            entity.Property(e => e.ClassId).HasColumnName("class_id");
             entity.Property(e => e.ClassName)
                 .HasMaxLength(10)
                 .HasColumnName("class_name");
-            entity.Property(e => e.NumberOfStudents).HasColumnName("number_of_students");
+            entity.Property(e => e.CourseId).HasColumnName("course_id");
+            entity.Property(e => e.EndDate)
+                .HasColumnType("datetime")
+                .HasColumnName("end_date");
+            entity.Property(e => e.MaximumStudents).HasColumnName("maximum_students");
+            entity.Property(e => e.MinimumStudents).HasColumnName("minimum_students");
+            entity.Property(e => e.StartDate)
+                .HasColumnType("datetime")
+                .HasColumnName("start_date");
             entity.Property(e => e.TeacherId).HasColumnName("teacher_id");
+
+            entity.HasOne(d => d.Course).WithMany(p => p.Classes)
+                .HasForeignKey(d => d.CourseId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Class_Course");
 
             entity.HasOne(d => d.Teacher).WithMany(p => p.Classes)
                 .HasForeignKey(d => d.TeacherId)
@@ -119,10 +118,7 @@ public partial class MyDBContext : DbContext
 
             entity.ToTable("Course");
 
-            entity.Property(e => e.CourseId)
-                .ValueGeneratedNever()
-                .HasColumnName("course_id");
-            entity.Property(e => e.ClassId).HasColumnName("class_id");
+            entity.Property(e => e.CourseId).HasColumnName("course_id");
             entity.Property(e => e.CourseName)
                 .HasMaxLength(50)
                 .HasColumnName("course_name");
@@ -130,36 +126,16 @@ public partial class MyDBContext : DbContext
                 .HasMaxLength(50)
                 .HasColumnName("course_type");
             entity.Property(e => e.Description).HasColumnName("description");
-            entity.Property(e => e.EndDate)
-                .HasColumnType("datetime")
-                .HasColumnName("end_date");
-            entity.Property(e => e.NumberOfStudent).HasColumnName("number_of_student");
-            entity.Property(e => e.SessionId).HasColumnName("session_id");
-            entity.Property(e => e.StartDate)
-                .HasColumnType("datetime")
-                .HasColumnName("start_date");
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .HasColumnName("status");
-
-            entity.HasOne(d => d.Class).WithMany(p => p.Courses)
-                .HasForeignKey(d => d.ClassId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Course_Class");
-
-            entity.HasOne(d => d.ClassNavigation).WithMany(p => p.Courses)
-                .HasForeignKey(d => d.ClassId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Course_Teacher");
         });
 
         modelBuilder.Entity<Enroll>(entity =>
         {
             entity.ToTable("Enroll");
 
-            entity.Property(e => e.EnrollId)
-                .ValueGeneratedNever()
-                .HasColumnName("enroll_id");
+            entity.Property(e => e.EnrollId).HasColumnName("enroll_id");
             entity.Property(e => e.ClassId).HasColumnName("class_id");
             entity.Property(e => e.EnrolledDate)
                 .HasColumnType("datetime")
@@ -176,9 +152,7 @@ public partial class MyDBContext : DbContext
         {
             entity.ToTable("Game");
 
-            entity.Property(e => e.GameId)
-                .ValueGeneratedNever()
-                .HasColumnName("game_id");
+            entity.Property(e => e.GameId).HasColumnName("game_id");
             entity.Property(e => e.DownloadLink).HasColumnName("download_link");
             entity.Property(e => e.GameConfigId).HasColumnName("game_config_id");
             entity.Property(e => e.Point).HasColumnName("point");
@@ -202,9 +176,7 @@ public partial class MyDBContext : DbContext
         {
             entity.ToTable("GameConfig");
 
-            entity.Property(e => e.GameConfigId)
-                .ValueGeneratedNever()
-                .HasColumnName("game_config_id");
+            entity.Property(e => e.GameConfigId).HasColumnName("game_config_id");
             entity.Property(e => e.CorrectAnswer)
                 .HasMaxLength(50)
                 .HasColumnName("correct_answer");
@@ -221,9 +193,7 @@ public partial class MyDBContext : DbContext
         {
             entity.ToTable("GameLevel");
 
-            entity.Property(e => e.GameLevelId)
-                .ValueGeneratedNever()
-                .HasColumnName("game_level_id");
+            entity.Property(e => e.GameLevelId).HasColumnName("game_level_id");
             entity.Property(e => e.GameId).HasColumnName("game_id");
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
@@ -242,9 +212,7 @@ public partial class MyDBContext : DbContext
         {
             entity.ToTable("Homework");
 
-            entity.Property(e => e.HomeworkId)
-                .ValueGeneratedNever()
-                .HasColumnName("homework_id");
+            entity.Property(e => e.HomeworkId).HasColumnName("homework_id");
             entity.Property(e => e.Description).HasColumnName("description");
             entity.Property(e => e.EndDate)
                 .HasColumnType("datetime")
@@ -278,9 +246,7 @@ public partial class MyDBContext : DbContext
         {
             entity.ToTable("HomeworkResult");
 
-            entity.Property(e => e.HomeworkResultId)
-                .ValueGeneratedNever()
-                .HasColumnName("homework_result_id");
+            entity.Property(e => e.HomeworkResultId).HasColumnName("homework_result_id");
             entity.Property(e => e.HomeworkId).HasColumnName("homework_id");
             entity.Property(e => e.Playtime).HasColumnName("playtime");
             entity.Property(e => e.StudentProcessId).HasColumnName("student_process_id");
@@ -301,11 +267,8 @@ public partial class MyDBContext : DbContext
         modelBuilder.Entity<Parent>(entity =>
         {
             entity.ToTable("Parent");
-            entity.HasKey(e => e.ParentId);
 
-            entity.Property(e => e.ParentId)
-                .UseIdentityColumn()
-                .HasColumnName("parent_id");
+            entity.Property(e => e.ParentId).HasColumnName("parent_id");
             entity.Property(e => e.AccountId).HasColumnName("account_id");
             entity.Property(e => e.Address).HasColumnName("address");
             entity.Property(e => e.Email).HasColumnName("email");
@@ -325,9 +288,7 @@ public partial class MyDBContext : DbContext
 
             entity.ToTable("Payment");
 
-            entity.Property(e => e.PaymentId)
-                .ValueGeneratedNever()
-                .HasColumnName("payment_id");
+            entity.Property(e => e.PaymentId).HasColumnName("payment_id");
             entity.Property(e => e.ConfirmDate)
                 .HasColumnType("datetime")
                 .HasColumnName("confirm_date");
@@ -340,37 +301,35 @@ public partial class MyDBContext : DbContext
                 .HasMaxLength(50)
                 .HasColumnName("payment_type");
 
-            entity.HasOne(d => d.Parents).WithMany(p => p.Payments)
+            entity.HasOne(d => d.Parent).WithMany(p => p.Payments)
                 .HasForeignKey(d => d.ParentId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Payment_Parents");
         });
 
-        modelBuilder.Entity<RegisteredCourse>(entity =>
+        modelBuilder.Entity<RegisteredClass>(entity =>
         {
             entity.HasKey(e => e.RegisteredCourseId).HasName("PK_RegisteredCourse_1");
 
-            entity.ToTable("RegisteredCourse");
+            entity.ToTable("RegisteredClass");
 
-            entity.Property(e => e.RegisteredCourseId)
-                .ValueGeneratedNever()
-                .HasColumnName("registered_course_id");
+            entity.Property(e => e.RegisteredCourseId).HasColumnName("registered_course_id");
+            entity.Property(e => e.ClassId).HasColumnName("class_id");
             entity.Property(e => e.ConfirmDate)
                 .HasColumnType("datetime")
                 .HasColumnName("confirm_date");
-            entity.Property(e => e.CourseId).HasColumnName("course_id");
             entity.Property(e => e.PaymentId).HasColumnName("payment_id");
             entity.Property(e => e.PaymentStatus).HasColumnName("payment_status");
             entity.Property(e => e.RegisteredDate)
                 .HasColumnType("datetime")
                 .HasColumnName("registered_date");
 
-            entity.HasOne(d => d.Course).WithMany(p => p.RegisteredCourses)
-                .HasForeignKey(d => d.CourseId)
+            entity.HasOne(d => d.Course).WithMany(p => p.RegisteredClasses)
+                .HasForeignKey(d => d.ClassId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_RegisteredCourse_Course");
 
-            entity.HasOne(d => d.Payment).WithMany(p => p.RegisteredCourses)
+            entity.HasOne(d => d.Payment).WithMany(p => p.RegisteredClasses)
                 .HasForeignKey(d => d.PaymentId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_RegisteredCourse_Payment");
@@ -380,9 +339,7 @@ public partial class MyDBContext : DbContext
         {
             entity.ToTable("Role");
 
-            entity.Property(e => e.RoleId)
-                .UseIdentityColumn()
-                .HasColumnName("role_id");
+            entity.Property(e => e.RoleId).HasColumnName("role_id");
             entity.Property(e => e.RoleName)
                 .HasMaxLength(50)
                 .HasColumnName("role_name");
@@ -392,9 +349,7 @@ public partial class MyDBContext : DbContext
         {
             entity.ToTable("Session");
 
-            entity.Property(e => e.SessionId)
-                .ValueGeneratedNever()
-                .HasColumnName("session_id");
+            entity.Property(e => e.SessionId).HasColumnName("session_id");
             entity.Property(e => e.CourseId).HasColumnName("course_id");
             entity.Property(e => e.Description).HasColumnName("description");
             entity.Property(e => e.EndDate)
@@ -422,10 +377,9 @@ public partial class MyDBContext : DbContext
 
             entity.ToTable("Student");
 
-            entity.Property(e => e.StudentId)
-                .UseIdentityColumn()
-                .HasColumnName("student_id");
+            entity.Property(e => e.StudentId).HasColumnName("student_id");
             entity.Property(e => e.AccountId).HasColumnName("account_id");
+            entity.Property(e => e.Age).HasColumnName("age");
             entity.Property(e => e.Birthdate)
                 .HasColumnType("datetime")
                 .HasColumnName("birthdate");
@@ -441,7 +395,7 @@ public partial class MyDBContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Student_Accounts");
 
-            entity.HasOne(d => d.Parents).WithMany(p => p.Students)
+            entity.HasOne(d => d.Parent).WithMany(p => p.Students)
                 .HasForeignKey(d => d.ParentId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Student_Parents");
@@ -451,9 +405,7 @@ public partial class MyDBContext : DbContext
         {
             entity.ToTable("StudentHomework");
 
-            entity.Property(e => e.StudentHomeworkId)
-                .ValueGeneratedNever()
-                .HasColumnName("student_homework_id");
+            entity.Property(e => e.StudentHomeworkId).HasColumnName("student_homework_id");
             entity.Property(e => e.EndDate)
                 .HasColumnType("datetime")
                 .HasColumnName("end_date");
@@ -484,9 +436,7 @@ public partial class MyDBContext : DbContext
 
             entity.ToTable("StudentProcess");
 
-            entity.Property(e => e.StudentProcessId)
-                .ValueGeneratedNever()
-                .HasColumnName("student_process_id");
+            entity.Property(e => e.StudentProcessId).HasColumnName("student_process_id");
             entity.Property(e => e.ClassId).HasColumnName("class_id");
             entity.Property(e => e.Playtime).HasColumnName("playtime");
             entity.Property(e => e.SessionId).HasColumnName("session_id");
@@ -513,9 +463,7 @@ public partial class MyDBContext : DbContext
         {
             entity.ToTable("Teacher");
 
-            entity.Property(e => e.TeacherId)
-                .UseIdentityColumn()
-                .HasColumnName("teacher_id");
+            entity.Property(e => e.TeacherId).HasColumnName("teacher_id");
             entity.Property(e => e.AccountId).HasColumnName("account_id");
             entity.Property(e => e.Address).HasColumnName("address");
             entity.Property(e => e.Email)

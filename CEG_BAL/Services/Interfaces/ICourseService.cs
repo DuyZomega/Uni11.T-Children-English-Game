@@ -15,5 +15,6 @@ namespace CEG_BAL.Services.Interfaces
         void Update(CourseViewModel course);
         Task<List<CourseViewModel>> GetCourseList();
         Task<CourseViewModel?> GetCourseById(int id);
+        Task<bool> IsCourseExistByName(string name);
     }
 }
