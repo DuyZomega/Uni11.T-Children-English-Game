@@ -31,6 +31,9 @@
                             <li class="breadcrumd-item">
                                 <span>/</span>
                             </li>
+                            <li class="breadcrumd-item">
+                                <a href="@Url.Action("AdminCourseIndex","Admin")">Course</a>
+                            </li>
                         </ol>
                     </div>
                 </div>
@@ -95,7 +98,7 @@
                                         <div class="col-xl-3 col-lg-6 col-sm-6 my-3 item">
                                             <div class="card1 card-child">
                                                 <div class="card-body add-club">
-                                                    <form asp-action="AdminCourseCreate" asp-controller="Admin" method="get">
+                                                    <form class="border-0" asp-action="AdminCourseCreate" asp-controller="Admin" method="get">
                                                         <button class="border-0" type="submit">
                                                             <span>Add Course</span>
                                                             <i class='bx bx-add-to-queue'></i>

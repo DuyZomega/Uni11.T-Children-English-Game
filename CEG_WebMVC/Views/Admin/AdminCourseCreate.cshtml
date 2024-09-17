@@ -26,20 +26,20 @@
                                 <span>/</span>
                             </li>
                             <li class="breadcrumd-item">
-                                <a href="#">Course</a>
+                                <a href="@Url.Action("AdminCourseIndex","Admin")">Course</a>
                             </li>
                             <li class="breadcrumd-item">
                                 <span>/</span>
                             </li>
                             <li class="breadcrumd-item">
-                                <a href="#">Create</a>
+                                <a href="@Url.Action("AdminCourseCreate","Admin")">Create</a>
                             </li>
                         </ol>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-7 customer-booking">
-                        <div class="row">
+                        @* <div class="row">
                             <div class="card profile col-12 mb-4">
                                 <div class="card-header">
                                     <h4>Course Status</h4>
@@ -51,20 +51,20 @@
                                         </div>
                                         <div class="col-sm-7">
                                             <span class="destroy" style="float: left;">
-                                                @* @details.Status *@
+                                                @details.Status
                                             </span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> *@
                         <div class="row">
                             <div class="card profile col-12 mb-4">
                                 <div class="card-header">
-                                    <h4>Meeting Information</h4>
-                                    <div class="edit-info">
+                                    <h4>Create Course Information</h4>
+                                    @* <div class="edit-info">
                                         <i class='bx bxs-edit-alt' data-toggle="modal" data-target="#editprofile"></i>
-                                    </div>
+                                    </div> *@
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
@@ -184,35 +184,6 @@
                         </div>
 
                     </div>
-                    <div class="col-lg-5 cardFB">
-                        <div class="card border-0 d-flex">
-                            <div class="card-header">
-                                <h4>Participants</h4>
-                            </div>
-                            <div class="card-body">
-                                <table class="table table-hover table-borderless">
-                                    <thead>
-                                        <tr>
-                                            <th>Participant No:</th>
-                                            <th>Name:</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @* @foreach (var part in parts)
-                                        {
-                                            <tr>
-                                                <td>@part.ParticipantNo</td>
-                                                <td>@part.MemberName</td>
-                                            </tr>
-                                        } *@
-                                        <tr>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -225,7 +196,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title">Create Course</h4>
                 </div>
-                <form asp-action="AdminCourseCreate" asp-controller="Admin" method="post" class="form-group">
+                <form asp-action="AdminCourseCreateRequest" asp-controller="Admin" method="post" class="form-group">
                     <div class="modal-body">
                         @* <div class="row justify-content-center">
                             <div class="col-12 col-md-6">

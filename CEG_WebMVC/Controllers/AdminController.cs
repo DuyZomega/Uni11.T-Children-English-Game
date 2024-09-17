@@ -114,6 +114,20 @@ namespace CEG_WebMVC.Controllers
                 return Redirect(methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN));
             return View();
         }
+        [HttpGet("Course/Create")]
+        public async Task<IActionResult> AdminCourseCreate()
+        {
+            if (methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN) != null)
+                return Redirect(methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN));
+            return View();
+        }
+        [HttpPost("Course/Create")]
+        public async Task<IActionResult> AdminCourseCreateRequest()
+        {
+            if (methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN) != null)
+                return Redirect(methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN));
+            return RedirectToAction("AdminCourseCreate");
+        }
         [HttpGet("Transaction/Index")]
         public async Task<IActionResult> AdminTransactionIndex()
         {
