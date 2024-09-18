@@ -5,6 +5,8 @@ using CEG_WebMVC.Models.ViewModels.Account.Create;
 using CEG_WebMVC.Models.ViewModels.Account.Get;
 using CEG_WebMVC.Models.ViewModels.Admin.PageModel;
 using CEG_WebMVC.Models.ViewModels.Admin.Response;
+using CEG_WebMVC.Models.ViewModels.Class.Create;
+using CEG_WebMVC.Models.ViewModels.Class.Get;
 using CEG_WebMVC.Models.ViewModels.Course.Get;
 using CEG_WebMVC.Models.ViewModels.Course.Response;
 using Microsoft.AspNetCore.Mvc;
@@ -108,7 +110,7 @@ namespace CEG_WebMVC.Controllers
             AdminAPI_URL += "Course/All";
             string? accToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
 
-            var courseListResponse = await methcall.CallMethodReturnObject<AdminCourseListResponseVM>(
+            var courseListResponse = await methcall.CallMethodReturnObject<AdminClassListResponseVM>(
                 _httpClient: _httpClient,
                 options: jsonOptions,
                 methodName: Constants.GET_METHOD,
@@ -118,29 +120,29 @@ namespace CEG_WebMVC.Controllers
 
             if (courseListResponse == null)
             {
-                _logger.LogError("Error while getting course list");
+                _logger.LogError("Error while getting class list");
 
-                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while getting course list !";
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while getting class list !";
 
                 return RedirectToAction("AdminIndex");
             }
             if (!courseListResponse.Status)
             {
-                _logger.LogError("Error while getting course list");
+                _logger.LogError("Error while getting class list");
 
-                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while getting course list !";
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while getting class list !";
 
                 return RedirectToAction("AdminIndex");
             }
-            TempData["Success"] = ViewBag.Success = "Course List Get Successfully!";
+            TempData["Success"] = ViewBag.Success = "Class List Get Successfully!";
 
             //var teacherTempData = methcall.GetValidationTempData<CreateTeacherVM>(this, TempData, Constants.CREATE_TEACHER_DETAILS_VALID, "createTeacher", jsonOptions);
 
-            AdminCourseIndexPVM pageData = new AdminCourseIndexPVM()
+            AdminClassIndexPVM pageData = new AdminClassIndexPVM()
             {
-                Courses = _mapper.Map<List<IndexCourseInfoVM>>(courseListResponse.Data)
+                Classes = _mapper.Map<List<IndexClassInfoVM>>(courseListResponse.Data),
+                CreateClass = new CreateClassVM()
             };
-
             return View(pageData);
         }
         [HttpGet("Course/Index")]
