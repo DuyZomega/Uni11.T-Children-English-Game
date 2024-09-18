@@ -15,7 +15,7 @@ using CEG_WebMVC.Models.VnPay;
 /*using CEG_WebMVC.Models.Notification;
 using CEG_WebMVC.Models.Transaction;*/
 using CEG_BAL.ViewModels.Authenticates;
-using CEG_WebMVC.Models.ViewModels.Account.ResponseVM;
+using CEG_WebMVC.Models.ViewModels.Account.Response;
 using CEG_WebMVC.Libraries;
 namespace CEG_WebMVC.Controllers
 {

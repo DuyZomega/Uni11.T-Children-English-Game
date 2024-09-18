@@ -1,6 +1,6 @@
 ﻿using CEG_BAL.ViewModels.Authenticates;
 
-namespace CEG_WebMVC.Models.ViewModels.Account.ResponseVM
+namespace CEG_WebMVC.Models.ViewModels.Account.Response
 {
     public class AuthenResponseVM
     {
