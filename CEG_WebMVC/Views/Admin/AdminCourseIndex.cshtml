@@ -1,12 +1,10 @@
-﻿@* @model CEG_WebMVC.Models.ViewModels.Admin.Get.AdminAccountIndexVM *@
+﻿@model CEG_WebMVC.Models.ViewModels.Admin.PageModel.AdminCourseIndexPVM
 @{
     Layout = null;
     ViewData["Title"] = "Admin All Courses Page";
     string? search = string.Empty;
 
-    //CEG_WebMVC.Models.ViewModels.Account.Create.CreateParentVM createParent = Model.createParent;
-
-    //var accountStatuses = Model.AccountStatuses;
+    var courses = Model.Courses;
     
 
     Layout = "~/Views/Shared/_ALayout.cshtml";
@@ -108,32 +106,32 @@
                                             </div>
                                         </div>
                                         <!-- dung vong for o day -->
-                                        @* @foreach (var data in contestList)
+                                        @foreach (var data in courses)
                                         {
                                             <div class="col-xl-3 col-lg-6 col-sm-6 my-3">
                                                 <div class="card1 card-child">
                                                     <div class="club-name">
-                                                        <span>Contest ID: @data.ContestId</span>
                                                         <div class="status">
                                                             @{
                                                                 switch (data.Status)
                                                                 {
-                                                                    case "Ongoing":
-                                                                    case "CheckingIn":
-                                                                    case "OpenRegistration":
+                                                                    case "Available":
                                                                         {
                                                                             <span class="stt1" style="float: left;">Status:<h6>@data.Status</h6></span>
                                                                             break;
                                                                         }
-                                                                    case "OnHold":
-                                                                    case "ClosedRegistration":
+                                                                    case "UnAvailable":
                                                                         {
                                                                             <span class="stt3" style="float: left;">Status:<h6>@data.Status</h6></span>
                                                                             break;
                                                                         }
-                                                                    case "Ended":
                                                                     case "Postponed":
                                                                     case "Cancelled":
+                                                                        {
+                                                                            <span class="stt2" style="float: left;">Status:<h6>@data.Status</h6></span>
+                                                                            break;
+                                                                        }
+                                                                    default :
                                                                         {
                                                                             <span class="stt2" style="float: left;">Status:<h6>@data.Status</h6></span>
                                                                             break;
@@ -146,66 +144,54 @@
                                                         <div class="club-title">
                                                             <ul>
                                                                 <li>
-                                                                    <h6>Contest Name:</h6>
-                                                                    <span>@data.ContestName</span>
+                                                                    <h6>Course Name:</h6>
+                                                                    <span>@data.CourseName</span>
                                                                 </li>
                                                                 <li>
-                                                                    <h6>Open Registration Date:</h6>
-                                                                    <span>@data.OpenRegistration.ToString("dd-MM-yyyy HH:mm")</span>
+                                                                    <h6>Course Type:</h6>
+                                                                    <span>@data.CourseType</span>
                                                                 </li>
                                                                 <li>
-                                                                    <h6>Registration Deadlines:</h6>
-                                                                    <span>@data.RegistrationDeadline.ToString("dd-MM-yyyy HH:mm")</span>
+                                                                    <h6>Total Hourse:</h6>
+                                                                    <span>@data.TotalHours</span>
                                                                 </li>
                                                                 <li>
-                                                                    <h6>Start Date:</h6>
-                                                                    <span>@data.StartDate.ToString("dd-MM-yyyy HH:mm")</span>
+                                                                    <h6>Required Age:</h6>
+                                                                    <span>@data.RequiredAge</span>
                                                                 </li>
                                                                 <li>
-                                                                    <h6>End Date:</h6>
-                                                                    <span>@data.EndDate.ToString("dd-MM-yyyy HH:mm")</span>
-                                                                </li>
-                                                                <li>
-                                                                    <h6>Maximum Participants:</h6>
-                                                                    <span>@data.NumberOfParticipantsLimit</span>
-                                                                </li>
-                                                                <li>
-                                                                    <h6>Minimum ELO Required:</h6>
-                                                                    <span>@data.ReqMinELO</span>
-                                                                </li>
-                                                                <li>
-                                                                    <h6>Maximum ELO Required:</h6>
-                                                                    <span>@data.ReqMaxELO</span>
-                                                                </li>
-                                                                <li>
-                                                                    <h6>Location:</h6>
-                                                                    <span class="truncate">@data.AreaNumber,@data.Street,@data.District,@data.City</span>
+                                                                    <h6>Difficulty:</h6>
+                                                                    <span>@data.Difficulty</span>
                                                                 </li>
                                                                 <li>
                                                                     <h6>Description:</h6>
                                                                     <span class="truncate">@data.Description</span>
                                                                 </li>
                                                                 <li>
-                                                                    <h6>Note:</h6>
-                                                                    <span class="truncate">@data.Note</span>
+                                                                    <h6>Amount of Sessions:</h6>
+                                                                    <span>@data.SessionAmount</span>
+                                                                </li>
+                                                                <li>
+                                                                    <h6>Amount of Classes:</h6>
+                                                                    <span>@data.ClassAmount</span>
                                                                 </li>
                                                             </ul>
                                                         </div>
                                                     </div>
                                                     <div class="form-group mx-auto">
-                                                        <form asp-action="Contest" asp-controller="Manager" method="get" asp-route-id="@data.ContestId">
+                                                        <form asp-action="AdminCourseInfo" asp-controller="Admin" method="get" asp-route-id="@data.CourseName">
                                                             <button class="btn btn-primary clickable-row" type="submit">See Detail</button>
                                                         </form>
-                                                        @{
+                                                        @* @{
                                                             if (data.Status.Equals("OnHold") || data.Status.Equals("Postponed") || data.Status.Equals("CheckingIn") || data.Status.Equals("Ongoing"))
                                                             {
                                                                 <button class="btn btn-danger" data-toggle="modal" data-target="#deleteContest_@data.ContestId" type="submit">Cancel</button>
                                                             }
-                                                        }
+                                                        } *@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div id="deleteContest_@data.ContestId" class="modal fade" role="dialog">
+                                            @* <div id="deleteContest_@data.ContestId" class="modal fade" role="dialog">
                                                 <div class="modal-dialog modal-dialog-centered" role="content">
                                                     <div class="modal-content">
                                                         <div class="card-body">
@@ -224,8 +210,8 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        } *@
+                                            </div> *@
+                                        }
                                     </div>
                                     <!-- end tapnet -->
                                 </div>

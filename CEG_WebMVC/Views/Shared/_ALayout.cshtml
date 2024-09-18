@@ -36,7 +36,31 @@
                             <span class="title">Overview</span>
                         </a>
                     </li>
-                    <li class="noactive">
+                    <li data-toggle="tooltip" data-placement="right" title="Overview">
+                        <a href="@Url.Action("AdminAccountIndex", "Admin")">
+                            <span><i class='bx bx-tachometer'></i></span>
+                            <span class="title">Manage Accounts</span>
+                        </a>
+                    </li>
+                    <li data-toggle="tooltip" data-placement="right" title="Overview">
+                        <a href="@Url.Action("AdminClassIndex", "Admin")">
+                            <span><i class='bx bx-tachometer'></i></span>
+                            <span class="title">Manage Classes</span>
+                        </a>
+                    </li>
+                    <li data-toggle="tooltip" data-placement="right" title="Overview">
+                        <a href="@Url.Action("AdminCourseIndex", "Admin")">
+                            <span><i class='bx bx-tachometer'></i></span>
+                            <span class="title">Manage Courses</span>
+                        </a>
+                    </li>
+                    <li data-toggle="tooltip" data-placement="right" title="Overview">
+                        <a href="@Url.Action("AdminTransactionIndex", "Admin")">
+                            <span><i class='bx bx-tachometer'></i></span>
+                            <span class="title">Manage Transactions</span>
+                        </a>
+                    </li>
+                    @* <li class="noactive">
                         <a href="#" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
                             <i class='bx bx-bookmarks'></i>
                             <span class="title">Manage</span>
@@ -74,7 +98,7 @@
                                 </a>
                             </li>
                         </ul>
-                    </li>
+                    </li> *@
                 </ul>
             </div>
         </div>

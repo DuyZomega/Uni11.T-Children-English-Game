@@ -1,12 +1,12 @@
-﻿@model CEG_WebMVC.Models.ViewModels.Admin.Get.AdminAccountIndexVM
+﻿@model CEG_WebMVC.Models.ViewModels.Admin.PageModel.AdminAccountIndexPVM
 @{
     Layout = null;
     ViewData["Title"] = "Admin All Account Statuses Page";
     string? search = string.Empty;
 
-    CEG_WebMVC.Models.ViewModels.Account.Create.CreateParentVM createParent = Model.createParent;
-    CEG_WebMVC.Models.ViewModels.Account.Create.CreateTeacherVM createTeacher = Model.createTeacher;
-    CEG_WebMVC.Models.ViewModels.Account.Create.CreateStudentVM createStudent = Model.createStudent;
+    var createParent = Model.createParent;
+    var createTeacher = Model.createTeacher;
+    var createStudent = Model.createStudent;
 
     var accountStatuses = Model.AccountStatuses;
     
