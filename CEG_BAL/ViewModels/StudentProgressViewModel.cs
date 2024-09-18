@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CEG_BAL.ViewModels
 {
-    public class StudentProcessViewModel
+    public class StudentProgressViewModel
     {
         public int? TotalPoint { get; set; }
 

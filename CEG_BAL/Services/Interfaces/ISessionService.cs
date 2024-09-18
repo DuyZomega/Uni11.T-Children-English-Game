@@ -11,7 +11,7 @@ namespace CEG_BAL.Services.Interfaces
     {
         void Create(SessionViewModel model);
         void Update(SessionViewModel model);
-        Task<List<SessionViewModel>> GetAllSessions();
-        Task<SessionViewModel> GetSessionById(int id);
+        Task<List<SessionViewModel>> GetSessionList();
+        Task<SessionViewModel?> GetSessionById(int id);
     }
 }

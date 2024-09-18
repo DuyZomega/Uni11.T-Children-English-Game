@@ -43,7 +43,7 @@ namespace CEG_WebAPI.Controllers
                     return BadRequest(new
                     {
                         Status = false,
-                        ErrorMessage = "User Account is Suspended! Due to your violations of our club guidelines",
+                        ErrorMessage = "User Account is Suspended!",
                         Data = result
                     });
                 }
@@ -70,7 +70,7 @@ namespace CEG_WebAPI.Controllers
                     return BadRequest(new
                     {
                         Status = false,
-                        ErrorMessage = "Sorry, your registration request has been denied by the Birdclub manager",
+                        ErrorMessage = "Sorry, your registration request has been denied by the CEG manager",
                         Data = result
                     });
                 }
@@ -136,7 +136,7 @@ namespace CEG_WebAPI.Controllers
         {
             try
             {
-                var result = _accountService.GetById(id);
+                var result = await _accountService.GetById(id);
                 if (result == null)
                 {
                     return NotFound(new
