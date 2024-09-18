@@ -1,11 +1,11 @@
 ﻿using CEG_WebMVC.Models.ViewModels.Account.Create;
 using CEG_WebMVC.Models.ViewModels.Account.Get;
 
-namespace CEG_WebMVC.Models.ViewModels.Admin.Get
+namespace CEG_WebMVC.Models.ViewModels.Admin.PageModel
 {
-    public class AdminAccountIndexVM
+    public class AdminAccountIndexPVM
     {
-        public AdminAccountIndexVM()
+        public AdminAccountIndexPVM()
         {
             AccountStatuses = new List<AccountStatusVM>();
             createTeacher = new CreateTeacherVM();

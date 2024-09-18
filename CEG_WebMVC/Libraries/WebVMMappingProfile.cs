@@ -4,6 +4,7 @@ using CEG_BAL.ViewModels.Account.Create;
 using CEG_DAL.Models;
 using CEG_WebMVC.Models.ViewModels.Account.Create;
 using CEG_WebMVC.Models.ViewModels.Account.Get;
+using CEG_WebMVC.Models.ViewModels.Course.Get;
 
 namespace CEG_WebMVC.Libraries
 {
@@ -219,8 +220,14 @@ namespace CEG_WebMVC.Libraries
                 .AfterMap((src, dest) =>
                 {
                     dest.Role = src.Role.RoleName;
-                })
-                ;
+                });
+            CreateMap<IndexCourseInfoVM, CourseViewModel>()
+                .ReverseMap()
+                .AfterMap((src, dest) =>
+                {
+                    dest.SessionAmount = src.Sessions.Count;
+                    dest.ClassAmount = src.Classes.Count;
+                });
         }
     }
 }
