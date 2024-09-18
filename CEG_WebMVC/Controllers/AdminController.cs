@@ -5,6 +5,8 @@ using CEG_WebMVC.Models.ViewModels.Account.Create;
 using CEG_WebMVC.Models.ViewModels.Account.Get;
 using CEG_WebMVC.Models.ViewModels.Admin.PageModel;
 using CEG_WebMVC.Models.ViewModels.Admin.Response;
+using CEG_WebMVC.Models.ViewModels.Class.Create;
+using CEG_WebMVC.Models.ViewModels.Class.Get;
 using CEG_WebMVC.Models.ViewModels.Course.Get;
 using CEG_WebMVC.Models.ViewModels.Course.Response;
 using Microsoft.AspNetCore.Mvc;
@@ -105,9 +107,43 @@ namespace CEG_WebMVC.Controllers
         [HttpGet("Class/Index")]
         public async Task<IActionResult> AdminClassIndex()
         {
-            if (methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN) != null)
-                return Redirect(methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN));
-            return View();
+            AdminAPI_URL += "Course/All";
+            string? accToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
+
+            var courseListResponse = await methcall.CallMethodReturnObject<AdminClassListResponseVM>(
+                _httpClient: _httpClient,
+                options: jsonOptions,
+                methodName: Constants.GET_METHOD,
+                url: AdminAPI_URL,
+                accessToken: accToken,
+                _logger: _logger);
+
+            if (courseListResponse == null)
+            {
+                _logger.LogError("Error while getting class list");
+
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while getting class list !";
+
+                return RedirectToAction("AdminIndex");
+            }
+            if (!courseListResponse.Status)
+            {
+                _logger.LogError("Error while getting class list");
+
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while getting class list !";
+
+                return RedirectToAction("AdminIndex");
+            }
+            TempData["Success"] = ViewBag.Success = "Class List Get Successfully!";
+
+            //var teacherTempData = methcall.GetValidationTempData<CreateTeacherVM>(this, TempData, Constants.CREATE_TEACHER_DETAILS_VALID, "createTeacher", jsonOptions);
+
+            AdminClassIndexPVM pageData = new AdminClassIndexPVM()
+            {
+                Classes = _mapper.Map<List<IndexClassInfoVM>>(courseListResponse.Data),
+                CreateClass = new CreateClassVM()
+            };
+            return View(pageData);
         }
         [HttpGet("Course/Index")]
         public async Task<IActionResult> AdminCourseIndex()
@@ -148,7 +184,7 @@ namespace CEG_WebMVC.Controllers
                 Courses = _mapper.Map<List<IndexCourseInfoVM>>(courseListResponse.Data)
             };
 
-            return View(pageData); ;
+            return View(pageData);
         }
         [HttpGet("Course/Create")]
         public async Task<IActionResult> AdminCourseCreate()

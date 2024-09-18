@@ -20,7 +20,7 @@ namespace CEG_DAL.Repositories.Implements
 
         public async Task<RegisteredClass?> GetByIdNoTracking(int id)
         {
-            return await _dbContext.RegisteredClasses.AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(regi => regi.RegisteredCourseId == id);
+            return await _dbContext.RegisteredClasses.AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(regi => regi.RegisteredClassId == id);
         }
 
         public async Task<List<RegisteredClass>> GetRegisteredCoursesList()

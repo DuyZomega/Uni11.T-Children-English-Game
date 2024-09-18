@@ -15,6 +15,8 @@ public partial class Teacher
 
     public string Address { get; set; } = null!;
 
+    public string? Image { get; set; }
+
     public virtual Account Account { get; set; } = null!;
 
     public virtual ICollection<Class> Classes { get; set; } = new List<Class>();

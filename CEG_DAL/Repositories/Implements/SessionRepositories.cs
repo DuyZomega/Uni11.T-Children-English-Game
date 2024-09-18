@@ -18,12 +18,12 @@ namespace CEG_DAL.Repositories.Implements
             _dbContext = dbContext;
         }
 
-        public async Task<Session> GetByIdNoTracking(int id)
+        public async Task<Session?> GetByIdNoTracking(int id)
         {
             return await _dbContext.Sessions.AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(sess => sess.SessionId == id);
         }
 
-        public async Task<List<Session>> GetSessionsList()
+        public async Task<List<Session>> GetSessionList()
         {
             return await _dbContext.Sessions.ToListAsync();
         }

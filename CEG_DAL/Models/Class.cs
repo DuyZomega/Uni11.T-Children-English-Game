@@ -23,7 +23,7 @@ public partial class Class
 
     public virtual Course Course { get; set; } = null!;
 
-    public virtual ICollection<StudentProcess> StudentProcesses { get; set; } = new List<StudentProcess>();
+    public virtual ICollection<StudentProgress> StudentProgresses { get; set; } = new List<StudentProgress>();
 
     public virtual Teacher Teacher { get; set; } = null!;
 }
