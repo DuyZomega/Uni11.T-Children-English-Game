@@ -5,7 +5,7 @@ namespace CEG_DAL.Models;
 
 public partial class RegisteredClass
 {
-    public int RegisteredCourseId { get; set; }
+    public int RegisteredClassId { get; set; }
 
     public int ClassId { get; set; }
 
@@ -17,9 +17,7 @@ public partial class RegisteredClass
 
     public DateTime? ConfirmDate { get; set; }
 
-    public virtual Course Course { get; set; } = null!;
+    public virtual Course Class { get; set; } = null!;
 
     public virtual Payment Payment { get; set; } = null!;
-
-    public virtual ICollection<StudentProcess> StudentProcesses { get; set; } = new List<StudentProcess>();
 }

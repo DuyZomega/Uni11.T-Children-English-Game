@@ -12,6 +12,5 @@ namespace CEG_DAL.Repositories.Interfaces
     {
         Task<List<Student>> GetStudentList();
         Task<Student?> GetByIdNoTracking(int id);
-        Task<int> GenerateNewStudentId();
     }
 }

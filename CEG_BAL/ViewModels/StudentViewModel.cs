@@ -24,6 +24,6 @@
 
         public virtual ParentViewModel Parents { get; set; } = null!;
 
-        public virtual ICollection<StudentProcessViewModel> StudentProcesses { get; set; } = new List<StudentProcessViewModel>();
+        public virtual ICollection<StudentProgressViewModel> StudentProcesses { get; set; } = new List<StudentProgressViewModel>();
     }
 }

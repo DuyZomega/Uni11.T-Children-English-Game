@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace CEG_DAL.Repositories.Interfaces
 {
-    public interface IStudentProcessRepositories : IRepositoryBase<StudentProcess>
+    public interface IStudentProgressRepositories : IRepositoryBase<StudentProgress>
     {
-        Task<List<StudentProcess>> GetStudentProcessesList();
-        Task<StudentProcess> GetByIdNoTracking(int id);
+        Task<List<StudentProgress>> GetStudentProcessesList();
+        Task<StudentProgress?> GetByIdNoTracking(int id);
     }
 }

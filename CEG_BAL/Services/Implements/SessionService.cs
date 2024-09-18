@@ -37,12 +37,12 @@ namespace CEG_BAL.Services.Implements
             _unitOfWork.Save();
         }
 
-        public async Task<List<SessionViewModel>> GetAllSessions()
+        public async Task<List<SessionViewModel>> GetSessionList()
         {
-            return _mapper.Map<List<SessionViewModel>>(await _unitOfWork.SessionRepositories.GetSessionsList());
+            return _mapper.Map<List<SessionViewModel>>(await _unitOfWork.SessionRepositories.GetSessionList());
         }
 
-        public async Task<SessionViewModel> GetSessionById(int id)
+        public async Task<SessionViewModel?> GetSessionById(int id)
         {
             var user = await _unitOfWork.SessionRepositories.GetByIdNoTracking(id);
             if (user != null)

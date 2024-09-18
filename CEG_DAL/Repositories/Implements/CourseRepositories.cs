@@ -25,7 +25,7 @@ namespace CEG_DAL.Repositories.Implements
 
         public async Task<List<Course>> GetCourseList()
         {
-            return await _dbContext.Courses.ToListAsync();
+            return await _dbContext.Courses.Include(c => c.Classes).Include(c => c.Sessions).ToListAsync();
         }
 
         public async Task<Course?> GetByName(string name)
