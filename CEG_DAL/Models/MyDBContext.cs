@@ -96,28 +96,19 @@ public partial class MyDBContext : DbContext
             entity.ToTable("Class");
 
             entity.Property(e => e.ClassId).HasColumnName("class_id");
-            entity.Property(e => e.Category)
-                .HasMaxLength(20)
-                .HasColumnName("category");
             entity.Property(e => e.ClassName)
                 .HasMaxLength(10)
                 .HasColumnName("class_name");
             entity.Property(e => e.CourseId).HasColumnName("course_id");
-            entity.Property(e => e.Difficulty)
-                .HasMaxLength(20)
-                .HasColumnName("difficulty");
             entity.Property(e => e.EndDate)
                 .HasColumnType("datetime")
                 .HasColumnName("end_date");
-            entity.Property(e => e.Image).HasColumnName("image");
             entity.Property(e => e.MaximumStudents).HasColumnName("maximum_students");
             entity.Property(e => e.MinimumStudents).HasColumnName("minimum_students");
-            entity.Property(e => e.RequiredAge).HasColumnName("required_age");
             entity.Property(e => e.StartDate)
                 .HasColumnType("datetime")
                 .HasColumnName("start_date");
             entity.Property(e => e.TeacherId).HasColumnName("teacher_id");
-            entity.Property(e => e.TotalHours).HasColumnName("total_hours");
 
             entity.HasOne(d => d.Course).WithMany(p => p.Classes)
                 .HasForeignKey(d => d.CourseId)
@@ -137,6 +128,9 @@ public partial class MyDBContext : DbContext
             entity.ToTable("Course");
 
             entity.Property(e => e.CourseId).HasColumnName("course_id");
+            entity.Property(e => e.Category)
+                .HasMaxLength(20)
+                .HasColumnName("category");
             entity.Property(e => e.CourseName)
                 .HasMaxLength(50)
                 .HasColumnName("course_name");
@@ -144,9 +138,15 @@ public partial class MyDBContext : DbContext
                 .HasMaxLength(50)
                 .HasColumnName("course_type");
             entity.Property(e => e.Description).HasColumnName("description");
+            entity.Property(e => e.Difficulty)
+                .HasMaxLength(20)
+                .HasColumnName("difficulty");
+            entity.Property(e => e.Image).HasColumnName("image");
+            entity.Property(e => e.RequiredAge).HasColumnName("required_age");
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .HasColumnName("status");
+            entity.Property(e => e.TotalHours).HasColumnName("total_hours");
         });
 
         modelBuilder.Entity<Enroll>(entity =>
@@ -331,7 +331,7 @@ public partial class MyDBContext : DbContext
 
             entity.ToTable("RegisteredClass");
 
-            entity.Property(e => e.RegisteredClassId).HasColumnName("registered_course_id");
+            entity.Property(e => e.RegisteredClassId).HasColumnName("registered_class_id");
             entity.Property(e => e.ClassId).HasColumnName("class_id");
             entity.Property(e => e.ConfirmDate)
                 .HasColumnType("datetime")
