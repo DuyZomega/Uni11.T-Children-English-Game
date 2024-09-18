@@ -137,6 +137,15 @@ public partial class MyDBContext : DbContext
             entity.Property(e => e.CourseType)
                 .HasMaxLength(50)
                 .HasColumnName("course_type");
+            entity.Property(e => e.Category)
+                .HasMaxLength(20)
+                .HasColumnName("category");
+            entity.Property(e => e.Difficulty)
+                .HasMaxLength(20)
+                .HasColumnName("difficulty");
+            entity.Property(e => e.Image).HasColumnName("image");
+            entity.Property(e => e.RequiredAge).HasColumnName("required_age");
+            entity.Property(e => e.TotalHours).HasColumnName("total_hours");
             entity.Property(e => e.Description).HasColumnName("description");
             entity.Property(e => e.Difficulty)
                 .HasMaxLength(20)
