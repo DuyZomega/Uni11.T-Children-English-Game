@@ -9,7 +9,7 @@ public partial class HomeworkResult
 
     public int HomeworkId { get; set; }
 
-    public int StudentProcessId { get; set; }
+    public int StudentProgressId { get; set; }
 
     public int? TotalPoint { get; set; }
 
@@ -19,5 +19,5 @@ public partial class HomeworkResult
 
     public virtual Homework Homework { get; set; } = null!;
 
-    public virtual StudentProcess StudentProcess { get; set; } = null!;
+    public virtual StudentProgress StudentProgress { get; set; } = null!;
 }

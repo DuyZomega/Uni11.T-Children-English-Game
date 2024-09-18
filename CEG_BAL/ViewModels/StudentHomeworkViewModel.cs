@@ -19,6 +19,6 @@ namespace CEG_BAL.ViewModels
 
         public virtual Homework Homework { get; set; } = null!;
 
-        public virtual StudentProcess StudentProcess { get; set; } = null!;
+        public virtual StudentProgress StudentProcess { get; set; } = null!;
     }
 }

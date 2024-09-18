@@ -24,7 +24,7 @@ namespace CEG_DAL.Infrastructure
         IRoleRepositories RoleRepositories { get; }
         ISessionRepositories SessionRepositories { get; }
         IStudentHomeworkRepositories StudentHomeworkRepositories { get; }
-        IStudentProcessRepositories StudentProcessRepositories { get; }
+        IStudentProgressRepositories StudentProcessRepositories { get; }
         IStudentRepositories StudentRepositories { get; }
         ITeacherRepositories TeacherRepositories { get; }
         void Save();

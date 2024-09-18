@@ -25,11 +25,13 @@ public partial class Student
 
     public DateTime? Birthdate { get; set; }
 
+    public string? Image { get; set; }
+
     public virtual Account Account { get; set; } = null!;
 
     public virtual ICollection<Enroll> Enrolls { get; set; } = new List<Enroll>();
 
     public virtual Parent Parent { get; set; } = null!;
 
-    public virtual ICollection<StudentProcess> StudentProcesses { get; set; } = new List<StudentProcess>();
+    public virtual ICollection<StudentProgress> StudentProgresses { get; set; } = new List<StudentProgress>();
 }
