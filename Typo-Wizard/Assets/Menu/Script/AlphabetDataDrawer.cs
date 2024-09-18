@@ -5,10 +5,10 @@ using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
 
-[CustomEditor(typeof(AlphabetData))]
+[CustomEditor(typeof(GameData))]
 [CanEditMultipleObjects]
 [Serializable]
-public class AlphabetDataDrawer : Editor
+public class GameDataDrawer : Editor
 {
     private ReorderableList AlphabetPlainList;
     private ReorderableList AlphabetNormalList;

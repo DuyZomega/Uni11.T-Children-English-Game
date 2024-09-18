@@ -5,7 +5,7 @@ using UnityEngine;
 
 [Serializable]
 [CreateAssetMenu]
-public class AlphabetData : ScriptableObject
+public class GameData : ScriptableObject
 {
     [Serializable]
     public class LetterData
