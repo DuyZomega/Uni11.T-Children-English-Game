@@ -21,16 +21,6 @@ public partial class Class
 
     public DateTime? EndDate { get; set; }
 
-    public int? TotalHours { get; set; }
-
-    public string? Image { get; set; }
-
-    public int? RequiredAge { get; set; }
-
-    public string? Difficulty { get; set; }
-
-    public string? Category { get; set; }
-
     public virtual Course Course { get; set; } = null!;
 
     public virtual ICollection<StudentProgress> StudentProgresses { get; set; } = new List<StudentProgress>();
