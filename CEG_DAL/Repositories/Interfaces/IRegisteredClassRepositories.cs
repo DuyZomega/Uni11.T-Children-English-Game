@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace CEG_DAL.Repositories.Interfaces
 {
-    public interface IRegisteredCourseRepositories : IRepositoryBase<RegisteredCourse>
+    public interface IRegisteredClassRepositories : IRepositoryBase<RegisteredClass>
     {
-        Task<List<RegisteredCourse>> GetRegisteredCoursesList();
-        Task<RegisteredCourse> GetByIdNoTracking(int id);
+        Task<List<RegisteredClass>> GetRegisteredCoursesList();
+        Task<RegisteredClass?> GetByIdNoTracking(int id);
     }
 }

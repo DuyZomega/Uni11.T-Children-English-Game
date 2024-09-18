@@ -1,6 +1,6 @@
 ﻿using CEG_BAL.ViewModels;
 using CEG_BAL.ViewModels.Account.Create;
-using CEG_BAL.ViewModels.Course;
+using CEG_BAL.ViewModels.Admin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +14,7 @@ namespace CEG_BAL.Services.Interfaces
         void Create(CourseViewModel course, CreateNewCourse newCourse);
         void Update(CourseViewModel course);
         Task<List<CourseViewModel>> GetCourseList();
-        Task<CourseViewModel> GetCourseById(int id);
+        Task<CourseViewModel?> GetCourseById(int id);
+        Task<bool> IsCourseExistByName(string name);
     }
 }

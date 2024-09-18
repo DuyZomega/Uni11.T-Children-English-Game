@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CEG_BAL.ViewModels.Course
+namespace CEG_BAL.ViewModels.Admin
 {
     public class CreateNewCourse
     {
@@ -13,10 +13,5 @@ namespace CEG_BAL.ViewModels.Course
         public string CourseType { get; set; } = null!;
 
         public string Description { get; set; } = null!;
-
-        public DateTime? EndDate { get; set; }
-
-        public int? NumberOfStudent { get; set; }
-
     }
 }

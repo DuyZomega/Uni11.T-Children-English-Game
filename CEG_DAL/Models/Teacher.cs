@@ -1,4 +1,7 @@
-﻿namespace CEG_DAL.Models;
+﻿using System;
+using System.Collections.Generic;
+
+namespace CEG_DAL.Models;
 
 public partial class Teacher
 {
@@ -15,6 +18,4 @@ public partial class Teacher
     public virtual Account Account { get; set; } = null!;
 
     public virtual ICollection<Class> Classes { get; set; } = new List<Class>();
-
-    public virtual ICollection<Course> Courses { get; set; } = new List<Course>();
 }

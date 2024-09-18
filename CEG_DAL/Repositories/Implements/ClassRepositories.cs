@@ -18,7 +18,7 @@ namespace CEG_DAL.Repositories.Implements
             _dbContext = dbContext;
         }
 
-        public async Task<Class> GetByIdNoTracking(int id)
+        public async Task<Class?> GetByIdNoTracking(int id)
         {
             return await _dbContext.Classes.AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(cla => cla.ClassId == id);
         }

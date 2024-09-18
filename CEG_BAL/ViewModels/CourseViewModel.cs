@@ -13,23 +13,18 @@ namespace CEG_BAL.ViewModels
         public string CourseName { get; set; } = null!;
 
         public string CourseType { get; set; } = null!;
+        public int? TotalHours { get; set; }
+        public string? CourseImageHeader { get; set; }
+        public int? RequiredAge { get; set; }
+        public string? Difficulty { get; set; }
+        public string? Category { get; set; }
 
         public string Description { get; set; } = null!;
 
-        public DateTime? StartDate { get; set; }
-
-        public DateTime? EndDate { get; set; }
-
-        public int? NumberOfStudent { get; set; }
-
         public string? Status { get; set; }
 
-        public virtual Class Class { get; set; } = null!;
+        public virtual ICollection<ClassViewModel> Classes { get; set; } = new List<ClassViewModel>();
 
-        public virtual Teacher ClassNavigation { get; set; } = null!;
-
-        public virtual ICollection<Homework> Homeworks { get; set; } = new List<Homework>();
-
-        public virtual ICollection<Session> Sessions { get; set; } = new List<Session>();
+        public virtual ICollection<SessionViewModel> Sessions { get; set; } = new List<SessionViewModel>();
     }
 }

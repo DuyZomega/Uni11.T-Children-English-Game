@@ -3,8 +3,10 @@ using CEG_BAL.ViewModels.Account.Create;
 using CEG_WebMVC.Libraries;
 using CEG_WebMVC.Models.ViewModels.Account.Create;
 using CEG_WebMVC.Models.ViewModels.Account.Get;
-using CEG_WebMVC.Models.ViewModels.Admin.Get;
-using CEG_WebMVC.Models.ViewModels.Admin.ResponseVM;
+using CEG_WebMVC.Models.ViewModels.Admin.PageModel;
+using CEG_WebMVC.Models.ViewModels.Admin.Response;
+using CEG_WebMVC.Models.ViewModels.Course.Get;
+using CEG_WebMVC.Models.ViewModels.Course.Response;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using System.Net.Http.Headers;
@@ -40,10 +42,11 @@ namespace CEG_WebMVC.Controllers
             _logger = logger;
             _config = config;
             _mapper = mapper;
-            _httpClient = new HttpClient();
-            var contentType = new MediaTypeWithQualityHeaderValue("application/json");
-            _httpClient.DefaultRequestHeaders.Accept.Add(contentType);
-            _httpClient.BaseAddress = new Uri(config.GetSection(Constants.SYSTEM_DEFAULT_API_HTTPS_URL_CONFIG_PATH).Value);
+            _httpClient = new HttpClient()
+            {
+                BaseAddress = new Uri(config.GetSection(Constants.SYSTEM_DEFAULT_API_HTTPS_URL_CONFIG_PATH).Value)
+            };
+            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             AdminAPI_URL = config.GetSection(Constants.SYSTEM_DEFAULT_API_URL_CONFIG_PATH).Value;
         }
 
@@ -91,7 +94,7 @@ namespace CEG_WebMVC.Controllers
 
             var teacherTempData = methcall.GetValidationTempData<CreateTeacherVM>(this, TempData, Constants.CREATE_TEACHER_DETAILS_VALID, "createTeacher", jsonOptions);
 
-            AdminAccountIndexVM pageData = new AdminAccountIndexVM()
+            AdminAccountIndexPVM pageData = new AdminAccountIndexPVM()
             {
                 AccountStatuses = _mapper.Map<List<AccountStatusVM>>(accountListResponse.Data),
                 createTeacher = teacherTempData != null ? teacherTempData : new CreateTeacherVM()
@@ -109,9 +112,57 @@ namespace CEG_WebMVC.Controllers
         [HttpGet("Course/Index")]
         public async Task<IActionResult> AdminCourseIndex()
         {
+            AdminAPI_URL += "Course/All";
+            string? accToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
+
+            var courseListResponse = await methcall.CallMethodReturnObject<AdminCourseListResponseVM>(
+                _httpClient: _httpClient,
+                options: jsonOptions,
+                methodName: Constants.GET_METHOD,
+                url: AdminAPI_URL,
+                accessToken: accToken,
+                _logger: _logger);
+
+            if (courseListResponse == null)
+            {
+                _logger.LogError("Error while getting course list");
+
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while getting course list !";
+
+                return RedirectToAction("AdminIndex");
+            }
+            if (!courseListResponse.Status)
+            {
+                _logger.LogError("Error while getting course list");
+
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while getting course list !";
+
+                return RedirectToAction("AdminIndex");
+            }
+            TempData["Success"] = ViewBag.Success = "Course List Get Successfully!";
+
+            //var teacherTempData = methcall.GetValidationTempData<CreateTeacherVM>(this, TempData, Constants.CREATE_TEACHER_DETAILS_VALID, "createTeacher", jsonOptions);
+
+            AdminCourseIndexPVM pageData = new AdminCourseIndexPVM()
+            {
+                Courses = _mapper.Map<List<IndexCourseInfoVM>>(courseListResponse.Data)
+            };
+
+            return View(pageData); ;
+        }
+        [HttpGet("Course/Create")]
+        public async Task<IActionResult> AdminCourseCreate()
+        {
             if (methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN) != null)
                 return Redirect(methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN));
             return View();
+        }
+        [HttpPost("Course/Create")]
+        public async Task<IActionResult> AdminCourseCreateRequest()
+        {
+            if (methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN) != null)
+                return Redirect(methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN));
+            return RedirectToAction("AdminCourseCreate");
         }
         [HttpGet("Transaction/Index")]
         public async Task<IActionResult> AdminTransactionIndex()

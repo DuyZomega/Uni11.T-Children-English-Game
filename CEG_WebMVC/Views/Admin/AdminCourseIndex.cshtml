@@ -1,12 +1,10 @@
-﻿@* @model CEG_WebMVC.Models.ViewModels.Admin.Get.AdminAccountIndexVM *@
+﻿@model CEG_WebMVC.Models.ViewModels.Admin.PageModel.AdminCourseIndexPVM
 @{
     Layout = null;
     ViewData["Title"] = "Admin All Courses Page";
     string? search = string.Empty;
 
-    //CEG_WebMVC.Models.ViewModels.Account.Create.CreateParentVM createParent = Model.createParent;
-
-    //var accountStatuses = Model.AccountStatuses;
+    var courses = Model.Courses;
     
 
     Layout = "~/Views/Shared/_ALayout.cshtml";
@@ -30,6 +28,9 @@
                             </li>
                             <li class="breadcrumd-item">
                                 <span>/</span>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <a href="@Url.Action("AdminCourseIndex","Admin")">Course</a>
                             </li>
                         </ol>
                     </div>
@@ -95,40 +96,42 @@
                                         <div class="col-xl-3 col-lg-6 col-sm-6 my-3 item">
                                             <div class="card1 card-child">
                                                 <div class="card-body add-club">
-                                                    <button class="border-0" data-toggle="modal" data-target="#addCourse">
-                                                        <span>Add Course</span>
-                                                        <i class='bx bx-add-to-queue'></i>
-                                                    </button>
+                                                    <form class="border-0" asp-action="AdminCourseCreate" asp-controller="Admin" method="get">
+                                                        <button class="border-0" type="submit">
+                                                            <span>Add Course</span>
+                                                            <i class='bx bx-add-to-queue'></i>
+                                                        </button>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
                                         <!-- dung vong for o day -->
-                                        @* @foreach (var data in contestList)
+                                        @foreach (var data in courses)
                                         {
                                             <div class="col-xl-3 col-lg-6 col-sm-6 my-3">
                                                 <div class="card1 card-child">
                                                     <div class="club-name">
-                                                        <span>Contest ID: @data.ContestId</span>
                                                         <div class="status">
                                                             @{
                                                                 switch (data.Status)
                                                                 {
-                                                                    case "Ongoing":
-                                                                    case "CheckingIn":
-                                                                    case "OpenRegistration":
+                                                                    case "Available":
                                                                         {
                                                                             <span class="stt1" style="float: left;">Status:<h6>@data.Status</h6></span>
                                                                             break;
                                                                         }
-                                                                    case "OnHold":
-                                                                    case "ClosedRegistration":
+                                                                    case "UnAvailable":
                                                                         {
                                                                             <span class="stt3" style="float: left;">Status:<h6>@data.Status</h6></span>
                                                                             break;
                                                                         }
-                                                                    case "Ended":
                                                                     case "Postponed":
                                                                     case "Cancelled":
+                                                                        {
+                                                                            <span class="stt2" style="float: left;">Status:<h6>@data.Status</h6></span>
+                                                                            break;
+                                                                        }
+                                                                    default :
                                                                         {
                                                                             <span class="stt2" style="float: left;">Status:<h6>@data.Status</h6></span>
                                                                             break;
@@ -141,66 +144,54 @@
                                                         <div class="club-title">
                                                             <ul>
                                                                 <li>
-                                                                    <h6>Contest Name:</h6>
-                                                                    <span>@data.ContestName</span>
+                                                                    <h6>Course Name:</h6>
+                                                                    <span>@data.CourseName</span>
                                                                 </li>
                                                                 <li>
-                                                                    <h6>Open Registration Date:</h6>
-                                                                    <span>@data.OpenRegistration.ToString("dd-MM-yyyy HH:mm")</span>
+                                                                    <h6>Course Type:</h6>
+                                                                    <span>@data.CourseType</span>
                                                                 </li>
                                                                 <li>
-                                                                    <h6>Registration Deadlines:</h6>
-                                                                    <span>@data.RegistrationDeadline.ToString("dd-MM-yyyy HH:mm")</span>
+                                                                    <h6>Total Hourse:</h6>
+                                                                    <span>@data.TotalHours</span>
                                                                 </li>
                                                                 <li>
-                                                                    <h6>Start Date:</h6>
-                                                                    <span>@data.StartDate.ToString("dd-MM-yyyy HH:mm")</span>
+                                                                    <h6>Required Age:</h6>
+                                                                    <span>@data.RequiredAge</span>
                                                                 </li>
                                                                 <li>
-                                                                    <h6>End Date:</h6>
-                                                                    <span>@data.EndDate.ToString("dd-MM-yyyy HH:mm")</span>
-                                                                </li>
-                                                                <li>
-                                                                    <h6>Maximum Participants:</h6>
-                                                                    <span>@data.NumberOfParticipantsLimit</span>
-                                                                </li>
-                                                                <li>
-                                                                    <h6>Minimum ELO Required:</h6>
-                                                                    <span>@data.ReqMinELO</span>
-                                                                </li>
-                                                                <li>
-                                                                    <h6>Maximum ELO Required:</h6>
-                                                                    <span>@data.ReqMaxELO</span>
-                                                                </li>
-                                                                <li>
-                                                                    <h6>Location:</h6>
-                                                                    <span class="truncate">@data.AreaNumber,@data.Street,@data.District,@data.City</span>
+                                                                    <h6>Difficulty:</h6>
+                                                                    <span>@data.Difficulty</span>
                                                                 </li>
                                                                 <li>
                                                                     <h6>Description:</h6>
                                                                     <span class="truncate">@data.Description</span>
                                                                 </li>
                                                                 <li>
-                                                                    <h6>Note:</h6>
-                                                                    <span class="truncate">@data.Note</span>
+                                                                    <h6>Amount of Sessions:</h6>
+                                                                    <span>@data.SessionAmount</span>
+                                                                </li>
+                                                                <li>
+                                                                    <h6>Amount of Classes:</h6>
+                                                                    <span>@data.ClassAmount</span>
                                                                 </li>
                                                             </ul>
                                                         </div>
                                                     </div>
                                                     <div class="form-group mx-auto">
-                                                        <form asp-action="Contest" asp-controller="Manager" method="get" asp-route-id="@data.ContestId">
+                                                        <form asp-action="AdminCourseInfo" asp-controller="Admin" method="get" asp-route-id="@data.CourseName">
                                                             <button class="btn btn-primary clickable-row" type="submit">See Detail</button>
                                                         </form>
-                                                        @{
+                                                        @* @{
                                                             if (data.Status.Equals("OnHold") || data.Status.Equals("Postponed") || data.Status.Equals("CheckingIn") || data.Status.Equals("Ongoing"))
                                                             {
                                                                 <button class="btn btn-danger" data-toggle="modal" data-target="#deleteContest_@data.ContestId" type="submit">Cancel</button>
                                                             }
-                                                        }
+                                                        } *@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div id="deleteContest_@data.ContestId" class="modal fade" role="dialog">
+                                            @* <div id="deleteContest_@data.ContestId" class="modal fade" role="dialog">
                                                 <div class="modal-dialog modal-dialog-centered" role="content">
                                                     <div class="modal-content">
                                                         <div class="card-body">
@@ -219,8 +210,8 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        } *@
+                                            </div> *@
+                                        }
                                     </div>
                                     <!-- end tapnet -->
                                 </div>
@@ -228,68 +219,6 @@
                         </div>
                     </div>
                 </section>
-            </div>
-        </div>
-    </div>
-    <div id="addCourse" class="modal fade" role="dialog">
-        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-            <div class="modal-content modal-addRoom">
-                <div class="modal-header">
-                    <h4 class="modal-title">Add new Course</h4>
-                </div>
-                <div class="modal-body">
-                    <form asp-action="AdminCreateCourse" asp-controller="Admin" method="post" id="form">
-                        <div class="row p-4">
-                            <div class="col-12">
-                                @* <div class="row form-group">
-                                    <label asp-for="@createParent.Account.Username" class="col-md-3 col-form-label text-md-right"></label>
-                                    <input asp-for="@createParent.Account.Username" value="@createParent.Account.Username" type="text" placeholder="User Name" required class="form-control col-md-7">
-                                    <span asp-validation-for="@createParent.Account.Username" id="error_message"
-                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
-
-                                    <label asp-for="@createParent.Account.Fullname" class="col-md-3 col-form-label text-md-right"></label>
-                                    <input asp-for="@createParent.Account.Fullname" value="@createParent.Account.Fullname" type="text" placeholder="Full Name" required class="form-control col-md-7">
-                                    <span asp-validation-for="@createParent.Account.Fullname" id="error_message"
-                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
-
-                                    <label asp-for="@createParent.Address" class="col-md-3 col-form-label text-md-right"></label>
-                                    <textarea asp-for="@createParent.Address" value="@createParent.Address" required class="form-control col-md-7"></textarea>
-                                    <span asp-validation-for="@createParent.Address" id="error_message"
-                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
-
-                                    <label asp-for="@createParent.Account.Gender" class="col-md-3 col-form-label mt-3 text-md-right"></label>
-                                    <select class="form-control col-md-7 custom-select" asp-for="@createParent.Account.Gender" asp-items="@createParent.Account.DefaultAccountGenderSelectList"></select>
-                                    <span asp-validation-for="@createParent.Account.Gender" id="error_message"
-                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
-
-                                    <label asp-for="@createParent.Email" class="col-md-3 col-form-label mt-3 text-md-right"></label>
-                                    <input asp-for="@createParent.Email" value="@createParent.Email" type="email" placeholder="Email" class="form-control col-md-7 mt-3" required>
-                                    <span asp-validation-for="@createParent.Email" id="error_message"
-                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
-
-                                    <label asp-for="@createParent.Phone" class="col-md-3 col-form-label mt-3 text-md-right"></label>
-                                    <input asp-for="@createParent.Phone" value="@createParent.Phone" type="tel" placeholder="Phone number" class="form-control col-md-7 mt-3" required>
-                                    <span asp-validation-for="@createParent.Phone" id="error_message"
-                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
-
-                                    <label asp-for="@createParent.Account.Password" class="col-md-3 col-form-label mt-3 text-md-right"></label>
-                                    <input asp-for="@createParent.Account.Password" value="@createParent.Account.Password" type="password" placeholder="Password" class="form-control col-md-7 mt-3" required>
-                                    <span asp-validation-for="@createParent.Account.Password" id="error_message"
-                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
-
-                                    <label asp-for="@createParent.Account.ConfirmPassword" class="col-md-3 col-form-label mt-3 text-md-right"></label>
-                                    <input asp-for="@createParent.Account.ConfirmPassword" value="@createParent.Account.ConfirmPassword" type="password" placeholder="Confirm Password" class="form-control col-md-7 mt-3" required>
-                                    <span asp-validation-for="@createParent.Account.ConfirmPassword" id="error_message"
-                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
-                                </div> *@
-                            </div>
-                            <div class="modal-footer justify-content-center" style="margin-left:400px;">
-                                <button class="btn btn-success" type="submit" name="action" value="createUser">Create</button>
-                                <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
             </div>
         </div>
     </div>

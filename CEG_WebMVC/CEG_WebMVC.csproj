@@ -99,4 +99,13 @@
     <Content Include="Views\Admin\admincourseindextemplate.txt" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\ViewModels\Account\PageModel\" />
+    <Folder Include="Models\ViewModels\Admin\Get\" />
+    <Folder Include="Models\ViewModels\Class\PageModel\" />
+    <Folder Include="Models\ViewModels\Course\PageModel\" />
+    <Folder Include="Models\ViewModels\Session\" />
+    <Folder Include="Models\ViewModels\RegisteredClass\" />
+  </ItemGroup>
+
 </Project>

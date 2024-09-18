@@ -35,7 +35,6 @@ namespace CEG_WebAPI
             app.MapControllers();
 
             app.Run();
-
         }
 
         private static void ConfigureServices(IServiceCollection services, IConfiguration config)
@@ -68,6 +67,7 @@ namespace CEG_WebAPI
 
         private static void RegisterServices(IServiceCollection services)
         {
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IClassService, ClassService>();
             services.AddScoped<ICourseService, CourseService>();
@@ -80,11 +80,10 @@ namespace CEG_WebAPI
             services.AddScoped<IJWTService, JWTService>();
             services.AddScoped<IParentService, ParentService>();
             services.AddScoped<IPaymentService, PaymentService>();
-            services.AddScoped<IRegisteredCourseService, RegisteredCourseService>();
+            services.AddScoped<IRegisteredClassService, RegisteredClassService>();
             services.AddScoped<ISessionService, SessionService>();
             services.AddScoped<IStudentService, StudentService>();
             services.AddScoped<ITeacherService, TeacherService>();
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
 
         private static void AddSwaggerServices(IServiceCollection services)

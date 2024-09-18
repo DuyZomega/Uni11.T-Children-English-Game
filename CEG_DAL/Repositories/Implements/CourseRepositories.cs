@@ -18,25 +18,26 @@ namespace CEG_DAL.Repositories.Implements
             _dbContext = dbContext;
         }
 
-        public async Task<int> GenerateNewCourseId()
-        {
-            var lastCou = await _dbContext.Courses.OrderByDescending(cou => cou.CourseId).FirstOrDefaultAsync();
-            int newId = 1;
-            if (lastCou != null)
-            {
-                newId = lastCou.CourseId + 1;
-            }
-            return newId;
-        }
-
-        public async Task<Course> GetByIdNoTracking(int id)
+        public async Task<Course?> GetByIdNoTracking(int id)
         {
             return await _dbContext.Courses.AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(cou => cou.CourseId == id);
         }
 
-        public async Task<List<Course>> GetCoursList()
+        public async Task<List<Course>> GetCourseList()
         {
-            return await _dbContext.Courses.ToListAsync();
+            return await _dbContext.Courses.Include(c => c.Classes).Include(c => c.Sessions).ToListAsync();
+        }
+
+        public async Task<Course?> GetByName(string name)
+        {
+            return await _dbContext.Courses.AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(cou => cou.CourseName == name);
+        }
+
+        public async Task<int> GetIdByName(string name)
+        {
+            var result = await (from c in _dbContext.Courses where c.CourseName == name select c).FirstOrDefaultAsync();
+            if (result != null) return result.CourseId;
+            return 0;
         }
     }
 }

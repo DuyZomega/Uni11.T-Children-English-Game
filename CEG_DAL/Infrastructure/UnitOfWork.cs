@@ -23,7 +23,7 @@ namespace CEG_DAL.Infrastructure
         private IHomeworkResultRepositories _homeworkResultRepositories;
         private IParentRepositories _parentRepositories;
         private IPaymentRepositories _paymentRepositories;
-        private IRegisteredCourseRepositories _registeredCourseRepositories;
+        private IRegisteredClassRepositories _registeredCourseRepositories;
         private IRoleRepositories _roleRepositories;
         private ISessionRepositories _sessionRepositories;
         private IStudentHomeworkRepositories _studentHomeworkRepositories;
@@ -45,7 +45,7 @@ namespace CEG_DAL.Infrastructure
         public IHomeworkResultRepositories HomeworkResultRepositories => _homeworkResultRepositories ??= new HomeworkResultRepositories(_dbContext);
         public IParentRepositories ParentRepositories => _parentRepositories ??= new ParentRepositories(_dbContext);
         public IPaymentRepositories PaymentRepositories => _paymentRepositories ??= new PaymentRepositories(_dbContext);
-        public IRegisteredCourseRepositories RegisteredCourseRepositories => _registeredCourseRepositories ??= new RegisteredCourseRepositories(_dbContext);
+        public IRegisteredClassRepositories RegisteredCourseRepositories => _registeredCourseRepositories ??= new RegisteredClassRepositories(_dbContext);
         public IRoleRepositories RoleRepositories => _roleRepositories ??= new RoleRepositories(_dbContext);
         public ISessionRepositories SessionRepositories => _sessionRepositories ??= new SessionRepositories(_dbContext);
         public IStudentHomeworkRepositories StudentHomeworkRepositories => _studentHomeworkRepositories ??= new StudentHomeworkRepositories(_dbContext);

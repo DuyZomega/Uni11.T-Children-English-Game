@@ -1,4 +1,7 @@
-﻿namespace CEG_DAL.Models;
+﻿using System;
+using System.Collections.Generic;
+
+namespace CEG_DAL.Models;
 
 public partial class Parent
 {

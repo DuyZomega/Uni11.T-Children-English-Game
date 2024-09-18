@@ -15,7 +15,7 @@ using CEG_WebMVC.Models.VnPay;
 /*using CEG_WebMVC.Models.Notification;
 using CEG_WebMVC.Models.Transaction;*/
 using CEG_BAL.ViewModels.Authenticates;
-using CEG_WebMVC.Models.ViewModels.Account.ResponseVM;
+using CEG_WebMVC.Models.ViewModels.Account.Response;
 using CEG_WebMVC.Libraries;
 namespace CEG_WebMVC.Controllers
 {
@@ -43,11 +43,12 @@ namespace CEG_WebMVC.Controllers
         {
             _logger = logger;
             _config = config;
-            client = new HttpClient();
+            client = new HttpClient()
+            {
+                BaseAddress = new Uri(config.GetSection(Constants.SYSTEM_DEFAULT_API_HTTPS_URL_CONFIG_PATH).Value)
+            };
             //_vnPayService = vnPayService;
-            var contentType = new MediaTypeWithQualityHeaderValue("application/json");
-            client.DefaultRequestHeaders.Accept.Add(contentType);
-            client.BaseAddress = new Uri(config.GetSection(Constants.SYSTEM_DEFAULT_API_HTTPS_URL_CONFIG_PATH).Value);
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             AuthenAPI_URL = config.GetSection(Constants.SYSTEM_DEFAULT_API_URL_CONFIG_PATH).Value;
         }
         /*[HttpGet("Register")]

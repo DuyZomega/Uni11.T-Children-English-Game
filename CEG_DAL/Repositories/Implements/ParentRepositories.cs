@@ -39,16 +39,5 @@ namespace CEG_DAL.Repositories.Implements
             if (result != null)  return result.ParentId;
             return 0;
         }
-
-        public async Task<int> GenerateNewParentId()
-        {
-            var lastAcc = await _dbContext.Parents.OrderByDescending(acc => acc.ParentId).FirstOrDefaultAsync();
-            int newId = 1;
-            if (lastAcc != null)
-            {
-                newId = lastAcc.ParentId + 1;
-            }
-            return newId;
-        }
     }
 }
