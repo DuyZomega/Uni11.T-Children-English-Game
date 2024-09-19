@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 
@@ -20,6 +21,7 @@ public class AccountManager : MonoBehaviour
     public TMP_InputField loginNameInputField;
     public TMP_InputField loginPasswordInputField;
     public TMP_Text warningLoginText;
+    public static bool GameIsPause = false;
 
     [Header("UserData")]
     public UserObject _user;
