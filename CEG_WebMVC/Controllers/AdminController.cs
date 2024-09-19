@@ -5,18 +5,18 @@ using CEG_BAL.ViewModels.Admin;
 using CEG_WebMVC.Libraries;
 using CEG_WebMVC.Models.ViewModels.Account.Create;
 using CEG_WebMVC.Models.ViewModels.Account.Get;
-using CEG_WebMVC.Models.ViewModels.Admin.PageModel;
-using CEG_WebMVC.Models.ViewModels.Admin.Response;
+using CEG_WebMVC.Models.ViewModels.Course.PageModel;
+using CEG_WebMVC.Models.ViewModels.Course.Response;
 using CEG_WebMVC.Models.ViewModels.Class.Create;
 using CEG_WebMVC.Models.ViewModels.Class.Get;
 using CEG_WebMVC.Models.ViewModels.Course.Create;
 using CEG_WebMVC.Models.ViewModels.Course.Get;
-using CEG_WebMVC.Models.ViewModels.Course.Response;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using System.Net.Http.Headers;
 using System.Text.Encodings.Web;
 using System.Text.Json;
+using CEG_WebMVC.Models.ViewModels.Course.Get;
 
 namespace CEG_WebMVC.Controllers
 {
@@ -205,7 +205,7 @@ namespace CEG_WebMVC.Controllers
                 return RedirectToAction("AdminCourseIndex");
             }
 
-            var authenResponse = await methcall.CallMethodReturnObject<AdminAccountCreateResponseVM>(
+            var authenResponse = await methcall.CallMethodReturnObject<AdminCourseCreateResponseVM>(
                 _httpClient: _httpClient,
                 options: jsonOptions,
                 methodName: Constants.POST_METHOD,
@@ -233,6 +233,49 @@ namespace CEG_WebMVC.Controllers
             TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = ViewBag.Success = "Course Create Successfully!";
             return RedirectToAction("AdminCourseIndex");
         }
+        [HttpGet("Course/{courseId}")]
+        public async Task<IActionResult> AdminCourseInfo(
+            [FromRoute][Required] int courseId)
+        {
+            AdminAPI_URL += "Course/" + courseId;
+            string? accToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
+
+            var courseInfoResponse = await methcall.CallMethodReturnObject<AdminCourseInfoResponseVM>(
+                _httpClient: _httpClient,
+                options: jsonOptions,
+                methodName: Constants.GET_METHOD,
+                url: AdminAPI_URL,
+                accessToken: accToken,
+                _logger: _logger);
+
+            if (courseInfoResponse == null)
+            {
+                _logger.LogError("Error while getting course info");
+
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while getting course info !";
+
+                return RedirectToAction("AdminCourseIndex");
+            }
+            if (!courseInfoResponse.Status)
+            {
+                _logger.LogError("Error while getting course info");
+
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while getting course info !";
+
+                return RedirectToAction("AdminCourseIndex");
+            }
+            TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = ViewBag.Success = "Course Info Get Successfully!";
+
+            /*var courseTempData = methcall.GetValidationTempData<CreateCourseVM>(this, TempData, Constants.CREATE_COURSE_DETAILS_VALID, "createCourse", jsonOptions);*/
+
+            AdminCourseInfoPVM pageData = new AdminCourseInfoPVM()
+            {
+                CourseInfo = _mapper.Map<CourseInfoVM>(courseInfoResponse.Data),
+                Sessions = new List<SessionViewModel>()
+            };
+
+            return View(pageData);
+        }
         [HttpGet("Transaction/Index")]
         public async Task<IActionResult> AdminTransactionIndex()
         {
@@ -257,7 +300,7 @@ namespace CEG_WebMVC.Controllers
                 return RedirectToAction("AdminAccountIndex");
             }
 
-            var authenResponse = await methcall.CallMethodReturnObject<AdminAccountCreateResponseVM>(
+            var teacherAccountCreateResponse = await methcall.CallMethodReturnObject<AdminAccountCreateResponseVM>(
                 _httpClient: _httpClient,
                 options: jsonOptions,
                 methodName: Constants.POST_METHOD,
@@ -266,7 +309,7 @@ namespace CEG_WebMVC.Controllers
                 accessToken: accToken,
                 _logger: _logger);
 
-            if (authenResponse == null)
+            if (teacherAccountCreateResponse == null)
             {
                 _logger.LogError("Error while registering Teacher account");
 
@@ -274,7 +317,7 @@ namespace CEG_WebMVC.Controllers
 
                 return RedirectToAction("AdminAccountIndex");
             }
-            if (!authenResponse.Status)
+            if (!teacherAccountCreateResponse.Status)
             {
                 _logger.LogError("Error while registering Teacher account");
 
@@ -303,7 +346,7 @@ namespace CEG_WebMVC.Controllers
                 return RedirectToAction("AdminAccountIndex");
             }
 
-            var authenResponse = await methcall.CallMethodReturnObject<AdminAccountCreateResponseVM>(
+            var parentAccountCreateResponse = await methcall.CallMethodReturnObject<AdminAccountCreateResponseVM>(
                 _httpClient: _httpClient,
                 options: jsonOptions,
                 methodName: Constants.POST_METHOD,
@@ -312,7 +355,7 @@ namespace CEG_WebMVC.Controllers
                 accessToken: accToken,
                 _logger: _logger);
 
-            if (authenResponse == null)
+            if (parentAccountCreateResponse == null)
             {
                 _logger.LogError("Error while registering Parent account");
 
@@ -320,7 +363,7 @@ namespace CEG_WebMVC.Controllers
 
                 return RedirectToAction("AdminAccountIndex");
             }
-            if (!authenResponse.Status)
+            if (!parentAccountCreateResponse.Status)
             {
                 _logger.LogError("Error while registering Parent account");
 
@@ -349,7 +392,7 @@ namespace CEG_WebMVC.Controllers
                 return RedirectToAction("AdminAccountIndex");
             }
 
-            var authenResponse = await methcall.CallMethodReturnObject<AdminAccountCreateResponseVM>(
+            var studentAccountCreateResponse = await methcall.CallMethodReturnObject<AdminAccountCreateResponseVM>(
                 _httpClient: _httpClient,
                 options: jsonOptions,
                 methodName: Constants.POST_METHOD,
@@ -358,7 +401,7 @@ namespace CEG_WebMVC.Controllers
                 accessToken: accToken,
                 _logger: _logger);
 
-            if (authenResponse == null)
+            if (studentAccountCreateResponse == null)
             {
                 _logger.LogError("Error while registering Student account");
 
@@ -366,7 +409,7 @@ namespace CEG_WebMVC.Controllers
 
                 return RedirectToAction("AdminAccountIndex");
             }
-            if (!authenResponse.Status)
+            if (!studentAccountCreateResponse.Status)
             {
                 _logger.LogError("Error while registering Student account");
 

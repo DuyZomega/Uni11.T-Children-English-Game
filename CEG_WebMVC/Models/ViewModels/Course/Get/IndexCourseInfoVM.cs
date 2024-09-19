@@ -4,6 +4,7 @@ namespace CEG_WebMVC.Models.ViewModels.Course.Get
 {
     public class IndexCourseInfoVM
     {
+        public int? CourseId { get; set; }
         public string? CourseName { get; set; }
 
         public string? CourseType { get; set; }
