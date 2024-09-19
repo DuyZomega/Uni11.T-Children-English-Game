@@ -32,6 +32,10 @@ public partial class MyDBContext : DbContext
 
     public virtual DbSet<Homework> Homeworks { get; set; }
 
+    public virtual DbSet<HomeworkAnswer> HomeworkAnswers { get; set; }
+
+    public virtual DbSet<HomeworkQuestion> HomeworkQuestions { get; set; }
+
     public virtual DbSet<HomeworkResult> HomeworkResults { get; set; }
 
     public virtual DbSet<Parent> Parents { get; set; }
@@ -137,15 +141,6 @@ public partial class MyDBContext : DbContext
             entity.Property(e => e.CourseType)
                 .HasMaxLength(50)
                 .HasColumnName("course_type");
-            entity.Property(e => e.Category)
-                .HasMaxLength(20)
-                .HasColumnName("category");
-            entity.Property(e => e.Difficulty)
-                .HasMaxLength(20)
-                .HasColumnName("difficulty");
-            entity.Property(e => e.Image).HasColumnName("image");
-            entity.Property(e => e.RequiredAge).HasColumnName("required_age");
-            entity.Property(e => e.TotalHours).HasColumnName("total_hours");
             entity.Property(e => e.Description).HasColumnName("description");
             entity.Property(e => e.Difficulty)
                 .HasMaxLength(20)
@@ -240,11 +235,12 @@ public partial class MyDBContext : DbContext
             entity.ToTable("Homework");
 
             entity.Property(e => e.HomeworkId).HasColumnName("homework_id");
-            entity.Property(e => e.Description).HasColumnName("description");
+            entity.Property(e => e.Answer).HasColumnName("answer");
             entity.Property(e => e.EndDate)
                 .HasColumnType("datetime")
                 .HasColumnName("end_date");
             entity.Property(e => e.GameConfigId).HasColumnName("game_config_id");
+            entity.Property(e => e.Question).HasColumnName("question");
             entity.Property(e => e.SessionId).HasColumnName("session_id");
             entity.Property(e => e.StartDate)
                 .HasColumnType("datetime")
@@ -252,21 +248,49 @@ public partial class MyDBContext : DbContext
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .HasColumnName("status");
-            entity.Property(e => e.Title)
-                .HasMaxLength(50)
-                .HasColumnName("title");
-            entity.Property(e => e.TotalPoint).HasColumnName("total_point");
-            entity.Property(e => e.WordAmount).HasColumnName("word_amount");
 
             entity.HasOne(d => d.GameConfig).WithMany(p => p.Homeworks)
                 .HasForeignKey(d => d.GameConfigId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Homework_GameConfig");
 
             entity.HasOne(d => d.Session).WithMany(p => p.Homeworks)
                 .HasForeignKey(d => d.SessionId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Homework_Session");
+        });
+
+        modelBuilder.Entity<HomeworkAnswer>(entity =>
+        {
+            entity.ToTable("HomeworkAnswer");
+
+            entity.Property(e => e.HomeworkAnswerId)
+                .ValueGeneratedNever()
+                .HasColumnName("homework_answer_id");
+            entity.Property(e => e.Answer).HasColumnName("answer");
+            entity.Property(e => e.HomeworkQuestionId).HasColumnName("homework_question_id");
+
+            entity.HasOne(d => d.HomeworkQuestion).WithMany(p => p.HomeworkAnswers)
+                .HasForeignKey(d => d.HomeworkQuestionId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_HomeworkAnswer_HomeworkQuestion");
+        });
+
+        modelBuilder.Entity<HomeworkQuestion>(entity =>
+        {
+            entity.HasKey(e => e.HomeworkQuestionId).HasName("PK_HomeworkData");
+
+            entity.ToTable("HomeworkQuestion");
+
+            entity.Property(e => e.HomeworkQuestionId)
+                .ValueGeneratedNever()
+                .HasColumnName("homework_question_id");
+            entity.Property(e => e.HomeworkId).HasColumnName("homework_id");
+            entity.Property(e => e.Question).HasColumnName("question");
+
+            entity.HasOne(d => d.Homework).WithMany(p => p.HomeworkQuestions)
+                .HasForeignKey(d => d.HomeworkId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_HomeworkQuestion_Homework");
         });
 
         modelBuilder.Entity<HomeworkResult>(entity =>
@@ -471,7 +495,7 @@ public partial class MyDBContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_StudentProgress_Session");
 
-            entity.HasOne(d => d.Student).WithMany(p => p.StudentProgress)
+            entity.HasOne(d => d.Student).WithMany(p => p.StudentProgresses)
                 .HasForeignKey(d => d.StudentId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_StudentProgress_Student");

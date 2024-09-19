@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using CEG_BAL.ViewModels;
 using CEG_BAL.ViewModels.Account.Create;
+using CEG_BAL.ViewModels.Admin;
 using CEG_WebMVC.Libraries;
 using CEG_WebMVC.Models.ViewModels.Account.Create;
 using CEG_WebMVC.Models.ViewModels.Account.Get;
@@ -7,6 +9,7 @@ using CEG_WebMVC.Models.ViewModels.Admin.PageModel;
 using CEG_WebMVC.Models.ViewModels.Admin.Response;
 using CEG_WebMVC.Models.ViewModels.Class.Create;
 using CEG_WebMVC.Models.ViewModels.Class.Get;
+using CEG_WebMVC.Models.ViewModels.Course.Create;
 using CEG_WebMVC.Models.ViewModels.Course.Get;
 using CEG_WebMVC.Models.ViewModels.Course.Response;
 using Microsoft.AspNetCore.Mvc;
@@ -92,7 +95,7 @@ namespace CEG_WebMVC.Controllers
 
                 return RedirectToAction("AdminIndex");
             }
-            TempData["Success"] = ViewBag.Success = "Account List Get Successfully!";
+            TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = ViewBag.Success = "Account List Get Successfully!";
 
             var teacherTempData = methcall.GetValidationTempData<CreateTeacherVM>(this, TempData, Constants.CREATE_TEACHER_DETAILS_VALID, "createTeacher", jsonOptions);
 
@@ -107,7 +110,7 @@ namespace CEG_WebMVC.Controllers
         [HttpGet("Class/Index")]
         public async Task<IActionResult> AdminClassIndex()
         {
-            AdminAPI_URL += "Course/All";
+            AdminAPI_URL += "Class/All";
             string? accToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
 
             var courseListResponse = await methcall.CallMethodReturnObject<AdminClassListResponseVM>(
@@ -134,7 +137,7 @@ namespace CEG_WebMVC.Controllers
 
                 return RedirectToAction("AdminIndex");
             }
-            TempData["Success"] = ViewBag.Success = "Class List Get Successfully!";
+            TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = ViewBag.Success = "Class List Get Successfully!";
 
             //var teacherTempData = methcall.GetValidationTempData<CreateTeacherVM>(this, TempData, Constants.CREATE_TEACHER_DETAILS_VALID, "createTeacher", jsonOptions);
 
@@ -175,30 +178,60 @@ namespace CEG_WebMVC.Controllers
 
                 return RedirectToAction("AdminIndex");
             }
-            TempData["Success"] = ViewBag.Success = "Course List Get Successfully!";
+            TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = ViewBag.Success = "Course List Get Successfully!";
 
-            //var teacherTempData = methcall.GetValidationTempData<CreateTeacherVM>(this, TempData, Constants.CREATE_TEACHER_DETAILS_VALID, "createTeacher", jsonOptions);
+            var courseTempData = methcall.GetValidationTempData<CreateCourseVM>(this, TempData, Constants.CREATE_COURSE_DETAILS_VALID, "createCourse", jsonOptions);
 
             AdminCourseIndexPVM pageData = new AdminCourseIndexPVM()
             {
-                Courses = _mapper.Map<List<IndexCourseInfoVM>>(courseListResponse.Data)
+                Courses = _mapper.Map<List<IndexCourseInfoVM>>(courseListResponse.Data),
+                CreateCourse = courseTempData != null ? courseTempData : new CreateCourseVM()
             };
 
             return View(pageData);
         }
-        [HttpGet("Course/Create")]
-        public async Task<IActionResult> AdminCourseCreate()
-        {
-            if (methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN) != null)
-                return Redirect(methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN));
-            return View();
-        }
         [HttpPost("Course/Create")]
-        public async Task<IActionResult> AdminCourseCreateRequest()
+        public async Task<IActionResult> AdminCourseCreate(
+            [FromForm][Required] CreateCourseVM createCourse)
         {
             if (methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN) != null)
                 return Redirect(methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN));
-            return RedirectToAction("AdminCourseCreate");
+            AdminAPI_URL += "Course/Create";
+            string? accToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
+
+            if (!ModelState.IsValid)
+            {
+                TempData = methcall.SetValidationTempData(TempData, Constants.CREATE_COURSE_DETAILS_VALID, createCourse, jsonOptions);
+                return RedirectToAction("AdminCourseIndex");
+            }
+
+            var authenResponse = await methcall.CallMethodReturnObject<AdminAccountCreateResponseVM>(
+                _httpClient: _httpClient,
+                options: jsonOptions,
+                methodName: Constants.POST_METHOD,
+                url: AdminAPI_URL,
+                inputType: _mapper.Map<CreateNewCourse>(createCourse),
+                accessToken: accToken,
+                _logger: _logger);
+
+            if (authenResponse == null)
+            {
+                _logger.LogError("Error while registering Course account");
+
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while registering Course account !";
+
+                return RedirectToAction("AdminCourseIndex");
+            }
+            if (!authenResponse.Status)
+            {
+                _logger.LogError("Error while registering Course account");
+
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while registering Course account !";
+
+                return RedirectToAction("AdminCourseIndex");
+            }
+            TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = ViewBag.Success = "Course Create Successfully!";
+            return RedirectToAction("AdminCourseIndex");
         }
         [HttpGet("Transaction/Index")]
         public async Task<IActionResult> AdminTransactionIndex()
@@ -249,7 +282,7 @@ namespace CEG_WebMVC.Controllers
 
                 return RedirectToAction("AdminAccountIndex");
             }
-            TempData["Success"] = ViewBag.Success = "Teacher Account Create Successfully!";
+            TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = ViewBag.Success = "Teacher Account Create Successfully!";
 
             return RedirectToAction("AdminAccountIndex");
         }
@@ -295,7 +328,7 @@ namespace CEG_WebMVC.Controllers
 
                 return RedirectToAction("AdminAccountIndex");
             }
-            TempData["Success"] = ViewBag.Success = "Parent Account Create Successfully!";
+            TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = ViewBag.Success = "Parent Account Create Successfully!";
 
             return RedirectToAction("AdminAccountIndex");
         }
@@ -341,7 +374,7 @@ namespace CEG_WebMVC.Controllers
 
                 return RedirectToAction("AdminAccountIndex");
             }
-            TempData["Success"] = ViewBag.Success = "Student Account Create Successfully!";
+            TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = ViewBag.Success = "Student Account Create Successfully!";
 
             return RedirectToAction("AdminAccountIndex");
         }

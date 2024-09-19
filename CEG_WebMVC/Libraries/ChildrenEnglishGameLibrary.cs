@@ -105,191 +105,6 @@ namespace CEG_WebMVC.Libraries
         {
             response.Cookies.Delete(key, cookieOptions);
         }
-
-        public List<SelectListItem> GetManagerEventStatusSelectableList(string eventStatus)
-        {
-            List<SelectListItem> defaultEventStatus = new();
-            switch (eventStatus)
-            {
-                case var value when value.Equals(Constants.EVENT_STATUS_ON_HOLD):
-                    {
-                        defaultEventStatus.Add(new SelectListItem { Text = Constants.EVENT_STATUS_NAME_ON_HOLD, Value = Constants.EVENT_STATUS_ON_HOLD, Selected = true });
-                        break;
-                    }
-                case var value when value.Equals(Constants.EVENT_STATUS_OPEN_REGISTRATION):
-                    {
-                        defaultEventStatus.Add(new SelectListItem { Text = Constants.EVENT_STATUS_NAME_OPEN_REGISTRATION, Value = Constants.EVENT_STATUS_OPEN_REGISTRATION, Selected = true });
-                        defaultEventStatus.Add(new SelectListItem { Text = Constants.EVENT_STATUS_NAME_POSTPONED, Value = Constants.EVENT_STATUS_POSTPONED });
-                        break;
-                    }
-                case var value when value.Equals(Constants.EVENT_STATUS_POSTPONED):
-                    {
-                        defaultEventStatus.Add(new SelectListItem { Text = Constants.EVENT_STATUS_NAME_POSTPONED, Value = Constants.EVENT_STATUS_POSTPONED, Selected = true });
-                        defaultEventStatus.Add(new SelectListItem { Text = Constants.EVENT_STATUS_NAME_OPEN_REGISTRATION, Value = Constants.EVENT_STATUS_OPEN_REGISTRATION });
-                        defaultEventStatus.Add(new SelectListItem { Text = Constants.EVENT_STATUS_NAME_CLOSED_REGISTRATION, Value = Constants.EVENT_STATUS_CLOSED_REGISTRATION });
-                        defaultEventStatus.Add(new SelectListItem { Text = Constants.EVENT_STATUS_NAME_CANCELLED, Value = Constants.EVENT_STATUS_CANCELLED });
-                        break;
-                    }
-                case var value when value.Equals(Constants.EVENT_STATUS_CLOSED_REGISTRATION):
-                    {
-                        defaultEventStatus.Add(new SelectListItem { Text = Constants.EVENT_STATUS_NAME_CLOSED_REGISTRATION, Value = Constants.EVENT_STATUS_CLOSED_REGISTRATION, Selected = true });
-                        defaultEventStatus.Add(new SelectListItem { Text = Constants.EVENT_STATUS_NAME_POSTPONED, Value = Constants.EVENT_STATUS_POSTPONED });
-                        break;
-                    }
-                case var value when value.Equals(Constants.EVENT_STATUS_CHECKING_IN):
-                    {
-                        defaultEventStatus.Add(new SelectListItem { Text = Constants.EVENT_STATUS_NAME_CHECKING_IN, Value = Constants.EVENT_STATUS_CHECKING_IN, Selected = true });
-                        defaultEventStatus.Add(new SelectListItem { Text = Constants.EVENT_STATUS_NAME_CANCELLED, Value = Constants.EVENT_STATUS_CANCELLED });
-                        break;
-                    }
-                case var value when value.Equals(Constants.EVENT_STATUS_ONGOING):
-                    {
-                        defaultEventStatus.Add(new SelectListItem { Text = Constants.EVENT_STATUS_NAME_ONGOING, Value = Constants.EVENT_STATUS_ONGOING, Selected = true });
-                        defaultEventStatus.Add(new SelectListItem { Text = Constants.EVENT_STATUS_NAME_CANCELLED, Value = Constants.EVENT_STATUS_CANCELLED });
-                        defaultEventStatus.Add(new SelectListItem { Text = Constants.EVENT_STATUS_NAME_ENDED, Value = Constants.EVENT_STATUS_ENDED });
-                        break;
-                    }
-                case var value when value.Equals(Constants.EVENT_STATUS_CANCELLED):
-                    {
-                        defaultEventStatus.Add(new SelectListItem { Text = Constants.EVENT_STATUS_NAME_CANCELLED, Value = Constants.EVENT_STATUS_CANCELLED, Selected = true, Disabled = true });
-                        break;
-                    }
-                case var value when value.Equals(Constants.EVENT_STATUS_ENDED):
-                    {
-                        defaultEventStatus.Add(new SelectListItem { Text = Constants.EVENT_STATUS_NAME_ENDED, Value = Constants.EVENT_STATUS_ENDED, Selected = true, Disabled = true });
-                        break;
-                    }
-            }
-            return defaultEventStatus;
-        }
-        public List<SelectListItem> GetManagerFieldTripInclusionTypeSelectableList(string inclusionType)
-        {
-            List<SelectListItem> defaultInclusionTypes = new();
-            switch (inclusionType)
-            {
-                case var value when value.Equals(Constants.FIELDTRIP_INCLUSION_TYPE_INCLUDED):
-                    {
-                        defaultInclusionTypes.Add(new SelectListItem { Text = Constants.FIELDTRIP_INCLUSION_TYPE_INCLUDED, Value = Constants.FIELDTRIP_INCLUSION_TYPE_INCLUDED, Selected = true });
-                        defaultInclusionTypes.Add(new SelectListItem { Text = Constants.FIELDTRIP_INCLUSION_TYPE_EXCLUDED, Value = Constants.FIELDTRIP_INCLUSION_TYPE_EXCLUDED });
-                        break;
-                    }
-                case var value when value.Equals(Constants.FIELDTRIP_INCLUSION_TYPE_EXCLUDED):
-                    {
-                        defaultInclusionTypes.Add(new SelectListItem { Text = Constants.FIELDTRIP_INCLUSION_TYPE_INCLUDED, Value = Constants.FIELDTRIP_INCLUSION_TYPE_INCLUDED });
-                        defaultInclusionTypes.Add(new SelectListItem { Text = Constants.FIELDTRIP_INCLUSION_TYPE_EXCLUDED, Value = Constants.FIELDTRIP_INCLUSION_TYPE_EXCLUDED, Selected = true });
-                        break;
-                    }
-            }
-            return defaultInclusionTypes;
-        }
-        public List<SelectListItem> GetStaffEventParticipationStatusSelectableList(string eventStatus)
-        {
-            List<SelectListItem> defaultStatusTypes = new();
-            if (eventStatus != null && eventStatus.Equals(Constants.EVENT_STATUS_CHECKING_IN))
-            {
-                defaultStatusTypes.Add(new SelectListItem { Text = Constants.EVENT_PARTICIPANT_STATUS_CHECKED_IN, Value = Constants.EVENT_PARTICIPANT_STATUS_CHECKED_IN });
-                defaultStatusTypes.Add(new SelectListItem { Text = Constants.EVENT_PARTICIPANT_STATUS_NOT_CHECKED_IN, Value = Constants.EVENT_PARTICIPANT_STATUS_NOT_CHECKED_IN });
-            }
-            else
-            {
-                defaultStatusTypes.Add(new SelectListItem { Text = Constants.EVENT_PARTICIPANT_STATUS_CHECKED_IN, Value = Constants.EVENT_PARTICIPANT_STATUS_CHECKED_IN, Disabled = true });
-                defaultStatusTypes.Add(new SelectListItem { Text = Constants.EVENT_PARTICIPANT_STATUS_NOT_CHECKED_IN, Value = Constants.EVENT_PARTICIPANT_STATUS_NOT_CHECKED_IN, Selected = true, Disabled = true });
-            }
-            return defaultStatusTypes;
-        }
-        public List<SelectListItem> GetStaffEventStatusSelectableList(string eventStatus)
-        {
-            List<SelectListItem> defaultEventStatus = new();
-            switch (eventStatus)
-            {
-                case var value when value.Equals(Constants.EVENT_STATUS_ON_HOLD):
-                    {
-                        defaultEventStatus.Add(new SelectListItem { Text = Constants.EVENT_STATUS_NAME_ON_HOLD, Value = Constants.EVENT_STATUS_ON_HOLD, Selected = true });
-                        defaultEventStatus.Add(new SelectListItem { Text = Constants.EVENT_STATUS_NAME_OPEN_REGISTRATION, Value = Constants.EVENT_STATUS_OPEN_REGISTRATION });
-                        break;
-                    }
-                case var value when value.Equals(Constants.EVENT_STATUS_OPEN_REGISTRATION):
-                    {
-                        defaultEventStatus.Add(new SelectListItem { Text = Constants.EVENT_STATUS_NAME_OPEN_REGISTRATION, Value = Constants.EVENT_STATUS_OPEN_REGISTRATION, Selected = true });
-                        defaultEventStatus.Add(new SelectListItem { Text = Constants.EVENT_STATUS_NAME_CLOSED_REGISTRATION, Value = Constants.EVENT_STATUS_CLOSED_REGISTRATION });
-                        break;
-                    }
-                case var value when value.Equals(Constants.EVENT_STATUS_POSTPONED):
-                    {
-                        defaultEventStatus.Add(new SelectListItem { Text = Constants.EVENT_STATUS_NAME_POSTPONED, Value = Constants.EVENT_STATUS_POSTPONED, Selected = true, Disabled = true });
-                        break;
-                    }
-                case var value when value.Equals(Constants.EVENT_STATUS_CLOSED_REGISTRATION):
-                    {
-                        defaultEventStatus.Add(new SelectListItem { Text = Constants.EVENT_STATUS_NAME_CLOSED_REGISTRATION, Value = Constants.EVENT_STATUS_CLOSED_REGISTRATION, Selected = true });
-                        defaultEventStatus.Add(new SelectListItem { Text = Constants.EVENT_STATUS_NAME_CHECKING_IN, Value = Constants.EVENT_STATUS_CHECKING_IN });
-                        break;
-                    }
-                case var value when value.Equals(Constants.EVENT_STATUS_CHECKING_IN):
-                    {
-                        defaultEventStatus.Add(new SelectListItem { Text = Constants.EVENT_STATUS_NAME_CHECKING_IN, Value = Constants.EVENT_STATUS_CHECKING_IN, Selected = true });
-                        defaultEventStatus.Add(new SelectListItem { Text = Constants.EVENT_STATUS_NAME_ONGOING, Value = Constants.EVENT_STATUS_ONGOING });
-                        break;
-                    }
-                case var value when value.Equals(Constants.EVENT_STATUS_ONGOING):
-                    {
-                        defaultEventStatus.Add(new SelectListItem { Text = Constants.EVENT_STATUS_NAME_ONGOING, Value = Constants.EVENT_STATUS_ONGOING, Selected = true, Disabled = true });
-                        break;
-                    }
-                case var value when value.Equals(Constants.EVENT_STATUS_CANCELLED):
-                    {
-                        defaultEventStatus.Add(new SelectListItem { Text = Constants.EVENT_STATUS_NAME_CANCELLED, Value = Constants.EVENT_STATUS_CANCELLED, Selected = true, Disabled = true });
-                        break;
-                    }
-                case var value when value.Equals(Constants.EVENT_STATUS_ENDED):
-                    {
-                        defaultEventStatus.Add(new SelectListItem { Text = Constants.EVENT_STATUS_NAME_ENDED, Value = Constants.EVENT_STATUS_ENDED, Selected = true, Disabled = true });
-                        break;
-                    }
-            }
-            return defaultEventStatus;
-        }
-
-        public List<SelectListItem> GetBirdStatusSelectableList(string birdStatus)
-        {
-            List<SelectListItem> defaultBirdStatus = new();
-            switch (birdStatus)
-            {
-                case var value when value.Equals(Constants.BIRD_STATUS_INACTIVE):
-                    {
-                        defaultBirdStatus.Add(new SelectListItem { Text = Constants.BIRD_STATUS_INACTIVE, Value = Constants.BIRD_STATUS_INACTIVE, Selected = true });
-                        defaultBirdStatus.Add(new SelectListItem { Text = Constants.BIRD_STATUS_ACTIVE, Value = Constants.BIRD_STATUS_ACTIVE });
-                        defaultBirdStatus.Add(new SelectListItem { Text = Constants.BIRD_STATUS_INJURED, Value = Constants.BIRD_STATUS_INJURED });
-                        defaultBirdStatus.Add(new SelectListItem { Text = Constants.BIRD_STATUS_UNAVAILABLE, Value = Constants.BIRD_STATUS_UNAVAILABLE });
-                        break;
-                    }
-                case var value when value.Equals(Constants.BIRD_STATUS_ACTIVE):
-                    {
-                        defaultBirdStatus.Add(new SelectListItem { Text = Constants.BIRD_STATUS_INACTIVE, Value = Constants.BIRD_STATUS_INACTIVE });
-                        defaultBirdStatus.Add(new SelectListItem { Text = Constants.BIRD_STATUS_ACTIVE, Value = Constants.BIRD_STATUS_ACTIVE, Selected = true });
-                        defaultBirdStatus.Add(new SelectListItem { Text = Constants.BIRD_STATUS_INJURED, Value = Constants.BIRD_STATUS_INJURED });
-                        defaultBirdStatus.Add(new SelectListItem { Text = Constants.BIRD_STATUS_UNAVAILABLE, Value = Constants.BIRD_STATUS_UNAVAILABLE });
-                        break;
-                    }
-                case var value when value.Equals(Constants.BIRD_STATUS_INJURED):
-                    {
-                        defaultBirdStatus.Add(new SelectListItem { Text = Constants.BIRD_STATUS_INACTIVE, Value = Constants.BIRD_STATUS_INACTIVE });
-                        defaultBirdStatus.Add(new SelectListItem { Text = Constants.BIRD_STATUS_ACTIVE, Value = Constants.BIRD_STATUS_ACTIVE });
-                        defaultBirdStatus.Add(new SelectListItem { Text = Constants.BIRD_STATUS_INJURED, Value = Constants.BIRD_STATUS_INJURED, Selected = true });
-                        defaultBirdStatus.Add(new SelectListItem { Text = Constants.BIRD_STATUS_UNAVAILABLE, Value = Constants.BIRD_STATUS_UNAVAILABLE });
-                        break;
-                    }
-                case var value when value.Equals(Constants.BIRD_STATUS_UNAVAILABLE):
-                    {
-                        defaultBirdStatus.Add(new SelectListItem { Text = Constants.BIRD_STATUS_INACTIVE, Value = Constants.BIRD_STATUS_INACTIVE });
-                        defaultBirdStatus.Add(new SelectListItem { Text = Constants.BIRD_STATUS_ACTIVE, Value = Constants.BIRD_STATUS_ACTIVE });
-                        defaultBirdStatus.Add(new SelectListItem { Text = Constants.BIRD_STATUS_INJURED, Value = Constants.BIRD_STATUS_INJURED });
-                        defaultBirdStatus.Add(new SelectListItem { Text = Constants.BIRD_STATUS_UNAVAILABLE, Value = Constants.BIRD_STATUS_UNAVAILABLE, Selected = true });
-                        break;
-                    }
-            }
-            return defaultBirdStatus;
-        }
         public List<SelectListItem> GetGenderSelectableList(string genderName)
         {
             List<SelectListItem> defaultGenders = new();
@@ -397,6 +212,75 @@ namespace CEG_WebMVC.Libraries
                     }
             }
             return defaultStatuses;
+        }
+        public List<SelectListItem> GetCourseDifficultySelectableList(string difficultyName)
+        {
+            List<SelectListItem> defaultDifficulties = new();
+            switch (difficultyName)
+            {
+                case var value when value.Equals(Constants.COURSE_DIFFICULTY_BEGINNER):
+                    {
+                        defaultDifficulties.Add(new SelectListItem { Text = Constants.COURSE_DIFFICULTY_BEGINNER, Value = Constants.COURSE_DIFFICULTY_BEGINNER, Selected = true });
+                        defaultDifficulties.Add(new SelectListItem { Text = Constants.COURSE_DIFFICULTY_INTERMEDIATE, Value = Constants.COURSE_DIFFICULTY_INTERMEDIATE });
+                        defaultDifficulties.Add(new SelectListItem { Text = Constants.COURSE_DIFFICULTY_ADVANCED, Value = Constants.COURSE_DIFFICULTY_ADVANCED });
+                        break;
+                    }
+                case var value when value.Equals(Constants.COURSE_DIFFICULTY_INTERMEDIATE):
+                    {
+                        defaultDifficulties.Add(new SelectListItem { Text = Constants.COURSE_DIFFICULTY_BEGINNER, Value = Constants.COURSE_DIFFICULTY_BEGINNER });
+                        defaultDifficulties.Add(new SelectListItem { Text = Constants.COURSE_DIFFICULTY_INTERMEDIATE, Value = Constants.COURSE_DIFFICULTY_INTERMEDIATE, Selected = true });
+                        defaultDifficulties.Add(new SelectListItem { Text = Constants.COURSE_DIFFICULTY_ADVANCED, Value = Constants.COURSE_DIFFICULTY_ADVANCED });
+                        break;
+                    }
+                case var value when value.Equals(Constants.COURSE_DIFFICULTY_ADVANCED):
+                    {
+                        defaultDifficulties.Add(new SelectListItem { Text = Constants.COURSE_DIFFICULTY_BEGINNER, Value = Constants.COURSE_DIFFICULTY_BEGINNER });
+                        defaultDifficulties.Add(new SelectListItem { Text = Constants.COURSE_DIFFICULTY_INTERMEDIATE, Value = Constants.COURSE_DIFFICULTY_INTERMEDIATE });
+                        defaultDifficulties.Add(new SelectListItem { Text = Constants.COURSE_DIFFICULTY_ADVANCED, Value = Constants.COURSE_DIFFICULTY_ADVANCED, Selected = true });
+                        break;
+                    }
+            }
+            return defaultDifficulties;
+        }
+        public List<SelectListItem> GetCourseCategorySelectableList(string categoryName)
+        {
+            List<SelectListItem> defaultcategories = new();
+            switch (categoryName)
+            {
+                case var value when value.Equals(Constants.COURSE_CATEGORY_VOCABULARY):
+                    {
+                        defaultcategories.Add(new SelectListItem { Text = Constants.COURSE_CATEGORY_VOCABULARY, Value = Constants.COURSE_CATEGORY_VOCABULARY, Selected = true });
+                        defaultcategories.Add(new SelectListItem { Text = Constants.COURSE_CATEGORY_PRONUNCIATION, Value = Constants.COURSE_CATEGORY_PRONUNCIATION });
+                        defaultcategories.Add(new SelectListItem { Text = Constants.COURSE_CATEGORY_GRAMMAR, Value = Constants.COURSE_CATEGORY_GRAMMAR });
+                        defaultcategories.Add(new SelectListItem { Text = Constants.COURSE_CATEGORY_SPELLING, Value = Constants.COURSE_CATEGORY_SPELLING });
+                        break;
+                    }
+                case var value when value.Equals(Constants.COURSE_CATEGORY_PRONUNCIATION):
+                    {
+                        defaultcategories.Add(new SelectListItem { Text = Constants.COURSE_CATEGORY_VOCABULARY, Value = Constants.COURSE_CATEGORY_VOCABULARY });
+                        defaultcategories.Add(new SelectListItem { Text = Constants.COURSE_CATEGORY_PRONUNCIATION, Value = Constants.COURSE_CATEGORY_PRONUNCIATION, Selected = true });
+                        defaultcategories.Add(new SelectListItem { Text = Constants.COURSE_CATEGORY_GRAMMAR, Value = Constants.COURSE_CATEGORY_GRAMMAR });
+                        defaultcategories.Add(new SelectListItem { Text = Constants.COURSE_CATEGORY_SPELLING, Value = Constants.COURSE_CATEGORY_SPELLING });
+                        break;
+                    }
+                case var value when value.Equals(Constants.COURSE_CATEGORY_GRAMMAR):
+                    {
+                        defaultcategories.Add(new SelectListItem { Text = Constants.COURSE_CATEGORY_VOCABULARY, Value = Constants.COURSE_CATEGORY_VOCABULARY });
+                        defaultcategories.Add(new SelectListItem { Text = Constants.COURSE_CATEGORY_PRONUNCIATION, Value = Constants.COURSE_CATEGORY_PRONUNCIATION });
+                        defaultcategories.Add(new SelectListItem { Text = Constants.COURSE_CATEGORY_GRAMMAR, Value = Constants.COURSE_CATEGORY_GRAMMAR, Selected = true });
+                        defaultcategories.Add(new SelectListItem { Text = Constants.COURSE_CATEGORY_SPELLING, Value = Constants.COURSE_CATEGORY_SPELLING });
+                        break;
+                    }
+                case var value when value.Equals(Constants.COURSE_CATEGORY_SPELLING):
+                    {
+                        defaultcategories.Add(new SelectListItem { Text = Constants.COURSE_CATEGORY_VOCABULARY, Value = Constants.COURSE_CATEGORY_VOCABULARY });
+                        defaultcategories.Add(new SelectListItem { Text = Constants.COURSE_CATEGORY_PRONUNCIATION, Value = Constants.COURSE_CATEGORY_PRONUNCIATION });
+                        defaultcategories.Add(new SelectListItem { Text = Constants.COURSE_CATEGORY_GRAMMAR, Value = Constants.COURSE_CATEGORY_GRAMMAR });
+                        defaultcategories.Add(new SelectListItem { Text = Constants.COURSE_CATEGORY_SPELLING, Value = Constants.COURSE_CATEGORY_SPELLING, Selected = true });
+                        break;
+                    }
+            }
+            return defaultcategories;
         }
 
         public T GetValidationTempData<T>(
@@ -510,15 +394,15 @@ namespace CEG_WebMVC.Libraries
                 {
                     case var value when value.Equals(Constants.STUDENT):
                         {
-                            return Constants.MEMBER_URL;
+                            return Constants.STUDENT_URL;
                         }
                     case var value when value.Equals(Constants.PARENT):
                         {
-                            return Constants.STAFF_URL;
+                            return Constants.PARENT_URL;
                         }
                     case var value when value.Equals(Constants.TEACHER):
                         {
-                            return Constants.MANAGER_URL;
+                            return Constants.TEACHER_URL;
                         }
                     case var value when value.Equals(Constants.ADMIN):
                         {

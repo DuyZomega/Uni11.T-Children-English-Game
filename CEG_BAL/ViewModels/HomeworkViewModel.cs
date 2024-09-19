@@ -16,10 +16,7 @@ namespace CEG_BAL.ViewModels
         public int? TotalPoint { get; set; }
 
         public int? WordAmount { get; set; }
-
-        public DateTime? StartDate { get; set; }
-
-        public DateTime? EndDate { get; set; }
+        public int? Hours { get; set; }
 
         public string? Status { get; set; }
 
@@ -27,7 +24,7 @@ namespace CEG_BAL.ViewModels
 
         public virtual ICollection<HomeworkResultViewModel> HomeworkResults { get; set; } = new List<HomeworkResultViewModel>();
 
-        public virtual CourseViewModel Session { get; set; } = null!;
+        public virtual SessionViewModel Session { get; set; } = null!;
 
         public virtual ICollection<StudentHomeworkViewModel> StudentHomeworks { get; set; } = new List<StudentHomeworkViewModel>();
     }

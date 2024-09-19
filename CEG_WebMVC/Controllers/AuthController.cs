@@ -195,7 +195,7 @@ namespace CEG_WebMVC.Controllers
                 default:
                     {
                         _logger.LogInformation("Goofy Ahh Member Login Successful: " + TempData[Constants.ROLE_NAME] + " , Id: " + TempData[Constants.USR_ID]);
-                        return base.Redirect(Constants.MEMBER_URL);
+                        return base.Redirect(Constants.STUDENT_URL);
                     }
             }
         }
