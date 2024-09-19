@@ -34,13 +34,14 @@ namespace CEG_BAL.Services.Implements
         public void Create(CourseViewModel course, CreateNewCourse newCourse)
         {
             var cou = _mapper.Map<Course>(course);
-            cou.Status = "Active";
+            cou.Status = "Draft";
             cou.Image = "Image";
             if(newCourse != null)
             {
                 cou.CourseName = newCourse.CourseName;
                 cou.CourseType = newCourse.CourseType;
                 cou.Description = newCourse.Description;
+                cou.Image = newCourse.Image;
                 cou.TotalHours = newCourse.TotalHours;
                 cou.RequiredAge = newCourse.RequiredAge;
                 cou.Difficulty = newCourse.Difficulty;

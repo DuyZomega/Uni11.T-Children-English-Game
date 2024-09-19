@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using CEG_BAL.ViewModels;
 using CEG_BAL.ViewModels.Account.Create;
+using CEG_BAL.ViewModels.Admin;
 using CEG_DAL.Models;
 using CEG_WebMVC.Models.ViewModels.Account.Create;
 using CEG_WebMVC.Models.ViewModels.Account.Get;
+using CEG_WebMVC.Models.ViewModels.Course.Create;
 using CEG_WebMVC.Models.ViewModels.Course.Get;
 
 namespace CEG_WebMVC.Libraries
@@ -227,6 +229,16 @@ namespace CEG_WebMVC.Libraries
                 {
                     dest.SessionAmount = src.Sessions.Count;
                     dest.ClassAmount = src.Classes.Count;
+                });
+            CreateMap<CreateCourseVM, CreateNewCourse>()
+                .AfterMap((src,dest) =>
+                {
+                    dest.Image = src.CourseImageHeader;
+                })
+                .ReverseMap()
+                .AfterMap((src, dest) =>
+                {
+                    dest.CourseImageHeader = src.Image;
                 });
         }
     }

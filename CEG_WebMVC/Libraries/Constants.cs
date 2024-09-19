@@ -125,6 +125,8 @@ namespace CEG_WebMVC.Libraries
         public readonly static string CREATE_PARENT_DETAILS_VALID = "CParentDetailsValid";
         public readonly static string CREATE_STUDENT_DETAILS_VALID = "CStudentDetailsValid";
 
+        public readonly static string CREATE_COURSE_DETAILS_VALID = "CCourseDetailsValid";
+
         /*public readonly static string UPDATE_MEMBER_DETAILS_VALID = "UMemberDetailsValid";
         public readonly static string UPDATE_MEMBER_PASSWORD_VALID = "UMemberPasswordValid";
         public readonly static string UPDATE_MANAGER_DETAILS_VALID = "UManagerDetailsValid";

@@ -3,7 +3,7 @@
     Layout = null;
     ViewData["Title"] = "Admin All Courses Page";
     string? search = string.Empty;
-
+    var createCourse = Model.CreateCourse;
     var courses = Model.Courses;
 
     Layout = "~/Views/Shared/_ALayout.cshtml";
@@ -95,12 +95,10 @@
                                         <div class="col-xl-3 col-lg-6 col-sm-6 my-3 item">
                                             <div class="card1 card-child">
                                                 <div class="card-body add-club">
-                                                    <form class="border-0" asp-action="AdminCourseCreate" asp-controller="Admin" method="get">
-                                                        <button class="border-0" type="submit">
-                                                            <span>Add Course</span>
-                                                            <i class='bx bx-add-to-queue'></i>
-                                                        </button>
-                                                    </form>
+                                                    <button class="border-0" data-toggle="modal" data-target="#addCourse">
+                                                        <span>Add Course</span>
+                                                        <i class='bx bx-add-to-queue'></i>
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -119,7 +117,7 @@
                                                                             <span class="stt1" style="float: left;">Status:<h6>@data.Status</h6></span>
                                                                             break;
                                                                         }
-                                                                    case "UnAvailable":
+                                                                    case "Draft":
                                                                         {
                                                                             <span class="stt3" style="float: left;">Status:<h6>@data.Status</h6></span>
                                                                             break;
@@ -218,6 +216,63 @@
                         </div>
                     </div>
                 </section>
+            </div>
+        </div>
+    </div>
+    <div id="addCourse" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content modal-addRoom">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add new Course</h4>
+                </div>
+                <div class="modal-body">
+                    <form asp-action="AdminCourseCreate" asp-controller="Admin" method="post" id="form">
+                        <div class="row p-4">
+                            <div class="col-12">
+                                <div class="row form-group">
+                                    <label asp-for="@createCourse.CourseName" class="col-md-3 col-form-label text-md-right"></label>
+                                    <input asp-for="@createCourse.CourseName" value="@createCourse.CourseName" type="text" placeholder="Course Name..." required class="form-control col-md-7">
+                                    <span asp-validation-for="@createCourse.CourseName" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@createCourse.CourseType" class="col-md-3 col-form-label text-md-right"></label>
+                                    <input asp-for="@createCourse.CourseType" value="@createCourse.CourseType" type="text" placeholder="Course Type" required class="form-control col-md-7">
+                                    <span asp-validation-for="@createCourse.CourseType" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@createCourse.Category" class="col-md-3 col-form-label text-md-right"></label>
+                                    <select class="form-control col-md-7 custom-select" asp-for="@createCourse.Category" asp-items="@createCourse.DefaultCourseCategorySelectList" required></select>
+                                    <span asp-validation-for="@createCourse.Category" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@createCourse.Description" class="col-md-3 col-form-label text-md-right"></label>
+                                    <textarea asp-for="@createCourse.Description" value="@createCourse.Description" required class="form-control col-md-7"></textarea>
+                                    <span asp-validation-for="@createCourse.Description" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@createCourse.Difficulty" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                    <select class="form-control col-md-7 custom-select" asp-for="@createCourse.Category" asp-items="@createCourse.DefaultCourseCategorySelectList" required></select>
+                                    <span asp-validation-for="@createCourse.Difficulty" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@createCourse.RequiredAge" class="col-md-3 col-form-label text-md-right"></label>
+                                    <input asp-for="@createCourse.RequiredAge" value="@createCourse.RequiredAge" type="number" min="11" max="14" placeholder="Full Name" required class="form-control col-md-7">
+                                    <span asp-validation-for="@createCourse.RequiredAge" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@createCourse.TotalHours" class="col-md-3 col-form-label text-md-right"></label>
+                                    <input asp-for="@createCourse.TotalHours" value="@createCourse.TotalHours" type="number" min="1" placeholder="Full Name" required class="form-control col-md-7">
+                                    <span asp-validation-for="@createCourse.TotalHours" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                </div>
+                            </div>
+                            <div class="modal-footer justify-content-center" style="margin-left:400px;">
+                                <button class="btn btn-success" type="submit" name="action" value="createUser">Create</button>
+                                <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
