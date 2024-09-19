@@ -15,7 +15,7 @@ namespace CEG_WebMVC.Models.ViewModels.Class.Get
         public int? CurrentStudentAmount { get; set; }
 
 
-        /*public virtual ICollection<StudentProcessViewModel> StudentProcesses { get; set; } = new List<StudentProcessViewModel>();*/
+        /*public virtual ICollection<StudentProgressViewModel> StudentProgress { get; set; } = new List<StudentProgressViewModel>();*/
 
         //public virtual TeacherViewModel Teacher { get; set; } = null!;
     }

@@ -397,7 +397,7 @@ namespace CEG_WebAPI.Controllers
                 {
                     Description = newStu.Description,
                     Highscore = newStu.Highscore,
-                    Birhthdate = newStu.Birthdate,
+                    Birthdate = newStu.Birthdate,
                 };
                 _studentService.Create(stu, newStu);
                 return Ok(new
