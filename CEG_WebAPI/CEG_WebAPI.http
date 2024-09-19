@@ -1,0 +1,6 @@
+@CEG_WebAPI_HostAddress = http://localhost:5286
+
+GET {{CEG_WebAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
