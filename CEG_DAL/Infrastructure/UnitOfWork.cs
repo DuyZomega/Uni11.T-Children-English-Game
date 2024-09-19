@@ -27,7 +27,7 @@ namespace CEG_DAL.Infrastructure
         private IRoleRepositories _roleRepositories;
         private ISessionRepositories _sessionRepositories;
         private IStudentHomeworkRepositories _studentHomeworkRepositories;
-        private IStudentProgressRepositories _studentProcessRepositories;
+        private IStudentProgressRepositories _studentProgressRepositories;
         private IStudentRepositories _studentRepositories;
         private ITeacherRepositories _teacherRepositories;
         public UnitOfWork(MyDBContext context)
@@ -49,7 +49,7 @@ namespace CEG_DAL.Infrastructure
         public IRoleRepositories RoleRepositories => _roleRepositories ??= new RoleRepositories(_dbContext);
         public ISessionRepositories SessionRepositories => _sessionRepositories ??= new SessionRepositories(_dbContext);
         public IStudentHomeworkRepositories StudentHomeworkRepositories => _studentHomeworkRepositories ??= new StudentHomeworkRepositories(_dbContext);
-        public IStudentProgressRepositories StudentProcessRepositories => _studentProcessRepositories ??= new StudentProgressRepositories(_dbContext);
+        public IStudentProgressRepositories StudentProgressRepositories => _studentProgressRepositories ??= new StudentProgressRepositories(_dbContext);
         public IStudentRepositories StudentRepositories => _studentRepositories ??= new StudentRepositories(_dbContext);
         public ITeacherRepositories TeacherRepositories => _teacherRepositories ??= new TeacherRepositories(_dbContext);
         public void Dispose()

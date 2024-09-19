@@ -35,11 +35,16 @@ namespace CEG_BAL.Services.Implements
         {
             var cou = _mapper.Map<Course>(course);
             cou.Status = "Active";
+            cou.Image = "Image";
             if(newCourse != null)
             {
                 cou.CourseName = newCourse.CourseName;
                 cou.CourseType = newCourse.CourseType;
                 cou.Description = newCourse.Description;
+                cou.TotalHours = newCourse.TotalHours;
+                cou.RequiredAge = newCourse.RequiredAge;
+                cou.Difficulty = newCourse.Difficulty;
+                cou.Category = newCourse.Category;
             }
             _unitOfWork.CourseRepositories.Create(cou);
             _unitOfWork.Save();

@@ -33,5 +33,5 @@ public partial class Student
 
     public virtual Parent Parent { get; set; } = null!;
 
-    public virtual ICollection<StudentProgress> StudentProgresses { get; set; } = new List<StudentProgress>();
+    public virtual ICollection<StudentProgress> StudentProgress { get; set; } = new List<StudentProgress>();
 }

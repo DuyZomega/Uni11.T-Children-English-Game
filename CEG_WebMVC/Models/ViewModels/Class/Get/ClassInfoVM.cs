@@ -13,7 +13,8 @@ namespace CEG_WebMVC.Models.ViewModels.Class.Get
         public int? MaximumStudents { get; set; }
 
         public virtual CourseViewModel Course { get; set; } = new CourseViewModel();
-        /*public virtual ICollection<StudentProcessViewModel> StudentProcesses { get; set; } = new List<StudentProcessViewModel>();*/
+
+        public virtual ICollection<StudentProgressViewModel> StudentProgress { get; set; } = new List<StudentProgressViewModel>();
 
         public virtual TeacherViewModel Teacher { get; set; } = null!;
     }

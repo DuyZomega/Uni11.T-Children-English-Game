@@ -48,7 +48,7 @@ public partial class MyDBContext : DbContext
 
     public virtual DbSet<StudentHomework> StudentHomeworks { get; set; }
 
-    public virtual DbSet<StudentProgress> StudentProgresses { get; set; }
+    public virtual DbSet<StudentProgress> StudentProgress { get; set; }
 
     public virtual DbSet<Teacher> Teachers { get; set; }
 
@@ -128,6 +128,9 @@ public partial class MyDBContext : DbContext
             entity.ToTable("Course");
 
             entity.Property(e => e.CourseId).HasColumnName("course_id");
+            entity.Property(e => e.Category)
+                .HasMaxLength(20)
+                .HasColumnName("category");
             entity.Property(e => e.CourseName)
                 .HasMaxLength(50)
                 .HasColumnName("course_name");
@@ -144,9 +147,15 @@ public partial class MyDBContext : DbContext
             entity.Property(e => e.RequiredAge).HasColumnName("required_age");
             entity.Property(e => e.TotalHours).HasColumnName("total_hours");
             entity.Property(e => e.Description).HasColumnName("description");
+            entity.Property(e => e.Difficulty)
+                .HasMaxLength(20)
+                .HasColumnName("difficulty");
+            entity.Property(e => e.Image).HasColumnName("image");
+            entity.Property(e => e.RequiredAge).HasColumnName("required_age");
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .HasColumnName("status");
+            entity.Property(e => e.TotalHours).HasColumnName("total_hours");
         });
 
         modelBuilder.Entity<Enroll>(entity =>
@@ -331,7 +340,7 @@ public partial class MyDBContext : DbContext
 
             entity.ToTable("RegisteredClass");
 
-            entity.Property(e => e.RegisteredClassId).HasColumnName("registered_course_id");
+            entity.Property(e => e.RegisteredClassId).HasColumnName("registered_class_id");
             entity.Property(e => e.ClassId).HasColumnName("class_id");
             entity.Property(e => e.ConfirmDate)
                 .HasColumnType("datetime")
@@ -462,7 +471,7 @@ public partial class MyDBContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_StudentProgress_Session");
 
-            entity.HasOne(d => d.Student).WithMany(p => p.StudentProgresses)
+            entity.HasOne(d => d.Student).WithMany(p => p.StudentProgress)
                 .HasForeignKey(d => d.StudentId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_StudentProgress_Student");
