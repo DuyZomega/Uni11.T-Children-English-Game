@@ -1,6 +1,8 @@
 using i5.Toolkit.Core.OpenIDConnectClient;
 using i5.Toolkit.Core.ServiceCore;
 using System;
+using System.Linq;
+using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -11,13 +13,13 @@ using TMPro;
 
 public class AccountManager : MonoBehaviour
 {
-    public static AccountManager instance;
+    public static AccountManager Instance;
 
     public String baseUrl = @"";
 
     public TMP_InputField loginNameInputField;
-
     public TMP_InputField loginPasswordInputField;
+    public TMP_Text warningLoginText;
 
     [Header("UserData")]
     public UserObject _user;
@@ -77,17 +79,21 @@ public class AccountManager : MonoBehaviour
         }
     }
 
-    private async void Login(string _email, string _password)
+    private IEnumerator Login(string _email, string _password)
     {
         string url = "https://your-api-url.com/login"; // Your API endpoint for login
-        var formData = new Dictionary<string, string>
+
+        // Create form data
+        List<IMultipartFormSection> formData = new List<IMultipartFormSection>
         {
-            { "email", _email },
-            { "password", _password }
+            new MultipartFormDataSection("email", _email),
+            new MultipartFormDataSection("password", _password)
         };
 
         UnityWebRequest request = UnityWebRequest.Post(url, formData);
-        await request.SendWebRequest();
+
+        // Send request as coroutine
+        yield return request.SendWebRequest();
 
         if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
         {
@@ -99,11 +105,17 @@ public class AccountManager : MonoBehaviour
             Debug.Log("User logged in successfully");
             warningLoginText.text = "Logged In";
 
-            _gameData = await LoadGameData();
-            _scoreboard = await LoadScoreBoard();
-            _user = LoadUserData(_scoreboard);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            Time.timeScale = 1f;
+            GameIsPause = false;
+            Cursor.lockState = CursorLockMode.None;
 
-            UpdateUIAfterLogin(); // Update UI with the username
+            // Load game data and scoreboard
+            StartCoroutine(LoadGameData());
+            StartCoroutine(LoadScoreBoard());
+
+            // After loading data, update UI
+            UpdateUIAfterLogin();
         }
     }
 
@@ -111,16 +123,17 @@ public class AccountManager : MonoBehaviour
     {
         try
         {
-            var user = scoreboard.FirstOrDefault(user => user.UserId == _user.UserId);
+            // Using LINQ FirstOrDefault
+            var user = scoreboard.FirstOrDefault(u => u.UserId == _user.UserId);
             if (user == null)
             {
-                InitialUserInfoToDatabase();
+                StartCoroutine(InitialUserInfoToDatabase());
                 return new UserObject
                 {
                     CategoryScore = new Dictionary<string, UserScoreObject>
                     {
                         {
-                            _gameData.Keys.First(),
+                            _gameData.Keys.First(), // Use LINQ to get the first key
                             new UserScoreObject { LevelScore = new Dictionary<string, double> { { "1", 0 } } }
                         }
                     },
@@ -136,9 +149,11 @@ public class AccountManager : MonoBehaviour
         }
     }
 
-    private async void InitialUserInfoToDatabase()
+    private IEnumerator InitialUserInfoToDatabase()
     {
         string url = $"https://your-api-url.com/users/{_user.UserId}/initialize"; // API endpoint for user initialization
+
+        // Form data dictionary
         var formData = new Dictionary<string, object>
         {
             { "username", _user.Username },
@@ -147,8 +162,16 @@ public class AccountManager : MonoBehaviour
             { "score", 0 }
         };
 
-        UnityWebRequest request = UnityWebRequest.Put(url, formData);
-        await request.SendWebRequest();
+        // Serialize to JSON and convert to byte array
+        string jsonData = JsonUtility.ToJson(formData);
+        byte[] bodyRaw = Encoding.UTF8.GetBytes(jsonData);
+
+        UnityWebRequest request = new UnityWebRequest(url, "PUT");
+        request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+        request.downloadHandler = new DownloadHandlerBuffer();
+        request.SetRequestHeader("Content-Type", "application/json");
+
+        yield return request.SendWebRequest();
 
         if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
         {
@@ -156,9 +179,11 @@ public class AccountManager : MonoBehaviour
         }
     }
 
-    public async void SendScore(string cate, string level, string score)
+    public IEnumerator SendScore(string cate, string level, string score)
     {
         string url = $"https://your-api-url.com/users/{_user.UserId}/scores"; // API endpoint for sending score
+
+        // Form data dictionary
         var formData = new Dictionary<string, string>
         {
             { "category", cate },
@@ -166,8 +191,16 @@ public class AccountManager : MonoBehaviour
             { "score", score }
         };
 
-        UnityWebRequest request = UnityWebRequest.Put(url, formData);
-        await request.SendWebRequest();
+        // Serialize to JSON and convert to byte array
+        string jsonData = JsonUtility.ToJson(formData);
+        byte[] bodyRaw = Encoding.UTF8.GetBytes(jsonData);
+
+        UnityWebRequest request = new UnityWebRequest(url, "PUT");
+        request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+        request.downloadHandler = new DownloadHandlerBuffer();
+        request.SetRequestHeader("Content-Type", "application/json");
+
+        yield return request.SendWebRequest();
 
         if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
         {
@@ -179,45 +212,46 @@ public class AccountManager : MonoBehaviour
         }
     }
 
-    public async Task<List<UserObject>> LoadScoreBoard()
+    public IEnumerator LoadScoreBoard()
     {
         string url = "https://your-api-url.com/scoreboard"; // API endpoint for scoreboard data
 
         UnityWebRequest request = UnityWebRequest.Get(url);
-        await request.SendWebRequest();
+        yield return request.SendWebRequest();
 
         if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
         {
             Debug.LogError("Failed to load scoreboard: " + request.error);
-            return null;
         }
-
-        // Parse the response (assuming JSON)
-        var jsonData = request.downloadHandler.text;
-        return JsonUtility.FromJson<List<UserObject>>(jsonData);
+        else
+        {
+            // Parse the response (assuming JSON)
+            var jsonData = request.downloadHandler.text;
+            _scoreboard = JsonUtility.FromJson<List<UserObject>>(jsonData);
+        }
     }
 
-    public async Task<Dictionary<string, List<LevelObject>>> LoadGameData()
+    public IEnumerator LoadGameData()
     {
         string url = "https://your-api-url.com/game-data"; // API endpoint for game data
 
         UnityWebRequest request = UnityWebRequest.Get(url);
-        await request.SendWebRequest();
+        yield return request.SendWebRequest();
 
         if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
         {
             Debug.LogError("Failed to load game data: " + request.error);
-            return null;
         }
-
-        // Parse the response (assuming JSON)
-        var jsonData = request.downloadHandler.text;
-        return JsonUtility.FromJson<Dictionary<string, List<LevelObject>>>(jsonData);
+        else
+        {
+            // Parse the response (assuming JSON)
+            var jsonData = request.downloadHandler.text;
+            _gameData = JsonUtility.FromJson<Dictionary<string, List<LevelObject>>>(jsonData);
+        }
     }
 
     public void Logout()
     {
-        // Clear any local user session or token
         _user = null;
         _gameData = new Dictionary<string, List<LevelObject>>();
         Debug.Log("User logged out successfully");
@@ -236,5 +270,4 @@ public class AccountManager : MonoBehaviour
         }
         canvasToActivate.SetActive(true);
     }
-}
 }
