@@ -8,9 +8,9 @@ namespace CEG_WebMVC.Models.ViewModels.Admin.PageModel
         public AdminClassIndexPVM()
         {
             Classes = new List<IndexClassInfoVM>();
-            createClass = new CreateClassVM();
+            CreateClass = new CreateClassVM();
         }
         public List<IndexClassInfoVM> Classes { get; set; }
-        public CreateClassVM createClass { get; set; }
+        public CreateClassVM CreateClass { get; set; }
     }
 }
