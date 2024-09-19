@@ -22,7 +22,7 @@ namespace CEG_BAL.ViewModels
 
         //public virtual ICollection<CourseViewModel> Courses { get; set; } = new List<CourseViewModel>();
 
-        public virtual ICollection<StudentProgressViewModel> StudentProcesses { get; set; } = new List<StudentProgressViewModel>();
+        public virtual ICollection<StudentProgressViewModel> StudentProgress { get; set; } = new List<StudentProgressViewModel>();
 
         public virtual TeacherViewModel Teacher { get; set; } = null!;
         public virtual CourseViewModel Course { get; set; } = null!;

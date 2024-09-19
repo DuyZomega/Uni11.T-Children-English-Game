@@ -10,7 +10,7 @@ namespace CEG_DAL.Repositories.Interfaces
 {
     public interface IStudentProgressRepositories : IRepositoryBase<StudentProgress>
     {
-        Task<List<StudentProgress>> GetStudentProcessesList();
+        Task<List<StudentProgress>> GetStudentProgressList();
         Task<StudentProgress?> GetByIdNoTracking(int id);
     }
 }

@@ -48,7 +48,7 @@ public partial class MyDBContext : DbContext
 
     public virtual DbSet<StudentHomework> StudentHomeworks { get; set; }
 
-    public virtual DbSet<StudentProgress> StudentProgresses { get; set; }
+    public virtual DbSet<StudentProgress> StudentProgress { get; set; }
 
     public virtual DbSet<Teacher> Teachers { get; set; }
 
@@ -471,7 +471,7 @@ public partial class MyDBContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_StudentProgress_Session");
 
-            entity.HasOne(d => d.Student).WithMany(p => p.StudentProgresses)
+            entity.HasOne(d => d.Student).WithMany(p => p.StudentProgress)
                 .HasForeignKey(d => d.StudentId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_StudentProgress_Student");

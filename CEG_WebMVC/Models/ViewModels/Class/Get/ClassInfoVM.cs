@@ -14,7 +14,7 @@ namespace CEG_WebMVC.Models.ViewModels.Class.Get
 
         public virtual CourseViewModel Course { get; set; } = new CourseViewModel();
 
-        public virtual ICollection<StudentProgressViewModel> StudentProcesses { get; set; } = new List<StudentProgressViewModel>();
+        public virtual ICollection<StudentProgressViewModel> StudentProgress { get; set; } = new List<StudentProgressViewModel>();
 
         public virtual TeacherViewModel Teacher { get; set; } = null!;
     }

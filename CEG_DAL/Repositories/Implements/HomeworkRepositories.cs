@@ -18,7 +18,7 @@ namespace CEG_DAL.Repositories.Implements
             _dbContext = dbContext;
         }
 
-        public async Task<Homework> GetByIdNoTracking(int id)
+        public async Task<Homework?> GetByIdNoTracking(int id)
         {
             return await _dbContext.Homeworks.AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(home => home.HomeworkId == id);
         }

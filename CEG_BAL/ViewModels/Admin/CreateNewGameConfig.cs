@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace CEG_BAL.ViewModels.Admin
 {
-    public class CreateNewSession
+    public class CreateNewGameConfig
     {
         public string Title { get; set; }
-        public string Description { get; set; }
-        public int Hours { get; set; }
-        public string CourseName { get; set; }
+        public int Point { get; set; }
+        public string CorrectAnswer { get; set; }
     }
 }

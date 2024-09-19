@@ -16,7 +16,9 @@
 
         public int? Points { get; set; }
 
-        public DateTime? Birhthdate { get; set; }
+        public DateTime? Birthdate { get; set; }
+
+        public string? Image { get; set; }
 
         public virtual AccountViewModel Account { get; set; } = null!;
 
@@ -24,6 +26,6 @@
 
         public virtual ParentViewModel Parents { get; set; } = null!;
 
-        public virtual ICollection<StudentProgressViewModel> StudentProcesses { get; set; } = new List<StudentProgressViewModel>();
+        public virtual ICollection<StudentProgressViewModel> StudentProgress { get; set; } = new List<StudentProgressViewModel>();
     }
 }
