@@ -14,5 +14,6 @@ namespace CEG_BAL.Services.Interfaces
         void Update(SessionViewModel model);
         Task<List<SessionViewModel>> GetSessionList();
         Task<SessionViewModel?> GetSessionById(int id);
+        Task<bool> IsSessionExistByTitle(string title);
     }
 }

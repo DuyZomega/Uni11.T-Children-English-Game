@@ -27,5 +27,17 @@ namespace CEG_DAL.Repositories.Implements
         {
             return await _dbContext.Sessions.ToListAsync();
         }
+        
+        public async Task<Session?> GetByTitle(string name)
+        {
+            return await _dbContext.Sessions.AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(sess => sess.Title == name);
+        }
+
+        public async Task<int> GetIdByTitle(string name)
+        {
+            var result = await (from s in _dbContext.Sessions where s.Title == name select s).FirstOrDefaultAsync();
+            if (result != null) return result.SessionId;
+            return 0;
+        }
     }
 }

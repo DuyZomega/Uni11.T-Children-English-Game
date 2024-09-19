@@ -129,6 +129,14 @@ namespace CEG_BAL.Services.Implements
             _unitOfWork.Save();
         }
 
+        public async Task<bool> Delete(int id)
+        {
+            var acc = _unitOfWork.AccountRepositories.GetById(id);
+            _unitOfWork.AccountRepositories.Delete(acc);
+            _unitOfWork.Save();
+            return true;
+        }
+
         public async Task<int> GetIdByUsername(string username)
         {
             return await _unitOfWork.AccountRepositories.GetIdByUsername(username);
