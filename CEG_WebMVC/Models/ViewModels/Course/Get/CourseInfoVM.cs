@@ -4,6 +4,11 @@ namespace CEG_WebMVC.Models.ViewModels.Course.Get
 {
     public class CourseInfoVM
     {
+        public CourseInfoVM()
+        {
+            SessionAmount = 0;
+            ClassAmount = 0;
+        }
         
         public int? CourseId { get; set; }
         public string CourseName { get; set; } = null!;
