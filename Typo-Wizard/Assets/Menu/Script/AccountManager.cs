@@ -11,15 +11,25 @@ using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+using static System.Net.Mime.MediaTypeNames;
+using System.Diagnostics;
+using Debug = UnityEngine.Debug;
+using Text = UnityEngine.UI.Text;
 
 public class AccountManager : MonoBehaviour
 {
     public static AccountManager Instance;
 
-    public String baseUrl = @"";
+    [System.Serializable]
+    public class LoginPayload
+    {
+        public string username;
+        public string password;
+    }
 
-    public TMP_InputField loginNameInputField;
-    public TMP_InputField loginPasswordInputField;
+    [Header("Login")]
+    public TMP_InputField nameLoginField;
+    public TMP_InputField passwordLoginField;
     public TMP_Text warningLoginText;
     public static bool GameIsPause = false;
 
@@ -32,12 +42,12 @@ public class AccountManager : MonoBehaviour
     [Header("GameData")]
     public static Dictionary<string, List<LevelObject>> _gameData = new();
 
+
     public GameObject canvasToActivate;
     public GameObject LoginScreen;
     public static int count = 0;
     public static string welcomeName = "";
 
-    //private AccountAuth auth;
 
     private void Awake()
     {
@@ -61,38 +71,132 @@ public class AccountManager : MonoBehaviour
     {
         if (count > 0)
         {
-            canvasToActivate.SetActive(true);
-            LoginScreen.SetActive(false);
-        }
-        count++;
-        if (canvasToActivate != null && _user != null)
-        {
-            Text usernameText = canvasToActivate.transform.Find("UsernameText").GetComponent<Text>();
-            if (usernameText != null)
+            if (canvasToActivate != null)
             {
-                welcomeName = $"Welcome {_user.Username}";
-                usernameText.text = welcomeName;
+                // Log to verify the canvas reference
+                Debug.Log("Activating canvasToActivate.");
+                canvasToActivate.SetActive(true);
+            }
+            else
+            {
+                Debug.LogError("CanvasToActivate is not assigned in the Inspector");
+            }
+
+            if (LoginScreen != null)
+            {
+                // Log to verify the LoginScreen reference
+                Debug.Log("Deactivating LoginScreen.");
+                LoginScreen.SetActive(false);
+            }
+            else
+            {
+                Debug.LogError("LoginScreen is not assigned in the Inspector");
             }
         }
-        if (canvasToActivate != null && _user == null)
+
+        count++;
+
+        if (canvasToActivate != null)
         {
-            Text usernameText = canvasToActivate.transform.Find("UsernameText").GetComponent<Text>();
-            usernameText.text = welcomeName;
+            // Check for UsernameText
+            var textObj = canvasToActivate.transform.Find("UsernameText");
+            if (textObj == null)
+            {
+                Debug.LogWarning("UsernameText not found directly. Searching in children...");
+
+                var usernameText = canvasToActivate.GetComponentInChildren<TMPro.TMP_Text>();
+                if (usernameText != null)
+                {
+                    Debug.Log("Found UsernameText using GetComponentInChildren.");
+                    if (_user != null)
+                    {
+                        welcomeName = $"Welcome {_user.Username}";
+                        usernameText.text = welcomeName;
+                    }
+                    else
+                    {
+                        usernameText.text = welcomeName;
+                        Debug.LogWarning("_user is null, using default welcome message");
+                    }
+                }
+                else
+                {
+                    Debug.LogError("UsernameText not found in canvasToActivate or its children.");
+                }
+            }
+            else
+            {
+                var tmpUsernameText = textObj.GetComponent<TMPro.TMP_Text>();
+                if (tmpUsernameText != null)
+                {
+                    if (_user != null)
+                    {
+                        welcomeName = $"Welcome {_user.Username}";
+                        tmpUsernameText.text = welcomeName;
+                    }
+                    else
+                    {
+                        tmpUsernameText.text = welcomeName;
+                        Debug.LogWarning("_user is null, using default welcome message");
+                    }
+                }
+                else
+                {
+                    var uiUsernameText = textObj.GetComponent<UnityEngine.UI.Text>();
+                    if (uiUsernameText != null)
+                    {
+                        if (_user != null)
+                        {
+                            welcomeName = $"Welcome {_user.Username}";
+                            uiUsernameText.text = welcomeName;
+                        }
+                        else
+                        {
+                            uiUsernameText.text = welcomeName;
+                            Debug.LogWarning("_user is null, using default welcome message");
+                        }
+                    }
+                    else
+                    {
+                        Debug.LogError("Neither TMP_Text nor UI Text component found on UsernameText object.");
+                    }
+                }
+            }
+        }
+        else
+        {
+            Debug.LogError("CanvasToActivate is null");
         }
     }
-
-    private IEnumerator Login(string _email, string _password)
+    public void LoginButton()
     {
-        string url = "https://your-api-url.com/login"; // Your API endpoint for login
+        Debug.Log("LoginButton pressed");
+        StartCoroutine(Login(nameLoginField.text, passwordLoginField.text));
+    }
+    private IEnumerator Login(string _name, string _password)
+    {
+        string url = "https://localhost:7143/api/Account/Login"; // Your API endpoint for login
 
-        // Create form data
-        List<IMultipartFormSection> formData = new List<IMultipartFormSection>
+        // Create JSON payload
+        var formData = new LoginPayload
         {
-            new MultipartFormDataSection("email", _email),
-            new MultipartFormDataSection("password", _password)
+            username = _name,
+            password = _password
         };
 
-        UnityWebRequest request = UnityWebRequest.Post(url, formData);
+        // Convert the form data to JSON format
+        string jsonData = JsonUtility.ToJson(formData);
+
+        // Create UnityWebRequest and set it up for JSON
+        UnityWebRequest request = new UnityWebRequest(url, "POST");
+        byte[] bodyRaw = Encoding.UTF8.GetBytes(jsonData);
+
+        request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+        request.downloadHandler = new DownloadHandlerBuffer();
+        request.SetRequestHeader("Content-Type", "application/json");
+
+        // Log the JSON payload
+        Debug.Log("Sending JSON payload: " + jsonData);
 
         // Send request as coroutine
         yield return request.SendWebRequest();
@@ -107,17 +211,11 @@ public class AccountManager : MonoBehaviour
             Debug.Log("User logged in successfully");
             warningLoginText.text = "Logged In";
 
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-            Time.timeScale = 1f;
-            GameIsPause = false;
-            Cursor.lockState = CursorLockMode.None;
-
-            // Load game data and scoreboard
+            // Further actions like loading game data and scoreboard
             StartCoroutine(LoadGameData());
             StartCoroutine(LoadScoreBoard());
-
-            // After loading data, update UI
-            UpdateUIAfterLogin();
+            canvasToActivate.SetActive(true);
+            LoginScreen.SetActive(false);
         }
     }
 
@@ -257,19 +355,5 @@ public class AccountManager : MonoBehaviour
         _user = null;
         _gameData = new Dictionary<string, List<LevelObject>>();
         Debug.Log("User logged out successfully");
-    }
-
-    private void UpdateUIAfterLogin()
-    {
-        if (canvasToActivate != null)
-        {
-            Text usernameText = canvasToActivate.transform.Find("UsernameText").GetComponent<Text>();
-            if (usernameText != null)
-            {
-                welcomeName = $"Welcome {_user.Username}";
-                usernameText.text = welcomeName;
-            }
-        }
-        canvasToActivate.SetActive(true);
     }
 }
