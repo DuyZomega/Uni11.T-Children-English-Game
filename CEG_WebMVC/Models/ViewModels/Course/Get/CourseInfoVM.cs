@@ -1,4 +1,4 @@
-﻿using CEG_DAL.Models;
+﻿using CEG_BAL.ViewModels;
 
 namespace CEG_WebMVC.Models.ViewModels.Course.Get
 {
@@ -14,6 +14,6 @@ namespace CEG_WebMVC.Models.ViewModels.Course.Get
 
         public string? Status { get; set; }
 
-        public virtual ICollection<Session> Sessions { get; set; } = new List<Session>();
+        public List<SessionViewModel> Sessions { get; set; } = new List<SessionViewModel>();
     }
 }

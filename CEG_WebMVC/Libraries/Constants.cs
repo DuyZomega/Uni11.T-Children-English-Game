@@ -5,26 +5,26 @@ namespace CEG_WebMVC.Libraries
     public static class Constants
     {
         public readonly static string ADMIN_URL = "/Admin/Index";
-        public readonly static string MEMBER_URL = "/Home/Index";
-        public readonly static string MANAGER_URL = "/Manager/Index";
-        public readonly static string STAFF_URL = "/Staff/Index";
+        public readonly static string STUDENT_URL = "/Student/Index";
+        public readonly static string TEACHER_URL = "/Teacher/Index";
+        public readonly static string PARENT_URL = "/Parent/Index";
         public readonly static string NOTFOUND_URL = "/Auth/NotFound";
         public readonly static string LOGIN_URL = "/Auth/Login";
-        public readonly static string NEW_MEMBER_CONFIRM_REGISTRATION_URL = "/Auth/SignUp";
+        //public readonly static string NEW_MEMBER_CONFIRM_REGISTRATION_URL = "/Auth/SignUp";
 
-        public readonly static string NEW_MEMBER_REGISTRATION_COOKIE = "New-Membership-Registration-Cookie";
+        /*public readonly static string NEW_MEMBER_REGISTRATION_COOKIE = "New-Membership-Registration-Cookie";
         public readonly static string NEW_MEMBER_REGISTRATION_TRANSACTION_COOKIE = "New-Membership-Registration-Transaction-Cookie";
         public readonly static string MEMBER_FIELDTRIP_REGISTRATION_COOKIE = "Member-FieldTrip-Registration-Cookie";
         public readonly static string MEMBER_FIELDTRIP_REGISTRATION_TRANSACTION_COOKIE = "Member-FieldTrip-Registration-Transaction-Cookie";
         public readonly static string MEMBER_CONTEST_REGISTRATION_COOKIE = "Member-Contest-Registration-Cookie";
         public readonly static string MEMBER_CONTEST_BIRD_REGISTRATION_COOKIE = "Member-Contest-Bird-Registration-Cookie";
         public readonly static string MEMBER_CONTEST_REGISTRATION_TRANSACTION_COOKIE = "Member-Contest-Registration-Transaction-Cookie";
-        public readonly static string MEMBERSHIP_RENEWAL_TRANSACTION_COOKIE = "Membership-Renewal-Transaction-Cookie";
+        public readonly static string MEMBERSHIP_RENEWAL_TRANSACTION_COOKIE = "Membership-Renewal-Transaction-Cookie";*/
 
-        public readonly static string NEW_MEMBER_REGISTRATION_TRANSACTION_TYPE = "New-Membership-Registration";
+        /*public readonly static string NEW_MEMBER_REGISTRATION_TRANSACTION_TYPE = "New-Membership-Registration";
         public readonly static string MEMBER_FIELDTRIP_REGISTRATION_TRANSACTION_TYPE = "Member-FieldTrip-Registration";
         public readonly static string MEMBER_CONTEST_REGISTRATION_TRANSACTION_TYPE = "Member-Contest-Registration";
-        public readonly static string MEMBERSHIP_RENEWAL_TRANSACTION_TYPE = "Membership-Renewal-Transaction-Type";
+        public readonly static string MEMBERSHIP_RENEWAL_TRANSACTION_TYPE = "Membership-Renewal-Transaction-Type";*/
 
         public readonly static string ALERT_MEMBER_LOGIN_SUCCESS_NAME = "MemberLogin";
         public readonly static string ALERT_MEMBER_LOGIN_SUCCESS = "Login as Member successfully!";
@@ -49,7 +49,18 @@ namespace CEG_WebMVC.Libraries
         public readonly static string ACCOUNT_STATUS_DENIED = "Denied";
         public readonly static string ACCOUNT_STATUS_SUSPENDED = "Suspended";
 
-        public readonly static string NEWS_STATUS_DRAFT = "Draft";
+        public readonly static string COURSE_DIFFICULTY_TITLE = "Difficulty";
+        public readonly static string COURSE_DIFFICULTY_BEGINNER = "Beginner";
+        public readonly static string COURSE_DIFFICULTY_INTERMEDIATE = "Intermediate";
+        public readonly static string COURSE_DIFFICULTY_ADVANCED = "Advanced";
+
+        public readonly static string COURSE_CATEGORY_TITLE = "Category";
+        public readonly static string COURSE_CATEGORY_PRONUNCIATION = "Pronunciation";
+        public readonly static string COURSE_CATEGORY_GRAMMAR = "Grammar";
+        public readonly static string COURSE_CATEGORY_VOCABULARY = "Vocabulary";
+        public readonly static string COURSE_CATEGORY_SPELLING = "Spelling";
+
+        /*public readonly static string NEWS_STATUS_DRAFT = "Draft";
         public readonly static string NEWS_STATUS_ACTIVE = "Active";
         public readonly static string NEWS_STATUS_HIDDEN = "Hidden";
         public readonly static string NEWS_STATUS_ARCHIVED = "Archived";
@@ -73,9 +84,9 @@ namespace CEG_WebMVC.Libraries
         public readonly static string BLOG_CATEGORY_MEETING = "Meeting";
         public readonly static string BLOG_CATEGORY_FIELDTRIP = "Fieldtrip";
         public readonly static string BLOG_CATEGORY_CONTEST = "Contest";
-        public readonly static string BLOG_CATEGORY_OTHERS = "Others";
+        public readonly static string BLOG_CATEGORY_OTHERS = "Others";*/
 
-        public readonly static string CREATE_BIRD_VALID = "CBirdValid";
+        /*public readonly static string CREATE_BIRD_VALID = "CBirdValid";
         public readonly static string CREATE_OR_UPDATE_BIRD_PROFILE_PICTURE_VALID = "CBirdProfilePicValid";
         public readonly static string UPDATE_BIRD_VALID = "UBirdValid";
         public readonly static string CREATE_MEETING_VALID = "CMeetingValid";
@@ -108,21 +119,22 @@ namespace CEG_WebMVC.Libraries
         public readonly static string CREATE_BLOG_VALID = "CBlogValid";
         public readonly static string UPDATE_BLOG_VALID = "UBlogValid";
         public readonly static string CREATE_NEWS_VALID = "CNewsValid";
-        public readonly static string UPDATE_NEWS_VALID = "UNewsValid";
+        public readonly static string UPDATE_NEWS_VALID = "UNewsValid";*/
 
         public readonly static string CREATE_TEACHER_DETAILS_VALID = "CTeacherDetailsValid";
         public readonly static string CREATE_PARENT_DETAILS_VALID = "CParentDetailsValid";
         public readonly static string CREATE_STUDENT_DETAILS_VALID = "CStudentDetailsValid";
-        public readonly static string UPDATE_MEMBER_DETAILS_VALID = "UMemberDetailsValid";
+
+        /*public readonly static string UPDATE_MEMBER_DETAILS_VALID = "UMemberDetailsValid";
         public readonly static string UPDATE_MEMBER_PASSWORD_VALID = "UMemberPasswordValid";
         public readonly static string UPDATE_MANAGER_DETAILS_VALID = "UManagerDetailsValid";
         public readonly static string UPDATE_MANAGER_PASSWORD_VALID = "UManagerPasswordValid";
         public readonly static string UPDATE_STAFF_DETAILS_VALID = "UStaffDetailsValid";
         public readonly static string UPDATE_STAFF_PASSWORD_VALID = "UStaffPasswordValid";
         public readonly static string UPDATE_ADMIN_DETAILS_VALID = "UAdminDetailsValid";
-        public readonly static string UPDATE_ADMIN_PASSWORD_VALID = "UAdminPasswordValid";
+        public readonly static string UPDATE_ADMIN_PASSWORD_VALID = "UAdminPasswordValid";*/
 
-        public readonly static string EVENT_STATUS_ON_HOLD = "OnHold";
+        /*public readonly static string EVENT_STATUS_ON_HOLD = "OnHold";
         public readonly static string EVENT_STATUS_NAME_ON_HOLD = "On Hold";
         public readonly static string EVENT_STATUS_POSTPONED = "Postponed";
         public readonly static string EVENT_STATUS_NAME_POSTPONED = "Postponed";
@@ -137,21 +149,65 @@ namespace CEG_WebMVC.Libraries
         public readonly static string EVENT_STATUS_CHECKING_IN = "CheckingIn";
         public readonly static string EVENT_STATUS_NAME_CHECKING_IN = "Checking In";
         public readonly static string EVENT_STATUS_ONGOING = "Ongoing";
-        public readonly static string EVENT_STATUS_NAME_ONGOING = "Ongoing";
+        public readonly static string EVENT_STATUS_NAME_ONGOING = "Ongoing";*/
 
-        public readonly static string EVENT_MEDIA_TYPE_SPOTLIGHT = "Spotlight";
+        public readonly static string COURSE_STATUS_DRAFT = "Draft";
+        public readonly static string COURSE_STATUS_NAME_DRAFT = "Draft";
+        public readonly static string COURSE_STATUS_AVAILABLE = "Available";
+        public readonly static string COURSE_STATUS_NAME_AVAILABLE = "Available";
+        public readonly static string COURSE_STATUS_POSTPONED = "Postponed";
+        public readonly static string COURSE_STATUS_NAME_POSTPONED = "Postponed";
+        public readonly static string COURSE_STATUS_CANCELLED = "Cancelled";
+        public readonly static string COURSE_STATUS_NAME_CANCELLED = "Cancelled";
+        public readonly static string COURSE_STATUS_END_OF_SERVICE = "EndofService";
+        public readonly static string COURSE_STATUS_NAME_END_OF_SERVICE = "End of Service";
+
+        public readonly static string SESSION_STATUS_DRAFT = "Draft";
+        public readonly static string SESSION_STATUS_NAME_DRAFT = "Draft";
+        public readonly static string SESSION_STATUS_AVAILABLE = "Available";
+        public readonly static string SESSION_STATUS_NAME_AVAILABLE = "Available";
+        public readonly static string SESSION_STATUS_POSTPONED = "Postponed";
+        public readonly static string SESSION_STATUS_NAME_POSTPONED = "Postponed";
+        public readonly static string SESSION_STATUS_CANCELLED = "Cancelled";
+        public readonly static string SESSION_STATUS_NAME_CANCELLED = "Cancelled";
+        public readonly static string SESSION_STATUS_END_OF_SERVICE = "EndofService";
+        public readonly static string SESSION_STATUS_NAME_END_OF_SERVICE = "End of Service";
+
+        public readonly static string CLASS_STATUS_DRAFT = "Draft";
+        public readonly static string CLASS_STATUS_NAME_DRAFT = "Draft";
+        public readonly static string CLASS_STATUS_AVAILABLE = "Available";
+        public readonly static string CLASS_STATUS_NAME_AVAILABLE = "Available";
+        public readonly static string CLASS_STATUS_POSTPONED = "Postponed";
+        public readonly static string CLASS_STATUS_NAME_POSTPONED = "Postponed";
+        public readonly static string CLASS_STATUS_CANCELLED = "Cancelled";
+        public readonly static string CLASS_STATUS_NAME_CANCELLED = "Cancelled";
+        public readonly static string CLASS_STATUS_ENDED = "Ended";
+        public readonly static string CLASS_STATUS_NAME_ENDED = "Ended";
+
+        /*public readonly static string COURSE_STATUS_ENDED = "Ended";
+        public readonly static string COURSE_STATUS_NAME_ENDED = "Ended";
+        public readonly static string COURSE_STATUS_OPEN_REGISTRATION = "OpenRegistration";
+        public readonly static string COURSE_STATUS_NAME_OPEN_REGISTRATION = "Open Registration";
+        public readonly static string COURSE_STATUS_CLOSED_REGISTRATION = "ClosedRegistration";
+        public readonly static string COURSE_STATUS_NAME_CLOSED_REGISTRATION = "Closed Registration";
+        public readonly static string COURSE_STATUS_CHECKING_IN = "CheckingIn";
+        public readonly static string COURSE_STATUS_NAME_CHECKING_IN = "Checking In";
+        public readonly static string COURSE_STATUS_ONGOING = "Ongoing";
+        public readonly static string COURSE_STATUS_NAME_ONGOING = "Ongoing";*/
+
+        public readonly static string COURSE_MEDIA_TYPE_SPOTLIGHT = "Spotlight";
         public readonly static string EVENT_MEDIA_TYPE_LOCATION_MAP = "LocationMap";
         public readonly static string EVENT_MEDIA_TYPE_ADDITIONAL = "Additional";
-        public readonly static string FIELDTRIP_MEDIA_TYPE_DAYBYDAY = "DayByDay";
 
-        public readonly static int EVENT_MEETING_MIN_PART_REQ = 10;
+        public readonly static int COURSE_AGE_REQ = 11;
+        public readonly static int COURSE_TOTAL_HOURS = 1;
         public readonly static int EVENT_FIELDTRIP_MIN_PART_REQ = 10;
         public readonly static int EVENT_CONTEST_MIN_PART_REQ = 10;
 
-        public readonly static string BIRD_STATUS_ACTIVE = "Active";
+       /* public readonly static string BIRD_STATUS_ACTIVE = "Active";
         public readonly static string BIRD_STATUS_INJURED = "Injured";
         public readonly static string BIRD_STATUS_INACTIVE = "Inactive";
-        public readonly static string BIRD_STATUS_UNAVAILABLE = "Unavailable";
+        public readonly static string BIRD_STATUS_UNAVAILABLE = "Unavailable";*/
 
         public readonly static string REQUIRED_ELO_RANGE_DEFAULT_NAME = "Elo Range";
         public readonly static string REQUIRED_ELO_RANGE_DEFAULT = "500--3000";
@@ -164,11 +220,11 @@ namespace CEG_WebMVC.Libraries
         public readonly static string REQUIRED_ELO_RANGE_ABOVE_2000_NAME = "Above 2000 Elo";
         public readonly static string REQUIRED_ELO_RANGE_ABOVE_2000 = "2000--3000";
 
-        public readonly static string EVENT_PARTICIPANT_STATUS_NOT_CHECKED_IN = "Not Checked-In";
+        /*public readonly static string EVENT_PARTICIPANT_STATUS_NOT_CHECKED_IN = "Not Checked-In";
         public readonly static string EVENT_PARTICIPANT_STATUS_CHECKED_IN = "Checked-In";
 
         public readonly static string FIELDTRIP_INCLUSION_TYPE_INCLUDED = "Included";
-        public readonly static string FIELDTRIP_INCLUSION_TYPE_EXCLUDED = "Excluded";
+        public readonly static string FIELDTRIP_INCLUSION_TYPE_EXCLUDED = "Excluded";*/
 
         public readonly static string NOTIFICATION_TYPE_ACCOUNT_REGISTER = "Account Registration";
         public readonly static string NOTIFICATION_TYPE_MEETING_REGISTER = "Meeting Registration";
