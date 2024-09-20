@@ -158,7 +158,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 6.7169037, y: -97.7617}
+  m_AnchoredPosition: {x: 6.716919, y: -97.7617}
   m_SizeDelta: {x: -107.53, y: -258.62}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &12377519
@@ -2312,7 +2312,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 7.6769, y: 82.675}
+  m_AnchoredPosition: {x: 7.6769104, y: 82.675}
   m_SizeDelta: {x: -107.53, y: -269.8012}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &400843491
@@ -7174,7 +7174,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 6.2368927, y: 89.352}
+  m_AnchoredPosition: {x: 6.2368774, y: 89.352005}
   m_SizeDelta: {x: -108.49, y: -258.9463}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1303730092
@@ -8265,7 +8265,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1671748036}
   - {fileID: 1996864869}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9438,11 +9437,11 @@ Transform:
   m_GameObject: {fileID: 1671748033}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.6007986, y: -0.43894845, z: -10.007788}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1526778093}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1695802193
 GameObject:
@@ -9967,7 +9966,7 @@ GameObject:
   - component: {fileID: 1755362703}
   - component: {fileID: 1755362702}
   m_Layer: 0
-  m_Name: Text (TMP)
+  m_Name: UsernameText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10401,7 +10400,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1817975768
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11513,7 +11512,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1996864869
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12163,6 +12162,7 @@ CanvasRenderer:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 1671748036}
   - {fileID: 1526778093}
   - {fileID: 1246534798}
   - {fileID: 1667290044}

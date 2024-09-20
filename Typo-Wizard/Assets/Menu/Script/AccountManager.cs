@@ -211,11 +211,36 @@ public class AccountManager : MonoBehaviour
             Debug.Log("User logged in successfully");
             warningLoginText.text = "Logged In";
 
+            canvasToActivate.SetActive(true);
+            LoginScreen.SetActive(false);
+
+            var usernameTextObj = canvasToActivate.transform.Find("UsernameText");
+            if (usernameTextObj != null)
+            {
+                Debug.Log("UsernameText found.");
+
+                // Get the text component and set the welcome message
+                var usernameText = usernameTextObj.GetComponent<TMP_Text>();
+                if (usernameText != null)
+                {
+                    welcomeName = $"Welcome {_name}";
+                    usernameText.text = welcomeName;
+                    Debug.Log("UsernameText updated: " + welcomeName);
+                }
+                else
+                {
+                    Debug.LogError("UsernameText component not found on UsernameText object.");
+                }
+            }
+            else
+            {
+                Debug.LogError("UsernameText not found in canvasToActivate.");
+            }
+
             // Further actions like loading game data and scoreboard
             StartCoroutine(LoadGameData());
             StartCoroutine(LoadScoreBoard());
-            canvasToActivate.SetActive(true);
-            LoginScreen.SetActive(false);
+            
         }
     }
 
