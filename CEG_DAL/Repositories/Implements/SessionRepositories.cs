@@ -39,5 +39,10 @@ namespace CEG_DAL.Repositories.Implements
             if (result != null) return result.SessionId;
             return 0;
         }
+
+        public async Task<List<Session>> GetSessionListByCourseId(int courseId)
+        {
+            return await _dbContext.Sessions.AsNoTrackingWithIdentityResolution().Where(sess => sess.CourseId == courseId).ToListAsync();
+        }
     }
 }

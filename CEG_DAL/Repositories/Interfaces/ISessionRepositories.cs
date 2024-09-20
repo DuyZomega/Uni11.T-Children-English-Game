@@ -14,5 +14,6 @@ namespace CEG_DAL.Repositories.Interfaces
         Task<Session?> GetByIdNoTracking(int id);
         Task<Session?> GetByTitle(string name);
         Task<int> GetIdByTitle(string name);
+        Task<List<Session>> GetSessionListByCourseId(int courseId);
     }
 }

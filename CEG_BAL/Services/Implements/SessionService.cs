@@ -74,5 +74,10 @@ namespace CEG_BAL.Services.Implements
             if (ses != null) return true;
             return false;
         }
+
+        public async Task<List<SessionViewModel>> GetSessionListByCourseId(int courseId)
+        {
+            return _mapper.Map<List<SessionViewModel>>(await _unitOfWork.SessionRepositories.GetSessionListByCourseId(courseId));
+        }
     }
 }
