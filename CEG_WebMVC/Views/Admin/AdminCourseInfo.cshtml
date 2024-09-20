@@ -3,6 +3,7 @@
     ViewData["Title"] = "Admin Course Info Page";
     var courseInfo = Model.CourseInfo;
     var sessionList = Model.Sessions;
+    var updateCourse = Model.UpdateCourseInfo;
     Layout = "~/Views/Shared/_ALayout.cshtml";
 }
 <html lang="en">
@@ -43,6 +44,14 @@
                             <div class="card profile col-12 mb-4">
                                 <div class="card-header">
                                     <h4>Course Information</h4>
+                                    @{
+                                        if (!(courseInfo.Status.Equals("EndofService") || courseInfo.Status.Equals("Cancelled") || courseInfo.Status.Equals("Available")))
+                                        {
+                                            <div class="edit-info">
+                                                <i class='bx bxs-edit-alt' data-toggle="modal" data-target="#editCourse"></i>
+                                            </div>
+                                        }
+                                    }
                                 </div>
                                 <div class="card-body">
                                     <div class="row mb-sm-2">
@@ -178,6 +187,146 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-7 customer-booking">
+                        <div class="row">
+                            <div class="card profile col-12 mb-4">
+                                <div class="card-header">
+                                    <h4>Course Information</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Course ID:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span>
+                                                @courseInfo.CourseId
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Status:</label>
+                                        </div>
+                                        <div class="col-sm-7">
+                                            @{
+                                                switch (courseInfo.Status)
+                                                {
+                                                    case "Available":
+                                                        {
+                                                            <span class="outcome" style="float: left;">@courseInfo.Status</span>
+                                                            break;
+                                                        }
+                                                    case "Draft":
+                                                    case "Postponed":
+                                                        {
+                                                            <span class="approval" style="float: left;">@courseInfo.Status</span>
+                                                            break;
+                                                        }
+                                                    case "EndofService":
+                                                    case "Cancelled":
+                                                        {
+                                                            <span class="destroy" style="float: left;">@courseInfo.Status</span>
+                                                            break;
+                                                        }
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Course Name:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span>
+                                                @courseInfo.CourseName
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Course Type:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span>
+                                                @courseInfo.CourseType
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Course Description:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span>
+                                                @courseInfo.Description
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Total Hours:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span>
+                                                @courseInfo.TotalHours
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Required Age:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span>
+                                                @courseInfo.RequiredAge
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Difficulty:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span>
+                                                @courseInfo.Difficulty
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Category:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span>
+                                                @courseInfo.Category
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Total Session Amount:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span>
+                                                @courseInfo.SessionAmount Sessions
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Total Class Amount:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span>
+                                                @courseInfo.ClassAmount Classes
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -192,50 +341,50 @@
                     <form asp-action="AdminUpdateCourse" asp-controller="Admin" method="put" id="form">
                         <div class="row p-4">
                             <div class="col-12">
-                                @* <div class="row form-group">
-                                    <label asp-for="@createParent.Account.Username" class="col-md-3 col-form-label text-md-right"></label>
-                                    <input asp-for="@createParent.Account.Username" value="@createParent.Account.Username" type="text" placeholder="User Name" required class="form-control col-md-7">
-                                    <span asp-validation-for="@createParent.Account.Username" id="error_message"
+                                <div class="row form-group">
+                                    <label asp-for="@updateCourse.CourseName" class="col-md-3 col-form-label text-md-right"></label>
+                                    <input asp-for="@updateCourse.CourseName" value="@updateCourse.CourseName" type="text" placeholder="Course Name..." required class="form-control col-md-7">
+                                    <span asp-validation-for="@updateCourse.CourseName" id="error_message"
                                           class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
-                                    <label asp-for="@createParent.Account.Fullname" class="col-md-3 col-form-label text-md-right"></label>
-                                    <input asp-for="@createParent.Account.Fullname" value="@createParent.Account.Fullname" type="text" placeholder="Full Name" required class="form-control col-md-7">
-                                    <span asp-validation-for="@createParent.Account.Fullname" id="error_message"
+                                    <label asp-for="@updateCourse.CourseType" class="col-md-3 col-form-label text-md-right"></label>
+                                    <input asp-for="@updateCourse.CourseType" value="@updateCourse.CourseType" type="text" placeholder="Course Type..." required class="form-control col-md-7">
+                                    <span asp-validation-for="@updateCourse.CourseType" id="error_message"
                                           class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
-                                    <label asp-for="@createParent.Address" class="col-md-3 col-form-label text-md-right"></label>
-                                    <textarea asp-for="@createParent.Address" value="@createParent.Address" required class="form-control col-md-7"></textarea>
-                                    <span asp-validation-for="@createParent.Address" id="error_message"
+                                    <label asp-for="@updateCourse.Description" class="col-md-3 col-form-label text-md-right"></label>
+                                    <textarea asp-for="@updateCourse.Description" value="@updateCourse.Description" required class="form-control col-md-7"></textarea>
+                                    <span asp-validation-for="@updateCourse.Description" id="error_message"
                                           class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
-                                    <label asp-for="@createParent.Account.Gender" class="col-md-3 col-form-label mt-3 text-md-right"></label>
-                                    <select class="form-control col-md-7 custom-select" asp-for="@createParent.Account.Gender" asp-items="@createParent.Account.DefaultAccountGenderSelectList"></select>
-                                    <span asp-validation-for="@createParent.Account.Gender" id="error_message"
+                                    <label asp-for="@updateCourse.TotalHours" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                    <input asp-for="@updateCourse.TotalHours" value="@updateCourse.TotalHours" type="number" class="form-control col-md-7 mt-3" required>
+                                    <span asp-validation-for="@updateCourse.TotalHours" id="error_message"
                                           class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
-                                    <label asp-for="@createParent.Email" class="col-md-3 col-form-label mt-3 text-md-right"></label>
-                                    <input asp-for="@createParent.Email" value="@createParent.Email" type="email" placeholder="Email" class="form-control col-md-7 mt-3" required>
-                                    <span asp-validation-for="@createParent.Email" id="error_message"
+                                    <label asp-for="@updateCourse.RequiredAge" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                    <input asp-for="@updateCourse.RequiredAge" value="@updateCourse.RequiredAge" type="number" min="11" max="18" class="form-control col-md-7 mt-3" required>
+                                    <span asp-validation-for="@updateCourse.RequiredAge" id="error_message"
                                           class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
-                                    <label asp-for="@createParent.Phone" class="col-md-3 col-form-label mt-3 text-md-right"></label>
-                                    <input asp-for="@createParent.Phone" value="@createParent.Phone" type="tel" placeholder="Phone number" class="form-control col-md-7 mt-3" required>
-                                    <span asp-validation-for="@createParent.Phone" id="error_message"
+                                    <label asp-for="@updateCourse.Difficulty" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                    <select class="form-control col-md-7 custom-select" asp-for="@updateCourse.Difficulty" asp-items="@updateCourse.DefaultCourseDifficultySelectList"></select>
+                                    <span asp-validation-for="@updateCourse.Difficulty" id="error_message"
                                           class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
-                                    <label asp-for="@createParent.Account.Password" class="col-md-3 col-form-label mt-3 text-md-right"></label>
-                                    <input asp-for="@createParent.Account.Password" value="@createParent.Account.Password" type="password" placeholder="Password" class="form-control col-md-7 mt-3" required>
-                                    <span asp-validation-for="@createParent.Account.Password" id="error_message"
+                                    <label asp-for="@updateCourse.Category" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                    <select class="form-control col-md-7 custom-select" asp-for="@updateCourse.Category" asp-items="@updateCourse.DefaultCourseCategorySelectList"></select>
+                                    <span asp-validation-for="@updateCourse.Category" id="error_message"
                                           class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
-                                    <label asp-for="@createParent.Account.ConfirmPassword" class="col-md-3 col-form-label mt-3 text-md-right"></label>
-                                    <input asp-for="@createParent.Account.ConfirmPassword" value="@createParent.Account.ConfirmPassword" type="password" placeholder="Confirm Password" class="form-control col-md-7 mt-3" required>
-                                    <span asp-validation-for="@createParent.Account.ConfirmPassword" id="error_message"
+                                    <label asp-for="@updateCourse.Status" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                    <select class="form-control col-md-7 custom-select" asp-for="@updateCourse.Status" asp-items="@updateCourse.DefaultCourseStatusSelectList"></select>
+                                    <span asp-validation-for="@updateCourse.Status" id="error_message"
                                           class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
-                                </div> *@
+                                </div>
                             </div>
                             <div class="modal-footer justify-content-center" style="margin-left:400px;">
-                                <button class="btn btn-success" type="submit" name="action" value="createUser">Create</button>
+                                <button class="btn btn-success" type="submit" name="action" value="updateCourse">Save</button>
                                 <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
                             </div>
                         </div>
@@ -255,44 +404,44 @@
                         <div class="row p-4">
                             <div class="col-12">
                                 @* <div class="row form-group">
-                                    <label asp-for="@createParent.Account.Username" class="col-md-3 col-form-label text-md-right"></label>
-                                    <input asp-for="@createParent.Account.Username" value="@createParent.Account.Username" type="text" placeholder="User Name" required class="form-control col-md-7">
-                                    <span asp-validation-for="@createParent.Account.Username" id="error_message"
+                                    <label asp-for="@updateCourse.CourseName" class="col-md-3 col-form-label text-md-right"></label>
+                                    <input asp-for="@updateCourse.CourseName" value="@updateCourse.CourseName" type="text" placeholder="User Name" required class="form-control col-md-7">
+                                    <span asp-validation-for="@updateCourse.CourseName" id="error_message"
                                           class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
-                                    <label asp-for="@createParent.Account.Fullname" class="col-md-3 col-form-label text-md-right"></label>
-                                    <input asp-for="@createParent.Account.Fullname" value="@createParent.Account.Fullname" type="text" placeholder="Full Name" required class="form-control col-md-7">
-                                    <span asp-validation-for="@createParent.Account.Fullname" id="error_message"
+                                    <label asp-for="@updateCourse.CourseType" class="col-md-3 col-form-label text-md-right"></label>
+                                    <input asp-for="@updateCourse.CourseType" value="@updateCourse.CourseType" type="text" placeholder="Full Name" required class="form-control col-md-7">
+                                    <span asp-validation-for="@updateCourse.CourseType" id="error_message"
                                           class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
-                                    <label asp-for="@createParent.Address" class="col-md-3 col-form-label text-md-right"></label>
-                                    <textarea asp-for="@createParent.Address" value="@createParent.Address" required class="form-control col-md-7"></textarea>
-                                    <span asp-validation-for="@createParent.Address" id="error_message"
+                                    <label asp-for="@updateCourse.Description" class="col-md-3 col-form-label text-md-right"></label>
+                                    <textarea asp-for="@updateCourse.Description" value="@updateCourse.Description" required class="form-control col-md-7"></textarea>
+                                    <span asp-validation-for="@updateCourse.Description" id="error_message"
                                           class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
-                                    <label asp-for="@createParent.Account.Gender" class="col-md-3 col-form-label mt-3 text-md-right"></label>
-                                    <select class="form-control col-md-7 custom-select" asp-for="@createParent.Account.Gender" asp-items="@createParent.Account.DefaultAccountGenderSelectList"></select>
-                                    <span asp-validation-for="@createParent.Account.Gender" id="error_message"
+                                    <label asp-for="@updateCourse.Difficulty" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                    <select class="form-control col-md-7 custom-select" asp-for="@updateCourse.Difficulty" asp-items="@updateCourse.Account.DefaultAccountGenderSelectList"></select>
+                                    <span asp-validation-for="@updateCourse.Difficulty" id="error_message"
                                           class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
-                                    <label asp-for="@createParent.Email" class="col-md-3 col-form-label mt-3 text-md-right"></label>
-                                    <input asp-for="@createParent.Email" value="@createParent.Email" type="email" placeholder="Email" class="form-control col-md-7 mt-3" required>
-                                    <span asp-validation-for="@createParent.Email" id="error_message"
+                                    <label asp-for="@updateCourse.Email" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                    <input asp-for="@updateCourse.Email" value="@updateCourse.Email" type="email" placeholder="Email" class="form-control col-md-7 mt-3" required>
+                                    <span asp-validation-for="@updateCourse.Email" id="error_message"
                                           class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
-                                    <label asp-for="@createParent.Phone" class="col-md-3 col-form-label mt-3 text-md-right"></label>
-                                    <input asp-for="@createParent.Phone" value="@createParent.Phone" type="tel" placeholder="Phone number" class="form-control col-md-7 mt-3" required>
-                                    <span asp-validation-for="@createParent.Phone" id="error_message"
+                                    <label asp-for="@updateCourse.Phone" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                    <input asp-for="@updateCourse.Phone" value="@updateCourse.Phone" type="tel" placeholder="Phone number" class="form-control col-md-7 mt-3" required>
+                                    <span asp-validation-for="@updateCourse.Phone" id="error_message"
                                           class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
-                                    <label asp-for="@createParent.Account.Password" class="col-md-3 col-form-label mt-3 text-md-right"></label>
-                                    <input asp-for="@createParent.Account.Password" value="@createParent.Account.Password" type="password" placeholder="Password" class="form-control col-md-7 mt-3" required>
-                                    <span asp-validation-for="@createParent.Account.Password" id="error_message"
+                                    <label asp-for="@updateCourse.Account.Password" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                    <input asp-for="@updateCourse.Account.Password" value="@updateCourse.Account.Password" type="password" placeholder="Password" class="form-control col-md-7 mt-3" required>
+                                    <span asp-validation-for="@updateCourse.Account.Password" id="error_message"
                                           class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
-                                    <label asp-for="@createParent.Account.ConfirmPassword" class="col-md-3 col-form-label mt-3 text-md-right"></label>
-                                    <input asp-for="@createParent.Account.ConfirmPassword" value="@createParent.Account.ConfirmPassword" type="password" placeholder="Confirm Password" class="form-control col-md-7 mt-3" required>
-                                    <span asp-validation-for="@createParent.Account.ConfirmPassword" id="error_message"
+                                    <label asp-for="@updateCourse.Account.ConfirmPassword" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                    <input asp-for="@updateCourse.Account.ConfirmPassword" value="@updateCourse.Account.ConfirmPassword" type="password" placeholder="Confirm Password" class="form-control col-md-7 mt-3" required>
+                                    <span asp-validation-for="@updateCourse.Account.ConfirmPassword" id="error_message"
                                           class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
                                 </div> *@
                             </div>

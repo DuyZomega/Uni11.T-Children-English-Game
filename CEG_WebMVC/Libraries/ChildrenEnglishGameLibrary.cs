@@ -244,23 +244,66 @@ namespace CEG_WebMVC.Libraries
         }
         public List<SelectListItem> GetCourseCategorySelectableList(string categoryName)
         {
-            List<SelectListItem> defaultcategories = new();
+            List<SelectListItem> defaultCategories = new();
             switch (categoryName)
             {
                 case var value when value.Equals(Constants.COURSE_CATEGORY_MIDDLE_SCHOOL):
                     {
-                        defaultcategories.Add(new SelectListItem { Text = Constants.COURSE_CATEGORY_MIDDLE_SCHOOL, Value = Constants.COURSE_CATEGORY_MIDDLE_SCHOOL, Selected = true });
-                        defaultcategories.Add(new SelectListItem { Text = Constants.COURSE_CATEGORY_HIGH_SCHOOL, Value = Constants.COURSE_CATEGORY_HIGH_SCHOOL });
+                        defaultCategories.Add(new SelectListItem { Text = Constants.COURSE_CATEGORY_MIDDLE_SCHOOL, Value = Constants.COURSE_CATEGORY_MIDDLE_SCHOOL, Selected = true });
+                        defaultCategories.Add(new SelectListItem { Text = Constants.COURSE_CATEGORY_HIGH_SCHOOL, Value = Constants.COURSE_CATEGORY_HIGH_SCHOOL });
                         break;
                     }
                 case var value when value.Equals(Constants.COURSE_CATEGORY_HIGH_SCHOOL):
                     {
-                        defaultcategories.Add(new SelectListItem { Text = Constants.COURSE_CATEGORY_MIDDLE_SCHOOL, Value = Constants.COURSE_CATEGORY_MIDDLE_SCHOOL });
-                        defaultcategories.Add(new SelectListItem { Text = Constants.COURSE_CATEGORY_HIGH_SCHOOL, Value = Constants.COURSE_CATEGORY_HIGH_SCHOOL, Selected = true });
+                        defaultCategories.Add(new SelectListItem { Text = Constants.COURSE_CATEGORY_MIDDLE_SCHOOL, Value = Constants.COURSE_CATEGORY_MIDDLE_SCHOOL });
+                        defaultCategories.Add(new SelectListItem { Text = Constants.COURSE_CATEGORY_HIGH_SCHOOL, Value = Constants.COURSE_CATEGORY_HIGH_SCHOOL, Selected = true });
                         break;
                     }
             }
-            return defaultcategories;
+            return defaultCategories;
+        }
+        public List<SelectListItem> GetCourseStatusSelectableList(string statusName)
+        {
+            List<SelectListItem> defaultStatuses = new();
+            switch (statusName)
+            {
+                case var value when value.Equals(Constants.COURSE_STATUS_DRAFT):
+                    {
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.COURSE_STATUS_NAME_DRAFT, Value = Constants.COURSE_STATUS_DRAFT, Selected = true });
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.COURSE_STATUS_NAME_AVAILABLE, Value = Constants.COURSE_STATUS_AVAILABLE });
+                        break;
+                    }
+                case var value when value.Equals(Constants.COURSE_STATUS_AVAILABLE):
+                    {
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.COURSE_STATUS_NAME_AVAILABLE, Value = Constants.COURSE_STATUS_AVAILABLE, Selected = true });
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.COURSE_STATUS_NAME_POSTPONED, Value = Constants.COURSE_STATUS_POSTPONED });
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.COURSE_STATUS_NAME_CANCELLED, Value = Constants.COURSE_STATUS_CANCELLED });
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.COURSE_STATUS_NAME_END_OF_SERVICE, Value = Constants.COURSE_STATUS_END_OF_SERVICE });
+                        break;
+                    }
+                case var value when value.Equals(Constants.COURSE_STATUS_POSTPONED):
+                    {
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.COURSE_STATUS_NAME_AVAILABLE, Value = Constants.COURSE_STATUS_AVAILABLE });
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.COURSE_STATUS_NAME_POSTPONED, Value = Constants.COURSE_STATUS_POSTPONED, Selected = true });
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.COURSE_STATUS_NAME_CANCELLED, Value = Constants.COURSE_STATUS_CANCELLED });
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.COURSE_STATUS_NAME_END_OF_SERVICE, Value = Constants.COURSE_STATUS_END_OF_SERVICE });
+                        break;
+                    }
+                case var value when value.Equals(Constants.COURSE_STATUS_CANCELLED):
+                    {
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.COURSE_STATUS_NAME_AVAILABLE, Value = Constants.COURSE_STATUS_AVAILABLE });
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.COURSE_STATUS_NAME_CANCELLED, Value = Constants.COURSE_STATUS_CANCELLED, Selected = true });
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.COURSE_STATUS_NAME_END_OF_SERVICE, Value = Constants.COURSE_STATUS_END_OF_SERVICE });
+                        break;
+                    }
+                case var value when value.Equals(Constants.COURSE_STATUS_NAME_END_OF_SERVICE):
+                    {
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.COURSE_STATUS_NAME_AVAILABLE, Value = Constants.COURSE_STATUS_AVAILABLE });
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.COURSE_STATUS_NAME_END_OF_SERVICE, Value = Constants.COURSE_STATUS_END_OF_SERVICE, Selected = true });
+                        break;
+                    }
+            }
+            return defaultStatuses;
         }
 
         public T GetValidationTempData<T>(

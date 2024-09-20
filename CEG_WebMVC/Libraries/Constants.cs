@@ -199,7 +199,8 @@ namespace CEG_WebMVC.Libraries
         public readonly static string EVENT_MEDIA_TYPE_LOCATION_MAP = "LocationMap";
         public readonly static string EVENT_MEDIA_TYPE_ADDITIONAL = "Additional";
 
-        public readonly static int COURSE_AGE_REQ = 11;
+        public readonly static int COURSE_MINIMUM_AGE_REQ = 11;
+        public readonly static int COURSE_MAXIMUM_AGE_REQ = 18;
         public readonly static int COURSE_TOTAL_HOURS = 1;
         public readonly static int EVENT_FIELDTRIP_MIN_PART_REQ = 10;
         public readonly static int EVENT_CONTEST_MIN_PART_REQ = 10;
