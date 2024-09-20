@@ -9,7 +9,7 @@ namespace CEG_WebMVC.Models.ViewModels.Course.Create
         public CreateCourseVM()
         {
             ChildrenEnglishGameLibrary lib = new ChildrenEnglishGameLibrary();
-            Category = Constants.COURSE_CATEGORY_VOCABULARY;
+            Category = Constants.COURSE_CATEGORY_MIDDLE_SCHOOL;
             Difficulty = Constants.COURSE_DIFFICULTY_BEGINNER;
             DefaultCourseDifficultySelectList = lib.GetCourseDifficultySelectableList(Difficulty);
             DefaultCourseCategorySelectList = lib.GetCourseCategorySelectableList(Category);

@@ -55,10 +55,8 @@ namespace CEG_WebMVC.Libraries
         public readonly static string COURSE_DIFFICULTY_ADVANCED = "Advanced";
 
         public readonly static string COURSE_CATEGORY_TITLE = "Category";
-        public readonly static string COURSE_CATEGORY_PRONUNCIATION = "Pronunciation";
-        public readonly static string COURSE_CATEGORY_GRAMMAR = "Grammar";
-        public readonly static string COURSE_CATEGORY_VOCABULARY = "Vocabulary";
-        public readonly static string COURSE_CATEGORY_SPELLING = "Spelling";
+        public readonly static string COURSE_CATEGORY_MIDDLE_SCHOOL = "Middle School";
+        public readonly static string COURSE_CATEGORY_HIGH_SCHOOL = "High School";
 
         /*public readonly static string NEWS_STATUS_DRAFT = "Draft";
         public readonly static string NEWS_STATUS_ACTIVE = "Active";

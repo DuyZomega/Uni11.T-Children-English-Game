@@ -247,36 +247,16 @@ namespace CEG_WebMVC.Libraries
             List<SelectListItem> defaultcategories = new();
             switch (categoryName)
             {
-                case var value when value.Equals(Constants.COURSE_CATEGORY_VOCABULARY):
+                case var value when value.Equals(Constants.COURSE_CATEGORY_MIDDLE_SCHOOL):
                     {
-                        defaultcategories.Add(new SelectListItem { Text = Constants.COURSE_CATEGORY_VOCABULARY, Value = Constants.COURSE_CATEGORY_VOCABULARY, Selected = true });
-                        defaultcategories.Add(new SelectListItem { Text = Constants.COURSE_CATEGORY_PRONUNCIATION, Value = Constants.COURSE_CATEGORY_PRONUNCIATION });
-                        defaultcategories.Add(new SelectListItem { Text = Constants.COURSE_CATEGORY_GRAMMAR, Value = Constants.COURSE_CATEGORY_GRAMMAR });
-                        defaultcategories.Add(new SelectListItem { Text = Constants.COURSE_CATEGORY_SPELLING, Value = Constants.COURSE_CATEGORY_SPELLING });
+                        defaultcategories.Add(new SelectListItem { Text = Constants.COURSE_CATEGORY_MIDDLE_SCHOOL, Value = Constants.COURSE_CATEGORY_MIDDLE_SCHOOL, Selected = true });
+                        defaultcategories.Add(new SelectListItem { Text = Constants.COURSE_CATEGORY_HIGH_SCHOOL, Value = Constants.COURSE_CATEGORY_HIGH_SCHOOL });
                         break;
                     }
-                case var value when value.Equals(Constants.COURSE_CATEGORY_PRONUNCIATION):
+                case var value when value.Equals(Constants.COURSE_CATEGORY_HIGH_SCHOOL):
                     {
-                        defaultcategories.Add(new SelectListItem { Text = Constants.COURSE_CATEGORY_VOCABULARY, Value = Constants.COURSE_CATEGORY_VOCABULARY });
-                        defaultcategories.Add(new SelectListItem { Text = Constants.COURSE_CATEGORY_PRONUNCIATION, Value = Constants.COURSE_CATEGORY_PRONUNCIATION, Selected = true });
-                        defaultcategories.Add(new SelectListItem { Text = Constants.COURSE_CATEGORY_GRAMMAR, Value = Constants.COURSE_CATEGORY_GRAMMAR });
-                        defaultcategories.Add(new SelectListItem { Text = Constants.COURSE_CATEGORY_SPELLING, Value = Constants.COURSE_CATEGORY_SPELLING });
-                        break;
-                    }
-                case var value when value.Equals(Constants.COURSE_CATEGORY_GRAMMAR):
-                    {
-                        defaultcategories.Add(new SelectListItem { Text = Constants.COURSE_CATEGORY_VOCABULARY, Value = Constants.COURSE_CATEGORY_VOCABULARY });
-                        defaultcategories.Add(new SelectListItem { Text = Constants.COURSE_CATEGORY_PRONUNCIATION, Value = Constants.COURSE_CATEGORY_PRONUNCIATION });
-                        defaultcategories.Add(new SelectListItem { Text = Constants.COURSE_CATEGORY_GRAMMAR, Value = Constants.COURSE_CATEGORY_GRAMMAR, Selected = true });
-                        defaultcategories.Add(new SelectListItem { Text = Constants.COURSE_CATEGORY_SPELLING, Value = Constants.COURSE_CATEGORY_SPELLING });
-                        break;
-                    }
-                case var value when value.Equals(Constants.COURSE_CATEGORY_SPELLING):
-                    {
-                        defaultcategories.Add(new SelectListItem { Text = Constants.COURSE_CATEGORY_VOCABULARY, Value = Constants.COURSE_CATEGORY_VOCABULARY });
-                        defaultcategories.Add(new SelectListItem { Text = Constants.COURSE_CATEGORY_PRONUNCIATION, Value = Constants.COURSE_CATEGORY_PRONUNCIATION });
-                        defaultcategories.Add(new SelectListItem { Text = Constants.COURSE_CATEGORY_GRAMMAR, Value = Constants.COURSE_CATEGORY_GRAMMAR });
-                        defaultcategories.Add(new SelectListItem { Text = Constants.COURSE_CATEGORY_SPELLING, Value = Constants.COURSE_CATEGORY_SPELLING, Selected = true });
+                        defaultcategories.Add(new SelectListItem { Text = Constants.COURSE_CATEGORY_MIDDLE_SCHOOL, Value = Constants.COURSE_CATEGORY_MIDDLE_SCHOOL });
+                        defaultcategories.Add(new SelectListItem { Text = Constants.COURSE_CATEGORY_HIGH_SCHOOL, Value = Constants.COURSE_CATEGORY_HIGH_SCHOOL, Selected = true });
                         break;
                     }
             }
