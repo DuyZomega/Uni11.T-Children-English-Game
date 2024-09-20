@@ -9,15 +9,11 @@ public partial class Homework
 
     public int SessionId { get; set; }
 
-    public int GameConfigId { get; set; }
+    public int? GameConfigId { get; set; }
 
-    public string Description { get; set; } = null!;
+    public string? Question { get; set; }
 
-    public string Title { get; set; } = null!;
-
-    public int? TotalPoint { get; set; }
-
-    public int? WordAmount { get; set; }
+    public string? Answer { get; set; }
 
     public DateTime? StartDate { get; set; }
 
@@ -25,7 +21,9 @@ public partial class Homework
 
     public string? Status { get; set; }
 
-    public virtual GameConfig GameConfig { get; set; } = null!;
+    public virtual GameConfig? GameConfig { get; set; }
+
+    public virtual ICollection<HomeworkQuestion> HomeworkQuestions { get; set; } = new List<HomeworkQuestion>();
 
     public virtual ICollection<HomeworkResult> HomeworkResults { get; set; } = new List<HomeworkResult>();
 

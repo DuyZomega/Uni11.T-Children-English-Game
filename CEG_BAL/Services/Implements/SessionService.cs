@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CEG_BAL.Services.Interfaces;
 using CEG_BAL.ViewModels;
+using CEG_BAL.ViewModels.Admin;
 using CEG_DAL.Infrastructure;
 using CEG_DAL.Models;
 using Microsoft.Extensions.Configuration;
@@ -30,9 +31,16 @@ namespace CEG_BAL.Services.Implements
             _jwtService = jwtServices;
             _configuration = configuration;
         }
-        public void Create(SessionViewModel model)
+        public async void Create(SessionViewModel model, CreateNewSession newSes)
         {
             var sess = _mapper.Map<Session>(model);
+            if (newSes != null)
+            {
+                sess.Title = newSes.Title;
+                sess.Description = newSes.Description;
+                sess.Hours = newSes.Hours;
+                sess.CourseId = await _unitOfWork.CourseRepositories.GetIdByName(newSes.CourseName);
+            }
             _unitOfWork.SessionRepositories.Create(sess);
             _unitOfWork.Save();
         }
