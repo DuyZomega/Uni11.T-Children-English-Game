@@ -7,6 +7,7 @@ using CEG_WebMVC.Models.ViewModels.Account.Create;
 using CEG_WebMVC.Models.ViewModels.Account.Get;
 using CEG_WebMVC.Models.ViewModels.Course.Create;
 using CEG_WebMVC.Models.ViewModels.Course.Get;
+using CEG_WebMVC.Models.ViewModels.Course.Get;
 
 namespace CEG_WebMVC.Libraries
 {
@@ -239,6 +240,14 @@ namespace CEG_WebMVC.Libraries
                 .AfterMap((src, dest) =>
                 {
                     dest.CourseImageHeader = src.Image;
+                });
+            CreateMap<CourseInfoVM, CourseViewModel>()
+                .AfterMap((src, dest) =>
+                {
+                })
+                .ReverseMap()
+                .AfterMap((src, dest) =>
+                {
                 });
         }
     }

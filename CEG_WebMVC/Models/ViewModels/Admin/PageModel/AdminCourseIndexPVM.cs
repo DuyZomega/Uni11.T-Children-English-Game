@@ -3,7 +3,7 @@ using CEG_WebMVC.Models.ViewModels.Account.Get;
 using CEG_WebMVC.Models.ViewModels.Course.Create;
 using CEG_WebMVC.Models.ViewModels.Course.Get;
 
-namespace CEG_WebMVC.Models.ViewModels.Admin.PageModel
+namespace CEG_WebMVC.Models.ViewModels.Course.PageModel
 {
     public class AdminCourseIndexPVM
     {

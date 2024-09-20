@@ -1,14 +1,8 @@
-﻿@* @model CEG_WebMVC.Models.ViewModels.Admin.Get.AdminAccountIndexVM *@
+﻿@model CEG_WebMVC.Models.ViewModels.Course.PageModel.AdminCourseInfoPVM
 @{
-    Layout = null;
-    ViewData["Title"] = "Admin All Courses Page";
-    string? search = string.Empty;
-
-    //CEG_WebMVC.Models.ViewModels.Account.Create.CreateParentVM createParent = Model.createParent;
-
-    //var accountStatuses = Model.AccountStatuses;
-    
-
+    ViewData["Title"] = "Admin Course Info Page";
+    var courseInfo = Model.CourseInfo;
+    var sessionList = Model.Sessions;
     Layout = "~/Views/Shared/_ALayout.cshtml";
 }
 <html lang="en">
@@ -31,148 +25,164 @@
                             <li class="breadcrumd-item">
                                 <span>/</span>
                             </li>
+                            <li class="breadcrumd-item">
+                                <a href="@Url.Action("AdminCourseIndex","Admin")">Course</a>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <span>/</span>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <a href="@Url.Action("AdminCourseInfo","Admin",courseInfo.CourseId)">Info</a>
+                            </li>
                         </ol>
                     </div>
                 </div>
-                <section>
-                    <div class="card">
-                        <div class="card-body">
-                            <!-- Nav tabs -->
-                            <ul class="nav nav-tabs">
-                                <!-- dung vong for o day -->
-                                <li class="nav-item">
-                                    <a class="nav-link active" data-toggle="tab" href="#home1">
-                                        <i class='bx bx-home-alt-2'></i>
-                                        <span>All Accounts</span>
-                                    </a>
-                                </li>             
-                            </ul>
-                            
-                        <!-- Tab panes -->
-                        <div class="tab-content">
-                            <!-- home1 -->
-                            <div class="tab-pane active" id="home1" role="tabpanel">
-                                <div class="row search">
-                                    <div class="col-sm-12 d-flex">
-                                        <div class="col-sm-6 d-flex address-home">
-                                            <div class="rating-room">
-                                                <button class="button--primary btn-success bg-success shadow btn-xs text-white" data-toggle="modal"  data-target="#addCourse" type="submit">Create Course</button>
-                                            </div>
+                <div class="row">
+                    <div class="col-7 customer-booking">
+                        <div class="row">
+                            <div class="card profile col-12 mb-4">
+                                <div class="card-header">
+                                    <h4>Course Information</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Course ID:</label>
                                         </div>
-                                        <div class="col-sm-6 d-flex justify-content-end">
-                                            <form asp-action="AdminCourseIndex" asp-controller="Admin" method="get" asp-route-search="@search">
-                                                <div>
-                                                    <label>
-                                                        <input asp-for="@search" class="form-control" type="text" name="search" placeholder="Search Username..." value="@search">
-                                                        <i class='bx bx-search-alt'></i>
-                                                    </label>
-                                                </div>
-                                            </form>
+                                        <div class="col-md-7">
+                                            <span >
+                                                @courseInfo.CourseId
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Status:</label>
+                                        </div>
+                                        <div class="col-sm-7">
+                                            @{
+                                                switch (courseInfo.Status)
+                                                {
+                                                    case "Available":
+                                                        {
+                                                            <span class="outcome" style="float: left;">@courseInfo.Status</span>
+                                                            break;
+                                                        }
+                                                    case "Draft":
+                                                    case "Postponed":
+                                                        {
+                                                            <span class="approval" style="float: left;">@courseInfo.Status</span>
+                                                            break;
+                                                        }
+                                                    case "EndofService":
+                                                    case "Cancelled":
+                                                        {
+                                                            <span class="destroy" style="float: left;">@courseInfo.Status</span>
+                                                            break;
+                                                        }
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Course Name:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span >
+                                                @courseInfo.CourseName
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Course Type:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span >
+                                                @courseInfo.CourseType
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Course Description:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span >
+                                                @courseInfo.Description
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Total Hours:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span >
+                                                @courseInfo.TotalHours
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Required Age:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span >
+                                                @courseInfo.RequiredAge
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Difficulty:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span >
+                                                @courseInfo.Difficulty
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Category:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span >
+                                                @courseInfo.Category
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Total Session Amount:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span >
+                                                @courseInfo.SessionAmount Sessions
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Total Class Amount:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span >
+                                                @courseInfo.ClassAmount Classes
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
-                                <div id="history-table_wrapper" class="dataTables_wrapper no-footer">
-                                    <form asp-action="AdminUpdateAccountIndex" asp-controller="Admin" method="post">
-                                        <table id="history-table"
-                                                class="table table-striped table-bordered dataTable no-footer"
-                                                aria-describedby="history-table_info">
-                                            <thead>
-                                                <tr>
-                                                    @* <th class="sorting sorting_asc" tabindex="0"
-                                                        aria-controls="history-table" rowspan="1"
-                                                        colspan="1" aria-sort="ascending"
-                                                        aria-label="Account ID: activate to sort column descending">
-                                                        User Account Id
-                                                    </th> *@
-                                                    <th class="sorting" tabindex="0"
-                                                        aria-controls="history-table" rowspan="1"
-                                                        colspan="1"
-                                                        aria-label="Account User Name: activate to sort column ascending">
-                                                        Username
-                                                    </th>
-                                                    <th class="sorting" tabindex="0"
-                                                        aria-controls="history-table" rowspan="1"
-                                                        colspan="1"
-                                                        aria-label="Account Full Name: activate to sort column ascending">
-                                                        Full name
-                                                    </th>
-                                                    <th class="sorting" tabindex="0"
-                                                        aria-controls="history-table" rowspan="1"
-                                                        colspan="1"
-                                                            aria-label="Gender: activate to sort column ascending">
-                                                        Gender
-                                                    </th>
-                                                    <th class="sorting" tabindex="0"
-                                                        aria-controls="history-table" rowspan="1"
-                                                        colspan="1"
-                                                            aria-label="Account Created Date: activate to sort column ascending">
-                                                        Created Date
-                                                    </th>
-                                                    <th class="sorting" tabindex="0"
-                                                        aria-controls="history-table" rowspan="1"
-                                                        colspan="1"
-                                                            aria-label="Account Role: activate to sort column ascending">
-                                                        Role
-                                                    </th>
-                                                    <th class="sorting" tabindex="0"
-                                                        aria-controls="history-table" rowspan="1"
-                                                        colspan="1"
-                                                        aria-label="Status: activate to sort column ascending">
-                                                        Status
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @* @for (int i = 0; i < accountStatuses.Count(); i++)
-                                                {
-                                                    <tr class="@("clicks-row "+ (i%2 == 0 ? "even" : "odd")) " data-href="#"
-                                                        data-bs-toggle="tooltip" data-bs-placement="right"
-                                                        title="More Details">
-                                                        <td class="sorting_1">
-                                                            <input type="hidden" asp-for="@accountStatuses[i].UserName" name="listRequest[@i].UserName" value="@accountStatuses[i].UserName" class="form-control" />
-                                                            @accountStatuses[i].UserName
-                                                        </td>
-                                                        <td>
-                                                            <input type="hidden" asp-for="@accountStatuses[i].FullName" name="listRequest[@i].FullName" value="@accountStatuses[i].FullName" class="form-control" />
-                                                            @accountStatuses[i].FullName
-                                                        </td>
-                                                        <td>
-                                                            <input type="hidden" asp-for="@accountStatuses[i].Gender" name="listRequest[@i].Gender" value="@accountStatuses[i].Gender" class="form-control" />
-                                                            @accountStatuses[i].Gender
-                                                        </td>
-                                                        <td>
-                                                            <input type="hidden" asp-for="@accountStatuses[i].CreatedDate" name="listRequest[@i].CreatedDate" value="@accountStatuses[i].CreatedDate" class="form-control" />
-                                                                @accountStatuses[i].CreatedDate.ToString("dd-MM-yyyy HH:mm")
-                                                        </td>
-                                                        <td>
-                                                            <input type="hidden" asp-for="@accountStatuses[i].Role" name="listRequest[@i].Role" value="@accountStatuses[i].Role" class="form-control" />
-                                                            @accountStatuses[i].Role
-                                                        </td>
-                                                        <td>
-                                                            <select class="form-control" asp-for="@accountStatuses[i].Status" asp-items="@accountStatuses[i].DefaultAccountStatusSelectList" class="custom-select" name="listRequest[@i].Status">
-                                                            </select>
-                                                        </td>
-                                                    </tr>
-                                                } *@
-                                            </tbody>
-                                        </table>
-                                        <div class="row col-12 d-flex">
-                                            <div class="rating-room">
-                                                <button class="button--primary btn-success bg-success shadow btn-xs text-white" type="submit" style="">Save Changes</button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
                             </div>
-                            <!-- end tapnet -->
                         </div>
                     </div>
-                </section>
-
+                </div>
             </div>
         </div>
     </div>
-    <div id="addCourse" class="modal fade" role="dialog">
+    <div id="addSession" class="modal fade" role="dialog">
         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
             <div class="modal-content modal-addRoom">
                 <div class="modal-header">
