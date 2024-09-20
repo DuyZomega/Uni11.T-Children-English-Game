@@ -18,6 +18,7 @@ using System.Text.Encodings.Web;
 using System.Text.Json;
 using CEG_WebMVC.Models.ViewModels.Course.Get;
 using CEG_WebMVC.Models.ViewModels.Course.Update;
+using CEG_WebMVC.Models.ViewModels.Session.Get;
 
 namespace CEG_WebMVC.Controllers
 {
@@ -269,7 +270,11 @@ namespace CEG_WebMVC.Controllers
 
             /*var courseTempData = methcall.GetValidationTempData<CreateCourseVM>(this, TempData, Constants.CREATE_COURSE_DETAILS_VALID, "createCourse", jsonOptions);*/
 
-            var pageData = new AdminCourseInfoPVM(_mapper.Map<CourseInfoVM>(courseInfoResponse.Data),_mapper.Map<UpdateCourseVM>(courseInfoResponse.Data));
+            var pageData = new AdminCourseInfoPVM(
+                _mapper.Map<CourseInfoVM>(courseInfoResponse.Data),
+                _mapper.Map<UpdateCourseVM>(courseInfoResponse.Data),
+                _mapper.Map<List<SessionInfoVM>>(courseInfoResponse.Data.Sessions)
+            );
 
             return View(pageData);
         }

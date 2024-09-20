@@ -25,7 +25,5 @@ namespace CEG_WebMVC.Models.ViewModels.Course.Get
         public int? ClassAmount { get; set; }
 
         public string? Status { get; set; }
-
-        public List<SessionViewModel> Sessions { get; set; } = new List<SessionViewModel>();
     }
 }
