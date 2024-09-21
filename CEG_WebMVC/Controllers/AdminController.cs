@@ -269,7 +269,6 @@ namespace CEG_WebMVC.Controllers
             TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = ViewBag.Success = "Course Info Get Successfully!";
 
             /*var courseTempData = methcall.GetValidationTempData<CreateCourseVM>(this, TempData, Constants.CREATE_COURSE_DETAILS_VALID, "createCourse", jsonOptions);*/
-
             var pageData = new AdminCourseInfoPVM(
                 _mapper.Map<CourseInfoVM>(courseInfoResponse.Data),
                 _mapper.Map<UpdateCourseVM>(courseInfoResponse.Data),

@@ -18,6 +18,7 @@ namespace CEG_BAL.Services.Interfaces
         Task<bool> IsAccountExistByUsername(string username);
         void Create(AccountViewModel account, CreateNewAccount newAcc);
         void Update(AccountViewModel account);
+        Task<bool> Delete(int id);
         Task<int> GetIdByUsername(string username);
     }
 }

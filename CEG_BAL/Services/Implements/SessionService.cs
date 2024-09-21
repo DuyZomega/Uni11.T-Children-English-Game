@@ -67,5 +67,17 @@ namespace CEG_BAL.Services.Implements
             _unitOfWork.SessionRepositories.Update(sess);
             _unitOfWork.Save();
         }
+
+        public async Task<bool> IsSessionExistByTitle(string title)
+        {
+            var ses = await _unitOfWork.SessionRepositories.GetByTitle(title);
+            if (ses != null) return true;
+            return false;
+        }
+
+        public async Task<List<SessionViewModel>> GetSessionListByCourseId(int courseId)
+        {
+            return _mapper.Map<List<SessionViewModel>>(await _unitOfWork.SessionRepositories.GetSessionListByCourseId(courseId));
+        }
     }
 }
