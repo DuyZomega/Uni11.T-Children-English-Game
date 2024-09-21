@@ -19,6 +19,7 @@ using System.Text.Json;
 using CEG_WebMVC.Models.ViewModels.Course.Get;
 using CEG_WebMVC.Models.ViewModels.Course.Update;
 using CEG_WebMVC.Models.ViewModels.Session.Get;
+using CEG_WebMVC.Models.ViewModels.Session.Create;
 
 namespace CEG_WebMVC.Controllers
 {
@@ -268,14 +269,58 @@ namespace CEG_WebMVC.Controllers
             }
             TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = ViewBag.Success = "Course Info Get Successfully!";
 
-            /*var courseTempData = methcall.GetValidationTempData<CreateCourseVM>(this, TempData, Constants.CREATE_COURSE_DETAILS_VALID, "createCourse", jsonOptions);*/
+            var courseTempData = methcall.GetValidationTempData<CreateSessionVM>(this, TempData, Constants.CREATE_SESSION_DETAILS_VALID, "createSession", jsonOptions);
             var pageData = new AdminCourseInfoPVM(
                 _mapper.Map<CourseInfoVM>(courseInfoResponse.Data),
                 _mapper.Map<UpdateCourseVM>(courseInfoResponse.Data),
-                _mapper.Map<List<SessionInfoVM>>(courseInfoResponse.Data.Sessions)
+                _mapper.Map<List<SessionInfoVM>>(courseInfoResponse.Data.Sessions),
+                courseTempData
             );
 
             return View(pageData);
+        }
+        [HttpPost("Session/Create")]
+        public async Task<IActionResult> AdminSessionCreate(
+            [FromForm][Required] CreateSessionVM createSession)
+        {
+            if (methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN) != null)
+                return Redirect(methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN));
+            AdminAPI_URL += "Session/Create";
+            string? accToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
+
+            if (!ModelState.IsValid)
+            {
+                TempData = methcall.SetValidationTempData(TempData, Constants.CREATE_SESSION_DETAILS_VALID, createSession, jsonOptions);
+                return RedirectToAction("AdminCourseInfo", new { courseId = createSession.CourseId });
+            }
+
+            var authenResponse = await methcall.CallMethodReturnObject<AdminCourseCreateResponseVM>(
+                _httpClient: _httpClient,
+                options: jsonOptions,
+                methodName: Constants.POST_METHOD,
+                url: AdminAPI_URL,
+                inputType: _mapper.Map<CreateNewSession>(createSession),
+                accessToken: accToken,
+                _logger: _logger);
+
+            if (authenResponse == null)
+            {
+                _logger.LogError("Error while registering Session account");
+
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while registering Session account !";
+
+                return RedirectToAction("AdminCourseInfo", new { courseId = createSession.CourseId});
+            }
+            if (!authenResponse.Status)
+            {
+                _logger.LogError("Error while registering Session account");
+
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while registering Session account !";
+
+                return RedirectToAction("AdminCourseInfo", new { courseId = createSession.CourseId });
+            }
+            TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = ViewBag.Success = "Session Create Successfully!";
+            return RedirectToAction("AdminCourseInfo", new { courseId = createSession.CourseId });
         }
         [HttpGet("Transaction/Index")]
         public async Task<IActionResult> AdminTransactionIndex()
@@ -286,7 +331,7 @@ namespace CEG_WebMVC.Controllers
         }
         [HttpPost("Account/Create/Teacher")]
         //[Authorize(Roles = "TempMember")]
-        public async Task<IActionResult> AdminCreateTeacher(
+        public async Task<IActionResult> AdminTeacherCreate(
             [FromForm][Required] CreateTeacherVM createTeacher)
         {
 
@@ -332,7 +377,7 @@ namespace CEG_WebMVC.Controllers
         }
         [HttpPost("Account/Create/Parent")]
         //[Authorize(Roles = "TempMember")]
-        public async Task<IActionResult> AdminCreateParent(
+        public async Task<IActionResult> AdminParentCreate(
             [FromForm][Required] CreateParentVM createParent)
         {
 
@@ -378,7 +423,7 @@ namespace CEG_WebMVC.Controllers
         }
         [HttpPost("Account/Create/Student")]
         //[Authorize(Roles = "TempMember")]
-        public async Task<IActionResult> AdminCreateStudent(
+        public async Task<IActionResult> AdminStudentCreate(
             [FromForm][Required] CreateStudentVM createStudent)
         {
 

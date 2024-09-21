@@ -306,7 +306,7 @@ namespace CEG_WebMVC.Libraries
             return defaultStatuses;
         }
 
-        public T GetValidationTempData<T>(
+        public T? GetValidationTempData<T>(
             ControllerBase context,
             ITempDataDictionary tempData,
             string tempDataName,
