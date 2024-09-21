@@ -1,32 +1,33 @@
 ﻿using CEG_WebMVC.Libraries;
-using CEG_WebMVC.Models.ViewModels.Session.Create;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 
-namespace CEG_WebMVC.Models.ViewModels.Course.Create
+namespace CEG_WebMVC.Models.ViewModels.Course.Update
 {
-    public class CreateCourseVM
+    public class UpdateCourseVM
     {
-        public CreateCourseVM()
+        public UpdateCourseVM()
         {
-            ChildrenEnglishGameLibrary lib = new ChildrenEnglishGameLibrary();
+            var lib = new ChildrenEnglishGameLibrary();
             Category = Constants.COURSE_CATEGORY_MIDDLE_SCHOOL;
             Difficulty = Constants.COURSE_DIFFICULTY_BEGINNER;
+            Status = Constants.COURSE_STATUS_DRAFT;
             DefaultCourseDifficultySelectList = lib.GetCourseDifficultySelectableList(Difficulty);
             DefaultCourseCategorySelectList = lib.GetCourseCategorySelectableList(Category);
+            DefaultCourseStatusSelectList = lib.GetCourseStatusSelectableList(Status);
             RequiredAge = Constants.COURSE_MINIMUM_AGE_REQ;
             TotalHours = Constants.COURSE_TOTAL_HOURS;
 
         }
         [Required(ErrorMessage = "Course Name is required")]
         [DisplayName("Course Name")]
-        public string CourseName { get; set; } = null!;
+        public string? CourseName { get; set; }
         [Required(ErrorMessage = "Course Type is required")]
         [DisplayName("Course Type")]
-        public string CourseType { get; set; } = null!;
+        public string? CourseType { get; set; }
         [Required(ErrorMessage = "Total Hours is required")]
-        [Range(1,int.MaxValue)]
+        [Range(1, int.MaxValue)]
         [DisplayName("Total Hours")]
         public int? TotalHours { get; set; }
         public string? CourseImageHeader { get; set; }
@@ -43,8 +44,12 @@ namespace CEG_WebMVC.Models.ViewModels.Course.Create
         [Required(ErrorMessage = "Course Description is required")]
         [MinLength(1)]
         [DisplayName("Description")]
-        public string Description { get; set; } = null!;
+        public string? Description { get; set; }
+        [Required(ErrorMessage = "Course Status is required")]
+        [DisplayName("Status")]
+        public string? Status { get; set; }
         public List<SelectListItem> DefaultCourseDifficultySelectList { get; set; }
         public List<SelectListItem> DefaultCourseCategorySelectList { get; set; }
+        public List<SelectListItem> DefaultCourseStatusSelectList { get; set; }
     }
 }

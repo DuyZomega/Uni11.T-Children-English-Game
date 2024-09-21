@@ -247,7 +247,7 @@
                                           class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
                                     <label asp-for="@createCourse.Difficulty" class="col-md-3 col-form-label mt-3 text-md-right"></label>
-                                    <select class="form-control col-md-7 custom-select" asp-for="@createCourse.Category" asp-items="@createCourse.DefaultCourseCategorySelectList" required></select>
+                                    <select class="form-control col-md-7 custom-select" asp-for="@createCourse.Difficulty" asp-items="@createCourse.DefaultCourseDifficultySelectList" required></select>
                                     <span asp-validation-for="@createCourse.Difficulty" id="error_message"
                                           class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 

@@ -17,6 +17,8 @@ using System.Net.Http.Headers;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using CEG_WebMVC.Models.ViewModels.Course.Get;
+using CEG_WebMVC.Models.ViewModels.Course.Update;
+using CEG_WebMVC.Models.ViewModels.Session.Get;
 
 namespace CEG_WebMVC.Controllers
 {
@@ -267,12 +269,11 @@ namespace CEG_WebMVC.Controllers
             TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = ViewBag.Success = "Course Info Get Successfully!";
 
             /*var courseTempData = methcall.GetValidationTempData<CreateCourseVM>(this, TempData, Constants.CREATE_COURSE_DETAILS_VALID, "createCourse", jsonOptions);*/
-
-            AdminCourseInfoPVM pageData = new AdminCourseInfoPVM()
-            {
-                CourseInfo = _mapper.Map<CourseInfoVM>(courseInfoResponse.Data),
-                Sessions = new List<SessionViewModel>()
-            };
+            var pageData = new AdminCourseInfoPVM(
+                _mapper.Map<CourseInfoVM>(courseInfoResponse.Data),
+                _mapper.Map<UpdateCourseVM>(courseInfoResponse.Data),
+                _mapper.Map<List<SessionInfoVM>>(courseInfoResponse.Data.Sessions)
+            );
 
             return View(pageData);
         }

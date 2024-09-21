@@ -12,6 +12,12 @@ namespace CEG_WebMVC.Models.ViewModels.Course.PageModel
             CreateCourse = new CreateCourseVM();
             Courses = new List<IndexCourseInfoVM>();
         }
+        public AdminCourseIndexPVM(CreateCourseVM? createCourse, List<IndexCourseInfoVM> courses)
+        {
+            CreateCourse = createCourse ?? new CreateCourseVM();
+            Courses = courses ?? [];
+        }
+
         public CreateCourseVM? CreateCourse { get; set; }
         public List<IndexCourseInfoVM> Courses { get; set; }
     }
