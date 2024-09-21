@@ -11,10 +11,6 @@ public partial class Homework
 
     public int? GameConfigId { get; set; }
 
-    public string? Question { get; set; }
-
-    public string? Answer { get; set; }
-
     public DateTime? StartDate { get; set; }
 
     public DateTime? EndDate { get; set; }

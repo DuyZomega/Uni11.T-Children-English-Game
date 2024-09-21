@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CEG_BAL.ViewModels.Admin;
 
 namespace CEG_BAL.Services.Implements
 {
@@ -30,14 +31,20 @@ namespace CEG_BAL.Services.Implements
             _jwtService = jwtServices;
             _configuration = configuration;
         }
-        public void Create(HomeworkViewModel model)
+        public async void Create(HomeworkViewModel model, CreateNewHomework newHw)
         {
-            var home = _mapper.Map<Homework>(model);
-            _unitOfWork.HomeworkRepositories.Create(home);
+            var hw = _mapper.Map<Homework>(model);
+            if (newHw != null)
+            {
+                hw.StartDate = newHw.StartDate;
+                hw.EndDate = newHw.EndDate;
+                hw.SessionId = await _unitOfWork.SessionRepositories.GetIdByTitle(newHw.SessionTitle);
+            }
+            _unitOfWork.HomeworkRepositories.Create(hw);
             _unitOfWork.Save();
         }
 
-        public async Task<List<HomeworkViewModel>> GetAllHomework()
+        public async Task<List<HomeworkViewModel>> GetHomeworkList()
         {
             return _mapper.Map<List<HomeworkViewModel>>(await _unitOfWork.HomeworkRepositories.GetHomeworksList());
         }

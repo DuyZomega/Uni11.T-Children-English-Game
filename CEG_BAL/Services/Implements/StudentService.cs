@@ -52,7 +52,7 @@ namespace CEG_BAL.Services.Implements
             _unitOfWork.Save();
         }
 
-        public async Task<StudentViewModel?> GetById(int id)
+        public async Task<StudentViewModel?> GetStudentById(int id)
         {
             var user = await _unitOfWork.AccountRepositories.GetByIdNoTracking(id);
             if (user != null)

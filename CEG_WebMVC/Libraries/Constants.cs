@@ -55,10 +55,8 @@ namespace CEG_WebMVC.Libraries
         public readonly static string COURSE_DIFFICULTY_ADVANCED = "Advanced";
 
         public readonly static string COURSE_CATEGORY_TITLE = "Category";
-        public readonly static string COURSE_CATEGORY_PRONUNCIATION = "Pronunciation";
-        public readonly static string COURSE_CATEGORY_GRAMMAR = "Grammar";
-        public readonly static string COURSE_CATEGORY_VOCABULARY = "Vocabulary";
-        public readonly static string COURSE_CATEGORY_SPELLING = "Spelling";
+        public readonly static string COURSE_CATEGORY_MIDDLE_SCHOOL = "Middle School";
+        public readonly static string COURSE_CATEGORY_HIGH_SCHOOL = "High School";
 
         /*public readonly static string NEWS_STATUS_DRAFT = "Draft";
         public readonly static string NEWS_STATUS_ACTIVE = "Active";
@@ -126,6 +124,7 @@ namespace CEG_WebMVC.Libraries
         public readonly static string CREATE_STUDENT_DETAILS_VALID = "CStudentDetailsValid";
 
         public readonly static string CREATE_COURSE_DETAILS_VALID = "CCourseDetailsValid";
+        public readonly static string CREATE_SESSION_DETAILS_VALID = "CSessionDetailsValid";
 
         /*public readonly static string UPDATE_MEMBER_DETAILS_VALID = "UMemberDetailsValid";
         public readonly static string UPDATE_MEMBER_PASSWORD_VALID = "UMemberPasswordValid";
@@ -201,7 +200,8 @@ namespace CEG_WebMVC.Libraries
         public readonly static string EVENT_MEDIA_TYPE_LOCATION_MAP = "LocationMap";
         public readonly static string EVENT_MEDIA_TYPE_ADDITIONAL = "Additional";
 
-        public readonly static int COURSE_AGE_REQ = 11;
+        public readonly static int COURSE_MINIMUM_AGE_REQ = 11;
+        public readonly static int COURSE_MAXIMUM_AGE_REQ = 18;
         public readonly static int COURSE_TOTAL_HOURS = 1;
         public readonly static int EVENT_FIELDTRIP_MIN_PART_REQ = 10;
         public readonly static int EVENT_CONTEST_MIN_PART_REQ = 10;

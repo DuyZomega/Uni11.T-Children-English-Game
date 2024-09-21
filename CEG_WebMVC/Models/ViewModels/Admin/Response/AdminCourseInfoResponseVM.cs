@@ -2,19 +2,19 @@
 
 namespace CEG_WebMVC.Models.ViewModels.Course.Response
 {
-    public class AdminClassListResponseVM
+    public class AdminCourseInfoResponseVM
     {
-        public AdminClassListResponseVM(bool status, string? errorMessage, string? successMessage)
+        public AdminCourseInfoResponseVM(bool status, string? errorMessage, string? successMessage)
         {
             Status = status;
             ErrorMessage = errorMessage;
             SuccessMessage = successMessage;
         }
-        public AdminClassListResponseVM()
+        public AdminCourseInfoResponseVM()
         {
             Status = false;
         }
-        public List<ClassViewModel>? Data { get; set; }
+        public CourseViewModel? Data { get; set; }
         public bool Status { get; set; }
         public string? ErrorMessage { get; set; }
         public string? SuccessMessage { get; set; }

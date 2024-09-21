@@ -1,6 +1,6 @@
 ﻿using CEG_BAL.ViewModels;
 
-namespace CEG_WebMVC.Models.ViewModels.Admin.Response
+namespace CEG_WebMVC.Models.ViewModels.Course.Response
 {
     public class AdminAccountCreateResponseVM
     {

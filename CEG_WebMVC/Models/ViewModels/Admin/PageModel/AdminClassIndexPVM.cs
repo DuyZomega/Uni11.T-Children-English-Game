@@ -1,7 +1,7 @@
 ﻿using CEG_WebMVC.Models.ViewModels.Class.Create;
 using CEG_WebMVC.Models.ViewModels.Class.Get;
 
-namespace CEG_WebMVC.Models.ViewModels.Admin.PageModel
+namespace CEG_WebMVC.Models.ViewModels.Course.PageModel
 {
     public class AdminClassIndexPVM
     {

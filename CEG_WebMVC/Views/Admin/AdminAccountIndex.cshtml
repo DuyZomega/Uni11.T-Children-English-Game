@@ -1,4 +1,4 @@
-﻿@model CEG_WebMVC.Models.ViewModels.Admin.PageModel.AdminAccountIndexPVM
+﻿@model CEG_WebMVC.Models.ViewModels.Course.PageModel.AdminAccountIndexPVM
 @{
     Layout = null;
     ViewData["Title"] = "Admin All Account Statuses Page";
@@ -212,7 +212,7 @@
                     <h4 class="modal-title">Add new Student Account</h4>
                 </div>
                 <div class="modal-body">
-                    <form asp-action="AdminCreateStudent" asp-controller="Admin" method="post" id="form">
+                    <form asp-action="AdminStudentCreate" asp-controller="Admin" method="post" id="form">
                         <div class="row p-4">
                             <div class="col-12">
                                 <div class="row form-group">
@@ -274,7 +274,7 @@
                     <h4 class="modal-title">Add new Parent Account</h4>
                 </div>
                 <div class="modal-body">
-                    <form asp-action="AdminCreateParent" asp-controller="Admin" method="post" id="form">
+                    <form asp-action="AdminParentCreate" asp-controller="Admin" method="post" id="form">
                         <div class="row p-4">
                             <div class="col-12">
                                 <div class="row form-group">
@@ -336,7 +336,7 @@
                     <h4 class="modal-title">Add new Teacher Account</h4>
                 </div>
                 <div class="modal-body">
-                    <form asp-action="AdminCreateTeacher" asp-controller="Admin" method="post" id="form">
+                    <form asp-action="AdminTeacherCreate" asp-controller="Admin" method="post" id="form">
                         <div class="row p-4">
                             <div class="col-12">
                                 <div class="row form-group">
