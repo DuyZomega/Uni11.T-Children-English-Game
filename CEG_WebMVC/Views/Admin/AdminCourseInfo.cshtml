@@ -206,15 +206,15 @@
                                     @{
                                         if (sessionList != null && sessionList.Count > 0)
                                         {
-                                            @foreach (var sessionDetail in sessionList)
+                                            @foreach (var sessionInfo in sessionList)
                                             {
                                                 <div class="card-header">
-                                                    <h5>Session @sessionDetail.Title Details</h5>
+                                                    <h5>Session @sessionInfo.Title Details</h5>
                                                     @{
-                                                        if (courseInfo.Status.Equals("Draft") || courseInfo.Status.Equals("Postponed"))
+                                                        if (sessionInfo.Status.Equals("Draft") || sessionInfo.Status.Equals("Postponed"))
                                                         {
                                                             <div class="edit-info">
-                                                                <i class='bx bxs-edit-alt' data-toggle="modal" data-target="#editsession_@sessionDetail.SessionId"></i>
+                                                                <i class='bx bxs-edit-alt' data-toggle="modal" data-target="#editsession_@sessionInfo.SessionId"></i>
                                                             </div>
                                                         }
                                                     }
@@ -224,7 +224,7 @@
                                                         <label for="meeting-name">Title:</label>
                                                     </div>
                                                     <div class="col-sm-7 text-sm-left">
-                                                        <span>@sessionDetail.Title</span>
+                                                        <span>@sessionInfo.Title</span>
                                                     </div>
                                                 </div>
                                                 <div class="row mb-sm-2">
@@ -232,7 +232,7 @@
                                                         <label for="meeting-name">Description:</label>
                                                     </div>
                                                     <div class="col-sm-7 text-sm-left">
-                                                        <span>@sessionDetail.Description</span>
+                                                        <span>@sessionInfo.Description</span>
                                                     </div>
                                                 </div>
                                                 <div class="row mb-sm-2">
@@ -240,27 +240,42 @@
                                                         <label for="meeting-name">Hours:</label>
                                                     </div>
                                                     <div class="col-sm-7 text-sm-left">
-                                                        <span>@sessionDetail.Hours</span>
+                                                        <span>@sessionInfo.Hours</span>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-sm-2">
+                                                    <div class="col-sm-5 text-sm-right">
+                                                        <label for="meeting-name">Homeworks:</label>
+                                                    </div>
+                                                    <div class="col-sm-7 text-sm-left">
+                                                        @{
+                                                            if (sessionInfo.Status.Equals("Draft") || sessionInfo.Status.Equals("Postponed"))
+                                                            {
+                                                                <div class="edit-info">
+                                                                    <i class='bx bxs-edit-alt' data-toggle="modal" data-target="#editsession_@sessionInfo.SessionId"></i>
+                                                                </div>
+                                                            }
+                                                        }
                                                     </div>
                                                 </div>
                                                 <hr class="container my-0">
-                                                // if (detailsFieldTrip.Status.Equals("OnHold") || detailsFieldTrip.Status.Equals("Postponed"))
+                                                // if (sessionInfo.Status.Equals("Draft") || sessionInfo.Status.Equals("Postponed"))
                                                 // {
-                                                //     <div id="editactandtras_@sessionDetail.TripDetailsId" class="modal fade" role="dialog">
+                                                //     <div id="editactandtras_@sessionInfo.SessionId" class="modal fade" role="dialog">
                                                 //         <div class="modal-dialog modal-dialog-centered modal-lg" role="content">
                                                 //             <div class="modal-content modal-addRoom">
                                                 //                 <div class="modal-header">
-                                                //                     <h4 class="modal-title">Update Field Trip Activities and Transportation @sessionDetail.Title</h4>
+                                                //                     <h4 class="modal-title truncate">Update Session @sessionInfo.Title</h4>
                                                 //                 </div>
-                                                //                 <form asp-action="ManagerUpdateFieldTripActAndTras" asp-controller="Manager" method="post" asp-route-id="@detailsFieldTrip.TripId" asp-route-addDeId="@sessionDetail.TripDetailsId" class="form-group">
+                                                //                 <form asp-action="AdminUpdateSession" asp-controller="Admin" method="post" asp-route-id="@detailsFieldTrip.TripId" asp-route-addDeId="@sessionInfo.TripDetailsId" class="form-group">
                                                 //                     @{
-                                                //                         var updateActAndTras = updateAAT.TripDetailsId.Value.Equals(sessionDetail.TripDetailsId.Value) ? updateAAT : sessionDetail;
+                                                //                         var updateActAndTras = updateAAT.TripDetailsId.Value.Equals(sessionInfo.TripDetailsId.Value) ? updateAAT : sessionInfo;
                                                 //                         <div class="modal-body">
                                                 //                             <div class="row justify-content-center">
                                                 //                                 <input asp-for="@updateActAndTras.TripDetailsId" type="number"
-                                                //                                        value="@sessionDetail.TripDetailsId" class="form-control" required hidden>
+                                                //                                        value="@sessionInfo.TripDetailsId" class="form-control" required hidden>
                                                 //                                 <input asp-for="@updateActAndTras.Type" type="text"
-                                                //                                        value="@sessionDetail.Type" class="form-control" required hidden>
+                                                //                                        value="@sessionInfo.Type" class="form-control" required hidden>
                                                 //                                 <div class="col-12 col-md-12">
                                                 //                                     <div class="form-group row">
                                                 //                                         <label asp-for="@updateActAndTras.Title" class="col-sm-4 col-form-label"></label>
@@ -275,7 +290,7 @@
                                                 //                                         <label asp-for="@updateActAndTras.Description" class="col-sm-4 col-form-label"></label>
                                                 //                                         <div class="col-sm-8">
                                                 //                                             <input asp-for="@updateActAndTras.Description" type="text"
-                                                //                                                    value="@sessionDetail.Description" class="form-control" required>
+                                                //                                                    value="@sessionInfo.Description" class="form-control" required>
                                                 //                                             <span asp-validation-for="@updateActAndTras.Description" id="error_message"
                                                 //                                                   class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
                                                 //                                         </div>
@@ -391,8 +406,6 @@
                                     <input asp-for="@createSession.Hours" value="@createSession.Hours" type="number" class="form-control col-md-7 mt-3" required>
                                     <span asp-validation-for="@createSession.Hours" id="error_message"
                                           class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
-
-
 
                                     <input asp-for="@createSession.CourseId" value="@courseInfo.CourseId" type="number" required hidden readonly>
                                     <input asp-for="@createSession.CourseName" value="@courseInfo.CourseName" type="text" required hidden readonly>
