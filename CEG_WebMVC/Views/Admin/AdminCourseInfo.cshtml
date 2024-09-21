@@ -235,6 +235,14 @@
                                                         <span>@sessionDetail.Description</span>
                                                     </div>
                                                 </div>
+                                                <div class="row mb-sm-2">
+                                                    <div class="col-sm-5 text-sm-right">
+                                                        <label for="meeting-name">Hours:</label>
+                                                    </div>
+                                                    <div class="col-sm-7 text-sm-left">
+                                                        <span>@sessionDetail.Hours</span>
+                                                    </div>
+                                                </div>
                                                 <hr class="container my-0">
                                                 // if (detailsFieldTrip.Status.Equals("OnHold") || detailsFieldTrip.Status.Equals("Postponed"))
                                                 // {
@@ -383,6 +391,9 @@
                                     <input asp-for="@createSession.Hours" value="@createSession.Hours" type="number" class="form-control col-md-7 mt-3" required>
                                     <span asp-validation-for="@createSession.Hours" id="error_message"
                                           class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+
+
                                     <input asp-for="@createSession.CourseId" value="@courseInfo.CourseId" type="number" required hidden readonly>
                                     <input asp-for="@createSession.CourseName" value="@courseInfo.CourseName" type="text" required hidden readonly>
                                 </div>
