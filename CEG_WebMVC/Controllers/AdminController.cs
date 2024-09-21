@@ -291,7 +291,7 @@ namespace CEG_WebMVC.Controllers
             if (!ModelState.IsValid)
             {
                 TempData = methcall.SetValidationTempData(TempData, Constants.CREATE_SESSION_DETAILS_VALID, createSession, jsonOptions);
-                return RedirectToAction("AdminCourseInfo", createSession.CourseId);
+                return RedirectToAction("AdminCourseInfo", new { courseId = createSession.CourseId });
             }
 
             var authenResponse = await methcall.CallMethodReturnObject<AdminCourseCreateResponseVM>(
@@ -309,7 +309,7 @@ namespace CEG_WebMVC.Controllers
 
                 TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while registering Session account !";
 
-                return RedirectToAction("AdminCourseInfo", createSession.CourseId);
+                return RedirectToAction("AdminCourseInfo", new { courseId = createSession.CourseId});
             }
             if (!authenResponse.Status)
             {
@@ -317,10 +317,10 @@ namespace CEG_WebMVC.Controllers
 
                 TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while registering Session account !";
 
-                return RedirectToAction("AdminCourseInfo", createSession.CourseId);
+                return RedirectToAction("AdminCourseInfo", new { courseId = createSession.CourseId });
             }
             TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = ViewBag.Success = "Session Create Successfully!";
-            return RedirectToAction("AdminCourseInfo", createSession.CourseId);
+            return RedirectToAction("AdminCourseInfo", new { courseId = createSession.CourseId });
         }
         [HttpGet("Transaction/Index")]
         public async Task<IActionResult> AdminTransactionIndex()
