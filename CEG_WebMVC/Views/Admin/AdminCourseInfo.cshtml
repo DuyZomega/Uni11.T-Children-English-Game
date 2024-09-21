@@ -243,16 +243,14 @@
                                                         <span>@sessionInfo.Hours</span>
                                                     </div>
                                                 </div>
-                                                <div class="row mb-sm-2">
-                                                    <div class="col-sm-5 text-sm-right">
-                                                        <label for="meeting-name">Homeworks:</label>
-                                                    </div>
-                                                    <div class="col-sm-7 text-sm-left">
+                                                <div class="row mb-sm-2 card-body">
+                                                    <div class="card-header">
+                                                        <h5>Session's Homework List</h5>
                                                         @{
-                                                            if (sessionInfo.Status.Equals("Draft") || sessionInfo.Status.Equals("Postponed"))
+                                                            if (courseInfo.Status.Equals("Draft") || courseInfo.Status.Equals("Postponed"))
                                                             {
                                                                 <div class="edit-info">
-                                                                    <i class='bx bxs-edit-alt' data-toggle="modal" data-target="#editsession_@sessionInfo.SessionId"></i>
+                                                                    <i class='bx bxs-edit-alt' data-toggle="modal" data-target="#createHomework"></i>
                                                                 </div>
                                                             }
                                                         }
