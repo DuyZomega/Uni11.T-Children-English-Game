@@ -31,7 +31,7 @@ namespace CEG_BAL.Services.Implements
             _jwtService = jwtServices;
             _configuration = configuration;
         }
-        public async void Create(SessionViewModel model, CreateNewSession newSes)
+        public void Create(SessionViewModel model, CreateNewSession newSes)
         {
             var sess = _mapper.Map<Session>(model);
             if (newSes != null)
@@ -39,7 +39,7 @@ namespace CEG_BAL.Services.Implements
                 sess.Title = newSes.Title;
                 sess.Description = newSes.Description;
                 sess.Hours = newSes.Hours;
-                sess.CourseId = await _unitOfWork.CourseRepositories.GetIdByName(newSes.CourseName);
+                sess.CourseId = _unitOfWork.CourseRepositories.GetIdByName(newSes.CourseName).Result;
             }
             _unitOfWork.SessionRepositories.Create(sess);
             _unitOfWork.Save();

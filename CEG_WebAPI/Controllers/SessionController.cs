@@ -129,7 +129,9 @@ namespace CEG_WebAPI.Controllers
         [ProducesResponseType(typeof(SessionViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CreateSession([FromBody][Required] CreateNewSession newSes)
+        public async Task<IActionResult> CreateSession(
+            [FromBody][Required] CreateNewSession newSes
+            )
         {
             try
             {
