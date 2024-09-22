@@ -95,7 +95,9 @@ namespace CEG_WebAPI.Controllers
         [ProducesResponseType(typeof(HomeworkViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CreateHomework([FromBody][Required] CreateNewHomework newHw)
+        public async Task<IActionResult> CreateHomework(
+            [FromBody][Required] CreateNewHomework newHw
+            )
         {
             try
             {
