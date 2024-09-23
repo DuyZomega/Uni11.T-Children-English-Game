@@ -1,7 +1,7 @@
 ﻿using CEG_WebMVC.Models.ViewModels.Account.Create;
 using CEG_WebMVC.Models.ViewModels.Account.Get;
 
-namespace CEG_WebMVC.Models.ViewModels.Course.PageModel
+namespace CEG_WebMVC.Models.ViewModels.Admin.PageModel
 {
     public class AdminAccountIndexPVM
     {
