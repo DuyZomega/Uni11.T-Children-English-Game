@@ -419,15 +419,15 @@
                                                                     <div class="row p-4">
                                                                         <div class="col-12">
                                                                             <div class="row form-group">
-                                                                                @* <label asp-for="@createHomework.Title" class="col-md-3 col-form-label text-md-right"></label>
-                                                                    <input asp-for="@createHomework.Title" value="@createSession.Title" type="text" placeholder="Title" required class="form-control col-md-7">
-                                                                    <span asp-validation-for="@createSession.Title" id="error_message"
-                                                                    class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                                                                <label asp-for="@createHomework.Title" class="col-md-3 col-form-label text-md-right"></label>
+                                                                                <input asp-for="@createHomework.Title" value="@createHomework.Title" type="text" placeholder="Title" required class="form-control col-md-7">
+                                                                                <span asp-validation-for="@createHomework.Title" id="error_message"
+                                                                                class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
-                                                                    <label asp-for="@createSession.Description" class="col-md-3 col-form-label text-md-right"></label>
-                                                                    <textarea asp-for="@createSession.Description" value="@createSession.Description" required class="form-control col-md-7"></textarea>
-                                                                    <span asp-validation-for="@createSession.Description" id="error_message"
-                                                                    class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span> *@
+                                                                                <label asp-for="@createHomework.Description" class="col-md-3 col-form-label text-md-right"></label>
+                                                                                <textarea asp-for="@createHomework.Description" value="@createHomework.Description" required class="form-control col-md-7"></textarea>
+                                                                                <span asp-validation-for="@createHomework.Description" id="error_message"
+                                                                                class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
                                                                                 <label asp-for="@createHomework.Hours" class="col-md-3 col-form-label mt-3 text-md-right"></label>
                                                                                 <input asp-for="@createHomework.Hours" value="@createHomework.Hours" type="number" class="form-control col-md-7 mt-3" required>

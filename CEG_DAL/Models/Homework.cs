@@ -16,6 +16,8 @@ public partial class Homework
     
     public int? Hours { get; set; }
 
+    public string? Status { get; set; }
+
     public virtual GameConfig? GameConfig { get; set; }
 
     public virtual ICollection<HomeworkQuestion> HomeworkQuestions { get; set; } = new List<HomeworkQuestion>();
