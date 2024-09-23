@@ -8,6 +8,7 @@ public partial class Session
     public int SessionId { get; set; }
 
     public int CourseId { get; set; }
+    public int? Number { get; set; }
 
     public string Title { get; set; } = null!;
 

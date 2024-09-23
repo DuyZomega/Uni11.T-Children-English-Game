@@ -10,10 +10,8 @@ public partial class Homework
     public int SessionId { get; set; }
 
     public int? GameConfigId { get; set; }
-
-    public DateTime? StartDate { get; set; }
-
-    public DateTime? EndDate { get; set; }
+    
+    public int? Hours { get; set; }
 
     public string? Status { get; set; }
 
