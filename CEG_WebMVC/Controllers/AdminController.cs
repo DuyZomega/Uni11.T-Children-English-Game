@@ -5,8 +5,6 @@ using CEG_BAL.ViewModels.Admin;
 using CEG_WebMVC.Libraries;
 using CEG_WebMVC.Models.ViewModels.Account.Create;
 using CEG_WebMVC.Models.ViewModels.Account.Get;
-using CEG_WebMVC.Models.ViewModels.Course.PageModel;
-using CEG_WebMVC.Models.ViewModels.Course.Response;
 using CEG_WebMVC.Models.ViewModels.Class.Create;
 using CEG_WebMVC.Models.ViewModels.Class.Get;
 using CEG_WebMVC.Models.ViewModels.Course.Create;
@@ -20,6 +18,8 @@ using CEG_WebMVC.Models.ViewModels.Course.Get;
 using CEG_WebMVC.Models.ViewModels.Course.Update;
 using CEG_WebMVC.Models.ViewModels.Session.Get;
 using CEG_WebMVC.Models.ViewModels.Session.Create;
+using CEG_WebMVC.Models.ViewModels.Admin.Response;
+using CEG_WebMVC.Models.ViewModels.Admin.PageModel;
 
 namespace CEG_WebMVC.Controllers
 {

@@ -1,4 +1,4 @@
-﻿@model CEG_WebMVC.Models.ViewModels.Course.PageModel.AdminCourseInfoPVM
+﻿@model CEG_WebMVC.Models.ViewModels.Admin.PageModel.AdminCourseInfoPVM
 @{
     ViewData["Title"] = "Admin Course Info Page";
     var courseInfo = Model.CourseInfo;
@@ -209,7 +209,7 @@
                                             @foreach (var sessionInfo in sessionList)
                                             {
                                                 <div class="card-header">
-                                                    <h5>Session @sessionInfo.Title Details</h5>
+                                                    <h5>Session @sessionInfo.Number Details</h5>
                                                     @{
                                                         if (sessionInfo.Status.Equals("Draft") || sessionInfo.Status.Equals("Postponed"))
                                                         {
@@ -495,6 +495,11 @@
                         <div class="row p-4">
                             <div class="col-12">
                                 <div class="row form-group">
+                                    <label asp-for="@createSession.Number" class="col-md-3 col-form-label text-md-right"></label>
+                                    <input asp-for="@createSession.Number" value="@createSession.Number" type="number" min="1" required class="form-control col-md-7">
+                                    <span asp-validation-for="@createSession.Number" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
                                     <label asp-for="@createSession.Title" class="col-md-3 col-form-label text-md-right"></label>
                                     <input asp-for="@createSession.Title" value="@createSession.Title" type="text" placeholder="Title" required class="form-control col-md-7">
                                     <span asp-validation-for="@createSession.Title" id="error_message"
