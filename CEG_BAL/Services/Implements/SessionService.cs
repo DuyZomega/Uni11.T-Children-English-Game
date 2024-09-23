@@ -34,6 +34,7 @@ namespace CEG_BAL.Services.Implements
         public void Create(SessionViewModel model, CreateNewSession newSes)
         {
             var sess = _mapper.Map<Session>(model);
+            sess.Status = "Draft";
             if (newSes != null)
             {
                 sess.Title = newSes.Title;

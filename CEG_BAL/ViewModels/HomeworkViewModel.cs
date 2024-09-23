@@ -9,23 +9,18 @@ namespace CEG_BAL.ViewModels
 {
     public class HomeworkViewModel
     {
-        public string Description { get; set; } = null!;
-
-        public string Title { get; set; } = null!;
-
-        public int? TotalPoint { get; set; }
-
-        public int? WordAmount { get; set; }
+        public string? Question { get; set; }
+        public string? Answer { get; set; }
         public int? Hours { get; set; }
 
         public string? Status { get; set; }
 
-        public virtual GameConfigViewModel GameConfig { get; set; } = null!;
+        public GameConfigViewModel? GameConfig { get; set; }
 
-        public virtual ICollection<HomeworkResultViewModel> HomeworkResults { get; set; } = new List<HomeworkResultViewModel>();
+        public List<HomeworkResultViewModel>? HomeworkResults { get; set; } = new List<HomeworkResultViewModel>();
 
-        public virtual SessionViewModel Session { get; set; } = null!;
+        public SessionViewModel? Session { get; set; }
 
-        public virtual ICollection<StudentHomeworkViewModel> StudentHomeworks { get; set; } = new List<StudentHomeworkViewModel>();
+        public List<StudentHomeworkViewModel>? StudentHomeworks { get; set; } = new List<StudentHomeworkViewModel>();
     }
 }
