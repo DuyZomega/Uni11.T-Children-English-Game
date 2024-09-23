@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,5 +19,6 @@ namespace CEG_BAL.ViewModels.Admin
         public int? RequiredAge { get; set; }
         public string? Difficulty { get; set; }
         public string? Category { get; set; }
+        public IFormFile? CourseImage { get; set; }
     }
 }
