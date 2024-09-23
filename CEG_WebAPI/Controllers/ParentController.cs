@@ -8,33 +8,32 @@ namespace CEG_WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TeacherController : ControllerBase
+    public class ParentController : ControllerBase
     {
-        private readonly ITeacherService _teacherService;
+        private readonly IParentService _parentService;
         private readonly IConfiguration _config;
 
-        public TeacherController(
-            ITeacherService teacherService, IConfiguration config)
+        public ParentController(IParentService parentService, IConfiguration config)
         {
-            _teacherService = teacherService;
+            _parentService = parentService;
             _config = config;
         }
 
         [HttpGet("All")]
-        [ProducesResponseType(typeof(List<TeacherViewModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<ParentViewModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetTeacherList()
+        public async Task<IActionResult> GetParentList()
         {
             try
             {
-                var result = await _teacherService.GetTeacherList();
+                var result = await _parentService.GetParentList();
                 if (result == null)
                 {
                     return NotFound(new
                     {
                         Status = false,
-                        ErrorMessage = "Teacher List Not Found!"
+                        ErrorMessage = "Parent List Not Found!"
                     });
                 }
                 return Ok(new
@@ -55,20 +54,20 @@ namespace CEG_WebAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(TeacherViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ParentViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetTeacherById([FromRoute] int id)
+        public async Task<IActionResult> GetParentById([FromRoute] int id)
         {
             try
             {
-                var result = await _teacherService.GetTeacherById(id);
+                var result = await _parentService.GetParentById(id);
                 if (result == null)
                 {
                     return NotFound(new
                     {
                         Status = false,
-                        ErrorMessage = "Teacher Not Found!"
+                        ErrorMessage = "Parent Not Found!"
                     });
                 }
                 return Ok(new

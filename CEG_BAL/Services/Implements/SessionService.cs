@@ -31,15 +31,16 @@ namespace CEG_BAL.Services.Implements
             _jwtService = jwtServices;
             _configuration = configuration;
         }
-        public async void Create(SessionViewModel model, CreateNewSession newSes)
+        public void Create(SessionViewModel model, CreateNewSession newSes)
         {
             var sess = _mapper.Map<Session>(model);
+            sess.Status = "Draft";
             if (newSes != null)
             {
                 sess.Title = newSes.Title;
                 sess.Description = newSes.Description;
                 sess.Hours = newSes.Hours;
-                sess.CourseId = await _unitOfWork.CourseRepositories.GetIdByName(newSes.CourseName);
+                sess.CourseId = _unitOfWork.CourseRepositories.GetIdByName(newSes.CourseName).Result;
             }
             _unitOfWork.SessionRepositories.Create(sess);
             _unitOfWork.Save();
@@ -66,6 +67,18 @@ namespace CEG_BAL.Services.Implements
             var sess = _mapper.Map<Session>(model);
             _unitOfWork.SessionRepositories.Update(sess);
             _unitOfWork.Save();
+        }
+
+        public async Task<bool> IsSessionExistByTitle(string title)
+        {
+            var ses = await _unitOfWork.SessionRepositories.GetByTitle(title);
+            if (ses != null) return true;
+            return false;
+        }
+
+        public async Task<List<SessionViewModel>> GetSessionListByCourseId(int courseId)
+        {
+            return _mapper.Map<List<SessionViewModel>>(await _unitOfWork.SessionRepositories.GetSessionListByCourseId(courseId));
         }
     }
 }

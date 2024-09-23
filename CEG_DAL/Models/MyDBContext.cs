@@ -235,12 +235,10 @@ public partial class MyDBContext : DbContext
             entity.ToTable("Homework");
 
             entity.Property(e => e.HomeworkId).HasColumnName("homework_id");
-            entity.Property(e => e.Answer).HasColumnName("answer");
             entity.Property(e => e.EndDate)
                 .HasColumnType("datetime")
                 .HasColumnName("end_date");
             entity.Property(e => e.GameConfigId).HasColumnName("game_config_id");
-            entity.Property(e => e.Question).HasColumnName("question");
             entity.Property(e => e.SessionId).HasColumnName("session_id");
             entity.Property(e => e.StartDate)
                 .HasColumnType("datetime")

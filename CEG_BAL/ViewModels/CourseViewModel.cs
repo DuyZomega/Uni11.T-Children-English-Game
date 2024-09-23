@@ -9,7 +9,7 @@ namespace CEG_BAL.ViewModels
 {
     public class CourseViewModel
     {
-
+        public int? CourseId { get; set; }
         public string CourseName { get; set; } = null!;
 
         public string CourseType { get; set; } = null!;

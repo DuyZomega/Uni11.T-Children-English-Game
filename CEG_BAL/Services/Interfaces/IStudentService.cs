@@ -11,7 +11,7 @@ namespace CEG_BAL.Services.Interfaces
     public interface IStudentService
     {
         Task<List<StudentViewModel>> GetStudentList();
-        Task<StudentViewModel?> GetById(int id);
+        Task<StudentViewModel?> GetStudentById(int id);
         void Create(StudentViewModel student, CreateNewStudent newStu);
         void Update(StudentViewModel student);
     }

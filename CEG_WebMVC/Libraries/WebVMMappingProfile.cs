@@ -7,6 +7,10 @@ using CEG_WebMVC.Models.ViewModels.Account.Create;
 using CEG_WebMVC.Models.ViewModels.Account.Get;
 using CEG_WebMVC.Models.ViewModels.Course.Create;
 using CEG_WebMVC.Models.ViewModels.Course.Get;
+using CEG_WebMVC.Models.ViewModels.Course.Get;
+using CEG_WebMVC.Models.ViewModels.Course.Update;
+using CEG_WebMVC.Models.ViewModels.Session.Create;
+using CEG_WebMVC.Models.ViewModels.Session.Get;
 
 namespace CEG_WebMVC.Libraries
 {
@@ -240,6 +244,22 @@ namespace CEG_WebMVC.Libraries
                 {
                     dest.CourseImageHeader = src.Image;
                 });
+            CreateMap<CourseInfoVM, CourseViewModel>()
+                .AfterMap((src, dest) =>
+                {
+                })
+                .ReverseMap()
+                .AfterMap((src, dest) =>
+                {
+                    dest.SessionAmount = (src.Sessions != null || src.Sessions.Any()) ? src.Sessions.Count : 0;
+                    dest.ClassAmount = (src.Classes != null || src.Classes.Any()) ? src.Classes.Count : 0;
+                });
+            CreateMap<UpdateCourseVM, CourseViewModel>()
+                .ReverseMap();
+            CreateMap<SessionInfoVM, SessionViewModel>()
+                .ReverseMap();
+            CreateMap<CreateSessionVM, CreateNewSession>()
+                .ReverseMap();
         }
     }
 }
