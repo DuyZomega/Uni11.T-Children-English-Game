@@ -36,8 +36,7 @@ namespace CEG_BAL.Services.Implements
             var hw = _mapper.Map<Homework>(model);
             if (newHw != null)
             {
-                hw.StartDate = newHw.StartDate;
-                hw.EndDate = newHw.EndDate;
+                hw.Hours = newHw.Hours;
                 hw.SessionId = await _unitOfWork.SessionRepositories.GetIdByTitle(newHw.SessionTitle);
             }
             _unitOfWork.HomeworkRepositories.Create(hw);
