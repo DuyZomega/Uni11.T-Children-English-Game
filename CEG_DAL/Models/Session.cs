@@ -8,7 +8,6 @@ public partial class Session
     public int SessionId { get; set; }
 
     public int CourseId { get; set; }
-    public int? Number { get; set; }
 
     public string Title { get; set; } = null!;
 
@@ -17,6 +16,8 @@ public partial class Session
     public string? Status { get; set; }
 
     public int? Hours { get; set; }
+
+    public int? Number { get; set; }
 
     public virtual Course Course { get; set; } = null!;
 
