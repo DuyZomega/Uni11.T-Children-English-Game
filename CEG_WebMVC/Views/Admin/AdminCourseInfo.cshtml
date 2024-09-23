@@ -262,33 +262,33 @@
                                                             {
                                                                 @foreach (var homeworkInfo in sessionInfo.Homeworks)
                                                                 {
-                                                                    // <div class="card-header">
-                                                                    //     <h5>Session @homeworkInfo.Title Details</h5>
-                                                                    //     @{
-                                                                    //         if (homeworkInfo.Status.Equals("Draft") || homeworkInfo.Status.Equals("Postponed"))
-                                                                    //         {
-                                                                    //             <div class="edit-info">
-                                                                    //                 <i class='bx bxs-edit-alt' data-toggle="modal" data-target="#edithomework_@homeworkInfo"></i>
-                                                                    //             </div>
-                                                                    //         }
-                                                                    //     }
-                                                                    // </div>
-                                                                    // <div class="row mb-sm-2">
-                                                                    //     <div class="col-sm-5 text-sm-right">
-                                                                    //         <label for="meeting-name">Title:</label>
-                                                                    //     </div>
-                                                                    //     <div class="col-sm-7 text-sm-left">
-                                                                    //         <span>@homeworkInfo.Title</span>
-                                                                    //     </div>
-                                                                    // </div>
-                                                                    // <div class="row mb-sm-2">
-                                                                    //     <div class="col-sm-5 text-sm-right">
-                                                                    //         <label for="meeting-name">Description:</label>
-                                                                    //     </div>
-                                                                    //     <div class="col-sm-7 text-sm-left">
-                                                                    //         <span>@homeworkInfo.Description</span>
-                                                                    //     </div>
-                                                                    // </div>
+                                                                    <div class="card-header">
+                                                                        <h5>Session @homeworkInfo.Title Details</h5>
+                                                                        @{
+                                                                            if (homeworkInfo.Status.Equals("Draft") || homeworkInfo.Status.Equals("Postponed"))
+                                                                            {
+                                                                                <div class="edit-info">
+                                                                                    <i class='bx bxs-edit-alt' data-toggle="modal" data-target="#edithomework_@homeworkInfo"></i>
+                                                                                </div>
+                                                                            }
+                                                                        }
+                                                                    </div>
+                                                                    <div class="row mb-sm-2">
+                                                                        <div class="col-sm-5 text-sm-right">
+                                                                            <label for="meeting-name">Title:</label>
+                                                                        </div>
+                                                                        <div class="col-sm-7 text-sm-left">
+                                                                            <span>@homeworkInfo.Title</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row mb-sm-2">
+                                                                        <div class="col-sm-5 text-sm-right">
+                                                                            <label for="meeting-name">Description:</label>
+                                                                        </div>
+                                                                        <div class="col-sm-7 text-sm-left">
+                                                                            <span>@homeworkInfo.Description</span>
+                                                                        </div>
+                                                                    </div>
                                                                     <div class="row mb-sm-2">
                                                                         <div class="col-sm-5 text-sm-right">
                                                                             <label for="meeting-name">Hours:</label>

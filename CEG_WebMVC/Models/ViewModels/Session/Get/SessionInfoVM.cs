@@ -1,4 +1,5 @@
 ﻿using CEG_BAL.ViewModels;
+using CEG_WebMVC.Models.ViewModels.Homework.Get;
 
 namespace CEG_WebMVC.Models.ViewModels.Session.Get
 {
@@ -16,8 +17,6 @@ namespace CEG_WebMVC.Models.ViewModels.Session.Get
         public string? Status { get; set; }
         public int? HomeworkAmount { get; set; }
 
-        public List<HomeworkViewModel> Homeworks { get; set; } = new List<HomeworkViewModel>();
-
-        //public virtual ICollection<Homework> Homeworks { get; set; } = new List<Homework>();
+        public List<HomeworkInfoVM> Homeworks { get; set; } = new List<HomeworkInfoVM>();
     }
 }

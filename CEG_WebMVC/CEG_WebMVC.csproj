@@ -97,7 +97,6 @@
     <Folder Include="Models\ViewModels\Class\PageModel\" />
     <Folder Include="Models\ViewModels\Course\PageModel\" />
     <Folder Include="Models\ViewModels\Course\Response\" />
-    <Folder Include="Models\ViewModels\Homework\Get\" />
     <Folder Include="Models\ViewModels\Homework\Response\" />
     <Folder Include="Models\ViewModels\Homework\PageModel\" />
     <Folder Include="Models\ViewModels\RegisteredClass\" />

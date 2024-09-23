@@ -9,6 +9,8 @@ namespace CEG_BAL.ViewModels
 {
     public class HomeworkViewModel
     {
+        public string? Title { get; set; }
+        public string? Description { get; set; }
         public int? Hours { get; set; }
 
         public string? Status { get; set; }
