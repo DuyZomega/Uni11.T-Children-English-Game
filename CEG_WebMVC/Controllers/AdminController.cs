@@ -20,6 +20,7 @@ using CEG_WebMVC.Models.ViewModels.Session.Get;
 using CEG_WebMVC.Models.ViewModels.Session.Create;
 using CEG_WebMVC.Models.ViewModels.Admin.Response;
 using CEG_WebMVC.Models.ViewModels.Admin.PageModel;
+using CEG_WebMVC.Models.ViewModels.Homework.Create;
 
 namespace CEG_WebMVC.Controllers
 {
@@ -294,7 +295,7 @@ namespace CEG_WebMVC.Controllers
                 return RedirectToAction("AdminCourseInfo", new { courseId = createSession.CourseId });
             }
 
-            var authenResponse = await methcall.CallMethodReturnObject<AdminCourseCreateResponseVM>(
+            var authenResponse = await methcall.CallMethodReturnObject<AdminSessionCreateResponseVM>(
                 _httpClient: _httpClient,
                 options: jsonOptions,
                 methodName: Constants.POST_METHOD,
@@ -321,6 +322,49 @@ namespace CEG_WebMVC.Controllers
             }
             TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = ViewBag.Success = "Session Create Successfully!";
             return RedirectToAction("AdminCourseInfo", new { courseId = createSession.CourseId });
+        }
+        [HttpPost("Homework/Create")]
+        public async Task<IActionResult> AdminHomeworkCreate(
+            [FromForm][Required] CreateHomeworkVM createHomework)
+        {
+            if (methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN) != null)
+                return Redirect(methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN));
+            AdminAPI_URL += "Homework/Create";
+            string? accToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
+
+            if (!ModelState.IsValid)
+            {
+                TempData = methcall.SetValidationTempData(TempData, Constants.CREATE_HOMEWORK_DETAILS_VALID, createHomework, jsonOptions);
+                return RedirectToAction("AdminCourseInfo", new { courseId = createHomework.CourseId });
+            }
+
+            var authenResponse = await methcall.CallMethodReturnObject<AdminHomeworkCreateResponseVM>(
+                _httpClient: _httpClient,
+                options: jsonOptions,
+                methodName: Constants.POST_METHOD,
+                url: AdminAPI_URL,
+                inputType: _mapper.Map<CreateNewHomework>(createHomework),
+                accessToken: accToken,
+                _logger: _logger);
+
+            if (authenResponse == null)
+            {
+                _logger.LogError("Error while registering Homework account");
+
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while registering Homework account !";
+
+                return RedirectToAction("AdminCourseInfo", new { courseId = createHomework.CourseId });
+            }
+            if (!authenResponse.Status)
+            {
+                _logger.LogError("Error while registering Homework account");
+
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while registering Homework account !";
+
+                return RedirectToAction("AdminCourseInfo", new { courseId = createHomework.CourseId });
+            }
+            TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = ViewBag.Success = "Homework Create Successfully!";
+            return RedirectToAction("AdminCourseInfo", new { courseId = createHomework.CourseId });
         }
         [HttpGet("Transaction/Index")]
         public async Task<IActionResult> AdminTransactionIndex()

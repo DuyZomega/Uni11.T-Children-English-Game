@@ -20,7 +20,7 @@ namespace CEG_DAL.Repositories.Implements
 
         public async Task<Session?> GetByIdNoTracking(int id)
         {
-            return await _dbContext.Sessions.AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(sess => sess.SessionId == id);
+            return await _dbContext.Sessions.Include(s => s.Homeworks).AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(sess => sess.SessionId == id);
         }
 
         public async Task<List<Session>> GetSessionList()
@@ -30,7 +30,7 @@ namespace CEG_DAL.Repositories.Implements
         
         public async Task<Session?> GetByTitle(string name)
         {
-            return await _dbContext.Sessions.AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(sess => sess.Title == name);
+            return await _dbContext.Sessions.Include(s => s.Homeworks).AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(sess => sess.Title == name);
         }
 
         public async Task<int> GetIdByTitle(string name)

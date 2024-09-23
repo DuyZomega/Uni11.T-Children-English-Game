@@ -34,6 +34,7 @@ namespace CEG_BAL.Services.Implements
         public void Create(HomeworkViewModel model, CreateNewHomework newHw)
         {
             var hw = _mapper.Map<Homework>(model);
+            hw.Status = "Draft";
             if (newHw != null)
             {
                 hw.Hours = newHw.Hours;
