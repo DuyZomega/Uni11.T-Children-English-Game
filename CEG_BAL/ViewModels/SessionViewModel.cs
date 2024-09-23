@@ -9,6 +9,8 @@ namespace CEG_BAL.ViewModels
 {
     public class SessionViewModel
     {
+        public int? SessionId { get; set; }
+
         public string Title { get; set; } = null!;
 
         public string? Description { get; set; }
