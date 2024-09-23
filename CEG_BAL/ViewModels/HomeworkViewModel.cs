@@ -9,11 +9,13 @@ namespace CEG_BAL.ViewModels
 {
     public class HomeworkViewModel
     {
-        public int? Hours { get; set; }
-
         public string? Status { get; set; }
 
+        public int? Hours { get; set; }
+
         public GameConfigViewModel? GameConfig { get; set; }
+
+        public List<HomeworkQuestionViewModel>? HomeworkQuestions { get; set; } = new List<HomeworkQuestionViewModel>();
 
         public List<HomeworkResultViewModel>? HomeworkResults { get; set; } = new List<HomeworkResultViewModel>();
 

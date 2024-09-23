@@ -236,8 +236,8 @@ public partial class MyDBContext : DbContext
 
             entity.Property(e => e.HomeworkId).HasColumnName("homework_id");
             entity.Property(e => e.GameConfigId).HasColumnName("game_config_id");
-            entity.Property(e => e.SessionId).HasColumnName("session_id");
             entity.Property(e => e.Hours).HasColumnName("hours");
+            entity.Property(e => e.SessionId).HasColumnName("session_id");
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .HasColumnName("status");
@@ -261,6 +261,7 @@ public partial class MyDBContext : DbContext
                 .HasColumnName("homework_answer_id");
             entity.Property(e => e.Answer).HasColumnName("answer");
             entity.Property(e => e.HomeworkQuestionId).HasColumnName("homework_question_id");
+
             entity.HasOne(d => d.HomeworkQuestion).WithMany(p => p.HomeworkAnswers)
                 .HasForeignKey(d => d.HomeworkQuestionId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -395,8 +396,8 @@ public partial class MyDBContext : DbContext
             entity.Property(e => e.SessionId).HasColumnName("session_id");
             entity.Property(e => e.CourseId).HasColumnName("course_id");
             entity.Property(e => e.Description).HasColumnName("description");
-            entity.Property(e => e.Number).HasColumnName("number");
             entity.Property(e => e.Hours).HasColumnName("hours");
+            entity.Property(e => e.Number).HasColumnName("number");
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .HasColumnName("status");
