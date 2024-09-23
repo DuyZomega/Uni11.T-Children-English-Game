@@ -35,13 +35,28 @@ namespace CEG_BAL.Services.Implements
         {
             var sess = _mapper.Map<Session>(model);
             sess.Status = "Draft";
+
             if (newSes != null)
             {
                 sess.Title = newSes.Title;
                 sess.Description = newSes.Description;
                 sess.Hours = newSes.Hours;
+                sess.Number = newSes.Number;
                 sess.CourseId = _unitOfWork.CourseRepositories.GetIdByName(newSes.CourseName).Result;
+
+                /*var sessionList = _unitOfWork.SessionRepositories.GetSessionListByCourseId(sess.CourseId).Result;
+                if (sessionList != null && sessionList.Count > 0)
+                {
+                    foreach(var session in sessionList)
+                    {
+                        
+                    }
+                } else
+                {
+                    sess.Number = 1;
+                }*/
             }
+
             _unitOfWork.SessionRepositories.Create(sess);
             _unitOfWork.Save();
         }
