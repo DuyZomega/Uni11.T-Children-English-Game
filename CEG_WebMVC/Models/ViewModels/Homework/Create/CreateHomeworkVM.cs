@@ -8,12 +8,6 @@ namespace CEG_WebMVC.Models.ViewModels.Homework.Create
 {
     public class CreateHomeworkVM
     {
-        public CreateHomeworkVM(int? courseId = null, string? sessionTitle = null)
-        {
-            CourseId = courseId;
-            SessionTitle = sessionTitle;
-            Hours = 1;
-        }
         public CreateHomeworkVM()
         {
             Hours = 1;

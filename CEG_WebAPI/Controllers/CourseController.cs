@@ -123,7 +123,10 @@ namespace CEG_WebAPI.Controllers
         [ProducesResponseType(typeof(CourseViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Update([FromRoute] int id, CourseViewModel course)
+        public async Task<IActionResult> Update(
+            [FromRoute] int id, 
+            CourseViewModel course
+            )
         {
             try
             {

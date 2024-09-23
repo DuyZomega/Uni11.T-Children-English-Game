@@ -552,7 +552,7 @@
                     <h4 class="modal-title">Edit Course</h4>
                 </div>
                 <div class="modal-body">
-                    <form asp-action="AdminUpdateCourse" asp-controller="Admin" method="put" id="form">
+                    <form asp-action="AdminCourseUpdate" asp-controller="Admin" asp-route-courseId="@courseInfo.CourseId" method="post" id="form">
                         <div class="row p-4">
                             <div class="col-12">
                                 <div class="row form-group">
