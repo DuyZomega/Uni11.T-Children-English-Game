@@ -11,6 +11,7 @@ using CEG_WebMVC.Models.ViewModels.Homework.Create;
 using CEG_WebMVC.Models.ViewModels.Homework.Get;
 using CEG_WebMVC.Models.ViewModels.Session.Create;
 using CEG_WebMVC.Models.ViewModels.Session.Get;
+using CEG_WebMVC.Models.ViewModels.Session.Update;
 
 namespace CEG_WebMVC.Libraries
 {
@@ -255,6 +256,8 @@ namespace CEG_WebMVC.Libraries
                     dest.ClassAmount = (src.Classes != null || src.Classes.Any()) ? src.Classes.Count : 0;
                 });
             CreateMap<UpdateCourseVM, CourseViewModel>()
+                .ReverseMap();
+            CreateMap<UpdateSessionVM, SessionViewModel>()
                 .ReverseMap();
             CreateMap<SessionInfoVM, SessionViewModel>()
                 .ReverseMap();
