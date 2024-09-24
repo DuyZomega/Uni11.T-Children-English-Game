@@ -31,13 +31,16 @@ namespace CEG_BAL.Services.Implements
             _jwtService = jwtServices;
             _configuration = configuration;
         }
-        public async void Create(HomeworkViewModel model, CreateNewHomework newHw)
+        public void Create(HomeworkViewModel model, CreateNewHomework newHw)
         {
             var hw = _mapper.Map<Homework>(model);
+            hw.Status = "Draft";
             if (newHw != null)
             {
+                hw.Title = newHw.Title;
+                hw.Description = newHw.Description;
                 hw.Hours = newHw.Hours;
-                hw.SessionId = await _unitOfWork.SessionRepositories.GetIdByTitle(newHw.SessionTitle);
+                hw.SessionId = _unitOfWork.SessionRepositories.GetIdByTitle(newHw.SessionTitle).Result;
             }
             _unitOfWork.HomeworkRepositories.Create(hw);
             _unitOfWork.Save();

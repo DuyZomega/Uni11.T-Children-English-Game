@@ -12,6 +12,7 @@ namespace CEG_DAL.Repositories.Interfaces
     {
         Task<List<Course>> GetCourseList();
         Task<Course?> GetByIdNoTracking(int id);
+        Task<Course?> GetByIdNoTracking(int id, bool includeSessions, bool includeHomeworks);
         Task<Course?> GetByName(string name);
         Task<int> GetIdByName(string name);
     }

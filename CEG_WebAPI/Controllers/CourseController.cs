@@ -117,5 +117,46 @@ namespace CEG_WebAPI.Controllers
                 });
             }
         }
+
+        [HttpPut("{id}/Update")]
+        [Authorize(Roles = "Admin")]
+        [ProducesResponseType(typeof(CourseViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Update(
+            [FromRoute] int id, 
+            CourseViewModel course
+            )
+        {
+            try
+            {
+                var result = await _courseService.GetCourseById(id);
+                if (result == null)
+                {
+                    return NotFound(new
+                    {
+                        Status = false,
+                        ErrorMessage = "Course Does Not Exist!"
+                    });
+                }
+                course.CourseId = id;
+                _courseService.Update(course);
+                result = await _courseService.GetCourseById(course.CourseId.Value);
+                return Ok(new
+                {
+                    Status = true,
+                    Data = result
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    Status = false,
+                    ErrorMessage = ex.Message,
+                    InnerExceptionMessage = ex.InnerException?.Message
+                });
+            }
+        }
     }
 }

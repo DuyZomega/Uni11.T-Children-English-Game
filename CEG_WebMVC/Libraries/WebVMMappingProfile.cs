@@ -2,13 +2,13 @@
 using CEG_BAL.ViewModels;
 using CEG_BAL.ViewModels.Account.Create;
 using CEG_BAL.ViewModels.Admin;
-using CEG_DAL.Models;
 using CEG_WebMVC.Models.ViewModels.Account.Create;
 using CEG_WebMVC.Models.ViewModels.Account.Get;
 using CEG_WebMVC.Models.ViewModels.Course.Create;
 using CEG_WebMVC.Models.ViewModels.Course.Get;
-using CEG_WebMVC.Models.ViewModels.Course.Get;
 using CEG_WebMVC.Models.ViewModels.Course.Update;
+using CEG_WebMVC.Models.ViewModels.Homework.Create;
+using CEG_WebMVC.Models.ViewModels.Homework.Get;
 using CEG_WebMVC.Models.ViewModels.Session.Create;
 using CEG_WebMVC.Models.ViewModels.Session.Get;
 
@@ -258,7 +258,11 @@ namespace CEG_WebMVC.Libraries
                 .ReverseMap();
             CreateMap<SessionInfoVM, SessionViewModel>()
                 .ReverseMap();
+            CreateMap<HomeworkInfoVM, HomeworkViewModel>()
+                .ReverseMap();
             CreateMap<CreateSessionVM, CreateNewSession>()
+                .ReverseMap();
+            CreateMap<CreateHomeworkVM, CreateNewHomework>()
                 .ReverseMap();
         }
     }
