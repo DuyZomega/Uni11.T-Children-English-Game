@@ -21,6 +21,7 @@ using CEG_WebMVC.Models.ViewModels.Session.Create;
 using CEG_WebMVC.Models.ViewModels.Admin.Response;
 using CEG_WebMVC.Models.ViewModels.Admin.PageModel;
 using CEG_WebMVC.Models.ViewModels.Homework.Create;
+using CEG_WebMVC.Models.ViewModels.Session.Update;
 
 namespace CEG_WebMVC.Controllers
 {
@@ -110,268 +111,6 @@ namespace CEG_WebMVC.Controllers
             };
 
             return View(pageData);
-        }
-        [HttpGet("Class/Index")]
-        public async Task<IActionResult> AdminClassIndex()
-        {
-            AdminAPI_URL += "Class/All";
-            string? accToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
-
-            var courseListResponse = await methcall.CallMethodReturnObject<AdminClassListResponseVM>(
-                _httpClient: _httpClient,
-                options: jsonOptions,
-                methodName: Constants.GET_METHOD,
-                url: AdminAPI_URL,
-                accessToken: accToken,
-                _logger: _logger);
-
-            if (courseListResponse == null)
-            {
-                _logger.LogError("Error while getting class list");
-
-                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while getting class list !";
-
-                return RedirectToAction("AdminIndex");
-            }
-            if (!courseListResponse.Status)
-            {
-                _logger.LogError("Error while getting class list");
-
-                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while getting class list !";
-
-                return RedirectToAction("AdminIndex");
-            }
-            TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = ViewBag.Success = "Class List Get Successfully!";
-
-            //var teacherTempData = methcall.GetValidationTempData<CreateTeacherVM>(this, TempData, Constants.CREATE_TEACHER_DETAILS_VALID, "createTeacher", jsonOptions);
-
-            AdminClassIndexPVM pageData = new AdminClassIndexPVM()
-            {
-                Classes = _mapper.Map<List<IndexClassInfoVM>>(courseListResponse.Data),
-                CreateClass = new CreateClassVM()
-            };
-            return View(pageData);
-        }
-        [HttpGet("Course/Index")]
-        public async Task<IActionResult> AdminCourseIndex()
-        {
-            AdminAPI_URL += "Course/All";
-            string? accToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
-
-            var courseListResponse = await methcall.CallMethodReturnObject<AdminCourseListResponseVM>(
-                _httpClient: _httpClient,
-                options: jsonOptions,
-                methodName: Constants.GET_METHOD,
-                url: AdminAPI_URL,
-                accessToken: accToken,
-                _logger: _logger);
-
-            if (courseListResponse == null)
-            {
-                _logger.LogError("Error while getting course list");
-
-                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while getting course list !";
-
-                return RedirectToAction("AdminIndex");
-            }
-            if (!courseListResponse.Status)
-            {
-                _logger.LogError("Error while getting course list");
-
-                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while getting course list !";
-
-                return RedirectToAction("AdminIndex");
-            }
-            TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = ViewBag.Success = "Course List Get Successfully!";
-
-            var courseTempData = methcall.GetValidationTempData<CreateCourseVM>(this, TempData, Constants.CREATE_COURSE_DETAILS_VALID, "createCourse", jsonOptions);
-
-            AdminCourseIndexPVM pageData = new AdminCourseIndexPVM()
-            {
-                Courses = _mapper.Map<List<IndexCourseInfoVM>>(courseListResponse.Data),
-                CreateCourse = courseTempData != null ? courseTempData : new CreateCourseVM()
-            };
-
-            return View(pageData);
-        }
-        [HttpPost("Course/Create")]
-        public async Task<IActionResult> AdminCourseCreate(
-            [FromForm][Required] CreateCourseVM createCourse)
-        {
-            if (methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN) != null)
-                return Redirect(methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN));
-            AdminAPI_URL += "Course/Create";
-            string? accToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
-
-            if (!ModelState.IsValid)
-            {
-                TempData = methcall.SetValidationTempData(TempData, Constants.CREATE_COURSE_DETAILS_VALID, createCourse, jsonOptions);
-                return RedirectToAction("AdminCourseIndex");
-            }
-
-            var authenResponse = await methcall.CallMethodReturnObject<AdminCourseCreateResponseVM>(
-                _httpClient: _httpClient,
-                options: jsonOptions,
-                methodName: Constants.POST_METHOD,
-                url: AdminAPI_URL,
-                inputType: _mapper.Map<CreateNewCourse>(createCourse),
-                accessToken: accToken,
-                _logger: _logger);
-
-            if (authenResponse == null)
-            {
-                _logger.LogError("Error while registering Course account");
-
-                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while registering Course account !";
-
-                return RedirectToAction("AdminCourseIndex");
-            }
-            if (!authenResponse.Status)
-            {
-                _logger.LogError("Error while registering Course account");
-
-                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while registering Course account !";
-
-                return RedirectToAction("AdminCourseIndex");
-            }
-            TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = ViewBag.Success = "Course Create Successfully!";
-            return RedirectToAction("AdminCourseIndex");
-        }
-        [HttpGet("Course/{courseId}")]
-        public async Task<IActionResult> AdminCourseInfo(
-            [FromRoute][Required] int courseId)
-        {
-            AdminAPI_URL += "Course/" + courseId;
-            string? accToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
-
-            var courseInfoResponse = await methcall.CallMethodReturnObject<AdminCourseInfoResponseVM>(
-                _httpClient: _httpClient,
-                options: jsonOptions,
-                methodName: Constants.GET_METHOD,
-                url: AdminAPI_URL,
-                accessToken: accToken,
-                _logger: _logger);
-
-            if (courseInfoResponse == null)
-            {
-                _logger.LogError("Error while getting course info");
-
-                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while getting course info !";
-
-                return RedirectToAction("AdminCourseIndex");
-            }
-            if (!courseInfoResponse.Status)
-            {
-                _logger.LogError("Error while getting course info");
-
-                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while getting course info !";
-
-                return RedirectToAction("AdminCourseIndex");
-            }
-            TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = ViewBag.Success = "Course Info Get Successfully!";
-
-            var courseTempData = methcall.GetValidationTempData<CreateSessionVM>(this, TempData, Constants.CREATE_SESSION_DETAILS_VALID, "createSession", jsonOptions);
-            var pageData = new AdminCourseInfoPVM(
-                _mapper.Map<CourseInfoVM>(courseInfoResponse.Data),
-                _mapper.Map<UpdateCourseVM>(courseInfoResponse.Data),
-                _mapper.Map<List<SessionInfoVM>>(courseInfoResponse.Data.Sessions),
-                courseTempData
-            );
-
-            return View(pageData);
-        }
-        [HttpPost("Session/Create")]
-        public async Task<IActionResult> AdminSessionCreate(
-            [FromForm][Required] CreateSessionVM createSession)
-        {
-            if (methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN) != null)
-                return Redirect(methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN));
-            AdminAPI_URL += "Session/Create";
-            string? accToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
-
-            if (!ModelState.IsValid)
-            {
-                TempData = methcall.SetValidationTempData(TempData, Constants.CREATE_SESSION_DETAILS_VALID, createSession, jsonOptions);
-                return RedirectToAction("AdminCourseInfo", new { courseId = createSession.CourseId });
-            }
-
-            var authenResponse = await methcall.CallMethodReturnObject<AdminSessionCreateResponseVM>(
-                _httpClient: _httpClient,
-                options: jsonOptions,
-                methodName: Constants.POST_METHOD,
-                url: AdminAPI_URL,
-                inputType: _mapper.Map<CreateNewSession>(createSession),
-                accessToken: accToken,
-                _logger: _logger);
-
-            if (authenResponse == null)
-            {
-                _logger.LogError("Error while registering Session account");
-
-                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while registering Session account !";
-
-                return RedirectToAction("AdminCourseInfo", new { courseId = createSession.CourseId});
-            }
-            if (!authenResponse.Status)
-            {
-                _logger.LogError("Error while registering Session account");
-
-                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while registering Session account !";
-
-                return RedirectToAction("AdminCourseInfo", new { courseId = createSession.CourseId });
-            }
-            TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = ViewBag.Success = "Session Create Successfully!";
-            return RedirectToAction("AdminCourseInfo", new { courseId = createSession.CourseId });
-        }
-        [HttpPost("Homework/Create")]
-        public async Task<IActionResult> AdminHomeworkCreate(
-            [FromForm][Required] CreateHomeworkVM createHomework)
-        {
-            if (methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN) != null)
-                return Redirect(methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN));
-            AdminAPI_URL += "Homework/Create";
-            string? accToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
-
-            if (!ModelState.IsValid)
-            {
-                TempData = methcall.SetValidationTempData(TempData, Constants.CREATE_HOMEWORK_DETAILS_VALID, createHomework, jsonOptions);
-                return RedirectToAction("AdminCourseInfo", new { courseId = createHomework.CourseId });
-            }
-
-            var authenResponse = await methcall.CallMethodReturnObject<AdminHomeworkCreateResponseVM>(
-                _httpClient: _httpClient,
-                options: jsonOptions,
-                methodName: Constants.POST_METHOD,
-                url: AdminAPI_URL,
-                inputType: _mapper.Map<CreateNewHomework>(createHomework),
-                accessToken: accToken,
-                _logger: _logger);
-
-            if (authenResponse == null)
-            {
-                _logger.LogError("Error while registering Homework account");
-
-                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while registering Homework account !";
-
-                return RedirectToAction("AdminCourseInfo", new { courseId = createHomework.CourseId });
-            }
-            if (!authenResponse.Status)
-            {
-                _logger.LogError("Error while registering Homework account");
-
-                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while registering Homework account !";
-
-                return RedirectToAction("AdminCourseInfo", new { courseId = createHomework.CourseId });
-            }
-            TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = ViewBag.Success = "Homework Create Successfully!";
-            return RedirectToAction("AdminCourseInfo", new { courseId = createHomework.CourseId });
-        }
-        [HttpGet("Transaction/Index")]
-        public async Task<IActionResult> AdminTransactionIndex()
-        {
-            if (methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN) != null)
-                return Redirect(methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN));
-            return View();
         }
         [HttpPost("Account/Create/Teacher")]
         //[Authorize(Roles = "TempMember")]
@@ -510,6 +249,427 @@ namespace CEG_WebMVC.Controllers
             TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = ViewBag.Success = "Student Account Create Successfully!";
 
             return RedirectToAction("AdminAccountIndex");
+        }
+        [HttpGet("Account/{accountId}")]
+        //[Authorize(Roles = "TempMember")]
+        public async Task<IActionResult> AdminAccountInfo(
+            [FromRoute][Required] int accountId)
+        {
+
+            if (methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN) != null)
+                return Redirect(methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN));
+            /*AdminAPI_URL += "Admin/Student/Create";
+            string? accToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
+
+            if (!ModelState.IsValid)
+            {
+                TempData = methcall.SetValidationTempData(TempData, Constants.CREATE_STUDENT_DETAILS_VALID, createStudent, jsonOptions);
+                return RedirectToAction("AdminAccountIndex");
+            }
+
+            var studentAccountCreateResponse = await methcall.CallMethodReturnObject<AdminAccountCreateResponseVM>(
+                _httpClient: _httpClient,
+                options: jsonOptions,
+                methodName: Constants.POST_METHOD,
+                url: AdminAPI_URL,
+                inputType: _mapper.Map<CreateNewStudent>(createStudent),
+                accessToken: accToken,
+                _logger: _logger);
+
+            if (studentAccountCreateResponse == null)
+            {
+                _logger.LogError("Error while registering Student account");
+
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while registering Student account !";
+
+                return RedirectToAction("AdminAccountIndex");
+            }
+            if (!studentAccountCreateResponse.Status)
+            {
+                _logger.LogError("Error while registering Student account");
+
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while registering Student account !";
+
+                return RedirectToAction("AdminAccountIndex");
+            }
+            TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = ViewBag.Success = "Student Account Create Successfully!";*/
+
+            return View();
+        }
+        [HttpGet("Class/Index")]
+        public async Task<IActionResult> AdminClassIndex()
+        {
+            if (methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN) != null)
+                return Redirect(methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN));
+            AdminAPI_URL += "Class/All";
+            string? accToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
+
+            var courseListResponse = await methcall.CallMethodReturnObject<AdminClassListResponseVM>(
+                _httpClient: _httpClient,
+                options: jsonOptions,
+                methodName: Constants.GET_METHOD,
+                url: AdminAPI_URL,
+                accessToken: accToken,
+                _logger: _logger);
+
+            if (courseListResponse == null)
+            {
+                _logger.LogError("Error while getting class list");
+
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while getting class list !";
+
+                return RedirectToAction("AdminIndex");
+            }
+            if (!courseListResponse.Status)
+            {
+                _logger.LogError("Error while getting class list");
+
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while getting class list !";
+
+                return RedirectToAction("AdminIndex");
+            }
+            TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = ViewBag.Success = "Class List Get Successfully!";
+
+            //var teacherTempData = methcall.GetValidationTempData<CreateTeacherVM>(this, TempData, Constants.CREATE_TEACHER_DETAILS_VALID, "createTeacher", jsonOptions);
+
+            AdminClassIndexPVM pageData = new AdminClassIndexPVM()
+            {
+                Classes = _mapper.Map<List<IndexClassInfoVM>>(courseListResponse.Data),
+                CreateClass = new CreateClassVM()
+            };
+            return View(pageData);
+        }
+        [HttpGet("Course/Index")]
+        public async Task<IActionResult> AdminCourseIndex()
+        {
+            if (methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN) != null)
+                return Redirect(methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN));
+            AdminAPI_URL += "Course/All";
+            string? accToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
+
+            var courseListResponse = await methcall.CallMethodReturnObject<AdminCourseListResponseVM>(
+                _httpClient: _httpClient,
+                options: jsonOptions,
+                methodName: Constants.GET_METHOD,
+                url: AdminAPI_URL,
+                accessToken: accToken,
+                _logger: _logger);
+
+            if (courseListResponse == null)
+            {
+                _logger.LogError("Error while getting course list");
+
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while getting course list !";
+
+                return RedirectToAction("AdminIndex");
+            }
+            if (!courseListResponse.Status)
+            {
+                _logger.LogError("Error while getting course list");
+
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while getting course list !";
+
+                return RedirectToAction("AdminIndex");
+            }
+            TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = ViewBag.Success = "Course List Get Successfully!";
+
+            var courseTempData = methcall.GetValidationTempData<CreateCourseVM>(this, TempData, Constants.CREATE_COURSE_DETAILS_VALID, "createCourse", jsonOptions);
+
+            AdminCourseIndexPVM pageData = new AdminCourseIndexPVM()
+            {
+                Courses = _mapper.Map<List<IndexCourseInfoVM>>(courseListResponse.Data),
+                CreateCourse = courseTempData != null ? courseTempData : new CreateCourseVM()
+            };
+
+            return View(pageData);
+        }
+        [HttpPost("Course/Create")]
+        public async Task<IActionResult> AdminCourseCreate(
+            [FromForm][Required] CreateCourseVM createCourse)
+        {
+            if (methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN) != null)
+                return Redirect(methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN));
+            AdminAPI_URL += "Course/Create";
+            string? accToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
+
+            if (!ModelState.IsValid)
+            {
+                TempData = methcall.SetValidationTempData(TempData, Constants.CREATE_COURSE_DETAILS_VALID, createCourse, jsonOptions);
+                return RedirectToAction("AdminCourseIndex");
+            }
+
+            var authenResponse = await methcall.CallMethodReturnObject<AdminCourseCreateResponseVM>(
+                _httpClient: _httpClient,
+                options: jsonOptions,
+                methodName: Constants.POST_METHOD,
+                url: AdminAPI_URL,
+                inputType: _mapper.Map<CreateNewCourse>(createCourse),
+                accessToken: accToken,
+                _logger: _logger);
+
+            if (authenResponse == null)
+            {
+                _logger.LogError("Error while registering Course account");
+
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while registering Course account !";
+
+                return RedirectToAction("AdminCourseIndex");
+            }
+            if (!authenResponse.Status)
+            {
+                _logger.LogError("Error while registering Course account");
+
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while registering Course account !";
+
+                return RedirectToAction("AdminCourseIndex");
+            }
+            TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = ViewBag.Success = "Course Create Successfully!";
+            return RedirectToAction("AdminCourseIndex");
+        }
+        [HttpGet("Course/{courseId}")]
+        public async Task<IActionResult> AdminCourseInfo(
+            [FromRoute][Required] int courseId)
+        {
+            if (methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN) != null)
+                return Redirect(methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN));
+            AdminAPI_URL += "Course/" + courseId;
+            string? accToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
+
+            var courseInfoResponse = await methcall.CallMethodReturnObject<AdminCourseInfoResponseVM>(
+                _httpClient: _httpClient,
+                options: jsonOptions,
+                methodName: Constants.GET_METHOD,
+                url: AdminAPI_URL,
+                accessToken: accToken,
+                _logger: _logger);
+
+            if (courseInfoResponse == null)
+            {
+                _logger.LogError("Error while getting course info");
+
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while getting course info !";
+
+                return RedirectToAction("AdminCourseIndex");
+            }
+            if (!courseInfoResponse.Status || courseInfoResponse.Data == null)
+            {
+                _logger.LogError("Error while getting course info");
+
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while getting course info !";
+
+                return RedirectToAction("AdminCourseIndex");
+            }
+            TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = ViewBag.Success = "Course Info Get Successfully!";
+
+            var createSessionFailed = methcall.GetValidationTempData<CreateSessionVM>(this, TempData, Constants.CREATE_SESSION_DETAILS_VALID, "createSession", jsonOptions);
+            var createHomeworkFailed = methcall.GetValidationTempData<CreateHomeworkVM>(this, TempData, Constants.CREATE_HOMEWORK_DETAILS_VALID, "createHomework", jsonOptions);
+            var updateCourseFailed = methcall.GetValidationTempData<UpdateCourseVM>(this, TempData, Constants.UPDATE_COURSE_DETAILS_VALID, "updateCourse", jsonOptions);
+            var updateSessionFailed = methcall.GetValidationTempData<UpdateSessionVM>(this, TempData, Constants.UPDATE_SESSION_DETAILS_VALID, "updateSession", jsonOptions);
+            var sessionList = new List<AdminSessionInfoPVM>();
+
+            if(courseInfoResponse.Data.Sessions != null && courseInfoResponse.Data.Sessions.Count > 0)
+            foreach (var session in courseInfoResponse.Data.Sessions)
+            {
+                sessionList.Add(new AdminSessionInfoPVM(
+                    courseId,
+                    _mapper.Map<SessionInfoVM>(session),
+                    updateSessionFailed != null && updateSessionFailed.SessionId.Equals(session.SessionId) ? updateSessionFailed : _mapper.Map<UpdateSessionVM>(session),
+                    createHomeworkFailed
+                    )
+                );
+            }
+
+            var pageData = new AdminCourseInfoPVM(
+                _mapper.Map<CourseInfoVM>(courseInfoResponse.Data),
+                updateCourseFailed ?? _mapper.Map<UpdateCourseVM>(courseInfoResponse.Data),
+                sessionList,
+                createSessionFailed
+            );
+
+            return View(pageData);
+        }
+        [HttpPost("Course/{courseId}/Update")]
+        public async Task<IActionResult> AdminCourseUpdate(
+            [FromRoute][Required] int courseId,
+            [FromForm][Required] UpdateCourseVM updateCourse )
+        {
+            if (methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN) != null)
+                return Redirect(methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN));
+            AdminAPI_URL += "Course/" + courseId + "/Update";
+            string? accToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
+            if (!ModelState.IsValid)
+            {
+                TempData = methcall.SetValidationTempData(TempData, Constants.UPDATE_COURSE_DETAILS_VALID, updateCourse, jsonOptions);
+                return RedirectToAction("AdminCourseInfo", new { courseId });
+            }
+            var courseInfoResponse = await methcall.CallMethodReturnObject<AdminCourseUpdateResponseVM>(
+                _httpClient: _httpClient,
+                options: jsonOptions,
+                methodName: Constants.PUT_METHOD,
+                url: AdminAPI_URL,
+                accessToken: accToken,
+                inputType: _mapper.Map<CourseViewModel>(updateCourse),
+                _logger: _logger);
+
+            if (courseInfoResponse == null)
+            {
+                _logger.LogError("Error while getting course info");
+
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while getting course info !";
+
+                return RedirectToAction("AdminCourseInfo", new { courseId });
+            }
+            if (!courseInfoResponse.Status)
+            {
+                _logger.LogError("Error while getting course info");
+
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while getting course info !";
+
+                return RedirectToAction("AdminCourseInfo", new { courseId });
+            }
+            TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = ViewBag.Success = "Course Info Update Successfully!";
+
+            return RedirectToAction("AdminCourseInfo", new { courseId });
+        }
+        [HttpPost("Course/{courseId}/Session/Create")]
+        public async Task<IActionResult> AdminSessionCreate(
+            [FromRoute][Required] int courseId,
+            [FromForm][Required] CreateSessionVM createSession)
+        {
+            if (methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN) != null)
+                return Redirect(methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN));
+            AdminAPI_URL += "Session/Create";
+            string? accToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
+
+            if (!ModelState.IsValid)
+            {
+                TempData = methcall.SetValidationTempData(TempData, Constants.CREATE_SESSION_DETAILS_VALID, createSession, jsonOptions);
+                return RedirectToAction("AdminCourseInfo", new { courseId });
+            }
+
+            var authenResponse = await methcall.CallMethodReturnObject<AdminSessionCreateResponseVM>(
+                _httpClient: _httpClient,
+                options: jsonOptions,
+                methodName: Constants.POST_METHOD,
+                url: AdminAPI_URL,
+                inputType: _mapper.Map<CreateNewSession>(createSession),
+                accessToken: accToken,
+                _logger: _logger);
+
+            if (authenResponse == null)
+            {
+                _logger.LogError("Error while registering Session account");
+
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while registering Session account !";
+
+                return RedirectToAction("AdminCourseInfo", new { courseId });
+            }
+            if (!authenResponse.Status)
+            {
+                _logger.LogError("Error while registering Session account");
+
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while registering Session account !";
+
+                return RedirectToAction("AdminCourseInfo", new { courseId });
+            }
+            TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = ViewBag.Success = "Session Create Successfully!";
+            return RedirectToAction("AdminCourseInfo", new { courseId });
+        }
+        [HttpPost("Course/{courseId}/Session/{sessionId}/Update")]
+        public async Task<IActionResult> AdminSessionUpdate(
+            [FromRoute][Required] int courseId,
+            [FromRoute][Required] int sessionId,
+            [FromForm][Required] UpdateSessionVM updateSession)
+        {
+            if (methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN) != null)
+                return Redirect(methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN));
+            AdminAPI_URL += "Session/" + sessionId + "/Update";
+            string? accToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
+            if (!ModelState.IsValid)
+            {
+                TempData = methcall.SetValidationTempData(TempData, Constants.UPDATE_SESSION_DETAILS_VALID, updateSession, jsonOptions);
+                return RedirectToAction("AdminCourseInfo", new { courseId });
+            }
+            var courseInfoResponse = await methcall.CallMethodReturnObject<AdminSessionUpdateResponseVM>(
+                _httpClient: _httpClient,
+                options: jsonOptions,
+                methodName: Constants.PUT_METHOD,
+                url: AdminAPI_URL,
+                accessToken: accToken,
+                inputType: _mapper.Map<SessionViewModel>(updateSession),
+                _logger: _logger);
+
+            if (courseInfoResponse == null)
+            {
+                _logger.LogError("Error while getting session info");
+
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while getting session info !";
+
+                return RedirectToAction("AdminCourseInfo", new { courseId });
+            }
+            if (!courseInfoResponse.Status)
+            {
+                _logger.LogError("Error while getting session info");
+
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while getting session info !";
+
+                return RedirectToAction("AdminCourseInfo", new { courseId });
+            }
+            TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = ViewBag.Success = "Session Info Update Successfully!";
+
+            return RedirectToAction("AdminCourseInfo", new { courseId });
+        }
+        [HttpPost("Course/{courseId}/Session/{sessionId}/Homework/Create")]
+        public async Task<IActionResult> AdminHomeworkCreate(
+            [FromRoute][Required] int courseId,
+            [FromRoute][Required] int sessionId,
+            [FromForm][Required] CreateHomeworkVM createHomework)
+        {
+            if (methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN) != null)
+                return Redirect(methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN));
+            AdminAPI_URL += "Homework/Create";
+            string? accToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
+
+            if (!ModelState.IsValid)
+            {
+                TempData = methcall.SetValidationTempData(TempData, Constants.CREATE_HOMEWORK_DETAILS_VALID, createHomework, jsonOptions);
+                return RedirectToAction("AdminCourseInfo", new { courseId });
+            }
+
+            var authenResponse = await methcall.CallMethodReturnObject<AdminHomeworkCreateResponseVM>(
+                _httpClient: _httpClient,
+                options: jsonOptions,
+                methodName: Constants.POST_METHOD,
+                url: AdminAPI_URL,
+                inputType: _mapper.Map<CreateNewHomework>(createHomework),
+                accessToken: accToken,
+                _logger: _logger);
+
+            if (authenResponse == null)
+            {
+                _logger.LogError("Error while registering Homework account");
+
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while registering Homework account !";
+
+                return RedirectToAction("AdminCourseInfo", new { courseId });
+            }
+            if (!authenResponse.Status)
+            {
+                _logger.LogError("Error while registering Homework account");
+
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while registering Homework account !";
+
+                return RedirectToAction("AdminCourseInfo", new { courseId });
+            }
+            TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = ViewBag.Success = "Homework Create Successfully!";
+            return RedirectToAction("AdminCourseInfo", new { courseId });
+        }
+        [HttpGet("Transaction/Index")]
+        public async Task<IActionResult> AdminTransactionIndex()
+        {
+            if (methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN) != null)
+                return Redirect(methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN));
+            return View();
         }
     }
 }

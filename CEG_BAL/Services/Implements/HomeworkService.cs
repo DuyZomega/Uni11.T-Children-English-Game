@@ -37,6 +37,8 @@ namespace CEG_BAL.Services.Implements
             hw.Status = "Draft";
             if (newHw != null)
             {
+                hw.Title = newHw.Title;
+                hw.Description = newHw.Description;
                 hw.Hours = newHw.Hours;
                 hw.SessionId = _unitOfWork.SessionRepositories.GetIdByTitle(newHw.SessionTitle).Result;
             }
