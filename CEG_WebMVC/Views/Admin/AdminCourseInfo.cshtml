@@ -4,6 +4,7 @@
     var courseInfo = Model.CourseInfo;
     var sessionList = Model.Sessions;
     var updateCourse = Model.UpdateCourseInfo;
+    var updateSessionInfo = Model.UpdateSessionInfo;
     var createSession = Model.CreateSession;
     var createHomework = Model.CreateHomework;
     Layout = "~/Views/Shared/_ALayout.cshtml";
@@ -443,39 +444,33 @@
 
                                                 // if (sessionInfo.Status.Equals("Draft") || sessionInfo.Status.Equals("Postponed"))
                                                 // {
-                                                //     <div id="editactandtras_@sessionInfo.SessionId" class="modal fade" role="dialog">
+                                                //     <div id="editsession_@sessionInfo.SessionId" class="modal fade" role="dialog">
                                                 //         <div class="modal-dialog modal-dialog-centered modal-lg" role="content">
                                                 //             <div class="modal-content modal-addRoom">
                                                 //                 <div class="modal-header">
                                                 //                     <h4 class="modal-title truncate">Update Session @sessionInfo.Title</h4>
                                                 //                 </div>
-                                                //                 <form asp-action="AdminUpdateSession" asp-controller="Admin" method="post" asp-route-id="@detailsFieldTrip.TripId" asp-route-addDeId="@sessionInfo.TripDetailsId" class="form-group">
+                                                //                 <form asp-action="AdminSessionUpdate" asp-controller="Admin" method="post" asp-route-sessionId="@sessionInfo.SessionId" class="form-group">
                                                 //                     @{
-                                                //                         var updateActAndTras = updateAAT.TripDetailsId.Value.Equals(sessionInfo.TripDetailsId.Value) ? updateAAT : sessionInfo;
+                                                //                         var updateSession = updateSessionInfo.SessionId.Value.Equals(sessionInfo.SessionId.Value) ? updateSessionInfo : sessionInfo;
                                                 //                         <div class="modal-body">
-                                                //                             <div class="row justify-content-center">
-                                                //                                 <input asp-for="@updateActAndTras.TripDetailsId" type="number"
-                                                //                                        value="@sessionInfo.TripDetailsId" class="form-control" required hidden>
-                                                //                                 <input asp-for="@updateActAndTras.Type" type="text"
-                                                //                                        value="@sessionInfo.Type" class="form-control" required hidden>
-                                                //                                 <div class="col-12 col-md-12">
-                                                //                                     <div class="form-group row">
-                                                //                                         <label asp-for="@updateActAndTras.Title" class="col-sm-4 col-form-label"></label>
-                                                //                                         <div class="col-sm-8">
-                                                //                                             <input asp-for="@updateActAndTras.Title" type="text"
-                                                //                                                    value="@updateActAndTras.Title" class="form-control" required>
-                                                //                                             <span asp-validation-for="@updateActAndTras.Title" id="error_message"
-                                                //                                                   class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
-                                                //                                         </div>
+                                                //                             <div class="col-12">
+                                                //                                 <div class="form-group row">
+                                                //                                     <label asp-for="@updateSession.Title" class="col-sm-4 col-form-label"></label>
+                                                //                                     <div class="col-sm-8">
+                                                //                                         <input asp-for="@updateSession.Title" type="text"
+                                                //                                                 value="@sessionInfo.Title" class="form-control" required>
+                                                //                                         <span asp-validation-for="@updateSession.Title" id="error_message"
+                                                //                                                 class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
                                                 //                                     </div>
-                                                //                                     <div class="form-group row">
-                                                //                                         <label asp-for="@updateActAndTras.Description" class="col-sm-4 col-form-label"></label>
-                                                //                                         <div class="col-sm-8">
-                                                //                                             <input asp-for="@updateActAndTras.Description" type="text"
-                                                //                                                    value="@sessionInfo.Description" class="form-control" required>
-                                                //                                             <span asp-validation-for="@updateActAndTras.Description" id="error_message"
-                                                //                                                   class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
-                                                //                                         </div>
+                                                //                                 </div>
+                                                //                                 <div class="form-group row">
+                                                //                                     <label asp-for="@updateSession.Description" class="col-sm-4 col-form-label"></label>
+                                                //                                     <div class="col-sm-8">
+                                                //                                         <input asp-for="@updateSession.Description" type="text"
+                                                //                                                 value="@sessionInfo.Description" class="form-control" required>
+                                                //                                         <span asp-validation-for="@updateSession.Description" id="error_message"
+                                                //                                                 class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
                                                 //                                     </div>
                                                 //                                 </div>
                                                 //                             </div>

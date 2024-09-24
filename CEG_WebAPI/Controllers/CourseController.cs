@@ -94,7 +94,9 @@ namespace CEG_WebAPI.Controllers
         [ProducesResponseType(typeof(CourseViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CreateCourse([FromBody][Required] CreateNewCourse newCourse)
+        public async Task<IActionResult> CreateCourse(
+            [FromBody][Required] CreateNewCourse newCourse
+            )
         {
             try
             {
@@ -124,8 +126,8 @@ namespace CEG_WebAPI.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Update(
-            [FromRoute] int id, 
-            CourseViewModel course
+            [FromRoute][Required] int id, 
+            [FromBody][Required] CourseViewModel course
             )
         {
             try
