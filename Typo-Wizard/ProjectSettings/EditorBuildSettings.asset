@@ -17,7 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Intro.unity
     guid: 3fc6b919c66bf884da7caf559cf7f7e5
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/SignIn.unity
     guid: 237d9e47852eb5740827abde8ff3b76e
   - enabled: 1
@@ -27,4 +27,3 @@ EditorBuildSettings:
     path: Assets/Scenes/Main.unity
     guid: c9b9317e7f7f3de4cb6a1e77f6d51a9b
   m_configObjects: {}
-  m_UseUCBPForAssetBundles: 0
