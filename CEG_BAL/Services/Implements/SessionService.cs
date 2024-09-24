@@ -80,6 +80,7 @@ namespace CEG_BAL.Services.Implements
         public void Update(SessionViewModel model)
         {
             var sess = _mapper.Map<Session>(model);
+            sess.CourseId = _unitOfWork.SessionRepositories.GetByIdNoTracking(model.SessionId.Value).Result.CourseId;
             _unitOfWork.SessionRepositories.Update(sess);
             _unitOfWork.Save();
         }

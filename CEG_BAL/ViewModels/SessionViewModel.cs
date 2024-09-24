@@ -17,7 +17,7 @@ namespace CEG_BAL.ViewModels
         public string? Status { get; set; }
         public int? Number {  get; set; }
 
-        public CourseViewModel Course { get; set; } = null!;
-        public List<HomeworkViewModel> Homeworks { get; set; }
+        public CourseViewModel? Course { get; set; }
+        public List<HomeworkViewModel>? Homeworks { get; set; } = new List<HomeworkViewModel>();
     }
 }

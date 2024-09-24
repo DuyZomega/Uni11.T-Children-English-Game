@@ -7,7 +7,6 @@
     var createParent = Model.createParent;
     var createTeacher = Model.createTeacher;
     var createStudent = Model.createStudent;
-
     var accountStatuses = Model.AccountStatuses;
     
 
@@ -111,45 +110,39 @@
                                                 aria-describedby="history-table_info">
                                             <thead>
                                                 <tr>
-                                                    @* <th class="sorting sorting_asc" tabindex="0"
+                                                    <th class="sorting sorting_asc" tabindex="0"
                                                         aria-controls="history-table" rowspan="1"
                                                         colspan="1" aria-sort="ascending"
-                                                        aria-label="Account ID: activate to sort column descending">
-                                                        User Account Id
-                                                    </th> *@
-                                                    <th class="sorting" tabindex="0"
-                                                        aria-controls="history-table" rowspan="1"
-                                                        colspan="1"
                                                         aria-label="Account User Name: activate to sort column ascending">
                                                         Username
                                                     </th>
-                                                    <th class="sorting" tabindex="0"
+                                                    <th class="sorting sorting_asc" tabindex="0"
                                                         aria-controls="history-table" rowspan="1"
-                                                        colspan="1"
+                                                        colspan="1" aria-sort="ascending"
                                                         aria-label="Account Full Name: activate to sort column ascending">
                                                         Full name
                                                     </th>
-                                                    <th class="sorting" tabindex="0"
+                                                    <th class="sorting sorting_asc" tabindex="0"
                                                         aria-controls="history-table" rowspan="1"
-                                                        colspan="1"
-                                                            aria-label="Gender: activate to sort column ascending">
+                                                        colspan="1" aria-sort="ascending"
+                                                        aria-label="Gender: activate to sort column ascending">
                                                         Gender
                                                     </th>
-                                                    <th class="sorting" tabindex="0"
+                                                    <th class="sorting sorting_asc" tabindex="0"
                                                         aria-controls="history-table" rowspan="1"
-                                                        colspan="1"
-                                                            aria-label="Account Created Date: activate to sort column ascending">
+                                                        colspan="1" aria-sort="ascending"
+                                                        aria-label="Account Created Date: activate to sort column ascending">
                                                         Created Date
                                                     </th>
-                                                    <th class="sorting" tabindex="0"
+                                                    <th class="sorting sorting_asc" tabindex="0"
                                                         aria-controls="history-table" rowspan="1"
-                                                        colspan="1"
-                                                            aria-label="Account Role: activate to sort column ascending">
+                                                        colspan="1" aria-sort="ascending"
+                                                        aria-label="Account Role: activate to sort column ascending">
                                                         Role
                                                     </th>
-                                                    <th class="sorting" tabindex="0"
+                                                    <th class="sorting sorting_asc" tabindex="0"
                                                         aria-controls="history-table" rowspan="1"
-                                                        colspan="1"
+                                                        colspan="1" aria-sort="ascending"
                                                         aria-label="Status: activate to sort column ascending">
                                                         Status
                                                     </th>
@@ -163,7 +156,7 @@
                                                         title="More Details">
                                                         <td class="sorting_1">
                                                             <input type="hidden" asp-for="@accountStatuses[i].UserName" name="listRequest[@i].UserName" value="@accountStatuses[i].UserName" class="form-control" />
-                                                            @accountStatuses[i].UserName
+                                                                <a href="@Url.Action("AdminAccountInfo","Admin",new {accountId = accountStatuses[i].AccountId})">@accountStatuses[i].UserName</a>
                                                         </td>
                                                         <td>
                                                             <input type="hidden" asp-for="@accountStatuses[i].FullName" name="listRequest[@i].FullName" value="@accountStatuses[i].FullName" class="form-control" />

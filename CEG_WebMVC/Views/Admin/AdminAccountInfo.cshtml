@@ -1,10 +1,10 @@
-﻿@model CEG_WebMVC.Models.ViewModels.Admin.PageModel.AdminCourseInfoPVM
+﻿@model CEG_WebMVC.Models.ViewModels.Admin.PageModel.AdminAccountInfoPVM
 @{
-    ViewData["Title"] = "Admin Course Info Page";
-    var courseInfo = Model.CourseInfo;
-    var sessionList = Model.Sessions;
-    var updateCourse = Model.UpdateCourseInfo;
-    var createSession = Model.CreateSession;
+    ViewData["Title"] = "Admin Account Info Page";
+    // var courseInfo = Model.CourseInfo;
+    // var sessionList = Model.Sessions;
+    // var updateCourse = Model.UpdateCourseInfo;
+    // var createSession = Model.CreateSession;
     Layout = "~/Views/Shared/_ALayout.cshtml";
 }
 <html lang="en">
@@ -28,18 +28,18 @@
                                 <span>/</span>
                             </li>
                             <li class="breadcrumd-item">
-                                <a href="@Url.Action("AdminCourseIndex","Admin")">Course</a>
+                                <a href="@Url.Action("AdminAccountIndex","Admin")">Account</a>
                             </li>
                             <li class="breadcrumd-item">
                                 <span>/</span>
                             </li>
                             <li class="breadcrumd-item">
-                                <a href="@Url.Action("AdminCourseInfo","Admin",courseInfo.CourseId)">Info</a>
+                                @* <a href="@Url.Action("AdminAccountInfo","Admin",courseInfo.CourseId)">Info</a> *@
                             </li>
                         </ol>
                     </div>
                 </div>
-                <div class="row">
+                @* <div class="row">
                     <div class="col-12 customer-booking">
                         <div class="row">
                             <div class="card profile col-12 mb-4">
@@ -60,7 +60,7 @@
                                             <label class="col-form-label">Course ID:</label>
                                         </div>
                                         <div class="col-md-7">
-                                            <span >
+                                            <span>
                                                 @courseInfo.CourseId
                                             </span>
                                         </div>
@@ -99,7 +99,7 @@
                                             <label class="col-form-label">Course Name:</label>
                                         </div>
                                         <div class="col-md-7">
-                                            <span >
+                                            <span>
                                                 @courseInfo.CourseName
                                             </span>
                                         </div>
@@ -109,7 +109,7 @@
                                             <label class="col-form-label">Course Type:</label>
                                         </div>
                                         <div class="col-md-7">
-                                            <span >
+                                            <span>
                                                 @courseInfo.CourseType
                                             </span>
                                         </div>
@@ -119,7 +119,7 @@
                                             <label class="col-form-label">Course Description:</label>
                                         </div>
                                         <div class="col-md-7">
-                                            <span >
+                                            <span>
                                                 @courseInfo.Description
                                             </span>
                                         </div>
@@ -129,7 +129,7 @@
                                             <label class="col-form-label">Total Hours:</label>
                                         </div>
                                         <div class="col-md-7">
-                                            <span >
+                                            <span>
                                                 @courseInfo.TotalHours
                                             </span>
                                         </div>
@@ -139,7 +139,7 @@
                                             <label class="col-form-label">Required Age:</label>
                                         </div>
                                         <div class="col-md-7">
-                                            <span >
+                                            <span>
                                                 @courseInfo.RequiredAge
                                             </span>
                                         </div>
@@ -149,7 +149,7 @@
                                             <label class="col-form-label">Difficulty:</label>
                                         </div>
                                         <div class="col-md-7">
-                                            <span >
+                                            <span>
                                                 @courseInfo.Difficulty
                                             </span>
                                         </div>
@@ -159,7 +159,7 @@
                                             <label class="col-form-label">Category:</label>
                                         </div>
                                         <div class="col-md-7">
-                                            <span >
+                                            <span>
                                                 @courseInfo.Category
                                             </span>
                                         </div>
@@ -169,7 +169,7 @@
                                             <label class="col-form-label">Total Session Amount:</label>
                                         </div>
                                         <div class="col-md-7">
-                                            <span >
+                                            <span>
                                                 @courseInfo.SessionAmount Sessions
                                             </span>
                                         </div>
@@ -179,7 +179,7 @@
                                             <label class="col-form-label">Total Class Amount:</label>
                                         </div>
                                         <div class="col-md-7">
-                                            <span >
+                                            <span>
                                                 @courseInfo.ClassAmount Classes
                                             </span>
                                         </div>
@@ -208,7 +208,8 @@
                                         {
                                             @foreach (var sessionInfo in sessionList)
                                             {
-                                                @await Html.PartialAsync("PartialViews/_AdminSessionDetails", sessionInfo);
+                                                @await Html.PartialAsync("PartialViews/_AdminSessionDetails", sessionInfo)
+                                                ;
                                             }
                                         }
                                         else
@@ -220,7 +221,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> *@
             </div>
         </div>
     </div>
@@ -231,11 +232,11 @@
                     <h4 class="modal-title">Edit Course</h4>
                 </div>
                 <div class="modal-body">
-                    <form asp-action="AdminCourseUpdate" asp-controller="Admin" asp-route-courseId="@courseInfo.CourseId" method="post" id="form">
+                    <form asp-action="AdminCourseUpdate" asp-controller="Admin" asp-route-accountId="" method="post" id="form">
                         <div class="row p-4">
                             <div class="col-12">
                                 <div class="row form-group">
-                                    <label asp-for="@updateCourse.CourseName" class="col-md-3 col-form-label text-md-right"></label>
+                                    @* <label asp-for="@updateCourse.CourseName" class="col-md-3 col-form-label text-md-right"></label>
                                     <input asp-for="@updateCourse.CourseName" value="@updateCourse.CourseName" type="text" placeholder="Course Name..." required class="form-control col-md-7">
                                     <span asp-validation-for="@updateCourse.CourseName" id="error_message"
                                           class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
@@ -273,55 +274,11 @@
                                     <label asp-for="@updateCourse.Status" class="col-md-3 col-form-label mt-3 text-md-right"></label>
                                     <select class="form-control col-md-7 custom-select" asp-for="@updateCourse.Status" asp-items="@updateCourse.DefaultCourseStatusSelectList"></select>
                                     <span asp-validation-for="@updateCourse.Status" id="error_message"
-                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span> *@
                                 </div>
                             </div>
                             <div class="modal-footer justify-content-center" style="margin-left:400px;">
                                 <button class="btn btn-success" type="submit" name="action" value="updateCourse">Save</button>
-                                <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div id="createSession" class="modal fade" role="dialog">
-        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-            <div class="modal-content modal-addRoom">
-                <div class="modal-header">
-                    <h4 class="modal-title">Add new Session</h4>
-                </div>
-                <div class="modal-body">
-                    <form asp-action="AdminSessionCreate" asp-controller="Admin" asp-route-courseId="@courseInfo.CourseId" method="post" id="form">
-                        <div class="row p-4">
-                            <div class="col-12">
-                                <div class="row form-group">
-                                    <label asp-for="@createSession.Number" class="col-md-3 col-form-label text-md-right"></label>
-                                    <input asp-for="@createSession.Number" value="@createSession.Number" type="number" min="1" required class="form-control col-md-7">
-                                    <span asp-validation-for="@createSession.Number" id="error_message"
-                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
-
-                                    <label asp-for="@createSession.Title" class="col-md-3 col-form-label text-md-right"></label>
-                                    <input asp-for="@createSession.Title" value="@createSession.Title" type="text" placeholder="Title" required class="form-control col-md-7">
-                                    <span asp-validation-for="@createSession.Title" id="error_message"
-                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
-
-                                    <label asp-for="@createSession.Description" class="col-md-3 col-form-label text-md-right"></label>
-                                    <textarea asp-for="@createSession.Description" value="@createSession.Description" required class="form-control col-md-7"></textarea>
-                                    <span asp-validation-for="@createSession.Description" id="error_message"
-                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
-
-                                    <label asp-for="@createSession.Hours" class="col-md-3 col-form-label mt-3 text-md-right"></label>
-                                    <input asp-for="@createSession.Hours" value="@createSession.Hours" type="number" class="form-control col-md-7 mt-3" required>
-                                    <span asp-validation-for="@createSession.Hours" id="error_message"
-                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
-
-                                    <input asp-for="@createSession.CourseName" value="@courseInfo.CourseName" type="text" required hidden readonly>
-                                </div>
-                            </div>
-                            <div class="modal-footer justify-content-center" style="margin-left:400px;">
-                                <button class="btn btn-success" type="submit" name="action" value="createSession">Create</button>
                                 <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
                             </div>
                         </div>
