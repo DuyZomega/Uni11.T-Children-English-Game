@@ -14,8 +14,8 @@ namespace CEG_WebMVC.Models.ViewModels.Course.Get
         public string? Difficulty { get; set; }
         public string? Category { get; set; }
         public string? Description { get; set; }
-        public int? SessionAmount { get; set; }
-        public int? ClassAmount { get; set; }
+        public int? SessionsAmount { get; set; }
+        public int? ClassesAmount { get; set; }
 
         public string? Status { get; set; }
     }

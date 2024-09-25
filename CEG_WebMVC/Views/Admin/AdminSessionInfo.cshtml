@@ -1,0 +1,303 @@
+﻿@model CEG_WebMVC.Models.ViewModels.Admin.PageModel.AdminSessionInfoPVM
+@{
+    ViewData["Title"] = "Admin Session Info Page";
+    var sessionInfo = Model.SessionInfo;
+    var homeworkList = Model.Homeworks;
+    var updateSession = Model.UpdateSessionInfo;
+    var createHomework = Model.CreateHomework;
+    Layout = "~/Views/Shared/_ALayout.cshtml";
+}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
+    <div class="main-content">
+        <div class="main">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="offset-sm-6 col-sm-6  d-flex justify-content-sm-end p-md-0 mt-2 mt-sm-0 ">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumd-item">
+                                <a href="#">Manage</a>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <span>/</span>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <a href="@Url.Action("AdminCourseIndex","Admin")">Course</a>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <span>/</span>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <a href="@Url.Action("AdminCourseInfo","Admin",new { courseId = Model.CourseId })">Info</a>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <span>/</span>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <a href="@Url.Action("AdminCourseInfo","Admin",new { courseId = Model.CourseId })">Session</a>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <span>/</span>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <a href="@Url.Action("AdminSessionInfo","Admin",new { courseId = Model.CourseId, sessionId = sessionInfo.SessionId })">Info</a>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 customer-booking">
+                        <div class="row">
+                            <div class="card profile col-12 mb-4">
+                                <div class="card-header">
+                                    <h4>Course Information</h4>
+                                    @{
+                                        if (sessionInfo.Status.Equals("Draft") || sessionInfo.Status.Equals("Postponed"))
+                                        {
+                                            <div class="edit-info">
+                                                <i class='bx bxs-edit-alt' data-toggle="modal" data-target="#editSession"></i>
+                                            </div>
+                                        }
+                                    }
+                                </div>
+                                <div class="card-body">
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Session ID:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span>
+                                                @sessionInfo.SessionId
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Status:</label>
+                                        </div>
+                                        <div class="col-sm-7">
+                                            @{
+                                                switch (sessionInfo.Status)
+                                                {
+                                                    case "Available":
+                                                        {
+                                                            <span class="outcome" style="float: left;">@sessionInfo.Status</span>
+                                                            break;
+                                                        }
+                                                    case "Draft":
+                                                    case "Postponed":
+                                                        {
+                                                            <span class="approval" style="float: left;">@sessionInfo.Status</span>
+                                                            break;
+                                                        }
+                                                    case "EndofService":
+                                                    case "Cancelled":
+                                                        {
+                                                            <span class="destroy" style="float: left;">@sessionInfo.Status</span>
+                                                            break;
+                                                        }
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Session Number:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span>
+                                                @sessionInfo.Number
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Title:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span>
+                                                @sessionInfo.Title
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Description:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span>
+                                                @sessionInfo.Description
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Hours to learn:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span>
+                                                @sessionInfo.Hours
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Homeworks amount:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span>
+                                                @sessionInfo.HomeworksAmount Homework(s)
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 customer-booking">
+                        <div class="row">
+                            <div class="card profile col-12 mb-4">
+                                <div class="card-header">
+                                    <h4>Session's Homework List</h4>
+                                    @{
+                                        if (sessionInfo.Status.Equals("Draft") || sessionInfo.Status.Equals("Postponed"))
+                                        {
+                                            <div class="edit-info">
+                                                <i class='bx bxs-edit-alt' data-toggle="modal" data-target="#createHomework"></i>
+                                            </div>
+                                        }
+                                    }
+                                </div>
+                                <div class="card-body">
+                                    @{
+                                        if (homeworkList != null && homeworkList.Count > 0)
+                                        {
+                                            @foreach (var homeworkInfo in homeworkList)
+                                            {
+                                                @await Html.PartialAsync("PartialViews/_AdminHomeworkDetails", homeworkInfo)
+                                                ;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <h5>Empty Session list</h5>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="editSession" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content modal-addRoom">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit Session</h4>
+                </div>
+                <div class="modal-body">
+                    <form asp-action="AdminSessionUpdate" asp-controller="Admin" method="post" asp-route-courseId="@Model.CourseId" asp-route-sessionId="@sessionInfo.SessionId" class="form-group">
+                        <div class="modal-body">
+                            <div class="col-12">
+                                <div class="form-group row">
+                                    <label asp-for="@updateSession.Title" class="col-sm-4 col-form-label"></label>
+                                    <div class="col-sm-8">
+                                        <input asp-for="@updateSession.Title" type="text"
+                                               value="@updateSession.Title" class="form-control" required>
+                                        <span asp-validation-for="@updateSession.Title" id="error_message"
+                                              class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label asp-for="@updateSession.Description" class="col-sm-4 col-form-label"></label>
+                                    <div class="col-sm-8">
+                                        <input asp-for="@updateSession.Description" type="text"
+                                               value="@updateSession.Description" class="form-control" required>
+                                        <span asp-validation-for="@updateSession.Description" id="error_message"
+                                              class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label asp-for="@updateSession.Number" class="col-sm-4 col-form-label"></label>
+                                    <div class="col-sm-8">
+                                        <input asp-for="@updateSession.Number" value="@updateSession.Number" type="number" min="1" class="form-control" required>
+                                        <span asp-validation-for="@updateSession.Number" id="error_message"
+                                              class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label asp-for="@updateSession.Hours" class="col-sm-4 col-form-label"></label>
+                                    <div class="col-sm-8">
+                                        <input asp-for="@updateSession.Hours" value="@updateSession.Hours" type="number" min="1" class="form-control" required>
+                                        <span asp-validation-for="@updateSession.Hours" id="error_message"
+                                              class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label asp-for="@updateSession.Status" class="col-sm-4 col-form-label"></label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control custom-select" asp-for="@updateSession.Status" asp-items="@updateSession.DefaultSessionStatusSelectList"></select>
+                                        <span asp-validation-for="@updateSession.Status" id="error_message"
+                                              class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer justify-content-center">
+                            <button class="btn btn-success" type="submit" value="Update">Save</button>
+                            <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="createHomework" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content modal-addRoom">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add new Homework</h4>
+                </div>
+                <div class="modal-body">
+                    <form asp-action="AdminHomeworkCreate" asp-controller="Admin" method="post" id="form">
+                        <div class="row p-4">
+                            <div class="col-12">
+                                <div class="row form-group">
+                                    <label asp-for="@createHomework.Title" class="col-md-3 col-form-label text-md-right"></label>
+                                    <input asp-for="@createHomework.Title" value="@createHomework.Title" type="text" placeholder="Title" required class="form-control col-md-7">
+                                    <span asp-validation-for="@createHomework.Title" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@createHomework.Description" class="col-md-3 col-form-label text-md-right"></label>
+                                    <textarea asp-for="@createHomework.Description" value="@createHomework.Description" required class="form-control col-md-7"></textarea>
+                                    <span asp-validation-for="@createHomework.Description" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@createHomework.Hours" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                    <input asp-for="@createHomework.Hours" value="@createHomework.Hours" type="number" class="form-control col-md-7 mt-3" required>
+                                    <span asp-validation-for="@createHomework.Hours" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <input asp-for="@createHomework.SessionTitle" value="@sessionInfo.Title" type="text" required hidden readonly>
+                                </div>
+                            </div>
+                            <div class="modal-footer justify-content-center" style="margin-left:400px;">
+                                <button class="btn btn-success" type="submit" name="action" value="createHomework">Create</button>
+                                <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

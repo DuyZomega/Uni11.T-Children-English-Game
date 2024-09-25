@@ -13,16 +13,19 @@ namespace CEG_WebMVC.Models.ViewModels.Admin.PageModel
             int? courseId,
             SessionInfoVM? session = null,
             UpdateSessionVM? updateSessionInfo = null,
+            List<AdminHomeworkInfoPVM>? homeworks = null,
             CreateHomeworkVM? createHomework = null)
         {
             CourseId = courseId;
-            Session = session ?? new SessionInfoVM();
+            SessionInfo = session ?? new SessionInfoVM();
             UpdateSessionInfo = updateSessionInfo ?? new UpdateSessionVM();
-            CreateHomework = createHomework != null && createHomework.SessionId.Equals(Session.SessionId) ? createHomework : new CreateHomeworkVM();
+            CreateHomework = createHomework != null && createHomework.SessionId.Equals(SessionInfo.SessionId) ? createHomework : new CreateHomeworkVM();
+            Homeworks = homeworks ?? new List<AdminHomeworkInfoPVM>();
         }
         public int? CourseId { get; set; }
-        public SessionInfoVM? Session {  get; set; }
+        public SessionInfoVM? SessionInfo {  get; set; }
         public UpdateSessionVM? UpdateSessionInfo { get; set; }
         public CreateHomeworkVM? CreateHomework { get; set; }
+        public List<AdminHomeworkInfoPVM>? Homeworks { get; set; }
     }
 }
