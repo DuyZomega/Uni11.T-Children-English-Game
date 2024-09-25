@@ -1,6 +1,6 @@
 ﻿@model CEG_WebMVC.Models.ViewModels.Admin.PageModel.AdminSessionInfoPVM
 @{
-    ViewData["Title"] = "Admin Course Info Page";
+    ViewData["Title"] = "Admin Session Info Page";
     var sessionInfo = Model.SessionInfo;
     var homeworkList = Model.Homeworks;
     var updateSession = Model.UpdateSessionInfo;
@@ -40,7 +40,7 @@
                                 <span>/</span>
                             </li>
                             <li class="breadcrumd-item">
-                                <a href="@Url.Action("AdminCourseInfo","Admin",new { courseId = Model.CourseId })">Info</a>
+                                <a href="@Url.Action("AdminCourseInfo","Admin",new { courseId = Model.CourseId })">Session</a>
                             </li>
                             <li class="breadcrumd-item">
                                 <span>/</span>
@@ -148,7 +148,7 @@
                                     </div>
                                     <div class="row mb-sm-2">
                                         <div class="col-md-5 text-md-right">
-                                            <label class="col-form-label">Homework Amount:</label>
+                                            <label class="col-form-label">Homeworks amount:</label>
                                         </div>
                                         <div class="col-md-7">
                                             <span>
