@@ -232,8 +232,8 @@ namespace CEG_WebMVC.Libraries
                 .ReverseMap()
                 .AfterMap((src, dest) =>
                 {
-                    dest.SessionAmount = src.Sessions.Count;
-                    dest.ClassAmount = src.Classes.Count;
+                    dest.SessionsAmount = src.Sessions.Count;
+                    dest.ClassesAmount = src.Classes.Count;
                 });
             CreateMap<CreateCourseVM, CreateNewCourse>()
                 .AfterMap((src,dest) =>
@@ -252,8 +252,8 @@ namespace CEG_WebMVC.Libraries
                 .ReverseMap()
                 .AfterMap((src, dest) =>
                 {
-                    dest.SessionAmount = (src.Sessions != null || src.Sessions.Any()) ? src.Sessions.Count : 0;
-                    dest.ClassAmount = (src.Classes != null || src.Classes.Any()) ? src.Classes.Count : 0;
+                    dest.SessionsAmount = (src.Sessions != null || src.Sessions.Any()) ? src.Sessions.Count : 0;
+                    dest.ClassesAmount = (src.Classes != null || src.Classes.Any()) ? src.Classes.Count : 0;
                 });
             CreateMap<UpdateCourseVM, CourseViewModel>()
                 .ReverseMap();
@@ -262,7 +262,7 @@ namespace CEG_WebMVC.Libraries
             CreateMap<SessionInfoVM, SessionViewModel>()
                 .ReverseMap().AfterMap((src, dest) =>
                 {
-                    dest.HomeworkAmount = (src.Homeworks != null || src.Homeworks.Any()) ? src.Homeworks.Count : 0;
+                    dest.HomeworksAmount = (src.Homeworks != null || src.Homeworks.Any()) ? src.Homeworks.Count : 0;
                 });
             CreateMap<HomeworkInfoVM, HomeworkViewModel>()
                 .ReverseMap();
