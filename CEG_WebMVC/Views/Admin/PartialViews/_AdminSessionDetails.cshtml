@@ -2,7 +2,6 @@
 @{
     var sessionInfo = Model.Session;
     var updateSession = Model.UpdateSessionInfo;
-    var createHomework = Model.CreateHomework;
 }
 <div class="card-header">
     <h5>Session @sessionInfo.Number Details</h5>
@@ -79,7 +78,15 @@
             <span>@sessionInfo.Hours</span>
         </div>
     </div>
-    <div class="card-body">
+    <div class="row mb-sm-2">
+        <div class="col-sm-5 text-sm-right">
+            <label for="meeting-name">Homework Amount:</label>
+        </div>
+        <div class="col-sm-7 text-sm-left">
+            <span>@sessionInfo.HomeworkAmount Homework(s)</span>
+        </div>
+    </div>
+    @* <div class="card-body">
         <div class="card-header">
             <h5>Session's Homework List</h5>
             @{
@@ -227,7 +234,7 @@
                 }
             }
         </div>
-    </div>
+    </div> *@
 </div>
 <hr class="container my-0">
 
@@ -295,7 +302,7 @@
         </div>
     </div>
 }
-<div id="createHomework" class="modal fade" role="dialog">
+@* <div id="createHomework" class="modal fade" role="dialog">
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content modal-addRoom">
             <div class="modal-header">
@@ -333,4 +340,4 @@
             </div>
         </div>
     </div>
-</div>
+</div> *@

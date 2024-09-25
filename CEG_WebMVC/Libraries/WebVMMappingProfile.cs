@@ -260,7 +260,10 @@ namespace CEG_WebMVC.Libraries
             CreateMap<UpdateSessionVM, SessionViewModel>()
                 .ReverseMap();
             CreateMap<SessionInfoVM, SessionViewModel>()
-                .ReverseMap();
+                .ReverseMap().AfterMap((src, dest) =>
+                {
+                    dest.HomeworkAmount = (src.Homeworks != null || src.Homeworks.Any()) ? src.Homeworks.Count : 0;
+                });
             CreateMap<HomeworkInfoVM, HomeworkViewModel>()
                 .ReverseMap();
             CreateMap<CreateSessionVM, CreateNewSession>()
