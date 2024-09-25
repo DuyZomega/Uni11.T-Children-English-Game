@@ -22,6 +22,7 @@ using CEG_WebMVC.Models.ViewModels.Admin.Response;
 using CEG_WebMVC.Models.ViewModels.Admin.PageModel;
 using CEG_WebMVC.Models.ViewModels.Homework.Create;
 using CEG_WebMVC.Models.ViewModels.Session.Update;
+using CEG_WebMVC.Models.ViewModels.Homework.Get;
 
 namespace CEG_WebMVC.Controllers
 {
@@ -462,9 +463,10 @@ namespace CEG_WebMVC.Controllers
             TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = ViewBag.Success = "Course Info Get Successfully!";
 
             var createSessionFailed = methcall.GetValidationTempData<CreateSessionVM>(this, TempData, Constants.CREATE_SESSION_DETAILS_VALID, "createSession", jsonOptions);
-            var createHomeworkFailed = methcall.GetValidationTempData<CreateHomeworkVM>(this, TempData, Constants.CREATE_HOMEWORK_DETAILS_VALID, "createHomework", jsonOptions);
+            //var createHomeworkFailed = methcall.GetValidationTempData<CreateHomeworkVM>(this, TempData, Constants.CREATE_HOMEWORK_DETAILS_VALID, "createHomework", jsonOptions);
             var updateCourseFailed = methcall.GetValidationTempData<UpdateCourseVM>(this, TempData, Constants.UPDATE_COURSE_DETAILS_VALID, "updateCourse", jsonOptions);
             var updateSessionFailed = methcall.GetValidationTempData<UpdateSessionVM>(this, TempData, Constants.UPDATE_SESSION_DETAILS_VALID, "updateSession", jsonOptions);
+            
             var sessionList = new List<AdminSessionInfoPVM>();
 
             if(courseInfoResponse.Data.Sessions != null && courseInfoResponse.Data.Sessions.Count > 0)
@@ -473,8 +475,7 @@ namespace CEG_WebMVC.Controllers
                 sessionList.Add(new AdminSessionInfoPVM(
                     courseId,
                     _mapper.Map<SessionInfoVM>(session),
-                    updateSessionFailed != null && updateSessionFailed.SessionId.Equals(session.SessionId) ? updateSessionFailed : _mapper.Map<UpdateSessionVM>(session),
-                    createHomeworkFailed
+                    updateSessionFailed != null && updateSessionFailed.SessionId.Equals(session.SessionId) ? updateSessionFailed : _mapper.Map<UpdateSessionVM>(session)
                     )
                 );
             }
@@ -574,6 +575,68 @@ namespace CEG_WebMVC.Controllers
             }
             TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = ViewBag.Success = "Session Create Successfully!";
             return RedirectToAction("AdminCourseInfo", new { courseId });
+        }
+        [HttpGet("Course/{courseId}/Session/{sessionId}")]
+        public async Task<IActionResult> AdminSessionInfo(
+            [FromRoute][Required] int courseId,
+            [FromRoute][Required] int sessionId)
+        {
+            if (methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN) != null)
+                return Redirect(methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN));
+            AdminAPI_URL += "Session/" + sessionId;
+            string? accToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
+
+            var sessionInfoResponse = await methcall.CallMethodReturnObject<AdminSessionInfoResponseVM>(
+                _httpClient: _httpClient,
+                options: jsonOptions,
+                methodName: Constants.GET_METHOD,
+                url: AdminAPI_URL,
+                accessToken: accToken,
+                _logger: _logger);
+
+            if (sessionInfoResponse == null)
+            {
+                _logger.LogError("Error while getting session info");
+
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while getting session info !";
+
+                return RedirectToAction("AdminCourseInfo", new { courseId });
+            }
+            if (!sessionInfoResponse.Status || sessionInfoResponse.Data == null)
+            {
+                _logger.LogError("Error while getting course info");
+
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while getting session info !";
+
+                return RedirectToAction("AdminCourseInfo", new { courseId });
+            }
+            TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = ViewBag.Success = "Session Info Get Successfully!";
+
+            var createHomeworkFailed = methcall.GetValidationTempData<CreateHomeworkVM>(this, TempData, Constants.CREATE_HOMEWORK_DETAILS_VALID, "createHomework", jsonOptions);
+            var updateSessionFailed = methcall.GetValidationTempData<UpdateSessionVM>(this, TempData, Constants.UPDATE_SESSION_DETAILS_VALID, "updateSession", jsonOptions);
+            //var updateHomeworkFailed = methcall.GetValidationTempData<UpdateSessionVM>(this, TempData, Constants.UPDATE_HOMEWORK_DETAILS_VALID, "updateHomework", jsonOptions);
+            var homeworkList = new List<AdminHomeworkInfoPVM>();
+
+            if (sessionInfoResponse.Data.Homeworks != null && sessionInfoResponse.Data.Homeworks.Count > 0)
+                foreach (var homework in sessionInfoResponse.Data.Homeworks)
+                {
+                    homeworkList.Add(new AdminHomeworkInfoPVM(
+                        sessionId,
+                        _mapper.Map<HomeworkInfoVM>(homework)
+                        //updateSessionFailed != null && updateSessionFailed.SessionId.Equals(homework.SessionId) ? updateSessionFailed : _mapper.Map<UpdateSessionVM>(homework)
+                        )
+                    );
+                }
+
+            var pageData = new AdminSessionInfoPVM(
+                courseId,
+                _mapper.Map<SessionInfoVM>(sessionInfoResponse.Data),
+                updateSessionFailed ?? _mapper.Map<UpdateSessionVM>(sessionInfoResponse.Data),
+                homeworkList,
+                createHomeworkFailed
+                );
+
+            return View(pageData);
         }
         [HttpPost("Course/{courseId}/Session/{sessionId}/Update")]
         public async Task<IActionResult> AdminSessionUpdate(
