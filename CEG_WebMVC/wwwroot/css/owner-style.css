@@ -303,12 +303,12 @@ html body {
             color: #34495e;
         }
 
-        .navigation .slide-menu > li:nth-child(3).active,
+/*        .navigation .slide-menu > li:nth-child(3).active,
         .navigation .slide-menu > li:nth-child(3):hover {
             background: #34495e;
             color: #ecf0f1;
             border-radius: 20px;
-        }
+        }*/
 
 .slide-menu li a {
     color: #ecf0f1;

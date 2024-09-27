@@ -8,7 +8,9 @@ public class MainMenu : MonoBehaviour
 {
     public Animator transition;
 
-    public float transitionTime = 1f;
+    public float transitionTime = 0f;
+
+    public GameObjectScript game;
 
     public static bool GameIsPause = false;
 
@@ -30,18 +32,16 @@ public class MainMenu : MonoBehaviour
         Application.Quit();
     }
 
-    public void ReturnGame(int sceneID)
-    {
-        SceneManager.LoadScene(sceneID);
-    }
-
     IEnumerator LoadLevel(int levelIndex)
     {
+        // Trigger the start of the transition
         transition.SetTrigger("Start");
 
+        // Wait for the duration of the transition animation
         yield return new WaitForSeconds(transitionTime);
 
+        // Load the new scene
         SceneManager.LoadScene(levelIndex);
+        
     }
-   
 }
