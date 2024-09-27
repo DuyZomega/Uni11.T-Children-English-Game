@@ -186,7 +186,7 @@
                                         }
                                         else
                                         {
-                                            <h5>Empty Session list</h5>
+                                            <h5>Empty Homework list</h5>
                                         }
                                     }
                                 </div>
@@ -267,7 +267,7 @@
                     <h4 class="modal-title">Add new Homework</h4>
                 </div>
                 <div class="modal-body">
-                    <form asp-action="AdminHomeworkCreate" asp-controller="Admin" method="post" id="form">
+                    <form asp-action="AdminHomeworkCreate" asp-controller="Admin" asp-route-courseId="@Model.CourseId" asp-route-sessionId="@sessionInfo.SessionId" method="post" id="form">
                         <div class="row p-4">
                             <div class="col-12">
                                 <div class="row form-group">

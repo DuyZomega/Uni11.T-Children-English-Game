@@ -13,13 +13,11 @@ namespace CEG_WebMVC.Models.ViewModels.Session.Create
             Number = 1;
             CourseName = courseName;
             Hours = 1;
-            Homeworks = new List<CreateHomeworkVM> { new CreateHomeworkVM() };
         }
         public CreateSessionVM()
         {
             Number = 1;
             Hours = 1;
-            Homeworks = new List<CreateHomeworkVM> { new CreateHomeworkVM() };
         }
         [Required(ErrorMessage = "Session Number is required")]
         [Range(1, int.MaxValue)]
@@ -36,6 +34,5 @@ namespace CEG_WebMVC.Models.ViewModels.Session.Create
         [DisplayName("Hours")]
         public int? Hours { get; set; }
         public string? CourseName { get; set; }
-        public List<CreateHomeworkVM> Homeworks { get; set; } = new List<CreateHomeworkVM>();
     }
 }
