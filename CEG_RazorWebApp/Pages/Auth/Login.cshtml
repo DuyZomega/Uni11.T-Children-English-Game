@@ -1,0 +1,84 @@
+﻿@page
+@model CEG_RazorWebApp.Pages.Auth.LoginModel
+@{
+    ViewData["Title"] = "Login Page";
+}
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="author" content="Untree.co">
+		<link rel="shortcut icon" href="#">
+
+		<meta name="description" content="">
+		<meta name="keywords" content="bootstrap, bootstrap4">
+		 <link rel="stylesheet" href="~/css/main.css">
+		<title>@ViewData["Title"]</title>
+	</head>
+
+	<body class="background">
+		<div style="background-image: url(~/images/Background.png); background-repeat:no-repeat; background-size: 100% 100%;">
+				<div class="main-container">
+					<div class="row justify-content-between">
+						<div class="col-lg-6">
+							<div class="box-container">
+								<div class="d-flex justify-content-center box-header light-green">
+									<h5><b>User login</b></h5>
+								</div>
+								<div class="d-flex box-body justify-content-center">
+									<form class="reg-form" asp-action="Authorize" asp-controller="Auth">
+										@{
+											if (ViewBag.error != null)
+											{
+												<span class="text-danger">@ViewBag.error</span>
+											}
+										}
+										<div class="form-group">
+
+											<input placeholder="Username" asp-for="Username" class="form-control"/>
+
+											<span asp-validation-for="Username" class="text-danger"></span>
+										</div>
+										<div class="form-group">
+
+											<input type="password" placeholder="Password" asp-for="Password" class="form-control" />
+
+											<span asp-validation-for="Password" class="text-danger"></span>
+										</div>
+										<a href="#" class="float-end">Forgot Password?</a>
+										<button class="reg-button btn1 light-green" type="submit" value="Login">Login</button>
+										<div>
+											<p class="text-center my-3">Or</p>
+											<button class="login-gg">
+													<a href="@Url.Action("GoogleLogin", "Auth")">
+													<img src="~/images/Google__G__Logo.svg" alt="logo-G"> Login with Google</a>
+											</button>
+										 </div>
+										<div>
+										</div>
+										<div class="reg-text">
+											New to this ? Join us <a href="@Url.Action("Register","Auth")" class="link-success">Sign up</a>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="write-container" style="text-align:center">
+								<div class="write-title">Children English Game</div>
+							</div>
+							<div class="write-text">
+							</div>
+							<div class="row">
+								<div class="d-flex justify-content-center">
+									@* <img class="bird-image" src="~/images/bulbul.png"> *@
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+		</div>
+	</body>
+</html>

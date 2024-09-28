@@ -3,18 +3,17 @@ using CEG_RazorWebApp.Libraries;
 using CEG_RazorWebApp.Models.Admin.Response;
 using CEG_RazorWebApp.Models.Course.Create;
 using CEG_RazorWebApp.Models.Course.Get;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Net.Http.Headers;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 
-namespace CEG_RazorWebApp.Pages.Admin
+namespace CEG_RazorWebApp.Pages.Admin.Course
 {
-    public class AdminCourseIndexModel : PageModel
+    public class CourseIndexModel : PageModel
     {
-        private readonly ILogger<AdminCourseIndexModel> _logger;
+        private readonly ILogger<CourseIndexModel> _logger;
         private readonly IMapper _mapper;
         private readonly IConfiguration _config;
         private readonly HttpClient _httpClient = null;
@@ -37,7 +36,7 @@ namespace CEG_RazorWebApp.Pages.Admin
         [BindProperty]
         public List<IndexCourseInfoVM>? Courses { get; set; }
 
-        public AdminCourseIndexModel(ILogger<AdminCourseIndexModel> logger, IConfiguration config, IMapper mapper)
+        public CourseIndexModel(ILogger<CourseIndexModel> logger, IConfiguration config, IMapper mapper)
         {
             _logger = logger;
             _config = config;
@@ -49,7 +48,7 @@ namespace CEG_RazorWebApp.Pages.Admin
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             AdminAPI_URL = config.GetSection(Constants.SYSTEM_DEFAULT_API_URL_CONFIG_PATH).Value;
         }
-        
+
         public async Task<IActionResult> OnGetAsync()
         {
             if (methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN) != null)
@@ -84,7 +83,7 @@ namespace CEG_RazorWebApp.Pages.Admin
             /*TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = ViewBag.Success = "Course List Get Successfully!";*/
             TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = "Course List Get Successfully!";
             var courseTempData = methcall.GetValidationTempData<CreateCourseVM>(this, TempData, Constants.CREATE_COURSE_DETAILS_VALID, "createCourse", jsonOptions);
-            
+
             Courses = _mapper.Map<List<IndexCourseInfoVM>>(courseListResponse.Data);
             CreateCourse = courseTempData != null ? courseTempData : new CreateCourseVM();
 
