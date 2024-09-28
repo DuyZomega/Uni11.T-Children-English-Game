@@ -1,4 +1,4 @@
-﻿using CEG_BAL.ViewModels.Authenticates;
+using CEG_BAL.ViewModels.Authenticates;
 
 namespace CEG_RazorWebApp.Models.Account.Response
 {

@@ -1,4 +1,4 @@
-﻿using CEG_RazorWebApp.Libraries;
+using CEG_RazorWebApp.Libraries;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.IdentityModel.Tokens;
 using System.ComponentModel.DataAnnotations;

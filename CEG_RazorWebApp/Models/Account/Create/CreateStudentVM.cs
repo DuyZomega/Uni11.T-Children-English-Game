@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using CEG_BAL.ViewModels.Account.Create;
 
 namespace CEG_RazorWebApp.Models.Account.Create
 {
