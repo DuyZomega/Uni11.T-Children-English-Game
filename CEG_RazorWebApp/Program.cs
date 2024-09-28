@@ -45,8 +45,13 @@ namespace CEG_RazorWebApp
             // Add HttpClient
             services.AddHttpClient();
 
+            services.AddRazorPages(options =>
+            {
+                options.Conventions.AddPageRoute("/Index", "/Home/Index");
+            });
+
             // Add controllers with views
-            services.AddControllersWithViews();
+            /*services.AddControllersWithViews();*/
 
             // Add AutoMapper
             services.AddAutoMapper(typeof(WebVMMappingProfile));
@@ -67,7 +72,6 @@ namespace CEG_RazorWebApp
 
             // Add Hosted services
             /*services.AddHostedService<MembershipExpiryService>();*/
-            services.AddRazorPages();
         }
 
         private static void ConfigureMiddleware(WebApplication app)
@@ -91,7 +95,7 @@ namespace CEG_RazorWebApp
             app.UseSession();
 
             // Enable CORS
-            app.UseCors();
+            /*app.UseCors();*/
 
             // Enable authentication and authorization
             app.UseAuthentication();
@@ -101,6 +105,11 @@ namespace CEG_RazorWebApp
             /*app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");*/
+            app.MapGet("/", context =>
+            {
+                context.Response.Redirect("/Home/Index");
+                return Task.CompletedTask;
+            });
             app.MapRazorPages();
         }
     }
