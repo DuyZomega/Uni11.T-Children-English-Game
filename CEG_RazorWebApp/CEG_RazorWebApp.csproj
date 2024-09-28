@@ -7,12 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CEG_BAL\CEG_BAL.csproj" />
-    <ProjectReference Include="..\CEG_WebAPI\CEG_WebAPI.csproj" />
+    <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="6.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="8.0.8" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.5" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="RestSharp" Version="112.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Libraries\" />
+    <ProjectReference Include="..\CEG_BAL\CEG_BAL.csproj" />
+    <ProjectReference Include="..\CEG_WebAPI\CEG_WebAPI.csproj" />
   </ItemGroup>
 
 </Project>
