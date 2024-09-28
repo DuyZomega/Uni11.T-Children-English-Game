@@ -725,7 +725,7 @@ namespace CEG_WebMVC.Controllers
                 return RedirectToAction("AdminCourseInfo", new { courseId });
             }
             TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = ViewBag.Success = "Homework Create Successfully!";
-            return RedirectToAction("AdminCourseInfo", new { courseId });
+            return RedirectToAction("AdminSessionInfo", new { courseId, sessionId });
         }
         [HttpGet("Transaction/Index")]
         public async Task<IActionResult> AdminTransactionIndex()

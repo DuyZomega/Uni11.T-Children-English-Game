@@ -303,12 +303,12 @@ html body {
             color: #34495e;
         }
 
-        .navigation .slide-menu > li:nth-child(3).active,
+/*        .navigation .slide-menu > li:nth-child(3).active,
         .navigation .slide-menu > li:nth-child(3):hover {
             background: #34495e;
             color: #ecf0f1;
             border-radius: 20px;
-        }
+        }*/
 
 .slide-menu li a {
     color: #ecf0f1;
@@ -329,9 +329,9 @@ html body {
     color: #34495e;
 }
 
-.slide-menu > li:nth-child(3) a:hover {
+/*.slide-menu > li:nth-child(3) a:hover {
     color: #ecf0f1;
-}
+}*/
 
 .slide-menu li a i {
     position: relative;
