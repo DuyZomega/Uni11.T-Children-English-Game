@@ -1,20 +1,20 @@
-using CEG_BAL.ViewModels.Authenticates;
+﻿using CEG_BAL.ViewModels;
 
-namespace CEG_RazorWebApp.Models.Account.Response
+namespace CEG_RazorWebApp.Models.Admin.Response
 {
-    public class AuthenResponseVM
+    public class AdminAccountListResponseVM
     {
-        public AuthenResponseVM(bool status, string? errorMessage, string? successMessage)
+        public AdminAccountListResponseVM(bool status, string? errorMessage, string? successMessage)
         {
             Status = status;
             ErrorMessage = errorMessage;
             SuccessMessage = successMessage;
         }
-        public AuthenResponseVM()
+        public AdminAccountListResponseVM()
         {
             Status = false;
         }
-        public AuthenResponse? Data { get; set; }
+        public List<AccountViewModel>? Data { get; set; }
         public bool Status { get; set; }
         public string? ErrorMessage { get; set; }
         public string? SuccessMessage { get; set; }
