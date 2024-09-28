@@ -5,13 +5,13 @@ using CEG_BAL.ViewModels.Admin;
 using CEG_RazorWebApp.Models.Account.Create;
 using CEG_RazorWebApp.Models.Course.Create;
 using CEG_RazorWebApp.Models.Course.Get;
-using CEG_WebMVC.Models.Account.Get;
-using CEG_WebMVC.Models.Course.Update;
-using CEG_WebMVC.Models.Homework.Create;
-using CEG_WebMVC.Models.Homework.Get;
-using CEG_WebMVC.Models.Session.Create;
-using CEG_WebMVC.Models.Session.Get;
-using CEG_WebMVC.Models.ViewModels.Session.Update;
+using CEG_RazorWebApp.Models.Account.Get;
+using CEG_RazorWebApp.Models.Course.Update;
+using CEG_RazorWebApp.Models.Homework.Create;
+using CEG_RazorWebApp.Models.Homework.Get;
+using CEG_RazorWebApp.Models.Session.Create;
+using CEG_RazorWebApp.Models.Session.Get;
+using CEG_RazorWebApp.Models.Session.Update;
 
 namespace CEG_RazorWebApp.Libraries
 {

@@ -1,10 +1,10 @@
 ﻿using CEG_RazorWebApp.Libraries;
-using CEG_WebMVC.Models.Homework.Create;
+using CEG_RazorWebApp.Models.Homework.Create;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace CEG_WebMVC.Models.Session.Create
+namespace CEG_RazorWebApp.Models.Session.Create
 {
     public class CreateSessionVM
     {

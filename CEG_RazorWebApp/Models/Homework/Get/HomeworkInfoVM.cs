@@ -1,6 +1,6 @@
 ﻿using CEG_BAL.ViewModels;
 
-namespace CEG_WebMVC.Models.Homework.Get
+namespace CEG_RazorWebApp.Models.Homework.Get
 {
     public class HomeworkInfoVM
     {
