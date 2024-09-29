@@ -22,7 +22,6 @@
   <ItemGroup>
     <Folder Include="Models\Account\Create" />
     <Folder Include="Models\Class\" />
-    <Folder Include="Pages\Admin\" />
   </ItemGroup>
 
 </Project>

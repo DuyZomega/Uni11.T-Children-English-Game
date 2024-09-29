@@ -48,6 +48,7 @@ namespace CEG_RazorWebApp
             services.AddRazorPages(options =>
             {
                 options.Conventions.AddPageRoute("/Home/Index", "/Index");
+                //options.Conventions.AddPageRoute("/Admin/Index", "/Admin/Index");
             });
 
             // Add controllers with views
