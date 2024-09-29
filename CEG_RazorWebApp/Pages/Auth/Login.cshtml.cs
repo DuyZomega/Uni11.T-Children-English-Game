@@ -13,14 +13,10 @@ namespace CEG_RazorWebApp.Pages.Auth
 {
     public class LoginModel : PageModel
     {
-		[Required(ErrorMessage = "Username is required")]
-		public string Username { get; set; }
-		[PasswordPropertyText]
-		[DataType(DataType.Password)]
-		[Required(ErrorMessage = "Password is required")]
-		public string Password { get; set; }
+		[BindProperty]
+        public AuthenRequest AuthenRequest { get; set; }
 
-		private readonly ILogger<LoginModel> _logger;
+        private readonly ILogger<LoginModel> _logger;
 		private readonly IConfiguration _config;
 		private readonly HttpClient client = null;
 		//private readonly IVnPayService _vnPayService;
@@ -77,7 +73,7 @@ namespace CEG_RazorWebApp.Pages.Auth
 			return RedirectToAction(actionName: "Index", controllerName: "Home");
 		}
 
-		public async Task<IActionResult> OnPostAuthorize(AuthenRequest authenRequest)
+		public async Task<IActionResult> OnPostAsync()
 		{
 			AuthenAPI_URL += "Account/Login";
 
@@ -86,7 +82,7 @@ namespace CEG_RazorWebApp.Pages.Auth
 				options: jsonOptions,
 				methodName: Constants.POST_METHOD,
 				url: AuthenAPI_URL,
-				inputType: authenRequest,
+				inputType: AuthenRequest,
 				_logger: _logger);
 
 			if (authenResponse == null || authenResponse.Data == null || !authenResponse.Status)
@@ -120,29 +116,26 @@ namespace CEG_RazorWebApp.Pages.Auth
 				case var value when value.Equals(Constants.ADMIN):
 					{
 						_logger.LogInformation("Admin Login Successful: " + TempData[Constants.ROLE_NAME] + " , Id: " + TempData[Constants.USR_ID]);
-						return base.Redirect(Constants.ADMIN_URL);
+						return RedirectToPage(Constants.ADMIN_URL);
 					}
 				case var value when value.Equals(Constants.TEACHER):
 					{
 						_logger.LogInformation("Teacher Login Successful: " + TempData[Constants.ROLE_NAME] + " , Id: " + TempData[Constants.USR_ID]);
-						return base.Redirect("");
+						return RedirectToPage("");
 					}
 				case var value when value.Equals(Constants.PARENT):
 					{
 						_logger.LogInformation("Parent Login Successful: " + TempData[Constants.ROLE_NAME] + " , Id: " + TempData[Constants.USR_ID]);
-						return base.Redirect("");
+						return RedirectToPage("");
 					}
 				case var value when value.Equals(Constants.STUDENT):
 					{
 						_logger.LogInformation("Student Login Successful: " + TempData[Constants.ROLE_NAME] + " , Id: " + TempData[Constants.USR_ID]);
-						return base.Redirect("");
-					}
-				default:
-					{
-						_logger.LogInformation("Goofy Ahh Member Login Successful: " + TempData[Constants.ROLE_NAME] + " , Id: " + TempData[Constants.USR_ID]);
-						return base.Redirect(Constants.STUDENT_URL);
+						return RedirectToPage("");
 					}
 			}
+			_logger.LogInformation("Goofy Ahh Member Login Successful: " + TempData[Constants.ROLE_NAME] + " , Id: " + TempData[Constants.USR_ID]);
+			return Page();
 		}
     }
 }
