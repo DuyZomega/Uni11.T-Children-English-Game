@@ -20,8 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\Account\Create" />
-    <Folder Include="Models\Class\" />
   </ItemGroup>
 
 </Project>
