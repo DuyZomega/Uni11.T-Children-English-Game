@@ -32,8 +32,7 @@ namespace CEG_RazorWebApp.Pages.Home
             HomeAPI_URL = config.GetSection(Constants.SYSTEM_DEFAULT_API_URL_CONFIG_PATH).Value;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> OnGet()
         {
             /*string MeetingAPI_URL = HomeAPI_URL + "Meeting/All";
             string FieldTripAPI_URL_All = HomeAPI_URL + "FieldTrip/All";

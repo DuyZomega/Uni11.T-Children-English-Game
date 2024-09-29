@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 
-namespace CEG_WebMVC.Models.Course.Update
+namespace CEG_RazorWebApp.Models.Course.Update
 {
     public class UpdateCourseVM
     {

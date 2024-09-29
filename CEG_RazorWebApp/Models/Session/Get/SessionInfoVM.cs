@@ -1,7 +1,7 @@
 ﻿using CEG_BAL.ViewModels;
-using CEG_WebMVC.Models.Homework.Get;
+using CEG_RazorWebApp.Models.Homework.Get;
 
-namespace CEG_WebMVC.Models.Session.Get
+namespace CEG_RazorWebApp.Models.Session.Get
 {
     public class SessionInfoVM
     {

@@ -4,7 +4,7 @@ using System.ComponentModel;
 using CEG_DAL.Models;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace CEG_WebMVC.Models.Homework.Create
+namespace CEG_RazorWebApp.Models.Homework.Create
 {
     public class CreateHomeworkVM
     {

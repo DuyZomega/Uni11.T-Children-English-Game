@@ -1,7 +1,7 @@
 ﻿using CEG_RazorWebApp.Libraries;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace CEG_WebMVC.Models.ViewModels.Session.Update
+namespace CEG_RazorWebApp.Models.Session.Update
 {
     public class UpdateSessionVM
     {
