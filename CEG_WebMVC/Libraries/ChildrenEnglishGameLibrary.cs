@@ -305,6 +305,49 @@ namespace CEG_WebMVC.Libraries
             }
             return defaultStatuses;
         }
+        public List<SelectListItem> GetSessionStatusSelectableList(string statusName)
+        {
+            List<SelectListItem> defaultStatuses = new();
+            switch (statusName)
+            {
+                case var value when value.Equals(Constants.SESSION_STATUS_DRAFT):
+                    {
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.SESSION_STATUS_NAME_DRAFT, Value = Constants.SESSION_STATUS_DRAFT, Selected = true });
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.SESSION_STATUS_NAME_AVAILABLE, Value = Constants.SESSION_STATUS_AVAILABLE });
+                        break;
+                    }
+                case var value when value.Equals(Constants.SESSION_STATUS_AVAILABLE):
+                    {
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.SESSION_STATUS_NAME_AVAILABLE, Value = Constants.SESSION_STATUS_AVAILABLE, Selected = true });
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.SESSION_STATUS_NAME_POSTPONED, Value = Constants.SESSION_STATUS_POSTPONED });
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.SESSION_STATUS_NAME_CANCELLED, Value = Constants.SESSION_STATUS_CANCELLED });
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.SESSION_STATUS_NAME_END_OF_SERVICE, Value = Constants.SESSION_STATUS_END_OF_SERVICE });
+                        break;
+                    }
+                case var value when value.Equals(Constants.SESSION_STATUS_POSTPONED):
+                    {
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.SESSION_STATUS_NAME_AVAILABLE, Value = Constants.SESSION_STATUS_AVAILABLE });
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.SESSION_STATUS_NAME_POSTPONED, Value = Constants.SESSION_STATUS_POSTPONED, Selected = true });
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.SESSION_STATUS_NAME_CANCELLED, Value = Constants.SESSION_STATUS_CANCELLED });
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.SESSION_STATUS_NAME_END_OF_SERVICE, Value = Constants.SESSION_STATUS_END_OF_SERVICE });
+                        break;
+                    }
+                case var value when value.Equals(Constants.SESSION_STATUS_CANCELLED):
+                    {
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.SESSION_STATUS_NAME_AVAILABLE, Value = Constants.SESSION_STATUS_AVAILABLE });
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.SESSION_STATUS_NAME_CANCELLED, Value = Constants.SESSION_STATUS_CANCELLED, Selected = true });
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.SESSION_STATUS_NAME_END_OF_SERVICE, Value = Constants.SESSION_STATUS_END_OF_SERVICE });
+                        break;
+                    }
+                case var value when value.Equals(Constants.SESSION_STATUS_NAME_END_OF_SERVICE):
+                    {
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.SESSION_STATUS_NAME_AVAILABLE, Value = Constants.SESSION_STATUS_AVAILABLE });
+                        defaultStatuses.Add(new SelectListItem { Text = Constants.SESSION_STATUS_NAME_END_OF_SERVICE, Value = Constants.SESSION_STATUS_END_OF_SERVICE, Selected = true });
+                        break;
+                    }
+            }
+            return defaultStatuses;
+        }
 
         public T? GetValidationTempData<T>(
             ControllerBase context,

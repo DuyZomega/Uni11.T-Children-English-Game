@@ -1,0 +1,59 @@
+﻿@page
+@model CEG_RazorWebApp.Pages.Admin.AdminIndexModel
+@{
+    Layout = null;
+    ViewData["Title"] = "Admin Index Page";
+    Layout = "~/Pages/Shared/_ALayout.cshtml";
+}
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+        <title>@ViewData["Title"]</title>
+    </head>
+    <body>
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- num of data -->
+            <div class="cardBox">
+                <div class="card event">
+                    <div class="inconBx">
+                        <i class='bx bx-home-heart'></i>
+                    </div>
+                    <div>
+                        @* <div class="number">@Model.TotalUsers</div> *@
+                        <div class="cardName">Total Accounts</div>
+                    </div>
+                </div>
+                <div class="card feedback">
+                    <div class="inconBx">
+                        <i class='bx bx-conversation'></i>
+                    </div>
+                    <div>
+                        @* <div class="number">@Model.TotalManagers</div> *@
+                        <div class="cardName">Teacher Accounts</div>
+                    </div>
+                </div>
+                <div class="card turnover">
+                    <div class="inconBx">
+                        <i class='bx bx-money'></i>
+                    </div>
+                    <div>
+                        @* <div class="number">@Model.TotalStaffs</div> *@
+                        <div class="cardName">Student Accounts</div>
+                    </div>
+                </div>
+                <div class="card turnover">
+                    <div class="inconBx">
+                        <i class='bx bx-money'></i>
+                    </div>
+                    <div>
+                        @* <div class="number">@Model.TotalStaffs</div> *@
+                        <div class="cardName">Parent Accounts</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

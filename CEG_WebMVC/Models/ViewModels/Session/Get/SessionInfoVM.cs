@@ -7,7 +7,7 @@ namespace CEG_WebMVC.Models.ViewModels.Session.Get
     {
         public SessionInfoVM()
         {
-            HomeworkAmount = Homeworks.Count;
+            HomeworksAmount = Homeworks.Count;
         }
         public int? SessionId { get; set; }
         public string Title { get; set; } = null!;
@@ -15,7 +15,7 @@ namespace CEG_WebMVC.Models.ViewModels.Session.Get
         public int? Number {  get; set; }
         public int? Hours { get; set; }
         public string? Status { get; set; }
-        public int? HomeworkAmount { get; set; }
+        public int? HomeworksAmount { get; set; }
 
         public List<HomeworkInfoVM> Homeworks { get; set; } = new List<HomeworkInfoVM>();
     }

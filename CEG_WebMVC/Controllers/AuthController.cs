@@ -175,7 +175,8 @@ namespace CEG_WebMVC.Controllers
                 case var value when value.Equals(Constants.ADMIN):
                     {
                         _logger.LogInformation("Admin Login Successful: " + TempData[Constants.ROLE_NAME] + " , Id: " + TempData[Constants.USR_ID]);
-                        return base.Redirect(Constants.ADMIN_URL);
+                        //return base.Redirect(Constants.ADMIN_URL);
+                        return RedirectToPage("Admin/Index");
                     }
                 case var value when value.Equals(Constants.TEACHER):
                     {

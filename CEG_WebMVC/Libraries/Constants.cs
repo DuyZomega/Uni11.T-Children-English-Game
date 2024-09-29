@@ -181,8 +181,8 @@ namespace CEG_WebMVC.Libraries
 
         public readonly static string CLASS_STATUS_DRAFT = "Draft";
         public readonly static string CLASS_STATUS_NAME_DRAFT = "Draft";
-        public readonly static string CLASS_STATUS_AVAILABLE = "Available";
-        public readonly static string CLASS_STATUS_NAME_AVAILABLE = "Available";
+        public readonly static string CLASS_STATUS_OPEN = "Open";
+        public readonly static string CLASS_STATUS_NAME_OPEN = "Open";
         public readonly static string CLASS_STATUS_POSTPONED = "Postponed";
         public readonly static string CLASS_STATUS_NAME_POSTPONED = "Postponed";
         public readonly static string CLASS_STATUS_CANCELLED = "Cancelled";
@@ -208,6 +208,7 @@ namespace CEG_WebMVC.Libraries
         public readonly static int COURSE_MINIMUM_AGE_REQ = 11;
         public readonly static int COURSE_MAXIMUM_AGE_REQ = 18;
         public readonly static int COURSE_TOTAL_HOURS = 1;
+        public readonly static int SESSION_HOURS = 1;
         public readonly static int EVENT_FIELDTRIP_MIN_PART_REQ = 10;
         public readonly static int EVENT_CONTEST_MIN_PART_REQ = 10;
 

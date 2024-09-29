@@ -22,7 +22,7 @@ namespace CEG_WebMVC.Models.ViewModels.Homework.Create
         [Range(1, int.MaxValue)]
         [DisplayName("Hours")]
         public int? Hours { get; set; }
-        public int? CourseId { get; set; }
+        public int? SessionId { get; set; }
         public string? SessionTitle { get; set; }
     }
 }
