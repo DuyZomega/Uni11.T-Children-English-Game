@@ -121,17 +121,17 @@ namespace CEG_RazorWebApp.Pages.Auth
 				case var value when value.Equals(Constants.TEACHER):
 					{
 						_logger.LogInformation("Teacher Login Successful: " + TempData[Constants.ROLE_NAME] + " , Id: " + TempData[Constants.USR_ID]);
-						return RedirectToPage("");
+						return RedirectToPage(Constants.TEACHER_URL);
 					}
 				case var value when value.Equals(Constants.PARENT):
 					{
 						_logger.LogInformation("Parent Login Successful: " + TempData[Constants.ROLE_NAME] + " , Id: " + TempData[Constants.USR_ID]);
-						return RedirectToPage("");
+						return RedirectToPage(Constants.PARENT_URL);
 					}
 				case var value when value.Equals(Constants.STUDENT):
 					{
 						_logger.LogInformation("Student Login Successful: " + TempData[Constants.ROLE_NAME] + " , Id: " + TempData[Constants.USR_ID]);
-						return RedirectToPage("");
+						return RedirectToPage(Constants.STUDENT_URL);
 					}
 			}
 			_logger.LogInformation("Goofy Ahh Member Login Successful: " + TempData[Constants.ROLE_NAME] + " , Id: " + TempData[Constants.USR_ID]);

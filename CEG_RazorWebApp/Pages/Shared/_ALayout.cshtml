@@ -26,36 +26,36 @@
             <div class="navigation">
                 <ul class="slide-menu">
                     <div class="logo">
-                        <a href="@Url.Action("AdminIndex", "Admin")">
+                        <a href="@Url.Page("/Admin/Index")">
                             @* <img class="logo" src="~/images/Red_whiskered_bulbul_bird_logo_eps_10_generated 1.png" alt="logo"> *@
                         </a>
                     </div>
                     <li data-toggle="tooltip" data-placement="right" title="Overview">
-                        <a href="@Url.Action("AdminIndex", "Admin")">
+                        <a href="@Url.Page("/Admin/Index")">
                             <span><i class='bx bx-home-alt-2'></i></span>
                             <span class="title">Overview</span>
                         </a>
                     </li>
                     <li data-toggle="tooltip" data-placement="right" title="Account">
-                        <a href="@Url.Action("AdminAccountIndex", "Admin")">
+                        <a href="@Url.Page("/Admin/Account/AccountIndex")">
                             <span><i class='bx bx-home-alt-2'></i></span>
                             <span class="title">Accounts</span>
                         </a>
                     </li>
                     <li data-toggle="tooltip" data-placement="right" title="Class">
-                        <a href="@Url.Action("AdminClassIndex", "Admin")">
+                        <a href="@Url.Page("Admin/Class/ClassIndex")">
                             <span><i class='bx bx-home-alt-2'></i></span>
                             <span class="title">Classes</span>
                         </a>
                     </li>
                     <li data-toggle="tooltip" data-placement="right" title="Course">
-                        <a href="@Url.Action("AdminCourseIndex", "Admin")">
+                        <a href="@Url.Page("Admin/Course/CourseIndex")">
                             <span><i class='bx bx-home-alt-2'></i></span>
                             <span class="title">Courses</span>
                         </a>
                     </li>
                     <li data-toggle="tooltip" data-placement="right" title="Transaction">
-                        <a href="@Url.Action("AdminTransactionIndex", "Admin")">
+                        <a href="@Url.Page("Admin/Transaction/TransactionIndex")">
                             <span><i class='bx bx-home-alt-2'></i></span>
                             <span class="title">Transactions</span>
                         </a>
@@ -87,9 +87,9 @@
                                         @TempData["USER_NAME"]
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="@Url.Action("AdminProfile", "Admin")"><i class='bx bx-user'></i>Admin Profile</a> <!--thêm theo user id và role-->
+                                        <a class="dropdown-item" href="@Url.Page("AdminProfile", "Admin")"><i class='bx bx-user'></i>Admin Profile</a> <!--thêm theo user id và role-->
                                         <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="@Url.Action("Logout", "Auth")">Logout</a>
+                                        <a class="dropdown-item" href="@Url.Page("Logout", "Auth")">Logout</a>
                                     </div>
                                 }
                             </div>
