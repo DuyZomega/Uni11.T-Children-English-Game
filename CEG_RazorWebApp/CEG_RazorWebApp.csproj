@@ -19,7 +19,4 @@
     <ProjectReference Include="..\CEG_WebAPI\CEG_WebAPI.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-  </ItemGroup>
-
 </Project>
