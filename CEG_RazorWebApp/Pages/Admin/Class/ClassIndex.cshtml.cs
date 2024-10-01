@@ -1,7 +1,7 @@
 using AutoMapper;
 using CEG_RazorWebApp.Libraries;
-using CEG_RazorWebApp.Pages.Admin.Account;
-using CEG_RazorWebApp.Pages.Admin.Course;
+using CEG_RazorWebApp.Models.Admin.Response;
+using CEG_RazorWebApp.Models.Class.Get;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Net.Http;
@@ -31,6 +31,9 @@ namespace CEG_RazorWebApp.Pages.Admin.Class
             IsEssential = true,
         };
         private readonly ChildrenEnglishGameLibrary methcall = new();
+        [BindProperty]
+        public List<IndexClassInfoVM>? Classes { get; set; }
+
         public ClassIndexModel(ILogger<ClassIndexModel> logger, IConfiguration config, IMapper mapper)
         {
             _logger = logger;
@@ -43,9 +46,44 @@ namespace CEG_RazorWebApp.Pages.Admin.Class
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             AdminAPI_URL = config.GetSection(Constants.SYSTEM_DEFAULT_API_URL_CONFIG_PATH).Value;
         }
-        public void OnGet()
+        public async Task<IActionResult> OnGetAsync()
         {
             methcall.InitTempData(this);
+            AdminAPI_URL += "Class/All";
+            string? accToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
+
+            var courseListResponse = await methcall.CallMethodReturnObject<AdminClassListResponseVM>(
+                _httpClient: _httpClient,
+                options: jsonOptions,
+                methodName: Constants.GET_METHOD,
+                url: AdminAPI_URL,
+                accessToken: accToken,
+                _logger: _logger);
+
+            if (courseListResponse == null)
+            {
+                _logger.LogError("Error while getting class list");
+
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while getting class list !";
+
+                return RedirectToAction("AdminIndex");
+            }
+            if (!courseListResponse.Status)
+            {
+                _logger.LogError("Error while getting class list");
+
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while getting class list !";
+
+                return RedirectToAction("AdminIndex");
+            }
+            //TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = ViewBag.Success = "Class List Get Successfully!";
+            TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = "Class List Get Successfully!";
+            //var teacherTempData = methcall.GetValidationTempData<CreateTeacherVM>(this, TempData, Constants.CREATE_TEACHER_DETAILS_VALID, "createTeacher", jsonOptions);
+
+            Classes = _mapper.Map<List<IndexClassInfoVM>>(courseListResponse.Data);
+            //CreateClass = new CreateClassVM()
+
+            return Page();
         }
         public IActionResult OnGetLogout()
         {
