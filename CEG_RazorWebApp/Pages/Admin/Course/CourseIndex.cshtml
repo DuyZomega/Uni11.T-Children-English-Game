@@ -1,5 +1,6 @@
 ﻿@page "/Admin/Course/Index"
 @model CEG_RazorWebApp.Pages.Admin.Course.CourseIndexModel
+
 @{
     Layout = null;
     ViewData["Title"] = "Admin All Courses Page";
@@ -81,10 +82,10 @@
                                                 <div class="col-sm-6 d-flex address-home">
                                                 </div>
                                                 <div class="col-sm-6 d-flex justify-content-end">
-                                                    <form asp-action="AdminCourseIndex" asp-controller="Admin" method="get" asp-route-search="@search">
+                                                    <form method="get" asp-route-search="@search">
                                                         <div>
                                                             <label>
-                                                                <input asp-for="@search" class="form-control" type="text" name="search" placeholder="Search..." value="@search">
+                                                                <input asp-for="@search" class="form-control" type="text" placeholder="Search..." value="@search">
                                                                 <i class='bx bx-search-alt'></i>
                                                             </label>
                                                         </div>
@@ -175,7 +176,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="form-group mx-auto">
-                                                                <form asp-action="AdminCourseInfo" asp-controller="Admin" method="get" asp-route-courseId="@data.CourseId">
+                                                                <form method="get" asp-route-courseId="@data.CourseId">
                                                                     <button class="btn btn-primary clickable-row" type="submit">See Detail</button>
                                                                 </form>
                                                                 @* @{
@@ -239,7 +240,7 @@
                         <h4 class="modal-title">Add new Course</h4>
                     </div>
                     <div class="modal-body">
-                        <form asp-action="AdminCourseCreate" asp-controller="Admin" method="post" id="form">
+                        <form method="post" id="form">
                             <div class="row p-4">
                                 <div class="col-12">
                                     <div class="row form-group">
