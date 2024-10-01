@@ -51,8 +51,7 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
 
         public async Task<IActionResult> OnGetAsync()
         {
-            if (methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN) != null)
-                return Redirect(methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN));
+            methcall.InitTempData(this);
             AdminAPI_URL += "Course/All";
             string? accToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
 
@@ -88,6 +87,18 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
             CreateCourse = courseTempData != null ? courseTempData : new CreateCourseVM();
 
             return Page();
+        }
+        public IActionResult OnGetLogout()
+        {
+            _httpClient.DefaultRequestHeaders.Authorization = null;
+            HttpContext.Session.Clear();
+            TempData.Clear();
+            SignOut();
+
+            // If using ASP.NET Identity, you may want to sign out the user
+            // Example: await SignInManager.SignOutAsync();
+
+            return RedirectToPage("/Home/Index");
         }
     }
 }

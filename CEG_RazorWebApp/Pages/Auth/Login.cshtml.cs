@@ -8,9 +8,11 @@ using System.Net.Http.Headers;
 using Azure.Storage.Blobs.Models;
 using CEG_BAL.ViewModels.Authenticates;
 using CEG_RazorWebApp.Models.Account.Response;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CEG_RazorWebApp.Pages.Auth
 {
+	[AllowAnonymous]
     public class LoginModel : PageModel
     {
 		[BindProperty]
@@ -70,7 +72,12 @@ namespace CEG_RazorWebApp.Pages.Auth
 			// If using ASP.NET Identity, you may want to sign out the user
 			// Example: await SignInManager.SignOutAsync();
 
-			return RedirectToAction(actionName: "Index", controllerName: "Home");
+			return RedirectToPage("/Home/Index");
+		}
+
+		public void OnGet()
+		{
+
 		}
 
 		public async Task<IActionResult> OnPostAsync()
@@ -93,9 +100,9 @@ namespace CEG_RazorWebApp.Pages.Auth
 
 				TempData[Constants.ROLE_NAME] = role;
 				_logger.LogInformation("Username or Password is invalid.");
-				//ViewBag.error = "Username or Password is invalid.";
-				return RedirectToPage("Login");
-			}
+                //ViewBag.error = "Username or Password is invalid.";
+                return Page();
+            }
 			var responseAuth = authenResponse.Data;
 
 			if (authenResponse.Status)
@@ -116,7 +123,7 @@ namespace CEG_RazorWebApp.Pages.Auth
 				case var value when value.Equals(Constants.ADMIN):
 					{
 						_logger.LogInformation("Admin Login Successful: " + TempData[Constants.ROLE_NAME] + " , Id: " + TempData[Constants.USR_ID]);
-						return RedirectToPage(Constants.ADMIN_URL);
+						return Redirect(Constants.ADMIN_URL);
 					}
 				case var value when value.Equals(Constants.TEACHER):
 					{

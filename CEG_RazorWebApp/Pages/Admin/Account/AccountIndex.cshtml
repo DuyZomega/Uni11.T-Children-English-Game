@@ -1,6 +1,7 @@
-﻿@page "/Admin/Course/Index"
+﻿@page "/Admin/Account/Index"
 @model CEG_RazorWebApp.Pages.Admin.Account.AccountIndexModel
 @{
+    Layout = null;
     ViewData["Title"] = "Admin All Account Statuses Page";
     string? search = string.Empty;
     var createParent = Model.CreateParent;
@@ -30,7 +31,7 @@
                                     <span>/</span>
                                 </li>
                                 <li class="breadcrumd-item">
-                                    <a href="@Url.Action("AdminAccountIndex","Admin")">Account</a>
+                                    <a href="/Admin/Account/index">Account</a>
                                 </li>
                             </ol>
                         </div>
@@ -89,10 +90,10 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6 d-flex justify-content-end">
-                                                    <form asp-action="AdminAccountIndex" asp-controller="Admin" method="get" asp-route-search="@search">
+                                                    <form method="get" asp-route-search="@search">
                                                         <div>
                                                             <label>
-                                                                <input asp-for="@search" class="form-control" type="text" name="search" placeholder="Search Username..." value="@search">
+                                                                <input asp-for="@search" class="form-control" type="text" placeholder="Search Username..." value="@search">
                                                                 <i class='bx bx-search-alt'></i>
                                                             </label>
                                                         </div>
@@ -101,7 +102,7 @@
                                             </div>
                                         </div>
                                         <div id="history-table_wrapper" class="dataTables_wrapper no-footer">
-                                            <form asp-action="AdminUpdateAccountIndex" asp-controller="Admin" method="post">
+                                            <form method="put">
                                                 <table id="history-table"
                                                        class="table table-striped table-bordered dataTable no-footer"
                                                        aria-describedby="history-table_info">
@@ -202,7 +203,7 @@
                         <h4 class="modal-title">Add new Student Account</h4>
                     </div>
                     <div class="modal-body">
-                        <form asp-action="AdminStudentCreate" asp-controller="Admin" method="post" id="form">
+                        <form method="post" asp-page-handler="Student">
                             <div class="row p-4">
                                 <div class="col-12">
                                     <div class="row form-group">
@@ -248,7 +249,7 @@
                                     </div>
                                 </div>
                                 <div class="modal-footer justify-content-center" style="margin-left:400px;">
-                                    <button class="btn btn-success" type="submit" name="action" value="createUser">Create</button>
+                                    <button class="btn btn-success" type="submit">Create</button>
                                     <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
                                 </div>
                             </div>
@@ -264,7 +265,7 @@
                         <h4 class="modal-title">Add new Parent Account</h4>
                     </div>
                     <div class="modal-body">
-                        <form asp-action="AdminParentCreate" asp-controller="Admin" method="post" id="form">
+                        <form method="post" asp-page-handler="Parent">
                             <div class="row p-4">
                                 <div class="col-12">
                                     <div class="row form-group">
@@ -310,7 +311,7 @@
                                     </div>
                                 </div>
                                 <div class="modal-footer justify-content-center" style="margin-left:400px;">
-                                    <button class="btn btn-success" type="submit" name="action" value="createUser">Create</button>
+                                    <button class="btn btn-success" type="submit">Create</button>
                                     <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
                                 </div>
                             </div>
@@ -326,7 +327,7 @@
                         <h4 class="modal-title">Add new Teacher Account</h4>
                     </div>
                     <div class="modal-body">
-                        <form asp-action="AdminTeacherCreate" asp-controller="Admin" method="post" id="form">
+                        <form method="post" asp-page-handler="Teacher">
                             <div class="row p-4">
                                 <div class="col-12">
                                     <div class="row form-group">
@@ -372,7 +373,7 @@
                                     </div>
                                 </div>
                                 <div class="modal-footer justify-content-center" style="margin-left:400px;">
-                                    <button class="btn btn-success" type="submit" name="action" value="createUser">Create</button>
+                                    <button class="btn btn-success" type="submit">Create</button>
                                     <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
                                 </div>
                             </div>
@@ -381,5 +382,6 @@
                 </div>
             </div>
         </div>
+        @* <partial name="PartialViews/_CreateTeacherPartial" model="new AccountIndexModel.CreateTeacherModel(createTeacher)"/> *@
     </body>
 </html>

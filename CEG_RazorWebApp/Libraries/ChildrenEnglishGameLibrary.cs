@@ -514,60 +514,15 @@ namespace CEG_RazorWebApp.Libraries
 
             return null;
         }
-        public string? GetUrlStringIfUserSessionDataInValid(PageModel context, string requireRole, bool mustBeRole = true)
+        public void InitTempData(PageModel context)
         {
-            string? accToken = context.HttpContext.Session.GetString(Constants.ACC_TOKEN);
-            if (string.IsNullOrEmpty(accToken))
-            {
-                return Constants.LOGIN_URL;
-            }
-
             string? role = context.HttpContext.Session.GetString(Constants.ROLE_NAME);
-            if (string.IsNullOrEmpty(role))
-            {
-                return Constants.LOGIN_URL;
-            }
-            else if (!role.Equals(requireRole))
-            {
-                switch (role)
-                {
-                    case var value when value.Equals(Constants.STUDENT):
-                        {
-                            return Constants.STUDENT_URL;
-                        }
-                    case var value when value.Equals(Constants.PARENT):
-                        {
-                            return Constants.PARENT_URL;
-                        }
-                    case var value when value.Equals(Constants.TEACHER):
-                        {
-                            return Constants.TEACHER_URL;
-                        }
-                    case var value when value.Equals(Constants.ADMIN):
-                        {
-                            return Constants.ADMIN_URL;
-                        }
-                }
-            }
-
-            string? usrId = context.HttpContext.Session.GetString(Constants.USR_ID);
-            if (string.IsNullOrEmpty(usrId))
-            {
-                return Constants.LOGIN_URL;
-            }
-
             string? usrname = context.HttpContext.Session.GetString(Constants.USR_NAME);
-            if (string.IsNullOrEmpty(usrname))
-            {
-                return Constants.LOGIN_URL;
-            }
             string? imagepath = context.HttpContext.Session.GetString(Constants.USR_IMAGE);
 
             context.TempData[Constants.ROLE_NAME] = role;
             context.TempData[Constants.USR_NAME] = usrname;
             context.TempData[Constants.USR_IMAGE] = imagepath;
-
-            return null;
         }
         public void SetUserDefaultData(Controller context)
         {
