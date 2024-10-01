@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace CEG_RazorWebApp.Pages.Student
+namespace CEG_RazorWebApp.Pages.Admin.Account
 {
-    public class IndexModel : PageModel
+    public class AccountInfoModel : PageModel
     {
         public void OnGet()
         {
