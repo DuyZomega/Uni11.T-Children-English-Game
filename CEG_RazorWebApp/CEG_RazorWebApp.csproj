@@ -25,5 +25,8 @@
     <ProjectReference Include="..\CEG_BAL\CEG_BAL.csproj" />
     <ProjectReference Include="..\CEG_WebAPI\CEG_WebAPI.csproj" />
   </ItemGroup>
-
+  <ItemGroup>
+    <Folder Include="Pages\Admin\Transaction\" />
+  </ItemGroup>
+   
 </Project>

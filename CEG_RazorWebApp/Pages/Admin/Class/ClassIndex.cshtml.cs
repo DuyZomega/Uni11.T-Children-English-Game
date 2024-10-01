@@ -2,9 +2,9 @@ using AutoMapper;
 using CEG_RazorWebApp.Libraries;
 using CEG_RazorWebApp.Models.Admin.Response;
 using CEG_RazorWebApp.Models.Class.Get;
-using CEG_RazorWebApp.Pages.Admin.Course;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Encodings.Web;
 using System.Text.Json;
@@ -48,8 +48,7 @@ namespace CEG_RazorWebApp.Pages.Admin.Class
         }
         public async Task<IActionResult> OnGetAsync()
         {
-            if (methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN) != null)
-                return Redirect(methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN));
+            methcall.InitTempData(this);
             AdminAPI_URL += "Class/All";
             string? accToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
 
@@ -85,6 +84,20 @@ namespace CEG_RazorWebApp.Pages.Admin.Class
             //CreateClass = new CreateClassVM()
 
             return Page();
+        }
+        public IActionResult OnGetLogout()
+        {
+            _httpClient.DefaultRequestHeaders.Authorization = null;
+            HttpContext.Session.Clear();
+            TempData[Constants.ACC_TOKEN] = null;
+            TempData[Constants.ROLE_NAME] = null;
+            TempData[Constants.USR_ID] = null;
+            SignOut();
+
+            // If using ASP.NET Identity, you may want to sign out the user
+            // Example: await SignInManager.SignOutAsync();
+
+            return RedirectToPage("/Home/Index");
         }
     }
 }
