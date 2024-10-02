@@ -1,40 +1,37 @@
 using AutoMapper;
 using CEG_RazorWebApp.Libraries;
-using CEG_RazorWebApp.Pages.Admin.Course;
-using CEG_RazorWebApp.Pages.Auth;
+using CEG_RazorWebApp.Pages.Admin;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Net.Http.Headers;
-using System.Net.Http;
 using System.Text.Json;
-using Microsoft.AspNetCore.Authorization;
 
-namespace CEG_RazorWebApp.Pages.Admin
+namespace CEG_RazorWebApp.Pages.Student
 {
     [Authorize(Policy = "SessionAuthorize")]
-    public class AdminIndexModel : PageModel
+    public class StudentIndexModel : PageModel
     {
-		private readonly ILogger<AdminIndexModel> _logger;
+        private readonly ILogger<StudentIndexModel> _logger;
         private readonly IMapper _mapper;
         private readonly IConfiguration _config;
-		private readonly HttpClient _httpClient = null;
-		//private readonly IVnPayService _vnPayService;
-		private string AdminAPI_URL = "";
-		private ChildrenEnglishGameLibrary methcall = new();
-		private readonly JsonSerializerOptions jsonOptions = new JsonSerializerOptions
-		{
-			PropertyNameCaseInsensitive = true,
-		};
-		private readonly CookieOptions cookieOptions = new CookieOptions
-		{
-			Expires = DateTime.Now.AddMinutes(10),
-			MaxAge = TimeSpan.FromMinutes(10),
-			Secure = true,
-			IsEssential = true,
-		};
-        public string? LayoutUrl { get; set; } = Constants.ADMIN_LAYOUT_URL;
+        private readonly HttpClient _httpClient = null;
+        //private readonly IVnPayService _vnPayService;
+        private string StudentAPI_URL = "";
+        private ChildrenEnglishGameLibrary methcall = new();
+        private readonly JsonSerializerOptions jsonOptions = new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true,
+        };
+        private readonly CookieOptions cookieOptions = new CookieOptions
+        {
+            Expires = DateTime.Now.AddMinutes(10),
+            MaxAge = TimeSpan.FromMinutes(10),
+            Secure = true,
+            IsEssential = true,
+        };
 
-        public AdminIndexModel(ILogger<AdminIndexModel> logger, IConfiguration config, IMapper mapper)
+        public StudentIndexModel(ILogger<StudentIndexModel> logger, IConfiguration config, IMapper mapper)
         {
             _logger = logger;
             _config = config;
@@ -44,9 +41,8 @@ namespace CEG_RazorWebApp.Pages.Admin
                 BaseAddress = new Uri(config.GetSection(Constants.SYSTEM_DEFAULT_API_HTTPS_URL_CONFIG_PATH).Value)
             };
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            AdminAPI_URL = config.GetSection(Constants.SYSTEM_DEFAULT_API_URL_CONFIG_PATH).Value;
+            StudentAPI_URL = config.GetSection(Constants.SYSTEM_DEFAULT_API_URL_CONFIG_PATH).Value;
         }
-
         public void OnGet()
         {
             methcall.InitTempData(this);
@@ -61,7 +57,7 @@ namespace CEG_RazorWebApp.Pages.Admin
             // If using ASP.NET Identity, you may want to sign out the user
             // Example: await SignInManager.SignOutAsync();
 
-            return RedirectToPage(Constants.LOGOUT_REDIRECT_URL);
+            return RedirectToPage("/Home/Index");
         }
     }
 }

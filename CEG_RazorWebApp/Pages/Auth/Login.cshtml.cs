@@ -72,7 +72,7 @@ namespace CEG_RazorWebApp.Pages.Auth
 			// If using ASP.NET Identity, you may want to sign out the user
 			// Example: await SignInManager.SignOutAsync();
 
-			return RedirectToPage("/Home/Index");
+			return RedirectToPage(Constants.LOGOUT_REDIRECT_URL);
 		}
 
 		public void OnGet()
