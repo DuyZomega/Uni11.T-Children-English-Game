@@ -61,6 +61,7 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
         public async Task<IActionResult> OnGetAsync(
             [FromRoute][Required] int courseId)
         {
+            methcall.InitTempData(this);
             AdminAPI_URL += "Course/" + courseId;
             string? accToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
 
@@ -196,6 +197,59 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
             }
             TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = "Session Create Successfully!";
             return Redirect("/Admin/Course/" + courseId + "/Info");
+        }
+        public async Task<IActionResult> OnPostSessionupdate(
+            [FromRoute][Required] int courseId,
+            [Required] int sessionId,
+            [FromForm][Required] UpdateSessionVM updateSession)
+        {
+            AdminAPI_URL += "Session/" + sessionId + "/Update";
+            string? accToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
+            if (!ModelState.IsValid)
+            {
+                TempData = methcall.SetValidationTempData(TempData, Constants.UPDATE_SESSION_DETAILS_VALID, updateSession, jsonOptions);
+                return Redirect("/Admin/Course/" + courseId + "/Info");
+            }
+            var courseInfoResponse = await methcall.CallMethodReturnObject<AdminSessionUpdateResponseVM>(
+                _httpClient: _httpClient,
+                options: jsonOptions,
+                methodName: Constants.PUT_METHOD,
+                url: AdminAPI_URL,
+                accessToken: accToken,
+                inputType: _mapper.Map<SessionViewModel>(updateSession),
+                _logger: _logger);
+
+            if (courseInfoResponse == null)
+            {
+                _logger.LogError("Error while getting session info");
+
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while getting session info !";
+
+                return Redirect("/Admin/Course/" + courseId + "/Info");
+            }
+            if (!courseInfoResponse.Status)
+            {
+                _logger.LogError("Error while getting session info");
+
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while getting session info !";
+
+                return Redirect("/Admin/Course/" + courseId + "/Info");
+            }
+            TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = "Session Info Update Successfully!";
+
+            return Redirect("/Admin/Course/" + courseId + "/Info");
+        }
+        public IActionResult OnGetLogout()
+        {
+            _httpClient.DefaultRequestHeaders.Authorization = null;
+            HttpContext.Session.Clear();
+            TempData.Clear();
+            SignOut();
+
+            // If using ASP.NET Identity, you may want to sign out the user
+            // Example: await SignInManager.SignOutAsync();
+
+            return RedirectToPage(Constants.LOGOUT_REDIRECT_URL);
         }
     }
 }

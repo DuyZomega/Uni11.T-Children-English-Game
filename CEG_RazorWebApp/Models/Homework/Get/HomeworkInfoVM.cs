@@ -5,6 +5,10 @@ namespace CEG_RazorWebApp.Models.Homework.Get
 {
     public class HomeworkInfoVM
     {
+        public HomeworkInfoVM()
+        {
+            QuestionsAmount = Questions.Count;
+        }
         public int? HomeworkId { get; set; }
         public string Title { get; set; } = null!;
         public string? Description { get; set; }

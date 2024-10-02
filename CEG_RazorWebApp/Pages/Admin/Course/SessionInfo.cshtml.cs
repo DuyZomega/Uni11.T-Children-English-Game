@@ -73,7 +73,7 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
 
                 TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while getting session info !";
 
-                return RedirectToAction("AdminCourseInfo", new { courseId });
+                return Redirect("/Admin/Course/" + courseId + "/Info");
             }
             if (!sessionInfoResponse.Status || sessionInfoResponse.Data == null)
             {
@@ -81,7 +81,7 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
 
                 TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while getting session info !";
 
-                return RedirectToAction("AdminCourseInfo", new { courseId });
+                return Redirect("/Admin/Course/" + courseId + "/Info");
             }
             TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME]= "Session Info Get Successfully!";
 
@@ -94,6 +94,7 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
                 foreach (var homework in sessionInfoResponse.Data.Homeworks)
                 {
                     homeworkList.Add(new AdminHomeworkInfoPVM(
+                        courseId,
                         sessionId,
                         _mapper.Map<HomeworkInfoVM>(homework)
                         //updateSessionFailed != null && updateSessionFailed.SessionId.Equals(homework.SessionId) ? updateSessionFailed : _mapper.Map<UpdateSessionVM>(homework)
