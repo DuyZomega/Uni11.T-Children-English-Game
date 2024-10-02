@@ -89,7 +89,7 @@
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                         <a class="dropdown-item" href="@Url.Page("AdminProfile", "Admin")"><i class='bx bx-user'></i>Admin Profile</a> <!--thêm theo user id và role-->
                                         <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="@Url.Page("Logout", "Auth")">Logout</a>
+                                        <a class="dropdown-item" asp-page-handler="Logout">Logout</a>
                                     </div>
                                 }
                             </div>

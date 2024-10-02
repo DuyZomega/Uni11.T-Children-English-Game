@@ -2,13 +2,12 @@
 @model CEG_RazorWebApp.Pages.Admin.Course.CourseIndexModel
 
 @{
-    Layout = null;
     ViewData["Title"] = "Admin All Courses Page";
     string? search = string.Empty;
     var createCourse = Model.CreateCourse;
     var courses = Model.Courses;
 
-    Layout = "~/Pages/Shared/_ALayout.cshtml";
+    Layout = Model.LayoutUrl;
 }
 <html lang="en">
     <head>
@@ -31,7 +30,7 @@
                                     <span>/</span>
                                 </li>
                                 <li class="breadcrumd-item">
-                                    <a href="@Url.Action("AdminCourseIndex","Admin")">Course</a>
+                                    <a href="/Admin/Course/Index">Course</a>
                                 </li>
                             </ol>
                         </div>
@@ -59,7 +58,7 @@
                                             <span><i class='bx bx-x'></i></span>
                                         </button>
                                     </div>
-                                    TempData["Success"] = null;
+                                    TempData.Remove("Success");
                                 }
                                 else if (TempData["Error"] != null)
                                 {
@@ -70,7 +69,7 @@
                                             <span><i class='bx bx-x'></i></span>
                                         </button>
                                     </div>
-                                    TempData["Error"] = null;
+                                    TempData.Remove("Success");
                                 }
 
                                 <!-- Tab panes -->
@@ -176,9 +175,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="form-group mx-auto">
-                                                                <form method="get" asp-route-courseId="@data.CourseId">
-                                                                    <button class="btn btn-primary clickable-row" type="submit">See Detail</button>
-                                                                </form>
+                                                                <a class="btn btn-primary clickable-row" asp-page-handler="Info" asp-route-courseId="@data.CourseId">See Detail</a>
                                                                 @* @{
                                                                     if (data.Status.Equals("OnHold") || data.Status.Equals("Postponed") || data.Status.Equals("CheckingIn") || data.Status.Equals("Ongoing"))
                                                                     {
@@ -209,19 +206,6 @@
                                                     </div>
                                                     </div> *@
                                             }
-                                        }
-                                        else
-                                        {
-                                            @* <div class="col-xl-3 col-lg-6 col-sm-6 my-3 item">
-                                                <div class="card1 card-child">
-                                                    <div class="card-body add-club">
-                                                        <button class="border-0" data-toggle="modal" data-target="#addCourse">
-                                                            <span>Add Course</span>
-                                                            <i class='bx bx-add-to-queue'></i>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div> *@
                                         }
                                         <!-- end tapnet -->
                                         </div>

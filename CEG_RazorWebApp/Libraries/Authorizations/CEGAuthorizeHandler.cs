@@ -33,7 +33,6 @@ namespace CEG_RazorWebApp.Libraries.Authorizations
                 //_contextAccessor.HttpContext.Session.SetString(Constants.ROLE_NAME, Constants.GUEST);
                 /*await _contextAccessor.HttpContext.ForbidAsync();*/
                 context.Fail();
-                model.Response.Redirect("/Home/Login");
             } 
             else
             {
