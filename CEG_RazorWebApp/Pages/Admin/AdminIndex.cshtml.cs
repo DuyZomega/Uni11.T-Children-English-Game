@@ -32,6 +32,7 @@ namespace CEG_RazorWebApp.Pages.Admin
 			Secure = true,
 			IsEssential = true,
 		};
+        public string? LayoutUrl { get; set; } = Constants.ADMIN_LAYOUT_URL;
 
         public AdminIndexModel(ILogger<AdminIndexModel> logger, IConfiguration config, IMapper mapper)
         {
@@ -60,7 +61,7 @@ namespace CEG_RazorWebApp.Pages.Admin
             // If using ASP.NET Identity, you may want to sign out the user
             // Example: await SignInManager.SignOutAsync();
 
-            return RedirectToPage("/Home/Index");
+            return RedirectToPage(Constants.LOGOUT_REDIRECT_URL);
         }
     }
 }

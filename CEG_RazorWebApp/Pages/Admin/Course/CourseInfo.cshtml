@@ -1,0 +1,336 @@
+﻿@page "/Admin/Course/{courseId}/Info"
+@model CEG_RazorWebApp.Pages.Admin.Course.CourseInfoModel
+@{
+    ViewData["Title"] = "Admin Course Info Page";
+    var courseInfo = Model.CourseInfo;
+    var sessionList = Model.Sessions;
+    var updateCourse = Model.UpdateCourseInfo;
+    var createSession = Model.CreateSession;
+    Layout = Model.LayoutUrl;
+}
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>@ViewData["Title"]</title>
+    </head>
+    <body>
+        <div class="main-content">
+            <div class="main">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="offset-sm-6 col-sm-6  d-flex justify-content-sm-end p-md-0 mt-2 mt-sm-0 ">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumd-item">
+                                    <a href="#">Manage</a>
+                                </li>
+                                <li class="breadcrumd-item">
+                                    <span>/</span>
+                                </li>
+                                <li class="breadcrumd-item">
+                                    <a href="/Admin/Course/Index">Course</a>
+                                </li>
+                                <li class="breadcrumd-item">
+                                    <span>/</span>
+                                </li>
+                                <li class="breadcrumd-item">
+                                    <a href="@Url.Action("AdminCourseInfo","Admin",courseInfo.CourseId)">Info</a>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 customer-booking">
+                            <div class="row">
+                                <div class="card profile col-12 mb-4">
+                                    <div class="card-header">
+                                        <h4>Course Information</h4>
+                                        @{
+                                            if (courseInfo.Status.Equals("Draft") || courseInfo.Status.Equals("Postponed"))
+                                            {
+                                                <div class="edit-info">
+                                                    <i class='bx bxs-edit-alt' data-toggle="modal" data-target="#editCourse"></i>
+                                                </div>
+                                            }
+                                        }
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row mb-sm-2">
+                                            <div class="col-md-5 text-md-right">
+                                                <label class="col-form-label">Course ID:</label>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <span>
+                                                    @courseInfo.CourseId
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-sm-2">
+                                            <div class="col-md-5 text-md-right">
+                                                <label class="col-form-label">Status:</label>
+                                            </div>
+                                            <div class="col-sm-7">
+                                                @{
+                                                    switch (courseInfo.Status)
+                                                    {
+                                                        case "Available":
+                                                            {
+                                                                <span class="outcome" style="float: left;">@courseInfo.Status</span>
+                                                                break;
+                                                            }
+                                                        case "Draft":
+                                                        case "Postponed":
+                                                            {
+                                                                <span class="approval" style="float: left;">@courseInfo.Status</span>
+                                                                break;
+                                                            }
+                                                        case "EndofService":
+                                                        case "Cancelled":
+                                                            {
+                                                                <span class="destroy" style="float: left;">@courseInfo.Status</span>
+                                                                break;
+                                                            }
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="row mb-sm-2">
+                                            <div class="col-md-5 text-md-right">
+                                                <label class="col-form-label">Course Name:</label>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <span>
+                                                    @courseInfo.CourseName
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-sm-2">
+                                            <div class="col-md-5 text-md-right">
+                                                <label class="col-form-label">Course Type:</label>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <span>
+                                                    @courseInfo.CourseType
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-sm-2">
+                                            <div class="col-md-5 text-md-right">
+                                                <label class="col-form-label">Course Description:</label>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <span>
+                                                    @courseInfo.Description
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-sm-2">
+                                            <div class="col-md-5 text-md-right">
+                                                <label class="col-form-label">Total Hours:</label>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <span>
+                                                    @courseInfo.TotalHours
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-sm-2">
+                                            <div class="col-md-5 text-md-right">
+                                                <label class="col-form-label">Required Age:</label>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <span>
+                                                    @courseInfo.RequiredAge
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-sm-2">
+                                            <div class="col-md-5 text-md-right">
+                                                <label class="col-form-label">Difficulty:</label>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <span>
+                                                    @courseInfo.Difficulty
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-sm-2">
+                                            <div class="col-md-5 text-md-right">
+                                                <label class="col-form-label">Category:</label>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <span>
+                                                    @courseInfo.Category
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-sm-2">
+                                            <div class="col-md-5 text-md-right">
+                                                <label class="col-form-label">Sessions amount:</label>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <span>
+                                                    @courseInfo.SessionsAmount Session(s)
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-sm-2">
+                                            <div class="col-md-5 text-md-right">
+                                                <label class="col-form-label">Classes amount:</label>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <span>
+                                                    @courseInfo.ClassesAmount Class(es)
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 customer-booking">
+                            <div class="row">
+                                <div class="card profile col-12 mb-4">
+                                    <div class="card-header">
+                                        <h4>Course's Session List</h4>
+                                        @{
+                                            if (courseInfo.Status.Equals("Draft") || courseInfo.Status.Equals("Postponed"))
+                                            {
+                                                <div class="edit-info">
+                                                    <i class='bx bxs-edit-alt' data-toggle="modal" data-target="#createSession"></i>
+                                                </div>
+                                            }
+                                        }
+                                    </div>
+                                    <div class="card-body">
+                                        @{
+                                            if (sessionList != null && sessionList.Count > 0)
+                                            {
+                                                @foreach (var sessionInfo in sessionList)
+                                                {
+                                                    <partial name="PartialViews/_SessionDetails" model="sessionInfo"/>
+                                                    @*await Html.PartialAsync("PartialViews/_AdminSessionDetails", sessionInfo);*@
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <h5>Empty Session list</h5>
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="editCourse" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+                <div class="modal-content modal-addRoom">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Edit Course</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form asp-route-courseId="@courseInfo.CourseId" asp-page-handler="Update" method="post" id="form">
+                            <div class="row p-4">
+                                <div class="col-12">
+                                    <div class="row form-group">
+                                        <label asp-for="@updateCourse.CourseName" class="col-md-3 col-form-label text-md-right"></label>
+                                        <input asp-for="@updateCourse.CourseName" value="@updateCourse.CourseName" type="text" placeholder="Course Name..." required class="form-control col-md-7">
+                                        <span asp-validation-for="@updateCourse.CourseName" id="error_message"
+                                              class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                        <label asp-for="@updateCourse.CourseType" class="col-md-3 col-form-label text-md-right"></label>
+                                        <input asp-for="@updateCourse.CourseType" value="@updateCourse.CourseType" type="text" placeholder="Course Type..." required class="form-control col-md-7">
+                                        <span asp-validation-for="@updateCourse.CourseType" id="error_message"
+                                              class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                        <label asp-for="@updateCourse.Description" class="col-md-3 col-form-label text-md-right"></label>
+                                        <textarea asp-for="@updateCourse.Description" value="@updateCourse.Description" required class="form-control col-md-7"></textarea>
+                                        <span asp-validation-for="@updateCourse.Description" id="error_message"
+                                              class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                        <label asp-for="@updateCourse.TotalHours" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                        <input asp-for="@updateCourse.TotalHours" value="@updateCourse.TotalHours" type="number" class="form-control col-md-7 mt-3" required>
+                                        <span asp-validation-for="@updateCourse.TotalHours" id="error_message"
+                                              class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                        <label asp-for="@updateCourse.RequiredAge" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                        <input asp-for="@updateCourse.RequiredAge" value="@updateCourse.RequiredAge" type="number" min="11" max="18" class="form-control col-md-7 mt-3" required>
+                                        <span asp-validation-for="@updateCourse.RequiredAge" id="error_message"
+                                              class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                        <label asp-for="@updateCourse.Difficulty" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                        <select class="form-control col-md-7 custom-select" asp-for="@updateCourse.Difficulty" asp-items="@updateCourse.DefaultCourseDifficultySelectList"></select>
+                                        <span asp-validation-for="@updateCourse.Difficulty" id="error_message"
+                                              class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                        <label asp-for="@updateCourse.Category" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                        <select class="form-control col-md-7 custom-select" asp-for="@updateCourse.Category" asp-items="@updateCourse.DefaultCourseCategorySelectList"></select>
+                                        <span asp-validation-for="@updateCourse.Category" id="error_message"
+                                              class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                        <label asp-for="@updateCourse.Status" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                        <select class="form-control col-md-7 custom-select" asp-for="@updateCourse.Status" asp-items="@updateCourse.DefaultCourseStatusSelectList"></select>
+                                        <span asp-validation-for="@updateCourse.Status" id="error_message"
+                                              class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                    </div>
+                                </div>
+                                <div class="modal-footer justify-content-center" style="margin-left:400px;">
+                                    <button class="btn btn-success" type="submit" name="action" value="updateCourse">Save</button>
+                                    <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="createSession" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+                <div class="modal-content modal-addRoom">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Add new Session</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form asp-route-courseId="@courseInfo.CourseId" asp-page-handler="Create" method="post" id="form">
+                            <div class="row p-4">
+                                <div class="col-12">
+                                    <div class="row form-group">
+                                        <label asp-for="@createSession.Number" class="col-md-3 col-form-label text-md-right"></label>
+                                        <input asp-for="@createSession.Number" value="@createSession.Number" type="number" min="1" required class="form-control col-md-7">
+                                        <span asp-validation-for="@createSession.Number" id="error_message"
+                                              class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                        <label asp-for="@createSession.Title" class="col-md-3 col-form-label text-md-right"></label>
+                                        <input asp-for="@createSession.Title" value="@createSession.Title" type="text" placeholder="Title" required class="form-control col-md-7">
+                                        <span asp-validation-for="@createSession.Title" id="error_message"
+                                              class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                        <label asp-for="@createSession.Description" class="col-md-3 col-form-label text-md-right"></label>
+                                        <textarea asp-for="@createSession.Description" value="@createSession.Description" required class="form-control col-md-7"></textarea>
+                                        <span asp-validation-for="@createSession.Description" id="error_message"
+                                              class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                        <label asp-for="@createSession.Hours" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                        <input asp-for="@createSession.Hours" value="@createSession.Hours" type="number" class="form-control col-md-7 mt-3" required>
+                                        <span asp-validation-for="@createSession.Hours" id="error_message"
+                                              class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                        <input asp-for="@createSession.CourseName" value="@courseInfo.CourseName" type="text" required hidden readonly>
+                                    </div>
+                                </div>
+                                <div class="modal-footer justify-content-center" style="margin-left:400px;">
+                                    <button class="btn btn-success" type="submit" name="action" value="createSession">Create</button>
+                                    <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

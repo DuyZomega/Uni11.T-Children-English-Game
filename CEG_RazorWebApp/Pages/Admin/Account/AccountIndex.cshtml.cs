@@ -36,30 +36,15 @@ namespace CEG_RazorWebApp.Pages.Admin.Account
             IsEssential = true,
         };
 
-        public class CreateTeacherModel
-        {
-            public CreateTeacherModel(CreateTeacherVM? createTeacher = null)
-            {
-                CreateTeacher = createTeacher ?? new CreateTeacherVM();
-            }
-            [Required]
-            public CreateTeacherVM CreateTeacher { get; set; }
-        }
-        public class CreateParentModel
-        {
-            public CreateParentModel(CreateParentVM? createParent = null)
-            {
-                CreateParent = createParent ?? new CreateParentVM();
-            }
-            [Required]
-            public CreateParentVM CreateParent { get; set; }
-        }
-
         private readonly ChildrenEnglishGameLibrary methcall = new();
+
+        public string? LayoutUrl { get; set; } = Constants.ADMIN_LAYOUT_URL;
+
         public List<AccountStatusVM>? AccountStatuses { get; set; }
         public CreateTeacherVM? CreateTeacher { get; set; }
         public CreateParentVM? CreateParent { get; set; }
         public CreateStudentVM? CreateStudent { get; set; }
+
         public AccountIndexModel(ILogger<AccountIndexModel> logger, IConfiguration config, IMapper mapper)
         {
             _logger = logger;
@@ -103,13 +88,18 @@ namespace CEG_RazorWebApp.Pages.Admin.Account
                 return RedirectToPage("/Admin/Index");
             }
             /*TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = ViewBag.Success = "Account List Get Successfully!";*/
-            TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = "Account List Get Successfully!";
+            if(!TempData.ContainsKey(Constants.ALERT_DEFAULT_ERROR_NAME) || !TempData.ContainsKey(Constants.ALERT_DEFAULT_SUCCESS_NAME))
+            {
+                TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = "Account List Get Successfully!";
+            }
             var teacherTempData = methcall.GetValidationTempData<CreateTeacherVM>(this, TempData, Constants.CREATE_TEACHER_DETAILS_VALID, "createTeacher", jsonOptions);
+            var parentTempData = methcall.GetValidationTempData<CreateParentVM>(this, TempData, Constants.CREATE_PARENT_DETAILS_VALID, "createParent", jsonOptions);
+            var studentTempData = methcall.GetValidationTempData<CreateStudentVM>(this, TempData, Constants.CREATE_STUDENT_DETAILS_VALID, "createStudent", jsonOptions);
 
             AccountStatuses = _mapper.Map<List<AccountStatusVM>>(accountListResponse.Data);
             CreateTeacher = teacherTempData ?? new CreateTeacherVM();
-            CreateParent = new CreateParentVM();
-            CreateStudent = new CreateStudentVM();
+            CreateParent = parentTempData ?? new CreateParentVM();
+            CreateStudent = studentTempData ?? new CreateStudentVM();
             return Page();
         }
         public IActionResult OnGetLogout()
@@ -122,7 +112,7 @@ namespace CEG_RazorWebApp.Pages.Admin.Account
             // If using ASP.NET Identity, you may want to sign out the user
             // Example: await SignInManager.SignOutAsync();
 
-            return RedirectToPage("/Home/Index");
+            return RedirectToPage(Constants.LOGOUT_REDIRECT_URL);
         }
         public async Task<IActionResult> OnPostTeacherAsync(
             [FromForm][Required] CreateTeacherVM? createTeacher)
@@ -178,7 +168,7 @@ namespace CEG_RazorWebApp.Pages.Admin.Account
             string? accToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
             if (!ModelState.IsValid)
             {
-                TempData = methcall.SetValidationTempData(TempData, Constants.CREATE_PARENT_DETAILS_VALID, CreateParent, jsonOptions);
+                TempData = methcall.SetValidationTempData(TempData, Constants.CREATE_PARENT_DETAILS_VALID, createParent, jsonOptions);
                 return Redirect("/Admin/Account/Index");
             }
 
@@ -187,7 +177,7 @@ namespace CEG_RazorWebApp.Pages.Admin.Account
                 options: jsonOptions,
                 methodName: Constants.POST_METHOD,
                 url: AdminAPI_URL,
-                inputType: _mapper.Map<CreateNewParent>(CreateParent),
+                inputType: _mapper.Map<CreateNewParent>(createParent),
                 accessToken: accToken,
                 _logger: _logger);
 
@@ -218,7 +208,7 @@ namespace CEG_RazorWebApp.Pages.Admin.Account
             string? accToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
             if (!ModelState.IsValid)
             {
-                TempData = methcall.SetValidationTempData(TempData, Constants.CREATE_STUDENT_DETAILS_VALID, CreateStudent, jsonOptions);
+                TempData = methcall.SetValidationTempData(TempData, Constants.CREATE_STUDENT_DETAILS_VALID, createStudent, jsonOptions);
                 return Redirect("/Admin/Account/Index");
             }
 
@@ -227,7 +217,7 @@ namespace CEG_RazorWebApp.Pages.Admin.Account
                 options: jsonOptions,
                 methodName: Constants.POST_METHOD,
                 url: AdminAPI_URL,
-                inputType: _mapper.Map<CreateNewStudent>(CreateStudent),
+                inputType: _mapper.Map<CreateNewStudent>(createStudent),
                 accessToken: accToken,
                 _logger: _logger);
 

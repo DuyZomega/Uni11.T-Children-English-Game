@@ -1,14 +1,13 @@
 ﻿@page "/Admin/Account/Index"
 @model CEG_RazorWebApp.Pages.Admin.Account.AccountIndexModel
 @{
-    Layout = null;
     ViewData["Title"] = "Admin All Account Statuses Page";
     string? search = string.Empty;
     var createParent = Model.CreateParent;
     var createTeacher = Model.CreateTeacher;
     var createStudent = Model.CreateStudent;
     var accountStatuses = Model.AccountStatuses;
-    Layout = "~/Pages/Shared/_ALayout.cshtml";
+    Layout = Model.LayoutUrl;
 }
 <html lang="en">
     <head>
@@ -49,29 +48,27 @@
                                         </a>
                                     </li>
                                 </ul>
-                                @{/*
-                                    if (TempData["Success"] != null)
-                                    {
-                                        <div class="alert alert-success alert-dismissible fade show" id="notif">
-                                            <i class='bx bx-message-alt-x p-1'></i>
-                                            <strong class="mr-1">@TempData["Success"]</strong>
-                                            <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
-                                                <span><i class='bx bx-x'></i></span>
-                                            </button>
-                                        </div>
-                                        TempData["Success"] = null;
-                                    }
-                                    else if (TempData["Error"] != null)
-                                    {
-                                        <div class="alert alert-danger alert-dismissible fade show" id="notif">
-                                            <i class='bx bx-message-alt-x p-1'></i>
-                                            <strong class="mr-1">@TempData["Error"]</strong>
-                                            <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
-                                                <span><i class='bx bx-x'></i></span>
-                                            </button>
-                                        </div>
-                                        TempData["Error"] = null;
-                                    }*/
+                                @if (TempData["Success"] != null)
+                                {
+                                    <div class="alert alert-success alert-dismissible fade show" id="notif">
+                                        <i class='bx bx-message-alt-x p-1'></i>
+                                        <strong class="mr-1">@TempData["Success"]</strong>
+                                        <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+                                            <span><i class='bx bx-x'></i></span>
+                                        </button>
+                                    </div>
+                                    TempData.Remove("Success");
+                                }
+                                else if (TempData["Error"] != null)
+                                {
+                                    <div class="alert alert-danger alert-dismissible fade show" id="notif">
+                                        <i class='bx bx-message-alt-x p-1'></i>
+                                        <strong class="mr-1">@TempData["Error"]</strong>
+                                        <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+                                            <span><i class='bx bx-x'></i></span>
+                                        </button>
+                                    </div>
+                                    TempData.Remove("Success");
                                 }
 
                                 <!-- Tab panes -->
@@ -150,37 +147,37 @@
                                                     </thead>
                                                     <tbody>
                                                         @{
-                                                            /*for (int i = 0; i < accountStatuses.Count(); i++)
+                                                            for (int i = 0; i < accountStatuses.Count(); i++)
                                                             {
-                                                                <tr class="@("clicks-row "+ (i%2 == 0 ? "even" : "odd")) " data-href="#"
-                                                                 data-bs-toggle="tooltip" data-bs-placement="right"
-                                                                 title="More Details">
-                                                                 <td class="sorting_1">
-                                                                     <input type="hidden" asp-for="@accountStatuses[i].UserName" name="listRequest[@i].UserName" value="@accountStatuses[i].UserName" class="form-control" />
-                                                                     <a href="@Url.Action("AdminAccountInfo","Admin",new {accountId = accountStatuses[i].AccountId})">@accountStatuses[i].UserName</a>
-                                                                    </td>
-                                                                  <td>
-                                                                      <input type="hidden" asp-for="@accountStatuses[i].FullName" name="listRequest[@i].FullName" value="@accountStatuses[i].FullName" class="form-control" />
-                                                                      @accountStatuses[i].FullName
-                                                                  </td>
-                                                                   <td>
-                                                                       <input type="hidden" asp-for="@accountStatuses[i].Gender" name="listRequest[@i].Gender" value="@accountStatuses[i].Gender" class="form-control" />
-                                                                       @accountStatuses[i].Gender
-                                                                   </td>
-                                                                   <td>
-                                                                        <input type="hidden" asp-for="@accountStatuses[i].CreatedDate" name="listRequest[@i].CreatedDate" value="@accountStatuses[i].CreatedDate" class="form-control" />
-                                                                        @accountStatuses[i].CreatedDate.ToString("dd-MM-yyyy HH:mm")
-                                                                    </td>
-                                                                    <td>
-                                                                        <input type="hidden" asp-for="@accountStatuses[i].Role" name="listRequest[@i].Role" value="@accountStatuses[i].Role" class="form-control" />
-                                                                       @accountStatuses[i].Role
-                                                                    </td>
-                                                                    <td>
-                                                                       <select class="form-control" asp-for="@accountStatuses[i].Status" asp-items="@accountStatuses[i].DefaultAccountStatusSelectList" class="custom-select" name="listRequest[@i].Status">
-                                                                        </select>
-                                                                    </td>
-                                                             </tr>
-                                                            }*/
+                                                            <tr class="@("clicks-row "+ (i%2 == 0 ? "even" : "odd")) " data-href="#"
+                                                                data-bs-toggle="tooltip" data-bs-placement="right"
+                                                                title="More Details">
+                                                                <td class="sorting_1">
+                                                                    <input type="hidden" asp-for="@accountStatuses[i].UserName" name="listRequest[@i].UserName" value="@accountStatuses[i].UserName" class="form-control" />
+                                                                    <a href="@Url.Action("AdminAccountInfo","Admin",new {accountId = accountStatuses[i].AccountId})">@accountStatuses[i].UserName</a>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="hidden" asp-for="@accountStatuses[i].FullName" name="listRequest[@i].FullName" value="@accountStatuses[i].FullName" class="form-control" />
+                                                                    @accountStatuses[i].FullName
+                                                                </td>
+                                                                <td>
+                                                                    <input type="hidden" asp-for="@accountStatuses[i].Gender" name="listRequest[@i].Gender" value="@accountStatuses[i].Gender" class="form-control" />
+                                                                    @accountStatuses[i].Gender
+                                                                </td>
+                                                                <td>
+                                                                    <input type="hidden" asp-for="@accountStatuses[i].CreatedDate" name="listRequest[@i].CreatedDate" value="@accountStatuses[i].CreatedDate" class="form-control" />
+                                                                    @accountStatuses[i].CreatedDate.ToString("dd-MM-yyyy HH:mm")
+                                                                </td>
+                                                                <td>
+                                                                    <input type="hidden" asp-for="@accountStatuses[i].Role" name="listRequest[@i].Role" value="@accountStatuses[i].Role" class="form-control" />
+                                                                    @accountStatuses[i].Role
+                                                                </td>
+                                                                <td>
+                                                                    <select class="form-control" asp-for="@accountStatuses[i].Status" asp-items="@accountStatuses[i].DefaultAccountStatusSelectList" class="custom-select" name="listRequest[@i].Status">
+                                                                    </select>
+                                                                </td>
+                                                            </tr>
+                                                            }
                                                         }
                                                     </tbody>
                                                 </table>
