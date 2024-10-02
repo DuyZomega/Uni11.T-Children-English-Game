@@ -157,7 +157,7 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
 
             return Redirect("/Admin/Course/" + courseId + "/Info");
         }
-        public async Task<IActionResult> OnPostCreatesession(
+        public async Task<IActionResult> OnPostCreate(
             [FromRoute][Required] int courseId,
             [FromForm][Required] CreateSessionVM createSession)
         {
@@ -198,7 +198,7 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
             TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = "Session Create Successfully!";
             return Redirect("/Admin/Course/" + courseId + "/Info");
         }
-        public async Task<IActionResult> OnPostSessionupdate(
+        public async Task<IActionResult> OnPostSessionUpdate(
             [FromRoute][Required] int courseId,
             [Required] int sessionId,
             [FromForm][Required] UpdateSessionVM updateSession)

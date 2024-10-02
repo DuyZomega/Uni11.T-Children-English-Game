@@ -12,6 +12,7 @@ using CEG_RazorWebApp.Models.Homework.Get;
 using CEG_RazorWebApp.Models.Session.Create;
 using CEG_RazorWebApp.Models.Session.Get;
 using CEG_RazorWebApp.Models.Session.Update;
+using CEG_RazorWebApp.Models.Homework.Update;
 
 namespace CEG_RazorWebApp.Libraries
 {
@@ -269,6 +270,8 @@ namespace CEG_RazorWebApp.Libraries
             CreateMap<CreateSessionVM, CreateNewSession>()
                 .ReverseMap();
             CreateMap<CreateHomeworkVM, CreateNewHomework>()
+                .ReverseMap();
+            CreateMap<UpdateHomeworkVM, HomeworkViewModel>()
                 .ReverseMap();
         }
     }

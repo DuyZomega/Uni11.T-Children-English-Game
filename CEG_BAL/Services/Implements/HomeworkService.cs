@@ -65,6 +65,9 @@ namespace CEG_BAL.Services.Implements
         public void Update(HomeworkViewModel model)
         {
             var home = _mapper.Map<Homework>(model);
+            var homeDefault = _unitOfWork.HomeworkRepositories.GetByIdNoTracking(model.HomeworkId.Value).Result;
+            home.Status = homeDefault.Status;
+            home.SessionId = homeDefault.SessionId;
             _unitOfWork.HomeworkRepositories.Update(home);
             _unitOfWork.Save();
         }

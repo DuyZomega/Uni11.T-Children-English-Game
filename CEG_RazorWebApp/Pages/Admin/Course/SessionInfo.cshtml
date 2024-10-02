@@ -210,7 +210,7 @@
                     <h4 class="modal-title">Edit Session</h4>
                 </div>
                 <div class="modal-body">
-                    <form asp-action="AdminSessionUpdate" asp-controller="Admin" method="post" asp-route-courseId="@Model.CourseId" asp-route-sessionId="@sessionInfo.SessionId" class="form-group">
+                    <form asp-page-handler="Update" method="post" asp-route-sessionId="@sessionInfo.SessionId" class="form-group">
                         <div class="modal-body">
                             <div class="col-12">
                                 <div class="form-group row">
@@ -273,7 +273,7 @@
                     <h4 class="modal-title">Add new Homework</h4>
                 </div>
                 <div class="modal-body">
-                    <form asp-action="AdminHomeworkCreate" asp-controller="Admin" asp-route-courseId="@Model.CourseId" asp-route-sessionId="@sessionInfo.SessionId" method="post" id="form">
+                    <form asp-page-handler="Create" asp-route-sessionId="@sessionInfo.SessionId" method="post" id="form">
                         <div class="row p-4">
                             <div class="col-12">
                                 <div class="row form-group">
