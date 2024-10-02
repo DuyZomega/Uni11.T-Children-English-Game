@@ -29,26 +29,31 @@
                                 <span>/</span>
                             </li>
                             <li class="breadcrumd-item">
-                                <a href="@Url.Action("AdminCourseIndex","Admin")">Course</a>
+                                <a href="/Admin/Course/Index">Course</a>
                             </li>
                             <li class="breadcrumd-item">
                                 <span>/</span>
                             </li>
                             <li class="breadcrumd-item">
-                                <a href="@Url.Action("AdminCourseInfo","Admin",new { courseId = Model.CourseId })">Info</a>
+                                <a href="/Admin/Course/@Model.CourseId/Info">@Model.CourseId</a>
                             </li>
                             <li class="breadcrumd-item">
                                 <span>/</span>
                             </li>
                             <li class="breadcrumd-item">
-                                <a href="@Url.Action("AdminCourseInfo","Admin",new { courseId = Model.CourseId })">Session</a>
+                                <a href="/Admin/Course/@Model.CourseId/Info">Session</a>
                             </li>
                             <li class="breadcrumd-item">
                                 <span>/</span>
                             </li>
                             <li class="breadcrumd-item">
-                                <a href="@Url.Action("AdminSessionInfo","Admin",new { courseId = Model.CourseId, sessionId = sessionInfo.SessionId })">Info</a>
+                                <a href="/Admin/Course/@Model.CourseId/Session/@sessionInfo.SessionId/Info">@sessionInfo.SessionId</a>
                             </li>
+                            <li class="breadcrumd-item">
+                                <span>/</span>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <a href="/Admin/Course/@Model.CourseId/Session/@sessionInfo.SessionId/Info">Info</a>
                         </ol>
                     </div>
                 </div>

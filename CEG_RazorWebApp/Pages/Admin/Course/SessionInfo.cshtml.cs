@@ -56,6 +56,7 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
             [FromRoute][Required] int courseId,
             [FromRoute][Required] int sessionId)
         {
+            methcall.InitTempData(this);
             AdminAPI_URL += "Session/" + sessionId;
             string? accToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
 
@@ -115,6 +116,18 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
             Homeworks = homeworkList ?? new List<AdminHomeworkInfoPVM>();
             CreateHomework = createHomeworkFailed ?? new CreateHomeworkVM();
             return Page();
+        }
+        public IActionResult OnGetLogout()
+        {
+            _httpClient.DefaultRequestHeaders.Authorization = null;
+            HttpContext.Session.Clear();
+            TempData.Clear();
+            SignOut();
+
+            // If using ASP.NET Identity, you may want to sign out the user
+            // Example: await SignInManager.SignOutAsync();
+
+            return RedirectToPage(Constants.LOGOUT_REDIRECT_URL);
         }
     }
 }
