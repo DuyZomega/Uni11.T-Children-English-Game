@@ -13,6 +13,7 @@ using CEG_RazorWebApp.Models.Session.Create;
 using CEG_RazorWebApp.Models.Session.Get;
 using CEG_RazorWebApp.Models.Session.Update;
 using CEG_RazorWebApp.Models.Homework.Update;
+using CEG_RazorWebApp.Models.Class.Get;
 
 namespace CEG_RazorWebApp.Libraries
 {
@@ -273,6 +274,13 @@ namespace CEG_RazorWebApp.Libraries
                 .ReverseMap();
             CreateMap<UpdateHomeworkVM, HomeworkViewModel>()
                 .ReverseMap();
+            CreateMap<IndexClassInfoVM, ClassViewModel>()
+                .ReverseMap();
+                //.AfterMap((src, dest) =>
+                //{
+                    //dest.TeacherName = src.Teacher.Account.Fullname;
+                    //dest.CourseName = src.Course.CourseName;
+                //});
         }
     }
 }

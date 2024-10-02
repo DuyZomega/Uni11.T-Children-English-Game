@@ -1,6 +1,6 @@
 ﻿namespace CEG_RazorWebApp.Models.Class.Get
 {
-    public class IndexClassInfoVM
+    public class ClassInfoVM
     {
         public string ClassName { get; set; } = null!;
         public string? CourseName { get; set; } = null!;
@@ -11,9 +11,5 @@
         public int? MaximumStudents { get; set; }
         public string? TeacherName { get; set; }
         public int? CurrentStudentAmount { get; set; }
-
-        /*public virtual ICollection<StudentProgressViewModel> StudentProgress { get; set; } = new List<StudentProgressViewModel>();*/
-
-        //public virtual TeacherViewModel Teacher { get; set; } = null!;
     }
 }
