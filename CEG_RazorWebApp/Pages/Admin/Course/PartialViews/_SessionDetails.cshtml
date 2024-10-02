@@ -9,7 +9,7 @@
         if (sessionInfo.Status.Equals("Draft") || sessionInfo.Status.Equals("Postponed"))
         {
             <div class="edit-info">
-                <i class='bx bxs-edit-alt' data-toggle="modal" data-target="#editsession_@sessionInfo.SessionId"></i>
+                <i class='bx bxs-edit' data-toggle="modal" data-target="#editsession_@sessionInfo.SessionId"></i>
             </div>
         }
     }
@@ -87,7 +87,7 @@
         </div>
     </div>
     <div class="card-body d-flex justify-content-center">
-        <a class="btn btn-success" href="@Url.Action("AdminSessionInfo","Admin",new { courseId = Model.CourseId, sessionId = sessionInfo.SessionId })">More Info</a>
+        <a class="btn btn-success" href="/Admin/Course/@Model.CourseId/Session/@sessionInfo.SessionId/Info">More Info</a>
     </div>
 </div>
 <hr class="container my-0">

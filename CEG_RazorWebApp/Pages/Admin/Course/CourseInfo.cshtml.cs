@@ -1,4 +1,6 @@
 using AutoMapper;
+using CEG_BAL.ViewModels;
+using CEG_BAL.ViewModels.Admin;
 using CEG_DAL.Models;
 using CEG_RazorWebApp.Libraries;
 using CEG_RazorWebApp.Models.Admin.Response;
@@ -76,7 +78,7 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
 
                 TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while getting course info !";
 
-                return RedirectToAction("AdminCourseIndex");
+                return Redirect("/Admin/Course/Index");
             }
             if (!courseInfoResponse.Status || courseInfoResponse.Data == null)
             {
@@ -84,7 +86,7 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
 
                 TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while getting course info !";
 
-                return RedirectToAction("AdminCourseIndex");
+                return Redirect("/Admin/Course/Index");
             }
             if (!TempData.ContainsKey(Constants.ALERT_DEFAULT_ERROR_NAME) || !TempData.ContainsKey(Constants.ALERT_DEFAULT_SUCCESS_NAME))
             {
@@ -113,6 +115,87 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
             CreateSession = createSessionFailed ?? new CreateSessionVM();
             Sessions = sessionList ?? new List<AdminSessionInfoPVM>();
             return Page();
+        }
+        public async Task<IActionResult> OnPostUpdate(
+            [FromRoute][Required] int courseId,
+            [FromForm][Required] UpdateCourseVM updateCourse)
+        {
+            AdminAPI_URL += "Course/" + courseId + "/Update";
+            string? accToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
+            if (!ModelState.IsValid)
+            {
+                TempData = methcall.SetValidationTempData(TempData, Constants.UPDATE_COURSE_DETAILS_VALID, updateCourse, jsonOptions);
+                return Redirect("/Admin/Course/" + courseId + "/Info");
+            }
+            var courseInfoResponse = await methcall.CallMethodReturnObject<AdminCourseUpdateResponseVM>(
+                _httpClient: _httpClient,
+                options: jsonOptions,
+                methodName: Constants.PUT_METHOD,
+                url: AdminAPI_URL,
+                accessToken: accToken,
+                inputType: _mapper.Map<CourseViewModel>(updateCourse),
+                _logger: _logger);
+
+            if (courseInfoResponse == null)
+            {
+                _logger.LogError("Error while getting course info");
+
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while getting course info !";
+
+                return Redirect("/Admin/Course/" + courseId + "/Info");
+            }
+            if (!courseInfoResponse.Status)
+            {
+                _logger.LogError("Error while getting course info");
+
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while getting course info !";
+
+                return Redirect("/Admin/Course/" + courseId + "/Info");
+            }
+            TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = "Course Info Update Successfully!";
+
+            return Redirect("/Admin/Course/" + courseId + "/Info");
+        }
+        public async Task<IActionResult> OnPostCreatesession(
+            [FromRoute][Required] int courseId,
+            [FromForm][Required] CreateSessionVM createSession)
+        {
+            AdminAPI_URL += "Session/Create";
+            string? accToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
+
+            if (!ModelState.IsValid)
+            {
+                TempData = methcall.SetValidationTempData(TempData, Constants.CREATE_SESSION_DETAILS_VALID, createSession, jsonOptions);
+                return Redirect("/Admin/Course/" + courseId + "/Info");
+            }
+
+            var authenResponse = await methcall.CallMethodReturnObject<AdminSessionCreateResponseVM>(
+                _httpClient: _httpClient,
+                options: jsonOptions,
+                methodName: Constants.POST_METHOD,
+                url: AdminAPI_URL,
+                inputType: _mapper.Map<CreateNewSession>(createSession),
+                accessToken: accToken,
+                _logger: _logger);
+
+            if (authenResponse == null)
+            {
+                _logger.LogError("Error while registering Session account");
+
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while registering Session account !";
+
+                return Redirect("/Admin/Course/" + courseId + "/Info");
+            }
+            if (!authenResponse.Status)
+            {
+                _logger.LogError("Error while registering Session account");
+
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while registering Session account !";
+
+                return Redirect("/Admin/Course/" + courseId + "/Info");
+            }
+            TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = "Session Create Successfully!";
+            return Redirect("/Admin/Course/" + courseId + "/Info");
         }
     }
 }
