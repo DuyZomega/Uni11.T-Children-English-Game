@@ -1,6 +1,6 @@
-﻿@model CEG_WebMVC.Models.ViewModels.Admin.PageModel.AdminAccountInfoPVM
+﻿@model CEG_WebMVC.Models.ViewModels.Teacher.PageModel.TeacherAccountInfoPVM
 @{
-    ViewData["Title"] = "Admin Account Info Page";
+    ViewData["Title"] = "Teacher Account Info Page";
     // var courseInfo = Model.CourseInfo;
     // var sessionList = Model.Sessions;
     // var updateCourse = Model.UpdateCourseInfo;
@@ -28,13 +28,13 @@
                                 <span>/</span>
                             </li>
                             <li class="breadcrumd-item">
-                                <a href="@Url.Action("AdminAccountIndex","Admin")">Account</a>
+                                <a href="@Url.Action("TeacherAccountIndex","Teacher")">Account</a>
                             </li>
                             <li class="breadcrumd-item">
                                 <span>/</span>
                             </li>
                             <li class="breadcrumd-item">
-                                @* <a href="@Url.Action("AdminAccountInfo","Admin",courseInfo.CourseId)">Info</a> *@
+                                @* <a href="@Url.Action("TeacherAccountInfo","Teacher",courseInfo.CourseId)">Info</a> *@
                             </li>
                         </ol>
                     </div>
