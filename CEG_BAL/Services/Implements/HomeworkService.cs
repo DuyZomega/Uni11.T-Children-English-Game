@@ -40,6 +40,7 @@ namespace CEG_BAL.Services.Implements
                 hw.Title = newHw.Title;
                 hw.Description = newHw.Description;
                 hw.Hours = newHw.Hours;
+                hw.Type = newHw.Type;
                 hw.SessionId = _unitOfWork.SessionRepositories.GetIdByTitle(newHw.SessionTitle).Result;
             }
             _unitOfWork.HomeworkRepositories.Create(hw);
@@ -70,6 +71,13 @@ namespace CEG_BAL.Services.Implements
             home.SessionId = homeDefault.SessionId;
             _unitOfWork.HomeworkRepositories.Update(home);
             _unitOfWork.Save();
+        }
+
+        public async Task<bool> IsHomeworkExistByTitle(string title)
+        {
+            var home = await _unitOfWork.HomeworkRepositories.GetByTitle(title);
+            if (home != null) return true;
+            return false;
         }
     }
 }

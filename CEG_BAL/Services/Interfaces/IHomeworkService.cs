@@ -13,6 +13,7 @@ namespace CEG_BAL.Services.Interfaces
         void Create(HomeworkViewModel model, CreateNewHomework newHw);
         void Update(HomeworkViewModel model);
         Task<List<HomeworkViewModel>> GetHomeworkList();
+        Task<bool> IsHomeworkExistByTitle(string title);
         Task<HomeworkViewModel?> GetHomeworkById(int id);
     }
 }
