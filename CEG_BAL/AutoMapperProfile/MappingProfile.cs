@@ -210,6 +210,10 @@ namespace CEG_BAL.AutoMapperProfile
                 .ReverseMap();
             CreateMap<Homework, HomeworkViewModel>()
                 .ReverseMap();
+            CreateMap<HomeworkQuestion, HomeworkQuestionViewModel>() 
+                .ReverseMap();
+            CreateMap<HomeworkAnswer, HomeworkAnswerViewModel>() 
+                .ReverseMap();
         }
     }
 }

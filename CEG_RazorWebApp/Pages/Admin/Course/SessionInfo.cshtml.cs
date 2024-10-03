@@ -61,6 +61,7 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
             [FromRoute][Required] int sessionId)
         {
             methcall.InitTempData(this);
+            CourseId = courseId;
             AdminAPI_URL += "Session/" + sessionId;
             string? accToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
 
@@ -78,7 +79,7 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
 
                 TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while getting session info !";
 
-                return Redirect("/Admin/Course/" + courseId + "/Info");
+                return Redirect("/Admin/Course/" + CourseId + "/Info");
             }
             if (!sessionInfoResponse.Status || sessionInfoResponse.Data == null)
             {
@@ -86,7 +87,7 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
 
                 TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while getting session info !";
 
-                return Redirect("/Admin/Course/" + courseId + "/Info");
+                return Redirect("/Admin/Course/" + CourseId + "/Info");
             }
             if (!TempData.ContainsKey(Constants.ALERT_DEFAULT_ERROR_NAME) || !TempData.ContainsKey(Constants.ALERT_DEFAULT_SUCCESS_NAME))
             {
@@ -102,7 +103,7 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
                 foreach (var homework in sessionInfoResponse.Data.Homeworks)
                 {
                     homeworkList.Add(new AdminHomeworkInfoPVM(
-                        courseId,
+                        CourseId,
                         sessionId,
                         _mapper.Map<HomeworkInfoVM>(homework),
                         updateHomeworkFailed != null && updateHomeworkFailed.HomeworkId.Equals(homework.HomeworkId) ? updateHomeworkFailed : _mapper.Map<UpdateHomeworkVM>(homework)
@@ -117,7 +118,6 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
                 homeworkList,
                 createHomeworkFailed
                 );*/
-            CourseId = courseId;
             SessionInfo = _mapper.Map<SessionInfoVM>(sessionInfoResponse.Data);
             UpdateSessionInfo = updateSessionFailed ?? _mapper.Map<UpdateSessionVM>(sessionInfoResponse.Data);
             Homeworks = homeworkList ?? new List<AdminHomeworkInfoPVM>();
