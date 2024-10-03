@@ -12,6 +12,8 @@ using CEG_RazorWebApp.Models.Homework.Get;
 using CEG_RazorWebApp.Models.Session.Create;
 using CEG_RazorWebApp.Models.Session.Get;
 using CEG_RazorWebApp.Models.Session.Update;
+using CEG_RazorWebApp.Models.Homework.Update;
+using CEG_RazorWebApp.Models.Class.Get;
 
 namespace CEG_RazorWebApp.Libraries
 {
@@ -228,6 +230,16 @@ namespace CEG_RazorWebApp.Libraries
                 {
                     dest.Role = src.Role.RoleName;
                 });
+            CreateMap<AccountInfoVM, AccountViewModel>()
+                .AfterMap((src, dest) =>
+                {
+                    dest.Role.RoleName = src.Role;
+                })
+                .ReverseMap()
+                .AfterMap((src, dest) =>
+                {
+                    dest.Role = src.Role.RoleName;
+                });
             CreateMap<IndexCourseInfoVM, CourseViewModel>()
                 .ReverseMap()
                 .AfterMap((src, dest) =>
@@ -270,6 +282,15 @@ namespace CEG_RazorWebApp.Libraries
                 .ReverseMap();
             CreateMap<CreateHomeworkVM, CreateNewHomework>()
                 .ReverseMap();
+            CreateMap<UpdateHomeworkVM, HomeworkViewModel>()
+                .ReverseMap();
+            CreateMap<IndexClassInfoVM, ClassViewModel>()
+                .ReverseMap();
+                //.AfterMap((src, dest) =>
+                //{
+                    //dest.TeacherName = src.Teacher.Account.Fullname;
+                    //dest.CourseName = src.Course.CourseName;
+                //});
         }
     }
 }

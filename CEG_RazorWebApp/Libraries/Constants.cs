@@ -10,6 +10,9 @@ namespace CEG_RazorWebApp.Libraries
         public readonly static string PARENT_URL = "/Parent/Index";
         public readonly static string NOTFOUND_URL = "/Auth/NotFound";
         public readonly static string LOGIN_URL = "/Auth/Login";
+        public readonly static string LOGOUT_REDIRECT_URL = "/Home/Index";
+
+        public readonly static string ADMIN_LAYOUT_URL = "~/Pages/Shared/_ALayout.cshtml";
         //public readonly static string NEW_MEMBER_CONFIRM_REGISTRATION_URL = "/Auth/SignUp";
 
         /*public readonly static string NEW_MEMBER_REGISTRATION_COOKIE = "New-Membership-Registration-Cookie";
@@ -189,6 +192,11 @@ namespace CEG_RazorWebApp.Libraries
         public readonly static string CLASS_STATUS_NAME_CANCELLED = "Cancelled";
         public readonly static string CLASS_STATUS_ENDED = "Ended";
         public readonly static string CLASS_STATUS_NAME_ENDED = "Ended";
+
+        public readonly static string HOMEWORK_TYPE_VOCAB = "Vocabulary";
+        public readonly static string HOMEWORK_TYPE_NAME_VOCAB = "Vocabulary";
+        public readonly static string HOMEWORK_TYPE_GRAMMAR = "Grammar";
+        public readonly static string HOMEWORK_TYPE_NAME_GRAMMAR = "Grammar";
 
         /*public readonly static string COURSE_STATUS_ENDED = "Ended";
         public readonly static string COURSE_STATUS_NAME_ENDED = "Ended";

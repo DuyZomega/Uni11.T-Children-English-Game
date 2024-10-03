@@ -1,4 +1,5 @@
 using AutoMapper;
+using CEG_BAL.ViewModels.Account.Create;
 using CEG_RazorWebApp.Libraries;
 using CEG_RazorWebApp.Models.Account.Create;
 using CEG_RazorWebApp.Models.Account.Get;
@@ -7,6 +8,7 @@ using CEG_RazorWebApp.Pages.Admin.Course;
 using Microsoft.AspNetCore.Http.Json;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.ComponentModel.DataAnnotations;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Encodings.Web;
@@ -33,15 +35,16 @@ namespace CEG_RazorWebApp.Pages.Admin.Account
             Secure = true,
             IsEssential = true,
         };
+
         private readonly ChildrenEnglishGameLibrary methcall = new();
-        [BindProperty]
-        public List<AccountStatusVM> AccountStatuses { get; set; }
-        [BindProperty]
-        public CreateTeacherVM CreateTeacher { get; set; }
-        [BindProperty]
-        public CreateParentVM CreateParent { get; set; }
-        [BindProperty]
-        public CreateStudentVM CreateStudent { get; set; }
+
+        public string? LayoutUrl { get; set; } = Constants.ADMIN_LAYOUT_URL;
+
+        public List<AccountStatusVM>? AccountStatuses { get; set; }
+        public CreateTeacherVM? CreateTeacher { get; set; }
+        public CreateParentVM? CreateParent { get; set; }
+        public CreateStudentVM? CreateStudent { get; set; }
+
         public AccountIndexModel(ILogger<AccountIndexModel> logger, IConfiguration config, IMapper mapper)
         {
             _logger = logger;
@@ -56,8 +59,7 @@ namespace CEG_RazorWebApp.Pages.Admin.Account
         }
         public async Task<IActionResult> OnGetAsync()
         {
-            if (methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN) != null)
-                return Redirect(methcall.GetUrlStringIfUserSessionDataInValid(this, Constants.ADMIN));
+            methcall.InitTempData(this);
             AdminAPI_URL += "Account/All";
             string? accToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
 
@@ -75,7 +77,7 @@ namespace CEG_RazorWebApp.Pages.Admin.Account
 
                 TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while getting account list !";
 
-                return RedirectToAction("AdminIndex");
+                return RedirectToPage("/Admin/Index");
             }
             if (!accountListResponse.Status)
             {
@@ -83,16 +85,161 @@ namespace CEG_RazorWebApp.Pages.Admin.Account
 
                 TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while getting account list !";
 
-                return RedirectToAction("AdminIndex");
+                return RedirectToPage("/Admin/Index");
             }
             /*TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = ViewBag.Success = "Account List Get Successfully!";*/
-            TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = "Account List Get Successfully!";
+            if(!TempData.ContainsKey(Constants.ALERT_DEFAULT_ERROR_NAME) || !TempData.ContainsKey(Constants.ALERT_DEFAULT_SUCCESS_NAME))
+            {
+                TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = "Account List Get Successfully!";
+            }
             var teacherTempData = methcall.GetValidationTempData<CreateTeacherVM>(this, TempData, Constants.CREATE_TEACHER_DETAILS_VALID, "createTeacher", jsonOptions);
+            var parentTempData = methcall.GetValidationTempData<CreateParentVM>(this, TempData, Constants.CREATE_PARENT_DETAILS_VALID, "createParent", jsonOptions);
+            var studentTempData = methcall.GetValidationTempData<CreateStudentVM>(this, TempData, Constants.CREATE_STUDENT_DETAILS_VALID, "createStudent", jsonOptions);
 
             AccountStatuses = _mapper.Map<List<AccountStatusVM>>(accountListResponse.Data);
-            CreateTeacher = teacherTempData != null ? teacherTempData : new CreateTeacherVM();
-
+            CreateTeacher = teacherTempData ?? new CreateTeacherVM();
+            CreateParent = parentTempData ?? new CreateParentVM();
+            CreateStudent = studentTempData ?? new CreateStudentVM();
             return Page();
+        }
+        public IActionResult OnGetLogout()
+        {
+            _httpClient.DefaultRequestHeaders.Authorization = null;
+            HttpContext.Session.Clear();
+            TempData.Clear();
+            SignOut();
+
+            // If using ASP.NET Identity, you may want to sign out the user
+            // Example: await SignInManager.SignOutAsync();
+
+            return RedirectToPage(Constants.LOGOUT_REDIRECT_URL);
+        }
+        public async Task<IActionResult> OnPostTeacherAsync(
+            [FromForm][Required] CreateTeacherVM? createTeacher)
+        {
+            AdminAPI_URL += "Admin/Teacher/Create";
+            string? accToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
+            /*await TryUpdateModelAsync(createTeacher, nameof(CreateTeacher));
+            if (!TryValidateModel(CreateTeacher))
+            {
+                _logger.LogError("Validation Error Count: {}", ModelState.ErrorCount);
+                TempData = methcall.SetValidationTempData(TempData, Constants.CREATE_TEACHER_DETAILS_VALID, CreateTeacher, jsonOptions);
+                return Redirect("/Admin/Account/Index");
+            }*/
+            if (!ModelState.IsValid)
+            {
+                TempData = methcall.SetValidationTempData(TempData, Constants.CREATE_TEACHER_DETAILS_VALID, createTeacher, jsonOptions);
+                return Redirect("/Admin/Account/Index");
+            }
+
+            var teacherAccountCreateResponse = await methcall.CallMethodReturnObject<AdminAccountCreateResponseVM>(
+                _httpClient: _httpClient,
+                options: jsonOptions,
+                methodName: Constants.POST_METHOD,
+                url: AdminAPI_URL,
+                inputType: _mapper.Map<CreateNewTeacher>(createTeacher),
+                accessToken: accToken,
+                _logger: _logger);
+
+            if (teacherAccountCreateResponse == null)
+            {
+                _logger.LogError("Error while registering Teacher account");
+
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while registering Teacher account !";
+
+                return Redirect("/Admin/Account/Index");
+            }
+            if (!teacherAccountCreateResponse.Status)
+            {
+                _logger.LogError("Error while registering Teacher account");
+
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while registering Teacher account !";
+
+                return Redirect("/Admin/Account/Index");
+            }
+            TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = "Teacher Account Create Successfully!";
+
+            return Redirect("/Admin/Account/Index");
+        }
+        public async Task<IActionResult> OnPostParentAsync(
+            [FromForm][Required] CreateParentVM? createParent)
+        {
+            AdminAPI_URL += "Admin/Parent/Create";
+            string? accToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
+            if (!ModelState.IsValid)
+            {
+                TempData = methcall.SetValidationTempData(TempData, Constants.CREATE_PARENT_DETAILS_VALID, createParent, jsonOptions);
+                return Redirect("/Admin/Account/Index");
+            }
+
+            var teacherAccountCreateResponse = await methcall.CallMethodReturnObject<AdminAccountCreateResponseVM>(
+                _httpClient: _httpClient,
+                options: jsonOptions,
+                methodName: Constants.POST_METHOD,
+                url: AdminAPI_URL,
+                inputType: _mapper.Map<CreateNewParent>(createParent),
+                accessToken: accToken,
+                _logger: _logger);
+
+            if (teacherAccountCreateResponse == null)
+            {
+                _logger.LogError("Error while registering Parent account");
+
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while registering Parent account !";
+
+                return Redirect("/Admin/Account/Index");
+            }
+            if (!teacherAccountCreateResponse.Status)
+            {
+                _logger.LogError("Error while registering Parent account");
+
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while registering Parent account !";
+
+                return Redirect("/Admin/Account/Index");
+            }
+            TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = "Parent Account Create Successfully!";
+
+            return Redirect("/Admin/Account/Index");
+        }
+        public async Task<IActionResult> OnPostStudentAsync(
+            [FromForm][Required] CreateStudentVM? createStudent)
+        {
+            AdminAPI_URL += "Admin/Student/Create";
+            string? accToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
+            if (!ModelState.IsValid)
+            {
+                TempData = methcall.SetValidationTempData(TempData, Constants.CREATE_STUDENT_DETAILS_VALID, createStudent, jsonOptions);
+                return Redirect("/Admin/Account/Index");
+            }
+
+            var teacherAccountCreateResponse = await methcall.CallMethodReturnObject<AdminAccountCreateResponseVM>(
+                _httpClient: _httpClient,
+                options: jsonOptions,
+                methodName: Constants.POST_METHOD,
+                url: AdminAPI_URL,
+                inputType: _mapper.Map<CreateNewStudent>(createStudent),
+                accessToken: accToken,
+                _logger: _logger);
+
+            if (teacherAccountCreateResponse == null)
+            {
+                _logger.LogError("Error while registering Student account");
+
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while registering Student account !";
+
+                return Redirect("/Admin/Account/Index");
+            }
+            if (!teacherAccountCreateResponse.Status)
+            {
+                _logger.LogError("Error while registering Student account");
+
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while registering Student account !";
+
+                return Redirect("/Admin/Account/Index");
+            }
+            TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = "Student Account Create Successfully!";
+
+            return Redirect("/Admin/Account/Index");
         }
     }
 }

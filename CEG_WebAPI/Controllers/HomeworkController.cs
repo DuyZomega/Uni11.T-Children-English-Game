@@ -2,6 +2,7 @@
 using CEG_BAL.Services.Interfaces;
 using CEG_BAL.ViewModels;
 using CEG_BAL.ViewModels.Admin;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
@@ -117,6 +118,46 @@ namespace CEG_WebAPI.Controllers
                     Data = true,
                     Status = true,
                     SuccessMessage = "Homework Create Successfully!"
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    Status = false,
+                    ErrorMessage = ex.Message,
+                    InnerExceptionMessage = ex.InnerException?.Message
+                });
+            }
+        }
+        [HttpPut("{id}/Update")]
+        [Authorize(Roles = "Admin")]
+        [ProducesResponseType(typeof(HomeworkViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Update(
+            [FromRoute][Required] int id,
+            [FromBody][Required] HomeworkViewModel homework
+            )
+        {
+            try
+            {
+                var result = await _homeworkService.GetHomeworkById(id);
+                if (result == null)
+                {
+                    return NotFound(new
+                    {
+                        Status = false,
+                        ErrorMessage = "Homework Does Not Exist"
+                    });
+                }
+                homework.HomeworkId = id;
+                _homeworkService.Update(homework);
+                result = await _homeworkService.GetHomeworkById(homework.HomeworkId.Value);
+                return Ok(new
+                {
+                    Status = true,
+                    Data = result
                 });
             }
             catch (Exception ex)
