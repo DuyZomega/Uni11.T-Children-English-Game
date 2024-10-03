@@ -85,6 +85,28 @@
                                         }
                                     }
                                 </div>
+                                @if (TempData["Success"] != null)
+                                {
+                                    <div class="alert alert-success alert-dismissible fade show" id="notif">
+                                        <i class='bx bx-message-alt-x p-1'></i>
+                                        <strong class="mr-1">@TempData["Success"]</strong>
+                                        <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+                                            <span><i class='bx bx-x'></i></span>
+                                        </button>
+                                    </div>
+                                    TempData["Success"] = null;
+                                }
+                                else if (TempData["Error"] != null)
+                                {
+                                    <div class="alert alert-danger alert-dismissible fade show" id="notif">
+                                        <i class='bx bx-message-alt-x p-1'></i>
+                                        <strong class="mr-1">@TempData["Error"]</strong>
+                                        <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+                                            <span><i class='bx bx-x'></i></span>
+                                        </button>
+                                    </div>
+                                    TempData["Error"] = null;
+                                }
                                 <div class="card-body">
                                     <div class="row mb-sm-2">
                                         <div class="col-md-5 text-md-right">
@@ -152,6 +174,16 @@
                                         <div class="col-md-7">
                                             <span>
                                                 @homeworkInfo.Hours
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Type:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span>
+                                                @homeworkInfo.Type
                                             </span>
                                         </div>
                                     </div>
@@ -264,7 +296,7 @@
         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
             <div class="modal-content modal-addRoom">
                 <div class="modal-header">
-                    <h4 class="modal-title">Add new Homework</h4>
+                    <h4 class="modal-title">Add new Homework Question</h4>
                 </div>
                 <div class="modal-body">
                     <form asp-page-handler="Create" asp-route-homeworkId="@homeworkInfo.HomeworkId" method="post" id="form">

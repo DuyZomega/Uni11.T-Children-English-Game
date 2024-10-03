@@ -89,10 +89,7 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
 
                 return Redirect("/Admin/Course/" + CourseId + "/Info");
             }
-            if (!TempData.ContainsKey(Constants.ALERT_DEFAULT_ERROR_NAME) || !TempData.ContainsKey(Constants.ALERT_DEFAULT_SUCCESS_NAME))
-            {
-                TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = "Session Info Get Successfully!";
-            }
+            TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = "Session Info Get Successfully!";
 
             var createHomeworkFailed = methcall.GetValidationTempData<CreateHomeworkVM>(this, TempData, Constants.CREATE_HOMEWORK_DETAILS_VALID, "createHomework", jsonOptions);
             var updateSessionFailed = methcall.GetValidationTempData<UpdateSessionVM>(this, TempData, Constants.UPDATE_SESSION_DETAILS_VALID, "updateSession", jsonOptions);
@@ -188,17 +185,17 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
 
             if (authenResponse == null)
             {
-                _logger.LogError("Error while registering Homework account");
+                _logger.LogError("Error while registering Homework");
 
-                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while registering Homework account !";
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while registering Homework !";
 
                 return Redirect("/Admin/Course/" + CourseId + "/Session/" + sessionId + "/Info");
             }
             if (!authenResponse.Status)
             {
-                _logger.LogError("Error while registering Homework account");
+                _logger.LogError("Error while registering Homework");
 
-                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while registering Homework account !";
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while registering Homework !";
 
                 return Redirect("/Admin/Course/" + CourseId + "/Session/" + sessionId + "/Info");
             }

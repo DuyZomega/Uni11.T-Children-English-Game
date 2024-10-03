@@ -23,6 +23,7 @@ namespace CEG_DAL.Repositories.Implements
             return await _dbContext.Courses
                 .Include(c => c.Sessions)
                 .ThenInclude(s => s.Homeworks)
+                .Include(c => c.Classes)
                 .AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(cou => cou.CourseId == id);
         }
 
@@ -47,7 +48,10 @@ namespace CEG_DAL.Repositories.Implements
 
         public async Task<List<Course>> GetCourseList()
         {
-            return await _dbContext.Courses.Include(c => c.Classes).Include(c => c.Sessions).ToListAsync();
+            return await _dbContext.Courses
+                .Include(c => c.Sessions)
+                .Include(c => c.Classes)
+                .ToListAsync();
         }
 
         public async Task<Course?> GetByName(string name)

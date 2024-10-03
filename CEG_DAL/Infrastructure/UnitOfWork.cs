@@ -20,6 +20,8 @@ namespace CEG_DAL.Infrastructure
         private IGameLevelRepositories _gameLevelRepositories;
         private IGameRepositories _gameRepositories;
         private IHomeworkRepositories _homeworkRepositories;
+        private IHomeworkQuestionRepositories _homeworkQuestionsRepositories;
+        private IHomeworkAnswerRepositories _homeworkAnswerRepositories;
         private IHomeworkResultRepositories _homeworkResultRepositories;
         private IParentRepositories _parentRepositories;
         private IPaymentRepositories _paymentRepositories;
@@ -42,6 +44,8 @@ namespace CEG_DAL.Infrastructure
         public IGameLevelRepositories GameLevelRepositories => _gameLevelRepositories ??= new GameLevelRepositories(_dbContext);
         public IGameRepositories GameRepositories => _gameRepositories ??= new GameRepositories(_dbContext);
         public IHomeworkRepositories HomeworkRepositories => _homeworkRepositories ??= new HomeworkRepositories(_dbContext);
+        public IHomeworkQuestionRepositories HomeworkQuestionRepositories => _homeworkQuestionsRepositories ??= new HomeworkQuestionRepositories(_dbContext);
+        public IHomeworkAnswerRepositories HomeworkAnswerRepositories => _homeworkAnswerRepositories ??= new HomeworkAnswerRepositories(_dbContext);
         public IHomeworkResultRepositories HomeworkResultRepositories => _homeworkResultRepositories ??= new HomeworkResultRepositories(_dbContext);
         public IParentRepositories ParentRepositories => _parentRepositories ??= new ParentRepositories(_dbContext);
         public IPaymentRepositories PaymentRepositories => _paymentRepositories ??= new PaymentRepositories(_dbContext);

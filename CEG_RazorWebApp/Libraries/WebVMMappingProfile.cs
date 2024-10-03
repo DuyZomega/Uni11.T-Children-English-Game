@@ -14,6 +14,10 @@ using CEG_RazorWebApp.Models.Session.Get;
 using CEG_RazorWebApp.Models.Session.Update;
 using CEG_RazorWebApp.Models.Homework.Update;
 using CEG_RazorWebApp.Models.Class.Get;
+using CEG_RazorWebApp.Models.HomeworkQuestion.Create;
+using CEG_RazorWebApp.Models.HomeworkQuestion.Get;
+using CEG_RazorWebApp.Models.HomeworkQuestion.Update;
+using CEG_RazorWebApp.Models.HomeworkAnswer.Get;
 
 namespace CEG_RazorWebApp.Libraries
 {
@@ -272,12 +276,17 @@ namespace CEG_RazorWebApp.Libraries
             CreateMap<UpdateSessionVM, SessionViewModel>()
                 .ReverseMap();
             CreateMap<SessionInfoVM, SessionViewModel>()
-                .ReverseMap().AfterMap((src, dest) =>
+                .ReverseMap()
+                .AfterMap((src, dest) =>
                 {
                     dest.HomeworksAmount = (src.Homeworks != null || src.Homeworks.Any()) ? src.Homeworks.Count : 0;
                 });
             CreateMap<HomeworkInfoVM, HomeworkViewModel>()
-                .ReverseMap();
+                .ReverseMap()
+                .AfterMap((src, dest) =>
+                {
+                    dest.QuestionsAmount = (src.HomeworkQuestions != null || src.HomeworkQuestions.Any()) ? src.HomeworkQuestions.Count : 0;
+                });
             CreateMap<CreateSessionVM, CreateNewSession>()
                 .ReverseMap();
             CreateMap<CreateHomeworkVM, CreateNewHomework>()
@@ -285,6 +294,17 @@ namespace CEG_RazorWebApp.Libraries
             CreateMap<UpdateHomeworkVM, HomeworkViewModel>()
                 .ReverseMap();
             CreateMap<IndexClassInfoVM, ClassViewModel>()
+                .ReverseMap();
+            CreateMap<CreateQuestionVM, CreateNewQuestion>()
+                .ReverseMap();
+            CreateMap<QuestionInfoVM, HomeworkQuestionViewModel>()
+                .ReverseMap().AfterMap((src, dest) =>
+                {
+                    dest.AnswersAmount = (src.HomeworkAnswers != null || src.HomeworkAnswers.Any()) ? src.HomeworkAnswers.Count : 0;
+                });
+            CreateMap<UpdateQuestionVM, HomeworkQuestionViewModel>()
+                .ReverseMap();
+            CreateMap<AnswerInfoVM, HomeworkAnswerViewModel>()
                 .ReverseMap();
                 //.AfterMap((src, dest) =>
                 //{

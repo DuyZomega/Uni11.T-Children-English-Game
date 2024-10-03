@@ -76,6 +76,7 @@ namespace CEG_WebAPI
             services.AddScoped<IGameLevelService, GameLevelService>();
             services.AddScoped<IGameService, GameService>();
             services.AddScoped<IHomeworkResultService, HomeworkResultService>();
+            services.AddScoped<IHomeworkQuestionService, HomeworkQuestionService>();
             services.AddScoped<IHomeworkService, HomeworkService>();
             services.AddScoped<IJWTService, JWTService>();
             services.AddScoped<IParentService, ParentService>();

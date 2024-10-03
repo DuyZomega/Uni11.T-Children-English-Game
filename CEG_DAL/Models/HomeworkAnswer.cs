@@ -11,5 +11,7 @@ public partial class HomeworkAnswer
 
     public string? Answer { get; set; }
 
+    public bool Type { get; set; }
+
     public virtual HomeworkQuestion HomeworkQuestion { get; set; } = null!;
 }

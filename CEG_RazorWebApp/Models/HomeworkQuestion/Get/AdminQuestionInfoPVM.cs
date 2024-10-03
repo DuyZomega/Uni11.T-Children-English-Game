@@ -8,6 +8,7 @@ namespace CEG_RazorWebApp.Models.HomeworkQuestion.Get
             int? courseId,
             int? sessionId,
             int? homeworkId,
+            string? homeworkStatus,
             QuestionInfoVM? question = null,
             UpdateQuestionVM? updateQuestionInfo = null
             )
@@ -15,6 +16,7 @@ namespace CEG_RazorWebApp.Models.HomeworkQuestion.Get
             CourseId = courseId;
             SessionId = sessionId;
             HomeworkId = homeworkId;
+            HomeworkStatus = homeworkStatus;
             QuestionInfo = question ?? new QuestionInfoVM();
             UpdateQuestionInfo = updateQuestionInfo ?? new UpdateQuestionVM();
         }
