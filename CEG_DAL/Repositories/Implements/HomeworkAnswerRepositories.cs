@@ -1,6 +1,7 @@
 ﻿using CEG_DAL.Infrastructure;
 using CEG_DAL.Models;
 using CEG_DAL.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,29 +19,31 @@ namespace CEG_DAL.Repositories.Implements
             _dbContext = context;
         }
 
-        public Task<List<HomeworkAnswer>?> GetAnswerListByQuestionId(int questionId)
+        public async Task<List<HomeworkAnswer>?> GetAnswerListByQuestionId(int questionId)
         {
-            throw new NotImplementedException();
+            return await _dbContext.HomeworkAnswers.AsNoTrackingWithIdentityResolution().Where(answ => answ.HomeworkQuestionId == questionId).ToListAsync();
         }
 
-        public Task<List<HomeworkAnswer>> GetAnswersList()
+        public async Task<List<HomeworkAnswer>> GetAnswersList()
         {
-            throw new NotImplementedException();
+            return await _dbContext.HomeworkAnswers.ToListAsync();
         }
 
-        public Task<HomeworkAnswer?> GetByAnswer(string answer)
+        public async Task<HomeworkAnswer?> GetByAnswer(string answer)
         {
-            throw new NotImplementedException();
+            return await _dbContext.HomeworkAnswers.AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(answ => answ.Answer == answer);
         }
 
-        public Task<HomeworkAnswer?> GetByIdNoTracking(int id)
+        public async Task<HomeworkAnswer?> GetByIdNoTracking(int id)
         {
-            throw new NotImplementedException();
+            return await _dbContext.HomeworkAnswers.AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(answ => answ.HomeworkAnswerId == id);
         }
 
-        public Task<int> GetIdByAnswer(string answer)
+        public async Task<int> GetIdByAnswer(string answer)
         {
-            throw new NotImplementedException();
+            var result = await(from s in _dbContext.HomeworkAnswers where s.Answer == answer select s).FirstOrDefaultAsync();
+            if (result != null) return result.HomeworkAnswerId;
+            return 0;
         }
     }
 }
