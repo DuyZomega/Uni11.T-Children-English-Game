@@ -10,7 +10,7 @@ namespace CEG_BAL.ViewModels
     {
         public int? HomeworkAnswerId { get; set; }
         public string? Answer { get; set; }
-        public string? Type { get; set; }
+        public string? AnswerType { get; set; }
 
         public HomeworkQuestionViewModel? HomeworkQuestion { get; set; }
     }

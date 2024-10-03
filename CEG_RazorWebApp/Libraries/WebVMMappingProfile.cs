@@ -308,16 +308,36 @@ namespace CEG_RazorWebApp.Libraries
             CreateMap<UpdateQuestionVM, HomeworkQuestionViewModel>()
                 .ReverseMap();
             CreateMap<AnswerInfoVM, HomeworkAnswerViewModel>()
-                .ReverseMap();
+                .AfterMap((src, dest) =>
+                {
+                    dest.AnswerType = src.Type;
+                })
+                .ReverseMap()
+                .AfterMap((src, dest) =>
+                {
+                    dest.Type = src.AnswerType;
+                });
             CreateMap<CreateAnswerVM, CreateNewAnswer>()
+                .AfterMap((src, dest) =>
+                {
+                    dest.Type = src.AnswerType.Equals("Correct");
+                })
                 .ReverseMap();
             CreateMap<UpdateAnswerVM, HomeworkAnswerViewModel>()
-                .ReverseMap();
-                //.AfterMap((src, dest) =>
-                //{
-                    //dest.TeacherName = src.Teacher.Account.Fullname;
-                    //dest.CourseName = src.Course.CourseName;
-                //});
+                .AfterMap((src, dest) =>
+                {
+                    dest.AnswerType = src.Type;
+                })
+                .ReverseMap()
+                .AfterMap((src, dest) =>
+                {
+                    dest.Type = src.AnswerType;
+                });
+            //.AfterMap((src, dest) =>
+            //{
+            //dest.TeacherName = src.Teacher.Account.Fullname;
+            //dest.CourseName = src.Course.CourseName;
+            //});
         }
     }
 }

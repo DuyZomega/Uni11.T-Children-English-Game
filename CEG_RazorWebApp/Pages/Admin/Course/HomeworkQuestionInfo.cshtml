@@ -266,9 +266,9 @@
                                               class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
                                     </div>
                                     <div class="row form-group">
-                                        <label asp-for="@createAnswer.Type" class="col-md-3 col-form-label text-md-right"></label>
-                                        <select class="form-control col-md-7 custom-select" asp-for="@createAnswer.Type" asp-items="@createAnswer.DefaultAnswerTypeSelectList"></select>
-                                        <span asp-validation-for="@createAnswer.Type" id="error_message"
+                                        <label asp-for="@createAnswer.AnswerType" class="col-md-3 col-form-label text-md-right"></label>
+                                        <select class="form-control col-md-7 custom-select" asp-for="@createAnswer.AnswerType" asp-items="@createAnswer.DefaultAnswerTypeSelectList"></select>
+                                        <span asp-validation-for="@createAnswer.AnswerType" id="error_message"
                                               class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
                                         <input asp-for="@createAnswer.QuestionId" value="@questionInfo.HomeworkQuestionId" type="text" required hidden readonly>

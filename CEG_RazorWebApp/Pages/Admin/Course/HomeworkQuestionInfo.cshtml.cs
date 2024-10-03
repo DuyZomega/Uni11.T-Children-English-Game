@@ -100,9 +100,9 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
             }
             TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = "Homework Question Info Get Successfully!";
 
-            var createAnswerFailed = methcall.GetValidationTempData<CreateAnswerVM>(this, TempData, Constants.CREATE_HOMEWORK_DETAILS_VALID, "createHomework", jsonOptions);
-            var updateQuestionFailed = methcall.GetValidationTempData<UpdateQuestionVM>(this, TempData, Constants.UPDATE_HOMEWORK_DETAILS_VALID, "updateHomework", jsonOptions);
-            var updateAnswerFailed = methcall.GetValidationTempData<UpdateAnswerVM>(this, TempData, Constants.UPDATE_HOMEWORK_DETAILS_VALID, "updateHomework", jsonOptions);
+            var createAnswerFailed = methcall.GetValidationTempData<CreateAnswerVM>(this, TempData, Constants.CREATE_HOMEWORK_DETAILS_VALID, "createAnswer", jsonOptions);
+            var updateQuestionFailed = methcall.GetValidationTempData<UpdateQuestionVM>(this, TempData, Constants.UPDATE_HOMEWORK_QUESTION_DETAILS_VALID, "updateQuestion", jsonOptions);
+            var updateAnswerFailed = methcall.GetValidationTempData<UpdateAnswerVM>(this, TempData, Constants.UPDATE_HOMEWORK_ANSWER_DETAILS_VALID, "updateAnswer", jsonOptions);
             var answerList = new List<AdminAnswerInfoPVM>();
 
             if (questionInfoResponse.Data.HomeworkAnswers != null && questionInfoResponse.Data.HomeworkAnswers.Count > 0)
@@ -165,88 +165,88 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
 
             return Redirect("/Admin/Course/" + CourseId + "/Session/" + SessionId + "/Homework/" + HomeworkId + "/Question/" + questionId + "/Info");
         }
-        /*public async Task<IActionResult> OnPostCreate(
-            [FromRoute][Required] int homeworkId,
-            [FromForm][Required] CreateQuestionVM createQuestion)
+        public async Task<IActionResult> OnPostCreate(
+            [FromRoute][Required] int questionId,
+            [FromForm][Required] CreateAnswerVM createAnswer)
         {
-            AdminAPI_URL += "Question/Create";
+            AdminAPI_URL += "Answer/Create";
             string? accToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
 
             if (!ModelState.IsValid)
             {
-                TempData = methcall.SetValidationTempData(TempData, Constants.CREATE_HOMEWORK_QUESTION_DETAILS_VALID, createQuestion, jsonOptions);
-                return Redirect("/Admin/Course/" + CourseId + "/Session/" + SessionId + "/Homework/" + homeworkId + "/Info");
+                TempData = methcall.SetValidationTempData(TempData, Constants.CREATE_HOMEWORK_ANSWER_DETAILS_VALID, createAnswer, jsonOptions);
+                return Redirect("/Admin/Course/" + CourseId + "/Session/" + SessionId + "/Homework/" + HomeworkId + "/Question/" + questionId + "/Info");
             }
 
-            var authenResponse = await methcall.CallMethodReturnObject<AdminQuestionCreateResponseVM>(
+            var authenResponse = await methcall.CallMethodReturnObject<AdminAnswerCreateResponseVM>(
                 _httpClient: _httpClient,
                 options: jsonOptions,
                 methodName: Constants.POST_METHOD,
                 url: AdminAPI_URL,
-                inputType: _mapper.Map<CreateNewQuestion>(createQuestion),
+                inputType: _mapper.Map<CreateNewAnswer>(createAnswer),
                 accessToken: accToken,
                 _logger: _logger);
 
             if (authenResponse == null)
             {
-                _logger.LogError("Error while registering Homework question");
+                _logger.LogError("Error while creating answer");
 
-                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while registering Homework question !";
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while creating answer !";
 
-                return Redirect("/Admin/Course/" + CourseId + "/Session/" + SessionId + "/Homework/" + homeworkId + "/Info");
+                return Redirect("/Admin/Course/" + CourseId + "/Session/" + SessionId + "/Homework/" + HomeworkId + "/Question/" + questionId + "/Info");
             }
             if (!authenResponse.Status)
             {
-                _logger.LogError("Error while registering Homework Question");
+                _logger.LogError("Error while creating answer");
 
-                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while registering Homework question !";
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while creating answer !";
 
-                return Redirect("/Admin/Course/" + CourseId + "/Session/" + SessionId + "/Homework/" + homeworkId + "/Info");
+                return Redirect("/Admin/Course/" + CourseId + "/Session/" + SessionId + "/Homework/" + HomeworkId + "/Question/" + questionId + "/Info");
             }
-            TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = "Homework Question Create Successfully!";
-            return Redirect("/Admin/Course/" + CourseId + "/Session/" + SessionId + "/Homework/" + homeworkId + "/Info");
+            TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = "Homework Answer Create Successfully!";
+            return Redirect("/Admin/Course/" + CourseId + "/Session/" + SessionId + "/Homework/" + HomeworkId + "/Question/" + questionId + "/Info");
         }
-        public async Task<IActionResult> OnPostQuestionUpdate(
-            [FromRoute][Required] int homeworkId,
-            [Required] int questionId,
-            [FromForm][Required] UpdateQuestionVM updateQuestion)
+        public async Task<IActionResult> OnPostAnswerUpdate(
+            [FromRoute][Required] int questionId,
+            [Required] int answerId,
+            [FromForm][Required] UpdateAnswerVM updateAnswer)
         {
-            AdminAPI_URL += "Question/" + questionId + "/Update";
+            AdminAPI_URL += "Answer/" + answerId + "/Update";
             string? accToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
             if (!ModelState.IsValid)
             {
-                TempData = methcall.SetValidationTempData(TempData, Constants.UPDATE_HOMEWORK_DETAILS_VALID, updateQuestion, jsonOptions);
-                return Redirect("/Admin/Course/" + CourseId + "/Session/" + SessionId + "/Homework/" + homeworkId + "/Info");
+                TempData = methcall.SetValidationTempData(TempData, Constants.UPDATE_HOMEWORK_ANSWER_DETAILS_VALID, updateAnswer, jsonOptions);
+                return Redirect("/Admin/Course/" + CourseId + "/Session/" + SessionId + "/Homework/" + HomeworkId + "/Question/" + questionId + "/Info");
             }
-            var courseInfoResponse = await methcall.CallMethodReturnObject<AdminQuestionUpdateResponseVM>(
+            var courseInfoResponse = await methcall.CallMethodReturnObject<AdminAnswerUpdateResponseVM>(
                 _httpClient: _httpClient,
                 options: jsonOptions,
                 methodName: Constants.PUT_METHOD,
                 url: AdminAPI_URL,
                 accessToken: accToken,
-                inputType: _mapper.Map<HomeworkQuestionViewModel>(updateQuestion),
+                inputType: _mapper.Map<HomeworkAnswerViewModel>(updateAnswer),
                 _logger: _logger);
 
             if (courseInfoResponse == null)
             {
-                _logger.LogError("Error while updating question info");
+                _logger.LogError("Error while updating answer info");
 
-                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while updating question info !";
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while updating answer info !";
 
-                return Redirect("/Admin/Course/" + CourseId + "/Session/" + SessionId + "/Homework/" + homeworkId + "/Info");
+                return Redirect("/Admin/Course/" + CourseId + "/Session/" + SessionId + "/Homework/" + HomeworkId + "/Question/" + questionId + "/Info");
             }
             if (!courseInfoResponse.Status)
             {
-                _logger.LogError("Error while updating question info");
+                _logger.LogError("Error while updating answer info");
 
-                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while updating question info !";
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while updating answer info !";
 
-                return Redirect("/Admin/Course/" + CourseId + "/Session/" + SessionId + "/Homework/" + homeworkId + "/Info");
+                return Redirect("/Admin/Course/" + CourseId + "/Session/" + SessionId + "/Homework/" + HomeworkId + "/Question/" + questionId + "/Info");
             }
-            TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = "Question Update Successfully!";
+            TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = "Answer Update Successfully!";
 
-            return Redirect("/Admin/Course/" + CourseId + "/Session/" + SessionId + "/Homework/" + homeworkId + "/Info");
-        }*/
+            return Redirect("/Admin/Course/" + CourseId + "/Session/" + SessionId + "/Homework/" + HomeworkId + "/Question/" + questionId + "/Info");
+        }
         public IActionResult OnGetLogout()
         {
             _httpClient.DefaultRequestHeaders.Authorization = null;
