@@ -21,7 +21,6 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
 {
     public class CourseInfoModel : PageModel
     {
-
         private readonly ILogger<CourseInfoModel> _logger;
         private readonly IMapper _mapper;
         private readonly IConfiguration _config;

@@ -230,6 +230,16 @@ namespace CEG_RazorWebApp.Libraries
                 {
                     dest.Role = src.Role.RoleName;
                 });
+            CreateMap<AccountInfoVM, AccountViewModel>()
+                .AfterMap((src, dest) =>
+                {
+                    dest.Role.RoleName = src.Role;
+                })
+                .ReverseMap()
+                .AfterMap((src, dest) =>
+                {
+                    dest.Role = src.Role.RoleName;
+                });
             CreateMap<IndexCourseInfoVM, CourseViewModel>()
                 .ReverseMap()
                 .AfterMap((src, dest) =>

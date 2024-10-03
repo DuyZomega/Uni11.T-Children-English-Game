@@ -1,12 +1,10 @@
 ﻿@page "/Admin/Course/Index"
 @model CEG_RazorWebApp.Pages.Admin.Course.CourseIndexModel
-
 @{
     ViewData["Title"] = "Admin All Courses Page";
     string? search = string.Empty;
     var createCourse = Model.CreateCourse;
     var courses = Model.Courses;
-
     Layout = Model.LayoutUrl;
 }
 <html lang="en">
