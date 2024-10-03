@@ -17,6 +17,8 @@ namespace CEG_DAL.Infrastructure
         IGameLevelRepositories GameLevelRepositories { get; }
         IGameRepositories GameRepositories { get; }
         IHomeworkRepositories HomeworkRepositories { get; }
+        IHomeworkQuestionRepositories HomeworkQuestionRepositories { get; }
+        IHomeworkAnswerRepositories HomeworkAnswerRepositories { get; }
         IHomeworkResultRepositories HomeworkResultRepositories { get; }
         IParentRepositories ParentRepositories { get; }
         IPaymentRepositories PaymentRepositories { get; }

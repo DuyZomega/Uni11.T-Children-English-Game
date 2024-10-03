@@ -129,10 +129,14 @@ namespace CEG_RazorWebApp.Libraries
         public readonly static string CREATE_COURSE_DETAILS_VALID = "CCourseDetailsValid";
         public readonly static string CREATE_SESSION_DETAILS_VALID = "CSessionDetailsValid";
         public readonly static string CREATE_HOMEWORK_DETAILS_VALID = "CHomeworkDetailsValid";
+        public readonly static string CREATE_HOMEWORK_QUESTION_DETAILS_VALID = "CHomeworkQuestionDetailsValid";
+        public readonly static string CREATE_HOMEWORK_ANSWER_DETAILS_VALID = "CHomeworkAnswerDetailsValid";
 
         public readonly static string UPDATE_COURSE_DETAILS_VALID = "UCourseDetailsValid";
         public readonly static string UPDATE_SESSION_DETAILS_VALID = "USessionDetailsValid";
         public readonly static string UPDATE_HOMEWORK_DETAILS_VALID = "UHomeworkDetailsValid";
+        public readonly static string UPDATE_HOMEWORK_QUESTION_DETAILS_VALID = "UHomeworkQuestionDetailsValid";
+        public readonly static string UPDATE_HOMEWORK_ANSWER_DETAILS_VALID = "UHomeworkAnswerDetailsValid";
 
         /*public readonly static string UPDATE_MEMBER_DETAILS_VALID = "UMemberDetailsValid";
         public readonly static string UPDATE_MEMBER_PASSWORD_VALID = "UMemberPasswordValid";

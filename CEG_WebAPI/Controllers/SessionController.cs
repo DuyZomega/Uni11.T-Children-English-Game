@@ -151,7 +151,7 @@ namespace CEG_WebAPI.Controllers
                 {
                     Data = true,
                     Status = true,
-                    SuccessMessage = "Class Create Successfully!"
+                    SuccessMessage = "Session Create Successfully!"
                 });
             }
             catch (Exception ex)
