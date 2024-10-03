@@ -4702,7 +4702,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointsText: {fileID: 1443061050}
-  BestScore: {fileID: 0}
+  BestScore: {fileID: 1839009393}
   scoreText: {fileID: 2074018990}
 --- !u!114 &1472316626
 MonoBehaviour:
