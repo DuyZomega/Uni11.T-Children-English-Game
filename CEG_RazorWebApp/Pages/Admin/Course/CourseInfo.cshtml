@@ -35,11 +35,39 @@
                                     <span>/</span>
                                 </li>
                                 <li class="breadcrumd-item">
-                                    <a href="@Url.Action("AdminCourseInfo","Admin",courseInfo.CourseId)">Info</a>
+                                    <a href="/Admin/Course/@courseInfo.CourseId/Info">@courseInfo.CourseId</a>
+                                </li>
+                                <li class="breadcrumd-item">
+                                    <span>/</span>
+                                </li>
+                                <li class="breadcrumd-item">
+                                    <a href="/Admin/Course/@courseInfo.CourseId/Info">Info</a>
                                 </li>
                             </ol>
                         </div>
                     </div>
+                @if (TempData["Success"] != null)
+                {
+                    <div class="alert alert-success alert-dismissible fade show" id="notif">
+                        <i class='bx bx-message-alt-x p-1'></i>
+                        <strong class="mr-1">@TempData["Success"]</strong>
+                        <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+                            <span><i class='bx bx-x'></i></span>
+                        </button>
+                    </div>
+                    TempData.Remove("Success");
+                }
+                else if (TempData["Error"] != null)
+                {
+                    <div class="alert alert-danger alert-dismissible fade show" id="notif">
+                        <i class='bx bx-message-alt-x p-1'></i>
+                        <strong class="mr-1">@TempData["Error"]</strong>
+                        <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+                            <span><i class='bx bx-x'></i></span>
+                        </button>
+                    </div>
+                    TempData.Remove("Success");
+                }
                     <div class="row">
                         <div class="col-12 customer-booking">
                             <div class="row">
@@ -50,7 +78,7 @@
                                             if (courseInfo.Status.Equals("Draft") || courseInfo.Status.Equals("Postponed"))
                                             {
                                                 <div class="edit-info">
-                                                    <i class='bx bxs-edit-alt' data-toggle="modal" data-target="#editCourse"></i>
+                                                    <i class='bx bxs-edit' data-toggle="modal" data-target="#editCourse"></i>
                                                 </div>
                                             }
                                         }
@@ -198,7 +226,7 @@
                                             if (courseInfo.Status.Equals("Draft") || courseInfo.Status.Equals("Postponed"))
                                             {
                                                 <div class="edit-info">
-                                                    <i class='bx bxs-edit-alt' data-toggle="modal" data-target="#createSession"></i>
+                                                    <i class='bx bxs-add-to-queue' data-toggle="modal" data-target="#createSession"></i>
                                                 </div>
                                             }
                                         }
@@ -295,7 +323,7 @@
                         <h4 class="modal-title">Add new Session</h4>
                     </div>
                     <div class="modal-body">
-                        <form asp-route-courseId="@courseInfo.CourseId" asp-page-handler="Create" method="post" id="form">
+                        <form asp-route-courseId="@courseInfo.CourseId" asp-page-handler="Createsession" method="post" id="form">
                             <div class="row p-4">
                                 <div class="col-12">
                                     <div class="row form-group">

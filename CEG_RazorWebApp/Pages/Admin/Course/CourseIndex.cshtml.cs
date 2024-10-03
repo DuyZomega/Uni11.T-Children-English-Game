@@ -75,7 +75,7 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
 
                 TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while getting course list !";
 
-                return RedirectToAction("AdminIndex");
+                return Redirect("/Admin/Index");
             }
             if (!courseListResponse.Status)
             {
@@ -83,7 +83,7 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
 
                 TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while getting course list !";
 
-                return RedirectToAction("AdminIndex");
+                return Redirect("/Admin/Index");
             }
             /*TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = ViewBag.Success = "Course List Get Successfully!";*/
             if (!TempData.ContainsKey(Constants.ALERT_DEFAULT_ERROR_NAME) || !TempData.ContainsKey(Constants.ALERT_DEFAULT_SUCCESS_NAME))

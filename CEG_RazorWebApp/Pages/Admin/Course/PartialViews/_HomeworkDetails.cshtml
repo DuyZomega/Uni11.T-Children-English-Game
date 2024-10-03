@@ -1,15 +1,15 @@
-﻿@model CEG_RazorWebApp.Models.Session.Get.AdminSessionInfoPVM
+﻿@model CEG_RazorWebApp.Models.Homework.Get.AdminHomeworkInfoPVM
 @{
-    var sessionInfo = Model.SessionInfo;
-    var updateSession = Model.UpdateSessionInfo;
+    var homeworkInfo = Model.HomeworkInfo;
+    //var updateSession = Model.UpdateSessionInfo;
 }
 <div class="card-header">
-    <h5>Session @sessionInfo.Number Details</h5>
+    <h5>Homework @homeworkInfo.Title Details</h5>
     @{
-        if (sessionInfo.Status.Equals("Draft") || sessionInfo.Status.Equals("Postponed"))
+        if (homeworkInfo.Status.Equals("Draft") || homeworkInfo.Status.Equals("Postponed"))
         {
             <div class="edit-info">
-                <i class='bx bxs-edit' data-toggle="modal" data-target="#editsession_@sessionInfo.SessionId"></i>
+                <i class='bx bxs-edit' data-toggle="modal" data-target="#edithomework_@homeworkInfo.HomeworkId"></i>
             </div>
         }
     }
@@ -17,11 +17,11 @@
 <div class="card-body">
     <div class="row mb-sm-2">
         <div class="col-md-5 text-md-right">
-            <label class="col-form-label">Session ID:</label>
+            <label class="col-form-label">Homework ID:</label>
         </div>
         <div class="col-md-7">
             <span>
-                @sessionInfo.SessionId
+                @homeworkInfo.HomeworkId
             </span>
         </div>
     </div>
@@ -31,23 +31,23 @@
         </div>
         <div class="col-sm-7">
             @{
-                switch (sessionInfo.Status)
+                switch (homeworkInfo.Status)
                 {
                     case "Available":
                         {
-                            <span class="outcome" style="float: left;">@sessionInfo.Status</span>
+                            <span class="outcome" style="float: left;">@homeworkInfo.Status</span>
                             break;
                         }
                     case "Draft":
                     case "Postponed":
                         {
-                            <span class="approval" style="float: left;">@sessionInfo.Status</span>
+                            <span class="approval" style="float: left;">@homeworkInfo.Status</span>
                             break;
                         }
                     case "EndofService":
                     case "Cancelled":
                         {
-                            <span class="destroy" style="float: left;">@sessionInfo.Status</span>
+                            <span class="destroy" style="float: left;">@homeworkInfo.Status</span>
                             break;
                         }
                 }
@@ -59,7 +59,7 @@
             <label for="meeting-name">Title:</label>
         </div>
         <div class="col-sm-7 text-sm-left">
-            <span>@sessionInfo.Title</span>
+            <span>@homeworkInfo.Title</span>
         </div>
     </div>
     <div class="row mb-sm-2">
@@ -67,41 +67,41 @@
             <label for="meeting-name">Description:</label>
         </div>
         <div class="col-sm-7 text-sm-left">
-            <span>@sessionInfo.Description</span>
+            <span>@homeworkInfo.Description</span>
         </div>
     </div>
     <div class="row mb-sm-2">
         <div class="col-sm-5 text-sm-right">
-            <label for="meeting-name">Hours to learn:</label>
+            <label for="meeting-name">Hours:</label>
         </div>
         <div class="col-sm-7 text-sm-left">
-            <span>@sessionInfo.Hours</span>
+            <span>@homeworkInfo.Hours</span>
         </div>
     </div>
     <div class="row mb-sm-2">
         <div class="col-sm-5 text-sm-right">
-            <label for="meeting-name">Homeworks amount:</label>
+            <label for="meeting-name">Questions Amount:</label>
         </div>
         <div class="col-sm-7 text-sm-left">
-            <span>@sessionInfo.HomeworksAmount Homework(s)</span>
+            <span>@homeworkInfo.QuestionsAmount Question(s)</span>
         </div>
     </div>
     <div class="card-body d-flex justify-content-center">
-        <a class="btn btn-success" href="/Admin/Course/@Model.CourseId/Session/@sessionInfo.SessionId/Info">More Info</a>
+        <a class="btn btn-success" href="/Admin/Course/@Model.CourseId/Session/@Model.SessionId/Homework/@homeworkInfo.HomeworkId">More Info</a>
     </div>
 </div>
 <hr class="container my-0">
 
-@if (sessionInfo.Status.Equals("Draft") || sessionInfo.Status.Equals("Postponed"))
+@if (homeworkInfo.Status.Equals("Draft") || homeworkInfo.Status.Equals("Postponed"))
 {
-    <div id="editsession_@sessionInfo.SessionId" class="modal fade" role="dialog">
+    <div id="edithomework_@homeworkInfo.HomeworkId" class="modal fade" role="dialog">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="content">
             <div class="modal-content modal-addRoom">
                 <div class="modal-header">
-                    <h4 class="modal-title truncate">Update Session @sessionInfo.Title</h4>
+                    <h4 class="modal-title truncate">Update Homework @homeworkInfo.Title</h4>
                 </div>
-                <form asp-page-handler="Sessionupdate" method="post" asp-route-courseId="@Model.CourseId" asp-route-sessionId="@sessionInfo.SessionId" class="form-group">
-                    <div class="modal-body">
+                <form asp-page-handler="HomeworkUpdate" method="post" asp-route-homeworkId="@homeworkInfo.HomeworkId" asp-route-sessionId="@Model.SessionId" class="form-group">
+                    @* <div class="modal-body">
                         <div class="col-12">
                             <div class="form-group row">
                                 <label asp-for="@updateSession.Title" class="col-sm-4 col-form-label"></label>
@@ -146,7 +146,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> *@
                     <div class="modal-footer justify-content-center">
                         <button class="btn btn-success" type="submit" value="Update">Save</button>
                         <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
