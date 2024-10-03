@@ -154,7 +154,7 @@
                                                                 title="More Details">
                                                                 <td class="sorting_1">
                                                                     <input type="hidden" asp-for="@accountStatuses[i].UserName" name="listRequest[@i].UserName" value="@accountStatuses[i].UserName" class="form-control" />
-                                                                    <a href="@Url.Action("AdminAccountInfo","Admin",new {accountId = accountStatuses[i].AccountId})">@accountStatuses[i].UserName</a>
+                                                                    <a asp-page-handler="Info" asp-route-accountId="@accountStatuses[i].AccountId">@accountStatuses[i].UserName</a>
                                                                 </td>
                                                                 <td>
                                                                     <input type="hidden" asp-for="@accountStatuses[i].FullName" name="listRequest[@i].FullName" value="@accountStatuses[i].FullName" class="form-control" />
