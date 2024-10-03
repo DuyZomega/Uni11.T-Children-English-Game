@@ -87,7 +87,7 @@
         </div>
     </div>
     <div class="card-body d-flex justify-content-center">
-        <a class="btn btn-success" href="/Admin/Course/@Model.CourseId/Session/@Model.SessionId/Homework/@homeworkInfo.HomeworkId">More Info</a>
+        <a class="btn btn-success" href="/Admin/Course/@Model.CourseId/Session/@Model.SessionId/Homework/@homeworkInfo.HomeworkId/Info">More Info</a>
     </div>
 </div>
 <hr class="container my-0">
@@ -115,8 +115,7 @@
                             <div class="form-group row">
                                 <label asp-for="@updateHomework.Description" class="col-sm-4 col-form-label"></label>
                                 <div class="col-sm-8">
-                                    <input asp-for="@updateHomework.Description" type="text"
-                                           value="@updateHomework.Description" class="form-control" required>
+                                    <textarea asp-for="@updateHomework.Description" value="@updateHomework.Description" required class="form-control col-md-7"></textarea>
                                     <span asp-validation-for="@updateHomework.Description" id="error_message"
                                           class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
                                 </div>

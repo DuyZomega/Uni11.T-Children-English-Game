@@ -2,5 +2,11 @@
 {
     public class UpdateQuestionVM
     {
+        public UpdateQuestionVM()
+        {
+            Question = "";
+        }
+        public int? HomeworkQuestionId { get; set; }
+        public string? Question { get; set; }
     }
 }

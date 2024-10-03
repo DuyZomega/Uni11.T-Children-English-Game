@@ -213,7 +213,7 @@
                     <h4 class="modal-title">Edit Homework</h4>
                 </div>
                 <div class="modal-body">
-                    <form asp-page-handler="Update" method="post" asp-route-sessionId="@homeworkInfo.SessionId" class="form-group">
+                    <form asp-page-handler="Update" method="post" asp-route-homeworkId="@homeworkInfo.HomeworkId" class="form-group">
                         <div class="modal-body">
                             <div class="col-12">
                                 <div class="form-group row">
@@ -228,17 +228,8 @@
                                 <div class="form-group row">
                                     <label asp-for="@updateHomework.Description" class="col-sm-4 col-form-label"></label>
                                     <div class="col-sm-8">
-                                        <input asp-for="@updateHomework.Description" type="text"
-                                               value="@updateHomework.Description" class="form-control" required>
+                                        <textarea asp-for="@updateHomework.Description" value="@updateHomework.Description" required class="form-control col-md-7"></textarea>
                                         <span asp-validation-for="@updateHomework.Description" id="error_message"
-                                              class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label asp-for="@updateHomework.Number" class="col-sm-4 col-form-label"></label>
-                                    <div class="col-sm-8">
-                                        <input asp-for="@updateHomework.Number" value="@updateHomework.Number" type="number" min="1" class="form-control" required>
-                                        <span asp-validation-for="@updateHomework.Number" id="error_message"
                                               class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
                                     </div>
                                 </div>
@@ -251,10 +242,10 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label asp-for="@updateHomework.Status" class="col-sm-4 col-form-label"></label>
+                                    <label asp-for="@updateHomework.Type" class="col-sm-4 col-form-label"></label>
                                     <div class="col-sm-8">
-                                        <select class="form-control custom-select" asp-for="@updateHomework.Status" asp-items="@updateHomework.DefaultSessionStatusSelectList"></select>
-                                        <span asp-validation-for="@updateHomework.Status" id="error_message"
+                                        <select class="form-control custom-select" asp-for="@updateHomework.Type" asp-items="@updateHomework.DefaultHomeworkTypeSelectList"></select>
+                                        <span asp-validation-for="@updateHomework.Type" id="error_message"
                                               class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
                                     </div>
                                 </div>
@@ -280,22 +271,12 @@
                         <div class="row p-4">
                             <div class="col-12">
                                 <div class="row form-group">
-                                    <label asp-for="@createQuestion.Title" class="col-md-3 col-form-label text-md-right"></label>
-                                    <input asp-for="@createQuestion.Title" value="@createQuestion.Title" type="text" placeholder="Title" required class="form-control col-md-7">
-                                    <span asp-validation-for="@createQuestion.Title" id="error_message"
+                                    <label asp-for="@createQuestion.Question" class="col-md-3 col-form-label text-md-right"></label>
+                                    <textarea asp-for="@createQuestion.Question" value="@createQuestion.Question" required class="form-control col-md-7"></textarea>
+                                    <span asp-validation-for="@createQuestion.Question" id="error_message"
                                           class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
-                                    <label asp-for="@createQuestion.Description" class="col-md-3 col-form-label text-md-right"></label>
-                                    <textarea asp-for="@createQuestion.Description" value="@createQuestion.Description" required class="form-control col-md-7"></textarea>
-                                    <span asp-validation-for="@createQuestion.Description" id="error_message"
-                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
-
-                                    <label asp-for="@createQuestion.Hours" class="col-md-3 col-form-label mt-3 text-md-right"></label>
-                                    <input asp-for="@createQuestion.Hours" value="@createQuestion.Hours" type="number" class="form-control col-md-7 mt-3" required>
-                                    <span asp-validation-for="@createQuestion.Hours" id="error_message"
-                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
-
-                                    <input asp-for="@createQuestion.SessionTitle" value="@homeworkInfo.Title" type="text" required hidden readonly>
+                                    <input asp-for="@createQuestion.HomeworkTitle" value="@homeworkInfo.Title" type="text" required hidden readonly>
                                 </div>
                             </div>
                             <div class="modal-footer justify-content-center" style="margin-left:400px;">

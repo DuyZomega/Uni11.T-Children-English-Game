@@ -68,7 +68,7 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
             AdminAPI_URL += "Homework/" + homeworkId;
             string? accToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
 
-            var sessionInfoResponse = await methcall.CallMethodReturnObject<AdminHomeworkInfoResponseVM>(
+            var homeworkInfoResponse = await methcall.CallMethodReturnObject<AdminHomeworkInfoResponseVM>(
                 _httpClient: _httpClient,
                 options: jsonOptions,
                 methodName: Constants.GET_METHOD,
@@ -76,7 +76,7 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
                 accessToken: accToken,
                 _logger: _logger);
 
-            if (sessionInfoResponse == null)
+            if (homeworkInfoResponse == null)
             {
                 _logger.LogError("Error while getting session info");
 
@@ -84,7 +84,7 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
 
                 return Redirect("/Admin/Course/" + CourseId + "/Session/" + SessionId + "/Info");
             }
-            if (!sessionInfoResponse.Status || sessionInfoResponse.Data == null)
+            if (!homeworkInfoResponse.Status || homeworkInfoResponse.Data == null)
             {
                 _logger.LogError("Error while getting course info");
 
@@ -100,31 +100,24 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
             var createQuestionFailed = methcall.GetValidationTempData<CreateQuestionVM>(this, TempData, Constants.CREATE_HOMEWORK_DETAILS_VALID, "createHomework", jsonOptions);
             var updateHomeworkFailed = methcall.GetValidationTempData<UpdateHomeworkVM>(this, TempData, Constants.UPDATE_HOMEWORK_DETAILS_VALID, "updateHomework", jsonOptions);
             var updateQuestionFailed = methcall.GetValidationTempData<UpdateQuestionVM>(this, TempData, Constants.UPDATE_HOMEWORK_DETAILS_VALID, "updateHomework", jsonOptions);
-            var questionList = new List<AdminHomeworkInfoPVM>();
+            var questionList = new List<AdminQuestionInfoPVM>();
 
-            /*if (sessionInfoResponse.Data.Homeworks != null && sessionInfoResponse.Data.Homeworks.Count > 0)
-                foreach (var homework in sessionInfoResponse.Data.Homeworks)
+            if (homeworkInfoResponse.Data.HomeworkQuestions != null && homeworkInfoResponse.Data.HomeworkQuestions.Count > 0)
+                foreach (var question in homeworkInfoResponse.Data.HomeworkQuestions)
                 {
-                    homeworkList.Add(new AdminHomeworkInfoPVM(
+                    questionList.Add(new AdminQuestionInfoPVM(
                         CourseId,
-                        sessionId,
-                        _mapper.Map<HomeworkInfoVM>(homework),
-                        updateHomeworkFailed != null && updateHomeworkFailed.HomeworkId.Equals(homework.HomeworkId) ? updateHomeworkFailed : _mapper.Map<UpdateHomeworkVM>(homework)
+                        SessionId,
+                        homeworkId,
+                        _mapper.Map<QuestionInfoVM>(question),
+                        updateQuestionFailed != null && updateQuestionFailed.HomeworkQuestionId.Equals(question.HomeworkQuestionId) ? updateQuestionFailed : _mapper.Map<UpdateQuestionVM>(question)
                         )
                     );
                 }
-
-            *//*var pageData = new AdminSessionInfoPVM(
-                courseId,
-                _mapper.Map<SessionInfoVM>(sessionInfoResponse.Data),
-                updateSessionFailed ?? _mapper.Map<UpdateSessionVM>(sessionInfoResponse.Data),
-                homeworkList,
-                createHomeworkFailed
-                );*//*
-            SessionInfo = _mapper.Map<SessionInfoVM>(sessionInfoResponse.Data);
-            UpdateSessionInfo = updateSessionFailed ?? _mapper.Map<UpdateSessionVM>(sessionInfoResponse.Data);
-            Homeworks = homeworkList ?? new List<AdminHomeworkInfoPVM>();
-            CreateHomework = createHomeworkFailed ?? new CreateHomeworkVM();*/
+            HomeworkInfo = _mapper.Map<HomeworkInfoVM>(homeworkInfoResponse.Data);
+            UpdateHomeworkInfo = updateHomeworkFailed ?? _mapper.Map<UpdateHomeworkVM>(homeworkInfoResponse.Data);
+            Questions = questionList ?? new List<AdminQuestionInfoPVM>();
+            CreateQuestion = createQuestionFailed ?? new CreateQuestionVM();
             return Page();
         }
     }
