@@ -9,7 +9,7 @@ namespace CEG_BAL.ViewModels
 {
     public class ClassViewModel
     {
-        //public int? ClassId { get; set; }
+        public int? ClassId { get; set; }
 
         public string ClassName { get; set; } = null!;
 
