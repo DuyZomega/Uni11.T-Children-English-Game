@@ -81,5 +81,10 @@ namespace CEG_BAL.Services.Implements
             _unitOfWork.TeacherRepositories.Update(acc);
             _unitOfWork.Save();
         }
+
+        public async Task<List<string>> GetTeacherNameList()
+        {
+            return await _unitOfWork.TeacherRepositories.GetTeacherNameList();
+        }
     }
 }

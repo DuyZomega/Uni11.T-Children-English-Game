@@ -1,6 +1,7 @@
 using AutoMapper;
 using CEG_RazorWebApp.Libraries;
 using CEG_RazorWebApp.Models.Admin.Response;
+using CEG_RazorWebApp.Models.Class.Create;
 using CEG_RazorWebApp.Models.Class.Get;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -13,7 +14,7 @@ namespace CEG_RazorWebApp.Pages.Admin.Class
 {
     public class ClassIndexModel : PageModel
     {
-        private readonly ILogger<ClassIndexModel> _logger;
+        /*private readonly ILogger<ClassIndexModel> _logger;
         private readonly IMapper _mapper;
         private readonly IConfiguration _config;
         private readonly HttpClient _httpClient = null;
@@ -33,6 +34,7 @@ namespace CEG_RazorWebApp.Pages.Admin.Class
         private readonly ChildrenEnglishGameLibrary methcall = new();
         [BindProperty]
         public List<IndexClassInfoVM>? Classes { get; set; }
+        public CreateClassVM CreateClass {  get; set; }
 
         public ClassIndexModel(ILogger<ClassIndexModel> logger, IConfiguration config, IMapper mapper)
         {
@@ -84,10 +86,19 @@ namespace CEG_RazorWebApp.Pages.Admin.Class
             //CreateClass = new CreateClassVM()
 
             return Page();
+        }*/
+        private readonly ChildrenEnglishGameLibrary methcall = new();
+        [BindProperty]
+        public List<IndexClassInfoVM>? Classes { get; set; } 
+        [BindProperty]
+        public CreateClassVM? CreateClass { get; set; } = new CreateClassVM();
+        public void OnGet()
+        {
+            methcall.InitTempData(this);
         }
         public IActionResult OnGetLogout()
         {
-            _httpClient.DefaultRequestHeaders.Authorization = null;
+            //_httpClient.DefaultRequestHeaders.Authorization = null;
             HttpContext.Session.Clear();
             TempData[Constants.ACC_TOKEN] = null;
             TempData[Constants.ROLE_NAME] = null;

@@ -22,6 +22,13 @@ namespace CEG_DAL.Repositories.Implements
         {
             return await _dbContext.Teachers.ToListAsync();
         }
+        public async Task<List<string>> GetTeacherNameList()
+        {
+            return await _dbContext.Teachers
+                .Include(t => t.Account)
+                .Select(t => t.Account.Fullname)
+                .ToListAsync();
+        }
 
         public async Task<Teacher?> GetByIdNoTracking(int id)
         {

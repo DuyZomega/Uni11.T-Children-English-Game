@@ -16,16 +16,14 @@ namespace CEG_BAL.ViewModels
         public int? MinimumStudents { get; set; }
 
         public int? MaximumStudents { get; set; }
-
+        //startDate (30/9), endDate(30/10), daysInWeek(T2, T5) Phải sync ngày và thứ tạo (30/9 là T2)
         public DateTime StartDate { get; set; }
 
         public DateTime EndDate { get; set; }
 
-        //public virtual ICollection<CourseViewModel> Courses { get; set; } = new List<CourseViewModel>();
+        public List<StudentProgressViewModel> StudentProgress { get; set; } = new List<StudentProgressViewModel>();
 
-        public virtual ICollection<StudentProgressViewModel> StudentProgress { get; set; } = new List<StudentProgressViewModel>();
-
-        public virtual TeacherViewModel Teacher { get; set; } = null!;
-        public virtual CourseViewModel Course { get; set; } = null!;
+        public TeacherViewModel? Teacher { get; set; }
+        public CourseViewModel? Course { get; set; }
     }
 }

@@ -151,7 +151,7 @@ namespace CEG_WebAPI
             {
                 options.AddDefaultPolicy(policy =>
                 {
-                    policy.AllowAnyOrigin()
+                    policy.WithOrigins("https://localhost:7236", "https://localhost:5150")
                           .AllowAnyHeader()
                           .AllowAnyMethod();
                 });
@@ -161,6 +161,7 @@ namespace CEG_WebAPI
         {
             services.AddRazorPages().AddJsonOptions(options =>
             {
+                options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
                 options.JsonSerializerOptions.Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping;
             });
         }
@@ -187,9 +188,9 @@ namespace CEG_WebAPI
         {
             app.UseHttpsRedirection();
             app.UseRouting();
+            app.UseCors();
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseCors();
         }
     }
 }

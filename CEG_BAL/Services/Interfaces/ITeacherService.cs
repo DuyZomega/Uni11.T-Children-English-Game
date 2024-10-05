@@ -11,6 +11,7 @@ namespace CEG_BAL.Services.Interfaces
     public interface ITeacherService
     {
         Task<List<TeacherViewModel>> GetTeacherList();
+        Task<List<string>> GetTeacherNameList();
         Task<TeacherViewModel?> GetTeacherById(int id);
         Task<bool> IsTeacherExistByEmail(string email);
         void Create(TeacherViewModel teacher, CreateNewTeacher newTeach);

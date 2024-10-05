@@ -67,6 +67,11 @@ namespace CEG_BAL.Services.Implements
             return _mapper.Map<List<CourseViewModel>>(await _unitOfWork.CourseRepositories.GetCourseList());
         }
 
+        public async Task<List<string>> GetCourseNameList()
+        {
+            return await _unitOfWork.CourseRepositories.GetCourseNameList();
+        }
+
         public void Update(CourseViewModel course)
         {
             var cou = _mapper.Map<Course>(course);
