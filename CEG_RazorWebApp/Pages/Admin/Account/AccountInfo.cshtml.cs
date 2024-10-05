@@ -62,7 +62,15 @@ namespace CEG_RazorWebApp.Pages.Admin.Account
                 accessToken: accToken,
                 _logger: _logger);
 
-            if (accountInfoResponse == null || !accountInfoResponse.Status || accountInfoResponse.Data == null)
+            if (accountInfoResponse == null)
+            {
+                _logger.LogError("Error while getting account info");
+
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while getting account info !";
+
+                return Redirect("/Admin/Account/Index");
+            }
+            if (!accountInfoResponse.Status || accountInfoResponse.Data == null)
             {
                 _logger.LogError("Error while getting account info");
 
@@ -77,6 +85,19 @@ namespace CEG_RazorWebApp.Pages.Admin.Account
 
             AccountInfo = _mapper.Map<AccountInfoVM>(accountInfoResponse.Data);
             return Page();
+        }
+
+        public IActionResult OnGetLogout()
+        {
+            _httpClient.DefaultRequestHeaders.Authorization = null;
+            HttpContext.Session.Clear();
+            TempData.Clear();
+            SignOut();
+
+            // If using ASP.NET Identity, you may want to sign out the user
+            // Example: await SignInManager.SignOutAsync();
+
+            return RedirectToPage(Constants.LOGOUT_REDIRECT_URL);
         }
     }
 }
