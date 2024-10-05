@@ -18,6 +18,8 @@ using CEG_RazorWebApp.Models.HomeworkQuestion.Create;
 using CEG_RazorWebApp.Models.HomeworkQuestion.Get;
 using CEG_RazorWebApp.Models.HomeworkQuestion.Update;
 using CEG_RazorWebApp.Models.HomeworkAnswer.Get;
+using CEG_RazorWebApp.Models.HomeworkAnswer.Create;
+using CEG_RazorWebApp.Models.HomeworkAnswer.Update;
 
 namespace CEG_RazorWebApp.Libraries
 {
@@ -298,19 +300,44 @@ namespace CEG_RazorWebApp.Libraries
             CreateMap<CreateQuestionVM, CreateNewQuestion>()
                 .ReverseMap();
             CreateMap<QuestionInfoVM, HomeworkQuestionViewModel>()
-                .ReverseMap().AfterMap((src, dest) =>
+                .ReverseMap()
+                .AfterMap((src, dest) =>
                 {
                     dest.AnswersAmount = (src.HomeworkAnswers != null || src.HomeworkAnswers.Any()) ? src.HomeworkAnswers.Count : 0;
                 });
             CreateMap<UpdateQuestionVM, HomeworkQuestionViewModel>()
                 .ReverseMap();
             CreateMap<AnswerInfoVM, HomeworkAnswerViewModel>()
+                .AfterMap((src, dest) =>
+                {
+                    dest.AnswerType = src.Type;
+                })
+                .ReverseMap()
+                .AfterMap((src, dest) =>
+                {
+                    dest.Type = src.AnswerType;
+                });
+            CreateMap<CreateAnswerVM, CreateNewAnswer>()
+                .AfterMap((src, dest) =>
+                {
+                    dest.Type = src.AnswerType.Equals("Correct");
+                })
                 .ReverseMap();
-                //.AfterMap((src, dest) =>
-                //{
-                    //dest.TeacherName = src.Teacher.Account.Fullname;
-                    //dest.CourseName = src.Course.CourseName;
-                //});
+            CreateMap<UpdateAnswerVM, HomeworkAnswerViewModel>()
+                .AfterMap((src, dest) =>
+                {
+                    dest.AnswerType = src.Type;
+                })
+                .ReverseMap()
+                .AfterMap((src, dest) =>
+                {
+                    dest.Type = src.AnswerType;
+                });
+            //.AfterMap((src, dest) =>
+            //{
+            //dest.TeacherName = src.Teacher.Account.Fullname;
+            //dest.CourseName = src.Course.CourseName;
+            //});
         }
     }
 }

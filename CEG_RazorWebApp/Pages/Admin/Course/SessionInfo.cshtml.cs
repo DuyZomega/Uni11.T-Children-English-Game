@@ -107,14 +107,6 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
                         )
                     );
                 }
-
-            /*var pageData = new AdminSessionInfoPVM(
-                courseId,
-                _mapper.Map<SessionInfoVM>(sessionInfoResponse.Data),
-                updateSessionFailed ?? _mapper.Map<UpdateSessionVM>(sessionInfoResponse.Data),
-                homeworkList,
-                createHomeworkFailed
-                );*/
             SessionInfo = _mapper.Map<SessionInfoVM>(sessionInfoResponse.Data);
             UpdateSessionInfo = updateSessionFailed ?? _mapper.Map<UpdateSessionVM>(sessionInfoResponse.Data);
             Homeworks = homeworkList ?? new List<AdminHomeworkInfoPVM>();

@@ -202,6 +202,11 @@ namespace CEG_RazorWebApp.Libraries
         public readonly static string HOMEWORK_TYPE_GRAMMAR = "Grammar";
         public readonly static string HOMEWORK_TYPE_NAME_GRAMMAR = "Grammar";
 
+        public readonly static string HOMEWORK_ANSWER_TYPE_CORRECT = "Correct";
+        public readonly static string HOMEWORK_ANSWER_TYPE_NAME_CORRECT = "Correct";
+        public readonly static string HOMEWORK_ANSWER_TYPE_INCORRECT = "Incorrect";
+        public readonly static string HOMEWORK_ANSWER_TYPE_NAME_INCORRECT = "Incorrect";
+
         /*public readonly static string COURSE_STATUS_ENDED = "Ended";
         public readonly static string COURSE_STATUS_NAME_ENDED = "Ended";
         public readonly static string COURSE_STATUS_OPEN_REGISTRATION = "OpenRegistration";
