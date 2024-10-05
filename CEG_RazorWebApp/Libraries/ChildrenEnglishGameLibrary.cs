@@ -349,6 +349,26 @@ namespace CEG_RazorWebApp.Libraries
             }
             return defaultStatuses;
         }
+        public List<SelectListItem> GetHomeworkTypeSelectableList(string homeworkType)
+        {
+            List<SelectListItem> defaultTypes = new();
+            switch (homeworkType)
+            {
+                case var value when value.Equals(Constants.HOMEWORK_TYPE_VOCAB):
+                    {
+                        defaultTypes.Add(new SelectListItem { Text = Constants.HOMEWORK_TYPE_NAME_VOCAB, Value = Constants.HOMEWORK_TYPE_VOCAB, Selected = true });
+                        defaultTypes.Add(new SelectListItem { Text = Constants.HOMEWORK_TYPE_NAME_GRAMMAR, Value = Constants.HOMEWORK_TYPE_GRAMMAR });
+                        break;
+                    }
+                case var value when value.Equals(Constants.SESSION_STATUS_AVAILABLE):
+                    {
+                        defaultTypes.Add(new SelectListItem { Text = Constants.HOMEWORK_TYPE_NAME_VOCAB, Value = Constants.HOMEWORK_TYPE_VOCAB });
+                        defaultTypes.Add(new SelectListItem { Text = Constants.HOMEWORK_TYPE_NAME_GRAMMAR, Value = Constants.HOMEWORK_TYPE_GRAMMAR, Selected = true });
+                        break;
+                    }
+            }
+            return defaultTypes;
+        }
 
         public T? GetValidationTempData<T>(
             ControllerBase context,

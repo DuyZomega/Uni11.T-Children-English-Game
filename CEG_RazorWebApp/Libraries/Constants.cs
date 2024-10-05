@@ -129,10 +129,14 @@ namespace CEG_RazorWebApp.Libraries
         public readonly static string CREATE_COURSE_DETAILS_VALID = "CCourseDetailsValid";
         public readonly static string CREATE_SESSION_DETAILS_VALID = "CSessionDetailsValid";
         public readonly static string CREATE_HOMEWORK_DETAILS_VALID = "CHomeworkDetailsValid";
+        public readonly static string CREATE_HOMEWORK_QUESTION_DETAILS_VALID = "CHomeworkQuestionDetailsValid";
+        public readonly static string CREATE_HOMEWORK_ANSWER_DETAILS_VALID = "CHomeworkAnswerDetailsValid";
 
         public readonly static string UPDATE_COURSE_DETAILS_VALID = "UCourseDetailsValid";
         public readonly static string UPDATE_SESSION_DETAILS_VALID = "USessionDetailsValid";
         public readonly static string UPDATE_HOMEWORK_DETAILS_VALID = "UHomeworkDetailsValid";
+        public readonly static string UPDATE_HOMEWORK_QUESTION_DETAILS_VALID = "UHomeworkQuestionDetailsValid";
+        public readonly static string UPDATE_HOMEWORK_ANSWER_DETAILS_VALID = "UHomeworkAnswerDetailsValid";
 
         /*public readonly static string UPDATE_MEMBER_DETAILS_VALID = "UMemberDetailsValid";
         public readonly static string UPDATE_MEMBER_PASSWORD_VALID = "UMemberPasswordValid";
@@ -192,6 +196,11 @@ namespace CEG_RazorWebApp.Libraries
         public readonly static string CLASS_STATUS_NAME_CANCELLED = "Cancelled";
         public readonly static string CLASS_STATUS_ENDED = "Ended";
         public readonly static string CLASS_STATUS_NAME_ENDED = "Ended";
+
+        public readonly static string HOMEWORK_TYPE_VOCAB = "Vocabulary";
+        public readonly static string HOMEWORK_TYPE_NAME_VOCAB = "Vocabulary";
+        public readonly static string HOMEWORK_TYPE_GRAMMAR = "Grammar";
+        public readonly static string HOMEWORK_TYPE_NAME_GRAMMAR = "Grammar";
 
         /*public readonly static string COURSE_STATUS_ENDED = "Ended";
         public readonly static string COURSE_STATUS_NAME_ENDED = "Ended";

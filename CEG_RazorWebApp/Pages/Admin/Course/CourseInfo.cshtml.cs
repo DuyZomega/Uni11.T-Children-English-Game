@@ -21,7 +21,6 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
 {
     public class CourseInfoModel : PageModel
     {
-
         private readonly ILogger<CourseInfoModel> _logger;
         private readonly IMapper _mapper;
         private readonly IConfiguration _config;
@@ -89,10 +88,7 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
 
                 return Redirect("/Admin/Course/Index");
             }
-            if (!TempData.ContainsKey(Constants.ALERT_DEFAULT_ERROR_NAME) || !TempData.ContainsKey(Constants.ALERT_DEFAULT_SUCCESS_NAME))
-            {
-                TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = "Course Info Get Successfully!";
-            }
+            TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = "Course Info Get Successfully!";
 
             var createSessionFailed = methcall.GetValidationTempData<CreateSessionVM>(this, TempData, Constants.CREATE_SESSION_DETAILS_VALID, "createSession", jsonOptions);
             //var createHomeworkFailed = methcall.GetValidationTempData<CreateHomeworkVM>(this, TempData, Constants.CREATE_HOMEWORK_DETAILS_VALID, "createHomework", jsonOptions);
@@ -157,7 +153,7 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
 
             return Redirect("/Admin/Course/" + courseId + "/Info");
         }
-        public async Task<IActionResult> OnPostCreatesession(
+        public async Task<IActionResult> OnPostCreate(
             [FromRoute][Required] int courseId,
             [FromForm][Required] CreateSessionVM createSession)
         {
@@ -181,24 +177,24 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
 
             if (authenResponse == null)
             {
-                _logger.LogError("Error while registering Session account");
+                _logger.LogError("Error while registering Session");
 
-                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while registering Session account !";
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while registering Session !";
 
                 return Redirect("/Admin/Course/" + courseId + "/Info");
             }
             if (!authenResponse.Status)
             {
-                _logger.LogError("Error while registering Session account");
+                _logger.LogError("Error while registering Session");
 
-                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while registering Session account !";
+                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while registering Session !";
 
                 return Redirect("/Admin/Course/" + courseId + "/Info");
             }
             TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = "Session Create Successfully!";
             return Redirect("/Admin/Course/" + courseId + "/Info");
         }
-        public async Task<IActionResult> OnPostSessionupdate(
+        public async Task<IActionResult> OnPostSessionUpdate(
             [FromRoute][Required] int courseId,
             [Required] int sessionId,
             [FromForm][Required] UpdateSessionVM updateSession)

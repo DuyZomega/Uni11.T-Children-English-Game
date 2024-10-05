@@ -56,18 +56,6 @@ public partial class MyDBContext : DbContext
 
     public virtual DbSet<Teacher> Teachers { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        if (!optionsBuilder.IsConfigured)
-        {
-            var builder = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-            IConfigurationRoot configuration = builder.Build();
-            optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
-        }
-    }
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Account>(entity =>
@@ -235,14 +223,19 @@ public partial class MyDBContext : DbContext
             entity.ToTable("Homework");
 
             entity.Property(e => e.HomeworkId).HasColumnName("homework_id");
-            entity.Property(e => e.GameConfigId).HasColumnName("game_config_id");
-            entity.Property(e => e.SessionId).HasColumnName("session_id");
-            entity.Property(e => e.Hours).HasColumnName("hours");
-            entity.Property(e => e.Title).HasColumnName("title");
             entity.Property(e => e.Description).HasColumnName("description");
+            entity.Property(e => e.GameConfigId).HasColumnName("game_config_id");
+            entity.Property(e => e.Hours).HasColumnName("hours");
+            entity.Property(e => e.SessionId).HasColumnName("session_id");
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .HasColumnName("status");
+            entity.Property(e => e.Title)
+                .HasMaxLength(50)
+                .HasColumnName("title");
+            entity.Property(e => e.Type)
+                .HasMaxLength(50)
+                .HasColumnName("type");
 
             entity.HasOne(d => d.GameConfig).WithMany(p => p.Homeworks)
                 .HasForeignKey(d => d.GameConfigId)
@@ -258,11 +251,11 @@ public partial class MyDBContext : DbContext
         {
             entity.ToTable("HomeworkAnswer");
 
-            entity.Property(e => e.HomeworkAnswerId)
-                .ValueGeneratedNever()
-                .HasColumnName("homework_answer_id");
+            entity.Property(e => e.HomeworkAnswerId).HasColumnName("homework_answer_id");
             entity.Property(e => e.Answer).HasColumnName("answer");
             entity.Property(e => e.HomeworkQuestionId).HasColumnName("homework_question_id");
+            entity.Property(e => e.Type).HasColumnName("type");
+
             entity.HasOne(d => d.HomeworkQuestion).WithMany(p => p.HomeworkAnswers)
                 .HasForeignKey(d => d.HomeworkQuestionId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -275,9 +268,7 @@ public partial class MyDBContext : DbContext
 
             entity.ToTable("HomeworkQuestion");
 
-            entity.Property(e => e.HomeworkQuestionId)
-                .ValueGeneratedNever()
-                .HasColumnName("homework_question_id");
+            entity.Property(e => e.HomeworkQuestionId).HasColumnName("homework_question_id");
             entity.Property(e => e.HomeworkId).HasColumnName("homework_id");
             entity.Property(e => e.Question).HasColumnName("question");
 
@@ -397,7 +388,6 @@ public partial class MyDBContext : DbContext
             entity.Property(e => e.SessionId).HasColumnName("session_id");
             entity.Property(e => e.CourseId).HasColumnName("course_id");
             entity.Property(e => e.Description).HasColumnName("description");
-            entity.Property(e => e.Number).HasColumnName("number");
             entity.Property(e => e.Hours).HasColumnName("hours");
             entity.Property(e => e.Number).HasColumnName("number");
             entity.Property(e => e.Status)
@@ -472,9 +462,7 @@ public partial class MyDBContext : DbContext
         {
             entity.ToTable("StudentProgress");
 
-            entity.Property(e => e.StudentProgressId)
-                .ValueGeneratedNever()
-                .HasColumnName("student_progress_id");
+            entity.Property(e => e.StudentProgressId).HasColumnName("student_progress_id");
             entity.Property(e => e.ClassId).HasColumnName("class_id");
             entity.Property(e => e.Playtimes).HasColumnName("playtimes");
             entity.Property(e => e.SessionId).HasColumnName("session_id");

@@ -1,0 +1,325 @@
+﻿@page "/Admin/Course/{courseId}/Session/{sessionId}/Homework/{homeworkId}/Info"
+@model CEG_RazorWebApp.Pages.Admin.Course.HomeworkInfoModel
+@{
+    ViewData["Title"] = "Admin Homework Info Page";
+    var homeworkInfo = Model.HomeworkInfo;
+    var questionList = Model.Questions;
+    var updateHomework = Model.UpdateHomeworkInfo;
+    var createQuestion = Model.CreateQuestion;
+    Layout = Model.LayoutUrl;
+}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
+    <div class="main-content">
+        <div class="main">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="offset-sm-6 col-sm-6  d-flex justify-content-sm-end p-md-0 mt-2 mt-sm-0 ">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumd-item">
+                                <a href="#">Manage</a>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <span>/</span>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <a href="/Admin/Course/Index">Course</a>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <span>/</span>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <a href="/Admin/Course/@Model.CourseId/Info">@Model.CourseId</a>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <span>/</span>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <a href="/Admin/Course/@Model.CourseId/Info">Session</a>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <span>/</span>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <a href="/Admin/Course/@Model.CourseId/Session/@Model.SessionId/Info">@Model.SessionId</a>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <span>/</span>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <a href="/Admin/Course/@Model.CourseId/Session/@Model.SessionId/Info">Homework</a>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <span>/</span>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <a href="/Admin/Course/@Model.CourseId/Session/@Model.SessionId/Homework/@homeworkInfo.HomeworkId/Info">@homeworkInfo.HomeworkId</a>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <span>/</span>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <a href="/Admin/Course/@Model.CourseId/Session/@Model.SessionId/Homework/@homeworkInfo.HomeworkId/Info">Info</a>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 customer-booking">
+                        <div class="row">
+                            <div class="card profile col-12 mb-4">
+                                <div class="card-header">
+                                    <h4>Homework @homeworkInfo.Title Information</h4>
+                                    @{
+                                        if (homeworkInfo.Status.Equals("Draft") || homeworkInfo.Status.Equals("Postponed"))
+                                        {
+                                            <div class="edit-info">
+                                                <i class='bx bxs-edit' data-toggle="modal" data-target="#editHomework"></i>
+                                            </div>
+                                        }
+                                    }
+                                </div>
+                                @if (TempData["Success"] != null)
+                                {
+                                    <div class="alert alert-success alert-dismissible fade show" id="notif">
+                                        <i class='bx bx-message-alt-x p-1'></i>
+                                        <strong class="mr-1">@TempData["Success"]</strong>
+                                        <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+                                            <span><i class='bx bx-x'></i></span>
+                                        </button>
+                                    </div>
+                                    TempData["Success"] = null;
+                                }
+                                else if (TempData["Error"] != null)
+                                {
+                                    <div class="alert alert-danger alert-dismissible fade show" id="notif">
+                                        <i class='bx bx-message-alt-x p-1'></i>
+                                        <strong class="mr-1">@TempData["Error"]</strong>
+                                        <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+                                            <span><i class='bx bx-x'></i></span>
+                                        </button>
+                                    </div>
+                                    TempData["Error"] = null;
+                                }
+                                <div class="card-body">
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Homework ID:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span>
+                                                @homeworkInfo.HomeworkId
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Status:</label>
+                                        </div>
+                                        <div class="col-sm-7">
+                                            @{
+                                                switch (homeworkInfo.Status)
+                                                {
+                                                    case "Available":
+                                                        {
+                                                            <span class="outcome" style="float: left;">@homeworkInfo.Status</span>
+                                                            break;
+                                                        }
+                                                    case "Draft":
+                                                    case "Postponed":
+                                                        {
+                                                            <span class="approval" style="float: left;">@homeworkInfo.Status</span>
+                                                            break;
+                                                        }
+                                                    case "EndofService":
+                                                    case "Cancelled":
+                                                        {
+                                                            <span class="destroy" style="float: left;">@homeworkInfo.Status</span>
+                                                            break;
+                                                        }
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Title:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span>
+                                                @homeworkInfo.Title
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Description:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span>
+                                                @homeworkInfo.Description
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Hours to do:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span>
+                                                @homeworkInfo.Hours
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Type:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span>
+                                                @homeworkInfo.Type
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Questions amount:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span>
+                                                @homeworkInfo.QuestionsAmount Question(s)
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 customer-booking">
+                        <div class="row">
+                            <div class="card profile col-12 mb-4">
+                                <div class="card-header">
+                                    <h4>Homework's Question List</h4>
+                                    @{
+                                        if (homeworkInfo.Status.Equals("Draft") || homeworkInfo.Status.Equals("Postponed"))
+                                        {
+                                            <div class="edit-info">
+                                                <i class='bx bxs-add-to-queue' data-toggle="modal" data-target="#createQuestion"></i>
+                                            </div>
+                                        }
+                                    }
+                                </div>
+                                <div class="card-body">
+                                    @{
+                                        if (questionList != null && questionList.Count > 0)
+                                        {
+                                            @foreach (var questionInfo in questionList)
+                                            {
+                                                @await Html.PartialAsync("PartialViews/_QuestionDetails", questionInfo)
+                                                ;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <h5>Empty Question list</h5>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="editHomework" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content modal-addRoom">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit Homework</h4>
+                </div>
+                <div class="modal-body">
+                    <form asp-page-handler="Update" method="post" asp-route-homeworkId="@homeworkInfo.HomeworkId" class="form-group">
+                        <div class="modal-body">
+                            <div class="col-12">
+                                <div class="form-group row">
+                                    <label asp-for="@updateHomework.Title" class="col-sm-4 col-form-label"></label>
+                                    <div class="col-sm-8">
+                                        <input asp-for="@updateHomework.Title" type="text"
+                                               value="@updateHomework.Title" class="form-control" required>
+                                        <span asp-validation-for="@updateHomework.Title" id="error_message"
+                                              class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label asp-for="@updateHomework.Description" class="col-sm-4 col-form-label"></label>
+                                    <div class="col-sm-8">
+                                        <textarea asp-for="@updateHomework.Description" value="@updateHomework.Description" required class="form-control col-md-7"></textarea>
+                                        <span asp-validation-for="@updateHomework.Description" id="error_message"
+                                              class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label asp-for="@updateHomework.Hours" class="col-sm-4 col-form-label"></label>
+                                    <div class="col-sm-8">
+                                        <input asp-for="@updateHomework.Hours" value="@updateHomework.Hours" type="number" min="1" class="form-control" required>
+                                        <span asp-validation-for="@updateHomework.Hours" id="error_message"
+                                              class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label asp-for="@updateHomework.Type" class="col-sm-4 col-form-label"></label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control custom-select" asp-for="@updateHomework.Type" asp-items="@updateHomework.DefaultHomeworkTypeSelectList"></select>
+                                        <span asp-validation-for="@updateHomework.Type" id="error_message"
+                                              class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer justify-content-center">
+                            <button class="btn btn-success" type="submit" value="Update">Save</button>
+                            <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="createQuestion" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content modal-addRoom">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add new Homework Question</h4>
+                </div>
+                <div class="modal-body">
+                    <form asp-page-handler="Create" asp-route-homeworkId="@homeworkInfo.HomeworkId" method="post" id="form">
+                        <div class="row p-4">
+                            <div class="col-12">
+                                <div class="row form-group">
+                                    <label asp-for="@createQuestion.Question" class="col-md-3 col-form-label text-md-right"></label>
+                                    <textarea asp-for="@createQuestion.Question" value="@createQuestion.Question" required class="form-control col-md-7"></textarea>
+                                    <span asp-validation-for="@createQuestion.Question" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <input asp-for="@createQuestion.HomeworkTitle" value="@homeworkInfo.Title" type="text" required hidden readonly>
+                                </div>
+                            </div>
+                            <div class="modal-footer justify-content-center" style="margin-left:400px;">
+                                <button class="btn btn-success" type="submit" name="action" value="createQuestion">Create</button>
+                                <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
