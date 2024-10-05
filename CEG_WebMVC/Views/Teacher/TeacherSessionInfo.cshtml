@@ -1,6 +1,6 @@
-﻿@model CEG_WebMVC.Models.ViewModels.Admin.PageModel.AdminSessionInfoPVM
+﻿@model CEG_WebMVC.Models.ViewModels.Teacher.PageModel.TeacherSessionInfoPVM
 @{
-    ViewData["Title"] = "Admin Session Info Page";
+    ViewData["Title"] = "Teacher Session Info Page";
     var sessionInfo = Model.SessionInfo;
     var homeworkList = Model.Homeworks;
     var updateSession = Model.UpdateSessionInfo;
@@ -28,25 +28,25 @@
                                 <span>/</span>
                             </li>
                             <li class="breadcrumd-item">
-                                <a href="@Url.Action("AdminCourseIndex","Admin")">Course</a>
+                                <a href="@Url.Action("TeacherCourseIndex","Teacher")">Course</a>
                             </li>
                             <li class="breadcrumd-item">
                                 <span>/</span>
                             </li>
                             <li class="breadcrumd-item">
-                                <a href="@Url.Action("AdminCourseInfo","Admin",new { courseId = Model.CourseId })">Info</a>
+                                <a href="@Url.Action("TeacherCourseInfo","Teacher",new { courseId = Model.CourseId })">Info</a>
                             </li>
                             <li class="breadcrumd-item">
                                 <span>/</span>
                             </li>
                             <li class="breadcrumd-item">
-                                <a href="@Url.Action("AdminCourseInfo","Admin",new { courseId = Model.CourseId })">Session</a>
+                                <a href="@Url.Action("TeacherCourseInfo","Teacher",new { courseId = Model.CourseId })">Session</a>
                             </li>
                             <li class="breadcrumd-item">
                                 <span>/</span>
                             </li>
                             <li class="breadcrumd-item">
-                                <a href="@Url.Action("AdminSessionInfo","Admin",new { courseId = Model.CourseId, sessionId = sessionInfo.SessionId })">Info</a>
+                                <a href="@Url.Action("TeacherSessionInfo","Teacher",new { courseId = Model.CourseId, sessionId = sessionInfo.SessionId })">Info</a>
                             </li>
                         </ol>
                     </div>
@@ -180,7 +180,7 @@
                                         {
                                             @foreach (var homeworkInfo in homeworkList)
                                             {
-                                                @await Html.PartialAsync("PartialViews/_AdminHomeworkDetails", homeworkInfo)
+                                                @await Html.PartialAsync("PartialViews/_TeacherHomeworkDetails", homeworkInfo)
                                                 ;
                                             }
                                         }
@@ -204,7 +204,7 @@
                     <h4 class="modal-title">Edit Session</h4>
                 </div>
                 <div class="modal-body">
-                    <form asp-action="AdminSessionUpdate" asp-controller="Admin" method="post" asp-route-courseId="@Model.CourseId" asp-route-sessionId="@sessionInfo.SessionId" class="form-group">
+                    <form asp-action="TeacherSessionUpdate" asp-controller="Teacher" method="post" asp-route-courseId="@Model.CourseId" asp-route-sessionId="@sessionInfo.SessionId" class="form-group">
                         <div class="modal-body">
                             <div class="col-12">
                                 <div class="form-group row">
@@ -267,7 +267,7 @@
                     <h4 class="modal-title">Add new Homework</h4>
                 </div>
                 <div class="modal-body">
-                    <form asp-action="AdminHomeworkCreate" asp-controller="Admin" asp-route-courseId="@Model.CourseId" asp-route-sessionId="@sessionInfo.SessionId" method="post" id="form">
+                    <form asp-action="TeacherHomeworkCreate" asp-controller="Teacher" asp-route-courseId="@Model.CourseId" asp-route-sessionId="@sessionInfo.SessionId" method="post" id="form">
                         <div class="row p-4">
                             <div class="col-12">
                                 <div class="row form-group">

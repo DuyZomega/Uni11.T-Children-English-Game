@@ -1,7 +1,7 @@
-﻿@model CEG_WebMVC.Models.ViewModels.Admin.PageModel.AdminClassIndexPVM
+﻿@model CEG_WebMVC.Models.ViewModels.Teacher.PageModel.TeacherClassIndexPVM
 @{
     Layout = null;
-    ViewData["Title"] = "Admin All Class Page";
+    ViewData["Title"] = "Teacher All Class Page";
     string? search = string.Empty;
 
     var classes = Model.Classes;
@@ -29,7 +29,7 @@
                                 <span>/</span>
                             </li>
                             <li class="breadcrumd-item">
-                                <a href="@Url.Action("AdminClassIndex","Admin")">Class</a>
+                                <a href="@Url.Action("TeacherClassIndex","Teacher")">Class</a>
                             </li>
                         </ol>
                     </div>
@@ -80,7 +80,7 @@
                                             <div class="col-sm-6 d-flex address-home">
                                             </div>
                                             <div class="col-sm-6 d-flex justify-content-end">
-                                                <form asp-action="AdminClassIndex" asp-controller="Admin" method="get" asp-route-search="@search">
+                                                <form asp-action="TeacherClassIndex" asp-controller="Teacher" method="get" asp-route-search="@search">
                                                     <div>
                                                         <label>
                                                             <input asp-for="@search" class="form-control" type="text" name="search" placeholder="Search..." value="@search">
@@ -95,7 +95,7 @@
                                         <div class="col-xl-3 col-lg-6 col-sm-6 my-3 item">
                                             <div class="card1 card-child">
                                                 <div class="card-body add-club">
-                                                    <form class="border-0" asp-action="AdminClassCreate" asp-controller="Admin" method="get">
+                                                    <form class="border-0" asp-action="TeacherClassCreate" asp-controller="Teacher" method="get">
                                                         <button class="border-0" type="submit">
                                                             <span>Add Class</span>
                                                             <i class='bx bx-add-to-queue'></i>
@@ -182,7 +182,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="form-group mx-auto">
-                                                        <form asp-action="AdminClassInfo" asp-controller="Admin" method="get" asp-route-id="@data.ClassName">
+                                                        <form asp-action="TeacherClassInfo" asp-controller="Teacher" method="get" asp-route-id="@data.ClassName">
                                                             <button class="btn btn-primary clickable-row" type="submit">See Detail</button>
                                                         </form>
                                                         @* @{

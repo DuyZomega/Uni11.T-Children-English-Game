@@ -1,7 +1,7 @@
-﻿@* @model CEG_WebMVC.Models.ViewModels.Admin.Get.AdminAccountIndexVM *@
+﻿@* @model CEG_WebMVC.Models.ViewModels.Teacher.Get.TeacherAccountIndexVM *@
 @{
     Layout = null;
-    ViewData["Title"] = "Admin All Classes Page";
+    ViewData["Title"] = "Teacher All Classes Page";
     string? search = string.Empty;
 
     //CEG_WebMVC.Models.ViewModels.Account.Create.CreateParentVM createParent = Model.createParent;
@@ -60,7 +60,7 @@
                                             </div>
                                         </div>
                                         <div class="col-sm-6 d-flex justify-content-end">
-                                            <form asp-action="AdminClassIndex" asp-controller="Admin" method="get" asp-route-search="@search">
+                                            <form asp-action="TeacherClassIndex" asp-controller="Teacher" method="get" asp-route-search="@search">
                                                 <div>
                                                     <label>
                                                         <input asp-for="@search" class="form-control" type="text" name="search" placeholder="Search Username..." value="@search">
@@ -72,7 +72,7 @@
                                     </div>
                                 </div>
                                 <div id="history-table_wrapper" class="dataTables_wrapper no-footer">
-                                    <form asp-action="AdminUpdateAccountIndex" asp-controller="Admin" method="post">
+                                    <form asp-action="TeacherUpdateAccountIndex" asp-controller="Teacher" method="post">
                                         <table id="history-table"
                                                 class="table table-striped table-bordered dataTable no-footer"
                                                 aria-describedby="history-table_info">
@@ -179,7 +179,7 @@
                     <h4 class="modal-title">Add new Class</h4>
                 </div>
                 <div class="modal-body">
-                    <form asp-action="AdminCreateClass" asp-controller="Admin" method="post" id="form">
+                    <form asp-action="TeacherCreateClass" asp-controller="Teacher" method="post" id="form">
                         <div class="row p-4">
                             <div class="col-12">
                                 @* <div class="row form-group">

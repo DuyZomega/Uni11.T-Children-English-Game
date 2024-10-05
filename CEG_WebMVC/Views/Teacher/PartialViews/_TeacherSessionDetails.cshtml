@@ -1,4 +1,4 @@
-﻿@model CEG_WebMVC.Models.ViewModels.Admin.PageModel.AdminSessionInfoPVM
+﻿@model CEG_WebMVC.Models.ViewModels.Teacher.PageModel.TeacherSessionInfoPVM
 @{
     var sessionInfo = Model.SessionInfo;
     var updateSession = Model.UpdateSessionInfo;
@@ -87,7 +87,7 @@
         </div>
     </div>
     <div class="card-body d-flex justify-content-center">
-        <a class="btn btn-success" href="@Url.Action("AdminSessionInfo","Admin",new { courseId = Model.CourseId, sessionId = sessionInfo.SessionId })">More Info</a>
+        <a class="btn btn-success" href="@Url.Action("TeacherSessionInfo","Teacher",new { courseId = Model.CourseId, sessionId = sessionInfo.SessionId })">More Info</a>
     </div>
 </div>
 <hr class="container my-0">
@@ -100,7 +100,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title truncate">Update Session @sessionInfo.Title</h4>
                 </div>
-                <form asp-action="AdminSessionUpdate" asp-controller="Admin" method="post" asp-route-courseId="@Model.CourseId" asp-route-sessionId="@sessionInfo.SessionId" class="form-group">
+                <form asp-action="TeacherSessionUpdate" asp-controller="Teacher" method="post" asp-route-courseId="@Model.CourseId" asp-route-sessionId="@sessionInfo.SessionId" class="form-group">
                     <div class="modal-body">
                         <div class="col-12">
                             <div class="form-group row">

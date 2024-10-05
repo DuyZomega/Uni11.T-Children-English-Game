@@ -1,7 +1,7 @@
-﻿@model CEG_WebMVC.Models.ViewModels.Admin.PageModel.AdminCourseIndexPVM
+﻿@model CEG_WebMVC.Models.ViewModels.Teacher.PageModel.TeacherCourseIndexPVM
 @{
     Layout = null;
-    ViewData["Title"] = "Admin All Courses Page";
+    ViewData["Title"] = "Teacher All Courses Page";
     string? search = string.Empty;
     var createCourse = Model.CreateCourse;
     var courses = Model.Courses;
@@ -29,7 +29,7 @@
                                 <span>/</span>
                             </li>
                             <li class="breadcrumd-item">
-                                <a href="@Url.Action("AdminCourseIndex","Admin")">Course</a>
+                                <a href="@Url.Action("TeacherCourseIndex","Teacher")">Course</a>
                             </li>
                         </ol>
                     </div>
@@ -80,7 +80,7 @@
                                             <div class="col-sm-6 d-flex address-home">
                                             </div>
                                             <div class="col-sm-6 d-flex justify-content-end">
-                                                <form asp-action="AdminCourseIndex" asp-controller="Admin" method="get" asp-route-search="@search">
+                                                <form asp-action="TeacherCourseIndex" asp-controller="Teacher" method="get" asp-route-search="@search">
                                                     <div>
                                                         <label>
                                                             <input asp-for="@search" class="form-control" type="text" name="search" placeholder="Search..." value="@search">
@@ -172,7 +172,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="form-group mx-auto">
-                                                        <form asp-action="AdminCourseInfo" asp-controller="Admin" method="get" asp-route-courseId="@data.CourseId">
+                                                        <form asp-action="TeacherCourseInfo" asp-controller="Teacher" method="get" asp-route-courseId="@data.CourseId">
                                                             <button class="btn btn-primary clickable-row" type="submit">See Detail</button>
                                                         </form>
                                                         @* @{
@@ -222,7 +222,7 @@
                     <h4 class="modal-title">Add new Course</h4>
                 </div>
                 <div class="modal-body">
-                    <form asp-action="AdminCourseCreate" asp-controller="Admin" method="post" id="form">
+                    <form asp-action="TeacherCourseCreate" asp-controller="Teacher" method="post" id="form">
                         <div class="row p-4">
                             <div class="col-12">
                                 <div class="row form-group">
