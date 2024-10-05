@@ -38,7 +38,7 @@ namespace CEG_BAL.Services.Implements
             if (newClass != null)
             {
                 clas.ClassName = newClass.ClassName;
-                clas.TeacherId = _unitOfWork.TeacherRepositories.GetIdByUsername(newClass.TeacherName).Result;
+                clas.TeacherId = _unitOfWork.TeacherRepositories.GetByFullname(newClass.TeacherName).Result.TeacherId;
                 clas.CourseId = _unitOfWork.CourseRepositories.GetIdByName(newClass.CourseName).Result;
                 clas.StartDate = newClass.StartDate;
                 clas.EndDate = newClass.EndDate;

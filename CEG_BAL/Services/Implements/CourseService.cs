@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CEG_DAL.Models;
 using CEG_BAL.ViewModels.Admin;
+using CEG_BAL.Configurations;
 
 namespace CEG_BAL.Services.Implements
 {
@@ -83,6 +84,13 @@ namespace CEG_BAL.Services.Implements
         {
             var cou = await _unitOfWork.CourseRepositories.GetByName(name);
             if (cou != null) return true;
+            return false;
+        }
+
+        public async Task<bool> IsCourseAvailableByName(string name)
+        {
+            var cou = await _unitOfWork.CourseRepositories.GetByName(name);
+            if (cou != null && cou.Status.Equals(Constants.COURSE_STATUS_AVAILABLE)) return true;
             return false;
         }
     }

@@ -14,6 +14,7 @@ namespace CEG_BAL.Services.Interfaces
         Task<List<string>> GetTeacherNameList();
         Task<TeacherViewModel?> GetTeacherById(int id);
         Task<bool> IsTeacherExistByEmail(string email);
+        Task<bool> IsTeacherExistByFullname(string fullname);
         void Create(TeacherViewModel teacher, CreateNewTeacher newTeach);
         void Update(TeacherViewModel teacher);
     }

@@ -101,7 +101,7 @@
                     <h4 class="modal-title">Add new Class</h4>
                 </div>
                 <div class="modal-body">
-                    <form method="post" id="form">
+                    <form method="post" id="createClassForm">
                         <div class="row p-4">
                             <div class="col-12">
                                 <div class="row form-group">
@@ -111,12 +111,12 @@
                                           class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
                                     <label asp-for="@createClass.MinStudents" class="col-md-3 col-form-label text-md-right"></label>
-                                    <input asp-for="@createClass.MinStudents" value="@createClass.MinStudents" type="number" required class="form-control col-md-7">
+                                    <input asp-for="@createClass.MinStudents" value="@createClass.MinStudents" type="number" min="@CEG_RazorWebApp.Libraries.Constants.CLASS_MINIMUM_STUDENTS_REQ" required class="form-control col-md-7">
                                     <span asp-validation-for="@createClass.MinStudents" id="error_message"
                                           class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
                                     <label asp-for="@createClass.MaxStudents" class="col-md-3 col-form-label text-md-right"></label>
-                                    <input asp-for="@createClass.MaxStudents" value="@createClass.MaxStudents" type="number" required class="form-control col-md-7">
+                                    <input asp-for="@createClass.MaxStudents" value="@createClass.MaxStudents" type="number" min="@CEG_RazorWebApp.Libraries.Constants.CLASS_MAXIMUM_STUDENTS_REQ" required class="form-control col-md-7">
                                     <span asp-validation-for="@createClass.MaxStudents" id="error_message"
                                           class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
@@ -128,6 +128,16 @@
                                     <label asp-for="@createClass.CourseName" class="col-md-3 col-form-label text-md-right"></label>
                                     <select class="form-control col-md-7 custom-select" asp-for="@createClass.CourseName" required></select>
                                     <span asp-validation-for="@createClass.CourseName" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@createClass.StartDate" class="col-md-3 col-form-label text-md-right"></label>
+                                    <input asp-for="@createClass.StartDate" type="datetime-local" value="@createClass.StartDate.ToString("yyyy-MM-ddTHH:mm")" class="form-control col-md-7" required>
+                                    <span asp-validation-for="@createClass.StartDate" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@createClass.EndDate" class="col-md-3 col-form-label text-md-right"></label>
+                                    <input asp-for="@createClass.EndDate" type="datetime-local" value="@createClass.EndDate.ToString("yyyy-MM-ddTHH:mm")" class="form-control col-md-7" required>
+                                    <span asp-validation-for="@createClass.EndDate" id="error_message"
                                           class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
                                 </div>
                             </div>
@@ -142,67 +152,10 @@
         </div>
     </div>
     <script>
+        var token = '@HttpContext.Session.GetString(CEG_RazorWebApp.Libraries.Constants.ACC_TOKEN)';
         var apiUrl = 'https://localhost:7143/api/';
         $(document).ready(function () {
-            var token = '@HttpContext.Session.GetString(CEG_RazorWebApp.Libraries.Constants.ACC_TOKEN)';
-            $.ajax({
-                url: apiUrl + 'Class/Admin/All', // API endpoint
-                type: 'GET',
-                headers: {
-                    'Authorization': 'Bearer ' + token// Include the JWT token
-                },
-                success: function (response) {
-                    // Log the entire response to the console for debugging
-                    console.log("Returned object:", response);
-
-                    // Check if the status is true
-                    if (response.status) {
-                        var classList = $('#classList'); // Reference to the <classList> element
-                        // classList.empty(); // Clear any existing options
-
-                        // Loop through the data array and append each class div
-                        $.each(response.data, function (index, classObj) {
-                            var formattedStartDate = formatDate(classObj.startDate);
-                            var formattedEndDate = formatDate(classObj.endDate);
-                            // Construct card HTML
-                            var cardHtml = `
-                                    <div class="col-xl-3 col-lg-6 col-sm-6 my-3">
-                                        <div class="card1 card-child">
-                                            <div class="club-name">Class ID: ${classObj.classId}</div>
-                                            <div class="card-body">
-                                                <div class="club-title">
-                                                    <ul>
-                                                        <li><h6>Class name:</h6><span>${classObj.className}</span></li>
-                                                        <li><h6>Course:</h6><span>${classObj.course.courseName}</span></li>
-                                                        <li><h6>Teacher:</h6><span>${classObj.teacher.account.fullname}</span></li>
-                                                        <li><h6>Start date:</h6><span>${formattedStartDate}</span></li>
-                                                        <li><h6>End date:</h6><span>${formattedEndDate}</span></li>
-                                                        <li><h6>Minimum amount of students:</h6><span>${classObj.minimumStudents}</span></li>
-                                                        <li><h6>Maximum amount of students:</h6><span>${classObj.maximumStudents}</span></li>
-                                                        <li><h6>Current amount of students:</h6><span>${classObj.studentProgress.length}</span></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="form-group mx-auto">
-                                                        <form method="get" asp-route-id="${classObj.ClassName}">
-                                                    <button class="btn btn-primary clickable-row" type="submit">See Detail</button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                `;
-                            // Append the constructed HTML to the class list container
-                            classList.append(cardHtml);
-                        });
-                    } else {
-                        console.error("API returned false status.");
-                    }
-                },
-                error: function (error) {
-                    console.error("Error in api call:", error);
-                    //showAlert('success', 'Data fetched successfully.');
-                }
-            });
+            callApiGetClassList();
             // Call API to get the list of teacher names
             $.ajax({
                 url: apiUrl + 'Teacher/All/Fullname', // API endpoint
@@ -228,6 +181,7 @@
                     }
                 },
                 error: function (error) {
+                    alert("Error in api call:" + error);
                     console.error("Error in api call:", error);
                 }
             });
@@ -256,6 +210,7 @@
                     }
                 },
                 error: function (error) {
+                    alert("Error in api call:" + error);
                     console.error("Error in api call:", error);
                     //showAlert('success', 'Data fetched successfully.');
                 }
@@ -288,6 +243,67 @@
                 $('#alertContainer').html(alertHtml);
             }
         });
+        function callApiGetClassList(){
+            $.ajax({
+                url: apiUrl + 'Class/Admin/All', // API endpoint
+                type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + token// Include the JWT token
+                },
+                success: function (response) {
+                    // Log the entire response to the console for debugging
+                    console.log("Returned object:", response);
+
+                    // Check if the status is true
+                    if (response.status) {
+                        var classList = $('#classList'); // Reference to the <classList> element
+                        // classList.empty(); // Clear any existing options
+
+                        // Loop through the data array and append each class div
+                        $.each(response.data, function (index, classObj) {
+                            var formattedStartDate = formatDate(classObj.startDate);
+                            var formattedEndDate = formatDate(classObj.endDate);
+                            // Construct card HTML
+                            var cardHtml = `
+                                            <div class="col-xl-3 col-lg-6 col-sm-6 my-3">
+                                                <div class="card1 card-child">
+                                                    <div class="club-name">Class ID: ${classObj.classId}</div>
+                                                    <div class="card-body">
+                                                        <div class="club-title">
+                                                            <ul>
+                                                                <li><h6>Class name:</h6><span>${classObj.className}</span></li>
+                                                                <li><h6>Course:</h6><span>${classObj.course.courseName}</span></li>
+                                                                <li><h6>Teacher:</h6><span>${classObj.teacher.account.fullname}</span></li>
+                                                                <li><h6>Start date:</h6><span>${formattedStartDate}</span></li>
+                                                                <li><h6>End date:</h6><span>${formattedEndDate}</span></li>
+                                                                <li><h6>Minimum amount of students:</h6><span>${classObj.minimumStudents}</span></li>
+                                                                <li><h6>Maximum amount of students:</h6><span>${classObj.maximumStudents}</span></li>
+                                                                <li><h6>Current amount of students:</h6><span>${classObj.studentProgress.length}</span></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group mx-auto">
+                                                                <form method="get" asp-route-id="${classObj.ClassName}">
+                                                            <button class="btn btn-primary clickable-row" type="submit">See Detail</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        `;
+                            // Append the constructed HTML to the class list container
+                            classList.append(cardHtml);
+                        });
+                    } else {
+                        console.error("API returned false status.");
+                    }
+                },
+                error: function (error) {
+                    alert("Error in api call:" + error);
+                    console.error("Error in api call:", error);
+                    //showAlert('success', 'Data fetched successfully.');
+                }
+            });
+        }
         function formatDate(date) {
             let d = new Date(date);
 
@@ -315,29 +331,39 @@
             // Gather form data
             var classData = {
                 ClassName: $("#createClass_ClassName").val(),
-                ClassType: $("#createClass_ClassType").val(),
-                Category: $("#createClass_Category").val(),
-                Description: $("#createClass_Description").val(),
-                Difficulty: $("#createClass_Difficulty").val(),
-                RequiredAge: $("#createClass_RequiredAge").val(),
-                TotalHours: $("#createClass_TotalHours").val(),
+                MinStudents: $("#createClass_MinStudents").val(),
+                MaxStudents: $("#createClass_MaxStudents").val(),
+                TeacherName: $("#createClass_TeacherName").val(),
+                CourseName: $("#createClass_CourseName").val(),
+                StartDate: $("#createClass_StartDate").val(),
+                EndDate: $("#createClass_EndDate").val(),
             };
-
-            // Full API URL (backend is running on localhost:7000)
-            var apiUrl = 'http://localhost:7000/api/Admin/CreateClass';
 
             // Make the AJAX POST request
             $.ajax({
-                url: apiUrl,
+                url: apiUrl + 'Class/Create',
+                headers: {
+                    'Authorization': 'Bearer ' + token// Include the JWT token
+                },
                 type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(classData),
                 success: function (response) {
-                    alert('Class created successfully!');
-                    $('#createClassForm').trigger("reset");
+                    // Log the entire response to the console for debugging
+                    console.log("Returned object:", response);
+                    // Check if the status is true
+                    if (response.status) {
+                        alert('Class created successfully!');
+                        $('#createClassForm').trigger("reset");
+                        callApiGetClassList();
+                    } else {
+                        console.error("API returned false status. Message:", response.ErrorMessage);
+                    }
                 },
-                error: function (xhr, status, error) {
-                    alert('Error creating class: ' + error);
+                error: function (error) {
+                    alert("Error in api call:" + error);
+                    console.error("Error in api call", error);
+                    //showAlert('success', 'Data fetched successfully.');
                 }
             });
         });

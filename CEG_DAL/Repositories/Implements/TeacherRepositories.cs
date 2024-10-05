@@ -46,5 +46,13 @@ namespace CEG_DAL.Repositories.Implements
             if (result != null) return result.TeacherId;
             return 0;
         }
+
+        public async Task<Teacher?> GetByFullname(string fullname)
+        {
+            return await _dbContext.Teachers
+                .Include(t => t.Account)
+                .AsNoTrackingWithIdentityResolution()
+                .SingleOrDefaultAsync(t => t.Account.Fullname == fullname);
+        }
     }
 }

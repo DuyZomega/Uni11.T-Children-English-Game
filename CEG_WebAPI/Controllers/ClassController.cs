@@ -14,12 +14,14 @@ namespace CEG_WebAPI.Controllers
     {
         private readonly IClassService _classService;
         private readonly ICourseService _courseService;
+        private readonly ITeacherService _teacherService;
         private readonly IConfiguration _config;
 
-        public ClassController(IClassService classService, ICourseService courseService, IConfiguration config)
+        public ClassController(IClassService classService, ICourseService courseService, ITeacherService teacherService, IConfiguration config)
         {
             _classService = classService;
             _courseService = courseService;
+            _teacherService = teacherService;
             _config = config;
         }
 
@@ -137,13 +139,22 @@ namespace CEG_WebAPI.Controllers
         {
             try
             {
-                var resultCourseName = await _courseService.IsCourseExistByName(newClass.CourseName);
+                var resultCourseName = await _courseService.IsCourseAvailableByName(newClass.CourseName);
                 if (!resultCourseName)
                 {
                     return BadRequest(new
                     {
                         Status = false,
-                        ErrorMessage = "Course Not Found!"
+                        ErrorMessage = "Course Not Found or Course not Available!"
+                    });
+                }
+                var resultTeacherName = await _teacherService.IsTeacherExistByFullname(newClass.TeacherName);
+                if (!resultTeacherName)
+                {
+                    return BadRequest(new
+                    {
+                        Status = false,
+                        ErrorMessage = "Teacher Not Found!"
                     });
                 }
                 ClassViewModel clas = new ClassViewModel();

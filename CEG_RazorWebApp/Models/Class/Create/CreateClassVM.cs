@@ -14,11 +14,11 @@ namespace CEG_RazorWebApp.Models.Class.Create
         [Required(ErrorMessage = "Minimum students amount is required")]
         [Range(Constants.CLASS_MINIMUM_STUDENTS_REQ, int.MaxValue)]
         [DisplayName("Minimum students amount")]
-        public int MinStudents { get; set; }
+        public int MinStudents { get; set; } = Constants.CLASS_MINIMUM_STUDENTS_REQ;
         [Required(ErrorMessage = "Maximum students amount is required")]
         [Range(Constants.CLASS_MAXIMUM_STUDENTS_REQ, int.MaxValue)]
         [DisplayName("Maximum students amount")]
-        public int MaxStudents { get; set; }
+        public int MaxStudents { get; set; } = Constants.CLASS_MAXIMUM_STUDENTS_REQ;
         [Required(ErrorMessage = "Assign teacher name is required")]
         [DisplayName("Assign teacher name")]
         public string TeacherName { get; set; }
@@ -29,11 +29,11 @@ namespace CEG_RazorWebApp.Models.Class.Create
         [DisplayName("Class start date")]
         [DataType(DataType.DateTime)]
         //startDate (30/9), endDate(30/10), daysInWeek(T2, T5) Phải sync ngày và thứ tạo (30/9 là T2)
-        public DateTime StartDate { get; set; }
+        public DateTime StartDate { get; set; } = DateTime.Now;
         [Required(ErrorMessage = "Course end date is required")]
         [DateGreaterThan("StartDate",Constants.CLASS_MINIMUM_DAYS_REQ)]
         [DisplayName("Class end date")]
         [DataType(DataType.DateTime)]
-        public DateTime EndDate { get; set; }
+        public DateTime EndDate { get; set; } = DateTime.Now.AddDays(30);
     }
 }
