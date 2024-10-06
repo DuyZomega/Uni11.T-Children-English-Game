@@ -28,7 +28,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Libraries\Attributes\" />
-    <Folder Include="Pages\Admin\Question\" />
     <Folder Include="Pages\Admin\Transaction\" />
   </ItemGroup>
    

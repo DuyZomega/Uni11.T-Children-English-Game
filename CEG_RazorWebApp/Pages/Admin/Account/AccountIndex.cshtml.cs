@@ -40,10 +40,10 @@ namespace CEG_RazorWebApp.Pages.Admin.Account
 
         public string? LayoutUrl { get; set; } = Constants.ADMIN_LAYOUT_URL;
 
-        public List<AccountStatusVM>? AccountStatuses { get; set; }
-        public CreateTeacherVM? CreateTeacher { get; set; }
-        public CreateParentVM? CreateParent { get; set; }
-        public CreateStudentVM? CreateStudent { get; set; }
+        public List<AccountStatusVM>? AccountStatuses { get; set; } = new List<AccountStatusVM>();
+        public CreateTeacherVM? CreateTeacher { get; set; } = new CreateTeacherVM();
+        public CreateParentVM? CreateParent { get; set; } = new CreateParentVM();
+        public CreateStudentVM? CreateStudent { get; set; } = new CreateStudentVM();
 
         public AccountIndexModel(ILogger<AccountIndexModel> logger, IConfiguration config, IMapper mapper)
         {
@@ -57,7 +57,7 @@ namespace CEG_RazorWebApp.Pages.Admin.Account
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             AdminAPI_URL = config.GetSection(Constants.SYSTEM_DEFAULT_API_URL_CONFIG_PATH).Value;
         }
-        public async Task<IActionResult> OnGetAsync()
+        /*public async Task<IActionResult> OnGetAsync()
         {
             methcall.InitTempData(this);
             AdminAPI_URL += "Account/All";
@@ -87,7 +87,7 @@ namespace CEG_RazorWebApp.Pages.Admin.Account
 
                 return RedirectToPage("/Admin/Index");
             }
-            /*TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = ViewBag.Success = "Account List Get Successfully!";*/
+            *//*TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = ViewBag.Success = "Account List Get Successfully!";*//*
             if(!TempData.ContainsKey(Constants.ALERT_DEFAULT_ERROR_NAME) || !TempData.ContainsKey(Constants.ALERT_DEFAULT_SUCCESS_NAME))
             {
                 TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = "Account List Get Successfully!";
@@ -101,6 +101,10 @@ namespace CEG_RazorWebApp.Pages.Admin.Account
             CreateParent = parentTempData ?? new CreateParentVM();
             CreateStudent = studentTempData ?? new CreateStudentVM();
             return Page();
+        }*/
+        public void OnGet()
+        {
+
         }
         public IActionResult OnGetLogout()
         {
