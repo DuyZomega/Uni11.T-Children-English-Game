@@ -2,11 +2,9 @@
 @model CEG_RazorWebApp.Pages.Admin.Account.AccountIndexModel
 @{
     ViewData["Title"] = "Admin All Account Statuses Page";
-    string? search = string.Empty;
     var createParent = Model.CreateParent;
     var createTeacher = Model.CreateTeacher;
     var createStudent = Model.CreateStudent;
-    var accountStatuses = Model.AccountStatuses;
     Layout = Model.LayoutUrl;
 }
 <html lang="en">
@@ -48,7 +46,7 @@
                                         </a>
                                     </li>
                                 </ul>
-                                @if (TempData["Success"] != null)
+                                @* @if (TempData["Success"] != null)
                                 {
                                     <div class="alert alert-success alert-dismissible fade show" id="notif">
                                         <i class='bx bx-message-alt-x p-1'></i>
@@ -69,7 +67,7 @@
                                         </button>
                                     </div>
                                     TempData.Remove("Success");
-                                }
+                                } *@
 
                                 <!-- Tab panes -->
                                 <div class="tab-content">
@@ -91,7 +89,7 @@
                                                 <div class="col-sm-6 d-flex justify-content-end">
                                                     <div>
                                                         <label>
-                                                            <input asp-for="@search" class="form-control" type="text" placeholder="Search Username..." value="@search">
+                                                            <input id="search" class="form-control" type="text" placeholder="Search Username...">
                                                             <i class='bx bx-search-alt'></i>
                                                         </label>
                                                     </div>

@@ -143,8 +143,21 @@
     <script>
         var token = '@HttpContext.Session.GetString(CEG_RazorWebApp.Libraries.Constants.ACC_TOKEN)';
         var apiUrl = 'https://localhost:7143/api/';
+        var classList = [];
         $(document).ready(function () {
             callApiGetClassList();
+            $('#search').on('keyup', function (event) {
+                // Get the search term
+                var searchTerm = $(this).val().toLowerCase();
+
+                // Filter the classes based on the search term
+                var filteredclassList = classList.filter(function (classObject) {
+                    return classObject.className.toLowerCase().includes(searchTerm);
+                });
+
+                // Display the filtered accountList
+                setClassDisplay(filteredclassList);
+            });
             // Call API to get the list of teacher names
             $.ajax({
                 url: apiUrl + 'Teacher/All/Fullname', // API endpoint
@@ -245,56 +258,8 @@
 
                     // Check if the status is true
                     if (response.status) {
-                        var classList = $('#classList'); // Reference to the <classList> element
-                        // classList.empty(); // Clear any existing options
-                        classList.empty();
-                        var cardCreateClassHtml = `
-                            <div class="col-xl-3 col-lg-6 col-sm-6 my-3 item">
-                                <div class="card1 card-child">
-                                    <div class="card-body add-club">
-                                        <button class="border-0" data-toggle="modal" data-target="#addClass">
-                                            <span>Add Class</span>
-                                            <i class='bx bx-add-to-queue'></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                        classList.append(cardCreateClassHtml);
-                        // Loop through the data array and append each class div
-                        $.each(response.data, function (index, classObj) {
-                            var formattedStartDate = formatDate(classObj.startDate);
-                            var formattedEndDate = formatDate(classObj.endDate);
-                            // Construct card HTML
-                            var cardHtml = `
-                                <div class="col-xl-3 col-lg-6 col-sm-6 my-3">
-                                    <div class="card1 card-child">
-                                        <div class="club-name">Class ID: ${classObj.classId}</div>
-                                        <div class="card-body">
-                                            <div class="club-title">
-                                                <ul>
-                                                    <li><h6>Class name:</h6><span>${classObj.className}</span></li>
-                                                    <li><h6>Course:</h6><span>${classObj.course.courseName}</span></li>
-                                                    <li><h6>Teacher:</h6><span>${classObj.teacher.account.fullname}</span></li>
-                                                    <li><h6>Start date:</h6><span>${formattedStartDate}</span></li>
-                                                    <li><h6>End date:</h6><span>${formattedEndDate}</span></li>
-                                                    <li><h6>Minimum amount of students:</h6><span>${classObj.minimumStudents}</span></li>
-                                                    <li><h6>Maximum amount of students:</h6><span>${classObj.maximumStudents}</span></li>
-                                                    <li><h6>Current amount of students:</h6><span>${classObj.studentProgress.length}</span></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="form-group mx-auto">
-                                                    <form method="get" asp-route-id="${classObj.ClassName}">
-                                                <button class="btn btn-primary clickable-row" type="submit">See Detail</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            `;
-                            // Append the constructed HTML to the class list container
-                            classList.append(cardHtml);
-                        });
+                        classList = response.data;
+                        setClassDisplay(classList);
                     } else {
                         console.error("API returned false status.");
                     }
@@ -304,6 +269,58 @@
                     console.error("Error in api call:", error);
                     //showAlert('success', 'Data fetched successfully.');
                 }
+            });
+        }
+        function setClassDisplay(data){
+            var classList = $('#classList'); // Reference to the <classList> element
+            // classList.empty(); // Clear any existing options
+            classList.empty();
+            var cardCreateClassHtml = `
+                <div class="col-xl-3 col-lg-6 col-sm-6 my-3 item">
+                    <div class="card1 card-child">
+                        <div class="card-body add-club">
+                            <button class="border-0" data-toggle="modal" data-target="#addClass">
+                                <span>Add Class</span>
+                                <i class='bx bx-add-to-queue'></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            classList.append(cardCreateClassHtml);
+            // Loop through the data array and append each class div
+            $.each(data, function (index, classObj) {
+                var formattedStartDate = formatDate(classObj.startDate);
+                var formattedEndDate = formatDate(classObj.endDate);
+                // Construct card HTML
+                var cardHtml = `
+                    <div class="col-xl-3 col-lg-6 col-sm-6 my-3">
+                        <div class="card1 card-child">
+                            <div class="club-name">Class ID: ${classObj.classId}</div>
+                            <div class="card-body">
+                                <div class="club-title">
+                                    <ul>
+                                        <li><h6>Class name:</h6><span>${classObj.className}</span></li>
+                                        <li><h6>Course:</h6><span>${classObj.course.courseName}</span></li>
+                                        <li><h6>Teacher:</h6><span>${classObj.teacher.account.fullname}</span></li>
+                                        <li><h6>Start date:</h6><span>${formattedStartDate}</span></li>
+                                        <li><h6>End date:</h6><span>${formattedEndDate}</span></li>
+                                        <li><h6>Minimum amount of students:</h6><span>${classObj.minimumStudents}</span></li>
+                                        <li><h6>Maximum amount of students:</h6><span>${classObj.maximumStudents}</span></li>
+                                        <li><h6>Current amount of students:</h6><span>${classObj.studentProgress.length}</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="form-group mx-auto">
+                                        <form method="get" asp-route-id="${classObj.ClassName}">
+                                    <button class="btn btn-primary clickable-row" type="submit">See Detail</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                // Append the constructed HTML to the class list container
+                classList.append(cardHtml);
             });
         }
         function formatDate(date) {
