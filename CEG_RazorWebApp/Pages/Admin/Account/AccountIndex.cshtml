@@ -89,14 +89,12 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6 d-flex justify-content-end">
-                                                    <form method="get" asp-route-search="@search">
-                                                        <div>
-                                                            <label>
-                                                                <input asp-for="@search" class="form-control" type="text" placeholder="Search Username..." value="@search">
-                                                                <i class='bx bx-search-alt'></i>
-                                                            </label>
-                                                        </div>
-                                                    </form>
+                                                    <div>
+                                                        <label>
+                                                            <input asp-for="@search" class="form-control" type="text" placeholder="Search Username..." value="@search">
+                                                            <i class='bx bx-search-alt'></i>
+                                                        </label>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -388,6 +386,7 @@
         <script>
             var token = '@HttpContext.Session.GetString(CEG_RazorWebApp.Libraries.Constants.ACC_TOKEN)';
             var apiUrl = 'https://localhost:7143/api/';
+            var accountList = [];
             $(document).ready(function () {
                 callApiGetAccountList();
                 // Function to display alerts
@@ -417,6 +416,18 @@
                     // Inject the alert HTML into the alert container
                     $('#alertContainer').html(alertHtml);
                 }
+                $('#search').on('keyup', function (event) {
+                    // Get the search term
+                    var searchTerm = $(this).val().toLowerCase();
+
+                    // Filter the classes based on the search term
+                    var filteredaccountList = accountList.filter(function (account) {
+                        return account.fullname.toLowerCase().includes(searchTerm);
+                    });
+
+                    // Display the filtered accountList
+                    setAccountDisplay(filteredaccountList);
+                });
             });
             function callApiGetAccountList() {
                 $.ajax({
@@ -431,44 +442,9 @@
 
                         // Check if the status is true
                         if (response.status) {
-                        var tableBody = $('#history-table tbody'); // Reference to the <id="history-table"> element
-                            tableBody.empty(); // Clear any existing options
+                            accountList = response.data;
 
-                            // Loop through the data array and append each class div
-                            $.each(response.data, function (index, account) {
-                                // Construct card HTML
-                                var rowHtml = `
-                                    <tr class="${index % 2 === 0 ? 'even' : 'odd'}">
-                                        <td class="sorting_1">
-                                            <input type="hidden" name="listRequest[${index}].UserName" value="${account.username}" class="form-control" />
-                                            <a href="/Admin/Account/${account.accountId}/Info">${account.username}</a>
-                                        </td>
-                                        <td>
-                                            <input type="hidden" name="listRequest[${index}].FullName" value="${account.fullname}" class="form-control" />
-                                            ${account.fullname}
-                                        </td>
-                                        <td>
-                                            <input type="hidden" name="listRequest[${index}].Gender" value="${account.gender}" class="form-control" />
-                                            ${account.gender}
-                                        </td>
-                                        <td>
-                                            <input type="hidden" name="listRequest[${index}].CreatedDate" value="${account.createdDate}" class="form-control" />
-                                            ${formatDate(account.createdDate)}
-                                        </td>
-                                        <td>
-                                            <input type="hidden" name="listRequest[${index}].Role" value="${account.role.roleName}" class="form-control" />
-                                            ${account.role.roleName}
-                                        </td>
-                                        <td>
-                                            <select class="form-control custom-select" name="listRequest[${index}].Status">
-                                                ${getStatusOptions(account.status)} <!-- Helper function to generate select options -->
-                                            </select>
-                                        </td>
-                                    </tr>
-                                `;
-                                // Append the constructed HTML to the class list container
-                                tableBody.append(rowHtml);
-                            });
+                            setAccountDisplay(accountList);
                         } else {
                             console.error("API returned false status.");
                         }
@@ -478,6 +454,45 @@
                         console.error("Error in api call:", error);
                         //showAlert('success', 'Data fetched successfully.');
                     }
+                });
+            }
+            function setAccountDisplay(data){
+                var tableBody = $('#history-table tbody'); // Reference to the <id="history-table"> element
+                tableBody.empty(); // Clear any existing options
+                // Loop through the data array and append each class div
+                $.each(data, function (index, account) {
+                    // Construct card HTML
+                    var rowHtml = `
+                        <tr class="${index % 2 === 0 ? 'even' : 'odd'}">
+                            <td class="sorting_1">
+                                <input type="hidden" name="listRequest[${index}].UserName" value="${account.username}" class="form-control" />
+                                <a href="/Admin/Account/${account.accountId}/Info">${account.username}</a>
+                            </td>
+                            <td>
+                                <input type="hidden" name="listRequest[${index}].FullName" value="${account.fullname}" class="form-control" />
+                                ${account.fullname}
+                            </td>
+                            <td>
+                                <input type="hidden" name="listRequest[${index}].Gender" value="${account.gender}" class="form-control" />
+                                ${account.gender}
+                            </td>
+                            <td>
+                                <input type="hidden" name="listRequest[${index}].CreatedDate" value="${account.createdDate}" class="form-control" />
+                                ${formatDate(account.createdDate)}
+                            </td>
+                            <td>
+                                <input type="hidden" name="listRequest[${index}].Role" value="${account.role.roleName}" class="form-control" />
+                                ${account.role.roleName}
+                            </td>
+                            <td>
+                                <select class="form-control custom-select" name="listRequest[${index}].Status">
+                                    ${getStatusOptions(account.status)} <!-- Helper function to generate select options -->
+                                </select>
+                            </td>
+                        </tr>
+                    `;
+                    // Append the constructed HTML to the class list container
+                    tableBody.append(rowHtml);
                 });
             }
             function getStatusOptions(selectedStatus) {
