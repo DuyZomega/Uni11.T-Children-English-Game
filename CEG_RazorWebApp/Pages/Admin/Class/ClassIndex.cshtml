@@ -15,7 +15,6 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <title>@ViewData["Title"]</title>
 </head>
 <body>
@@ -73,16 +72,6 @@
                                         </div>
                                     </div>
                                     <div class="row card-content" id="classList">
-                                        <div class="col-xl-3 col-lg-6 col-sm-6 my-3 item">
-                                            <div class="card1 card-child">
-                                                <div class="card-body add-club">
-                                                    <button class="border-0" data-toggle="modal" data-target="#addClass">
-                                                        <span>Add Class</span>
-                                                        <i class='bx bx-add-to-queue'></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
                                         <!-- dung vong for o day -->
                                     </div>
                                     <!-- end tapnet -->
@@ -259,7 +248,19 @@
                         var classList = $('#classList'); // Reference to the <classList> element
                         // classList.empty(); // Clear any existing options
                         classList.empty();
-
+                        var cardCreateClassHtml = `
+                            <div class="col-xl-3 col-lg-6 col-sm-6 my-3 item">
+                                <div class="card1 card-child">
+                                    <div class="card-body add-club">
+                                        <button class="border-0" data-toggle="modal" data-target="#addClass">
+                                            <span>Add Class</span>
+                                            <i class='bx bx-add-to-queue'></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        classList.append(cardCreateClassHtml);
                         // Loop through the data array and append each class div
                         $.each(response.data, function (index, classObj) {
                             var formattedStartDate = formatDate(classObj.startDate);

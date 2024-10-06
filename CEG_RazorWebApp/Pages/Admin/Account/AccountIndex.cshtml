@@ -14,7 +14,6 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <title>@ViewData["Title"]</title>
     </head>
     <body>
@@ -442,7 +441,7 @@
                                     <tr class="${index % 2 === 0 ? 'even' : 'odd'}">
                                         <td class="sorting_1">
                                             <input type="hidden" name="listRequest[${index}].UserName" value="${account.username}" class="form-control" />
-                                            <a href="/Account/Info/${account.accountId}">${account.username}</a>
+                                            <a href="/Admin/Account/${account.accountId}/Info">${account.username}</a>
                                         </td>
                                         <td>
                                             <input type="hidden" name="listRequest[${index}].FullName" value="${account.fullname}" class="form-control" />
@@ -512,6 +511,7 @@
                 // If you want to include seconds as well, use this return:
                 // return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
             }
+
         </script>
     </body>
 </html>
