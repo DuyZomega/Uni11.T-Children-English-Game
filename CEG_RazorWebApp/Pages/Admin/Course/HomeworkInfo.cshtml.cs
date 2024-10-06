@@ -96,9 +96,9 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
             }
             TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = "Homework Info Get Successfully!";
 
-            var createQuestionFailed = methcall.GetValidationTempData<CreateQuestionVM>(this, TempData, Constants.CREATE_HOMEWORK_DETAILS_VALID, "createHomework", jsonOptions);
+            var createQuestionFailed = methcall.GetValidationTempData<CreateQuestionVM>(this, TempData, Constants.CREATE_HOMEWORK_QUESTION_DETAILS_VALID, "createQuestion", jsonOptions);
             var updateHomeworkFailed = methcall.GetValidationTempData<UpdateHomeworkVM>(this, TempData, Constants.UPDATE_HOMEWORK_DETAILS_VALID, "updateHomework", jsonOptions);
-            var updateQuestionFailed = methcall.GetValidationTempData<UpdateQuestionVM>(this, TempData, Constants.UPDATE_HOMEWORK_DETAILS_VALID, "updateHomework", jsonOptions);
+            var updateQuestionFailed = methcall.GetValidationTempData<UpdateQuestionVM>(this, TempData, Constants.UPDATE_HOMEWORK_QUESTION_DETAILS_VALID, "updateQuestion", jsonOptions);
             var questionList = new List<AdminQuestionInfoPVM>();
 
             if (homeworkInfoResponse.Data.HomeworkQuestions != null && homeworkInfoResponse.Data.HomeworkQuestions.Count > 0)
@@ -210,7 +210,7 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
             string? accToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
             if (!ModelState.IsValid)
             {
-                TempData = methcall.SetValidationTempData(TempData, Constants.UPDATE_HOMEWORK_DETAILS_VALID, updateQuestion, jsonOptions);
+                TempData = methcall.SetValidationTempData(TempData, Constants.UPDATE_HOMEWORK_QUESTION_DETAILS_VALID, updateQuestion, jsonOptions);
                 return Redirect("/Admin/Course/" + CourseId + "/Session/" + SessionId + "/Homework/" + homeworkId + "/Info");
             }
             var courseInfoResponse = await methcall.CallMethodReturnObject<AdminQuestionUpdateResponseVM>(

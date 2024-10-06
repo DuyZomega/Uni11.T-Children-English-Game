@@ -22,6 +22,13 @@ namespace CEG_DAL.Repositories.Implements
         {
             return await _dbContext.Teachers.ToListAsync();
         }
+        public async Task<List<string>> GetTeacherNameList()
+        {
+            return await _dbContext.Teachers
+                .Include(t => t.Account)
+                .Select(t => t.Account.Fullname)
+                .ToListAsync();
+        }
 
         public async Task<Teacher?> GetByIdNoTracking(int id)
         {
@@ -38,6 +45,14 @@ namespace CEG_DAL.Repositories.Implements
             var result = await (from t in _dbContext.Teachers where t.Account.Username == username select t).FirstOrDefaultAsync();
             if (result != null) return result.TeacherId;
             return 0;
+        }
+
+        public async Task<Teacher?> GetByFullname(string fullname)
+        {
+            return await _dbContext.Teachers
+                .Include(t => t.Account)
+                .AsNoTrackingWithIdentityResolution()
+                .SingleOrDefaultAsync(t => t.Account.Fullname == fullname);
         }
     }
 }

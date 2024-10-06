@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 
-namespace CEG_RazorWebApp.Libraries
+namespace CEG_BAL.Configurations
 {
     public static class Constants
     {

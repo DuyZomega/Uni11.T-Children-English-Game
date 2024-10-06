@@ -17,20 +17,14 @@ namespace CEG_BAL.Services.Implements
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        private readonly IJWTService _jwtService;
-        private readonly IConfiguration _configuration;
 
         public HomeworkQuestionService(
             IUnitOfWork unitOfWork, 
-            IMapper mapper, 
-            IJWTService jwtService, 
-            IConfiguration configuration
+            IMapper mapper
             )
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
-            _jwtService = jwtService;
-            _configuration = configuration;
         }
 
         public void Create(HomeworkQuestionViewModel model, CreateNewQuestion newQus)
@@ -50,7 +44,9 @@ namespace CEG_BAL.Services.Implements
             var ques = await _unitOfWork.HomeworkQuestionRepositories.GetByIdNoTracking(id);
             if (ques != null)
             {
+                var home = await _unitOfWork.HomeworkRepositories.GetByIdNoTracking(ques.HomeworkId);
                 var quesvm = _mapper.Map<HomeworkQuestionViewModel>(ques);
+                quesvm.HomeworkStatus = home.Status;
                 return quesvm;
             }
             return null;
@@ -64,9 +60,12 @@ namespace CEG_BAL.Services.Implements
         public void Update(HomeworkQuestionViewModel model)
         {
             var ques = _mapper.Map<HomeworkQuestion>(model);
+
             var questionDefault = _unitOfWork.HomeworkQuestionRepositories.GetByIdNoTracking(model.HomeworkQuestionId.Value).Result;
-            ques.HomeworkId = questionDefault.HomeworkId;
-            _unitOfWork.HomeworkQuestionRepositories.Update(ques);
+            //ques.HomeworkId = questionDefault.HomeworkId;
+            questionDefault.Question = model.Question;
+
+            _unitOfWork.HomeworkQuestionRepositories.Update(questionDefault);
             _unitOfWork.Save();
         }
     }
