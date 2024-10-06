@@ -16,7 +16,8 @@ namespace CEG_RazorWebApp.Pages.Admin.Account
     {
         private ChildrenEnglishGameLibrary methcall = new();
         public string? LayoutUrl { get; set; } = Constants.ADMIN_LAYOUT_URL;
-        public AccountInfoVM? AccountInfo { get; set; }
+        public AccountInfoVM? AccountInfo { get; set; } = new AccountInfoVM();
+        public int AccountId = 0;
 
         /*public async Task<IActionResult> OnGetAsync(
             [FromRoute][Required] int accountId)
@@ -57,9 +58,10 @@ namespace CEG_RazorWebApp.Pages.Admin.Account
             AccountInfo = _mapper.Map<AccountInfoVM>(accountInfoResponse.Data);
             return Page();
         }*/
-        public void OnGet()
+        public void OnGet(
+            [FromRoute][Required] int accountId)
         {
-
+            AccountId = accountId;
         }
 
         public IActionResult OnGetLogout()

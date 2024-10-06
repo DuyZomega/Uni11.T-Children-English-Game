@@ -4,6 +4,7 @@
     ViewData["Title"] = "Admin View User Account Info Page";
     var accountInfo = Model.AccountInfo;
     Layout = Model.LayoutUrl;
+    var accountId = Model.AccountId;
 }
 <html lang="en">
     <head>
@@ -32,18 +33,18 @@
                                     <span>/</span>
                                 </li>
                                 <li class="breadcrumd-item">
-                                    <a href="/Admin/Account/@accountInfo.AccountId/Info">@accountInfo.AccountId</a>
+                                    <a href="/Admin/Account/@accountId/Info">@accountId</a>
                                 </li>
                                 <li class="breadcrumd-item">
                                     <span>/</span>
                                 </li>
                                 <li class="breadcrumd-item">
-                                    <a href="/Admin/Account/@accountInfo.AccountId/Info">Info</a>
+                                    <a href="/Admin/Account/@accountId/Info">Info</a>
                                 </li>
                             </ol>
                         </div>
                     </div>
-                @if (TempData["Success"] != null)
+                @* @if (TempData["Success"] != null)
                 {
                     <div class="alert alert-success alert-dismissible fade show" id="notif">
                         <i class='bx bx-message-alt-x p-1'></i>
@@ -64,7 +65,7 @@
                         </button>
                     </div>
                     TempData.Remove("Success");
-                }
+                } *@
                     <div class="row">
                         <div class="col-12 customer-booking">
                             <div class="row">
@@ -78,71 +79,64 @@
                                                 <label class="col-form-label">Account ID:</label>
                                             </div>
                                             <div class="col-md-7">
-                                                <span>
-                                                    @accountInfo.AccountId
+                                                <span id="account-id">
                                                 </span>
                                             </div>
                                         </div>
-                                    <div class="row mb-sm-2">
-                                        <div class="col-md-5 text-md-right">
-                                            <label class="col-form-label">Username:</label>
+                                        <div class="row mb-sm-2">
+                                            <div class="col-md-5 text-md-right">
+                                                <label class="col-form-label">Username:</label>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <span id="account-username">
+                                                </span>
+                                            </div>
                                         </div>
-                                        <div class="col-md-7">
-                                            <span>
-                                                @accountInfo.Username
-                                            </span>
+                                        <div class="row mb-sm-2">
+                                            <div class="col-md-5 text-md-right">
+                                                <label class="col-form-label">Full Name:</label>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <span id="account-fullname">
+                                                </span>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="row mb-sm-2">
-                                        <div class="col-md-5 text-md-right">
-                                            <label class="col-form-label">Full Name:</label>
+                                        <div class="row mb-sm-2">
+                                            <div class="col-md-5 text-md-right">
+                                                <label class="col-form-label">Gender:</label>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <span id="account-gender">
+                                                </span>
+                                            </div>
                                         </div>
-                                        <div class="col-md-7">
-                                            <span>
-                                                @accountInfo.Fullname
-                                            </span>
+                                        <div class="row mb-sm-2">
+                                            <div class="col-md-5 text-md-right">
+                                                <label class="col-form-label">Created Date:</label>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <span id="account-createddate">
+                                                </span>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="row mb-sm-2">
-                                        <div class="col-md-5 text-md-right">
-                                            <label class="col-form-label">Gender:</label>
+                                        <div class="row mb-sm-2">
+                                            <div class="col-md-5 text-md-right">
+                                                <label class="col-form-label">Role:</label>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <span id="account-role">
+                                                </span>
+                                            </div>
                                         </div>
-                                        <div class="col-md-7">
-                                            <span>
-                                                @accountInfo.Gender
-                                            </span>
+                                        <div class="row mb-sm-2">
+                                            <div class="col-md-5 text-md-right">
+                                                <label class="col-form-label">Status:</label>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <span id="account-status">
+                                                </span>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="row mb-sm-2">
-                                        <div class="col-md-5 text-md-right">
-                                            <label class="col-form-label">Created Date:</label>
-                                        </div>
-                                        <div class="col-md-7">
-                                            <span>
-                                                @accountInfo.CreatedDate
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-sm-2">
-                                        <div class="col-md-5 text-md-right">
-                                            <label class="col-form-label">Role:</label>
-                                        </div>
-                                        <div class="col-md-7">
-                                            <span>
-                                                @accountInfo.Role
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-sm-2">
-                                        <div class="col-md-5 text-md-right">
-                                            <label class="col-form-label">Status:</label>
-                                        </div>
-                                        <div class="col-md-7">
-                                            <span>
-                                                @accountInfo.Status
-                                            </span>
-                                        </div>
-                                    </div>
                                     </div>
                                 </div>
                             </div>
@@ -155,7 +149,7 @@
             var token = '@HttpContext.Session.GetString(CEG_RazorWebApp.Libraries.Constants.ACC_TOKEN)';
             var apiUrl = 'https://localhost:7143/api/';
             $(document).ready(function () {
-                callApiGetAccountList();
+                callApiGetAccountDetail();
                 // Function to display alerts
                 function showAlert(type, message) {
                     var alertHtml = '';
@@ -186,9 +180,9 @@
                     $('#alertContainer').html(alertHtml);
                 }
             });
-            function callApiGetAccountList() {
+            function callApiGetAccountDetail() {
                 $.ajax({
-                    url: apiUrl + 'Account/All', // API endpoint
+                    url: apiUrl + 'Account/@accountId', // API endpoint
                     type: 'GET',
                     headers: {
                         'Authorization': 'Bearer ' + token// Include the JWT token
@@ -199,9 +193,9 @@
 
                         // Check if the status is true
                         if (response.status) {
-                            accountList = response.data;
+                            accountDetail = response.data;
 
-                            setAccountDisplay(accountList);
+                            setAccountDisplay(accountDetail);
                         } else {
                             console.error("API returned false status.");
                         }
@@ -214,43 +208,13 @@
                 });
             }
             function setAccountDisplay(data) {
-                var tableBody = $('#history-table tbody'); // Reference to the <id="history-table"> element
-                tableBody.empty(); // Clear any existing options
-                // Loop through the data array and append each class div
-                $.each(data, function (index, account) {
-                    // Construct card HTML
-                    var rowHtml = `
-                        <tr class="${index % 2 === 0 ? 'even' : 'odd'}">
-                            <td class="sorting_1">
-                                <input type="hidden" name="listRequest[${index}].UserName" value="${account.username}" class="form-control" />
-                                <a href="/Admin/Account/${account.accountId}/Info">${account.username}</a>
-                            </td>
-                            <td>
-                                <input type="hidden" name="listRequest[${index}].FullName" value="${account.fullname}" class="form-control" />
-                                ${account.fullname}
-                            </td>
-                            <td>
-                                <input type="hidden" name="listRequest[${index}].Gender" value="${account.gender}" class="form-control" />
-                                ${account.gender}
-                            </td>
-                            <td>
-                                <input type="hidden" name="listRequest[${index}].CreatedDate" value="${account.createdDate}" class="form-control" />
-                                ${formatDate(account.createdDate)}
-                            </td>
-                            <td>
-                                <input type="hidden" name="listRequest[${index}].Role" value="${account.role.roleName}" class="form-control" />
-                                ${account.role.roleName}
-                            </td>
-                            <td>
-                                <select class="form-control custom-select" name="listRequest[${index}].Status">
-                                    ${getStatusOptions(account.status)} <!-- Helper function to generate select options -->
-                                </select>
-                            </td>
-                        </tr>
-                    `;
-                    // Append the constructed HTML to the class list container
-                    tableBody.append(rowHtml);
-                });
+                $('#account-id').text(data.accountId);
+                $('#account-username').text(data.username);
+                $('#account-fullname').text(data.fullname);
+                $('#account-gender').text(data.gender);
+                $('#account-createddate').text(formatDate(data.createdDate)); // Format the date if needed
+                $('#account-role').text(data.role.roleName);
+                $('#account-status').text(data.status);
             }
             function getStatusOptions(selectedStatus) {
                 var options = ['Inactive', 'Active', 'Expired', 'Denied', 'Suspended']; // Example statuses
