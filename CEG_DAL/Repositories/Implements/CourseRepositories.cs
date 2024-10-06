@@ -54,6 +54,13 @@ namespace CEG_DAL.Repositories.Implements
                 .ToListAsync();
         }
 
+        public async Task<List<string>> GetCourseNameList()
+        {
+            return await _dbContext.Courses
+                .Select(c => c.CourseName)
+                .ToListAsync();
+        }
+
         public async Task<Course?> GetByName(string name)
         {
             return await _dbContext.Courses.AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(cou => cou.CourseName == name);

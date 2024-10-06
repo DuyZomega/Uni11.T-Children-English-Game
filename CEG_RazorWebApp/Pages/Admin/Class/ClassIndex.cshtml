@@ -6,6 +6,7 @@
     string? search = string.Empty;
 
     var classes = Model.Classes;
+    var createClass = Model.CreateClass;
 
     Layout = "~/Pages/Shared/_ALayout.cshtml";
 }
@@ -14,6 +15,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <title>@ViewData["Title"]</title>
 </head>
 <body>
@@ -30,7 +32,7 @@
                                 <span>/</span>
                             </li>
                             <li class="breadcrumd-item">
-                                <a href="@Url.Action("AdminClassIndex","Admin")">Class</a>
+                                <a href="/Admin/Class/Index">Class</a>
                             </li>
                         </ol>
                     </div>
@@ -48,29 +50,7 @@
                                     </a>
                                 </li>
                             </ul>
-
-                            @if (TempData["Success"] != null)
-                            {
-                                <div class="alert alert-success alert-dismissible fade show" id="notif">
-                                    <i class='bx bx-message-alt-x p-1'></i>
-                                    <strong class="mr-1">@TempData["Success"]</strong>
-                                    <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
-                                        <span><i class='bx bx-x'></i></span>
-                                    </button>
-                                </div>
-                                TempData["Success"] = null;
-                            }
-                            else if (TempData["Error"] != null)
-                            {
-                                <div class="alert alert-danger alert-dismissible fade show" id="notif">
-                                    <i class='bx bx-message-alt-x p-1'></i>
-                                    <strong class="mr-1">@TempData["Error"]</strong>
-                                    <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
-                                        <span><i class='bx bx-x'></i></span>
-                                    </button>
-                                </div>
-                                TempData["Error"] = null;
-                            }
+                            <div id="alertContainer"></div>
 
                             <!-- Tab panes -->
                             <div class="tab-content">
@@ -81,7 +61,7 @@
                                             <div class="col-sm-6 d-flex address-home">
                                             </div>
                                             <div class="col-sm-6 d-flex justify-content-end">
-                                                <form asp-action="AdminClassIndex" asp-controller="Admin" method="get" asp-route-search="@search">
+                                                <form method="get" asp-route-search="@search">
                                                     <div>
                                                         <label>
                                                             <input asp-for="@search" class="form-control" type="text" name="search" placeholder="Search..." value="@search">
@@ -92,130 +72,18 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row card-content">
+                                    <div class="row card-content" id="classList">
                                         <div class="col-xl-3 col-lg-6 col-sm-6 my-3 item">
                                             <div class="card1 card-child">
                                                 <div class="card-body add-club">
-                                                    <form class="border-0" asp-action="AdminClassCreate" asp-controller="Admin" method="get">
-                                                        <button class="border-0" type="submit">
-                                                            <span>Add Class</span>
-                                                            <i class='bx bx-add-to-queue'></i>
-                                                        </button>
-                                                    </form>
+                                                    <button class="border-0" data-toggle="modal" data-target="#addClass">
+                                                        <span>Add Class</span>
+                                                        <i class='bx bx-add-to-queue'></i>
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
                                         <!-- dung vong for o day -->
-                                        @foreach (var data in classes)
-                                        {
-                                            <div class="col-xl-3 col-lg-6 col-sm-6 my-3">
-                                                <div class="card1 card-child">
-                                                    <div class="club-name">
-                                                        @* <div class="status">
-                                                    @{
-                                                    switch (data.Status)
-                                                    {
-                                                    case "Available":
-                                                    {
-                                                    <span class="stt1" style="float: left;">Status:<h6>@data.Status</h6></span>
-                                                    break;
-                                                    }
-                                                    case "UnAvailable":
-                                                    {
-                                                    <span class="stt3" style="float: left;">Status:<h6>@data.Status</h6></span>
-                                                    break;
-                                                    }
-                                                    case "Postponed":
-                                                    case "Cancelled":
-                                                    {
-                                                    <span class="stt2" style="float: left;">Status:<h6>@data.Status</h6></span>
-                                                    break;
-                                                    }
-                                                    default:
-                                                    {
-                                                    <span class="stt2" style="float: left;">Status:<h6>@data.Status</h6></span>
-                                                    break;
-                                                    }
-                                                    }
-                                                    }
-                                                    </div> *@
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <div class="club-title">
-                                                            <ul>
-                                                                <li>
-                                                                    <h6>Class name:</h6>
-                                                                    <span>@data.ClassName</span>
-                                                                </li>
-                                                                <li>
-                                                                    <h6>Course:</h6>
-                                                                    <span>@data.CourseName</span>
-                                                                </li>
-                                                                <li>
-                                                                    <h6>Teacher:</h6>
-                                                                    <span>@data.TeacherName</span>
-                                                                </li>
-                                                                <li>
-                                                                    <h6>Start date:</h6>
-                                                                    <span>@data.StartDate</span>
-                                                                </li>
-                                                                <li>
-                                                                    <h6>End date:</h6>
-                                                                    <span>@data.EndDate</span>
-                                                                </li>
-                                                                <li>
-                                                                    <h6>Minimum amount of students:</h6>
-                                                                    <span>@data.MinimumStudents</span>
-                                                                </li>
-                                                                <li>
-                                                                    <h6>Maximum amount of students:</h6>
-                                                                    <span>@data.MaximumStudents</span>
-                                                                </li>
-                                                                <li>
-                                                                    <h6>Current amount of students:</h6>
-                                                                    <span>@data.CurrentStudentAmount</span>
-                                                                </li>
-                                                                <li>
-                                                                    <h6>Description:</h6>
-                                                                    <span class="truncate">@data.Description</span>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group mx-auto">
-                                                        <form asp-action="AdminClassInfo" asp-controller="Admin" method="get" asp-route-id="@data.ClassName">
-                                                            <button class="btn btn-primary clickable-row" type="submit">See Detail</button>
-                                                        </form>
-                                                        @* @{
-                                                    if (data.Status.Equals("OnHold") || data.Status.Equals("Postponed") || data.Status.Equals("CheckingIn") || data.Status.Equals("Ongoing"))
-                                                    {
-                                                    <button class="btn btn-danger" data-toggle="modal" data-target="#deleteContest_@data.ContestId" type="submit">Cancel</button>
-                                                    }
-                                                    } *@
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            @* <div id="deleteContest_@data.ContestId" class="modal fade" role="dialog">
-                                        <div class="modal-dialog modal-dialog-centered" role="content">
-                                        <div class="modal-content">
-                                        <div class="card-body">
-                                        <div class="del-title">
-                                        <i class='bx bx-error-circle'></i>
-                                        <h2>Are you sure you want to cancel this Contest ?</h2>
-                                        </div>
-                                        <div class="del-submit d-flex justify-content-center">
-                                        <form asp-action="ManagerCancelContest" asp-controller="Manager" method="post" asp-route-id="@data.ContestId">
-                                        <button type="submit" name="action" value="deleteContest" class="btn btn-success">
-                                        Yes
-                                        </button>
-                                        </form>
-                                        <button class="btn btn-danger" type="button" data-dismiss="modal">No</button>
-                                        </div>
-                                        </div>
-                                        </div>
-                                        </div>
-                                        </div> *@
-                                        }
                                     </div>
                                     <!-- end tapnet -->
                                 </div>
@@ -226,5 +94,279 @@
             </div>
         </div>
     </div>
+    <div id="addClass" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content modal-addRoom">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add new Class</h4>
+                </div>
+                <div class="modal-body">
+                    <form method="post" id="createClassForm">
+                        <div class="row p-4">
+                            <div class="col-12">
+                                <div class="row form-group">
+                                    <label asp-for="@createClass.ClassName" class="col-md-3 col-form-label text-md-right"></label>
+                                    <input asp-for="@createClass.ClassName" value="@createClass.ClassName" type="text" placeholder="Class Name..." required class="form-control col-md-7">
+                                    <span asp-validation-for="@createClass.ClassName" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@createClass.MinStudents" class="col-md-3 col-form-label text-md-right"></label>
+                                    <input asp-for="@createClass.MinStudents" value="@createClass.MinStudents" type="number" min="@CEG_RazorWebApp.Libraries.Constants.CLASS_MINIMUM_STUDENTS_REQ" required class="form-control col-md-7">
+                                    <span asp-validation-for="@createClass.MinStudents" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@createClass.MaxStudents" class="col-md-3 col-form-label text-md-right"></label>
+                                    <input asp-for="@createClass.MaxStudents" value="@createClass.MaxStudents" type="number" min="@CEG_RazorWebApp.Libraries.Constants.CLASS_MAXIMUM_STUDENTS_REQ" required class="form-control col-md-7">
+                                    <span asp-validation-for="@createClass.MaxStudents" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@createClass.TeacherName" class="col-md-3 col-form-label text-md-right"></label>
+                                    <select class="form-control col-md-7 custom-select" asp-for="@createClass.TeacherName" required></select>
+                                    <span asp-validation-for="@createClass.TeacherName" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@createClass.CourseName" class="col-md-3 col-form-label text-md-right"></label>
+                                    <select class="form-control col-md-7 custom-select" asp-for="@createClass.CourseName" required></select>
+                                    <span asp-validation-for="@createClass.CourseName" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@createClass.StartDate" class="col-md-3 col-form-label text-md-right"></label>
+                                    <input asp-for="@createClass.StartDate" type="datetime-local" value="@createClass.StartDate.ToString("yyyy-MM-ddTHH:mm")" class="form-control col-md-7" required>
+                                    <span asp-validation-for="@createClass.StartDate" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@createClass.EndDate" class="col-md-3 col-form-label text-md-right"></label>
+                                    <input asp-for="@createClass.EndDate" type="datetime-local" value="@createClass.EndDate.ToString("yyyy-MM-ddTHH:mm")" class="form-control col-md-7" required>
+                                    <span asp-validation-for="@createClass.EndDate" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                </div>
+                            </div>
+                            <div class="modal-footer justify-content-center" style="margin-left:400px;">
+                                <button class="btn btn-success" type="submit" id="submitClass">Create</button>
+                                <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var token = '@HttpContext.Session.GetString(CEG_RazorWebApp.Libraries.Constants.ACC_TOKEN)';
+        var apiUrl = 'https://localhost:7143/api/';
+        $(document).ready(function () {
+            callApiGetClassList();
+            // Call API to get the list of teacher names
+            $.ajax({
+                url: apiUrl + 'Teacher/All/Fullname', // API endpoint
+                type: 'GET',
+                success: function (response) {
+                    // Log the entire response to the console for debugging
+                    console.log("Returned object:", response);
+
+                    // Check if the status is true
+                    if (response.status) {
+                        var select = $('#createClass_TeacherName'); // Reference to the <select> element
+                        select.empty(); // Clear any existing options
+
+                        // Append a default option
+                        // select.append('<option value="">--Select a Teacher--</option>');
+
+                        // Loop through the data array and append each name as an option
+                        $.each(response.data, function (index, teacherName) {
+                            select.append('<option value="' + teacherName + '">' + teacherName + '</option>');
+                        });
+                    } else {
+                        console.error("API returned false status.");
+                    }
+                },
+                error: function (error) {
+                    alert("Error in api call:" + error);
+                    console.error("Error in api call:", error);
+                }
+            });
+            // Call API to get the list of course names
+            $.ajax({
+                url: apiUrl + 'Course/All/Name', // API endpoint
+                type: 'GET',
+                success: function (response) {
+                    // Log the entire response to the console for debugging
+                    console.log("Returned object:", response);
+
+                    // Check if the status is true
+                    if (response.status) {
+                        var select = $('#createClass_CourseName'); // Reference to the <select> element
+                        select.empty(); // Clear any existing options
+
+                        // Append a default option
+                        // select.append('<option value="">--Select a Teacher--</option>');
+
+                        // Loop through the data array and append each name as an option
+                        $.each(response.data, function (index, courseName) {
+                            select.append('<option value="' + courseName + '">' + courseName + '</option>');
+                        });
+                    } else {
+                        console.error("API returned false status.");
+                    }
+                },
+                error: function (error) {
+                    alert("Error in api call:" + error);
+                    console.error("Error in api call:", error);
+                    //showAlert('success', 'Data fetched successfully.');
+                }
+            });
+            // Function to display alerts
+            function showAlert(type, message) {
+                var alertHtml = '';
+
+                if (type === 'success') {
+                    alertHtml = `
+                        <div class="alert alert-success alert-dismissible fade show" id="notif">
+                            <i class='bx bx-message-alt-x p-1'></i>
+                            <strong class="mr-1">` + message + `</strong>
+                            <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+                                <span><i class='bx bx-x'></i></span>
+                            </button>
+                        </div>`;
+                } else if (type === 'error') {
+                    alertHtml = `
+                        <div class="alert alert-danger alert-dismissible fade show" id="notif">
+                            <i class='bx bx-message-alt-x p-1'></i>
+                            <strong class="mr-1">` + message + `</strong>
+                            <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+                                <span><i class='bx bx-x'></i></span>
+                            </button>
+                        </div>`;
+                }
+
+                // Inject the alert HTML into the alert container
+                $('#alertContainer').html(alertHtml);
+            }
+        });
+        function callApiGetClassList(){
+            $.ajax({
+                url: apiUrl + 'Class/Admin/All', // API endpoint
+                type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + token// Include the JWT token
+                },
+                success: function (response) {
+                    // Log the entire response to the console for debugging
+                    console.log("Returned object:", response);
+
+                    // Check if the status is true
+                    if (response.status) {
+                        var classList = $('#classList'); // Reference to the <classList> element
+                        // classList.empty(); // Clear any existing options
+
+                        // Loop through the data array and append each class div
+                        $.each(response.data, function (index, classObj) {
+                            var formattedStartDate = formatDate(classObj.startDate);
+                            var formattedEndDate = formatDate(classObj.endDate);
+                            // Construct card HTML
+                            var cardHtml = `
+                                            <div class="col-xl-3 col-lg-6 col-sm-6 my-3">
+                                                <div class="card1 card-child">
+                                                    <div class="club-name">Class ID: ${classObj.classId}</div>
+                                                    <div class="card-body">
+                                                        <div class="club-title">
+                                                            <ul>
+                                                                <li><h6>Class name:</h6><span>${classObj.className}</span></li>
+                                                                <li><h6>Course:</h6><span>${classObj.course.courseName}</span></li>
+                                                                <li><h6>Teacher:</h6><span>${classObj.teacher.account.fullname}</span></li>
+                                                                <li><h6>Start date:</h6><span>${formattedStartDate}</span></li>
+                                                                <li><h6>End date:</h6><span>${formattedEndDate}</span></li>
+                                                                <li><h6>Minimum amount of students:</h6><span>${classObj.minimumStudents}</span></li>
+                                                                <li><h6>Maximum amount of students:</h6><span>${classObj.maximumStudents}</span></li>
+                                                                <li><h6>Current amount of students:</h6><span>${classObj.studentProgress.length}</span></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group mx-auto">
+                                                                <form method="get" asp-route-id="${classObj.ClassName}">
+                                                            <button class="btn btn-primary clickable-row" type="submit">See Detail</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        `;
+                            // Append the constructed HTML to the class list container
+                            classList.append(cardHtml);
+                        });
+                    } else {
+                        console.error("API returned false status.");
+                    }
+                },
+                error: function (error) {
+                    alert("Error in api call:" + error);
+                    console.error("Error in api call:", error);
+                    //showAlert('success', 'Data fetched successfully.');
+                }
+            });
+        }
+        function formatDate(date) {
+            let d = new Date(date);
+
+            // Get day, month, year
+            let day = String(d.getDate()).padStart(2, '0');
+            let month = String(d.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+            let year = d.getFullYear();
+
+            // Get hours, minutes
+            let hours = String(d.getHours()).padStart(2, '0');
+            let minutes = String(d.getMinutes()).padStart(2, '0');
+
+            // Optionally, get seconds
+            let seconds = String(d.getSeconds()).padStart(2, '0');
+
+            // Return the formatted date and time as `dd/mm/yyyy hh:mm`
+            return `${day}/${month}/${year} ${hours}:${minutes}`;
+
+            // If you want to include seconds as well, use this return:
+            // return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+        }
+        $("#submitClass").click(function (event) {
+            event.preventDefault(); // Prevent the form from submitting
+
+            // Gather form data
+            var classData = {
+                ClassName: $("#createClass_ClassName").val(),
+                MinStudents: $("#createClass_MinStudents").val(),
+                MaxStudents: $("#createClass_MaxStudents").val(),
+                TeacherName: $("#createClass_TeacherName").val(),
+                CourseName: $("#createClass_CourseName").val(),
+                StartDate: $("#createClass_StartDate").val(),
+                EndDate: $("#createClass_EndDate").val(),
+            };
+
+            // Make the AJAX POST request
+            $.ajax({
+                url: apiUrl + 'Class/Create',
+                headers: {
+                    'Authorization': 'Bearer ' + token// Include the JWT token
+                },
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(classData),
+                success: function (response) {
+                    // Log the entire response to the console for debugging
+                    console.log("Returned object:", response);
+                    // Check if the status is true
+                    if (response.status) {
+                        alert('Class created successfully!');
+                        $('#createClassForm').trigger("reset");
+                        callApiGetClassList();
+                    } else {
+                        console.error("API returned false status. Message:", response.ErrorMessage);
+                    }
+                },
+                error: function (error) {
+                    alert("Error in api call:" + error);
+                    console.error("Error in api call", error);
+                    //showAlert('success', 'Data fetched successfully.');
+                }
+            });
+        });
+    </script>
 </body>
 </html>

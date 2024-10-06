@@ -13,8 +13,6 @@ namespace CEG_RazorWebApp.Models.Homework.Create
         public CreateHomeworkVM()
         {
             var lib = new ChildrenEnglishGameLibrary();
-            Hours = 1;
-            Type = Constants.HOMEWORK_TYPE_VOCAB;
             DefaultHomeworkTypeSelectList = lib.GetHomeworkTypeSelectableList(Type);
         }
         [Required(ErrorMessage = "Homework Title is required")]
@@ -24,11 +22,15 @@ namespace CEG_RazorWebApp.Models.Homework.Create
         [DisplayName("Description")]
         public string? Description { get; set; }
         [Required(ErrorMessage = "Hours is required")]
-        [Range(1, int.MaxValue)]
+        [Range(Constants.HOMEWORK_HOURS, int.MaxValue)]
         [DisplayName("Hours")]
-        public int? Hours { get; set; }
-        public string? Type { get; set; }
+        public int? Hours { get; set; } = Constants.HOMEWORK_HOURS;
+        [Required(ErrorMessage = "Homework type is required")]
+        [DisplayName("Type")]
+        public string? Type { get; set; } = Constants.HOMEWORK_TYPE_VOCAB;
         public int? SessionId { get; set; }
+        [Required(ErrorMessage = "Session title is required")]
+        [DisplayName("Session title")]
         public string? SessionTitle { get; set; }
         public List<SelectListItem> DefaultHomeworkTypeSelectList { get; set; }
     }

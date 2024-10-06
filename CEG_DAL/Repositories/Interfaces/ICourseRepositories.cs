@@ -11,6 +11,7 @@ namespace CEG_DAL.Repositories.Interfaces
     public interface ICourseRepositories : IRepositoryBase<Course>
     {
         Task<List<Course>> GetCourseList();
+        Task<List<string>> GetCourseNameList();
         Task<Course?> GetByIdNoTracking(int id);
         Task<Course?> GetByIdNoTracking(int id, bool includeSessions, bool includeHomeworks);
         Task<Course?> GetByName(string name);
