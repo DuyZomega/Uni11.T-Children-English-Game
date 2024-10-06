@@ -1,0 +1,219 @@
+﻿@page "/Parent/Course/Index"
+@model CEG_RazorWebApp.Pages.Parent.Course.CourseIndexModel
+@{
+    ViewData["Title"] = "Parent All Courses Page";
+    string? search = string.Empty;
+    var courses = Model.Courses;
+    Layout = Model.LayoutUrl;
+}
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <title>@ViewData["Title"]</title>
+    </head>
+    <body>
+    <div class="main-content">
+        <div class="main">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="offset-sm-6 col-sm-6  d-flex justify-content-sm-end p-md-0 mt-2 mt-sm-0 ">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumd-item">
+                                <a href="#">Manage</a>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <span>/</span>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <a href="/Admin/Course/Index">Course</a>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+                <section>
+                    <div class="card">
+                        <div class="card-body">
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-tabs">
+                                <!-- dung vong for o day -->
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="tab" href="#home1">
+                                        <i class='bx bx-home-alt-2'></i>
+                                        <span>All Courses</span>
+                                    </a>
+                                </li>
+                            </ul>
+
+                            @if (TempData["Success"] != null)
+                            {
+                                <div class="alert alert-success alert-dismissible fade show" id="notif">
+                                    <i class='bx bx-message-alt-x p-1'></i>
+                                    <strong class="mr-1">@TempData["Success"]</strong>
+                                    <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+                                        <span><i class='bx bx-x'></i></span>
+                                    </button>
+                                </div>
+                                TempData.Remove("Success");
+                            }
+                            else if (TempData["Error"] != null)
+                            {
+                                <div class="alert alert-danger alert-dismissible fade show" id="notif">
+                                    <i class='bx bx-message-alt-x p-1'></i>
+                                    <strong class="mr-1">@TempData["Error"]</strong>
+                                    <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+                                        <span><i class='bx bx-x'></i></span>
+                                    </button>
+                                </div>
+                                TempData.Remove("Success");
+                            }
+
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <!-- home1 -->
+                                <div class="tab-pane active" id="home1" role="tabpanel">
+                                    <div class="row search">
+                                        <div class="col-sm-12 d-flex">
+                                            <div class="col-sm-6 d-flex address-home">
+                                            </div>
+                                            <div class="col-sm-6 d-flex justify-content-end">
+                                                <form method="get" asp-route-search="@search">
+                                                    <div>
+                                                        <label>
+                                                            <input asp-for="@search" class="form-control" type="text" placeholder="Search..." value="@search">
+                                                            <i class='bx bx-search-alt'></i>
+                                                        </label>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row card-content">
+                                        <div class="col-xl-3 col-lg-6 col-sm-6 my-3 item">
+                                            <div class="card1 card-child">
+                                                <div class="card-body add-club">
+                                                    <button class="border-0" data-toggle="modal" data-target="#addCourse">
+                                                        <span>Add Course</span>
+                                                        <i class='bx bx-add-to-queue'></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @if (courses != null && courses.Count > 0)
+                                        {
+                                            <!-- dung vong for o day -->
+                                            @foreach (var data in courses)
+                                            {
+                                                <div class="col-xl-3 col-lg-6 col-sm-6 my-3">
+                                                    <div class="card1 card-child">
+                                                        <div class="club-name">
+                                                            Course ID: @data.CourseId
+                                                            <div class="status">
+                                                                @{
+                                                                    switch (data.Status)
+                                                                    {
+                                                                        case "Available":
+                                                                            {
+                                                                                <span class="stt1" style="float: left;">Status:<h6>@data.Status</h6></span>
+                                                                                break;
+                                                                            }
+                                                                        case "Draft":
+                                                                            {
+                                                                                <span class="stt3" style="float: left;">Status:<h6>@data.Status</h6></span>
+                                                                                break;
+                                                                            }
+                                                                        case "Postponed":
+                                                                        case "Cancelled":
+                                                                            {
+                                                                                <span class="stt2" style="float: left;">Status:<h6>@data.Status</h6></span>
+                                                                                break;
+                                                                            }
+                                                                    }
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <div class="club-title">
+                                                                <ul>
+                                                                    <li>
+                                                                        <h6>Course Name:</h6>
+                                                                        <span>@data.CourseName</span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <h6>Course Type:</h6>
+                                                                        <span>@data.CourseType</span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <h6>Total Hours:</h6>
+                                                                        <span>@data.TotalHours</span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <h6>Required Age:</h6>
+                                                                        <span>@data.RequiredAge</span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <h6>Difficulty:</h6>
+                                                                        <span>@data.Difficulty</span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <h6>Description:</h6>
+                                                                        <span class="truncate">@data.Description</span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <h6>Sessions Amount:</h6>
+                                                                        <span>@data.SessionsAmount Session(s)</span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <h6>Classes Amount:</h6>
+                                                                        <span>@data.ClassesAmount Class(es)</span>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group mx-auto">
+                                                            <a class="btn btn-primary clickable-row" asp-page-handler="Info" asp-route-courseId="@data.CourseId">See Detail</a>
+                                                            @* @{
+                                                    if (data.Status.Equals("OnHold") || data.Status.Equals("Postponed") || data.Status.Equals("CheckingIn") || data.Status.Equals("Ongoing"))
+                                                    {
+                                                    <button class="btn btn-danger" data-toggle="modal" data-target="#deleteContest_@data.ContestId" type="submit">Cancel</button>
+                                                    }
+                                                    } *@
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @* <div id="deleteContest_@data.ContestId" class="modal fade" role="dialog">
+                                        <div class="modal-dialog modal-dialog-centered" role="content">
+                                        <div class="modal-content">
+                                        <div class="card-body">
+                                        <div class="del-title">
+                                        <i class='bx bx-error-circle'></i>
+                                        <h2>Are you sure you want to cancel this Contest ?</h2>
+                                        </div>
+                                        <div class="del-submit d-flex justify-content-center">
+                                        <form asp-action="ManagerCancelContest" asp-controller="Manager" method="post" asp-route-id="@data.ContestId">
+                                        <button type="submit" name="action" value="deleteContest" class="btn btn-success">
+                                        Yes
+                                        </button>
+                                        </form>
+                                        <button class="btn btn-danger" type="button" data-dismiss="modal">No</button>
+                                        </div>
+                                        </div>
+                                        </div>
+                                        </div>
+                                        </div> *@
+                                            }
+                                        }
+                                        <!-- end tapnet -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+    </body>
+</html>
