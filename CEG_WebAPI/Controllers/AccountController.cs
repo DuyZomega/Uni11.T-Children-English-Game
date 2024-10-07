@@ -239,6 +239,50 @@ namespace CEG_WebAPI.Controllers
             }
         }
 
+        [HttpPut("{id}/Status")]
+        [Authorize(Roles = "Admin")]
+        [ProducesResponseType(typeof(AccountViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> UpdateStatus(
+            [FromRoute][Required] int id,
+            [FromBody][Required] string status
+            )
+        {
+            try
+            {
+                var result = await _accountService.GetById(id);
+                if (result == null)
+                {
+                    return NotFound(new
+                    {
+                        Status = false,
+                        ErrorMessage = "Account does not exist"
+                    });
+                }
+                if(await _accountService.UpdateStatus(status, id))
+                    return Ok(new
+                    {
+                        Status = true,
+                        Data = result
+                    });
+                return BadRequest(new
+                {
+                    Status = false,
+                    ErrorMessage = "Failed to update account status"
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    Status = false,
+                    ErrorMessage = ex.Message,
+                    InnerExceptionMessage = ex.InnerException?.Message
+                });
+            }
+        }
+
         [HttpPost("Register")]
         [ProducesResponseType(typeof(AccountViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]

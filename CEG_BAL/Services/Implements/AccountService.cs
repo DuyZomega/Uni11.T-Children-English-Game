@@ -146,5 +146,15 @@ namespace CEG_BAL.Services.Implements
         {
             return await _unitOfWork.AccountRepositories.GetIdByUsername(username);
         }
+
+        public async Task<bool> UpdateStatus(string status, int id)
+        {
+            if(await _unitOfWork.AccountRepositories.UpdateStatusById(status, id))
+            {
+                _unitOfWork.Save();
+                return true;
+            }
+            return false;
+        }
     }
 }
