@@ -14,40 +14,12 @@ namespace CEG_RazorWebApp.Pages.Admin.Account
 {
     public class AccountInfoModel : PageModel
     {
-        private readonly ILogger<AccountInfoModel> _logger;
-        private readonly IMapper _mapper;
-        private readonly IConfiguration _config;
-        private readonly HttpClient _httpClient = null;
-        private string AdminAPI_URL = "";
-        private readonly JsonSerializerOptions jsonOptions = new JsonSerializerOptions
-        {
-            Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
-            PropertyNameCaseInsensitive = true
-        };
-        private readonly CookieOptions cookieOptions = new CookieOptions
-        {
-            Expires = DateTime.Now.AddMinutes(10),
-            MaxAge = TimeSpan.FromMinutes(10),
-            Secure = true,
-            IsEssential = true,
-        };
         private ChildrenEnglishGameLibrary methcall = new();
         public string? LayoutUrl { get; set; } = Constants.ADMIN_LAYOUT_URL;
-        public AccountInfoVM? AccountInfo { get; set; }
+        public AccountInfoVM? AccountInfo { get; set; } = new AccountInfoVM();
+        public int AccountId = 0;
 
-        public AccountInfoModel(ILogger<AccountInfoModel> logger, IConfiguration config, IMapper mapper)
-        {
-            _logger = logger;
-            _config = config;
-            _mapper = mapper;
-            _httpClient = new HttpClient()
-            {
-                BaseAddress = new Uri(config.GetSection(Constants.SYSTEM_DEFAULT_API_HTTPS_URL_CONFIG_PATH).Value)
-            };
-            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            AdminAPI_URL = config.GetSection(Constants.SYSTEM_DEFAULT_API_URL_CONFIG_PATH).Value;
-        }
-        public async Task<IActionResult> OnGetAsync(
+        /*public async Task<IActionResult> OnGetAsync(
             [FromRoute][Required] int accountId)
         {
             methcall.InitTempData(this);
@@ -85,11 +57,16 @@ namespace CEG_RazorWebApp.Pages.Admin.Account
 
             AccountInfo = _mapper.Map<AccountInfoVM>(accountInfoResponse.Data);
             return Page();
+        }*/
+        public void OnGet(
+            [FromRoute][Required] int accountId)
+        {
+            AccountId = accountId;
         }
 
         public IActionResult OnGetLogout()
         {
-            _httpClient.DefaultRequestHeaders.Authorization = null;
+            //_httpClient.DefaultRequestHeaders.Authorization = null;
             HttpContext.Session.Clear();
             TempData.Clear();
             SignOut();
