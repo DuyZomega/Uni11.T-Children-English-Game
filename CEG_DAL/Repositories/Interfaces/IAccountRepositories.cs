@@ -15,6 +15,7 @@ namespace CEG_DAL.Repositories.Interfaces
         Task<Account?> GetByIdNoTracking(int id);
         Task<Account?> GetByUsername(string username);
         Task<string> GetRoleByAccountId(int id);
+        Task<bool> UpdateStatusById(string status, int id);
         Task<int> GetIdByUsername(string username);
     }
 }

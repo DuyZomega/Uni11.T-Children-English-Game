@@ -19,6 +19,7 @@ namespace CEG_BAL.Services.Interfaces
         void Create(AccountViewModel account, CreateNewAccount newAcc);
         void Update(AccountViewModel account);
         Task<bool> Disable(int id);
+        Task<bool> UpdateStatus(string status, int id);
         Task<int> GetIdByUsername(string username);
     }
 }
