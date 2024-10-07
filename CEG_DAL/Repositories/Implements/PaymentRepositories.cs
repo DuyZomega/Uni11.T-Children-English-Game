@@ -18,14 +18,19 @@ namespace CEG_DAL.Repositories.Implements
             _dbContext = dbContext;
         }
 
-        public async Task<Payment> GetByIdNoTracking(int id)
+        public async Task<Payment?> GetByIdNoTracking(int id)
         {
             return await _dbContext.Payments.AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(pay => pay.PaymentId == id);
         }
 
-        public async Task<List<Payment>> GetPaymentsList()
+        public async Task<List<Payment>> GetPaymentList()
         {
             return await _dbContext.Payments.ToListAsync();
+        }
+
+        public async Task<List<Payment>> GetPaymentByParentId(int parentId)
+        {
+            return await _dbContext.Payments.Where(p => p.ParentId == parentId).ToListAsync();
         }
     }
 }
