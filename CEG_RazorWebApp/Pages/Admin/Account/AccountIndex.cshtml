@@ -46,28 +46,7 @@
                                         </a>
                                     </li>
                                 </ul>
-                                @* @if (TempData["Success"] != null)
-                                {
-                                    <div class="alert alert-success alert-dismissible fade show" id="notif">
-                                        <i class='bx bx-message-alt-x p-1'></i>
-                                        <strong class="mr-1">@TempData["Success"]</strong>
-                                        <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
-                                            <span><i class='bx bx-x'></i></span>
-                                        </button>
-                                    </div>
-                                    TempData.Remove("Success");
-                                }
-                                else if (TempData["Error"] != null)
-                                {
-                                    <div class="alert alert-danger alert-dismissible fade show" id="notif">
-                                        <i class='bx bx-message-alt-x p-1'></i>
-                                        <strong class="mr-1">@TempData["Error"]</strong>
-                                        <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
-                                            <span><i class='bx bx-x'></i></span>
-                                        </button>
-                                    </div>
-                                    TempData.Remove("Success");
-                                } *@
+                            <div id="alertContainer"></div>
 
                                 <!-- Tab panes -->
                                 <div class="tab-content">
@@ -464,7 +443,7 @@
                         <tr class="${index % 2 === 0 ? 'even' : 'odd'}">
                             <td class="sorting_1">
                                 <input type="hidden" name="listRequest[${index}].UserName" value="${account.username}" class="form-control" />
-                                <a href="/Admin/Account/${account.accountId}/Info">${account.username}</a>
+                                <a href="/Admin/${account.role.roleName}/${account.accountId}/Info">${account.username}</a>
                             </td>
                             <td>
                                 <input type="hidden" name="listRequest[${index}].FullName" value="${account.fullname}" class="form-control" />
