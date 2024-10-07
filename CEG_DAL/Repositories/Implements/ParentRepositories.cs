@@ -39,5 +39,14 @@ namespace CEG_DAL.Repositories.Implements
             if (result != null)  return result.ParentId;
             return 0;
         }
+
+        public async Task<Parent?> GetByAccountIdNoTracking(int id)
+        {
+            return await _dbContext.Parents
+                .Include(t => t.Account)
+                .ThenInclude(a => a.Role)
+                .AsNoTrackingWithIdentityResolution()
+                .SingleOrDefaultAsync(t => t.Account.AccountId == id);
+        }
     }
 }

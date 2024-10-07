@@ -1,4 +1,386 @@
-﻿@page
+﻿@page "/Admin/Question/Index"
 @model CEG_RazorWebApp.Pages.Admin.Question.QuestionIndexModel
 @{
+    ViewData["Title"] = "Admin All Account Statuses Page";
+    // var createParent = Model.CreateParent;
+    // var createTeacher = Model.CreateTeacher;
+    // var createStudent = Model.CreateStudent;
+    // Layout = Model.LayoutUrl;
 }
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>@ViewData["Title"]</title>
+    </head>
+    <body>
+        <div class="main-content">
+            <div class="main">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="offset-sm-6 col-sm-6  d-flex justify-content-sm-end p-md-0 mt-2 mt-sm-0 ">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumd-item">
+                                    <a href="#">Manage</a>
+                                </li>
+                                <li class="breadcrumd-item">
+                                    <span>/</span>
+                                </li>
+                                <li class="breadcrumd-item">
+                                    <a href="/Admin/Account/index">Account</a>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                    <section>
+                        <div class="card">
+                            <div class="card-body">
+                                <!-- Nav tabs -->
+                                <ul class="nav nav-tabs">
+                                    <!-- dung vong for o day -->
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-toggle="tab" href="#home1">
+                                            <i class='bx bx-home-alt-2'></i>
+                                            <span>All Accounts</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            <div id="alertContainer"></div>
+
+                                <!-- Tab panes -->
+                                <div class="tab-content">
+                                    <!-- home1 -->
+                                    <div class="tab-pane active" id="home1" role="tabpanel">
+                                        <div class="row search">
+                                            <div class="col-sm-12 d-flex">
+                                                <div class="col-sm-6 d-flex address-home">
+                                                    <div class="rating-room">
+                                                        <button class="button--primary btn-success bg-success shadow btn-xs text-white" data-toggle="modal" data-target="#addParent" type="submit">Create Parent Account</button>
+                                                    </div>
+                                                    <div class="rating-room">
+                                                        <button class="button--primary btn-success bg-success shadow btn-xs text-white" data-toggle="modal" data-target="#addStudent" type="submit">Create Student Account</button>
+                                                    </div>
+                                                    <div class="rating-room">
+                                                        <button class="button--primary btn-success bg-success shadow btn-xs text-white" data-toggle="modal" data-target="#addTeacher" type="submit">Create Teacher Account</button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 d-flex justify-content-end">
+                                                    <div>
+                                                        <label>
+                                                            <input id="search" class="form-control" type="text" placeholder="Search Username...">
+                                                            <i class='bx bx-search-alt'></i>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="history-table_wrapper" class="dataTables_wrapper no-footer">
+                                            <form method="put">
+                                                <table id="history-table"
+                                                       class="table table-striped table-bordered dataTable no-footer"
+                                                       aria-describedby="history-table_info">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="sorting sorting_asc" tabindex="0"
+                                                                aria-controls="history-table" rowspan="1"
+                                                                colspan="1" aria-sort="ascending"
+                                                                aria-label="Account User Name: activate to sort column ascending">
+                                                                Username
+                                                            </th>
+                                                            <th class="sorting sorting_asc" tabindex="0"
+                                                                aria-controls="history-table" rowspan="1"
+                                                                colspan="1" aria-sort="ascending"
+                                                                aria-label="Account Full Name: activate to sort column ascending">
+                                                                Full name
+                                                            </th>
+                                                            <th class="sorting sorting_asc" tabindex="0"
+                                                                aria-controls="history-table" rowspan="1"
+                                                                colspan="1" aria-sort="ascending"
+                                                                aria-label="Gender: activate to sort column ascending">
+                                                                Gender
+                                                            </th>
+                                                            <th class="sorting sorting_asc" tabindex="0"
+                                                                aria-controls="history-table" rowspan="1"
+                                                                colspan="1" aria-sort="ascending"
+                                                                aria-label="Account Created Date: activate to sort column ascending">
+                                                                Created Date
+                                                            </th>
+                                                            <th class="sorting sorting_asc" tabindex="0"
+                                                                aria-controls="history-table" rowspan="1"
+                                                                colspan="1" aria-sort="ascending"
+                                                                aria-label="Account Role: activate to sort column ascending">
+                                                                Role
+                                                            </th>
+                                                            <th class="sorting sorting_asc" tabindex="0"
+                                                                aria-controls="history-table" rowspan="1"
+                                                                colspan="1" aria-sort="ascending"
+                                                                aria-label="Status: activate to sort column ascending">
+                                                                Status
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @* @{
+                                                            for (int i = 0; i < accountStatuses.Count(); i++)
+                                                            {
+                                                            <tr class="@("clicks-row "+ (i%2 == 0 ? "even" : "odd")) " data-href="#"
+                                                                data-bs-toggle="tooltip" data-bs-placement="right"
+                                                                title="More Details">
+                                                                <td class="sorting_1">
+                                                                    <input type="hidden" asp-for="@accountStatuses[i].UserName" name="listRequest[@i].UserName" value="@accountStatuses[i].UserName" class="form-control" />
+                                                                    <a asp-page-handler="Info" asp-route-accountId="@accountStatuses[i].AccountId">@accountStatuses[i].UserName</a>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="hidden" asp-for="@accountStatuses[i].FullName" name="listRequest[@i].FullName" value="@accountStatuses[i].FullName" class="form-control" />
+                                                                    @accountStatuses[i].FullName
+                                                                </td>
+                                                                <td>
+                                                                    <input type="hidden" asp-for="@accountStatuses[i].Gender" name="listRequest[@i].Gender" value="@accountStatuses[i].Gender" class="form-control" />
+                                                                    @accountStatuses[i].Gender
+                                                                </td>
+                                                                <td>
+                                                                    <input type="hidden" asp-for="@accountStatuses[i].CreatedDate" name="listRequest[@i].CreatedDate" value="@accountStatuses[i].CreatedDate" class="form-control" />
+                                                                    @accountStatuses[i].CreatedDate.ToString("dd-MM-yyyy HH:mm")
+                                                                </td>
+                                                                <td>
+                                                                    <input type="hidden" asp-for="@accountStatuses[i].Role" name="listRequest[@i].Role" value="@accountStatuses[i].Role" class="form-control" />
+                                                                    @accountStatuses[i].Role
+                                                                </td>
+                                                                <td>
+                                                                    <select class="form-control" asp-for="@accountStatuses[i].Status" asp-items="@accountStatuses[i].DefaultAccountStatusSelectList" class="custom-select" name="listRequest[@i].Status">
+                                                                    </select>
+                                                                </td>
+                                                            </tr>
+                                                            }
+                                                        } *@
+                                                    </tbody>
+                                                </table>
+                                                <div class="row col-12 d-flex">
+                                                    <div class="rating-room">
+                                                        <button class="button--primary btn-success bg-success shadow btn-xs text-white" type="submit" style="">Save Changes</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <!-- end tapnet -->
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+        <div id="addTeacher" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+                <div class="modal-content modal-addRoom">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Add new Teacher Account</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" asp-page-handler="Teacher">
+                            <div class="row p-4">
+                                @* <div class="col-12">
+                                    <div class="row form-group">
+                                        <label asp-for="@createTeacher.Account.Username" class="col-md-3 col-form-label text-md-right"></label>
+                                        <input asp-for="@createTeacher.Account.Username" value="@createTeacher.Account.Username" type="text" placeholder="User Name" required class="form-control col-md-7">
+                                        <span asp-validation-for="@createTeacher.Account.Username" id="error_message"
+                                              class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                        <label asp-for="@createTeacher.Account.Fullname" class="col-md-3 col-form-label text-md-right"></label>
+                                        <input asp-for="@createTeacher.Account.Fullname" value="@createTeacher.Account.Fullname" type="text" placeholder="Full Name" required class="form-control col-md-7">
+                                        <span asp-validation-for="@createTeacher.Account.Fullname" id="error_message"
+                                              class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                        <label asp-for="@createTeacher.Address" class="col-md-3 col-form-label text-md-right"></label>
+                                        <textarea asp-for="@createTeacher.Address" value="@createTeacher.Address" required class="form-control col-md-7"></textarea>
+                                        <span asp-validation-for="@createTeacher.Address" id="error_message"
+                                              class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                        <label asp-for="@createTeacher.Account.Gender" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                        <select class="form-control col-md-7 custom-select" asp-for="@createTeacher.Account.Gender" asp-items="@createTeacher.Account.DefaultAccountGenderSelectList"></select>
+                                        <span asp-validation-for="@createTeacher.Account.Gender" id="error_message"
+                                              class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                        <label asp-for="@createTeacher.Email" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                        <input asp-for="@createTeacher.Email" value="@createTeacher.Email" type="email" placeholder="Email" class="form-control col-md-7 mt-3" required>
+                                        <span asp-validation-for="@createTeacher.Email" id="error_message"
+                                              class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                        <label asp-for="@createTeacher.Phone" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                        <input asp-for="@createTeacher.Phone" value="@createTeacher.Phone" type="tel" placeholder="Phone number" class="form-control col-md-7 mt-3" required>
+                                        <span asp-validation-for="@createTeacher.Phone" id="error_message"
+                                              class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                        <label asp-for="@createTeacher.Account.Password" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                        <input asp-for="@createTeacher.Account.Password" value="@createTeacher.Account.Password" type="password" placeholder="Password" class="form-control col-md-7 mt-3" required>
+                                        <span asp-validation-for="@createTeacher.Account.Password" id="error_message"
+                                              class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                        <label asp-for="@createTeacher.Account.ConfirmPassword" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                        <input asp-for="@createTeacher.Account.ConfirmPassword" value="@createTeacher.Account.ConfirmPassword" type="password" placeholder="Confirm Password" class="form-control col-md-7 mt-3" required>
+                                        <span asp-validation-for="@createTeacher.Account.ConfirmPassword" id="error_message"
+                                              class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                    </div>
+                                </div> *@
+                                <div class="modal-footer justify-content-center" style="margin-left:400px;">
+                                    <button class="btn btn-success" type="submit">Create</button>
+                                    <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @* <partial name="PartialViews/_CreateTeacherPartial" model="new AccountIndexModel.CreateTeacherModel(createTeacher)"/> *@
+        <script>
+            var token = '@HttpContext.Session.GetString(CEG_RazorWebApp.Libraries.Constants.ACC_TOKEN)';
+            var apiUrl = 'https://localhost:7143/api/';
+            var accountList = [];
+            $(document).ready(function () {
+                callApiGetAccountList();
+                // Function to display alerts
+                function showAlert(type, message) {
+                    var alertHtml = '';
+
+                    if (type === 'success') {
+                        alertHtml = `
+                                    <div class="alert alert-success alert-dismissible fade show" id="notif">
+                                        <i class='bx bx-message-alt-x p-1'></i>
+                                        <strong class="mr-1">` + message + `</strong>
+                                        <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+                                            <span><i class='bx bx-x'></i></span>
+                                        </button>
+                                    </div>`;
+                    } else if (type === 'error') {
+                        alertHtml = `
+                                    <div class="alert alert-danger alert-dismissible fade show" id="notif">
+                                        <i class='bx bx-message-alt-x p-1'></i>
+                                        <strong class="mr-1">` + message + `</strong>
+                                        <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+                                            <span><i class='bx bx-x'></i></span>
+                                        </button>
+                                    </div>`;
+                    }
+
+                    // Inject the alert HTML into the alert container
+                    $('#alertContainer').html(alertHtml);
+                }
+                $('#search').on('keyup', function (event) {
+                    // Get the search term
+                    var searchTerm = $(this).val().toLowerCase();
+
+                    // Filter the classes based on the search term
+                    var filteredaccountList = accountList.filter(function (account) {
+                        return account.fullname.toLowerCase().includes(searchTerm);
+                    });
+
+                    // Display the filtered accountList
+                    setAccountDisplay(filteredaccountList);
+                });
+            });
+            function callApiGetAccountList() {
+                $.ajax({
+                    url: apiUrl + 'Account/All', // API endpoint
+                    type: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + token// Include the JWT token
+                    },
+                    success: function (response) {
+                        // Log the entire response to the console for debugging
+                        console.log("Returned object:", response);
+
+                        // Check if the status is true
+                        if (response.status) {
+                            accountList = response.data;
+
+                            setAccountDisplay(accountList);
+                        } else {
+                            console.error("API returned false status.");
+                        }
+                    },
+                    error: function (error) {
+                        alert("Error in api call:" + error);
+                        console.error("Error in api call:", error);
+                        //showAlert('success', 'Data fetched successfully.');
+                    }
+                });
+            }
+            function setAccountDisplay(data){
+                var tableBody = $('#history-table tbody'); // Reference to the <id="history-table"> element
+                tableBody.empty(); // Clear any existing options
+                // Loop through the data array and append each class div
+                $.each(data, function (index, account) {
+                    // Construct card HTML
+                    var rowHtml = `
+                        <tr class="${index % 2 === 0 ? 'even' : 'odd'}">
+                            <td class="sorting_1">
+                                <input type="hidden" name="listRequest[${index}].UserName" value="${account.username}" class="form-control" />
+                                <a href="/Admin/Account/${account.accountId}/Info">${account.username}</a>
+                            </td>
+                            <td>
+                                <input type="hidden" name="listRequest[${index}].FullName" value="${account.fullname}" class="form-control" />
+                                ${account.fullname}
+                            </td>
+                            <td>
+                                <input type="hidden" name="listRequest[${index}].Gender" value="${account.gender}" class="form-control" />
+                                ${account.gender}
+                            </td>
+                            <td>
+                                <input type="hidden" name="listRequest[${index}].CreatedDate" value="${account.createdDate}" class="form-control" />
+                                ${formatDate(account.createdDate)}
+                            </td>
+                            <td>
+                                <input type="hidden" name="listRequest[${index}].Role" value="${account.role.roleName}" class="form-control" />
+                                ${account.role.roleName}
+                            </td>
+                            <td>
+                                <select class="form-control custom-select" name="listRequest[${index}].Status">
+                                    ${getStatusOptions(account.status)} <!-- Helper function to generate select options -->
+                                </select>
+                            </td>
+                        </tr>
+                    `;
+                    // Append the constructed HTML to the class list container
+                    tableBody.append(rowHtml);
+                });
+            }
+            function getStatusOptions(selectedStatus) {
+                var options = ['Inactive', 'Active', 'Expired','Denied','Suspended']; // Example statuses
+                var html = '';
+
+                options.forEach(function (status) {
+                    html += `<option value="${status}" ${selectedStatus === status ? 'selected' : ''}>${status}</option>`;
+                });
+
+                return html;
+            }
+            function formatDate(date) {
+                let d = new Date(date);
+
+                // Get day, month, year
+                let day = String(d.getDate()).padStart(2, '0');
+                let month = String(d.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+                let year = d.getFullYear();
+
+                // Get hours, minutes
+                let hours = String(d.getHours()).padStart(2, '0');
+                let minutes = String(d.getMinutes()).padStart(2, '0');
+
+                // Optionally, get seconds
+                let seconds = String(d.getSeconds()).padStart(2, '0');
+
+                // Return the formatted date and time as `dd/mm/yyyy hh:mm`
+                return `${day}/${month}/${year} ${hours}:${minutes}`;
+
+                // If you want to include seconds as well, use this return:
+                // return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+            }
+
+        </script>
+    </body>
+</html>
+

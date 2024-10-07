@@ -44,34 +44,13 @@
                             </ol>
                         </div>
                     </div>
-                @* @if (TempData["Success"] != null)
-                {
-                    <div class="alert alert-success alert-dismissible fade show" id="notif">
-                        <i class='bx bx-message-alt-x p-1'></i>
-                        <strong class="mr-1">@TempData["Success"]</strong>
-                        <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
-                            <span><i class='bx bx-x'></i></span>
-                        </button>
-                    </div>
-                    TempData.Remove("Success");
-                }
-                else if (TempData["Error"] != null)
-                {
-                    <div class="alert alert-danger alert-dismissible fade show" id="notif">
-                        <i class='bx bx-message-alt-x p-1'></i>
-                        <strong class="mr-1">@TempData["Error"]</strong>
-                        <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
-                            <span><i class='bx bx-x'></i></span>
-                        </button>
-                    </div>
-                    TempData.Remove("Success");
-                } *@
+                <div id="alertContainer"></div>
                     <div class="row">
                         <div class="col-12 customer-booking">
                             <div class="row">
                                 <div class="card profile col-12 mb-4">
                                     <div class="card-header">
-                                        <h4>Account Information</h4>
+                                        <h4 id="account-headerinfo">Account Information</h4>
                                     </div>
                                     <div class="card-body">
                                         <div class="row mb-sm-2">
@@ -208,6 +187,7 @@
                 });
             }
             function setAccountDisplay(data) {
+                $('#account-headerinfo').text(data.role.roleName + ' Account Information');
                 $('#account-id').text(data.accountId);
                 $('#account-username').text(data.username);
                 $('#account-fullname').text(data.fullname);
