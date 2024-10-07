@@ -25,5 +25,9 @@ namespace CEG_DAL.Repositories.Implements
         {
             return await _dbContext.Students.AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(stu => stu.StudentId == id);
         }
+        public async Task<List<Student>> GetStudentByParentId(int parentId)
+        {
+            return await _dbContext.Students.Where(stu => stu.ParentId == parentId).ToListAsync();
+        }
     }
 }
