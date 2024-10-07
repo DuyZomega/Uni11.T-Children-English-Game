@@ -32,21 +32,39 @@ namespace CEG_DAL.Repositories.Implements
             return await _dbContext.HomeworkQuestions.Include(s => s.HomeworkAnswers).AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(ques => ques.Question == question);
         }
 
-        public async Task<int> GetIdByQuestion(string question)
+        public async Task<int?> GetIdByQuestion(string question)
         {
             var result = await(from s in _dbContext.HomeworkQuestions where s.Question == question select s).FirstOrDefaultAsync();
-            if (result != null) return result.HomeworkId;
+            if (result != null) return result.HomeworkQuestionId;
             return 0;
         }
 
         public async Task<List<HomeworkQuestion>?> GetQuestionListByHomeworkId(int homeworkId)
         {
-            return await _dbContext.HomeworkQuestions.AsNoTrackingWithIdentityResolution().Where(ques => ques.HomeworkId == homeworkId).ToListAsync();
+            return await _dbContext.HomeworkQuestions
+                .AsNoTrackingWithIdentityResolution()
+                .Where(ques => ques.HomeworkId == homeworkId)
+                .ToListAsync();
         }
 
-        public async Task<List<HomeworkQuestion>> GetQuestionsList()
+        public async Task<List<HomeworkQuestion>> GetQuestionList()
         {
             return await _dbContext.HomeworkQuestions.ToListAsync();
+        }
+
+        public async Task<List<HomeworkQuestion?>?> GetOrderedQuestionList()
+        {
+            var questions = await _dbContext.HomeworkQuestions.Include(q => q.HomeworkAnswers).ToListAsync();
+
+            var orderedQuestions = questions.GroupBy(q => q.Question)// Group by the Question string
+                .Select(g =>
+                    g.OrderBy(q => q.HomeworkQuestionId)
+                    .FirstOrDefault()
+                    ) // Select the latest HomeworkQuestionId for each Question
+                .OrderBy(q => q.Question) // Order by the Question string (descending)
+                .ToList();
+
+            return orderedQuestions;
         }
     }
 }
