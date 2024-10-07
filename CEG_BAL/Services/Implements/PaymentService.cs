@@ -37,12 +37,12 @@ namespace CEG_BAL.Services.Implements
             _unitOfWork.Save();
         }
 
-        public async Task<List<PaymentViewModel>> GetAllPayment()
+        public async Task<List<PaymentViewModel>> GetPaymentList()
         {
-            return _mapper.Map<List<PaymentViewModel>>(await  _unitOfWork.PaymentRepositories.GetPaymentsList());
+            return _mapper.Map<List<PaymentViewModel>>(await _unitOfWork.PaymentRepositories.GetPaymentsList());
         }
 
-        public async Task<PaymentViewModel> GetPaymentById(int id)
+        public async Task<PaymentViewModel?> GetPaymentById(int id)
         {
             var user = await _unitOfWork.PaymentRepositories.GetByIdNoTracking(id);
             if (user != null)

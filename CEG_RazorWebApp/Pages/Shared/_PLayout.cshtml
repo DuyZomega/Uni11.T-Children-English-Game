@@ -37,27 +37,9 @@
                         </a>
                     </li>
                     <li data-toggle="tooltip" data-placement="right" title="Account">
-                        <a href="/Admin/Account/Index">
+                        <a href="/Parent/Course/Index">
                             <span><i class='bx bx-home-alt-2'></i></span>
                             <span class="title">Accounts</span>
-                        </a>
-                    </li>
-                    <li data-toggle="tooltip" data-placement="right" title="Class">
-                        <a href="/Admin/Class/Index">
-                            <span><i class='bx bx-home-alt-2'></i></span>
-                            <span class="title">Classes</span>
-                        </a>
-                    </li>
-                    <li data-toggle="tooltip" data-placement="right" title="Course">
-                        <a href="/Admin/Course/Index">
-                            <span><i class='bx bx-home-alt-2'></i></span>
-                            <span class="title">Courses</span>
-                        </a>
-                    </li>
-                    <li data-toggle="tooltip" data-placement="right" title="Transaction">
-                        <a href="/Admin/Transaction/Index">
-                            <span><i class='bx bx-home-alt-2'></i></span>
-                            <span class="title">Transactions</span>
                         </a>
                     </li>
                 </ul>
@@ -87,9 +69,9 @@
                                         @TempData["USER_NAME"]
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="@Url.Page("AdminProfile", "Admin")"><i class='bx bx-user'></i>Admin Profile</a> <!--thêm theo user id và role-->
+                                        <a class="dropdown-item" href="@Url.Page("ParentProfile", "Parent")"><i class='bx bx-user'></i>Parent Profile</a> <!--thêm theo user id và role-->
                                         <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" asp-page-handler="Logout">Logout</a>
+                                        <a class="dropdown-item" id="logout" asp-page-handler="Logout">Logout</a>
                                     </div>
                                 }
                             </div>
