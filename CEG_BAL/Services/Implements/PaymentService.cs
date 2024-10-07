@@ -39,7 +39,7 @@ namespace CEG_BAL.Services.Implements
 
         public async Task<List<PaymentViewModel>> GetPaymentList()
         {
-            return _mapper.Map<List<PaymentViewModel>>(await _unitOfWork.PaymentRepositories.GetPaymentsList());
+            return _mapper.Map<List<PaymentViewModel>>(await _unitOfWork.PaymentRepositories.GetPaymentList());
         }
 
         public async Task<PaymentViewModel?> GetPaymentById(int id)
