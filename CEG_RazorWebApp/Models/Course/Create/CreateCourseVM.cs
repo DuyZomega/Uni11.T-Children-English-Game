@@ -10,12 +10,8 @@ namespace CEG_RazorWebApp.Models.Course.Create
         public CreateCourseVM()
         {
             ChildrenEnglishGameLibrary lib = new ChildrenEnglishGameLibrary();
-            Category = Constants.COURSE_CATEGORY_MIDDLE_SCHOOL;
-            Difficulty = Constants.COURSE_DIFFICULTY_BEGINNER;
             DefaultCourseDifficultySelectList = lib.GetCourseDifficultySelectableList(Difficulty);
             DefaultCourseCategorySelectList = lib.GetCourseCategorySelectableList(Category);
-            RequiredAge = Constants.COURSE_MINIMUM_AGE_REQ;
-            TotalHours = Constants.COURSE_TOTAL_HOURS;
 
         }
         [Required(ErrorMessage = "Course Name is required")]
@@ -25,20 +21,20 @@ namespace CEG_RazorWebApp.Models.Course.Create
         [DisplayName("Course Type")]
         public string CourseType { get; set; } = null!;
         [Required(ErrorMessage = "Total Hours is required")]
-        [Range(1, int.MaxValue)]
+        [Range(Constants.COURSE_TOTAL_HOURS, int.MaxValue)]
         [DisplayName("Total Hours")]
-        public int? TotalHours { get; set; }
+        public int? TotalHours { get; set; } = Constants.COURSE_TOTAL_HOURS;
         public string? CourseImageHeader { get; set; }
         [Required(ErrorMessage = "Required Age is required")]
-        [Range(11, 18)]
+        [Range(Constants.COURSE_MINIMUM_AGE_REQ, Constants.COURSE_MAXIMUM_AGE_REQ)]
         [DisplayName("Age Require")]
-        public int? RequiredAge { get; set; }
+        public int? RequiredAge { get; set; } = Constants.COURSE_MINIMUM_AGE_REQ;
         [Required(ErrorMessage = "Course Difficulty is required")]
         [DisplayName("Difficulty")]
-        public string? Difficulty { get; set; }
+        public string? Difficulty { get; set; } = Constants.COURSE_DIFFICULTY_BEGINNER;
         [Required(ErrorMessage = "Course Category is required")]
         [DisplayName("Category")]
-        public string? Category { get; set; }
+        public string? Category { get; set; } = Constants.COURSE_CATEGORY_MIDDLE_SCHOOL;
         [Required(ErrorMessage = "Course Description is required")]
         [MinLength(1)]
         [DisplayName("Description")]

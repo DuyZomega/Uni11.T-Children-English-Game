@@ -12,6 +12,7 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <title>@ViewData["Title"]</title>
     </head>
     <body>
@@ -162,12 +163,12 @@
                                                                             <span class="truncate">@data.Description</span>
                                                                         </li>
                                                                         <li>
-                                                                            <h6>Amount of Sessions:</h6>
-                                                                            <span>@data.SessionsAmount</span>
+                                                                            <h6>Sessions Amount:</h6>
+                                                                            <span>@data.SessionsAmount Session(s)</span>
                                                                         </li>
                                                                         <li>
-                                                                            <h6>Amount of Classes:</h6>
-                                                                            <span>@data.ClassesAmount</span>
+                                                                            <h6>Classes Amount:</h6>
+                                                                            <span>@data.ClassesAmount Class(es)</span>
                                                                         </li>
                                                                     </ul>
                                                                 </div>

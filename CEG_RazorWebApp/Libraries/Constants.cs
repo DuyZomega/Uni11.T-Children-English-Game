@@ -13,6 +13,7 @@ namespace CEG_RazorWebApp.Libraries
         public readonly static string LOGOUT_REDIRECT_URL = "/Home/Index";
 
         public readonly static string ADMIN_LAYOUT_URL = "~/Pages/Shared/_ALayout.cshtml";
+        public readonly static string PARENT_LAYOUT_URL = "~/Pages/Shared/_PLayout.cshtml";
         //public readonly static string NEW_MEMBER_CONFIRM_REGISTRATION_URL = "/Auth/SignUp";
 
         /*public readonly static string NEW_MEMBER_REGISTRATION_COOKIE = "New-Membership-Registration-Cookie";
@@ -66,61 +67,7 @@ namespace CEG_RazorWebApp.Libraries
         public readonly static string NEWS_STATUS_HIDDEN = "Hidden";
         public readonly static string NEWS_STATUS_ARCHIVED = "Archived";
         public readonly static string NEWS_STATUS_REPORTED = "Reported";
-        public readonly static string NEWS_STATUS_DISABLED = "Disabled";
-
-        public readonly static string NEWS_CATEGORY_ANNOUNCEMENT = "Announcement";
-        public readonly static string NEWS_CATEGORY_MEETING = "Meeting";
-        public readonly static string NEWS_CATEGORY_FIELDTRIP = "Fieldtrip";
-        public readonly static string NEWS_CATEGORY_CONTEST = "Contest";
-        public readonly static string NEWS_CATEGORY_OTHERS = "Others";
-
-        public readonly static string BLOG_STATUS_DRAFT = "Draft";
-        public readonly static string BLOG_STATUS_ACTIVE = "Active";
-        public readonly static string BLOG_STATUS_HIDDEN = "Hidden";
-        public readonly static string BLOG_STATUS_ARCHIVED = "Archived";
-        public readonly static string BLOG_STATUS_REPORTED = "Reported";
-        public readonly static string BLOG_STATUS_DISABLED = "Disabled";
-
-        public readonly static string BLOG_CATEGORY_ANNOUNCEMENT = "Announcement";
-        public readonly static string BLOG_CATEGORY_MEETING = "Meeting";
-        public readonly static string BLOG_CATEGORY_FIELDTRIP = "Fieldtrip";
-        public readonly static string BLOG_CATEGORY_CONTEST = "Contest";
-        public readonly static string BLOG_CATEGORY_OTHERS = "Others";*/
-
-        /*public readonly static string CREATE_BIRD_VALID = "CBirdValid";
-        public readonly static string CREATE_OR_UPDATE_BIRD_PROFILE_PICTURE_VALID = "CBirdProfilePicValid";
-        public readonly static string UPDATE_BIRD_VALID = "UBirdValid";
-        public readonly static string CREATE_MEETING_VALID = "CMeetingValid";
-        public readonly static string UPDATE_MEETING_VALID = "UMeetingValid";
-        public readonly static string UPDATE_MEETING_STATUS_VALID = "UMeetingStatusValid";
-        public readonly static string CREATE_MEETING_MEDIA_VALID = "CMeetingMediaValid";
-        public readonly static string UPDATE_MEETING_MEDIA_VALID = "UMeetingMediaValid";
-        public readonly static string CREATE_FIELDTRIP_VALID = "CFieldTripValid";
-        public readonly static string UPDATE_FIELDTRIP_VALID = "UFieldTripValid";
-        public readonly static string UPDATE_FIELDTRIP_STATUS_VALID = "UFieldtripStatusValid";
-        public readonly static string UPDATE_FIELDTRIP_GETTHERE_VALID = "UFieldTripGettingThereValid";
-        public readonly static string CREATE_FIELDTRIP_DAYBYDAY_VALID = "CFieldTripDayByDayValid";
-        public readonly static string UPDATE_FIELDTRIP_DAYBYDAY_VALID = "UFieldTripDayByDayValid";
-        public readonly static string CREATE_FIELDTRIP_INCLUSION_VALID = "CFieldTripInclusionValid";
-        public readonly static string UPDATE_FIELDTRIP_INCLUSION_VALID = "UFieldTripInclusionValid";
-        public readonly static string CREATE_FIELDTRIP_TOURFEATURES_VALID = "CFieldTripTourFeaturesValid";
-        public readonly static string UPDATE_FIELDTRIP_TOURFEATURES_VALID = "UFieldTripTourFeaturesValid";
-        public readonly static string CREATE_FIELDTRIP_IMPORTANTTOKNOW_VALID = "CFieldTripImportantValid";
-        public readonly static string UPDATE_FIELDTRIP_IMPORTANTTOKNOW_VALID = "UFieldTripImportantValid";
-        public readonly static string CREATE_FIELDTRIP_ACTIVITIESANDTRANSPORTATION_VALID = "CFieldTripActAndTrasValid";
-        public readonly static string UPDATE_FIELDTRIP_ACTIVITIESANDTRANSPORTATION_VALID = "UFieldTripActAndTrasValid";
-        public readonly static string CREATE_FIELDTRIP_MEDIA_VALID = "CFieldTripMediaValid";
-        public readonly static string UPDATE_FIELDTRIP_MEDIA_VALID = "UFieldTripMediaValid";
-        public readonly static string CREATE_CONTEST_VALID = "CContestValid";
-        public readonly static string UPDATE_CONTEST_VALID = "UContestValid";
-        public readonly static string UPDATE_CONTEST_STATUS_VALID = "UContestStatusValid";
-        public readonly static string CREATE_CONTEST_MEDIA_VALID = "CContestMediaValid";
-        public readonly static string UPDATE_CONTEST_MEDIA_VALID = "UContestMediaValid";
-        public readonly static string CREATE_CONTEST_PARTICIPATION_VALID = "CContestparticipantValid";
-        public readonly static string CREATE_BLOG_VALID = "CBlogValid";
-        public readonly static string UPDATE_BLOG_VALID = "UBlogValid";
-        public readonly static string CREATE_NEWS_VALID = "CNewsValid";
-        public readonly static string UPDATE_NEWS_VALID = "UNewsValid";*/
+        public readonly static string NEWS_STATUS_DISABLED = "Disabled";*/
 
         public readonly static string CREATE_TEACHER_DETAILS_VALID = "CTeacherDetailsValid";
         public readonly static string CREATE_PARENT_DETAILS_VALID = "CParentDetailsValid";
@@ -129,19 +76,14 @@ namespace CEG_RazorWebApp.Libraries
         public readonly static string CREATE_COURSE_DETAILS_VALID = "CCourseDetailsValid";
         public readonly static string CREATE_SESSION_DETAILS_VALID = "CSessionDetailsValid";
         public readonly static string CREATE_HOMEWORK_DETAILS_VALID = "CHomeworkDetailsValid";
+        public readonly static string CREATE_HOMEWORK_QUESTION_DETAILS_VALID = "CHomeworkQuestionDetailsValid";
+        public readonly static string CREATE_HOMEWORK_ANSWER_DETAILS_VALID = "CHomeworkAnswerDetailsValid";
 
         public readonly static string UPDATE_COURSE_DETAILS_VALID = "UCourseDetailsValid";
         public readonly static string UPDATE_SESSION_DETAILS_VALID = "USessionDetailsValid";
         public readonly static string UPDATE_HOMEWORK_DETAILS_VALID = "UHomeworkDetailsValid";
-
-        /*public readonly static string UPDATE_MEMBER_DETAILS_VALID = "UMemberDetailsValid";
-        public readonly static string UPDATE_MEMBER_PASSWORD_VALID = "UMemberPasswordValid";
-        public readonly static string UPDATE_MANAGER_DETAILS_VALID = "UManagerDetailsValid";
-        public readonly static string UPDATE_MANAGER_PASSWORD_VALID = "UManagerPasswordValid";
-        public readonly static string UPDATE_STAFF_DETAILS_VALID = "UStaffDetailsValid";
-        public readonly static string UPDATE_STAFF_PASSWORD_VALID = "UStaffPasswordValid";
-        public readonly static string UPDATE_ADMIN_DETAILS_VALID = "UAdminDetailsValid";
-        public readonly static string UPDATE_ADMIN_PASSWORD_VALID = "UAdminPasswordValid";*/
+        public readonly static string UPDATE_HOMEWORK_QUESTION_DETAILS_VALID = "UHomeworkQuestionDetailsValid";
+        public readonly static string UPDATE_HOMEWORK_ANSWER_DETAILS_VALID = "UHomeworkAnswerDetailsValid";
 
         /*public readonly static string EVENT_STATUS_ON_HOLD = "OnHold";
         public readonly static string EVENT_STATUS_NAME_ON_HOLD = "On Hold";
@@ -171,6 +113,18 @@ namespace CEG_RazorWebApp.Libraries
         public readonly static string COURSE_STATUS_END_OF_SERVICE = "EndofService";
         public readonly static string COURSE_STATUS_NAME_END_OF_SERVICE = "End of Service";
 
+        public static class CourseStatus
+        {
+
+        }
+
+        public enum CourseDifficulty
+        {
+            Beginner,
+            Intermediate,
+            Advanced
+        }
+
         public readonly static string SESSION_STATUS_DRAFT = "Draft";
         public readonly static string SESSION_STATUS_NAME_DRAFT = "Draft";
         public readonly static string SESSION_STATUS_AVAILABLE = "Available";
@@ -198,6 +152,11 @@ namespace CEG_RazorWebApp.Libraries
         public readonly static string HOMEWORK_TYPE_GRAMMAR = "Grammar";
         public readonly static string HOMEWORK_TYPE_NAME_GRAMMAR = "Grammar";
 
+        public readonly static string HOMEWORK_ANSWER_TYPE_CORRECT = "Correct";
+        public readonly static string HOMEWORK_ANSWER_TYPE_NAME_CORRECT = "Correct";
+        public readonly static string HOMEWORK_ANSWER_TYPE_INCORRECT = "Incorrect";
+        public readonly static string HOMEWORK_ANSWER_TYPE_NAME_INCORRECT = "Incorrect";
+
         /*public readonly static string COURSE_STATUS_ENDED = "Ended";
         public readonly static string COURSE_STATUS_NAME_ENDED = "Ended";
         public readonly static string COURSE_STATUS_OPEN_REGISTRATION = "OpenRegistration";
@@ -213,12 +172,14 @@ namespace CEG_RazorWebApp.Libraries
         public readonly static string EVENT_MEDIA_TYPE_LOCATION_MAP = "LocationMap";
         public readonly static string EVENT_MEDIA_TYPE_ADDITIONAL = "Additional";
 
-        public readonly static int COURSE_MINIMUM_AGE_REQ = 11;
-        public readonly static int COURSE_MAXIMUM_AGE_REQ = 18;
-        public readonly static int COURSE_TOTAL_HOURS = 1;
-        public readonly static int SESSION_HOURS = 1;
-        public readonly static int EVENT_FIELDTRIP_MIN_PART_REQ = 10;
-        public readonly static int EVENT_CONTEST_MIN_PART_REQ = 10;
+        public const int COURSE_MINIMUM_AGE_REQ = 11;
+        public const int COURSE_MAXIMUM_AGE_REQ = 18;
+        public const int CLASS_MINIMUM_STUDENTS_REQ = 10;
+        public const int CLASS_MAXIMUM_STUDENTS_REQ = 50;
+        public const int CLASS_MINIMUM_DAYS_REQ = 30;
+        public const int COURSE_TOTAL_HOURS = 1;
+        public const int HOMEWORK_HOURS = 1;
+        public const int SESSION_HOURS = 1;
 
         /* public readonly static string BIRD_STATUS_ACTIVE = "Active";
          public readonly static string BIRD_STATUS_INJURED = "Injured";
@@ -235,12 +196,6 @@ namespace CEG_RazorWebApp.Libraries
         public readonly static string REQUIRED_ELO_RANGE_1500_TO_2000 = "1500--2000";
         public readonly static string REQUIRED_ELO_RANGE_ABOVE_2000_NAME = "Above 2000 Elo";
         public readonly static string REQUIRED_ELO_RANGE_ABOVE_2000 = "2000--3000";
-
-        /*public readonly static string EVENT_PARTICIPANT_STATUS_NOT_CHECKED_IN = "Not Checked-In";
-        public readonly static string EVENT_PARTICIPANT_STATUS_CHECKED_IN = "Checked-In";
-
-        public readonly static string FIELDTRIP_INCLUSION_TYPE_INCLUDED = "Included";
-        public readonly static string FIELDTRIP_INCLUSION_TYPE_EXCLUDED = "Excluded";*/
 
         public readonly static string NOTIFICATION_TYPE_ACCOUNT_REGISTER = "Account Registration";
         public readonly static string NOTIFICATION_TYPE_MEETING_REGISTER = "Meeting Registration";

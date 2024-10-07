@@ -72,6 +72,28 @@
                                         }
                                     }
                                 </div>
+                                @if (TempData["Success"] != null)
+                                {
+                                    <div class="alert alert-success alert-dismissible fade show" id="notif">
+                                        <i class='bx bx-message-alt-x p-1'></i>
+                                        <strong class="mr-1">@TempData["Success"]</strong>
+                                        <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+                                            <span><i class='bx bx-x'></i></span>
+                                        </button>
+                                    </div>
+                                    TempData["Success"] = null;
+                                }
+                                else if (TempData["Error"] != null)
+                                {
+                                    <div class="alert alert-danger alert-dismissible fade show" id="notif">
+                                        <i class='bx bx-message-alt-x p-1'></i>
+                                        <strong class="mr-1">@TempData["Error"]</strong>
+                                        <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+                                            <span><i class='bx bx-x'></i></span>
+                                        </button>
+                                    </div>
+                                    TempData["Error"] = null;
+                                }
                                 <div class="card-body">
                                     <div class="row mb-sm-2">
                                         <div class="col-md-5 text-md-right">
@@ -289,6 +311,11 @@
                                     <label asp-for="@createHomework.Hours" class="col-md-3 col-form-label mt-3 text-md-right"></label>
                                     <input asp-for="@createHomework.Hours" value="@createHomework.Hours" type="number" class="form-control col-md-7 mt-3" required>
                                     <span asp-validation-for="@createHomework.Hours" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@createHomework.Type" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                    <select class="form-control col-md-7 custom-select" asp-for="@createHomework.Type" asp-items="@createHomework.DefaultHomeworkTypeSelectList"></select>
+                                    <span asp-validation-for="@createHomework.Type" id="error_message"
                                           class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
                                     <input asp-for="@createHomework.SessionTitle" value="@sessionInfo.Title" type="text" required hidden readonly>

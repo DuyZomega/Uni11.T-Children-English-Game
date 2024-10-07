@@ -18,6 +18,12 @@
     <link rel="stylesheet" href="~/fonts/fontawesome-free-5.15.4-web/css/all.min.css">
     <link rel="stylesheet" href="~/css/main.css">
     <link rel="icon" type="image/x-icon" href="data:image/x-icon;,">
+    <!-- Add Axios JS-->
+    @* <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> *@
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.6.0.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.19.2/jquery.validate.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate.unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+
 </head>
 <body>
     <!-- sidebar -->
@@ -89,7 +95,7 @@
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                         <a class="dropdown-item" href="@Url.Page("AdminProfile", "Admin")"><i class='bx bx-user'></i>Admin Profile</a> <!--thêm theo user id và role-->
                                         <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" asp-page-handler="Logout">Logout</a>
+                                        <a class="dropdown-item" id="logout" asp-page-handler="Logout">Logout</a>
                                     </div>
                                 }
                             </div>
@@ -151,6 +157,29 @@
                 }
             });
         });
+        // document.getElementById("logout").addEventListener("click", function () {
+        //     Replace with your actual API endpoint URL
+        //     const apiUrl = 'https:api.example.com/api/user';
+
+        //     Call the API using Axios
+        //     axios.get(apiUrl)
+        //         .then(function (response) {
+        //             Handle the response data (in this case, user data)
+        //             const users = response.data;
+        //             let output = "<ul>";
+        //             users.forEach(function (user) {
+        //                 output += `<li>${user.id} - ${user.name}</li>`;
+        //             });
+        //             output += "</ul>";
+
+        //             Display the user data in the container
+        //             document.getElementById("userDataContainer").innerHTML = output;
+        //         })
+        //         .catch(function (error) {
+        //             Handle any errors
+        //             console.error('Error fetching data:', error);
+        //         });
+        // });
     </script>
 </body>
 </html>

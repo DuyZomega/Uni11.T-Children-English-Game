@@ -370,6 +370,27 @@ namespace CEG_RazorWebApp.Libraries
             return defaultTypes;
         }
 
+        public List<SelectListItem> GetAnswerTypeSelectableList(string answerType)
+        {
+            List<SelectListItem> defaultTypes = new();
+            switch (answerType)
+            {
+                case var value when value.Equals(Constants.HOMEWORK_ANSWER_TYPE_CORRECT):
+                    {
+                        defaultTypes.Add(new SelectListItem { Text = Constants.HOMEWORK_ANSWER_TYPE_NAME_CORRECT, Value = Constants.HOMEWORK_ANSWER_TYPE_CORRECT, Selected = true });
+                        defaultTypes.Add(new SelectListItem { Text = Constants.HOMEWORK_ANSWER_TYPE_NAME_INCORRECT, Value = Constants.HOMEWORK_ANSWER_TYPE_INCORRECT });
+                        break;
+                    }
+                case var value when value.Equals(Constants.HOMEWORK_ANSWER_TYPE_INCORRECT):
+                    {
+                        defaultTypes.Add(new SelectListItem { Text = Constants.HOMEWORK_ANSWER_TYPE_NAME_CORRECT, Value = Constants.HOMEWORK_ANSWER_TYPE_CORRECT });
+                        defaultTypes.Add(new SelectListItem { Text = Constants.HOMEWORK_ANSWER_TYPE_NAME_INCORRECT, Value = Constants.HOMEWORK_ANSWER_TYPE_INCORRECT, Selected = true });
+                        break;
+                    }
+            }
+            return defaultTypes;
+        }
+
         public T? GetValidationTempData<T>(
             ControllerBase context,
             ITempDataDictionary tempData,

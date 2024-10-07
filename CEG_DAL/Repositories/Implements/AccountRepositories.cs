@@ -31,12 +31,12 @@ namespace CEG_DAL.Repositories.Implements
 
         public async Task<Account?> GetByIdNoTracking(int id)
         {
-            return await _dbContext.Accounts.AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(acc => acc.AccountId == id);
+            return await _dbContext.Accounts.AsNoTrackingWithIdentityResolution().Include(a => a.Role).SingleOrDefaultAsync(acc => acc.AccountId == id);
         }
 
         public async Task<Account?> GetByUsername(string username)
         {
-            return await _dbContext.Accounts.AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(acc => acc.Username == username);
+            return await _dbContext.Accounts.AsNoTrackingWithIdentityResolution().Include(a => a.Role).SingleOrDefaultAsync(acc => acc.Username == username);
         }
 
         public async Task<string?> GetRoleByAccountId(int id)
