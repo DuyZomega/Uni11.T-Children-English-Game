@@ -39,14 +39,22 @@ namespace CEG_BAL.Services.Implements
             _unitOfWork.Save();
         }
 
+        public async Task<List<HomeworkQuestionViewModel>?> GetOrderedQuestionList()
+        {
+            return _mapper.Map<List<HomeworkQuestionViewModel>?>(await _unitOfWork.HomeworkQuestionRepositories.GetOrderedQuestionList());
+        }
+
         public async Task<HomeworkQuestionViewModel?> GetQuestionById(int id)
         {
             var ques = await _unitOfWork.HomeworkQuestionRepositories.GetByIdNoTracking(id);
             if (ques != null)
             {
-                var home = await _unitOfWork.HomeworkRepositories.GetByIdNoTracking(ques.HomeworkId);
                 var quesvm = _mapper.Map<HomeworkQuestionViewModel>(ques);
-                quesvm.HomeworkStatus = home.Status;
+                if (ques.HomeworkId != null)
+                {
+                    var home = await _unitOfWork.HomeworkRepositories.GetByIdNoTracking(ques.HomeworkId.Value);
+                    quesvm.HomeworkStatus = home != null ? home.Status : null;
+                }
                 return quesvm;
             }
             return null;
@@ -54,7 +62,7 @@ namespace CEG_BAL.Services.Implements
 
         public async Task<List<HomeworkQuestionViewModel>> GetQuestionList()
         {
-            return _mapper.Map<List<HomeworkQuestionViewModel>>(await _unitOfWork.HomeworkQuestionRepositories.GetQuestionsList());
+            return _mapper.Map<List<HomeworkQuestionViewModel>>(await _unitOfWork.HomeworkQuestionRepositories.GetQuestionList());
         }
 
         public void Update(HomeworkQuestionViewModel model)

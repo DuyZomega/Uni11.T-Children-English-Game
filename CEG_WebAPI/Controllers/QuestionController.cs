@@ -55,6 +55,41 @@ namespace CEG_WebAPI.Controllers
             }
         }
 
+        [HttpGet("All/Ordered")]
+        [Authorize(Roles = "Admin")]
+        [ProducesResponseType(typeof(List<HomeworkQuestionViewModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetOrderedQuestionList()
+        {
+            try
+            {
+                var result = await _questionService.GetOrderedQuestionList();
+                if (result == null)
+                {
+                    return NotFound(new
+                    {
+                        Status = false,
+                        ErrorMessage = "Question List Not Found!"
+                    });
+                }
+                return Ok(new
+                {
+                    Status = true,
+                    Data = result
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    Status = false,
+                    ErrorMessage = ex.Message,
+                    InnerExceptionMessage = ex.InnerException?.Message
+                });
+            }
+        }
+
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(HomeworkQuestionViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

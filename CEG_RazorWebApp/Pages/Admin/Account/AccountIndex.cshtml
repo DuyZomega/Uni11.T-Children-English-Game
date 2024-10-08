@@ -326,33 +326,6 @@
             var accountList = [];
             $(document).ready(function () {
                 callApiGetAccountList();
-                // Function to display alerts
-                function showAlert(type, message) {
-                    var alertHtml = '';
-
-                    if (type === 'success') {
-                        alertHtml = `
-                                    <div class="alert alert-success alert-dismissible fade show" id="notif">
-                                        <i class='bx bx-message-alt-x p-1'></i>
-                                        <strong class="mr-1">` + message + `</strong>
-                                        <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
-                                            <span><i class='bx bx-x'></i></span>
-                                        </button>
-                                    </div>`;
-                    } else if (type === 'error') {
-                        alertHtml = `
-                                    <div class="alert alert-danger alert-dismissible fade show" id="notif">
-                                        <i class='bx bx-message-alt-x p-1'></i>
-                                        <strong class="mr-1">` + message + `</strong>
-                                        <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
-                                            <span><i class='bx bx-x'></i></span>
-                                        </button>
-                                    </div>`;
-                    }
-
-                    // Inject the alert HTML into the alert container
-                    $('#alertContainer').html(alertHtml);
-                }
                 $('#search').on('keyup', function (event) {
                     // Get the search term
                     var searchTerm = $(this).val().toLowerCase();
@@ -371,6 +344,35 @@
                     callApiUpdateAccountStatus(accountId, newStatus);
                 });
             });
+            // Function to display alerts
+            function showAlert(type, message) {
+                var alertHtml = '';
+
+                if (type === 'success') {
+                    alertHtml = `
+                        <div class="alert alert-success alert-dismissible fade show" id="notif">
+                            <i class='bx bx-message-alt-x p-1'></i>
+                            <strong class="mr-1">` + message + `</strong>
+                            <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+                                <span><i class='bx bx-x'></i></span>
+                            </button>
+                        </div>
+                    `;
+                } else if (type === 'error') {
+                    alertHtml = `
+                        <div class="alert alert-danger alert-dismissible fade show" id="notif">
+                            <i class='bx bx-message-alt-x p-1'></i>
+                            <strong class="mr-1">` + message + `</strong>
+                            <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+                                <span><i class='bx bx-x'></i></span>
+                            </button>
+                        </div>
+                    `;
+                }
+
+                // Inject the alert HTML into the alert container
+                $('#alertContainer').html(alertHtml);
+            }
             function callApiGetAccountList() {
                 $.ajax({
                     url: apiUrl + 'Account/All', // API endpoint
@@ -380,19 +382,21 @@
                     },
                     success: function (response) {
                         // Log the entire response to the console for debugging
-                        console.log("Returned object:", response);
+                        // console.log("Returned object:", response);
 
                         // Check if the status is true
                         if (response.status) {
                             accountList = response.data;
 
                             setAccountDisplay(accountList);
+                            showAlert('success','Account list get successfully!');
                         } else {
+                            showAlert('error', "Error in api call:" + error);
                             console.error("API returned false status.");
                         }
                     },
                     error: function (error) {
-                        alert("Error in api call:" + error);
+                        showAlert('error', "Error in api call:" + error);
                         console.error("Error in api call:", error);
                         //showAlert('success', 'Data fetched successfully.');
                     }
@@ -409,16 +413,15 @@
                     data: JSON.stringify(newStatus), // Data sent in the request body data: JSON.stringify({ status: newStatus.toString() }),
                     success: function (response) {
                         if (response.status) {
-                            console.log('Status updated successfully:', response);
-                            alert('Status updated!');
+                            showAlert('success','Status updated!');
                         } else {
                             console.error("API returned false status.");
-                            alert('Failed to update status.');
+                            showAlert('error','Failed to update status.');
                         }
                     },
                     error: function (xhr, status, error) {
                         console.error('Error updating status:', error);
-                        alert('Failed to update status.');
+                        showAlert('error', "Error in api call:" + error);
                     }
                 });
             }
