@@ -258,7 +258,7 @@ public partial class MyDBContext : DbContext
 
             entity.HasOne(d => d.HomeworkQuestion).WithMany(p => p.HomeworkAnswers)
                 .HasForeignKey(d => d.HomeworkQuestionId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                //.OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_HomeworkAnswer_HomeworkQuestion");
         });
 
@@ -274,7 +274,7 @@ public partial class MyDBContext : DbContext
 
             entity.HasOne(d => d.Homework).WithMany(p => p.HomeworkQuestions)
                 .HasForeignKey(d => d.HomeworkId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                //.OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_HomeworkQuestion_Homework");
         });
 
@@ -496,6 +496,7 @@ public partial class MyDBContext : DbContext
                 .HasMaxLength(50)
                 .HasColumnName("email");
             entity.Property(e => e.Image).HasColumnName("image");
+            entity.Property(e => e.Certificate).HasColumnName("certificate");
             entity.Property(e => e.Phone)
                 .HasMaxLength(50)
                 .HasColumnName("phone");
