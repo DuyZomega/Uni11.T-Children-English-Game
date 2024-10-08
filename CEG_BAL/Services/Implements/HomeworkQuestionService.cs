@@ -33,7 +33,11 @@ namespace CEG_BAL.Services.Implements
             if (newQus != null)
             {
                 ques.Question = newQus.Question;
-                ques.HomeworkId = _unitOfWork.HomeworkRepositories.GetIdByTitle(newQus.HomeworkTitle).Result;
+                if(ques.Homework?.HomeworkId == 0)
+                {
+                    ques.Homework = null;
+                }
+                /*ques.HomeworkId = _unitOfWork.HomeworkRepositories.GetIdByTitle(newQus.HomeworkTitle).Result;*/
             }
             _unitOfWork.HomeworkQuestionRepositories.Create(ques);
             _unitOfWork.Save();

@@ -168,7 +168,7 @@ namespace CEG_WebAPI.Controllers
         {
             try
             {
-                var resulthomeworkName = await _homeworkService.IsHomeworkExistByTitle(newSes.HomeworkTitle);
+                /*var resulthomeworkName = await _homeworkService.IsHomeworkExistByTitle(newSes.HomeworkTitle);
                 if (!resulthomeworkName)
                 {
                     return BadRequest(new
@@ -176,7 +176,7 @@ namespace CEG_WebAPI.Controllers
                         Status = false,
                         ErrorMessage = "Homework Not Found!"
                     });
-                }
+                }*/
                 HomeworkQuestionViewModel sess = new HomeworkQuestionViewModel();
                 _questionService.Create(sess, newSes);
                 return Ok(new

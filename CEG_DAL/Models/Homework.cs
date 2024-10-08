@@ -23,7 +23,7 @@ public partial class Homework
 
     public virtual GameConfig? GameConfig { get; set; }
 
-    public virtual ICollection<HomeworkQuestion> HomeworkQuestions { get; set; } = new List<HomeworkQuestion>();
+    public virtual ICollection<HomeworkQuestion>? HomeworkQuestions { get; set; } = new List<HomeworkQuestion>();
 
     public virtual ICollection<HomeworkResult> HomeworkResults { get; set; } = new List<HomeworkResult>();
 
