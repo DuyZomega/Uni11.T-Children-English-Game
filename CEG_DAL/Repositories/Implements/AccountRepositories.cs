@@ -58,5 +58,17 @@ namespace CEG_DAL.Repositories.Implements
             if (result != null) return result.AccountId;
             return 0;
         }
+
+        public async Task<bool> UpdateStatusById(string status, int id)
+        {
+            var acc = await _dbContext.Accounts.AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(acc => acc.AccountId == id);
+            if (acc != null)
+            {
+                acc.Status = status;
+                _dbContext.Accounts.Update(acc);
+                return true;
+            }
+            return false;
+        }
     }
 }

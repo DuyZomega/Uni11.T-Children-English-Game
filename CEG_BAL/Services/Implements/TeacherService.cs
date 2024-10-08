@@ -93,5 +93,16 @@ namespace CEG_BAL.Services.Implements
             if (acc != null) return true;
             return false;
         }
+
+        public async Task<TeacherViewModel?> GetTeacherByAccountId(int id)
+        {
+            var teacher = await _unitOfWork.TeacherRepositories.GetByAccountIdNoTracking(id);
+            if (teacher != null)
+            {
+                var teach = _mapper.Map<TeacherViewModel>(teacher);
+                return teach;
+            }
+            return null;
+        }
     }
 }

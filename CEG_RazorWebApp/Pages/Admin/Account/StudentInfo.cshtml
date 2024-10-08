@@ -1,0 +1,465 @@
+﻿@page "/Admin/Student/{accountId}/Info"
+@model CEG_RazorWebApp.Pages.Admin.Account.StudentInfoModel
+@{
+    ViewData["Title"] = "Parent Account Info Page";
+    var accountInfo = Model.AccountInfo;
+    Layout = Model.LayoutUrl;
+    var accountId = Model.AccountId;
+}
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>@ViewData["Title"]</title>
+    </head>
+    <body>
+        <div class="main-content">
+            <div class="main">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="offset-sm-6 col-sm-6  d-flex justify-content-sm-end p-md-0 mt-2 mt-sm-0 ">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumd-item">
+                                    <a href="#">Manage</a>
+                                </li>
+                                <li class="breadcrumd-item">
+                                    <span>/</span>
+                                </li>
+                                <li class="breadcrumd-item">
+                                    <a href="/Admin/Account/Index">Account</a>
+                                </li>
+                                <li class="breadcrumd-item">
+                                    <span>/</span>
+                                </li>
+                                <li class="breadcrumd-item">
+                                    <a href="/Admin/Account/@accountId/Info">@accountId</a>
+                                </li>
+                                <li class="breadcrumd-item">
+                                    <span>/</span>
+                                </li>
+                                <li class="breadcrumd-item">
+                                    <a href="/Admin/Account/@accountId/Info">Info</a>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                <div id="alertContainer"></div>
+                    <div class="row">
+                        <div class="col-12 customer-booking">
+                            <div class="row">
+                                <div class="card profile col-12 mb-4">
+                                    <div class="card-header">
+                                        <h4 id="account-headerinfo">Account Information</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row mb-sm-2">
+                                            <div class="col-md-5 text-md-right">
+                                                <label class="col-form-label">Account ID:</label>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <span id="account-id">
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-sm-2">
+                                            <div class="col-md-5 text-md-right">
+                                                <label class="col-form-label">Username:</label>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <span id="account-username">
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-sm-2">
+                                            <div class="col-md-5 text-md-right">
+                                                <label class="col-form-label">Full Name:</label>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <span id="account-fullname">
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-sm-2">
+                                            <div class="col-md-5 text-md-right">
+                                                <label class="col-form-label">Gender:</label>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <span id="account-gender">
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-sm-2">
+                                            <div class="col-md-5 text-md-right">
+                                                <label class="col-form-label">Date of Birth:</label>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <span id="student-account-birthdate">
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-sm-2">
+                                            <div class="col-md-5 text-md-right">
+                                                <label class="col-form-label">Description:</label>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <span id="student-account-description">
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-sm-2">
+                                            <div class="col-md-5 text-md-right">
+                                                <label class="col-form-label">Highscore:</label>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <span id="student-account-highscore">
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-sm-2">
+                                            <div class="col-md-5 text-md-right">
+                                                <label class="col-form-label">Play time:</label>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <span id="student-account-playtime">
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-sm-2">
+                                            <div class="col-md-5 text-md-right">
+                                                <label class="col-form-label">Current level:</label>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <span id="student-account-curlevel">
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-sm-2">
+                                            <div class="col-md-5 text-md-right">
+                                                <label class="col-form-label">Points:</label>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <span id="student-account-points">
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-sm-2">
+                                            <div class="col-md-5 text-md-right">
+                                                <label class="col-form-label">Created Date:</label>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <span id="account-createddate">
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-sm-2">
+                                            <div class="col-md-5 text-md-right">
+                                                <label class="col-form-label">Role:</label>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <span id="account-role">
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-sm-2">
+                                            <div class="col-md-5 text-md-right">
+                                                <label class="col-form-label">Status:</label>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <span id="account-status">
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <section>
+                        <div class="card">
+                            <div class="card-body">
+
+                                <div id="accordion">
+                                    @if (TempData["Success"] != null)
+                                    {
+                                        <div class="alert alert-success alert-dismissible fade show" id="notif">
+                                            <i class='bx bx-message-alt-x p-1'></i>
+                                            <strong class="mr-1">@TempData["Success"]</strong>
+                                            <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+                                                <span><i class='bx bx-x'></i></span>
+                                            </button>
+                                        </div>
+                                        TempData["Success"] = null;
+                                    }
+                                    else if (TempData["Error"] != null)
+                                    {
+                                        <div class="alert alert-danger alert-dismissible fade show" id="notif">
+                                            <i class='bx bx-message-alt-x p-1'></i>
+                                            <strong class="mr-1">@TempData["Error"]</strong>
+                                            <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+                                                <span><i class='bx bx-x'></i></span>
+                                            </button>
+                                        </div>
+                                        TempData["Error"] = null;
+                                    }
+                                    <!-- Thông tin cá nhân -->
+                                    <div class="card mx-5 mb-2">
+                                        <div class="card-header card-setting" id="headingOne">
+                                            <h5 class="mb-0">
+                                                <button class="btn btn-link" data-toggle="collapse" data-target="#profile"
+                                                        aria-expanded="true" aria-controls="profile">
+                                                    Teacher Profile <i class='bx bx-chevron-right'></i>
+                                                </button>
+                                            </h5>
+                                        </div>
+                                        <div class="collapse show" id="profile" aria-labelledby="profile" data-parent="#accordion">
+                                            <div class="card-body">
+                                                <div class="user-profile">
+                                                    <div class="row">
+                                                        @* <div class="col-lg-4">
+                                                        <div class="profile-pic">
+                                                        <img src="@managerDetail.ImagePath" id="output" width="200" />
+                                                        <div class="upload">
+                                                        <button class="btn btn-warning" data-toggle="modal" data-target="#uploadImg">Details</button>
+                                                        <i class='bx bxs-camera-plus'></i>
+                                                        </div>
+                                                        </div>
+                                                        <div class="profile-name">@managerDetail.FullName</div>
+                                                        </div> *@
+                                                        <div class="col-lg-8">
+                                                            <div class="profile-content">
+                                                                <div class="contact-infor">
+                                                                    <div class="info-title">
+                                                                        <h4>Personal Information</h4>
+                                                                    </div>
+                                                                    <div class="info-content">
+                                                                        @* <form asp-action="ManagerProfileUpdate" asp-controller="Manager" class="form-check">
+                                                                        <div class="row username-content">
+                                                                        <label class="contact-title col-md-5 col-sm-4 mt-3">Username: </label>
+
+                                                                        <input asp-for="@managerDetail.UserName" id="userName" type="text"
+                                                                        class="form-control col-md-5 col-sm-8 mt-2" readonly
+                                                                        value="@managerDetail.UserName">
+                                                                        <span asp-validation-for="@managerDetail.UserName" id="error_message"
+                                                                        class="error-message col-md-2 mt-3"></span>
+
+                                                                        </div>
+                                                                        <div class="row fullname-content">
+                                                                        <label class="contact-title col-md-5 col-sm-4 mt-3">Full Name: </label>
+
+                                                                        <input asp-for="@managerDetail.FullName" id="fullName" type="text"
+                                                                        class="form-control col-md-5 col-sm-8 mt-2" readonly
+                                                                        value="@managerDetail.FullName">
+                                                                        <span asp-validation-for="@managerDetail.FullName" id="error_message"
+                                                                        class="error-message col-md-2 mt-3"></span>
+
+                                                                        </div>
+                                                                        <div class="row phone-content">
+                                                                        <label class="contact-title col-md-5 col-sm-4 mt-3">Phone Number: </label>
+
+                                                                        <input asp-for="@managerDetail.Phone" id="phone" type="tel" value="@managerDetail.Phone"
+                                                                        class="form-control col-md-5 col-sm-8 mt-2">
+                                                                        <span asp-validation-for="@managerDetail.Phone" id="error_message"
+                                                                        class="error-message col-md-2 mt-3"></span>
+
+                                                                        </div>
+                                                                        <div class="row address-content">
+                                                                        <label class="contact-title col-md-5 col-sm-4 mt-3">Address: </label>
+
+                                                                        <input asp-for="@managerDetail.Address" type="text" value="@managerDetail.Address"
+                                                                        class="form-control col-md-5 col-sm-8 mt-2">
+                                                                        <span asp-validation-for="@managerDetail.Address" id="error_message"
+                                                                        class="error-message col-md-2 mt-3"></span>
+
+                                                                        </div>
+                                                                        <div class="row email-content">
+                                                                        <label class="contact-title col-md-5 col-sm-4 mt-3">Email: </label>
+
+                                                                        <input asp-for="@managerDetail.Email" id="email" type="email" value="@managerDetail.Email"
+                                                                        class="form-control col-md-5 col-sm-8 mt-2">
+                                                                        <span asp-validation-for="@managerDetail.Email" id="error_message"
+                                                                        class="error-message col-md-2 mt-3"></span>
+
+                                                                        </div>
+                                                                        <div class="row gender-content">
+                                                                        <label class="contact-title col-md-5 col-sm-4 mt-3">Gender: </label>
+                                                                        <select class="form-control col-md-5 col-sm-8 mt-2" asp-for="@managerDetail.Gender" asp-items="@genders" class="custom-select" id="gender">
+                                                                        </select>
+                                                                        <span asp-validation-for="@managerDetail.Gender" id="error_message"
+                                                                        class="error-message col-md-2 mt-3"></span>
+                                                                        </div>
+                                                                        <input asp-for="@managerDetail.ImagePath" type="text" value="@managerDetail.ImagePath" hidden />
+                                                                        <div class="row pt-3 d-flex">
+                                                                        <button type="submit" class="offset-3 btn btn-success">Confirm Changes</button>
+                                                                        </div>
+                                                                        </form> *@
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--Change password -->
+                                    <div class="card mx-5 mb-2">
+                                        <div class="card-header card-setting" id="headingTwo">
+                                            <h5 class="mb-0">
+                                                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo"
+                                                        aria-expanded="false" aria-controls="collapseTwo">
+                                                    Change Password <i class='bx bx-chevron-right'></i>
+                                                </button>
+                                            </h5>
+                                        </div>
+                                        <div class="collapse" id="collapseTwo" aria-labelledby="headingTwo" data-parent="#accordion">
+                                            <div class="card-body">
+                                                <div class="card-group d-block">
+                                                    @* <form asp-action="ChangePassword" asp-controller="Staff" method="post">
+                                                    <div class="row form-group">
+                                                    <label asp-for=@managerPassword.password class="offset-md-3 col-md-2 col-sm-3 col-form-label">Old Password</label>
+                                                    <input asp-for=@managerPassword.password class="col-md-3 col-sm-5 form-control" type="password"
+                                                    required value=@managerPassword.password>
+                                                    <span asp-validation-for=@managerPassword.password class="error-message col-sm-3 mt-2"></span>
+                                                    </div>
+                                                    <div class="row form-group">
+                                                    <label asp-for=@managerPassword.Newpassword class="offset-md-3 col-md-2 col-sm-3 col-form-label">New Password</label>
+                                                    <input asp-for=@managerPassword.Newpassword class="col-md-3 col-sm-5 form-control" type="password"
+                                                    id="password" required value=@managerPassword.Newpassword>
+                                                    <span asp-validation-for=@managerPassword.Newpassword class="error-message col-sm-3 mt-2"></span>
+                                                    </div>
+                                                    <div class="row form-group">
+                                                    <label asp-for=@managerPassword.NewConfirmPassword class="offset-md-3 col-md-2 col-sm-3 col-form-label">Confirm</label>
+                                                    <input asp-for=@managerPassword.NewConfirmPassword class="col-md-3 col-sm-5 form-control" type="password"
+                                                    id="confirm" required value=@managerPassword.NewConfirmPassword>
+                                                    <span asp-validation-for=@managerPassword.NewConfirmPassword class="error-message col-sm-3 mt-2"></span>
+                                                    </div>
+                                                    <div class="row form-group justify-content-center">
+                                                    <button type="submit" class="btn btn-success">Confirm Change</button>
+                                                    </div>
+                                                    </form> *@
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+        <script>
+            var token = '@HttpContext.Session.GetString(CEG_RazorWebApp.Libraries.Constants.ACC_TOKEN)';
+            var apiUrl = 'https://localhost:7143/api/';
+            $(document).ready(function () {
+                callApiGetTeacherDetail();
+                // Function to display alerts
+                function showAlert(type, message) {
+                    var alertHtml = '';
+
+                    if (type === 'success') {
+                        alertHtml = `
+                            <div class="alert alert-success alert-dismissible fade show" id="notif">
+                                <i class='bx bx-message-alt-x p-1'></i>
+                                <strong class="mr-1">` + message + `</strong>
+                                <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+                                    <span><i class='bx bx-x'></i></span>
+                                </button>
+                            </div>
+                        `;
+                    } else if (type === 'error') {
+                        alertHtml = `
+                            <div class="alert alert-danger alert-dismissible fade show" id="notif">
+                                <i class='bx bx-message-alt-x p-1'></i>
+                                <strong class="mr-1">` + message + `</strong>
+                                <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+                                    <span><i class='bx bx-x'></i></span>
+                                </button>
+                            </div>
+                        `;
+                    }
+
+                    // Inject the alert HTML into the alert container
+                    $('#alertContainer').html(alertHtml);
+                }
+            });
+            function callApiGetTeacherDetail() {
+                $.ajax({
+                    url: apiUrl + 'Student/Account/@accountId', // API endpoint
+                    type: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + token// Include the JWT token
+                    },
+                    success: function (response) {
+                        // Log the entire response to the console for debugging
+                        console.log("Returned object:", response);
+
+                        // Check if the status is true
+                        if (response.status) {
+                            accountDetail = response.data;
+
+                            setAccountDisplay(accountDetail);
+                        } else {
+                            console.error("API returned false status.");
+                        }
+                    },
+                    error: function (error) {
+                        alert("Error in api call:" + error);
+                        console.error("Error in api call:", error);
+                        //showAlert('success', 'Data fetched successfully.');
+                    }
+                });
+            }
+            function setAccountDisplay(data) {
+                $('#account-headerinfo').text(data.account.role.roleName + ' Account Information');
+                $('#account-id').text(data.account.accountId);
+                $('#account-username').text(data.account.username);
+                $('#account-fullname').text(data.account.fullname);
+                $('#student-account-birthdate').text(formatDate(data.birthdate));
+                $('#student-account-description').text(data.description);
+                $('#student-account-highscore').text(data.highscore);
+                $('#student-account-playtime').text(data.playtime);
+                $('#student-account-curlevel').text(data.curLevel);
+                $('#student-account-points').text(data.points);
+                $('#account-gender').text(data.account.gender);
+                $('#account-createddate').text(formatDate(data.account.createdDate)); // Format the date if needed
+                $('#account-role').text(data.account.role.roleName);
+                $('#account-status').text(data.account.status);
+            }
+            function getStatusOptions(selectedStatus) {
+                var options = ['Inactive', 'Active', 'Expired', 'Denied', 'Suspended']; // Example statuses
+                var html = '';
+
+                options.forEach(function (status) {
+                    html += `<option value="${status}" ${selectedStatus === status ? 'selected' : ''}>${status}</option>`;
+                });
+
+                return html;
+            }
+            function formatDate(date) {
+                let d = new Date(date);
+
+                // Get day, month, year
+                let day = String(d.getDate()).padStart(2, '0');
+                let month = String(d.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+                let year = d.getFullYear();
+
+                // Get hours, minutes
+                let hours = String(d.getHours()).padStart(2, '0');
+                let minutes = String(d.getMinutes()).padStart(2, '0');
+
+                // Optionally, get seconds
+                let seconds = String(d.getSeconds()).padStart(2, '0');
+
+                // Return the formatted date and time as `dd/mm/yyyy hh:mm`
+                return `${day}/${month}/${year} ${hours}:${minutes}`;
+
+                // If you want to include seconds as well, use this return:
+                // return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+            }
+        </script>
+    </body>
+</html>
+
