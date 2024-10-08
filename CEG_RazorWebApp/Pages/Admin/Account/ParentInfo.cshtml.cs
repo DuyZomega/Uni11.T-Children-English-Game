@@ -15,7 +15,20 @@ namespace CEG_RazorWebApp.Pages.Admin.Account
         public void OnGet(
             [FromRoute][Required] int accountId)
         {
+            methcall.InitTempData(this);
             AccountId = accountId;
+        }
+        public IActionResult OnGetLogout()
+        {
+            //_httpClient.DefaultRequestHeaders.Authorization = null;
+            HttpContext.Session.Clear();
+            TempData.Clear();
+            SignOut();
+
+            // If using ASP.NET Identity, you may want to sign out the user
+            // Example: await SignInManager.SignOutAsync();
+
+            return RedirectToPage("/Home/Index");
         }
     }
 }

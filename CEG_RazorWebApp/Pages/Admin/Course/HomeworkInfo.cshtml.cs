@@ -45,7 +45,7 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
         public int? SessionId { get; set; }
         public HomeworkInfoVM? HomeworkInfo { get; set; }
         public UpdateHomeworkVM? UpdateHomeworkInfo { get; set; }
-        public CreateQuestionVM? CreateQuestion { get; set; }
+        public UpdateQuestionVM? AddQuestion { get; set; }
         public List<AdminQuestionInfoPVM>? Questions { get; set; }
         public HomeworkInfoModel(ILogger<HomeworkInfoModel> logger, IConfiguration config, IMapper mapper)
         {
@@ -96,7 +96,7 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
             }
             TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = "Homework Info Get Successfully!";
 
-            var createQuestionFailed = methcall.GetValidationTempData<CreateQuestionVM>(this, TempData, Constants.CREATE_HOMEWORK_QUESTION_DETAILS_VALID, "createQuestion", jsonOptions);
+            //var createQuestionFailed = methcall.GetValidationTempData<CreateQuestionVM>(this, TempData, Constants.CREATE_HOMEWORK_QUESTION_DETAILS_VALID, "createQuestion", jsonOptions);
             var updateHomeworkFailed = methcall.GetValidationTempData<UpdateHomeworkVM>(this, TempData, Constants.UPDATE_HOMEWORK_DETAILS_VALID, "updateHomework", jsonOptions);
             var updateQuestionFailed = methcall.GetValidationTempData<UpdateQuestionVM>(this, TempData, Constants.UPDATE_HOMEWORK_QUESTION_DETAILS_VALID, "updateQuestion", jsonOptions);
             var questionList = new List<AdminQuestionInfoPVM>();
@@ -117,7 +117,7 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
             HomeworkInfo = _mapper.Map<HomeworkInfoVM>(homeworkInfoResponse.Data);
             UpdateHomeworkInfo = updateHomeworkFailed ?? _mapper.Map<UpdateHomeworkVM>(homeworkInfoResponse.Data);
             Questions = questionList ?? new List<AdminQuestionInfoPVM>();
-            CreateQuestion = createQuestionFailed ?? new CreateQuestionVM();
+            //AddQuestion = createQuestionFailed ?? new CreateQuestionVM();
             return Page();
         }
         public async Task<IActionResult> OnPostUpdate(
@@ -160,7 +160,7 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
 
             return Redirect("/Admin/Course/" + CourseId + "/Session/" + SessionId + "/Homework/" + homeworkId + "/Info");
         }
-        public async Task<IActionResult> OnPostCreate(
+        /*public async Task<IActionResult> OnPostCreate(
             [FromRoute][Required] int homeworkId,
             [FromForm][Required] CreateQuestionVM createQuestion)
         {
@@ -200,7 +200,7 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
             }
             TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = "Homework Question Create Successfully!";
             return Redirect("/Admin/Course/" + CourseId + "/Session/" + SessionId + "/Homework/" + homeworkId + "/Info");
-        }
+        }*/
         public async Task<IActionResult> OnPostQuestionUpdate(
             [FromRoute][Required] int homeworkId,
             [Required] int questionId,

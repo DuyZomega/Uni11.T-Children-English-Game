@@ -27,9 +27,7 @@ namespace CEG_RazorWebApp.Pages.Admin.Class
         {
             //_httpClient.DefaultRequestHeaders.Authorization = null;
             HttpContext.Session.Clear();
-            TempData[Constants.ACC_TOKEN] = null;
-            TempData[Constants.ROLE_NAME] = null;
-            TempData[Constants.USR_ID] = null;
+            TempData.Clear();
             SignOut();
 
             // If using ASP.NET Identity, you may want to sign out the user

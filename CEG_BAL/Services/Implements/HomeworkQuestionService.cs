@@ -33,7 +33,11 @@ namespace CEG_BAL.Services.Implements
             if (newQus != null)
             {
                 ques.Question = newQus.Question;
-                ques.HomeworkId = _unitOfWork.HomeworkRepositories.GetIdByTitle(newQus.HomeworkTitle).Result;
+                if(ques.Homework?.HomeworkId == 0)
+                {
+                    ques.Homework = null;
+                }
+                /*ques.HomeworkId = _unitOfWork.HomeworkRepositories.GetIdByTitle(newQus.HomeworkTitle).Result;*/
             }
             _unitOfWork.HomeworkQuestionRepositories.Create(ques);
             _unitOfWork.Save();
@@ -69,11 +73,14 @@ namespace CEG_BAL.Services.Implements
         {
             var ques = _mapper.Map<HomeworkQuestion>(model);
 
-            var questionDefault = _unitOfWork.HomeworkQuestionRepositories.GetByIdNoTracking(model.HomeworkQuestionId.Value).Result;
+            /*var questionDefault = _unitOfWork.HomeworkQuestionRepositories.GetByIdNoTracking(model.HomeworkQuestionId.Value).Result;
             //ques.HomeworkId = questionDefault.HomeworkId;
-            questionDefault.Question = model.Question;
-
-            _unitOfWork.HomeworkQuestionRepositories.Update(questionDefault);
+            questionDefault.Question = model.Question;*/
+            if (ques.Homework?.HomeworkId == 0)
+            {
+                ques.Homework = null;
+            }
+            _unitOfWork.HomeworkQuestionRepositories.Update(ques);
             _unitOfWork.Save();
         }
     }

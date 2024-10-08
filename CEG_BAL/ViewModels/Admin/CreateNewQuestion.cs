@@ -9,6 +9,6 @@ namespace CEG_BAL.ViewModels.Admin
     public class CreateNewQuestion
     {
         public string? Question { get; set; }
-        public string? HomeworkTitle { get; set; }
+        //public string? HomeworkTitle { get; set; }
     }
 }

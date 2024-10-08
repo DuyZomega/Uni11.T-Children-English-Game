@@ -16,12 +16,13 @@ using System.Text.Json;
 using System.ComponentModel.DataAnnotations;
 using CEG_RazorWebApp.Models.HomeworkAnswer.Update;
 
-namespace CEG_RazorWebApp.Pages.Admin.Course
+namespace CEG_RazorWebApp.Pages.Admin.Question
 {
-    public class HomeworkQuestionInfoModel : PageModel
+    public class QuestionInfoModel : PageModel
     {
-        private readonly ILogger<HomeworkQuestionInfoModel> _logger;
-        private readonly IMapper _mapper;
+        private readonly IConfiguration _config;
+        private readonly ILogger<QuestionInfoModel> _logger;
+        /*private readonly IMapper _mapper;
         private readonly IConfiguration _config;
         private readonly HttpClient _httpClient = null;
         private string AdminAPI_URL = "";
@@ -37,31 +38,41 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
             Secure = true,
             IsEssential = true,
         };
-        private ChildrenEnglishGameLibrary methcall = new();
-        public string? LayoutUrl { get; set; } = Constants.ADMIN_LAYOUT_URL;
         [BindProperty]
         public int? CourseId { get; set; }
         [BindProperty]
         public int? SessionId { get; set; }
         [BindProperty]
-        public int? HomeworkId { get; set; }
-        public QuestionInfoVM? QuestionInfo { get; set; }
-        public UpdateQuestionVM? UpdateQuestionInfo { get; set; }
+        public int? HomeworkId { get; set; }*/
+        private ChildrenEnglishGameLibrary methcall = new();
+        public int? QuestionId { get; set; }
+        public string? AccToken;
+        public string? ApiUrl;
+        public string? LayoutUrl { get; set; } = Constants.ADMIN_LAYOUT_URL;
+        public UpdateQuestionVM? UpdateQuestionInfo { get; set; } = new UpdateQuestionVM();
+        /*public QuestionInfoVM? QuestionInfo { get; set; }
         public CreateAnswerVM? CreateAnswer { get; set; }
-        public List<AdminAnswerInfoPVM>? Answers { get; set; }
-        public HomeworkQuestionInfoModel(ILogger<HomeworkQuestionInfoModel> logger, IConfiguration config, IMapper mapper)
+        public List<AdminAnswerInfoPVM>? Answers { get; set; }*/
+        public QuestionInfoModel(ILogger<QuestionInfoModel> logger, IConfiguration config, IMapper mapper)
         {
             _logger = logger;
             _config = config;
-            _mapper = mapper;
+            /*_mapper = mapper;
             _httpClient = new HttpClient()
             {
                 BaseAddress = new Uri(config.GetSection(Constants.SYSTEM_DEFAULT_API_HTTPS_URL_CONFIG_PATH).Value)
             };
-            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            AdminAPI_URL = config.GetSection(Constants.SYSTEM_DEFAULT_API_URL_CONFIG_PATH).Value;
+            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));*/
+            ApiUrl = _config.GetSection(Constants.SYSTEM_DEFAULT_API_HTTPS_URL_CONFIG_PATH).Value + _config.GetSection(Constants.SYSTEM_DEFAULT_API_URL_CONFIG_PATH).Value;
         }
-        public async Task<IActionResult> OnGetAsync(
+        public void OnGet(
+            [FromRoute][Required] int questionId)
+        {
+            methcall.InitTempData(this);
+            AccToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
+            QuestionId = questionId;
+        }
+        /*public async Task<IActionResult> OnGetAsync(
             [FromRoute][Required] int courseId,
             [FromRoute][Required] int sessionId,
             [FromRoute][Required] int homeworkId,
@@ -124,8 +135,8 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
             Answers = answerList ?? new List<AdminAnswerInfoPVM>();
             CreateAnswer = createAnswerFailed ?? new CreateAnswerVM();
             return Page();
-        }
-        public async Task<IActionResult> OnPostUpdate(
+        }*/
+        /*public async Task<IActionResult> OnPostUpdate(
             [FromRoute][Required] int questionId,
             [FromForm][Required] UpdateQuestionVM updateQuestion)
         {
@@ -246,10 +257,10 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
             TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = "Answer Update Successfully!";
 
             return Redirect("/Admin/Course/" + CourseId + "/Session/" + SessionId + "/Homework/" + HomeworkId + "/Question/" + questionId + "/Info");
-        }
+        }*/
         public IActionResult OnGetLogout()
         {
-            _httpClient.DefaultRequestHeaders.Authorization = null;
+            //_httpClient.DefaultRequestHeaders.Authorization = null;
             HttpContext.Session.Clear();
             TempData.Clear();
             SignOut();
