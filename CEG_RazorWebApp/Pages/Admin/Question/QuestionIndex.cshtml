@@ -26,7 +26,7 @@
                                     <span>/</span>
                                 </li>
                                 <li class="breadcrumd-item">
-                                    <a href="/Admin/Question/index">Question</a>
+                                    <a href="/Admin/Question/Index">Question</a>
                                 </li>
                             </ol>
                         </div>
@@ -244,7 +244,7 @@
                         <tr class="${index % 2 === 0 ? 'even' : 'odd'}">
                             <td class="sorting_1">
                                 <input type="hidden" name="listRequest[${index}].Question" value="${question.homeworkQuestionId}" class="form-control" />
-                                <a href="/Admin/Account/${question.homeworkQuestionId}/Info">${question.question}</a>
+                                <a href="/Admin/Question/${question.homeworkQuestionId}/Info">${question.question}</a>
                             </td>
                             <td>
                                 <input type="hidden" name="listRequest[${index}].AnswerAmounts" value="${question.answerAmounts}" class="form-control" />

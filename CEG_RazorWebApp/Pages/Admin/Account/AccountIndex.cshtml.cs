@@ -104,7 +104,7 @@ namespace CEG_RazorWebApp.Pages.Admin.Account
         }*/
         public void OnGet()
         {
-
+            methcall.InitTempData(this);
         }
         public IActionResult OnGetLogout()
         {

@@ -350,9 +350,7 @@
 
                         // Check if the status is true
                         if (response.status) {
-                            accountDetail = response.data;
-
-                            setAccountDisplay(accountDetail);
+                            setAccountDisplay(response.data);
                         } else {
                             console.error("API returned false status.");
                         }
