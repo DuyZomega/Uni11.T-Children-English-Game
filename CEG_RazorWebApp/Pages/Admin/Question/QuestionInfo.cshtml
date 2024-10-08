@@ -4,8 +4,7 @@
     ViewData["Title"] = "Admin Homework Question Info Page";
     // var questionInfo = Model.QuestionInfo;
     // var answerList = Model.Answers;
-    // var updateQuestion = Model.UpdateQuestionInfo;
-    // var createAnswer = Model.CreateAnswer;
+    var createAnswer = Model.CreateAnswer;
     var updateQuestion = Model.UpdateQuestionInfo;
     Layout = Model.LayoutUrl;
     var acctoken = Model.AccToken;
@@ -160,7 +159,7 @@
                         <h4 class="modal-title">Add new Homework Answer</h4>
                     </div>
                     <div class="modal-body">
-                        @* <form asp-page-handler="Create" asp-route-questionId="@questionInfo.HomeworkQuestionId" method="post" id="form">
+                        <form asp-page-handler="Create" asp-route-questionId="@Model.QuestionId" method="post" id="createAnswerForm">
                             <div class="row p-4">
                                 <div class="col-12">
                                     <div class="row form-group">
@@ -170,12 +169,12 @@
                                               class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
                                     </div>
                                     <div class="row form-group">
-                                        <label asp-for="@createAnswer.AnswerType" class="col-md-3 col-form-label text-md-right"></label>
-                                        <select class="form-control col-md-7 custom-select" asp-for="@createAnswer.AnswerType" asp-items="@createAnswer.DefaultAnswerTypeSelectList"></select>
-                                        <span asp-validation-for="@createAnswer.AnswerType" id="error_message"
+                                        <label asp-for="@createAnswer.Type" class="col-md-3 col-form-label text-md-right"></label>
+                                        <select class="form-control col-md-7 custom-select" asp-for="@createAnswer.Type" asp-items="@createAnswer.DefaultAnswerTypeSelectList"></select>
+                                        <span asp-validation-for="@createAnswer.Type" id="error_message"
                                               class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
-                                        <input asp-for="@createAnswer.QuestionId" value="@questionInfo.HomeworkQuestionId" type="text" required hidden readonly>
+                                        <input asp-for="@createAnswer.QuestionId" value="@Model.QuestionId" type="text" required hidden readonly>
                                     </div>
                                 </div>
                                 <div class="modal-footer justify-content-center" style="margin-left:400px;">
@@ -183,7 +182,7 @@
                                     <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
                                 </div>
                             </div>
-                        </form> *@
+                        </form>
                     </div>
                 </div>
             </div>
@@ -205,6 +204,20 @@
                     //Make the AJAX request
                     callApiPutUpdateQuestion(formData);
                     $('#editQuestionForm').trigger("reset");
+                });
+                $('#createAnswerForm').submit(function (event) {
+                    event.preventDefault(); // Prevent the form from submitting normally
+
+                    // Get the form data
+                    var formData = {
+                        answer: $('textarea[id="createAnswer_Answer"]').val(),
+                        type: $('select[id="createAnswer_Type"]').val(),
+                        questionid: $('input[id="createAnswer_QuestionId"]').val()
+                    };
+
+                    // Make the AJAX request
+                    callApiPostCreateAnswer(formData);
+                    $('#createAnswerForm').trigger("reset");
                 });
             });
             // Function to display alerts
@@ -250,6 +263,30 @@
                         if (response.status) {
                             showAlert('success',"Question update successfully");
                             callApiGetQuestionDetail();
+                        } else {
+                            console.error("API returned false status.");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle error (display the validation message, etc.)
+                        alert("Error in api call:" + error);
+                        console.error("Error in api call:", error);
+                    }
+                });
+            }
+            function callApiPostCreateAnswer(formData){
+                $.ajax({
+                    url: apiUrl + 'Answer/Create', // Specify your Razor Page here
+                    type: 'POST',
+                    data: JSON.stringify(formData),
+                    headers: {
+                        'Authorization': 'Bearer ' + token, // Token for authentication
+                    },
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (response) {
+                        // Handle success (display a success message or redirect, etc.)
+                        if (response.status) {
+                            showAlert('success',"Answer create successfully");
                         } else {
                             console.error("API returned false status.");
                         }

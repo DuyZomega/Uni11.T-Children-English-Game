@@ -10,13 +10,13 @@ namespace CEG_RazorWebApp.Models.HomeworkAnswer.Create
         {
             var lib = new ChildrenEnglishGameLibrary();
             Answer = "";
-            AnswerType = Constants.HOMEWORK_ANSWER_TYPE_CORRECT;
-            DefaultAnswerTypeSelectList = lib.GetAnswerTypeSelectableList(AnswerType);
+            Type = Constants.HOMEWORK_ANSWER_TYPE_CORRECT;
+            DefaultAnswerTypeSelectList = lib.GetAnswerTypeSelectableList(Type);
         }
         [Required(ErrorMessage = "Answer Description is required")]
         public string? Answer { get; set; }
         [Required(ErrorMessage = "Answer Type is required")]
-        public string? AnswerType { get; set; }
+        public string? Type { get; set; }
         public List<SelectListItem> DefaultAnswerTypeSelectList { get; set; }
         public int? QuestionId { get; set; }
         //public string? Question { get; set; }
