@@ -22,8 +22,8 @@ namespace CEG_RazorWebApp.Pages.Admin.Question
     {
         private readonly IConfiguration _config;
         private readonly ILogger<QuestionInfoModel> _logger;
-        /*private readonly IMapper _mapper;
-        private readonly IConfiguration _config;
+        private readonly IMapper _mapper;
+        /*
         private readonly HttpClient _httpClient = null;
         private string AdminAPI_URL = "";
         private readonly JsonSerializerOptions jsonOptions = new JsonSerializerOptions
@@ -58,8 +58,8 @@ namespace CEG_RazorWebApp.Pages.Admin.Question
         {
             _logger = logger;
             _config = config;
-            /*_mapper = mapper;
-            _httpClient = new HttpClient()
+            _mapper = mapper;
+            /*_httpClient = new HttpClient()
             {
                 BaseAddress = new Uri(config.GetSection(Constants.SYSTEM_DEFAULT_API_HTTPS_URL_CONFIG_PATH).Value)
             };
@@ -74,47 +74,6 @@ namespace CEG_RazorWebApp.Pages.Admin.Question
             QuestionId = questionId;
         }
         /*
-        public async Task<IActionResult> OnPostCreate(
-            [FromRoute][Required] int questionId,
-            [FromForm][Required] CreateAnswerVM createAnswer)
-        {
-            AdminAPI_URL += "Answer/Create";
-            string? accToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
-
-            if (!ModelState.IsValid)
-            {
-                TempData = methcall.SetValidationTempData(TempData, Constants.CREATE_HOMEWORK_ANSWER_DETAILS_VALID, createAnswer, jsonOptions);
-                return Redirect("/Admin/Course/" + CourseId + "/Session/" + SessionId + "/Homework/" + HomeworkId + "/Question/" + questionId + "/Info");
-            }
-
-            var authenResponse = await methcall.CallMethodReturnObject<AdminAnswerCreateResponseVM>(
-                _httpClient: _httpClient,
-                options: jsonOptions,
-                methodName: Constants.POST_METHOD,
-                url: AdminAPI_URL,
-                inputType: _mapper.Map<CreateNewAnswer>(createAnswer),
-                accessToken: accToken,
-                _logger: _logger);
-
-            if (authenResponse == null)
-            {
-                _logger.LogError("Error while creating answer");
-
-                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while creating answer !";
-
-                return Redirect("/Admin/Course/" + CourseId + "/Session/" + SessionId + "/Homework/" + HomeworkId + "/Question/" + questionId + "/Info");
-            }
-            if (!authenResponse.Status)
-            {
-                _logger.LogError("Error while creating answer");
-
-                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while creating answer !";
-
-                return Redirect("/Admin/Course/" + CourseId + "/Session/" + SessionId + "/Homework/" + HomeworkId + "/Question/" + questionId + "/Info");
-            }
-            TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = "Homework Answer Create Successfully!";
-            return Redirect("/Admin/Course/" + CourseId + "/Session/" + SessionId + "/Homework/" + HomeworkId + "/Question/" + questionId + "/Info");
-        }
         public async Task<IActionResult> OnPostAnswerUpdate(
             [FromRoute][Required] int questionId,
             [Required] int answerId,
@@ -157,6 +116,15 @@ namespace CEG_RazorWebApp.Pages.Admin.Question
             return Redirect("/Admin/Course/" + CourseId + "/Session/" + SessionId + "/Homework/" + HomeworkId + "/Question/" + questionId + "/Info");
         }
         */
+        /*public async Task<IActionResult> OnGetAnswerDetails(HomeworkAnswerViewModel answer)
+        {
+            var answerObject = new AdminAnswerInfoPVM(
+                questionId: answer.HomeworkQuestion.HomeworkQuestionId,
+                answerInfo: _mapper.Map<AnswerInfoVM>(answer),
+                updateAnswerInfo: _mapper.Map<UpdateAnswerVM>(answer)
+                );
+            return Partial("PartialViews/_AnswerDetails", answerObject);
+        }*/
         public IActionResult OnGetLogout()
         {
             //_httpClient.DefaultRequestHeaders.Authorization = null;

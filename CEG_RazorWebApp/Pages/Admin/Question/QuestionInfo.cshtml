@@ -100,21 +100,8 @@
                                             <i class='bx bxs-add-to-queue bx-sm' data-toggle="modal" data-target="#createAnswer"></i>
                                         </div>
                                     </div>
-                                    <div class="card-body">
-                                        @* @{
-                                            if (answerList != null && answerList.Count > 0)
-                                            {
-                                                @foreach (var answerInfo in answerList)
-                                                {
-                                                    @await Html.PartialAsync("PartialViews/_AnswerDetails", answerInfo)
-                                                    ;
-                                                }
-                                            }
-                                            else
-                                            {
-                                                <h5>Empty Answer list</h5>
-                                            }
-                                        } *@
+                                    <div class="card-body" id="answer_list">
+                                        <h5>No answers found</h5>
                                     </div>
                                 </div>
                             </div>
@@ -287,6 +274,7 @@
                         // Handle success (display a success message or redirect, etc.)
                         if (response.status) {
                             showAlert('success',"Answer create successfully");
+                            callApiGetQuestionDetail();
                         } else {
                             console.error("API returned false status.");
                         }
@@ -307,6 +295,20 @@
                         // Check if the status is true
                         if (response.status) {
                             setQuestionDisplay(response.data);
+                            // Check if homeworkAnswers is empty
+                            if (response.data.homeworkAnswers && response.data.homeworkAnswers.length > 0) {
+                                // Clear any existing answers
+                                $('#answer_list').empty();
+
+                                // Loop through each answer and generate the HTML
+                                response.data.homeworkAnswers.forEach(function (answer) {
+                                    let answerHtml = generateAnswerHtml(answer, answer); // Assuming both answerInfo and updateAnswer are the same structure
+                                    $('#answer_list').append(answerHtml);
+                                });
+                            } else {
+                                // If the answer list is empty
+                                $('#answer_list').html('<h5>No answers found</h5>');
+                            }
                         } else {
                             console.error("API returned false status.");
                         }
@@ -318,6 +320,92 @@
                     }
                 });
             }
+            function generateAnswerHtml(answerInfo) {
+                return `
+                <div class="card-header">
+                    <h5>Answer <label class="truncate">${answerInfo.answer}</label> Details</h5>
+                    <div class="edit-info">
+                        <i class='bx bxs-edit bx-sm' data-toggle="modal" data-target="#editanswer_${answerInfo.homeworkAnswerId}"></i>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-sm-2">
+                        <div class="col-md-5 text-md-right">
+                            <label class="col-form-label">Answer ID:</label>
+                        </div>
+                        <div class="col-md-7">
+                            <span>${answerInfo.homeworkAnswerId}</span>
+                        </div>
+                    </div>
+                    <div class="row mb-sm-2">
+                        <div class="col-sm-5 text-sm-right">
+                            <label for="meeting-name">Answer:</label>
+                        </div>
+                        <div class="col-sm-7 text-sm-left">
+                            <span>${answerInfo.answer}</span>
+                        </div>
+                    </div>
+                    <div class="row mb-sm-2">
+                        <div class="col-sm-5 text-sm-right">
+                            <label for="meeting-name">Answer Type:</label>
+                        </div>
+                        <div class="col-sm-7 text-sm-left">
+                            <span>${answerInfo.type}</span>
+                        </div>
+                    </div>
+                </div>
+                <hr class="container my-0">
+
+                <div id="editanswer_${answerInfo.homeworkAnswerId}" class="modal fade" role="dialog">
+                    <div class="modal-dialog modal-dialog-centered modal-lg" role="content">
+                        <div class="modal-content modal-addRoom">
+                            <div class="modal-header">
+                                <h4 class="modal-title truncate">Update Answer ${answerInfo.answer}</h4>
+                            </div>
+                            <form method="put" class="form-group">
+                                <div class="modal-body">
+                                    <div class="col-12">
+                                        <div class="form-group row">
+                                            <label for="updateAnswer_${answerInfo.homeworkAnswerId}_Answer" class="col-sm-4 col-form-label">Answer</label>
+                                            <div class="col-sm-8">
+                                                <textarea id="updateAnswer_${answerInfo.homeworkAnswerId}_Answer" name="Answer" required class="form-control col-md-7">
+                                                    ${answerInfo.answer}
+                                                </textarea>
+                                                <span class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2" id="error_message"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                                    <label for="updateAnswer_${answerInfo.homeworkAnswerId}_Type" class="col-sm-4 col-form-label">Answer Type</label>
+                                            <div class="col-sm-8">
+                                                <select id="updateAnswerType_${answerInfo.homeworkAnswerId}_Type" name="Type" class="form-control custom-select">
+                                                    ${getTypeOptions(answerInfo.type)}
+                                                </select>
+                                                <span class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2" id="error_message"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer justify-content-center">
+                                    <button class="btn btn-success" type="submit" value="Update">Save</button>
+                                    <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                `;
+            }
+            function getTypeOptions(selectedStatus) {
+                var options = ['Incorrect', 'Correct']; // Example statuses
+                var html = '';
+
+                options.forEach(function (status) {
+                    html += `<option value="${status}" ${selectedStatus === status ? 'selected' : ''}>${status}</option>`;
+                });
+
+                return html;
+            }
+
             function setQuestionDisplay(data) {
                 $('#question-id').text(data.homeworkQuestionId);
                 $('#question-question-title').text(data.question);
