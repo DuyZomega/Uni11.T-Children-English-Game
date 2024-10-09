@@ -206,6 +206,23 @@
                     callApiPostCreateAnswer(formData);
                     $('#createAnswerForm').trigger("reset");
                 });
+                $(document).on('submit', 'form[id^="editAnswerForm_"]', function (event) {
+                    event.preventDefault();
+                    // Extract the answerId from the form's id
+                    let answerId = $(this).attr('id').split('_')[1];
+
+                    // Collect form data
+                    let formData = {
+                        answer: $('#updateAnswer_' + answerId + '_Answer').val(),
+                        type: $('#updateAnswer_' + answerId + '_Type').val()
+                    };
+
+                    // Call the API to update the answer
+                    callApiPutUpdateAnswer(formData, answerId);
+
+                    // Optionally reset the form
+                    //$(this).trigger("reset");
+                });
             });
             // Function to display alerts
             function showAlert(type, message) {
@@ -261,6 +278,32 @@
                     }
                 });
             }
+            function callApiPutUpdateAnswer(formData,answerId) {
+                $.ajax({
+                    url: apiUrl + 'Answer/' + answerId + '/Update', // Specify your Razor Page here
+                    type: 'PUT',
+                    data: JSON.stringify(formData),
+                    headers: {
+                        'Authorization': 'Bearer ' + token, // Token for authentication
+                    },
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (response) {
+                        // Handle success (display a success message or redirect, etc.)
+                        if (response.status) {
+                            showAlert('success', "Answer update successfully");
+                            $('.modal-backdrop').remove();
+                            callApiGetQuestionDetail();
+                        } else {
+                            console.error("API returned false status.");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle error (display the validation message, etc.)
+                        alert("Error in api call:" + error);
+                        console.error("Error in api call:", error);
+                    }
+                });
+            }
             function callApiPostCreateAnswer(formData){
                 $.ajax({
                     url: apiUrl + 'Answer/Create', // Specify your Razor Page here
@@ -302,7 +345,7 @@
 
                                 // Loop through each answer and generate the HTML
                                 response.data.homeworkAnswers.forEach(function (answer) {
-                                    let answerHtml = generateAnswerHtml(answer, answer); // Assuming both answerInfo and updateAnswer are the same structure
+                                    let answerHtml = generateAnswerHtml(answer); // Assuming both answerInfo and updateAnswer are the same structure
                                     $('#answer_list').append(answerHtml);
                                 });
                             } else {
@@ -355,29 +398,26 @@
                     </div>
                 </div>
                 <hr class="container my-0">
-
                 <div id="editanswer_${answerInfo.homeworkAnswerId}" class="modal fade" role="dialog">
                     <div class="modal-dialog modal-dialog-centered modal-lg" role="content">
                         <div class="modal-content modal-addRoom">
                             <div class="modal-header">
                                 <h4 class="modal-title truncate">Update Answer ${answerInfo.answer}</h4>
                             </div>
-                            <form method="put" class="form-group">
+                            <form method="put" class="form-group" id="editAnswerForm_${answerInfo.homeworkAnswerId}">
                                 <div class="modal-body">
                                     <div class="col-12">
                                         <div class="form-group row">
                                             <label for="updateAnswer_${answerInfo.homeworkAnswerId}_Answer" class="col-sm-4 col-form-label">Answer</label>
                                             <div class="col-sm-8">
-                                                <textarea id="updateAnswer_${answerInfo.homeworkAnswerId}_Answer" name="Answer" required class="form-control col-md-7">
-                                                    ${answerInfo.answer}
-                                                </textarea>
+                                                <textarea id="updateAnswer_${answerInfo.homeworkAnswerId}_Answer" name="Answer" required class="form-control col-md-7">${answerInfo.answer}</textarea>
                                                 <span class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2" id="error_message"></span>
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                                    <label for="updateAnswer_${answerInfo.homeworkAnswerId}_Type" class="col-sm-4 col-form-label">Answer Type</label>
+                                            <label for="updateAnswer_${answerInfo.homeworkAnswerId}_Type" class="col-sm-4 col-form-label">Answer Type</label>
                                             <div class="col-sm-8">
-                                                <select id="updateAnswerType_${answerInfo.homeworkAnswerId}_Type" name="Type" class="form-control custom-select">
+                                                <select id="updateAnswer_${answerInfo.homeworkAnswerId}_Type" name="Type" class="form-control custom-select">
                                                     ${getTypeOptions(answerInfo.type)}
                                                 </select>
                                                 <span class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2" id="error_message"></span>
