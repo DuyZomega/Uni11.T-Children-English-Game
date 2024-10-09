@@ -318,10 +318,6 @@ namespace CEG_RazorWebApp.Libraries
                     dest.Type = src.AnswerType;
                 });
             CreateMap<CreateAnswerVM, CreateNewAnswer>()
-                .AfterMap((src, dest) =>
-                {
-                    dest.Type = src.AnswerType;
-                })
                 .ReverseMap();
             CreateMap<UpdateAnswerVM, HomeworkAnswerViewModel>()
                 .AfterMap((src, dest) =>
