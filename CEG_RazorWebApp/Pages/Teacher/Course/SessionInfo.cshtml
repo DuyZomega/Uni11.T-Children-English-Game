@@ -1,11 +1,12 @@
-﻿@model CEG_WebMVC.Models.ViewModels.Teacher.PageModel.TeacherSessionInfoPVM
+﻿@page "/Teacher/Course/{courseId}/Session/{sessionId}/Info"
+@model CEG_RazorWebApp.Pages.Teacher.Course.SessionInfoModel
 @{
     ViewData["Title"] = "Teacher Session Info Page";
     var sessionInfo = Model.SessionInfo;
     var homeworkList = Model.Homeworks;
     var updateSession = Model.UpdateSessionInfo;
     var createHomework = Model.CreateHomework;
-    Layout = "~/Views/Shared/_ALayout.cshtml";
+    Layout = Model.LayoutUrl;
 }
 <html lang="en">
 <head>
@@ -28,26 +29,31 @@
                                 <span>/</span>
                             </li>
                             <li class="breadcrumd-item">
-                                <a href="@Url.Action("TeacherCourseIndex","Teacher")">Course</a>
+                                <a href="/Teacher/Course/Index">Course</a>
                             </li>
                             <li class="breadcrumd-item">
                                 <span>/</span>
                             </li>
                             <li class="breadcrumd-item">
-                                <a href="@Url.Action("TeacherCourseInfo","Teacher",new { courseId = Model.CourseId })">Info</a>
+                                <a href="/Teacher/Course/@Model.CourseId/Info">@Model.CourseId</a>
                             </li>
                             <li class="breadcrumd-item">
                                 <span>/</span>
                             </li>
                             <li class="breadcrumd-item">
-                                <a href="@Url.Action("TeacherCourseInfo","Teacher",new { courseId = Model.CourseId })">Session</a>
+                                <a href="/Teacher/Course/@Model.CourseId/Info">Session</a>
                             </li>
                             <li class="breadcrumd-item">
                                 <span>/</span>
                             </li>
                             <li class="breadcrumd-item">
-                                <a href="@Url.Action("TeacherSessionInfo","Teacher",new { courseId = Model.CourseId, sessionId = sessionInfo.SessionId })">Info</a>
+                                <a href="/Teacher/Course/@Model.CourseId/Session/@sessionInfo.SessionId/Info">@sessionInfo.SessionId</a>
                             </li>
+                            <li class="breadcrumd-item">
+                                <span>/</span>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <a href="/Teacher/Course/@Model.CourseId/Session/@sessionInfo.SessionId/Info">Info</a>
                         </ol>
                     </div>
                 </div>
@@ -61,11 +67,33 @@
                                         if (sessionInfo.Status.Equals("Draft") || sessionInfo.Status.Equals("Postponed"))
                                         {
                                             <div class="edit-info">
-                                                <i class='bx bxs-edit-alt' data-toggle="modal" data-target="#editSession"></i>
+                                                <i class='bx bxs-edit' data-toggle="modal" data-target="#editSession"></i>
                                             </div>
                                         }
                                     }
                                 </div>
+                                @if (TempData["Success"] != null)
+                                {
+                                    <div class="alert alert-success alert-dismissible fade show" id="notif">
+                                        <i class='bx bx-message-alt-x p-1'></i>
+                                        <strong class="mr-1">@TempData["Success"]</strong>
+                                        <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+                                            <span><i class='bx bx-x'></i></span>
+                                        </button>
+                                    </div>
+                                    TempData["Success"] = null;
+                                }
+                                else if (TempData["Error"] != null)
+                                {
+                                    <div class="alert alert-danger alert-dismissible fade show" id="notif">
+                                        <i class='bx bx-message-alt-x p-1'></i>
+                                        <strong class="mr-1">@TempData["Error"]</strong>
+                                        <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+                                            <span><i class='bx bx-x'></i></span>
+                                        </button>
+                                    </div>
+                                    TempData["Error"] = null;
+                                }
                                 <div class="card-body">
                                     <div class="row mb-sm-2">
                                         <div class="col-md-5 text-md-right">
@@ -169,7 +197,7 @@
                                         if (sessionInfo.Status.Equals("Draft") || sessionInfo.Status.Equals("Postponed"))
                                         {
                                             <div class="edit-info">
-                                                <i class='bx bxs-edit-alt' data-toggle="modal" data-target="#createHomework"></i>
+                                                <i class='bx bxs-add-to-queue' data-toggle="modal" data-target="#createHomework"></i>
                                             </div>
                                         }
                                     }
@@ -180,7 +208,7 @@
                                         {
                                             @foreach (var homeworkInfo in homeworkList)
                                             {
-                                                @await Html.PartialAsync("PartialViews/_TeacherHomeworkDetails", homeworkInfo)
+                                                @await Html.PartialAsync("PartialViews/_HomeworkDetails", homeworkInfo)
                                                 ;
                                             }
                                         }
@@ -204,7 +232,7 @@
                     <h4 class="modal-title">Edit Session</h4>
                 </div>
                 <div class="modal-body">
-                    <form asp-action="TeacherSessionUpdate" asp-controller="Teacher" method="post" asp-route-courseId="@Model.CourseId" asp-route-sessionId="@sessionInfo.SessionId" class="form-group">
+                    <form asp-page-handler="Update" method="post" asp-route-sessionId="@sessionInfo.SessionId" class="form-group">
                         <div class="modal-body">
                             <div class="col-12">
                                 <div class="form-group row">
@@ -219,8 +247,7 @@
                                 <div class="form-group row">
                                     <label asp-for="@updateSession.Description" class="col-sm-4 col-form-label"></label>
                                     <div class="col-sm-8">
-                                        <input asp-for="@updateSession.Description" type="text"
-                                               value="@updateSession.Description" class="form-control" required>
+                                        <textarea asp-for="@updateSession.Description" value="@updateSession.Description" required class="form-control col-md-7"></textarea>
                                         <span asp-validation-for="@updateSession.Description" id="error_message"
                                               class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
                                     </div>
@@ -267,7 +294,7 @@
                     <h4 class="modal-title">Add new Homework</h4>
                 </div>
                 <div class="modal-body">
-                    <form asp-action="TeacherHomeworkCreate" asp-controller="Teacher" asp-route-courseId="@Model.CourseId" asp-route-sessionId="@sessionInfo.SessionId" method="post" id="form">
+                    <form asp-page-handler="Create" asp-route-sessionId="@sessionInfo.SessionId" method="post" id="form">
                         <div class="row p-4">
                             <div class="col-12">
                                 <div class="row form-group">
@@ -284,6 +311,11 @@
                                     <label asp-for="@createHomework.Hours" class="col-md-3 col-form-label mt-3 text-md-right"></label>
                                     <input asp-for="@createHomework.Hours" value="@createHomework.Hours" type="number" class="form-control col-md-7 mt-3" required>
                                     <span asp-validation-for="@createHomework.Hours" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@createHomework.Type" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                    <select class="form-control col-md-7 custom-select" asp-for="@createHomework.Type" asp-items="@createHomework.DefaultHomeworkTypeSelectList"></select>
+                                    <span asp-validation-for="@createHomework.Type" id="error_message"
                                           class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
                                     <input asp-for="@createHomework.SessionTitle" value="@sessionInfo.Title" type="text" required hidden readonly>

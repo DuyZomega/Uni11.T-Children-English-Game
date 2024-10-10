@@ -58,9 +58,6 @@ namespace CEG_RazorWebApp.Pages.Admin
             TempData.Clear();
             SignOut();
 
-            // If using ASP.NET Identity, you may want to sign out the user
-            // Example: await SignInManager.SignOutAsync();
-
             return RedirectToPage(Constants.LOGOUT_REDIRECT_URL);
         }
     }
