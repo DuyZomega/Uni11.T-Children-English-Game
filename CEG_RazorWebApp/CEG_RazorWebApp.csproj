@@ -30,5 +30,11 @@
     <Folder Include="Libraries\Attributes\" />
     <Folder Include="Pages\Admin\Transaction\" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Update="Pages\Teacher\Question\QuestionIndex.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
    
 </Project>

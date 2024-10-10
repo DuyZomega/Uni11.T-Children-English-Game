@@ -83,122 +83,61 @@
         </div>
     </div>
     <script>
-        var token = '@HttpContext.Session.GetString(CEG_RazorWebApp.Libraries.Constants.ACC_TOKEN)';
-        var apiUrl = 'https://localhost:7143/api/';
-        var classList = [];
-        $(document).ready(function () {
-            callApiGetClassList();
-            $('#search').on('keyup', function (event) {
-                // Get the search term
-                var searchTerm = $(this).val().toLowerCase();
+    var token = '@HttpContext.Session.GetString(CEG_RazorWebApp.Libraries.Constants.ACC_TOKEN)';
+    var apiUrl = 'https://localhost:7143/api/';
+    var classList = [];
 
-                // Filter the classes based on the search term
-                var filteredclassList = classList.filter(function (classObject) {
-                    return classObject.className.toLowerCase().includes(searchTerm);
-                });
+    $(document).ready(function () {
+        // Decode JWT token to extract the teacher ID
+        var decodedToken = jwt_decode(token);
+        var teacherId = decodedToken.teacherId; // Assuming the teacherId is part of the token payload
 
-                // Display the filtered accountList
-                setClassDisplay(filteredclassList);
+        // Check if teacherId exists in the decoded token
+        if (teacherId) {
+            callApiGetClassList(teacherId);
+        } else {
+            alert("Teacher ID not found in token");
+        }
+
+        // Search event handler
+        $('#search').on('keyup', function (event) {
+            var searchTerm = $(this).val().toLowerCase();
+            var filteredclassList = classList.filter(function (classObject) {
+                return classObject.className.toLowerCase().includes(searchTerm);
             });
-            // Call API to get the list of teacher names
-            $.ajax({
-                url: apiUrl + 'Teacher/All/Fullname', // API endpoint
-                type: 'GET',
-                success: function (response) {
-                    // Log the entire response to the console for debugging
-                    console.log("Returned object:", response);
+            setClassDisplay(filteredclassList);
+        });
 
-                    // Check if the status is true
-                    if (response.status) {
-                        var select = $('#createClass_TeacherName'); // Reference to the <select> element
-                        select.empty(); // Clear any existing options
-
-                        // Append a default option
-                        // select.append('<option value="">--Select a Teacher--</option>');
-
-                        // Loop through the data array and append each name as an option
-                        $.each(response.data, function (index, teacherName) {
-                            select.append('<option value="' + teacherName + '">' + teacherName + '</option>');
-                        });
-                    } else {
-                        console.error("API returned false status.");
-                    }
-                },
-                error: function (error) {
-                    alert("Error in api call:" + error);
-                    console.error("Error in api call:", error);
+        // Call API to get the list of teacher names
+        $.ajax({
+            url: apiUrl + 'Teacher/All/Fullname',
+            type: 'GET',
+            success: function (response) {
+                if (response.status) {
+                    var select = $('#createClass_TeacherName');
+                    select.empty();
+                    $.each(response.data, function (index, teacherName) {
+                        select.append('<option value="' + teacherName + '">' + teacherName + '</option>');
+                    });
+                } else {
+                    console.error("API returned false status.");
                 }
-            });
-            // Call API to get the list of course names
-            $.ajax({
-                url: apiUrl + 'Course/All/Name', // API endpoint
-                type: 'GET',
-                success: function (response) {
-                    // Log the entire response to the console for debugging
-                    console.log("Returned object:", response);
-
-                    // Check if the status is true
-                    if (response.status) {
-                        var select = $('#createClass_CourseName'); // Reference to the <select> element
-                        select.empty(); // Clear any existing options
-
-                        // Append a default option
-                        // select.append('<option value="">--Select a Teacher--</option>');
-
-                        // Loop through the data array and append each name as an option
-                        $.each(response.data, function (index, courseName) {
-                            select.append('<option value="' + courseName + '">' + courseName + '</option>');
-                        });
-                    } else {
-                        console.error("API returned false status.");
-                    }
-                },
-                error: function (error) {
-                    alert("Error in api call:" + error);
-                    console.error("Error in api call:", error);
-                    //showAlert('success', 'Data fetched successfully.');
-                }
-            });
-            // Function to display alerts
-            function showAlert(type, message) {
-                var alertHtml = '';
-
-                if (type === 'success') {
-                    alertHtml = `
-                        <div class="alert alert-success alert-dismissible fade show" id="notif">
-                            <i class='bx bx-message-alt-x p-1'></i>
-                            <strong class="mr-1">` + message + `</strong>
-                            <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
-                                <span><i class='bx bx-x'></i></span>
-                            </button>
-                        </div>`;
-                } else if (type === 'error') {
-                    alertHtml = `
-                        <div class="alert alert-danger alert-dismissible fade show" id="notif">
-                            <i class='bx bx-message-alt-x p-1'></i>
-                            <strong class="mr-1">` + message + `</strong>
-                            <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
-                                <span><i class='bx bx-x'></i></span>
-                            </button>
-                        </div>`;
-                }
-
-                // Inject the alert HTML into the alert container
-                $('#alertContainer').html(alertHtml);
+            },
+            error: function (error) {
+                alert("Error in api call: " + error);
+                console.error("Error in api call:", error);
             }
         });
-        function callApiGetClassList(){
+
+        // Function to call API for class list
+        function callApiGetClassList(teacherId) {
             $.ajax({
-                url: apiUrl + 'Class/Teacher/All', // API endpoint
+                url: apiUrl + 'Class/' + teacherId + '/All', // Use teacherId in the API URL
                 type: 'GET',
                 headers: {
-                    'Authorization': 'Bearer ' + token// Include the JWT token
+                    'Authorization': 'Bearer ' + token
                 },
                 success: function (response) {
-                    // Log the entire response to the console for debugging
-                    console.log("Returned object:", response);
-
-                    // Check if the status is true
                     if (response.status) {
                         classList = response.data;
                         setClassDisplay(classList);
@@ -207,15 +146,15 @@
                     }
                 },
                 error: function (error) {
-                    alert("Error in api call:" + error);
+                    alert("Error in api call: " + error);
                     console.error("Error in api call:", error);
-                    //showAlert('success', 'Data fetched successfully.');
                 }
             });
         }
-        function setClassDisplay(data){
-            var classList = $('#classList'); // Reference to the <classList> element
-            // classList.empty(); // Clear any existing options
+
+        // Function to display class list
+        function setClassDisplay(data) {
+            var classList = $('#classList');
             classList.empty();
             var cardCreateClassHtml = `
                 <div class="col-xl-3 col-lg-6 col-sm-6 my-3 item">
@@ -230,11 +169,10 @@
                 </div>
             `;
             classList.append(cardCreateClassHtml);
-            // Loop through the data array and append each class div
+
             $.each(data, function (index, classObj) {
                 var formattedStartDate = formatDate(classObj.startDate);
                 var formattedEndDate = formatDate(classObj.endDate);
-                // Construct card HTML
                 var cardHtml = `
                     <div class="col-xl-3 col-lg-6 col-sm-6 my-3">
                         <div class="card1 card-child">
@@ -254,79 +192,27 @@
                                 </div>
                             </div>
                             <div class="form-group mx-auto">
-                                <form method="get" asp-route-id="${classObj.ClassName}">
+                                <form method="get" asp-route-id="${classObj.className}">
                                     <button class="btn btn-primary clickable-row" type="submit">See Detail</button>
                                 </form>
                             </div>
                         </div>
                     </div>
                 `;
-                // Append the constructed HTML to the class list container
                 classList.append(cardHtml);
             });
         }
+
         function formatDate(date) {
             let d = new Date(date);
-
-            // Get day, month, year
             let day = String(d.getDate()).padStart(2, '0');
-            let month = String(d.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+            let month = String(d.getMonth() + 1).padStart(2, '0');
             let year = d.getFullYear();
-
-            // Get hours, minutes
             let hours = String(d.getHours()).padStart(2, '0');
             let minutes = String(d.getMinutes()).padStart(2, '0');
-
-            // Optionally, get seconds
-            let seconds = String(d.getSeconds()).padStart(2, '0');
-
-            // Return the formatted date and time as `dd/mm/yyyy hh:mm`
             return `${day}/${month}/${year} ${hours}:${minutes}`;
-
-            // If you want to include seconds as well, use this return:
-            // return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
         }
-        $("#submitClass").click(function (event) {
-            event.preventDefault(); // Prevent the form from submitting
-
-            // Gather form data
-            var classData = {
-                ClassName: $("#createClass_ClassName").val(),
-                MinStudents: $("#createClass_MinStudents").val(),
-                MaxStudents: $("#createClass_MaxStudents").val(),
-                TeacherName: $("#createClass_TeacherName").val(),
-                CourseName: $("#createClass_CourseName").val(),
-                StartDate: $("#createClass_StartDate").val(),
-                EndDate: $("#createClass_EndDate").val(),
-            };
-
-            // Make the AJAX POST request
-            $.ajax({
-                url: apiUrl + 'Class/Create',
-                headers: {
-                    'Authorization': 'Bearer ' + token// Include the JWT token
-                },
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify(classData),
-                success: function (response) {
-                    // Log the entire response to the console for debugging
-                    // Check if the status is true
-                    if (response.status) {
-                        alert('Class created successfully!');
-                        $('#createClassForm').trigger("reset");
-                        callApiGetClassList();
-                    } else {
-                        console.error("API returned false status. Message:", response.ErrorMessage);
-                    }
-                },
-                error: function (error) {
-                    alert("Error in api call:" + error);
-                    console.error("Error in api call", error);
-                    //showAlert('success', 'Data fetched successfully.');
-                }
-            });
-        });
-    </script>
+    });
+</script>
 </body>
 </html>

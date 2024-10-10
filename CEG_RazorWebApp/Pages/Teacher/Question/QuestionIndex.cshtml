@@ -209,7 +209,7 @@
             }
             function callApiGetQuestionList() {
                 $.ajax({
-                    url: apiUrl + 'Question/All/Ordered', // API endpoint
+                    url: apiUrl + 'Question/All/Question', // API endpoint
                     type: 'GET',
                     headers: {
                         'Authorization': 'Bearer ' + token// Include the JWT token

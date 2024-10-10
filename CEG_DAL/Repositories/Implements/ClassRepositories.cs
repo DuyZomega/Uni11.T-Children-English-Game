@@ -68,5 +68,9 @@ namespace CEG_DAL.Repositories.Implements
                 })
                 .ToListAsync();
         }
+        public async Task<List<Class>> GetClassListByTeacherId(int teacherId)
+        {
+            return await _dbContext.Classes.AsNoTrackingWithIdentityResolution().Where(c => c.TeacherId == teacherId).ToListAsync();
+        }
     }
 }
