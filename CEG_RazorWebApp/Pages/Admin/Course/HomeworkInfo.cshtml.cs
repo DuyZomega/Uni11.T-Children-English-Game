@@ -43,10 +43,13 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
         public int? CourseId { get; set; }
         [BindProperty]
         public int? SessionId { get; set; }
+        public int? HomeworkId { get; set; }
         public HomeworkInfoVM? HomeworkInfo { get; set; }
         public UpdateHomeworkVM? UpdateHomeworkInfo { get; set; }
         public UpdateQuestionVM? AddQuestion { get; set; } = new UpdateQuestionVM();
         public List<AdminQuestionInfoPVM>? Questions { get; set; }
+        public string? AccToken;
+        public string? ApiUrl;
         public HomeworkInfoModel(ILogger<HomeworkInfoModel> logger, IConfiguration config, IMapper mapper)
         {
             _logger = logger;
@@ -58,6 +61,7 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
             };
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             AdminAPI_URL = config.GetSection(Constants.SYSTEM_DEFAULT_API_URL_CONFIG_PATH).Value;
+            ApiUrl = _config.GetSection(Constants.SYSTEM_DEFAULT_API_HTTPS_URL_CONFIG_PATH).Value + _config.GetSection(Constants.SYSTEM_DEFAULT_API_URL_CONFIG_PATH).Value;
         }
         public async Task<IActionResult> OnGetAsync(
             [FromRoute][Required] int courseId,
@@ -67,15 +71,16 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
             methcall.InitTempData(this);
             CourseId = courseId;
             SessionId = sessionId;
+            AccToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
+            HomeworkId = homeworkId;
             AdminAPI_URL += "Homework/" + homeworkId;
-            string? accToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
 
             var homeworkInfoResponse = await methcall.CallMethodReturnObject<AdminHomeworkInfoResponseVM>(
                 _httpClient: _httpClient,
                 options: jsonOptions,
                 methodName: Constants.GET_METHOD,
                 url: AdminAPI_URL,
-                accessToken: accToken,
+                accessToken: AccToken,
                 _logger: _logger);
 
             if (homeworkInfoResponse == null)
@@ -160,47 +165,6 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
 
             return Redirect("/Admin/Course/" + CourseId + "/Session/" + SessionId + "/Homework/" + homeworkId + "/Info");
         }
-        /*public async Task<IActionResult> OnPostCreate(
-            [FromRoute][Required] int homeworkId,
-            [FromForm][Required] CreateQuestionVM createQuestion)
-        {
-            AdminAPI_URL += "Question/Create";
-            string? accToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
-
-            if (!ModelState.IsValid)
-            {
-                TempData = methcall.SetValidationTempData(TempData, Constants.CREATE_HOMEWORK_QUESTION_DETAILS_VALID, createQuestion, jsonOptions);
-                return Redirect("/Admin/Course/" + CourseId + "/Session/" + SessionId + "/Homework/" + homeworkId + "/Info");
-            }
-
-            var authenResponse = await methcall.CallMethodReturnObject<AdminQuestionCreateResponseVM>(
-                _httpClient: _httpClient,
-                options: jsonOptions,
-                methodName: Constants.POST_METHOD,
-                url: AdminAPI_URL,
-                inputType: _mapper.Map<CreateNewQuestion>(createQuestion),
-                accessToken: accToken,
-                _logger: _logger);
-
-            if (authenResponse == null)
-            {
-                _logger.LogError("Error while registering Homework question");
-
-                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while registering Homework question !";
-
-                return Redirect("/Admin/Course/" + CourseId + "/Session/" + SessionId + "/Homework/" + homeworkId + "/Info");
-            }
-            if (!authenResponse.Status)
-            {
-                _logger.LogError("Error while registering Homework Question");
-
-                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while registering Homework question !";
-
-                return Redirect("/Admin/Course/" + CourseId + "/Session/" + SessionId + "/Homework/" + homeworkId + "/Info");
-            }
-            TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = "Homework Question Create Successfully!";
-            return Redirect("/Admin/Course/" + CourseId + "/Session/" + SessionId + "/Homework/" + homeworkId + "/Info");
-        }*/
         public async Task<IActionResult> OnPostQuestionUpdate(
             [FromRoute][Required] int homeworkId,
             [Required] int questionId,
