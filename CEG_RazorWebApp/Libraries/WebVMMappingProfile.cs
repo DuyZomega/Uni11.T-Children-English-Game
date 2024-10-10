@@ -20,6 +20,7 @@ using CEG_RazorWebApp.Models.HomeworkQuestion.Update;
 using CEG_RazorWebApp.Models.HomeworkAnswer.Get;
 using CEG_RazorWebApp.Models.HomeworkAnswer.Create;
 using CEG_RazorWebApp.Models.HomeworkAnswer.Update;
+using CEG_RazorWebApp.Models.Student.Get;
 
 namespace CEG_RazorWebApp.Libraries
 {
@@ -334,6 +335,18 @@ namespace CEG_RazorWebApp.Libraries
             //dest.TeacherName = src.Teacher.Account.Fullname;
             //dest.CourseName = src.Course.CourseName;
             //});
+            CreateMap<StudentListVM, StudentViewModel>()
+                .AfterMap((src, dest) =>
+                {
+                    dest.Account.Username = src.Username;
+                    dest.Account.Fullname = src.Fullname;
+                })
+                .ReverseMap()
+                .AfterMap((src, dest) =>
+                {
+                    dest.Username = src.Account.Username;
+                    dest.Fullname = src.Account.Fullname;
+                });
         }
     }
 }
