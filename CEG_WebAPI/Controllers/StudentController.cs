@@ -1,8 +1,10 @@
 ﻿using CEG_BAL.Services.Implements;
 using CEG_BAL.Services.Interfaces;
 using CEG_BAL.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace CEG_WebAPI.Controllers
 {
@@ -62,6 +64,42 @@ namespace CEG_WebAPI.Controllers
             try
             {
                 var result = await _studentService.GetStudentById(id);
+                if (result == null)
+                {
+                    return NotFound(new
+                    {
+                        Status = false,
+                        ErrorMessage = "Student Not Found!"
+                    });
+                }
+                return Ok(new
+                {
+                    Status = true,
+                    Data = result
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    Status = false,
+                    ErrorMessage = ex.Message,
+                    InnerExceptionMessage = ex.InnerException?.Message
+                });
+            }
+        }
+        [HttpGet("Account/{id}")]
+        [Authorize(Roles = "Admin")]
+        [ProducesResponseType(typeof(ParentViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetStudentByAccountId(
+            [FromRoute][Required] int id
+            )
+        {
+            try
+            {
+                var result = await _studentService.GetStudentByAccountId(id);
                 if (result == null)
                 {
                     return NotFound(new

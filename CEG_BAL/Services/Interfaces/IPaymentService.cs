@@ -11,7 +11,7 @@ namespace CEG_BAL.Services.Interfaces
     {
         void Create(PaymentViewModel model);
         void Update(PaymentViewModel model);
-        Task<List<PaymentViewModel>> GetAllPayment();
-        Task<PaymentViewModel> GetPaymentById(int id);
+        Task<List<PaymentViewModel>> GetPaymentList();
+        Task<PaymentViewModel?> GetPaymentById(int id);
     }
 }

@@ -211,18 +211,13 @@ namespace CEG_BAL.AutoMapperProfile
             CreateMap<Homework, HomeworkViewModel>()
                 .ReverseMap();
             CreateMap<HomeworkQuestion, HomeworkQuestionViewModel>()
+                .AfterMap((src, dest) =>
+                {
+                    dest.AnswerAmounts = src.HomeworkAnswers != null ? src.HomeworkAnswers.Count : 0;
+                })
                 .ReverseMap();
             CreateMap<HomeworkAnswer, HomeworkAnswerViewModel>()
-                .AfterMap((src, dest) =>
-                {
-                    dest.AnswerType = src.Type ? "Correct" : "Incorrect";
-                })
-                .ReverseMap()
-                .AfterMap((src, dest) =>
-                {
-                    dest.Type = src.AnswerType != null && src.AnswerType.Equals("Correct");
-                })
-                ;
+                .ReverseMap();
         }
     }
 }

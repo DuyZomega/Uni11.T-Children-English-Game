@@ -5,7 +5,7 @@
     var homeworkInfo = Model.HomeworkInfo;
     var questionList = Model.Questions;
     var updateHomework = Model.UpdateHomeworkInfo;
-    var createQuestion = Model.CreateQuestion;
+    var addQuestion = Model.AddQuestion;
     Layout = Model.LayoutUrl;
 }
 <html lang="en">
@@ -210,7 +210,7 @@
                                             if (homeworkInfo.Status.Equals("Draft") || homeworkInfo.Status.Equals("Postponed"))
                                             {
                                                 <div class="edit-info">
-                                                    <i class='bx bxs-add-to-queue' data-toggle="modal" data-target="#createQuestion"></i>
+                                                    <i class='bx bxs-add-to-queue' data-toggle="modal" data-target="#addQuestion"></i>
                                                 </div>
                                             }
                                         }
@@ -292,27 +292,25 @@
                 </div>
             </div>
         </div>
-        <div id="createQuestion" class="modal fade" role="dialog">
+        <div id="addQuestion" class="modal fade" role="dialog">
             <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
                 <div class="modal-content modal-addRoom">
                     <div class="modal-header">
-                        <h4 class="modal-title">Add new Homework Question</h4>
+                        <h4 class="modal-title">Add Question</h4>
                     </div>
                     <div class="modal-body">
                         <form asp-page-handler="Create" asp-route-homeworkId="@homeworkInfo.HomeworkId" method="post" id="form">
                             <div class="row p-4">
                                 <div class="col-12">
                                     <div class="row form-group">
-                                        <label asp-for="@createQuestion.Question" class="col-md-3 col-form-label text-md-right"></label>
-                                        <textarea asp-for="@createQuestion.Question" value="@createQuestion.Question" required class="form-control col-md-7"></textarea>
-                                        <span asp-validation-for="@createQuestion.Question" id="error_message"
+                                        <label asp-for="@addQuestion.Question" class="col-md-3 col-form-label text-md-right"></label>
+                                        <textarea asp-for="@addQuestion.Question" value="@addQuestion.Question" required class="form-control col-md-7"></textarea>
+                                        <span asp-validation-for="@addQuestion.Question" id="error_message"
                                               class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
-
-                                        <input asp-for="@createQuestion.HomeworkTitle" value="@homeworkInfo.Title" type="text" required hidden readonly>
                                     </div>
                                 </div>
                                 <div class="modal-footer justify-content-center" style="margin-left:400px;">
-                                    <button class="btn btn-success" type="submit" name="action" value="createQuestion">Create</button>
+                                    <button class="btn btn-success" type="submit" name="action" value="addQuestion">Create</button>
                                     <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
                                 </div>
                             </div>

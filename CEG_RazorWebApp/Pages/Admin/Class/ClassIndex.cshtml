@@ -45,7 +45,7 @@
                                 <li class="nav-item">
                                     <a class="nav-link active" data-toggle="tab" href="#home1">
                                         <i class='bx bx-home-alt-2'></i>
-                                        <span>All Classs</span>
+                                        <span>All Classes</span>
                                     </a>
                                 </li>
                             </ul>
@@ -369,7 +369,6 @@
                 data: JSON.stringify(classData),
                 success: function (response) {
                     // Log the entire response to the console for debugging
-                    console.log("Returned object:", response);
                     // Check if the status is true
                     if (response.status) {
                         alert('Class created successfully!');

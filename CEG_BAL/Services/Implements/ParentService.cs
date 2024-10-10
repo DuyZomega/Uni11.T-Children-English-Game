@@ -51,6 +51,17 @@ namespace CEG_BAL.Services.Implements
             _unitOfWork.Save();
         }
 
+        public async Task<ParentViewModel?> GetParentByAccountId(int id)
+        {
+            var user = await _unitOfWork.ParentRepositories.GetByAccountIdNoTracking(id);
+            if (user != null)
+            {
+                var usr = _mapper.Map<ParentViewModel>(user);
+                return usr;
+            }
+            return null;
+        }
+
         public async Task<ParentViewModel?> GetParentById(int id)
         {
             var user = await _unitOfWork.ParentRepositories.GetByIdNoTracking(id);

@@ -7,11 +7,11 @@ namespace CEG_RazorWebApp.Models.HomeworkAnswer.Get
     public class AdminAnswerInfoPVM
     {
         public AdminAnswerInfoPVM(
-            int? courseId, 
-            int? sessionId, 
-            int? homeworkId, 
-            int? questionId,
-            string? homeworkStatus,
+            int? courseId = null, 
+            int? sessionId = null, 
+            int? homeworkId = null, 
+            int? questionId = null,
+            string? homeworkStatus = null,
             AnswerInfoVM? answerInfo = null, 
             UpdateAnswerVM? updateAnswerInfo = null
             )

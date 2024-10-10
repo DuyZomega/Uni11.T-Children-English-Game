@@ -16,6 +16,7 @@ public partial class Teacher
     public string Address { get; set; } = null!;
 
     public string? Image { get; set; }
+    public string? Certificate { get; set; }
 
     public virtual Account Account { get; set; } = null!;
 

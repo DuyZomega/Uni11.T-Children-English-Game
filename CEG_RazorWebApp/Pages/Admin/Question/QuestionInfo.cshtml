@@ -1,0 +1,464 @@
+﻿@page "/Admin/Question/{questionId}/Info"
+@model QuestionInfoModel
+@{
+    ViewData["Title"] = "Admin Homework Question Info Page";
+    // var questionInfo = Model.QuestionInfo;
+    // var answerList = Model.Answers;
+    var createAnswer = Model.CreateAnswer;
+    var updateQuestion = Model.UpdateQuestionInfo;
+    Layout = Model.LayoutUrl;
+    var acctoken = Model.AccToken;
+    var apiUrl = Model.ApiUrl;
+}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+</head>
+    <body>
+        <div class="main-content">
+            <div class="main">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="offset-sm-6 col-sm-6  d-flex justify-content-sm-end p-md-0 mt-2 mt-sm-0 ">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumd-item">
+                                    <a href="#">Manage</a>
+                                </li>
+                                <li class="breadcrumd-item">
+                                    <span>/</span>
+                                </li>
+                                <li class="breadcrumd-item">
+                                    <a href="/Admin/Question/Index">Question</a>
+                                </li>
+                                <li class="breadcrumd-item">
+                                    <span>/</span>
+                                </li>
+                                <li class="breadcrumd-item">
+                                    <a href="/Admin/Question/@Model.QuestionId/Info">@Model.QuestionId</a>
+                                </li>
+                                <li class="breadcrumd-item">
+                                    <span>/</span>
+                                </li>
+                                <li class="breadcrumd-item">
+                                    <a href="/Admin/Question/@Model.QuestionId/Info">Info</a>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 customer-booking">
+                            <div class="row">
+                                <div class="card profile col-12 mb-4">
+                                    <div class="card-header">
+                                        <h4>Question <label id="question-question-title" class="truncate"></label> Information</h4>
+                                        <div class="edit-info">
+                                            <i class='bx bxs-edit bx-sm' data-toggle="modal" data-target="#editQuestion"></i>
+                                        </div>
+                                    </div>
+                                <div id="alertContainer"></div>
+                                    <div class="card-body">
+                                        <div class="row mb-sm-2">
+                                            <div class="col-md-5 text-md-right">
+                                                <label class="col-form-label">Homework Question ID:</label>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <span id="question-id">
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-sm-2">
+                                            <div class="col-md-5 text-md-right">
+                                                <label class="col-form-label">Question information:</label>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <span id="question-question">
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-sm-2">
+                                            <div class="col-md-5 text-md-right">
+                                                <label class="col-form-label">Answers amount:</label>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <span id="question-answers-amount">
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 customer-booking">
+                            <div class="row">
+                                <div class="card profile col-12 mb-4">
+                                    <div class="card-header">
+                                        <h4>Homework Question's Answer List</h4>
+                                        <div class="edit-info">
+                                            <i class='bx bxs-add-to-queue bx-sm' data-toggle="modal" data-target="#createAnswer"></i>
+                                        </div>
+                                    </div>
+                                    <div class="card-body" id="answer_list">
+                                        <h5>No answers found</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="editQuestion" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+                <div class="modal-content modal-addRoom">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Edit Question</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form method="put" asp-route-questionId="@Model.QuestionId" id="editQuestionForm" class="form-group">
+                            <div class="modal-body">
+                                <div class="col-12">
+                                    <div class="form-group row">
+                                        <label asp-for="@updateQuestion.Question" class="col-sm-4 col-form-label"></label>
+                                        <div class="col-sm-8">
+                                            <textarea asp-for="@updateQuestion.Question" value="@updateQuestion.Question" required class="form-control"></textarea>
+                                            <span asp-validation-for="@updateQuestion.Question" id="error_message"
+                                                  class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer justify-content-center">
+                                <button class="btn btn-success" type="submit" value="Update">Save</button>
+                                <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="createAnswer" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+                <div class="modal-content modal-addRoom">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Add new Homework Answer</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form asp-page-handler="Create" asp-route-questionId="@Model.QuestionId" method="post" id="createAnswerForm">
+                            <div class="row p-4">
+                                <div class="col-12">
+                                    <div class="row form-group">
+                                        <label asp-for="@createAnswer.Answer" class="col-md-3 col-form-label text-md-right"></label>
+                                        <textarea asp-for="@createAnswer.Answer" value="@createAnswer.Answer" required class="form-control"></textarea>
+                                        <span asp-validation-for="@createAnswer.Answer" id="error_message"
+                                              class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                    </div>
+                                    <div class="row form-group">
+                                        <label asp-for="@createAnswer.Type" class="col-md-3 col-form-label text-md-right"></label>
+                                        <select class="form-control col-md-7 custom-select" asp-for="@createAnswer.Type" asp-items="@createAnswer.DefaultAnswerTypeSelectList"></select>
+                                        <span asp-validation-for="@createAnswer.Type" id="error_message"
+                                              class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                        <input asp-for="@createAnswer.QuestionId" value="@Model.QuestionId" type="text" required hidden readonly>
+                                    </div>
+                                </div>
+                                <div class="modal-footer justify-content-center" style="margin-left:400px;">
+                                    <button class="btn btn-success" type="submit" name="action" value="createAnswer">Create</button>
+                                    <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            var token = '@acctoken';
+            var apiUrl = '@apiUrl';
+            var questionList = [];
+            $(document).ready(function () {
+                callApiGetQuestionDetail();
+                $('#editQuestionForm').submit(function (event) {
+                    event.preventDefault(); // Prevent the form from submitting normally
+
+                    //Get the form data
+                    var formData = {
+                        question: $('textarea[id="updateQuestion_Question"]').val()
+                    };
+
+                    //Make the AJAX request
+                    callApiPutUpdateQuestion(formData);
+                    $('#editQuestionForm').trigger("reset");
+                });
+                $('#createAnswerForm').submit(function (event) {
+                    event.preventDefault(); // Prevent the form from submitting normally
+
+                    // Get the form data
+                    var formData = {
+                        answer: $('textarea[id="createAnswer_Answer"]').val(),
+                        type: $('select[id="createAnswer_Type"]').val(),
+                        questionid: $('input[id="createAnswer_QuestionId"]').val()
+                    };
+
+                    // Make the AJAX request
+                    callApiPostCreateAnswer(formData);
+                    $('#createAnswerForm').trigger("reset");
+                });
+                $(document).on('submit', 'form[id^="editAnswerForm_"]', function (event) {
+                    event.preventDefault();
+                    // Extract the answerId from the form's id
+                    let answerId = $(this).attr('id').split('_')[1];
+
+                    // Collect form data
+                    let formData = {
+                        answer: $('#updateAnswer_' + answerId + '_Answer').val(),
+                        type: $('#updateAnswer_' + answerId + '_Type').val()
+                    };
+
+                    // Call the API to update the answer
+                    callApiPutUpdateAnswer(formData, answerId);
+
+                    // Optionally reset the form
+                    //$(this).trigger("reset");
+                });
+            });
+            // Function to display alerts
+            function showAlert(type, message) {
+                var alertHtml = '';
+
+                if (type === 'success') {
+                    alertHtml = `
+                        <div class="alert alert-success alert-dismissible fade show" id="notif">
+                            <i class='bx bx-message-alt-x p-1'></i>
+                            <strong class="mr-1">` + message + `</strong>
+                            <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+                                <span><i class='bx bx-x'></i></span>
+                            </button>
+                        </div>
+                    `;
+                } else if (type === 'error') {
+                    alertHtml = `
+                        <div class="alert alert-danger alert-dismissible fade show" id="notif">
+                            <i class='bx bx-message-alt-x p-1'></i>
+                            <strong class="mr-1">` + message + `</strong>
+                            <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+                                <span><i class='bx bx-x'></i></span>
+                            </button>
+                        </div>
+                    `;
+                }
+
+                // Inject the alert HTML into the alert container
+                $('#alertContainer').html(alertHtml);
+            }
+            function callApiPutUpdateQuestion(formData){
+                $.ajax({
+                    url: apiUrl + 'Question/@Model.QuestionId/Update', // Specify your Razor Page here
+                    type: 'PUT',
+                    data: JSON.stringify(formData),
+                    headers: {
+                        'Authorization': 'Bearer ' + token, // Token for authentication
+                    },
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (response) {
+                        // Handle success (display a success message or redirect, etc.)
+                        if (response.status) {
+                            showAlert('success',"Question update successfully");
+                            callApiGetQuestionDetail();
+                        } else {
+                            console.error("API returned false status.");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle error (display the validation message, etc.)
+                        alert("Error in api call:" + error);
+                        console.error("Error in api call:", error);
+                    }
+                });
+            }
+            function callApiPutUpdateAnswer(formData,answerId) {
+                $.ajax({
+                    url: apiUrl + 'Answer/' + answerId + '/Update', // Specify your Razor Page here
+                    type: 'PUT',
+                    data: JSON.stringify(formData),
+                    headers: {
+                        'Authorization': 'Bearer ' + token, // Token for authentication
+                    },
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (response) {
+                        // Handle success (display a success message or redirect, etc.)
+                        if (response.status) {
+                            showAlert('success', "Answer update successfully");
+                            $('.modal-backdrop').remove();
+                            // Remove specific class from body
+                            $('body').removeClass('modal-open');
+
+                            // Remove all inline styles from body
+                            $('body').removeAttr('style');
+                            callApiGetQuestionDetail();
+                        } else {
+                            console.error("API returned false status.");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle error (display the validation message, etc.)
+                        alert("Error in api call:" + error);
+                        console.error("Error in api call:", error);
+                    }
+                });
+            }
+            function callApiPostCreateAnswer(formData){
+                $.ajax({
+                    url: apiUrl + 'Answer/Create', // Specify your Razor Page here
+                    type: 'POST',
+                    data: JSON.stringify(formData),
+                    headers: {
+                        'Authorization': 'Bearer ' + token, // Token for authentication
+                    },
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (response) {
+                        // Handle success (display a success message or redirect, etc.)
+                        if (response.status) {
+                            showAlert('success',"Answer create successfully");
+                            callApiGetQuestionDetail();
+                        } else {
+                            console.error("API returned false status.");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle error (display the validation message, etc.)
+                        alert("Error in api call:" + error);
+                        console.error("Error in api call:", error);
+                    }
+                });
+            }
+            function callApiGetQuestionDetail() {
+                $.ajax({
+                    url: apiUrl + 'Question/@Model.QuestionId', // API endpoint
+                    type: 'GET',
+                    success: function (response) {
+                        // Log the entire response to the console for debugging
+                        // Check if the status is true
+                        if (response.status) {
+                            setQuestionDisplay(response.data);
+                            // Check if homeworkAnswers is empty
+                            if (response.data.homeworkAnswers && response.data.homeworkAnswers.length > 0) {
+                                // Clear any existing answers
+                                $('#answer_list').empty();
+
+                                // Loop through each answer and generate the HTML
+                                response.data.homeworkAnswers.forEach(function (answer) {
+                                    let answerHtml = generateAnswerHtml(answer); // Assuming both answerInfo and updateAnswer are the same structure
+                                    $('#answer_list').append(answerHtml);
+                                });
+                            } else {
+                                // If the answer list is empty
+                                $('#answer_list').html('<h5>No answers found</h5>');
+                            }
+                        } else {
+                            console.error("API returned false status.");
+                        }
+                    },
+                    error: function (error) {
+                        alert("Error in api call:" + error);
+                        console.error("Error in api call:", error);
+                        //showAlert('success', 'Data fetched successfully.');
+                    }
+                });
+            }
+            function generateAnswerHtml(answerInfo) {
+                return `
+                <div class="card-header">
+                    <h5>Answer <label class="truncate">${answerInfo.answer}</label> Details</h5>
+                    <div class="edit-info">
+                        <i class='bx bxs-edit bx-sm' data-toggle="modal" data-target="#editanswer_${answerInfo.homeworkAnswerId}"></i>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-sm-2">
+                        <div class="col-md-5 text-md-right">
+                            <label class="col-form-label">Answer ID:</label>
+                        </div>
+                        <div class="col-md-7">
+                            <span>${answerInfo.homeworkAnswerId}</span>
+                        </div>
+                    </div>
+                    <div class="row mb-sm-2">
+                        <div class="col-sm-5 text-sm-right">
+                            <label for="meeting-name">Answer:</label>
+                        </div>
+                        <div class="col-sm-7 text-sm-left">
+                            <span>${answerInfo.answer}</span>
+                        </div>
+                    </div>
+                    <div class="row mb-sm-2">
+                        <div class="col-sm-5 text-sm-right">
+                            <label for="meeting-name">Answer Type:</label>
+                        </div>
+                        <div class="col-sm-7 text-sm-left">
+                            <span>${answerInfo.type}</span>
+                        </div>
+                    </div>
+                </div>
+                <hr class="container my-0">
+                <div id="editanswer_${answerInfo.homeworkAnswerId}" class="modal fade" role="dialog">
+                    <div class="modal-dialog modal-dialog-centered modal-lg" role="content">
+                        <div class="modal-content modal-addRoom">
+                            <div class="modal-header">
+                                <h4 class="modal-title truncate">Update Answer ${answerInfo.answer}</h4>
+                            </div>
+                            <form method="put" class="form-group" id="editAnswerForm_${answerInfo.homeworkAnswerId}">
+                                <div class="modal-body">
+                                    <div class="col-12">
+                                        <div class="form-group row">
+                                            <label for="updateAnswer_${answerInfo.homeworkAnswerId}_Answer" class="col-sm-4 col-form-label">Answer</label>
+                                            <div class="col-sm-8">
+                                                <textarea id="updateAnswer_${answerInfo.homeworkAnswerId}_Answer" name="Answer" required class="form-control">${answerInfo.answer}</textarea>
+                                                <span class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2" id="error_message"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="updateAnswer_${answerInfo.homeworkAnswerId}_Type" class="col-sm-4 col-form-label">Answer Type</label>
+                                            <div class="col-sm-8">
+                                                <select id="updateAnswer_${answerInfo.homeworkAnswerId}_Type" name="Type" class="form-control custom-select">
+                                                    ${getTypeOptions(answerInfo.type)}
+                                                </select>
+                                                <span class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2" id="error_message"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer justify-content-center">
+                                    <button class="btn btn-success" type="submit" value="Update">Save</button>
+                                    <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                `;
+            }
+            function getTypeOptions(selectedStatus) {
+                var options = ['Incorrect', 'Correct']; // Example statuses
+                var html = '';
+
+                options.forEach(function (status) {
+                    html += `<option value="${status}" ${selectedStatus === status ? 'selected' : ''}>${status}</option>`;
+                });
+
+                return html;
+            }
+
+            function setQuestionDisplay(data) {
+                $('#question-id').text(data.homeworkQuestionId);
+                $('#question-question-title').text(data.question);
+                $('#question-question').text(data.question);
+                $('#updateQuestion_Question').text(data.question);
+                $('#question-answers-amount').text(data.answerAmounts + ' Answer(s)');
+            }
+        </script>
+    </body>
+</html>
+

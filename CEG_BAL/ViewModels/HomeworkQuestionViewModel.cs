@@ -11,9 +11,10 @@ namespace CEG_BAL.ViewModels
         public int? HomeworkQuestionId { get; set; }
         public string? Question { get; set; }
         public string? HomeworkStatus { get; set; }
+        public int? AnswerAmounts { get; set; }
 
         public HomeworkViewModel? Homework { get; set; }
 
-        public List<HomeworkAnswerViewModel> HomeworkAnswers { get; set; } = new List<HomeworkAnswerViewModel>();
+        public List<HomeworkAnswerViewModel>? HomeworkAnswers { get; set; } = new List<HomeworkAnswerViewModel>();
     }
 }

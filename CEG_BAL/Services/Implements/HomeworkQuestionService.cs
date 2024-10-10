@@ -33,10 +33,19 @@ namespace CEG_BAL.Services.Implements
             if (newQus != null)
             {
                 ques.Question = newQus.Question;
-                ques.HomeworkId = _unitOfWork.HomeworkRepositories.GetIdByTitle(newQus.HomeworkTitle).Result;
+                if(ques.Homework?.HomeworkId == 0)
+                {
+                    ques.Homework = null;
+                }
+                /*ques.HomeworkId = _unitOfWork.HomeworkRepositories.GetIdByTitle(newQus.HomeworkTitle).Result;*/
             }
             _unitOfWork.HomeworkQuestionRepositories.Create(ques);
             _unitOfWork.Save();
+        }
+
+        public async Task<List<HomeworkQuestionViewModel>?> GetOrderedQuestionList()
+        {
+            return _mapper.Map<List<HomeworkQuestionViewModel>?>(await _unitOfWork.HomeworkQuestionRepositories.GetOrderedQuestionList());
         }
 
         public async Task<HomeworkQuestionViewModel?> GetQuestionById(int id)
@@ -44,9 +53,12 @@ namespace CEG_BAL.Services.Implements
             var ques = await _unitOfWork.HomeworkQuestionRepositories.GetByIdNoTracking(id);
             if (ques != null)
             {
-                var home = await _unitOfWork.HomeworkRepositories.GetByIdNoTracking(ques.HomeworkId);
                 var quesvm = _mapper.Map<HomeworkQuestionViewModel>(ques);
-                quesvm.HomeworkStatus = home.Status;
+                if (ques.HomeworkId != null)
+                {
+                    var home = await _unitOfWork.HomeworkRepositories.GetByIdNoTracking(ques.HomeworkId.Value);
+                    quesvm.HomeworkStatus = home != null ? home.Status : null;
+                }
                 return quesvm;
             }
             return null;
@@ -54,18 +66,21 @@ namespace CEG_BAL.Services.Implements
 
         public async Task<List<HomeworkQuestionViewModel>> GetQuestionList()
         {
-            return _mapper.Map<List<HomeworkQuestionViewModel>>(await _unitOfWork.HomeworkQuestionRepositories.GetQuestionsList());
+            return _mapper.Map<List<HomeworkQuestionViewModel>>(await _unitOfWork.HomeworkQuestionRepositories.GetQuestionList());
         }
 
         public void Update(HomeworkQuestionViewModel model)
         {
             var ques = _mapper.Map<HomeworkQuestion>(model);
 
-            var questionDefault = _unitOfWork.HomeworkQuestionRepositories.GetByIdNoTracking(model.HomeworkQuestionId.Value).Result;
+            /*var questionDefault = _unitOfWork.HomeworkQuestionRepositories.GetByIdNoTracking(model.HomeworkQuestionId.Value).Result;
             //ques.HomeworkId = questionDefault.HomeworkId;
-            questionDefault.Question = model.Question;
-
-            _unitOfWork.HomeworkQuestionRepositories.Update(questionDefault);
+            questionDefault.Question = model.Question;*/
+            if (ques.Homework?.HomeworkId == 0)
+            {
+                ques.Homework = null;
+            }
+            _unitOfWork.HomeworkQuestionRepositories.Update(ques);
             _unitOfWork.Save();
         }
     }

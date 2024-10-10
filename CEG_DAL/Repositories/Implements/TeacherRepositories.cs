@@ -54,5 +54,14 @@ namespace CEG_DAL.Repositories.Implements
                 .AsNoTrackingWithIdentityResolution()
                 .SingleOrDefaultAsync(t => t.Account.Fullname == fullname);
         }
+
+        public async Task<Teacher?> GetByAccountIdNoTracking(int id)
+        {
+            return await _dbContext.Teachers
+                .Include(t => t.Account)
+                .ThenInclude(a => a.Role)
+                .AsNoTrackingWithIdentityResolution()
+                .SingleOrDefaultAsync(t => t.Account.AccountId == id);
+        }
     }
 }
