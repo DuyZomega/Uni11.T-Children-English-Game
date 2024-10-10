@@ -217,16 +217,7 @@ namespace CEG_BAL.AutoMapperProfile
                 })
                 .ReverseMap();
             CreateMap<HomeworkAnswer, HomeworkAnswerViewModel>()
-                .AfterMap((src, dest) =>
-                {
-                    dest.AnswerType = src.Type;
-                })
-                .ReverseMap()
-                .AfterMap((src, dest) =>
-                {
-                    dest.Type = src.AnswerType;
-                })
-                ;
+                .ReverseMap();
         }
     }
 }

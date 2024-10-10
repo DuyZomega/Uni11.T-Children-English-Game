@@ -408,8 +408,8 @@
                     type: 'PUT', // HTTP method PUT for updates
                     headers: {
                         'Authorization': 'Bearer ' + token, // Token for authentication
-                        'Content-Type': 'application/json' // Content type set to JSON
                     },
+                    contentType: 'application/json; charset=utf-8',
                     data: JSON.stringify(newStatus), // Data sent in the request body data: JSON.stringify({ status: newStatus.toString() }),
                     success: function (response) {
                         if (response.status) {
