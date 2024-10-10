@@ -139,7 +139,7 @@
                         <h4 class="modal-title">Add new Student Account</h4>
                     </div>
                     <div class="modal-body">
-                        <form method="post" asp-page-handler="Student">
+                        <form method="post" asp-page-handler="Student" id="CreateStudentForm">
                             <div class="row p-4">
                                 <div class="col-12">
                                     <div class="row form-group">
@@ -201,7 +201,7 @@
                         <h4 class="modal-title">Add new Parent Account</h4>
                     </div>
                     <div class="modal-body">
-                        <form method="post" asp-page-handler="Parent">
+                        <form method="post" asp-page-handler="Parent" id="CreateParentForm">
                             <div class="row p-4">
                                 <div class="col-12">
                                     <div class="row form-group">
@@ -263,7 +263,7 @@
                         <h4 class="modal-title">Add new Teacher Account</h4>
                     </div>
                     <div class="modal-body">
-                        <form method="post" asp-page-handler="Teacher">
+                        <form method="post" asp-page-handler="Teacher" id="CreateTeacherForm">
                             <div class="row p-4">
                                 <div class="col-12">
                                     <div class="row form-group">
@@ -430,12 +430,13 @@
                 tableBody.empty(); // Clear any existing options
                 // Loop through the data array and append each class div
                 $.each(data, function (index, account) {
+                    var url = account.role.roleName === 'Admin' ? '' : `href="/Admin/${account.role.roleName}/${account.accountId}/Info"`
                     // Construct card HTML
                     var rowHtml = `
                         <tr class="${index % 2 === 0 ? 'even' : 'odd'}">
                             <td class="sorting_1">
                                 <input type="hidden" name="listRequest[${index}].UserName" value="${account.username}" class="form-control" />
-                                <a href="/Admin/${account.role.roleName}/${account.accountId}/Info">${account.username}</a>
+                                <a ${url}>${account.username}</a>
                             </td>
                             <td>
                                 <input type="hidden" name="listRequest[${index}].FullName" value="${account.fullname}" class="form-control" />
@@ -454,7 +455,7 @@
                                 ${account.role.roleName}
                             </td>
                             <td>
-                                <select class="form-control custom-select status-dropdown" data-accountid="${account.accountId}" name="listRequest[${index}].Status">
+                                <select class="form-control custom-select status-dropdown" data-accountid="${account.accountId}" name="listRequest[${index}].Status" ${account.role.roleName === 'Admin' ? 'disabled' : ''}>
                                     ${getStatusOptions(account.status)} <!-- Helper function to generate select options -->
                                 </select>
                             </td>

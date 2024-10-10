@@ -29,11 +29,11 @@ namespace CEG_RazorWebApp.Models.Class.Create
         [DisplayName("Class start date")]
         [DataType(DataType.DateTime)]
         //startDate (30/9), endDate(30/10), daysInWeek(T2, T5) Phải sync ngày và thứ tạo (30/9 là T2)
-        public DateTime StartDate { get; set; } = DateTime.Now;
+        public DateTime StartDate { get; set; } = DateTime.Now.AddDays(10);
         [Required(ErrorMessage = "Course end date is required")]
         [DateGreaterThan("StartDate",Constants.CLASS_MINIMUM_DAYS_REQ)]
         [DisplayName("Class end date")]
         [DataType(DataType.DateTime)]
-        public DateTime EndDate { get; set; } = DateTime.Now.AddDays(30);
+        public DateTime EndDate { get; set; } = DateTime.Now.AddDays(40);
     }
 }

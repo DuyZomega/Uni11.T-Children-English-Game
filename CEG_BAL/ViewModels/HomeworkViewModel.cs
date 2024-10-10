@@ -15,6 +15,7 @@ namespace CEG_BAL.ViewModels
         public int? Hours { get; set; }
         public string? Type { get; set; }
         public string? Status { get; set; }
+        public int? QuestionsAmount { get; set; }
 
         public GameConfigViewModel? GameConfig { get; set; }
 
