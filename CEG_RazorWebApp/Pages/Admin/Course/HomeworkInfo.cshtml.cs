@@ -45,7 +45,7 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
         public int? SessionId { get; set; }
         public HomeworkInfoVM? HomeworkInfo { get; set; }
         public UpdateHomeworkVM? UpdateHomeworkInfo { get; set; }
-        public UpdateQuestionVM? AddQuestion { get; set; }
+        public UpdateQuestionVM? AddQuestion { get; set; } = new UpdateQuestionVM();
         public List<AdminQuestionInfoPVM>? Questions { get; set; }
         public HomeworkInfoModel(ILogger<HomeworkInfoModel> logger, IConfiguration config, IMapper mapper)
         {

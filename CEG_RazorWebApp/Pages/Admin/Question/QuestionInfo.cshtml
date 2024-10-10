@@ -267,6 +267,7 @@
                         if (response.status) {
                             showAlert('success',"Question update successfully");
                             callApiGetQuestionDetail();
+                            showAlert('','');
                         } else {
                             console.error("API returned false status.");
                         }
@@ -298,6 +299,7 @@
                             // Remove all inline styles from body
                             $('body').removeAttr('style');
                             callApiGetQuestionDetail();
+                            showAlert('','');
                         } else {
                             console.error("API returned false status.");
                         }
@@ -323,6 +325,7 @@
                         if (response.status) {
                             showAlert('success',"Answer create successfully");
                             callApiGetQuestionDetail();
+                            showAlert('','');
                         } else {
                             console.error("API returned false status.");
                         }
