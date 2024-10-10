@@ -63,7 +63,7 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
             AdminAPI_URL = config.GetSection(Constants.SYSTEM_DEFAULT_API_URL_CONFIG_PATH).Value;
             ApiUrl = _config.GetSection(Constants.SYSTEM_DEFAULT_API_HTTPS_URL_CONFIG_PATH).Value + _config.GetSection(Constants.SYSTEM_DEFAULT_API_URL_CONFIG_PATH).Value;
         }
-        public async Task<IActionResult> OnGetAsync(
+        public void OnGet(
             [FromRoute][Required] int courseId,
             [FromRoute][Required] int sessionId,
             [FromRoute][Required] int homeworkId)
@@ -73,97 +73,6 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
             SessionId = sessionId;
             AccToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
             HomeworkId = homeworkId;
-            AdminAPI_URL += "Homework/" + homeworkId;
-
-            var homeworkInfoResponse = await methcall.CallMethodReturnObject<AdminHomeworkInfoResponseVM>(
-                _httpClient: _httpClient,
-                options: jsonOptions,
-                methodName: Constants.GET_METHOD,
-                url: AdminAPI_URL,
-                accessToken: AccToken,
-                _logger: _logger);
-
-            if (homeworkInfoResponse == null)
-            {
-                _logger.LogError("Error while getting session info");
-
-                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while getting session info !";
-
-                return Redirect("/Admin/Course/" + CourseId + "/Session/" + SessionId + "/Info");
-            }
-            if (!homeworkInfoResponse.Status || homeworkInfoResponse.Data == null)
-            {
-                _logger.LogError("Error while getting course info");
-
-                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while getting session info !";
-
-                return Redirect("/Admin/Course/" + CourseId + "/Session/" + SessionId + "/Info");
-            }
-            TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = "Homework Info Get Successfully!";
-
-            //var createQuestionFailed = methcall.GetValidationTempData<CreateQuestionVM>(this, TempData, Constants.CREATE_HOMEWORK_QUESTION_DETAILS_VALID, "createQuestion", jsonOptions);
-            var updateHomeworkFailed = methcall.GetValidationTempData<UpdateHomeworkVM>(this, TempData, Constants.UPDATE_HOMEWORK_DETAILS_VALID, "updateHomework", jsonOptions);
-            var updateQuestionFailed = methcall.GetValidationTempData<UpdateQuestionVM>(this, TempData, Constants.UPDATE_HOMEWORK_QUESTION_DETAILS_VALID, "updateQuestion", jsonOptions);
-            var questionList = new List<AdminQuestionInfoPVM>();
-
-            if (homeworkInfoResponse.Data.HomeworkQuestions != null && homeworkInfoResponse.Data.HomeworkQuestions.Count > 0)
-                foreach (var question in homeworkInfoResponse.Data.HomeworkQuestions)
-                {
-                    questionList.Add(new AdminQuestionInfoPVM(
-                        CourseId,
-                        SessionId,
-                        homeworkId,
-                        homeworkInfoResponse.Data.Status,
-                        _mapper.Map<QuestionInfoVM>(question),
-                        updateQuestionFailed != null && updateQuestionFailed.HomeworkQuestionId.Equals(question.HomeworkQuestionId) ? updateQuestionFailed : _mapper.Map<UpdateQuestionVM>(question)
-                        )
-                    );
-                }
-            HomeworkInfo = _mapper.Map<HomeworkInfoVM>(homeworkInfoResponse.Data);
-            UpdateHomeworkInfo = updateHomeworkFailed ?? _mapper.Map<UpdateHomeworkVM>(homeworkInfoResponse.Data);
-            Questions = questionList ?? new List<AdminQuestionInfoPVM>();
-            //AddQuestion = createQuestionFailed ?? new CreateQuestionVM();
-            return Page();
-        }
-        public async Task<IActionResult> OnPostUpdate(
-            [FromRoute][Required] int homeworkId,
-            [FromForm][Required] UpdateHomeworkVM updateHomework)
-        {
-            AdminAPI_URL += "Homework/" + homeworkId + "/Update";
-            string? accToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
-            if (!ModelState.IsValid)
-            {
-                TempData = methcall.SetValidationTempData(TempData, Constants.UPDATE_HOMEWORK_DETAILS_VALID, updateHomework, jsonOptions);
-                return Redirect("/Admin/Course/" + CourseId + "/Session/" + SessionId + "/Homework/" + homeworkId + "/Info");
-            }
-            var courseInfoResponse = await methcall.CallMethodReturnObject<AdminHomeworkUpdateResponseVM>(
-                _httpClient: _httpClient,
-                options: jsonOptions,
-                methodName: Constants.PUT_METHOD,
-                url: AdminAPI_URL,
-                accessToken: accToken,
-                inputType: _mapper.Map<HomeworkViewModel>(updateHomework),
-                _logger: _logger);
-
-            if (courseInfoResponse == null)
-            {
-                _logger.LogError("Error while updating homework info");
-
-                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while updating homework info !";
-
-                return Redirect("/Admin/Course/" + CourseId + "/Session/" + SessionId + "/Homework/" + homeworkId + "/Info");
-            }
-            if (!courseInfoResponse.Status)
-            {
-                _logger.LogError("Error while updating homework info");
-
-                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while updating homework info !";
-
-                return Redirect("/Admin/Course/" + CourseId + "/Session/" + SessionId + "/Homework/" + homeworkId + "/Info");
-            }
-            TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = "Homework Info Update Successfully!";
-
-            return Redirect("/Admin/Course/" + CourseId + "/Session/" + SessionId + "/Homework/" + homeworkId + "/Info");
         }
         public async Task<IActionResult> OnPostQuestionUpdate(
             [FromRoute][Required] int homeworkId,
