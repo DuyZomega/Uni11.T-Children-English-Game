@@ -2,8 +2,6 @@
 @model CEG_RazorWebApp.Pages.Admin.Course.HomeworkInfoModel
 @{
     ViewData["Title"] = "Admin Homework Info Page";
-    var homeworkInfo = Model.HomeworkInfo;
-    var questionList = Model.Questions;
     var updateHomework = Model.UpdateHomeworkInfo;
     var addQuestion = Model.AddQuestion;
     Layout = Model.LayoutUrl;
@@ -171,38 +169,8 @@
                         <div class="col-12 customer-booking">
                             <div class="row">
                                 <div class="card profile col-12 mb-4">
-                                    @* <div class="card-header">
-                                        <h4>Homework's Question List</h4>
-                                        @{
-                                            if (homeworkInfo.Status.Equals("Draft") || homeworkInfo.Status.Equals("Postponed"))
-                                            {
-                                                <div class="edit-info">
-                                                    <i class='bx bxs-add-to-queue' data-toggle="modal" data-target="#addQuestion"></i>
-                                                </div>
-                                            }
-                                        }
-                                    </div>
-                                    <div class="card-body">
-                                        @{
-                                            if (questionList != null && questionList.Count > 0)
-                                            {
-                                                @foreach (var questionInfo in questionList)
-                                                {
-                                                    @await Html.PartialAsync("PartialViews/_QuestionDetails", questionInfo)
-                                                    ;
-                                                }
-                                            }
-                                            else
-                                            {
-                                                <h5>Empty Question list</h5>
-                                            }
-                                        }
-                                    </div> *@
-                                    <div class="card-header">
+                                    <div class="card-header" id="homework-allow-add-question">
                                         <h4>Homework's Questions List</h4>
-                                        @* <div class="edit-info">
-                                            <i class='bx bxs-add-to-queue bx-sm' data-toggle="modal" data-target="#addQuestion"></i>
-                                        </div> *@
                                     </div>
                                     <div class="card-body" id="question_list">
                                         <h5>No questions found</h5>
@@ -280,7 +248,7 @@
                                 <div class="col-12">
                                     <div class="row form-group">
                                         <label asp-for="@addQuestion.Question" class="col-md-3 col-form-label text-md-right"></label>
-                                        <textarea asp-for="@addQuestion.Question" value="@addQuestion.Question" required class="form-control col-md-7"></textarea>
+                                        <select class="form-control custom-select" asp-for="@addQuestion.Question"></select>
                                         <span asp-validation-for="@addQuestion.Question" id="error_message"
                                               class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
                                     </div>
@@ -494,6 +462,30 @@
                     }
                 });
             }
+            function callApiGetQuestionList() {
+                $.ajax({
+                    url: apiUrl + 'Question/All/Ordered', // API endpoint
+                    type: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + token// Include the JWT token
+                    },
+                    success: function (response) {
+                        // Log the entire response to the console for debugging
+                        // Check if the status is true
+                        if (response.status) {
+                            questionList = response.data;
+                            $('#addQuestion_Question').append(getQuestionOptions(questionList));
+                        } else {
+                            console.error("API returned false status.");
+                        }
+                    },
+                    error: function (error) {
+                        alert("Error in api call:" + error);
+                        console.error("Error in api call:", error);
+                        //showAlert('success', 'Data fetched successfully.');
+                    }
+                });
+            }
             function generateQuestionHtml(questionInfo) {
                 return `
                         <div class="card-header">
@@ -570,8 +562,17 @@
                 var options = ['Vocabulary', 'Grammar']; // Example statuses
                 var html = '';
 
-            options.forEach(function (type) {
+                options.forEach(function (type) {
                     html += `<option value="${type}" ${selectedType === type ? 'selected' : ''}>${type}</option>`;
+                });
+
+                return html;
+            }
+            function getQuestionOptions(questionSelectionList) {
+                var html = '';
+
+                questionSelectionList.forEach(function (question) {
+                    html += `<option value="${question.homeworkQuestionId}" }>${question.question}</option>`;
                 });
 
                 return html;
@@ -581,6 +582,11 @@
                 var titleStatusHtml = data.status === 'Draft' || data.status === 'Postponed' ? `
                     <div class="edit-info" id="homework-homework-status">
                         <i class='bx bxs-edit bx-sm' data-toggle="modal" data-target="#editHomework"></i>
+                    </div>
+                    ` : '';
+                var questionAddHtml = data.status === 'Draft' || data.status === 'Postponed' ? `
+                    <div class="edit-info" id="homework-add-question">
+                        <i class='bx bxs-add-to-queue bx-sm' data-toggle="modal" data-target="#addQuestion"></i>
                     </div>
                     ` : '';
                 var statusText = '';
@@ -598,10 +604,13 @@
                         break;
                 }
                 $('#updateHomework_Type').empty();
+                $('#addQuestion_Question').empty();
                 $('#homework-title-status').find('#homework-homework-status').remove();
+                $('#homework-allow-add-question').find('#homework-add-question').remove();
                 $('#homework-status').empty();
                 $('#homework-id').text(data.homeworkId);
                 $('#homework-title-status').append(titleStatusHtml);
+                $('#homework-allow-add-question').append(questionAddHtml);
                 $('#homework-homework-title').text(data.title);
                 $('#homework-title').text(data.title);
                 $('#homework-status').append(statusText);
@@ -613,6 +622,7 @@
                 $('#updateHomework_Description').text(data.description);
                 $('#updateHomework_Hours').val(data.hours);
                 $('#updateHomework_Type').append(getTypeOptions(data.type));
+                callApiGetQuestionList();
             }
         </script>
     </body>
