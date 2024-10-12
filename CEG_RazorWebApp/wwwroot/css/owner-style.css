@@ -1940,3 +1940,19 @@ html body {
             padding: 4px 10px;
             border-radius: 5px;
         }
+/* use for Homework Info Page*/
+.search-question-results {
+    max-height: 150px; /* Height for 5 options (adjust based on your item height) */
+    overflow-y: auto; /* Enable vertical scroll */
+    width: 100%; /* Make dropdown width the same as input */
+}
+
+    .search-question-results li {
+        padding: 10px;
+        cursor: pointer;
+    }
+
+        .search-question-results li:hover {
+            background-color: #f1f1f1;
+        }
+/* end of use for Homework Info Page*/

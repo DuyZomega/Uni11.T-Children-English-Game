@@ -188,17 +188,17 @@
                     <div class="modal-header">
                         <h4 class="modal-title">Edit Homework</h4>
                     </div>
-                    <div class="modal-body">
-                        <form method="put" class="form-group" id="EditHomeworkForm">
+                    <form method="put" class="form-group" id="EditHomeworkForm">
+                        <div class="modal-body">
                             <div class="modal-body">
                                 <div class="col-12">
                                     <div class="form-group row">
                                         <label asp-for="@updateHomework.Title" class="col-sm-4 col-form-label"></label>
                                         <div class="col-sm-8">
                                             <input asp-for="@updateHomework.Title" type="text"
-                                                   value="@updateHomework.Title" class="form-control" required>
+                                                    value="@updateHomework.Title" class="form-control" required>
                                             <span asp-validation-for="@updateHomework.Title" id="error_message"
-                                                  class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                                    class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -206,7 +206,7 @@
                                         <div class="col-sm-8">
                                             <textarea asp-for="@updateHomework.Description" value="@updateHomework.Description" required class="form-control col-md-7"></textarea>
                                             <span asp-validation-for="@updateHomework.Description" id="error_message"
-                                                  class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                                    class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -214,7 +214,7 @@
                                         <div class="col-sm-8">
                                             <input asp-for="@updateHomework.Hours" value="@updateHomework.Hours" type="number" min="1" class="form-control" required>
                                             <span asp-validation-for="@updateHomework.Hours" id="error_message"
-                                                  class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                                    class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -222,17 +222,17 @@
                                         <div class="col-sm-8">
                                             <select class="form-control custom-select" asp-for="@updateHomework.Type"></select>
                                             <span asp-validation-for="@updateHomework.Type" id="error_message"
-                                                  class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                                    class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="modal-footer justify-content-center">
-                                <button class="btn btn-success" type="submit" value="Update">Save</button>
-                                <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
-                            </div>
-                        </form>
-                    </div>
+                        </div>
+                        <div class="modal-footer justify-content-center">
+                            <button class="btn btn-success" type="submit" value="Update">Save</button>
+                            <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -240,26 +240,34 @@
             <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
                 <div class="modal-content modal-addRoom">
                     <div class="modal-header">
-                        <h4 class="modal-title">Add Question</h4>
+                        <h4 class="modal-title">Add Question to Homework</h4>
                     </div>
-                    <div class="modal-body">
-                        <form method="post" id="AddQuestionForm">
+                    <form method="post" id="AddQuestionForm">
+                        <div class="modal-body">
                             <div class="row p-4">
                                 <div class="col-12">
                                     <div class="row form-group">
-                                        <label asp-for="@addQuestion.Question" class="col-md-3 col-form-label text-md-right"></label>
-                                        <select class="form-control custom-select" asp-for="@addQuestion.Question"></select>
-                                        <span asp-validation-for="@addQuestion.Question" id="error_message"
-                                              class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                        <label asp-for="@addQuestion.HomeworkQuestionId" class="col-md-4 col-form-label text-md-right">Select an existing Question</label>
+                                        <div class="col-md-8">
+                                            <!-- search bar with dropdown list-->
+                                            <div class="position-relative">
+                                                <input type="text" id="search-question-dropdown" class="form-control text-md-left" placeholder="Search a particular question...">
+                                                <ul class="search-question-results dropdown-menu" id="search-question-results"></ul>
+                                            </div>
+                                        </div>
+
+                                        @* <select class="form-control custom-select" asp-for="@addQuestion.HomeworkQuestionId" style="width: 100%"></select> *@
+                                        <span asp-validation-for="@addQuestion.HomeworkQuestionId" id="error_message"
+                                                class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
                                     </div>
                                 </div>
-                                <div class="modal-footer justify-content-center" style="margin-left:400px;">
-                                    <button class="btn btn-success" type="submit" name="action" value="addQuestion">Create</button>
-                                    <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
-                                </div>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                        <div class="modal-footer justify-content-center">
+                            <button class="btn btn-success" type="submit" name="action" value="addQuestion">Create</button>
+                            <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -315,7 +323,63 @@
                     // Optionally reset the form
                     //$(this).trigger("reset");
                 });
+                // $('#addQuestion_HomeworkQuestionId').on('select2:select', function (e) {
+                //     var selectedQuestion = e.params.data;
+                //     console.log(selectedQuestion);  Access the selected object
+                // });
+                $('#search-question-dropdown').on('keyup', function () {
+                    var query = $(this).val().toLowerCase();
+                    if (query) {
+                        // Filter options based on the search input
+                        var results = questionList.filter(function (item) {
+                            return item.question && item.question.toLowerCase().includes(query);
+                        });
+
+                        // Render the dropdown list
+                        renderDropdown(results);
+                        $('#search-question-results').show(); // Show the dropdown list
+                    } else {
+                        $('#search-question-results').hide(); // Hide the dropdown if input is empty
+                    }
+                });
+
+                // Ensure dropdown behavior in modal is smooth
+                $('#addQuestion').on('shown.bs.modal', function () {
+                    $('#search-question-dropdown').focus();  // Auto-focus on the input when modal opens
+                });
+                // Close dropdown when clicking outside
+                $(document).on('click', function (event) {
+                    if (!$(event.target).closest('#search-question-dropdown').length) {
+                        $('#search-question-results').hide();
+                        $('#search-question-results').empty(); // Close dropdown
+                    }
+                });
+                $(document).on('click', '.search-question-results li', function () {
+                    const selectedText = $(this).text();
+                    const selectedId = $(this).data('questionid');
+
+                    // Fill the input with the selected text
+                    $('#search-question-dropdown').val(selectedText);
+
+                    // You can store the selected ID for further processing
+                    console.log('Selected Question ID:', selectedId);
+
+                    // Optionally, close the dropdown
+                    $('#search-question-results').empty(); // Clear dropdown
+                });
             });
+            // Function to render the dropdown with filtered results
+            function renderDropdown(options) {
+                $('#search-question-results').empty(); // Clear the dropdown list
+
+                if (options.length === 0) {
+                    $('#search-question-results').append('<li class="dropdown-item">No Question Found</li>');
+                } else {
+                    options.forEach(function (option) {
+                        $('#search-question-results').append('<li data-questionid="' + option.homeworkQuestionId + '" class="dropdown-item">' + option.question + '</li>');
+                    });
+                }
+            }
             // Function to display alerts
             function showAlert(type, message) {
                 var alertHtml = '';
@@ -474,7 +538,15 @@
                         // Check if the status is true
                         if (response.status) {
                             questionList = response.data;
-                            $('#addQuestion_Question').append(getQuestionOptions(questionList));
+                            // $('#addQuestion_HomeworkQuestionId').select2({
+                            //     placeholder: 'Select a question',
+                            //     data: questionList.map(function (question) {
+                            //         return { id: question.homeworkQuestionId, text: question.question };
+                            //     }),  Use the processed array of objects
+                            //     allowClear: true,
+                            // dropdownAutoWidth: true
+                            // });
+                            // $('#addQuestion_Question').append(getQuestionOptions(questionList));
                         } else {
                             console.error("API returned false status.");
                         }
@@ -604,7 +676,7 @@
                         break;
                 }
                 $('#updateHomework_Type').empty();
-                $('#addQuestion_Question').empty();
+                $('#search-question-dropdown').empty();
                 $('#homework-title-status').find('#homework-homework-status').remove();
                 $('#homework-allow-add-question').find('#homework-add-question').remove();
                 $('#homework-status').empty();
