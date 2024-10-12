@@ -323,10 +323,7 @@
                     // Optionally reset the form
                     //$(this).trigger("reset");
                 });
-                // $('#addQuestion_HomeworkQuestionId').on('select2:select', function (e) {
-                //     var selectedQuestion = e.params.data;
-                //     console.log(selectedQuestion);  Access the selected object
-                // });
+                // dropdown js
                 $('#search-question-dropdown').on('keyup', function () {
                     var query = $(this).val().toLowerCase();
                     if (query) {
@@ -352,6 +349,9 @@
                     if (!$(event.target).closest('#search-question-dropdown').length) {
                         $('#search-question-results').hide();
                         $('#search-question-results').empty(); // Close dropdown
+                    } else if ($(event.target).closest('#search-question-dropdown').length){
+                        renderDropdown(questionList);
+                        $('#search-question-results').show();
                     }
                 });
                 $(document).on('click', '.search-question-results li', function () {
@@ -367,13 +367,14 @@
                     // Optionally, close the dropdown
                     $('#search-question-results').empty(); // Clear dropdown
                 });
+                // end of dropdown js
             });
             // Function to render the dropdown with filtered results
             function renderDropdown(options) {
                 $('#search-question-results').empty(); // Clear the dropdown list
 
                 if (options.length === 0) {
-                    $('#search-question-results').append('<li class="dropdown-item">No Question Found</li>');
+                    $('#search-question-results').append('<li class="dropdown-item disabled">No Question Found</li>');
                 } else {
                     options.forEach(function (option) {
                         $('#search-question-results').append('<li data-questionid="' + option.homeworkQuestionId + '" class="dropdown-item">' + option.question + '</li>');
