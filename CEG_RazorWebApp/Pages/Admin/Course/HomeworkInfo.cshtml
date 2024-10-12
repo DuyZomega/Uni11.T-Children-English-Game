@@ -275,6 +275,7 @@
             var token = '@acctoken';
             var apiUrl = '@apiUrl';
             var questionList = [];
+            var homeworkQuestionList = [];
             $(document).ready(function () {
                 callApiGetHomeworkDetail();
                 $('#EditHomeworkForm').submit(function (event) {
@@ -296,10 +297,6 @@
                     event.preventDefault(); // Prevent the form from submitting normally
                     var questionId = $('input[id="search-question-dropdown"]').data('questionid');
                     var homeworkId = $('#homework-id').text();
-                    // Get the form data
-                    // var formData = {
-                    // homeworkQuestionId: $('input[id="search-question-dropdown"]').data('questionid'),
-                    // };
                     // Make the AJAX request
                     callApiPostChooseQuestion(questionId,homeworkId);
                 $('#AddQuestionForm').trigger("reset");
@@ -504,6 +501,7 @@
                                 // Clear any existing answers
                                 $('#question_list').empty();
 
+                                homeworkQuestionList = response.data.homeworkQuestions;
                                 // Loop through each answer and generate the HTML
                                 response.data.homeworkQuestions.forEach(function (question) {
                                     let questionHtml = generateQuestionHtml(question); // Assuming both questionInfo and updateAnswer are the same structure
@@ -535,7 +533,13 @@
                         // Log the entire response to the console for debugging
                         // Check if the status is true
                         if (response.status) {
-                            questionList = response.data;
+
+                            questionList = response.data.filter(function (question) {
+                                // Check if the current question's id is NOT present in homeworkQuestionList
+                                return !homeworkQuestionList.some(function (homeworkQuestion) {
+                                    return homeworkQuestion.homeworkQuestionId === question.homeworkQuestionId; // Assuming both arrays have an 'id' field
+                                });
+                            });
                             // $('#addQuestion_HomeworkQuestionId').select2({
                             //     placeholder: 'Select a question',
                             //     data: questionList.map(function (question) {
