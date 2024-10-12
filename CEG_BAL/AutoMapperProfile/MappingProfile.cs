@@ -209,11 +209,15 @@ namespace CEG_BAL.AutoMapperProfile
             CreateMap<Session, SessionViewModel>()
                 .ReverseMap();
             CreateMap<Homework, HomeworkViewModel>()
+                .AfterMap((src, dest) =>
+                {
+                    dest.QuestionsAmount = src.HomeworkQuestions != null ? src.HomeworkQuestions.Count : 0;
+                })
                 .ReverseMap();
             CreateMap<HomeworkQuestion, HomeworkQuestionViewModel>()
                 .AfterMap((src, dest) =>
                 {
-                    dest.AnswerAmounts = src.HomeworkAnswers != null ? src.HomeworkAnswers.Count : 0;
+                    dest.AnswersAmount = src.HomeworkAnswers != null ? src.HomeworkAnswers.Count : 0;
                 })
                 .ReverseMap();
             CreateMap<HomeworkAnswer, HomeworkAnswerViewModel>()
