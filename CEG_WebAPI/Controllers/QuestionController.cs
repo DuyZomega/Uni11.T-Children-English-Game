@@ -237,5 +237,44 @@ namespace CEG_WebAPI.Controllers
                 });
             }
         }
+        [HttpPut("{questionId}/Update/HomeworkId/{homeworkId}")]
+        [Authorize(Roles = "Admin")]
+        [ProducesResponseType(typeof(HomeworkQuestionViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> UpdateQuestion(
+            [FromRoute][Required] int questionId,
+            [FromRoute][Required] int homeworkId
+            )
+        {
+            try
+            {
+                var result = await _questionService.GetQuestionById(questionId);
+                if (result == null)
+                {
+                    return NotFound(new
+                    {
+                        Status = false,
+                        ErrorMessage = "Question Does Not Exist"
+                    });
+                }
+                _questionService.UpdateHomeworkId(questionId, homeworkId);
+                result = await _questionService.GetQuestionById(questionId);
+                return Ok(new
+                {
+                    Status = true,
+                    Data = result
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    Status = false,
+                    ErrorMessage = ex.Message,
+                    InnerExceptionMessage = ex.InnerException?.Message
+                });
+            }
+        }
     }
 }

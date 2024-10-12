@@ -83,5 +83,20 @@ namespace CEG_BAL.Services.Implements
             _unitOfWork.HomeworkQuestionRepositories.Update(ques);
             _unitOfWork.Save();
         }
+        public void UpdateHomeworkId(int questionId, int homeworkId)
+        {
+            var questionDefault = _unitOfWork.HomeworkQuestionRepositories.GetByIdNoTracking(questionId).Result;
+            if(questionDefault == null)
+            {
+                return;
+            }
+            if (questionDefault.Homework?.HomeworkId == 0)
+            {
+                questionDefault.Homework = null;
+            }
+            questionDefault.HomeworkId = homeworkId;
+            _unitOfWork.HomeworkQuestionRepositories.Update(questionDefault);
+            _unitOfWork.Save();
+        }
     }
 }
