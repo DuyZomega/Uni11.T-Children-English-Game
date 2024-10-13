@@ -258,7 +258,7 @@ html body {
     }
 
     .navigation.active {
-        width: 60px;
+        width: 55px;
     }
 
     .navigation .slide-menu {
@@ -271,17 +271,17 @@ html body {
     }
 
         .navigation .slide-menu .logo {
-            max-height: 170px;
+            padding-right: 5px;
+            max-height: 90px;
             width: auto;
-            margin: auto;
+            margin: 10px auto;
             display: block;
-            margin-bottom: 10px;
         }
 
     .navigation.active .slide-menu .logo {
         max-width: 40px;
-        margin-bottom: 30px;
-        margin-top: 20px;
+        margin-bottom: 37px;
+        margin-top: 38px;
     }
 
     .navigation .slide-menu > li {
@@ -1940,3 +1940,19 @@ html body {
             padding: 4px 10px;
             border-radius: 5px;
         }
+/* use for Homework Info Page*/
+.search-question-results {
+    max-height: 150px; /* Height for 5 options (adjust based on your item height) */
+    overflow-y: auto; /* Enable vertical scroll */
+    width: 100%; /* Make dropdown width the same as input */
+}
+
+    .search-question-results li {
+        padding: 10px;
+        cursor: pointer;
+    }
+
+        .search-question-results li:hover {
+            background-color: #f1f1f1;
+        }
+/* end of use for Homework Info Page*/

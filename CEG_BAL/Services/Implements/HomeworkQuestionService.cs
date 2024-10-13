@@ -42,6 +42,22 @@ namespace CEG_BAL.Services.Implements
             _unitOfWork.HomeworkQuestionRepositories.Create(ques);
             _unitOfWork.Save();
         }
+        public void CreateWithHomeworkId(HomeworkQuestionViewModel model, CreateNewQuestion newQus, int homeworkId)
+        {
+            var ques = _mapper.Map<HomeworkQuestion>(model);
+            if (newQus != null)
+            {
+                ques.Question = newQus.Question;
+                if (ques.Homework?.HomeworkId == 0)
+                {
+                    ques.Homework = null;
+                }
+                ques.HomeworkId = homeworkId;
+                /*ques.HomeworkId = _unitOfWork.HomeworkRepositories.GetIdByTitle(newQus.HomeworkTitle).Result;*/
+            }
+            _unitOfWork.HomeworkQuestionRepositories.Create(ques);
+            _unitOfWork.Save();
+        }
 
         public async Task<List<HomeworkQuestionViewModel>?> GetOrderedQuestionList()
         {
@@ -82,6 +98,35 @@ namespace CEG_BAL.Services.Implements
             }
             _unitOfWork.HomeworkQuestionRepositories.Update(ques);
             _unitOfWork.Save();
+        }
+        public void UpdateWithHomeworkId(int questionId, int homeworkId)
+        {
+            var questionDefault = _unitOfWork.HomeworkQuestionRepositories.GetByIdNoTracking(questionId).Result;
+            if (questionDefault == null) return;
+            if (questionDefault.HomeworkId != 0)
+            {
+                var newQuestion = new HomeworkQuestion
+                {
+                    HomeworkQuestionId = 0,  // Set to 0 or default, since it's a new record
+                    HomeworkId = homeworkId,  // Use the new homeworkId
+                    Question = questionDefault.Question,  // Copy other properties
+                                                          // Add any other properties here as needed...
+                    HomeworkAnswers = questionDefault.HomeworkAnswers?.Select(answer => new HomeworkAnswer
+                    {
+                        HomeworkAnswerId = 0,  // Reset the answer ID to create a new one
+                        Answer = answer.Answer,  // Copy the answer text
+                        Type = answer.Type
+                    }).ToList() ?? []  // Convert to list after projection
+                };
+                _unitOfWork.HomeworkQuestionRepositories.Create(newQuestion);
+                _unitOfWork.Save();
+            } 
+            else
+            {
+                questionDefault.HomeworkId = homeworkId;
+                _unitOfWork.HomeworkQuestionRepositories.Update(questionDefault);
+                _unitOfWork.Save();
+            }
         }
     }
 }
