@@ -75,7 +75,7 @@
                             <div class="row">
                                 <div class="card profile col-12 mb-4">
                                     <div class="card-header" id="homework-title-status">
-                                        <h4>Homework <label id="homework-homework-title" class="truncate"></label> Information</h4>
+                                        <h4 class="col-md-8">Homework <label id="homework-homework-title" class="truncate"></label> Information</h4>
                                     </div>
                                 <div id="alertContainer"></div>
                                     <div class="card-body">
@@ -247,11 +247,11 @@
                             <div class="row p-4">
                                 <div class="col-12">
                                     <div class="row form-group">
-                                        <label asp-for="@addQuestion.HomeworkQuestionId" class="col-md-4 col-form-label text-md-right">Select an existing Question</label>
+                                        <label asp-for="@addQuestion.HomeworkQuestionId" class="col-md-4 col-form-label text-md-right">Select an existing Question or type in a new Question</label>
                                         <div class="col-md-8">
                                             <!-- search bar with dropdown list-->
                                             <div class="position-relative">
-                                                <input type="text" id="search-question-dropdown" class="form-control text-md-left" placeholder="Search a particular question...">
+                                                <input data-questionid="0" type="text" id="search-question-dropdown" class="form-control text-md-left" placeholder="Search a particular question...">
                                                 <ul class="search-question-results dropdown-menu" id="search-question-results"></ul>
                                             </div>
                                         </div>
@@ -296,10 +296,36 @@
                 $('#AddQuestionForm').submit(function (event) {
                     event.preventDefault(); // Prevent the form from submitting normally
                     var questionId = $('input[id="search-question-dropdown"]').data('questionid');
+                    var question = $('input[id="search-question-dropdown"]').val();
                     var homeworkId = $('#homework-id').text();
-                    // Make the AJAX request
-                    callApiPostChooseQuestion(questionId,homeworkId);
-                $('#AddQuestionForm').trigger("reset");
+                    if(questionId == 0){
+                        // Check if any question in the questionList contains a similar question text
+                        var isSimilarQuestionFound = questionList.some(function (questionItem) {
+                            // Check if questionItem's question text is somewhat similar to 'question'
+                            var isTextSimilar = questionItem.question.toLowerCase().includes(question.trim().toLowerCase());
+                            if (isTextSimilar) {
+                                console.log(isTextSimilar);
+                                questionId = questionItem.homeworkQuestionId; // Store the homeworkQuestionId when found
+                            }
+                            return isTextSimilar;
+                        });
+                        if(isSimilarQuestionFound){
+                            console.log(isSimilarQuestionFound);
+                            // Make the AJAX request
+                            callApiPostChooseQuestion(questionId, homeworkId);
+                        } else {
+                            var formData = {
+                                question: question
+                            };
+                            console.log(formData);
+                            callApiPostCreateQuestion(formData,homeworkId);
+                        }
+                    }
+                    else {
+                        // Make the AJAX request
+                        callApiPostChooseQuestion(questionId, homeworkId);
+                    }
+                    $('#AddQuestionForm').trigger("reset");
                 });
                 $(document).on('submit', 'form[id^="editAnswerForm_"]', function (event) {
                     event.preventDefault();
@@ -431,27 +457,17 @@
                     }
                 });
             }
-            function callApiPutUpdateAnswer(formData, answerId) {
+            function callApiPostCreateQuestion(formData,homeworkId){
                 $.ajax({
-                    url: apiUrl + 'Answer/' + answerId + '/Update', // Specify your Razor Page here
-                    type: 'PUT',
+                    url: apiUrl + 'Question/Create/HomeworkId/' + homeworkId, // Specify your Razor Page here
+                    type: 'POST',
                     data: JSON.stringify(formData),
-                    headers: {
-                        'Authorization': 'Bearer ' + token, // Token for authentication
-                    },
                     contentType: 'application/json; charset=utf-8',
                     success: function (response) {
                         // Handle success (display a success message or redirect, etc.)
                         if (response.status) {
-                            showAlert('success', "Answer update successfully");
-                            $('.modal-backdrop').remove();
-                            // Remove specific class from body
-                            $('body').removeClass('modal-open');
-
-                            // Remove all inline styles from body
-                            $('body').removeAttr('style');
+                            showAlert('success', "Question create successfully");
                             callApiGetHomeworkDetail();
-                            showAlert('', '');
                         } else {
                             console.error("API returned false status.");
                         }
@@ -463,6 +479,38 @@
                     }
                 });
             }
+            // function callApiPutUpdateAnswer(formData, answerId) {
+            //     $.ajax({
+            //         url: apiUrl + 'Answer/' + answerId + '/Update', Specify your Razor Page here
+            //         type: 'PUT',
+            //         data: JSON.stringify(formData),
+            //         headers: {
+            //             'Authorization': 'Bearer ' + token, Token for authentication
+            //         },
+            //         contentType: 'application/json; charset=utf-8',
+            //         success: function (response) {
+            //             Handle success (display a success message or redirect, etc.)
+            //             if (response.status) {
+            //                 showAlert('success', "Answer update successfully");
+            //                 $('.modal-backdrop').remove();
+            //                 Remove specific class from body
+            //                 $('body').removeClass('modal-open');
+
+            //                 Remove all inline styles from body
+            //                 $('body').removeAttr('style');
+            //                 callApiGetHomeworkDetail();
+            //                 showAlert('', '');
+            //             } else {
+            //                 console.error("API returned false status.");
+            //             }
+            //         },
+            //         error: function (xhr, status, error) {
+            //             Handle error (display the validation message, etc.)
+            //             alert("Error in api call:" + error);
+            //             console.error("Error in api call:", error);
+            //         }
+            //     });
+            // }
             function callApiPostChooseQuestion(questionId,homeworkId) {
                 $.ajax({
                     url: apiUrl + 'Question/' + questionId + '/Update/HomeworkId/' + homeworkId, // Specify your Razor Page here
@@ -474,7 +522,7 @@
                     success: function (response) {
                         // Handle success (display a success message or redirect, etc.)
                         if (response.status) {
-                            // showAlert('success', "Answer create successfully");
+                            showAlert('success', "Question update successfully");
                             callApiGetHomeworkDetail();
                         } else {
                             console.error("API returned false status.");
@@ -534,10 +582,10 @@
                         // Check if the status is true
                         if (response.status) {
 
-                            questionList = response.data.filter(function (question) {
+                            questionList = response.data.filter(function (questionItem) {
                                 // Check if the current question's id is NOT present in homeworkQuestionList
                                 return !homeworkQuestionList.some(function (homeworkQuestion) {
-                                    return homeworkQuestion.homeworkQuestionId === question.homeworkQuestionId; // Assuming both arrays have an 'id' field
+                                    return homeworkQuestion.question === questionItem.question; // Assuming both arrays have an 'id' field
                                 });
                             });
                             // $('#addQuestion_HomeworkQuestionId').select2({

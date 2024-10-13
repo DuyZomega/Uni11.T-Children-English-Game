@@ -197,6 +197,46 @@ namespace CEG_WebAPI.Controllers
             }
         }
 
+        [HttpPost("Create/HomeworkId/{homeworkId}")]
+        [ProducesResponseType(typeof(HomeworkQuestionViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> CreateQuestionWithHomeworkId (
+            [FromRoute][Required] int homeworkId,
+            [FromBody][Required] CreateNewQuestion newSes
+            )
+        {
+            try
+            {
+                /*var resulthomeworkName = await _homeworkService.IsHomeworkExistByTitle(newSes.HomeworkTitle);
+                if (!resulthomeworkName)
+                {
+                    return BadRequest(new
+                    {
+                        Status = false,
+                        ErrorMessage = "Homework Not Found!"
+                    });
+                }*/
+                HomeworkQuestionViewModel sess = new HomeworkQuestionViewModel();
+                _questionService.CreateWithHomeworkId(sess, newSes, homeworkId);
+                return Ok(new
+                {
+                    Data = true,
+                    Status = true,
+                    SuccessMessage = "Question Create Successfully!"
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    Status = false,
+                    ErrorMessage = ex.Message,
+                    InnerExceptionMessage = ex.InnerException?.Message
+                });
+            }
+        }
+
         [HttpPut("{id}/Update")]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(HomeworkQuestionViewModel), StatusCodes.Status200OK)]
@@ -258,7 +298,7 @@ namespace CEG_WebAPI.Controllers
                         ErrorMessage = "Question Does Not Exist"
                     });
                 }
-                _questionService.UpdateHomeworkId(questionId, homeworkId);
+                _questionService.UpdateWithHomeworkId(questionId, homeworkId);
                 result = await _questionService.GetQuestionById(questionId);
                 return Ok(new
                 {

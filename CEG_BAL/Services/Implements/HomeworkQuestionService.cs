@@ -42,6 +42,22 @@ namespace CEG_BAL.Services.Implements
             _unitOfWork.HomeworkQuestionRepositories.Create(ques);
             _unitOfWork.Save();
         }
+        public void CreateWithHomeworkId(HomeworkQuestionViewModel model, CreateNewQuestion newQus, int homeworkId)
+        {
+            var ques = _mapper.Map<HomeworkQuestion>(model);
+            if (newQus != null)
+            {
+                ques.Question = newQus.Question;
+                if (ques.Homework?.HomeworkId == 0)
+                {
+                    ques.Homework = null;
+                }
+                ques.HomeworkId = homeworkId;
+                /*ques.HomeworkId = _unitOfWork.HomeworkRepositories.GetIdByTitle(newQus.HomeworkTitle).Result;*/
+            }
+            _unitOfWork.HomeworkQuestionRepositories.Create(ques);
+            _unitOfWork.Save();
+        }
 
         public async Task<List<HomeworkQuestionViewModel>?> GetOrderedQuestionList()
         {
@@ -83,7 +99,7 @@ namespace CEG_BAL.Services.Implements
             _unitOfWork.HomeworkQuestionRepositories.Update(ques);
             _unitOfWork.Save();
         }
-        public void UpdateHomeworkId(int questionId, int homeworkId)
+        public void UpdateWithHomeworkId(int questionId, int homeworkId)
         {
             var questionDefault = _unitOfWork.HomeworkQuestionRepositories.GetByIdNoTracking(questionId).Result;
             if (questionDefault == null) return;
