@@ -86,17 +86,31 @@ namespace CEG_BAL.Services.Implements
         public void UpdateHomeworkId(int questionId, int homeworkId)
         {
             var questionDefault = _unitOfWork.HomeworkQuestionRepositories.GetByIdNoTracking(questionId).Result;
-            if(questionDefault == null)
+            if (questionDefault == null) return;
+            if (questionDefault.HomeworkId != 0)
             {
-                return;
-            }
-            if (questionDefault.Homework?.HomeworkId == 0)
+                var newQuestion = new HomeworkQuestion
+                {
+                    HomeworkQuestionId = 0,  // Set to 0 or default, since it's a new record
+                    HomeworkId = homeworkId,  // Use the new homeworkId
+                    Question = questionDefault.Question,  // Copy other properties
+                                                          // Add any other properties here as needed...
+                    HomeworkAnswers = questionDefault.HomeworkAnswers?.Select(answer => new HomeworkAnswer
+                    {
+                        HomeworkAnswerId = 0,  // Reset the answer ID to create a new one
+                        Answer = answer.Answer,  // Copy the answer text
+                        Type = answer.Type
+                    }).ToList() ?? []  // Convert to list after projection
+                };
+                _unitOfWork.HomeworkQuestionRepositories.Create(newQuestion);
+                _unitOfWork.Save();
+            } 
+            else
             {
-                questionDefault.Homework = null;
+                questionDefault.HomeworkId = homeworkId;
+                _unitOfWork.HomeworkQuestionRepositories.Update(questionDefault);
+                _unitOfWork.Save();
             }
-            questionDefault.HomeworkId = homeworkId;
-            _unitOfWork.HomeworkQuestionRepositories.Update(questionDefault);
-            _unitOfWork.Save();
         }
     }
 }
