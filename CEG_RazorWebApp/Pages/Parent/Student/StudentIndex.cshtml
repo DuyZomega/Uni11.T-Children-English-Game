@@ -144,7 +144,7 @@
 
                     // Filter the classes based on the search term
                     var filteredstudentList = studentList.filter(function (student) {
-                        return student.fullname.toLowerCase().includes(searchTerm);
+                        return student.account.fullname.toLowerCase().includes(searchTerm);
                     });
 
                     // Display the filtered studentList
@@ -185,7 +185,7 @@
                     url: apiUrl + `Student/ByParent/${id}`, // API endpoint
                     type: 'GET',
                     headers: {
-                        'Authorization': 'Bearer ' + token// Include the JWT token
+                        'Authorization': 'Bearer ' + token // Include the JWT token
                     },
                     success: function (response) {
                         // Log the entire response to the console for debugging
@@ -213,14 +213,38 @@
                 var tableBody = $('#history-table tbody'); // Reference to the <id="history-table"> element
                 tableBody.empty(); // Clear any existing options
                 // Loop through the data array and append each class div
-                $.each(data, function (index, account) {
+                $.each(data, function (index, student) {
                     //var url = `href="/Parent/Student/${student.account.accountId}/Info"`
                     // Construct card HTML
                     var rowHtml = `
                         <tr class="${index % 2 === 0 ? 'even' : 'odd'}">
                             <td class="sorting_1">
-                                <input type="hidden" name="listRequest[${index}].UserName" value="${student.username}" class="form-control" />
-                                ${account.username}
+                                <input type="hidden" name="listRequest[${index}].UserName" value="${student.account.username}" class="form-control" />
+                                ${student.account.username}
+                            </td>
+                            <td>
+                                <input type="hidden" name="listRequest[${index}].FullName" value="${student.account.fullname}" class="form-control" />
+                                ${student.account.fullname}
+                            </td>
+                            <td>
+                                <input type="hidden" name="listRequest[${index}].Highscore" value="${student.highscore}" class="form-control" />
+                                ${student.highscore}
+                            </td>
+                            <td>
+                                <input type="hidden" name="listRequest[${index}].Playtime" value="${student.playtime}" class="form-control" />
+                                ${student.playtime}
+                            </td>
+                            <td>
+                                <input type="hidden" name="listRequest[${index}].CurLevel" value="${student.curLevel}" class="form-control" />
+                                ${student.curLevel}
+                            </td>
+                            <td>
+                                <input type="hidden" name="listRequest[${index}].Points" value="${student.points}" class="form-control" />
+                                ${student.points}
+                            </td>
+                            <td>
+                                <input type="hidden" name="listRequest[${index}].Birthdate" value="${student.birthdate}" class="form-control" />
+                                ${formatDate(student.birthdate)}
                             </td>
                         <tr>
                     `;
