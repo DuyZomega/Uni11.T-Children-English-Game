@@ -100,6 +100,7 @@ namespace CEG_BAL.Configurations
         public readonly static string EVENT_STATUS_NAME_CHECKING_IN = "Checking In";
         public readonly static string EVENT_STATUS_ONGOING = "Ongoing";
         public readonly static string EVENT_STATUS_NAME_ONGOING = "Ongoing";*/
+        public readonly static string HOMEWORK_STATUS_NOT_FOUND = "NotFound";
 
         public readonly static string COURSE_STATUS_DRAFT = "Draft";
         public readonly static string COURSE_STATUS_NAME_DRAFT = "Draft";

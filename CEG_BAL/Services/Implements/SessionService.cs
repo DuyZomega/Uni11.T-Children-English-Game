@@ -72,6 +72,7 @@ namespace CEG_BAL.Services.Implements
             if (user != null)
             {
                 var urs = _mapper.Map<SessionViewModel>(user);
+                urs.CourseStatus = await _unitOfWork.CourseRepositories.GetStatusBySessionIdNoTracking(id);
                 return urs;
             }
             return null;

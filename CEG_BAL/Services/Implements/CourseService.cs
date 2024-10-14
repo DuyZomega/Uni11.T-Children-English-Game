@@ -54,7 +54,7 @@ namespace CEG_BAL.Services.Implements
 
         public async Task<CourseViewModel?> GetCourseById(int id)
         {
-            var user = await _unitOfWork.CourseRepositories.GetByIdNoTracking(id);
+            var user = await _unitOfWork.CourseRepositories.GetByIdNoTrackingInclude(id);
             if (user != null)
             {
                 var urs = _mapper.Map<CourseViewModel>(user);
