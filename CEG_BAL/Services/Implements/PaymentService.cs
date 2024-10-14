@@ -53,6 +53,11 @@ namespace CEG_BAL.Services.Implements
             return null;
         }
 
+        public async Task<List<PaymentViewModel>> GetPaymentByParentId(int parentId)
+        {
+            return _mapper.Map<List<PaymentViewModel>>(await _unitOfWork.PaymentRepositories.GetPaymentByParentId(parentId));
+        }
+
         public void Update(PaymentViewModel model)
         {
             var pay = _mapper.Map<Payment>(model);

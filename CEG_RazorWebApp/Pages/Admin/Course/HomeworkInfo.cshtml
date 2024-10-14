@@ -2,11 +2,11 @@
 @model CEG_RazorWebApp.Pages.Admin.Course.HomeworkInfoModel
 @{
     ViewData["Title"] = "Admin Homework Info Page";
-    var homeworkInfo = Model.HomeworkInfo;
-    var questionList = Model.Questions;
     var updateHomework = Model.UpdateHomeworkInfo;
     var addQuestion = Model.AddQuestion;
     Layout = Model.LayoutUrl;
+    var acctoken = Model.AccToken;
+    var apiUrl = Model.ApiUrl;
 }
 <html lang="en">
 <head>
@@ -59,13 +59,13 @@
                                     <span>/</span>
                                 </li>
                                 <li class="breadcrumd-item">
-                                    <a href="/Admin/Course/@Model.CourseId/Session/@Model.SessionId/Homework/@homeworkInfo.HomeworkId/Info">@homeworkInfo.HomeworkId</a>
+                                    <a href="/Admin/Course/@Model.CourseId/Session/@Model.SessionId/Homework/@Model.HomeworkId/Info">@Model.HomeworkId</a>
                                 </li>
                                 <li class="breadcrumd-item">
                                     <span>/</span>
                                 </li>
                                 <li class="breadcrumd-item">
-                                    <a href="/Admin/Course/@Model.CourseId/Session/@Model.SessionId/Homework/@homeworkInfo.HomeworkId/Info">Info</a>
+                                    <a href="/Admin/Course/@Model.CourseId/Session/@Model.SessionId/Homework/@Model.HomeworkId/Info">Info</a>
                                 </li>
                             </ol>
                         </div>
@@ -74,47 +74,17 @@
                         <div class="col-12 customer-booking">
                             <div class="row">
                                 <div class="card profile col-12 mb-4">
-                                    <div class="card-header">
-                                        <h4>Homework @homeworkInfo.Title Information</h4>
-                                        @{
-                                            if (homeworkInfo.Status.Equals("Draft") || homeworkInfo.Status.Equals("Postponed"))
-                                            {
-                                                <div class="edit-info">
-                                                    <i class='bx bxs-edit' data-toggle="modal" data-target="#editHomework"></i>
-                                                </div>
-                                            }
-                                        }
+                                    <div class="card-header" id="homework-title-status">
+                                        <h4 class="col-md-8">Homework <label id="homework-homework-title" class="truncate"></label> Information</h4>
                                     </div>
-                                    @if (TempData["Success"] != null)
-                                    {
-                                        <div class="alert alert-success alert-dismissible fade show" id="notif">
-                                            <i class='bx bx-message-alt-x p-1'></i>
-                                            <strong class="mr-1">@TempData["Success"]</strong>
-                                            <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
-                                                <span><i class='bx bx-x'></i></span>
-                                            </button>
-                                        </div>
-                                        TempData["Success"] = null;
-                                    }
-                                    else if (TempData["Error"] != null)
-                                    {
-                                        <div class="alert alert-danger alert-dismissible fade show" id="notif">
-                                            <i class='bx bx-message-alt-x p-1'></i>
-                                            <strong class="mr-1">@TempData["Error"]</strong>
-                                            <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
-                                                <span><i class='bx bx-x'></i></span>
-                                            </button>
-                                        </div>
-                                        TempData["Error"] = null;
-                                    }
+                                <div id="alertContainer"></div>
                                     <div class="card-body">
                                         <div class="row mb-sm-2">
                                             <div class="col-md-5 text-md-right">
                                                 <label class="col-form-label">Homework ID:</label>
                                             </div>
                                             <div class="col-md-7">
-                                                <span>
-                                                    @homeworkInfo.HomeworkId
+                                                <span id="homework-id">
                                                 </span>
                                             </div>
                                         </div>
@@ -122,8 +92,8 @@
                                             <div class="col-md-5 text-md-right">
                                                 <label class="col-form-label">Status:</label>
                                             </div>
-                                            <div class="col-sm-7">
-                                                @{
+                                            <div class="col-sm-7" id="homework-status">
+                                                @* @{
                                                     switch (homeworkInfo.Status)
                                                     {
                                                         case "Available":
@@ -144,7 +114,7 @@
                                                                 break;
                                                             }
                                                     }
-                                                }
+                                                } *@
                                             </div>
                                         </div>
                                         <div class="row mb-sm-2">
@@ -152,8 +122,7 @@
                                                 <label class="col-form-label">Title:</label>
                                             </div>
                                             <div class="col-md-7">
-                                                <span>
-                                                    @homeworkInfo.Title
+                                                <span id="homework-title">
                                                 </span>
                                             </div>
                                         </div>
@@ -162,8 +131,7 @@
                                                 <label class="col-form-label">Description:</label>
                                             </div>
                                             <div class="col-md-7">
-                                                <span>
-                                                    @homeworkInfo.Description
+                                                <span id="homework-description">
                                                 </span>
                                             </div>
                                         </div>
@@ -172,8 +140,7 @@
                                                 <label class="col-form-label">Hours to do:</label>
                                             </div>
                                             <div class="col-md-7">
-                                                <span>
-                                                    @homeworkInfo.Hours
+                                                <span id="homework-hours">
                                                 </span>
                                             </div>
                                         </div>
@@ -182,8 +149,7 @@
                                                 <label class="col-form-label">Type:</label>
                                             </div>
                                             <div class="col-md-7">
-                                                <span>
-                                                    @homeworkInfo.Type
+                                                <span id="homework-type">
                                                 </span>
                                             </div>
                                         </div>
@@ -192,8 +158,7 @@
                                                 <label class="col-form-label">Questions amount:</label>
                                             </div>
                                             <div class="col-md-7">
-                                                <span>
-                                                    @homeworkInfo.QuestionsAmount Question(s)
+                                                <span id="homework-questions-amount">
                                                 </span>
                                             </div>
                                         </div>
@@ -204,32 +169,11 @@
                         <div class="col-12 customer-booking">
                             <div class="row">
                                 <div class="card profile col-12 mb-4">
-                                    <div class="card-header">
-                                        <h4>Homework's Question List</h4>
-                                        @{
-                                            if (homeworkInfo.Status.Equals("Draft") || homeworkInfo.Status.Equals("Postponed"))
-                                            {
-                                                <div class="edit-info">
-                                                    <i class='bx bxs-add-to-queue' data-toggle="modal" data-target="#addQuestion"></i>
-                                                </div>
-                                            }
-                                        }
+                                    <div class="card-header" id="homework-allow-add-question">
+                                        <h4>Homework's Questions List</h4>
                                     </div>
-                                    <div class="card-body">
-                                        @{
-                                            if (questionList != null && questionList.Count > 0)
-                                            {
-                                                @foreach (var questionInfo in questionList)
-                                                {
-                                                    @await Html.PartialAsync("PartialViews/_QuestionDetails", questionInfo)
-                                                    ;
-                                                }
-                                            }
-                                            else
-                                            {
-                                                <h5>Empty Question list</h5>
-                                            }
-                                        }
+                                    <div class="card-body" id="question_list">
+                                        <h5>No questions found</h5>
                                     </div>
                                 </div>
                             </div>
@@ -244,17 +188,17 @@
                     <div class="modal-header">
                         <h4 class="modal-title">Edit Homework</h4>
                     </div>
-                    <div class="modal-body">
-                        <form asp-page-handler="Update" method="post" asp-route-homeworkId="@homeworkInfo.HomeworkId" class="form-group">
+                    <form method="put" class="form-group" id="EditHomeworkForm">
+                        <div class="modal-body">
                             <div class="modal-body">
                                 <div class="col-12">
                                     <div class="form-group row">
                                         <label asp-for="@updateHomework.Title" class="col-sm-4 col-form-label"></label>
                                         <div class="col-sm-8">
                                             <input asp-for="@updateHomework.Title" type="text"
-                                                   value="@updateHomework.Title" class="form-control" required>
+                                                    value="@updateHomework.Title" class="form-control" required>
                                             <span asp-validation-for="@updateHomework.Title" id="error_message"
-                                                  class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                                    class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -262,7 +206,7 @@
                                         <div class="col-sm-8">
                                             <textarea asp-for="@updateHomework.Description" value="@updateHomework.Description" required class="form-control col-md-7"></textarea>
                                             <span asp-validation-for="@updateHomework.Description" id="error_message"
-                                                  class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                                    class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -270,25 +214,25 @@
                                         <div class="col-sm-8">
                                             <input asp-for="@updateHomework.Hours" value="@updateHomework.Hours" type="number" min="1" class="form-control" required>
                                             <span asp-validation-for="@updateHomework.Hours" id="error_message"
-                                                  class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                                    class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label asp-for="@updateHomework.Type" class="col-sm-4 col-form-label"></label>
                                         <div class="col-sm-8">
-                                            <select class="form-control custom-select" asp-for="@updateHomework.Type" asp-items="@updateHomework.DefaultHomeworkTypeSelectList"></select>
+                                            <select class="form-control custom-select" asp-for="@updateHomework.Type"></select>
                                             <span asp-validation-for="@updateHomework.Type" id="error_message"
-                                                  class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                                    class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="modal-footer justify-content-center">
-                                <button class="btn btn-success" type="submit" value="Update">Save</button>
-                                <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
-                            </div>
-                        </form>
-                    </div>
+                        </div>
+                        <div class="modal-footer justify-content-center">
+                            <button class="btn btn-success" type="submit" value="Update">Save</button>
+                            <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -296,28 +240,512 @@
             <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
                 <div class="modal-content modal-addRoom">
                     <div class="modal-header">
-                        <h4 class="modal-title">Add Question</h4>
+                        <h4 class="modal-title">Add Question to Homework</h4>
                     </div>
-                    <div class="modal-body">
-                        <form asp-page-handler="Create" asp-route-homeworkId="@homeworkInfo.HomeworkId" method="post" id="form">
+                    <form method="post" id="AddQuestionForm">
+                        <div class="modal-body">
                             <div class="row p-4">
                                 <div class="col-12">
                                     <div class="row form-group">
-                                        <label asp-for="@addQuestion.Question" class="col-md-3 col-form-label text-md-right"></label>
-                                        <textarea asp-for="@addQuestion.Question" value="@addQuestion.Question" required class="form-control col-md-7"></textarea>
-                                        <span asp-validation-for="@addQuestion.Question" id="error_message"
-                                              class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                        <label asp-for="@addQuestion.HomeworkQuestionId" class="col-md-4 col-form-label text-md-right">Select an existing Question or type in a new Question</label>
+                                        <div class="col-md-8">
+                                            <!-- search bar with dropdown list-->
+                                            <div class="position-relative">
+                                                <input data-questionid="0" type="text" id="search-question-dropdown" class="form-control text-md-left" placeholder="Search a particular question...">
+                                                <ul class="search-question-results dropdown-menu" id="search-question-results"></ul>
+                                            </div>
+                                        </div>
+
+                                        @* <select class="form-control custom-select" asp-for="@addQuestion.HomeworkQuestionId" style="width: 100%"></select> *@
+                                        <span asp-validation-for="@addQuestion.HomeworkQuestionId" id="error_message"
+                                                class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
                                     </div>
                                 </div>
-                                <div class="modal-footer justify-content-center" style="margin-left:400px;">
-                                    <button class="btn btn-success" type="submit" name="action" value="addQuestion">Create</button>
-                                    <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
-                                </div>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                        <div class="modal-footer justify-content-center">
+                            <button class="btn btn-success" type="submit" name="action" value="addQuestion">Create</button>
+                            <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
+        <script>
+            var token = '@acctoken';
+            var apiUrl = '@apiUrl';
+            var questionList = [];
+            var homeworkQuestionList = [];
+            $(document).ready(function () {
+                callApiGetHomeworkDetail();
+                $('#EditHomeworkForm').submit(function (event) {
+                    event.preventDefault(); // Prevent the form from submitting normally
+
+                    //Get the form data
+                    var formData = {
+                        title: $('input[id="updateHomework_Title"]').val(),
+                        description: $('textarea[id="updateHomework_Description"]').val(),
+                        hours: $('input[id="updateHomework_Hours"]').val(),
+                        type: $('select[id="updateHomework_Type"]').val()
+                    };
+
+                    //Make the AJAX request
+                    callApiPutUpdateHomework(formData);
+                    $('#EditHomeworkForm').trigger("reset");
+                });
+                $('#AddQuestionForm').submit(function (event) {
+                    event.preventDefault(); // Prevent the form from submitting normally
+                    var questionId = $('input[id="search-question-dropdown"]').data('questionid');
+                    var question = $('input[id="search-question-dropdown"]').val();
+                    var homeworkId = $('#homework-id').text();
+                    if(questionId == 0){
+                        // Check if any question in the questionList contains a similar question text
+                        var isSimilarQuestionFound = questionList.some(function (questionItem) {
+                            // Check if questionItem's question text is somewhat similar to 'question'
+                            var isTextSimilar = questionItem.question.toLowerCase().includes(question.trim().toLowerCase());
+                            if (isTextSimilar) {
+                                console.log(isTextSimilar);
+                                questionId = questionItem.homeworkQuestionId; // Store the homeworkQuestionId when found
+                            }
+                            return isTextSimilar;
+                        });
+                        if(isSimilarQuestionFound){
+                            console.log(isSimilarQuestionFound);
+                            // Make the AJAX request
+                            callApiPostChooseQuestion(questionId, homeworkId);
+                        } else {
+                            var formData = {
+                                question: question
+                            };
+                            console.log(formData);
+                            callApiPostCreateQuestion(formData,homeworkId);
+                        }
+                    }
+                    else {
+                        // Make the AJAX request
+                        callApiPostChooseQuestion(questionId, homeworkId);
+                    }
+                    $('#AddQuestionForm').trigger("reset");
+                });
+                $(document).on('submit', 'form[id^="editAnswerForm_"]', function (event) {
+                    event.preventDefault();
+                    // Extract the answerId from the form's id
+                    let answerId = $(this).attr('id').split('_')[1];
+
+                    // Collect form data
+                    let formData = {
+                        answer: $('#updateAnswer_' + answerId + '_Answer').val(),
+                        type: $('#updateAnswer_' + answerId + '_Type').val()
+                    };
+
+                    // Call the API to update the answer
+                    callApiPutUpdateAnswer(formData, answerId);
+
+                    // Optionally reset the form
+                    //$(this).trigger("reset");
+                });
+                // dropdown js
+                $('#search-question-dropdown').on('keyup', function () {
+                    var query = $(this).val().toLowerCase();
+                    if (query) {
+                        // Filter options based on the search input
+                        var results = questionList.filter(function (item) {
+                            return item.question && item.question.toLowerCase().includes(query);
+                        });
+
+                        // Render the dropdown list
+                        renderDropdown(results);
+                        $('#search-question-results').show(); // Show the dropdown list
+                    } else {
+                        $('#search-question-results').hide(); // Hide the dropdown if input is empty
+                    }
+                });
+
+                // Ensure dropdown behavior in modal is smooth
+                $('#addQuestion').on('shown.bs.modal', function () {
+                    $('#search-question-dropdown').focus();  // Auto-focus on the input when modal opens
+                });
+                // Close dropdown when clicking outside
+                $(document).on('click', function (event) {
+                    if (!$(event.target).closest('#search-question-dropdown').length) {
+                        $('#search-question-results').hide();
+                        $('#search-question-results').empty(); // Close dropdown
+                    } else if ($(event.target).closest('#search-question-dropdown').length){
+                        renderDropdown(questionList);
+                        $('#search-question-results').show();
+                    }
+                });
+                $(document).on('click', '.search-question-results li', function () {
+                    const selectedText = $(this).text();
+                    const selectedId = $(this).data('questionid');
+
+                    // Fill the input with the selected text
+                    $('#search-question-dropdown').val(selectedText);
+                    $('#search-question-dropdown').attr('data-questionid', selectedId);
+
+                    // You can store the selected ID for further processing
+                    // console.log('Selected Question ID:', selectedId);
+
+                    // Optionally, close the dropdown
+                    $('#search-question-results').empty(); // Clear dropdown
+                });
+                // end of dropdown js
+            });
+            // Function to render the dropdown with filtered results
+            function renderDropdown(options) {
+                $('#search-question-results').empty(); // Clear the dropdown list
+
+                if (options.length === 0) {
+                    $('#search-question-results').append('<li class="dropdown-item disabled">No Question Found</li>');
+                } else {
+                    options.forEach(function (option) {
+                        $('#search-question-results').append('<li data-questionid="' + option.homeworkQuestionId + '" class="dropdown-item">' + option.question + '</li>');
+                    });
+                }
+            }
+            // Function to display alerts
+            function showAlert(type, message) {
+                var alertHtml = '';
+
+                if (type === 'success') {
+                    alertHtml = `
+                        <div class="alert alert-success alert-dismissible fade show" id="notif">
+                            <i class='bx bx-message-alt-x p-1'></i>
+                            <strong class="mr-1">` + message + `</strong>
+                            <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+                                <span><i class='bx bx-x'></i></span>
+                            </button>
+                        </div>
+                    `;
+                } else if (type === 'error') {
+                    alertHtml = `
+                        <div class="alert alert-danger alert-dismissible fade show" id="notif">
+                            <i class='bx bx-message-alt-x p-1'></i>
+                            <strong class="mr-1">` + message + `</strong>
+                            <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+                                <span><i class='bx bx-x'></i></span>
+                            </button>
+                        </div>
+                    `;
+                }
+
+                // Inject the alert HTML into the alert container
+                $('#alertContainer').html(alertHtml);
+            }
+            function callApiPutUpdateHomework(formData) {
+                $.ajax({
+                    url: apiUrl + 'Homework/@Model.HomeworkId/Update', // Specify your Razor Page here
+                    type: 'PUT',
+                    data: JSON.stringify(formData),
+                    headers: {
+                        'Authorization': 'Bearer ' + token, // Token for authentication
+                    },
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (response) {
+                        // Handle success (display a success message or redirect, etc.)
+                        if (response.status) {
+                            showAlert('success', "Homework update successfully");
+                            callApiGetHomeworkDetail();
+                        } else {
+                            console.error("API returned false status.");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle error (display the validation message, etc.)
+                        alert("Error in api call:" + error);
+                        console.error("Error in api call:", error);
+                    }
+                });
+            }
+            function callApiPostCreateQuestion(formData,homeworkId){
+                $.ajax({
+                    url: apiUrl + 'Question/Create/HomeworkId/' + homeworkId, // Specify your Razor Page here
+                    type: 'POST',
+                    data: JSON.stringify(formData),
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (response) {
+                        // Handle success (display a success message or redirect, etc.)
+                        if (response.status) {
+                            showAlert('success', "Question create successfully");
+                            callApiGetHomeworkDetail();
+                        } else {
+                            console.error("API returned false status.");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle error (display the validation message, etc.)
+                        alert("Error in api call:" + error);
+                        console.error("Error in api call:", error);
+                    }
+                });
+            }
+            // function callApiPutUpdateAnswer(formData, answerId) {
+            //     $.ajax({
+            //         url: apiUrl + 'Answer/' + answerId + '/Update', Specify your Razor Page here
+            //         type: 'PUT',
+            //         data: JSON.stringify(formData),
+            //         headers: {
+            //             'Authorization': 'Bearer ' + token, Token for authentication
+            //         },
+            //         contentType: 'application/json; charset=utf-8',
+            //         success: function (response) {
+            //             Handle success (display a success message or redirect, etc.)
+            //             if (response.status) {
+            //                 showAlert('success', "Answer update successfully");
+            //                 $('.modal-backdrop').remove();
+            //                 Remove specific class from body
+            //                 $('body').removeClass('modal-open');
+
+            //                 Remove all inline styles from body
+            //                 $('body').removeAttr('style');
+            //                 callApiGetHomeworkDetail();
+            //                 showAlert('', '');
+            //             } else {
+            //                 console.error("API returned false status.");
+            //             }
+            //         },
+            //         error: function (xhr, status, error) {
+            //             Handle error (display the validation message, etc.)
+            //             alert("Error in api call:" + error);
+            //             console.error("Error in api call:", error);
+            //         }
+            //     });
+            // }
+            function callApiPostChooseQuestion(questionId,homeworkId) {
+                $.ajax({
+                    url: apiUrl + 'Question/' + questionId + '/Update/HomeworkId/' + homeworkId, // Specify your Razor Page here
+                    type: 'PUT',
+                    headers: {
+                        'Authorization': 'Bearer ' + token, // Token for authentication
+                    },
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (response) {
+                        // Handle success (display a success message or redirect, etc.)
+                        if (response.status) {
+                            showAlert('success', "Question update successfully");
+                            callApiGetHomeworkDetail();
+                        } else {
+                            console.error("API returned false status.");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle error (display the validation message, etc.)
+                        alert("Error in api call:" + error);
+                        console.error("Error in api call:", error);
+                    }
+                });
+            }
+            function callApiGetHomeworkDetail() {
+                $.ajax({
+                    url: apiUrl + 'Homework/@Model.HomeworkId', // API endpoint
+                    type: 'GET',
+                    success: function (response) {
+                        // Log the entire response to the console for debugging
+                        // Check if the status is true
+                        if (response.status) {
+                            setHomeworkDisplay(response.data);
+                            // Check if homeworkAnswers is empty
+                            if (response.data.homeworkQuestions && response.data.homeworkQuestions.length > 0) {
+                                // Clear any existing answers
+                                $('#question_list').empty();
+
+                                homeworkQuestionList = response.data.homeworkQuestions;
+                                // Loop through each answer and generate the HTML
+                                response.data.homeworkQuestions.forEach(function (question) {
+                                    let questionHtml = generateQuestionHtml(question); // Assuming both questionInfo and updateAnswer are the same structure
+                                    $('#question_list').append(questionHtml);
+                                });
+                            } else {
+                                // If the answer list is empty
+                                $('#question_list').html('<h5>No questions found</h5>');
+                            }
+                        } else {
+                            console.error("API returned false status.");
+                        }
+                    },
+                    error: function (error) {
+                        alert("Error in api call:" + error);
+                        console.error("Error in api call:", error);
+                        //showAlert('success', 'Data fetched successfully.');
+                    }
+                });
+            }
+            function callApiGetQuestionList() {
+                $.ajax({
+                    url: apiUrl + 'Question/All/Ordered', // API endpoint
+                    type: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + token// Include the JWT token
+                    },
+                    success: function (response) {
+                        // Log the entire response to the console for debugging
+                        // Check if the status is true
+                        if (response.status) {
+
+                            questionList = response.data.filter(function (questionItem) {
+                                // Check if the current question's id is NOT present in homeworkQuestionList
+                                return !homeworkQuestionList.some(function (homeworkQuestion) {
+                                    return homeworkQuestion.question === questionItem.question; // Assuming both arrays have an 'id' field
+                                });
+                            });
+                            // $('#addQuestion_HomeworkQuestionId').select2({
+                            //     placeholder: 'Select a question',
+                            //     data: questionList.map(function (question) {
+                            //         return { id: question.homeworkQuestionId, text: question.question };
+                            //     }),  Use the processed array of objects
+                            //     allowClear: true,
+                            // dropdownAutoWidth: true
+                            // });
+                            // $('#addQuestion_Question').append(getQuestionOptions(questionList));
+                        } else {
+                            console.error("API returned false status.");
+                        }
+                    },
+                    error: function (error) {
+                        alert("Error in api call:" + error);
+                        console.error("Error in api call:", error);
+                        //showAlert('success', 'Data fetched successfully.');
+                    }
+                });
+            }
+            function generateQuestionHtml(questionInfo) {
+                return `
+                        <div class="card-header">
+                            <h5>Question <label class="truncate">${questionInfo.question}</label> Details</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row mb-sm-2">
+                                <div class="col-md-5 text-md-right">
+                                    <label class="col-form-label">Question ID:</label>
+                                </div>
+                                <div class="col-md-7">
+                                    <span>${questionInfo.homeworkQuestionId}</span>
+                                </div>
+                            </div>
+                            <div class="row mb-sm-2">
+                                <div class="col-sm-5 text-sm-right">
+                                    <label for="meeting-name">Answer:</label>
+                                </div>
+                                <div class="col-sm-7 text-sm-left">
+                                    <span>${questionInfo.question}</span>
+                                </div>
+                            </div>
+                            <div class="row mb-sm-2">
+                                <div class="col-sm-5 text-sm-right">
+                                    <label for="meeting-name">Answers Amount:</label>
+                                </div>
+                                <div class="col-sm-7 text-sm-left">
+                                    <span>${questionInfo.answersAmount} Answer(s)</span>
+                                </div>
+                            </div>
+                            <div class="card-body d-flex justify-content-center">
+                                <a class="btn btn-success" href="/Admin/Question/${questionInfo.homeworkQuestionId}/Info">More Info</a>
+                            </div>
+                        </div>
+                        <hr class="container my-0">
+                        @*<div id="editanswer_${questionInfo.homeworkQuestionId}" class="modal fade" role="dialog">
+                            <div class="modal-dialog modal-dialog-centered modal-lg" role="content">
+                                <div class="modal-content modal-addRoom">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title truncate">Update Question ${questionInfo.question}</h4>
+                                    </div>
+                                    <form method="put" class="form-group" id="editQuestionForm_${questionInfo.homeworkQuestionId}">
+                                        <div class="modal-body">
+                                            <div class="col-12">
+                                                <div class="form-group row">
+                                                    <label for="editQuestionForm_${questionInfo.homeworkAnswerId}_Answer" class="col-sm-4 col-form-label">Answer</label>
+                                                    <div class="col-sm-8">
+                                                        <textarea id="editQuestionForm_${questionInfo.homeworkAnswerId}_Answer" name="Answer" required class="form-control">${questionInfo.answer}</textarea>
+                                                        <span class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2" id="error_message"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="editQuestionForm_${questionInfo.homeworkAnswerId}_Type" class="col-sm-4 col-form-label">Answer Type</label>
+                                                    <div class="col-sm-8">
+                                                        <select id="editQuestionForm_${questionInfo.homeworkAnswerId}_Type" name="Type" class="form-control custom-select">
+                                                            ${getTypeOptions(questionInfo.type)}
+                                                        </select>
+                                                        <span class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2" id="error_message"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer justify-content-center">
+                                            <button class="btn btn-success" type="submit" value="Update">Save</button>
+                                            <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>*@
+                        `;
+            }
+            function getTypeOptions(selectedType) {
+                var options = ['Vocabulary', 'Grammar']; // Example statuses
+                var html = '';
+
+                options.forEach(function (type) {
+                    html += `<option value="${type}" ${selectedType === type ? 'selected' : ''}>${type}</option>`;
+                });
+
+                return html;
+            }
+            function getQuestionOptions(questionSelectionList) {
+                var html = '';
+
+                questionSelectionList.forEach(function (question) {
+                    html += `<option value="${question.homeworkQuestionId}" }>${question.question}</option>`;
+                });
+
+                return html;
+            }
+
+            function setHomeworkDisplay(data) {
+                var titleStatusHtml = data.status === 'Draft' || data.status === 'Postponed' ? `
+                    <div class="edit-info" id="homework-homework-status">
+                        <i class='bx bxs-edit bx-sm' data-toggle="modal" data-target="#editHomework"></i>
+                    </div>
+                    ` : '';
+                var questionAddHtml = data.status === 'Draft' || data.status === 'Postponed' ? `
+                    <div class="edit-info" id="homework-add-question">
+                        <i class='bx bxs-add-to-queue bx-sm' data-toggle="modal" data-target="#addQuestion"></i>
+                    </div>
+                    ` : '';
+                var statusText = '';
+                switch(data.status){
+                    case 'Available':
+                        statusText =`<span class="outcome" style="float: left;">${data.status}</span>`
+                        break;
+                    case 'Draft':
+                    case 'Postponed':
+                        statusText = `<span class="approval" style="float: left;">${data.status}</span>`
+                        break;
+                    case 'EndofService':
+                    case 'Cancelled':
+                        statusText = `<span class="destroy" style="float: left;">${data.status}</span>`
+                        break;
+                }
+                $('#updateHomework_Type').empty();
+                $('#search-question-dropdown').empty();
+                $('#homework-title-status').find('#homework-homework-status').remove();
+                $('#homework-allow-add-question').find('#homework-add-question').remove();
+                $('#homework-status').empty();
+                $('#homework-id').text(data.homeworkId);
+                $('#homework-title-status').append(titleStatusHtml);
+                $('#homework-allow-add-question').append(questionAddHtml);
+                $('#homework-homework-title').text(data.title);
+                $('#homework-title').text(data.title);
+                $('#homework-status').append(statusText);
+                $('#homework-description').text(data.description);
+                $('#homework-hours').text(data.hours);
+                $('#homework-type').text(data.type);
+                $('#homework-questions-amount').text(data.questionsAmount + ' Question(s)');
+                $('#updateHomework_Title').val(data.title);
+                $('#updateHomework_Description').text(data.description);
+                $('#updateHomework_Hours').val(data.hours);
+                $('#updateHomework_Type').append(getTypeOptions(data.type));
+                callApiGetQuestionList();
+            }
+        </script>
     </body>
 </html>
