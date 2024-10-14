@@ -6,7 +6,7 @@ namespace CEG_RazorWebApp.Pages.Admin.Class
 {
     public class ClassInfoModel : PageModel
     {
-        private readonly ChildrenEnglishGameLibrary methcall = new();
+        private readonly CEG_RAZOR_Library methcall = new();
         public void OnGet()
         {
             methcall.InitTempData(this);

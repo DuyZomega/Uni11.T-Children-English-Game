@@ -9,7 +9,7 @@ namespace CEG_RazorWebApp.Models.Course.Create
     {
         public CreateCourseVM()
         {
-            ChildrenEnglishGameLibrary lib = new ChildrenEnglishGameLibrary();
+            CEG_RAZOR_Library lib = new CEG_RAZOR_Library();
             DefaultCourseDifficultySelectList = lib.GetCourseDifficultySelectableList(Difficulty);
             DefaultCourseCategorySelectList = lib.GetCourseCategorySelectableList(Category);
 

@@ -36,7 +36,7 @@ namespace CEG_RazorWebApp.Pages.Admin.Account
             IsEssential = true,
         };
 
-        private readonly ChildrenEnglishGameLibrary methcall = new();
+        private readonly CEG_RAZOR_Library methcall = new();
 
         public string? LayoutUrl { get; set; } = Constants.ADMIN_LAYOUT_URL;
 
@@ -57,51 +57,6 @@ namespace CEG_RazorWebApp.Pages.Admin.Account
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             AdminAPI_URL = config.GetSection(Constants.SYSTEM_DEFAULT_API_URL_CONFIG_PATH).Value;
         }
-        /*public async Task<IActionResult> OnGetAsync()
-        {
-            methcall.InitTempData(this);
-            AdminAPI_URL += "Account/All";
-            string? accToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
-
-            var accountListResponse = await methcall.CallMethodReturnObject<AdminAccountListResponseVM>(
-                _httpClient: _httpClient,
-                options: jsonOptions,
-                methodName: Constants.GET_METHOD,
-                url: AdminAPI_URL,
-                accessToken: accToken,
-                _logger: _logger);
-
-            if (accountListResponse == null)
-            {
-                _logger.LogError("Error while getting account list");
-
-                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while getting account list !";
-
-                return RedirectToPage("/Admin/Index");
-            }
-            if (!accountListResponse.Status)
-            {
-                _logger.LogError("Error while getting account list");
-
-                TempData[Constants.ALERT_DEFAULT_ERROR_NAME] = "Error while getting account list !";
-
-                return RedirectToPage("/Admin/Index");
-            }
-            *//*TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = ViewBag.Success = "Account List Get Successfully!";*//*
-            if(!TempData.ContainsKey(Constants.ALERT_DEFAULT_ERROR_NAME) || !TempData.ContainsKey(Constants.ALERT_DEFAULT_SUCCESS_NAME))
-            {
-                TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = "Account List Get Successfully!";
-            }
-            var teacherTempData = methcall.GetValidationTempData<CreateTeacherVM>(this, TempData, Constants.CREATE_TEACHER_DETAILS_VALID, "createTeacher", jsonOptions);
-            var parentTempData = methcall.GetValidationTempData<CreateParentVM>(this, TempData, Constants.CREATE_PARENT_DETAILS_VALID, "createParent", jsonOptions);
-            var studentTempData = methcall.GetValidationTempData<CreateStudentVM>(this, TempData, Constants.CREATE_STUDENT_DETAILS_VALID, "createStudent", jsonOptions);
-
-            AccountStatuses = _mapper.Map<List<AccountStatusVM>>(accountListResponse.Data);
-            CreateTeacher = teacherTempData ?? new CreateTeacherVM();
-            CreateParent = parentTempData ?? new CreateParentVM();
-            CreateStudent = studentTempData ?? new CreateStudentVM();
-            return Page();
-        }*/
         public void OnGet()
         {
             methcall.InitTempData(this);

@@ -9,7 +9,7 @@ namespace CEG_RazorWebApp.Models.Account.Create
     {
         public CreateAccountVM()
         {
-            ChildrenEnglishGameLibrary lib = new ChildrenEnglishGameLibrary();
+            CEG_RAZOR_Library lib = new CEG_RAZOR_Library();
             DefaultAccountGenderSelectList = lib.GetGenderSelectableList(Constants.GENDER_TITLE);
             Status = Constants.ACCOUNT_STATUS_ACTIVE;
             DefaultAccountStatusSelectList = lib.GetAccountStatusSelectableList(Status);

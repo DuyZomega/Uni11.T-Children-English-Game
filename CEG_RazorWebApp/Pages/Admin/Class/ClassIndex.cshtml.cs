@@ -14,7 +14,7 @@ namespace CEG_RazorWebApp.Pages.Admin.Class
 {
     public class ClassIndexModel : PageModel
     {
-        private readonly ChildrenEnglishGameLibrary methcall = new();
+        private readonly CEG_RAZOR_Library methcall = new();
         [BindProperty]
         public List<IndexClassInfoVM>? Classes { get; set; } 
         [BindProperty]
