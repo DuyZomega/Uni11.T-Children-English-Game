@@ -125,6 +125,7 @@ namespace CEG_WebAPI.Controllers
             }
         }
         [HttpGet("ByParent/{id}")]
+        [Authorize(Roles = "Parent")]
         [ProducesResponseType(typeof(List<StudentViewModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
