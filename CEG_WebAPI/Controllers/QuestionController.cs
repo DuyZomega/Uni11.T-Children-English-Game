@@ -230,6 +230,46 @@ namespace CEG_WebAPI.Controllers
             }
         }
 
+        [HttpPost("Create/HomeworkId/{homeworkId}")]
+        [ProducesResponseType(typeof(HomeworkQuestionViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> CreateQuestionWithHomeworkId (
+            [FromRoute][Required] int homeworkId,
+            [FromBody][Required] CreateNewQuestion newSes
+            )
+        {
+            try
+            {
+                /*var resulthomeworkName = await _homeworkService.IsHomeworkExistByTitle(newSes.HomeworkTitle);
+                if (!resulthomeworkName)
+                {
+                    return BadRequest(new
+                    {
+                        Status = false,
+                        ErrorMessage = "Homework Not Found!"
+                    });
+                }*/
+                HomeworkQuestionViewModel sess = new HomeworkQuestionViewModel();
+                _questionService.CreateWithHomeworkId(sess, newSes, homeworkId);
+                return Ok(new
+                {
+                    Data = true,
+                    Status = true,
+                    SuccessMessage = "Question Create Successfully!"
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    Status = false,
+                    ErrorMessage = ex.Message,
+                    InnerExceptionMessage = ex.InnerException?.Message
+                });
+            }
+        }
+
         [HttpPut("{id}/Update")]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(HomeworkQuestionViewModel), StatusCodes.Status200OK)]
@@ -254,6 +294,45 @@ namespace CEG_WebAPI.Controllers
                 question.HomeworkQuestionId = id;
                 _questionService.Update(question);
                 result = await _questionService.GetQuestionById(question.HomeworkQuestionId.Value);
+                return Ok(new
+                {
+                    Status = true,
+                    Data = result
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    Status = false,
+                    ErrorMessage = ex.Message,
+                    InnerExceptionMessage = ex.InnerException?.Message
+                });
+            }
+        }
+        [HttpPut("{questionId}/Update/HomeworkId/{homeworkId}")]
+        [Authorize(Roles = "Admin")]
+        [ProducesResponseType(typeof(HomeworkQuestionViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> UpdateQuestion(
+            [FromRoute][Required] int questionId,
+            [FromRoute][Required] int homeworkId
+            )
+        {
+            try
+            {
+                var result = await _questionService.GetQuestionById(questionId);
+                if (result == null)
+                {
+                    return NotFound(new
+                    {
+                        Status = false,
+                        ErrorMessage = "Question Does Not Exist"
+                    });
+                }
+                _questionService.UpdateWithHomeworkId(questionId, homeworkId);
+                result = await _questionService.GetQuestionById(questionId);
                 return Ok(new
                 {
                     Status = true,
