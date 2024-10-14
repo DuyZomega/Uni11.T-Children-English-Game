@@ -72,7 +72,7 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
             AccToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
             HomeworkId = homeworkId;
         }
-        public async Task<IActionResult> OnPostQuestionUpdate(
+        /*public async Task<IActionResult> OnPostQuestionUpdate(
             [FromRoute][Required] int homeworkId,
             [Required] int questionId,
             [FromForm][Required] UpdateQuestionVM updateQuestion)
@@ -112,7 +112,7 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
             TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = "Question Update Successfully!";
 
             return Redirect("/Admin/Course/" + CourseId + "/Session/" + SessionId + "/Homework/" + homeworkId + "/Info");
-        }
+        }*/
         public IActionResult OnGetLogout()
         {
             _httpClient.DefaultRequestHeaders.Authorization = null;

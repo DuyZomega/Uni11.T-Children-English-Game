@@ -639,11 +639,11 @@
                                 </div>
                             </div>
                             <div class="card-body d-flex justify-content-center">
-                                <a class="btn btn-success" href="/Admin/Question/${questionInfo.homeworkQuestionId}/Info">More Info</a>
+                                <a class="btn btn-success" href="/Admin/Course/` + @Model.CourseId + `/Session/` + @Model.SessionId + `/Homework/` + @Model.HomeworkId + `/Question/${questionInfo.homeworkQuestionId}/Info">More Info</a>
                             </div>
                         </div>
                         <hr class="container my-0">
-                        @*<div id="editanswer_${questionInfo.homeworkQuestionId}" class="modal fade" role="dialog">
+                        @*<div id="editquestion_${questionInfo.homeworkQuestionId}" class="modal fade" role="dialog">
                             <div class="modal-dialog modal-dialog-centered modal-lg" role="content">
                                 <div class="modal-content modal-addRoom">
                                     <div class="modal-header">
