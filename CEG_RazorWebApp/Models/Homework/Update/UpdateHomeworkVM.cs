@@ -9,7 +9,7 @@ namespace CEG_RazorWebApp.Models.Homework.Update
     {
         public UpdateHomeworkVM()
         {
-            var lib = new ChildrenEnglishGameLibrary();
+            var lib = new CEG_RAZOR_Library();
             Hours = 1;
             Type = Constants.HOMEWORK_TYPE_VOCAB;
             DefaultHomeworkTypeSelectList = lib.GetHomeworkTypeSelectableList(Type);

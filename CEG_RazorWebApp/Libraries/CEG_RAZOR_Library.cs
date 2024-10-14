@@ -12,9 +12,9 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace CEG_RazorWebApp.Libraries
 {
-    public class ChildrenEnglishGameLibrary
+    public class CEG_RAZOR_Library
     {
-        public ChildrenEnglishGameLibrary()
+        public CEG_RAZOR_Library()
         {
 
         }

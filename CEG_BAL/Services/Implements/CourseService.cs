@@ -80,6 +80,15 @@ namespace CEG_BAL.Services.Implements
             _unitOfWork.Save();
         }
 
+        public void UpdateStatus(int courseId, string courseStatus)
+        {
+            var cou = _unitOfWork.CourseRepositories.GetByIdNoTracking(courseId).Result;
+            if (cou == null) return;
+            cou.Status = courseStatus;
+            _unitOfWork.CourseRepositories.Update(cou);
+            _unitOfWork.Save();
+        }
+
         public async Task<bool> IsCourseExistByName(string name)
         {
             var cou = await _unitOfWork.CourseRepositories.GetByName(name);

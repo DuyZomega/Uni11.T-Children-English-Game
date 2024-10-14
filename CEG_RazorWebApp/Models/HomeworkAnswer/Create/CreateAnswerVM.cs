@@ -8,7 +8,7 @@ namespace CEG_RazorWebApp.Models.HomeworkAnswer.Create
     {
         public CreateAnswerVM()
         {
-            var lib = new ChildrenEnglishGameLibrary();
+            var lib = new CEG_RAZOR_Library();
             Answer = "";
             Type = Constants.HOMEWORK_ANSWER_TYPE_CORRECT;
             DefaultAnswerTypeSelectList = lib.GetAnswerTypeSelectableList(Type);

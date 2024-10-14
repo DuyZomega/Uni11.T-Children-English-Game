@@ -178,8 +178,8 @@
                 <div class="modal-header">
                     <h4 class="modal-title">Add new Class</h4>
                 </div>
-                <div class="modal-body">
-                    <form asp-action="AdminCreateClass" asp-controller="Admin" method="post" id="form">
+                <form method="post" id="form">
+                    <div class="modal-body">
                         <div class="row p-4">
                             <div class="col-12">
                                 @* <div class="row form-group">
@@ -224,13 +224,13 @@
                                 class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
                                 </div> *@
                             </div>
-                            <div class="modal-footer justify-content-center" style="margin-left:400px;">
-                                <button class="btn btn-success" type="submit" name="action" value="createUser">Create</button>
-                                <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
-                            </div>
                         </div>
-                    </form>
-                </div>
+                    </div>
+                    <div class="modal-footer justify-content-center">
+                        <button class="btn btn-success" type="submit" name="action" value="createUser">Create</button>
+                        <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

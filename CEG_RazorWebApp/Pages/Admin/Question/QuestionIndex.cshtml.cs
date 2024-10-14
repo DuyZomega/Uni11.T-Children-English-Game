@@ -8,7 +8,7 @@ namespace CEG_RazorWebApp.Pages.Admin.Question
     public class QuestionIndexModel : PageModel
     {
         public CreateQuestionVM? CreateQuestion { get; set; } = new CreateQuestionVM();
-        private ChildrenEnglishGameLibrary methcall = new();
+        private CEG_RAZOR_Library methcall = new();
         public string? LayoutUrl { get; set; } = Constants.ADMIN_LAYOUT_URL;
         public void OnGet()
         {

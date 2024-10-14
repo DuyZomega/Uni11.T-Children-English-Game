@@ -12,7 +12,7 @@ namespace CEG_RazorWebApp.Models.Homework.Create
     {
         public CreateHomeworkVM()
         {
-            var lib = new ChildrenEnglishGameLibrary();
+            var lib = new CEG_RAZOR_Library();
             DefaultHomeworkTypeSelectList = lib.GetHomeworkTypeSelectableList(Type);
         }
         [Required(ErrorMessage = "Homework Title is required")]

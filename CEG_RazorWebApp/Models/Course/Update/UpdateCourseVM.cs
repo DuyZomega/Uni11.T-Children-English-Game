@@ -9,7 +9,7 @@ namespace CEG_RazorWebApp.Models.Course.Update
     {
         public UpdateCourseVM()
         {
-            var lib = new ChildrenEnglishGameLibrary();
+            var lib = new CEG_RAZOR_Library();
             Category = Constants.COURSE_CATEGORY_MIDDLE_SCHOOL;
             Difficulty = Constants.COURSE_DIFFICULTY_BEGINNER;
             Status = Constants.COURSE_STATUS_DRAFT;

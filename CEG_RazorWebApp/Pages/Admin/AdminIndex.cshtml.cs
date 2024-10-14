@@ -20,7 +20,7 @@ namespace CEG_RazorWebApp.Pages.Admin
 		private readonly HttpClient _httpClient = null;
 		//private readonly IVnPayService _vnPayService;
 		private string AdminAPI_URL = "";
-		private ChildrenEnglishGameLibrary methcall = new();
+		private CEG_RAZOR_Library methcall = new();
 		private readonly JsonSerializerOptions jsonOptions = new JsonSerializerOptions
 		{
 			PropertyNameCaseInsensitive = true,

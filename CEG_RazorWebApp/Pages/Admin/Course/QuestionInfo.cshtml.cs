@@ -23,7 +23,7 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
         private readonly IConfiguration _config;
         private readonly ILogger<QuestionInfoModel> _logger;
         private readonly IMapper _mapper;
-        private ChildrenEnglishGameLibrary methcall = new();
+        private CEG_RAZOR_Library methcall = new();
         public int? CourseId { get; set; }
         public int? HomeworkId { get; set; }
         public int? SessionId { get; set; }
