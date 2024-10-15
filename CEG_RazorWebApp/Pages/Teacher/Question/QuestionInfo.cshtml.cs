@@ -22,7 +22,7 @@ namespace CEG_RazorWebApp.Pages.Teacher.Question
         private readonly IConfiguration _config;
         private readonly ILogger<QuestionInfoModel> _logger;
         private readonly IMapper _mapper;
-        private ChildrenEnglishGameLibrary methcall = new();
+        private readonly CEG_RAZOR_Library methcall = new();
         public int? QuestionId { get; set; }
         public string? AccToken;
         public string? ApiUrl;

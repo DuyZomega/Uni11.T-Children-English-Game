@@ -30,7 +30,7 @@ namespace CEG_RazorWebApp.Pages.Parent.Children
             IsEssential = true,
         };
 
-        private readonly ChildrenEnglishGameLibrary methcall = new();
+        private readonly CEG_RAZOR_Library methcall = new();
 
         public string? LayoutUrl { get; set; } = Constants.PARENT_LAYOUT_URL;
 

@@ -234,7 +234,7 @@
                 setClassDisplay(filteredclassList);
             });
             // Call API to get the list of teacher names
-            $.ajax({
+            @*$.ajax({
                 url: apiUrl + 'Teacher/All/Fullname', // API endpoint
                 type: 'GET',
                 success: function (response) {
@@ -261,7 +261,7 @@
                     alert("Error in api call:" + error);
                     console.error("Error in api call:", error);
                 }
-            });
+            });*@
             // Call API to get the list of course names
             $.ajax({
                 url: apiUrl + 'Course/All/Name', // API endpoint

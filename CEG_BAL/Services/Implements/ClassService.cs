@@ -69,8 +69,10 @@ namespace CEG_BAL.Services.Implements
         {
             return _mapper.Map<List<ClassViewModel>>(await _unitOfWork.ClassRepositories.GetClassListAdmin());
         }
-        public async Task<List<ClassViewModel>> GetClassListByTeacherId(int teacherId)
+        public async Task<List<ClassViewModel>> GetClassListByTeacherAccountId(int id)
         {
+            var teacherId = await _unitOfWork.TeacherRepositories.GetIdByAccountId(id);
+            if (teacherId == 0) return null;
             return _mapper.Map<List<ClassViewModel>>(await _unitOfWork.ClassRepositories.GetClassListByTeacherId(teacherId));
         }
         public void Update(ClassViewModel classModel)

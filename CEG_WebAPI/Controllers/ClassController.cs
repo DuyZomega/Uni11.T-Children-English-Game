@@ -93,16 +93,16 @@ namespace CEG_WebAPI.Controllers
                 });
             }
         }
-        [HttpGet("{teacherid}/All")]
+        [HttpGet("{id}/All")]
         [Authorize(Roles = "Teacher")]
         [ProducesResponseType(typeof(List<ClassViewModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetClassListTeacher([FromRoute] int teacherid)
+        public async Task<IActionResult> GetClassListTeacher([FromRoute] int id)
         {
             try
             {
-                var result = await _classService.GetClassListByTeacherId(teacherid);
+                var result = await _classService.GetClassListByTeacherAccountId(id);
                 if (result == null)
                 {
                     return NotFound(new
