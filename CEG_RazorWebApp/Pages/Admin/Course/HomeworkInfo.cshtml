@@ -327,19 +327,18 @@
                     }
                     $('#AddQuestionForm').trigger("reset");
                 });
-                $(document).on('submit', 'form[id^="editAnswerForm_"]', function (event) {
+                $(document).on('submit', 'form[id^="editQuestionForm_"]', function (event) {
                     event.preventDefault();
                     // Extract the answerId from the form's id
-                    let answerId = $(this).attr('id').split('_')[1];
+                    let questionId = $(this).attr('id').split('_')[1];
 
                     // Collect form data
                     let formData = {
-                        answer: $('#updateAnswer_' + answerId + '_Answer').val(),
-                        type: $('#updateAnswer_' + answerId + '_Type').val()
+                        answer: $('#updateQuestion_' + questionId + '_Question').val()
                     };
 
                     // Call the API to update the answer
-                    callApiPutUpdateAnswer(formData, answerId);
+                    callApiPutUpdateQuestion(formData, questionId);
 
                     // Optionally reset the form
                     //$(this).trigger("reset");
@@ -479,38 +478,37 @@
                     }
                 });
             }
-            // function callApiPutUpdateAnswer(formData, answerId) {
-            //     $.ajax({
-            //         url: apiUrl + 'Answer/' + answerId + '/Update', Specify your Razor Page here
-            //         type: 'PUT',
-            //         data: JSON.stringify(formData),
-            //         headers: {
-            //             'Authorization': 'Bearer ' + token, Token for authentication
-            //         },
-            //         contentType: 'application/json; charset=utf-8',
-            //         success: function (response) {
-            //             Handle success (display a success message or redirect, etc.)
-            //             if (response.status) {
-            //                 showAlert('success', "Answer update successfully");
-            //                 $('.modal-backdrop').remove();
-            //                 Remove specific class from body
-            //                 $('body').removeClass('modal-open');
+            function callApiPutUpdateQuestion(formData, questionId) {
+                $.ajax({
+                    url: apiUrl + 'Question/' + questionId + '/Update', // Specify your Razor Page here
+                    type: 'PUT',
+                    data: JSON.stringify(formData),
+                    headers: {
+                        'Authorization': 'Bearer ' + token, // Token for authentication
+                    },
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (response) {
+                        // Handle success (display a success message or redirect, etc.)
+                        if (response.status) {
+                            showAlert('success', "Question update successfully");
+                            $('.modal-backdrop').remove();
+                            // Remove specific class from body
+                            $('body').removeClass('modal-open');
 
-            //                 Remove all inline styles from body
-            //                 $('body').removeAttr('style');
-            //                 callApiGetHomeworkDetail();
-            //                 showAlert('', '');
-            //             } else {
-            //                 console.error("API returned false status.");
-            //             }
-            //         },
-            //         error: function (xhr, status, error) {
-            //             Handle error (display the validation message, etc.)
-            //             alert("Error in api call:" + error);
-            //             console.error("Error in api call:", error);
-            //         }
-            //     });
-            // }
+                            // Remove all inline styles from body
+                            $('body').removeAttr('style');
+                            callApiGetHomeworkDetail();
+                        } else {
+                            console.error("API returned false status.");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle error (display the validation message, etc.)
+                        alert("Error in api call:" + error);
+                        console.error("Error in api call:", error);
+                    }
+                });
+            }
             function callApiPostChooseQuestion(questionId,homeworkId) {
                 $.ajax({
                     url: apiUrl + 'Question/' + questionId + '/Update/HomeworkId/' + homeworkId, // Specify your Razor Page here
@@ -552,7 +550,7 @@
                                 homeworkQuestionList = response.data.homeworkQuestions;
                                 // Loop through each answer and generate the HTML
                                 response.data.homeworkQuestions.forEach(function (question) {
-                                    let questionHtml = generateQuestionHtml(question); // Assuming both questionInfo and updateAnswer are the same structure
+                                    let questionHtml = generateQuestionHtml(question, response.data.status); // Assuming both questionInfo and updateAnswer are the same structure
                                     $('#question_list').append(questionHtml);
                                 });
                             } else {
@@ -608,10 +606,18 @@
                     }
                 });
             }
-            function generateQuestionHtml(questionInfo) {
+            function generateQuestionHtml(questionInfo, status) {
+                var questionUpdateHtml = status === 'Draft' || status === 'Postponed' ? `
+                    <div class="edit-info">
+                        <i class='bx bxs-edit bx-sm' data-toggle="modal" data-target="#editquestion_${questionInfo.homeworkQuestionId}"></i>
+                    </div>
+                ` : '';
                 return `
                         <div class="card-header">
                             <h5>Question <label class="truncate">${questionInfo.question}</label> Details</h5>
+                            `
+                            + questionUpdateHtml +
+                            `
                         </div>
                         <div class="card-body">
                             <div class="row mb-sm-2">
@@ -624,7 +630,7 @@
                             </div>
                             <div class="row mb-sm-2">
                                 <div class="col-sm-5 text-sm-right">
-                                    <label for="meeting-name">Answer:</label>
+                                    <label for="meeting-name">Question:</label>
                                 </div>
                                 <div class="col-sm-7 text-sm-left">
                                     <span>${questionInfo.question}</span>
@@ -643,29 +649,21 @@
                             </div>
                         </div>
                         <hr class="container my-0">
-                        @*<div id="editquestion_${questionInfo.homeworkQuestionId}" class="modal fade" role="dialog">
+                        <div id="editquestion_${questionInfo.homeworkQuestionId}" class="modal fade" role="dialog">
                             <div class="modal-dialog modal-dialog-centered modal-lg" role="content">
                                 <div class="modal-content modal-addRoom">
                                     <div class="modal-header">
                                         <h4 class="modal-title truncate">Update Question ${questionInfo.question}</h4>
                                     </div>
-                                    <form method="put" class="form-group" id="editQuestionForm_${questionInfo.homeworkQuestionId}">
+                                    <form method="post" id="editQuestionForm_${questionInfo.homeworkQuestionId}" class="form-group">
                                         <div class="modal-body">
                                             <div class="col-12">
                                                 <div class="form-group row">
-                                                    <label for="editQuestionForm_${questionInfo.homeworkAnswerId}_Answer" class="col-sm-4 col-form-label">Answer</label>
+                                                    <label for="updateQuestion_${questionInfo.homeworkQuestionId}_Question" class="col-sm-4 col-form-label">Question</label>
                                                     <div class="col-sm-8">
-                                                        <textarea id="editQuestionForm_${questionInfo.homeworkAnswerId}_Answer" name="Answer" required class="form-control">${questionInfo.answer}</textarea>
-                                                        <span class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2" id="error_message"></span>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <label for="editQuestionForm_${questionInfo.homeworkAnswerId}_Type" class="col-sm-4 col-form-label">Answer Type</label>
-                                                    <div class="col-sm-8">
-                                                        <select id="editQuestionForm_${questionInfo.homeworkAnswerId}_Type" name="Type" class="form-control custom-select">
-                                                            ${getTypeOptions(questionInfo.type)}
-                                                        </select>
-                                                        <span class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2" id="error_message"></span>
+                                                        <textarea id="updateQuestion_${questionInfo.homeworkQuestionId}_Question" required class="form-control">${questionInfo.question}</textarea>
+                                                        <span id="error_message"
+                                                              class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -677,7 +675,7 @@
                                     </form>
                                 </div>
                             </div>
-                        </div>*@
+                        </div>
                         `;
             }
             function getTypeOptions(selectedType) {

@@ -58,6 +58,7 @@ namespace CEG_BAL.Services.Implements
             if(user != null)
             {
                 var urs = _mapper.Map<HomeworkViewModel>(user);
+                urs.CourseStatus = await _unitOfWork.CourseRepositories.GetStatusByHomeworkIdNoTracking(id);
                 return urs;
             }
             return null;

@@ -18,7 +18,7 @@ namespace CEG_DAL.Repositories.Implements
             _dbContext = dbContext;
         }
 
-        public async Task<Course?> GetByIdNoTracking(int id)
+        public async Task<Course?> GetByIdNoTrackingInclude(int id)
         {
             return await _dbContext.Courses
                 .Include(c => c.Sessions)
@@ -27,7 +27,13 @@ namespace CEG_DAL.Repositories.Implements
                 .AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(cou => cou.CourseId == id);
         }
 
-        public async Task<Course?> GetByIdNoTracking(int id, bool includeSessions, bool includeHomeworks)
+        public async Task<Course?> GetByIdNoTracking(int id)
+        {
+            return await _dbContext.Courses
+                .AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(cou => cou.CourseId == id);
+        }
+
+        public async Task<Course?> GetByIdNoTracking(int id, bool includeSessions = false, bool includeHomeworks = false)
         {
             if (includeSessions && !includeHomeworks)
             {
@@ -71,6 +77,40 @@ namespace CEG_DAL.Repositories.Implements
             var result = await (from c in _dbContext.Courses where c.CourseName == name select c).FirstOrDefaultAsync();
             if (result != null) return result.CourseId;
             return 0;
+        }
+
+        public async Task<string?> GetStatusByHomeworkIdNoTracking(int homeworkId)
+        {
+            return await _dbContext.Homeworks
+                .Where(h => h.HomeworkId == homeworkId)
+                .Select(h => h.Session.Course.Status)
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<string?> GetStatusByCourseIdNoTracking(int courseId)
+        {
+            return await _dbContext.Courses
+                .Where(h => h.CourseId == courseId)
+                .Select(h => h.Status)
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<string?> GetStatusBySessionIdNoTracking(int sessionId)
+        {
+            return await _dbContext.Sessions
+                .Where(h => h.SessionId == sessionId)
+                .Select(h => h.Course.Status)
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<string?> GetStatusByQuestionIdNoTracking(int questionId)
+        {
+            return await _dbContext.HomeworkQuestions
+                .Where(h => h.HomeworkQuestionId == questionId)
+                .Select(hq => hq.Homework != null
+                      ? hq.Homework.Session.Course.Status
+                      : "NotFound")
+                .FirstOrDefaultAsync();
         }
     }
 }
