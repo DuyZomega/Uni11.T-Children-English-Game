@@ -1,4 +1,5 @@
 ﻿@page "/Admin/Index"
+@inject IConfiguration Config
 @model CEG_RazorWebApp.Pages.Admin.AdminIndexModel
 @{
     ViewData["Title"] = "Admin Index Page";
@@ -56,3 +57,15 @@
         </div>
     </body>
 </html>
+<script>
+    // Immediately store apiUrl in sessionStorage when the page loads
+    document.addEventListener('DOMContentLoaded', function () {
+        // Define your API URL here (you could get this value from a server-side config)
+        var apiUrl = '@Url.Content(Config["DefaultApiUrl:ConnectionString"] + Config["DefaultApiUrl:ApiUrl"] ?? "https://localhost:7143/api/")';
+
+        // Store it in sessionStorage
+        sessionStorage.setItem('apiUrl', apiUrl);
+
+        console.log("API URL stored in sessionStorage:", sessionStorage.getItem('apiUrl'));
+    });
+</script>

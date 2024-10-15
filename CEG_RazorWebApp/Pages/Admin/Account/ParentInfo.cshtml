@@ -325,7 +325,7 @@
         </div>
         <script>
             var token = '@HttpContext.Session.GetString(CEG_RazorWebApp.Libraries.Constants.ACC_TOKEN)';
-            var apiUrl = 'https://localhost:7143/api/';
+            var apiUrl = sessionStorage.getItem('apiUrl');
             $(document).ready(function () {
                 callApiGetTeacherDetail();
                 // Function to display alerts

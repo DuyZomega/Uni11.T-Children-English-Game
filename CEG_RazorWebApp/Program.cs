@@ -2,6 +2,7 @@ using CEG_RazorWebApp.Libraries;
 using CEG_RazorWebApp.Libraries.Authorizations;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
+using System.Configuration;
 
 namespace CEG_RazorWebApp
 {

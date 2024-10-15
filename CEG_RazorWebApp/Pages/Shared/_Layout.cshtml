@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@inject IConfiguration Config
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -184,6 +185,16 @@
     });
     </script>*@
     <script>
+        // Immediately store apiUrl in sessionStorage when the page loads
+        document.addEventListener('DOMContentLoaded', function () {
+            // Define your API URL here (you could get this value from a server-side config)
+            var apiUrl = '@Url.Content(Config["DefaultApiUrl:ConnectionString"] + Config["DefaultApiUrl:ApiUrl"] ?? "https://localhost:7143/api/")';
+
+            // Store it in sessionStorage
+            sessionStorage.setItem('apiUrl', apiUrl);
+
+            console.log("API URL stored in sessionStorage:", sessionStorage.getItem('apiUrl'));
+        });
         function sendEmail(email) {
             var mailtoLink = 'mailto:' + email;
             window.open(mailtoLink, '_self');
