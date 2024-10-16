@@ -1,4 +1,75 @@
-﻿@page
+﻿@page "/Parent/Transaction/Index"
 @model CEG_RazorWebApp.Pages.Parent.Transaction.TransactionIndexModel
 @{
+    ViewData["Title"] = "Parent All Transactions Page";
+    Layout = Model.LayoutUrl;
 }
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>@ViewData["Title"]</title>
+    </head>
+    <body>
+        <div class="main-content">
+            <div class="main">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="offset-sm-6 col-sm-6  d-flex justify-content-sm-end p-md-0 mt-2 mt-sm-0 ">
+                            <ol class="breadcrumb-item">
+                                <li class="breadcrumd-item">
+                                    <a href="#">Manage</a>
+                                </li>
+                                <li class="breadcrumd-item">
+                                    <span>/</span>
+                                </li>
+                                <li class="breadcrumd-item">
+                                    <a href="/Parent/Transaction/Index">Transaction</a>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                    <section>
+                        <div class="card">
+                            <div class="card-body">
+                                <!-- Nav tabs -->
+                                <ul class="nav nav-tabs">
+                                    <!-- dung vong for o day -->
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-toggle="tab" href="#home1">
+                                            <i class='bx bx-home-alt-2'></i>
+                                            <span>All your Transactions</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            <div id="alertContainer"></div>
+                                <!-- Tab panes -->
+                                <div class="tab-content">
+                                    <!-- home1 -->
+                                    <div class="tab-pane active" id="home1" role="tabpanel">
+                                        <div id="history-table_wrapper" class="dataTables_wrapper no-footer">
+                                            <table id="history-table"
+                                                   class="table table-striped table-bordered dataTable no-footer"
+                                                   aria-describedby="history-table_info">
+                                                <thead>
+                                                    <tr>
+                                                        
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+
+
+    </body>
+</html>
