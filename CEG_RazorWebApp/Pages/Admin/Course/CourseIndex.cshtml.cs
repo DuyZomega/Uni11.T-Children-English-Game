@@ -34,8 +34,8 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
         public string? LayoutUrl { get; set; } = Constants.ADMIN_LAYOUT_URL;
         private readonly CEG_RAZOR_Library methcall = new();
         [BindProperty]
-        public CreateCourseVM? CreateCourse { get; set; }
-        public List<IndexCourseInfoVM>? Courses { get; set; }
+        public CreateCourseVM? CreateCourse { get; set; } = new CreateCourseVM();
+        //public List<IndexCourseInfoVM>? Courses { get; set; }
 
         public CourseIndexModel(ILogger<CourseIndexModel> logger, IConfiguration config, IMapper mapper)
         {
@@ -49,13 +49,13 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             AdminAPI_URL = config.GetSection(Constants.SYSTEM_DEFAULT_API_URL_CONFIG_PATH).Value;
         }
-        public IActionResult OnGetInfo(
+        /*public IActionResult OnGetInfo(
             [Required] int courseId)
         {
             return Redirect("/Admin/Course/" + courseId + "/Info");
-        }
+        }*/
 
-        public async Task<IActionResult> OnGetAsync()
+        /*public async Task<IActionResult> OnGetAsync()
         {
             methcall.InitTempData(this);
             AdminAPI_URL += "Course/All";
@@ -85,7 +85,7 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
 
                 return Redirect("/Admin/Index");
             }
-            /*TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = ViewBag.Success = "Course List Get Successfully!";*/
+            *//*TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = ViewBag.Success = "Course List Get Successfully!";*//*
             TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = "Course List Get Successfully!";
             var courseTempData = methcall.GetValidationTempData<CreateCourseVM>(this, TempData, Constants.CREATE_COURSE_DETAILS_VALID, "createCourse", jsonOptions);
 
@@ -93,8 +93,8 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
             CreateCourse = courseTempData != null ? courseTempData : new CreateCourseVM();
 
             return Page();
-        }
-        public IActionResult OnGetLogout()
+        }*/
+        /*public IActionResult OnGetLogout()
         {
             _httpClient.DefaultRequestHeaders.Authorization = null;
             HttpContext.Session.Clear();
@@ -105,6 +105,6 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
             // Example: await SignInManager.SignOutAsync();
 
             return RedirectToPage(Constants.LOGOUT_REDIRECT_URL);
-        }
+        }*/
     }
 }
