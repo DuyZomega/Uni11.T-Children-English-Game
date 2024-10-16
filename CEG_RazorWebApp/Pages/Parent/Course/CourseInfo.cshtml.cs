@@ -30,7 +30,7 @@ namespace CEG_RazorWebApp.Pages.Parent.Course
             Secure = true,
             IsEssential = true,
         };
-        private ChildrenEnglishGameLibrary methcall = new();
+        private readonly CEG_RAZOR_Library methcall = new();
         public string? LayoutUrl { get; set; } = Constants.PARENT_LAYOUT_URL;
         public CourseInfoVM? CourseInfo { get; set; }
         public CourseInfoModel(ILogger<CourseInfoModel> logger, IConfiguration config, IMapper mapper)

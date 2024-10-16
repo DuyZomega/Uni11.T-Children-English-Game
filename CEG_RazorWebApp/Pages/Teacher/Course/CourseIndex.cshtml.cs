@@ -32,7 +32,7 @@ namespace CEG_RazorWebApp.Pages.Teacher.Course
             IsEssential = true,
         };
         public string? LayoutUrl { get; set; } = Constants.TEACHER_LAYOUT_URL;
-        private readonly ChildrenEnglishGameLibrary methcall = new();
+        private readonly CEG_RAZOR_Library methcall = new();
         [BindProperty]
         public CreateCourseVM? CreateCourse { get; set; }
         public List<IndexCourseInfoVM>? Courses { get; set; }

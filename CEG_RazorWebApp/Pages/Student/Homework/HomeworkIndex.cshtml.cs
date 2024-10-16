@@ -7,7 +7,7 @@ namespace CEG_RazorWebApp.Pages.Student.Homework
 {
     public class HomeworkIndexModel : PageModel
     {
-        private readonly ChildrenEnglishGameLibrary methcall = new();
+        private readonly CEG_RAZOR_Library methcall = new();
         [BindProperty]
         public List<HomeworkInfoVM>? Homeworks { get; set; }
         public void OnGet()
