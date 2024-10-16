@@ -16,7 +16,7 @@ using System.Text.Json;
 using System.ComponentModel.DataAnnotations;
 using CEG_RazorWebApp.Models.HomeworkAnswer.Update;
 
-namespace CEG_RazorWebApp.Pages.Admin.Question
+namespace CEG_RazorWebApp.Pages.Admin.Course
 {
     public class QuestionInfoModel : PageModel
     {
@@ -24,6 +24,9 @@ namespace CEG_RazorWebApp.Pages.Admin.Question
         private readonly ILogger<QuestionInfoModel> _logger;
         private readonly IMapper _mapper;
         private CEG_RAZOR_Library methcall = new();
+        public int? CourseId { get; set; }
+        public int? HomeworkId { get; set; }
+        public int? SessionId { get; set; }
         public int? QuestionId { get; set; }
         public string? AccToken;
         public string? ApiUrl;
@@ -38,10 +41,16 @@ namespace CEG_RazorWebApp.Pages.Admin.Question
             ApiUrl = _config.GetSection(Constants.SYSTEM_DEFAULT_API_HTTPS_URL_CONFIG_PATH).Value + _config.GetSection(Constants.SYSTEM_DEFAULT_API_URL_CONFIG_PATH).Value;
         }
         public void OnGet(
+            [FromRoute][Required] int courseId,
+            [FromRoute][Required] int sessionId,
+            [FromRoute][Required] int homeworkId,
             [FromRoute][Required] int questionId)
         {
             methcall.InitTempData(this);
             AccToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
+            CourseId = courseId;
+            SessionId = sessionId;
+            HomeworkId = homeworkId;
             QuestionId = questionId;
         }
         public IActionResult OnGetLogout()

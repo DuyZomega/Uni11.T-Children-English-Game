@@ -82,7 +82,6 @@ namespace CEG_WebAPI
             services.AddScoped<IJWTService, JWTService>();
             services.AddScoped<IParentService, ParentService>();
             services.AddScoped<IPaymentService, PaymentService>();
-            services.AddScoped<IRegisteredClassService, RegisteredClassService>();
             services.AddScoped<ISessionService, SessionService>();
             services.AddScoped<IStudentService, StudentService>();
             services.AddScoped<ITeacherService, TeacherService>();

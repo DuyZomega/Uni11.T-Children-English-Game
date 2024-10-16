@@ -9,7 +9,7 @@ namespace CEG_RazorWebApp.Models.Account.Get
     {
         public AccountStatusVM()
         {
-            ChildrenEnglishGameLibrary lib = new ChildrenEnglishGameLibrary();
+            CEG_RAZOR_Library lib = new CEG_RAZOR_Library();
             DefaultAccountStatusSelectList = lib.GetAccountStatusSelectableList(Status.IsNullOrEmpty() ? Constants.ACCOUNT_STATUS_INACTIVE : Status);
         }
         public string? AccountId { get; set; }

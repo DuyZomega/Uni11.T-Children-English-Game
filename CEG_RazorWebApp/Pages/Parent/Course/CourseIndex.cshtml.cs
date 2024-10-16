@@ -31,7 +31,7 @@ namespace CEG_RazorWebApp.Pages.Parent.Course
             IsEssential = true,
         };
         public string? LayoutUrl { get; set; } = Constants.PARENT_LAYOUT_URL;
-        private readonly ChildrenEnglishGameLibrary methcall = new();
+        private readonly CEG_RAZOR_Library methcall = new();
         public List<IndexCourseInfoVM>? Courses { get; set; }
 
         public CourseIndexModel(ILogger<CourseIndexModel> logger, IConfiguration config, IMapper mapper)

@@ -18,7 +18,7 @@ namespace CEG_RazorWebApp.Pages.Home
             Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
             PropertyNameCaseInsensitive = true,
         };
-        private ChildrenEnglishGameLibrary methcall = new();
+        private CEG_RAZOR_Library methcall = new();
 
         public IndexModel(ILogger<IndexModel> logger, IConfiguration config)
         {

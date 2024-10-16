@@ -7,7 +7,7 @@ namespace CEG_RazorWebApp.Models.Session.Update
     {
         public UpdateSessionVM()
         {
-            var lib = new ChildrenEnglishGameLibrary();
+            var lib = new CEG_RAZOR_Library();
             Number = 1;
             Hours = Constants.SESSION_HOURS;
             Status = Constants.SESSION_STATUS_DRAFT;

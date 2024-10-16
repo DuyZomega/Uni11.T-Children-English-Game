@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "/Auth/Login"
 @model CEG_RazorWebApp.Pages.Auth.LoginModel
 @{
 	ViewData["Title"] = "Login Page";
@@ -24,8 +24,9 @@
 						<div class="d-flex justify-content-center box-header light-green">
 							<h5><b>User login</b></h5>
 						</div>
+						<div id="alertContainer"></div>
 						<div class="d-flex box-body justify-content-center">
-							<form class="reg-form" method="post">
+							<form class="reg-form" method="post" id="loginForm">
 								@{
 									if (ViewBag.error != null)
 									{
@@ -74,5 +75,106 @@
 			</div>
 		</div>
 	</div>
+	<script>
+		var apiUrl = sessionStorage.getItem('apiUrl');
+        var questionList = [];
+        $(document).ready(function () {
+			$('#loginForm').submit(function (event) {
+                event.preventDefault(); // Prevent the form from submitting normally
+
+                //Get the form data
+                var formData = {
+					username: $('input[id="AuthenRequest_Username"]').val(),
+					password: $('input[id="AuthenRequest_Password"]').val(),
+                };
+
+                //Make the AJAX request
+				callApiPostLogin(formData);
+            });
+        });
+        // Function to display alerts
+        function showAlert(type, message) {
+            var alertHtml = '';
+
+            if (type === 'success') {
+                alertHtml = `
+                    <div class="alert alert-success alert-dismissible fade show" id="notif">
+                        <i class='bx bx-message-alt-x p-1'></i>
+                        <strong class="mr-1">` + message + `</strong>
+                        <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+                            <span><i class='bx bx-x'></i></span>
+                        </button>
+                    </div>
+                `;
+            } else if (type === 'error') {
+                alertHtml = `
+                    <div class="alert alert-danger alert-dismissible fade show" id="notif">
+                        <i class='bx bx-message-alt-x p-1'></i>
+                        <strong class="mr-1">` + message + `</strong>
+                        <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+                            <span><i class='bx bx-x'></i></span>
+                        </button>
+                    </div>
+                `;
+            }
+
+            // Inject the alert HTML into the alert container
+            $('#alertContainer').html(alertHtml);
+        }
+		function callApiPostLogin(formData) {
+			$.ajax({
+				url: apiUrl + 'Account/Login', // Specify your Razor Page here
+				type: 'POST',
+				data: JSON.stringify(formData),
+				contentType: 'application/json; charset=utf-8',
+				success: function (response) {
+					// Handle success (display a success message or redirect, etc.)
+					if (response.status) {
+						showAlert('success', "Login successfully");
+						sessionStorage.setItem('token', response.data.accessToken);
+						sessionStorage.setItem('role', response.data.roleName);
+						sessionStorage.setItem('usrId', response.data.accountId);
+						sessionStorage.setItem('usrName', response.data.userName);
+						// Use switch to redirect based on role name
+						switch (response.data.roleName) {
+							case 'Admin':
+								// Redirect to admin dashboard
+								window.location.href = '/Admin/Index';
+								break;
+
+							case 'Teacher':
+								// Redirect to teacher dashboard
+								window.location.href = '/Teacher/Index';
+								break;
+
+							case 'Parent':
+								// Redirect to parent dashboard
+								window.location.href = '/Parent/Index';
+								break;
+
+							case 'Student':
+								// Redirect to student dashboard
+								window.location.href = '/Student/Index';
+								break;
+
+							default:
+								// Redirect to a generic page or error page if role is not recognized
+								window.location.href = '/Auth/Login';
+								break;
+						}
+						$('#loginForm').trigger("reset");
+						console.log(window.location.href);
+					} else {
+						console.error("API returned false status.");
+					}
+				},
+				error: function (xhr, status, error) {
+					// Handle error (display the validation message, etc.)
+					alert("Error in api call:" + error);
+					console.error("Error in api call:", error);
+				}
+			});
+		}
+	</script>
 </body>
 </html>
