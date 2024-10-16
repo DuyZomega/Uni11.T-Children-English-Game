@@ -37,6 +37,7 @@
                     </div>
                 </div>
                 <section>
+                    <div id="alertContainer"></div>
                     <div class="card">
                         <div class="card-body">
                             <!-- Nav tabs -->
@@ -49,8 +50,6 @@
                                     </a>
                                 </li>
                             </ul>
-                            <div id="alertContainer"></div>
-
                             <!-- Tab panes -->
                             <div class="tab-content">
                                 <!-- home1 -->
@@ -63,7 +62,7 @@
                                                 <form method="get" asp-route-search="@search">
                                                     <div>
                                                         <label>
-                                                            <input asp-for="@search" class="form-control" type="text" name="search" placeholder="Search..." value="@search">
+                                                            <input asp-for="@search" class="form-control" type="text" placeholder="Search..." value="@search">
                                                             <i class='bx bx-search-alt'></i>
                                                         </label>
                                                     </div>
@@ -155,7 +154,7 @@
                     return classObject.className.toLowerCase().includes(searchTerm);
                 });
 
-                // Display the filtered accountList
+                // Display the filtered classList
                 setClassDisplay(filteredclassList);
             });
             // Call API to get the list of teacher names
@@ -312,7 +311,7 @@
                                 </div>
                             </div>
                             <div class="form-group mx-auto">
-                                <form method="get" asp-route-id="${classObj.ClassName}">
+                                <form method="get" asp-route-id="${classObj.classId}">
                                     <button class="btn btn-primary clickable-row" type="submit">See Detail</button>
                                 </form>
                             </div>
@@ -344,7 +343,7 @@
             // If you want to include seconds as well, use this return:
             // return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
         }
-        $("#submitClass").click(function (event) {
+        $("#createClassForm").click(function (event) {
             event.preventDefault(); // Prevent the form from submitting
 
             // Gather form data

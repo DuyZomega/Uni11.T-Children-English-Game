@@ -15,52 +15,9 @@ namespace CEG_RazorWebApp.Pages.Auth
 	[AllowAnonymous]
     public class LoginModel : PageModel
     {
-		[BindProperty]
-        public AuthenRequest AuthenRequest { get; set; }
+        public AuthenRequest AuthenRequest { get; set; } = new AuthenRequest();
 
-        private readonly ILogger<LoginModel> _logger;
-		private readonly IConfiguration _config;
-		private readonly HttpClient client = null;
-		//private readonly IVnPayService _vnPayService;
-		private string AuthenAPI_URL = "";
-		private CEG_RAZOR_Library methcall = new();
-		private readonly JsonSerializerOptions jsonOptions = new JsonSerializerOptions
-		{
-			PropertyNameCaseInsensitive = true,
-		};
-		private readonly CookieOptions cookieOptions = new CookieOptions
-		{
-			Expires = DateTime.Now.AddMinutes(10),
-			MaxAge = TimeSpan.FromMinutes(10),
-			Secure = true,
-			IsEssential = true,
-		};
-
-		public LoginModel(ILogger<LoginModel> logger, IConfiguration config)
-		{
-			_logger = logger;
-			_config = config;
-			client = new HttpClient()
-			{
-				BaseAddress = new Uri(config.GetSection(Constants.SYSTEM_DEFAULT_API_HTTPS_URL_CONFIG_PATH).Value)
-			};
-			//_vnPayService = vnPayService;
-			client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-			AuthenAPI_URL = config.GetSection(Constants.SYSTEM_DEFAULT_API_URL_CONFIG_PATH).Value;
-		}
-
-		/*public IActionResult OnGetLogin()
-        {
-			string? role = HttpContext.Session.GetString(Constants.ROLE_NAME);
-
-			if (role == null) role = "Guest";
-
-			TempData[Constants.ROLE_NAME] = role;
-
-			return Page();
-		}*/
-
-		public IActionResult OnGetLogout()
+		/*public IActionResult OnGetLogout()
 		{
 			client.DefaultRequestHeaders.Authorization = null;
 			HttpContext.Session.Clear();
@@ -73,7 +30,7 @@ namespace CEG_RazorWebApp.Pages.Auth
 			// Example: await SignInManager.SignOutAsync();
 
 			return RedirectToPage(Constants.LOGOUT_REDIRECT_URL);
-		}
+		}*/
 
 		public void OnGet()
 		{

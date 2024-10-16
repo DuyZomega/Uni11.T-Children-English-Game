@@ -482,7 +482,7 @@ html body {
 
     .header .float-right .dropdown {
         position: relative;
-        padding: 15px 20px;
+        padding: 20px 20px;
         margin-right: 80px;
     }
 
@@ -490,6 +490,7 @@ html body {
     background: #34495e;
     color: #fff;
     border-radius: .5rem;
+    
 }
 
     .float-right .dropdown button:hover {
@@ -497,13 +498,19 @@ html body {
     }
 
 .float-right .dropdown-menu.show {
-    transform: translate3d(5px, 55px, 0px) !important;
+    min-width: 8rem;
+    /*min-width: fit-content;
+    transform: translate3d(5px, 58px, 0px) !important;*/
 }
 
 .float-right .dropdown-menu a i {
     position: relative;
     display: inline-flex;
     font-size: 15px;
+}
+
+.float-right .dropdown-item {
+    cursor: pointer;
 }
 
 
@@ -1715,7 +1722,7 @@ html body {
     }
 
     .dropdown-menu.show {
-        transform: translate3d(-135px, 35px, 0px) !important;
+        /*transform: translate3d(-135px, 35px, 0px) !important;*/
     }
 
 
