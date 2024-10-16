@@ -50,7 +50,7 @@ namespace CEG_RazorWebApp
 
             services.AddRazorPages(options =>
             {
-                options.Conventions.AuthorizeFolder("/Admin", "SessionAuthorize");
+                // options.Conventions.AuthorizeFolder("/Admin", "SessionAuthorize");
                 options.Conventions.AddPageRoute("/Home/Index", "/Index");
             });
 
@@ -70,7 +70,7 @@ namespace CEG_RazorWebApp
                 options.IdleTimeout = TimeSpan.FromMinutes(30); // Adjust the timeout as needed
             });
 
-            services.AddHttpContextAccessor();
+            /*services.AddHttpContextAccessor();
 
             services.AddAuthorizationBuilder()
                 .AddPolicy("SessionAuthorize", policy =>
@@ -78,8 +78,8 @@ namespace CEG_RazorWebApp
                     policy.Requirements.Add(new CEGAuthorizeRequirement());
                 });
 
-            /*services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();*/
-            services.AddScoped<IAuthorizationHandler, CEGAuthorizeHandler>();
+            *//*services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();*//*
+            services.AddScoped<IAuthorizationHandler, CEGAuthorizeHandler>();*/
 
             /*services.AddAuthorization(options =>
             {

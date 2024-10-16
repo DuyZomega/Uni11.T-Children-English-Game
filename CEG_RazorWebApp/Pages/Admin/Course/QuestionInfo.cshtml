@@ -5,8 +5,6 @@
     var createAnswer = Model.CreateAnswer;
     var updateQuestion = Model.UpdateQuestionInfo;
     Layout = Model.LayoutUrl;
-    var acctoken = Model.AccToken;
-    var apiUrl = Model.ApiUrl;
 }
 <html lang="en">
 <head>
@@ -203,7 +201,7 @@
             </div>
         </div>
         <script>
-            var token = '@acctoken';
+            var token = sessionStorage.getItem('token');
             var apiUrl = sessionStorage.getItem('apiUrl');
             var questionList = [];
             $(document).ready(function () {

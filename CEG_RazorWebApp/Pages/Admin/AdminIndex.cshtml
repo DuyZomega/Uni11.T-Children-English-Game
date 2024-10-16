@@ -1,9 +1,8 @@
 ﻿@page "/Admin/Index"
-@inject IConfiguration Config
 @model CEG_RazorWebApp.Pages.Admin.AdminIndexModel
 @{
     ViewData["Title"] = "Admin Index Page";
-    Layout = Model.LayoutUrl;
+    Layout = "_ALayout";
 }
 <html>
     <head>
@@ -59,13 +58,21 @@
 </html>
 <script>
     // Immediately store apiUrl in sessionStorage when the page loads
-    document.addEventListener('DOMContentLoaded', function () {
-        // Define your API URL here (you could get this value from a server-side config)
-        var apiUrl = '@Url.Content(Config["DefaultApiUrl:ConnectionString"] + Config["DefaultApiUrl:ApiUrl"] ?? "https://localhost:7143/api/")';
+    // document.addEventListener('DOMContentLoaded', function () {
+    //     Define your API URL here (you could get this value from a server-side config)
+    //     var apiUrl = 'Url.Content(Config["DefaultApiUrl:ConnectionString"] + Config["DefaultApiUrl:ApiUrl"] ?? "https:localhost:7143/api/")';
 
-        // Store it in sessionStorage
-        sessionStorage.setItem('apiUrl', apiUrl);
+    //     Store it in sessionStorage
+    //     sessionStorage.setItem('apiUrl', apiUrl);
 
-        console.log("API URL stored in sessionStorage:", sessionStorage.getItem('apiUrl'));
+    //     console.log("API URL stored in sessionStorage:", sessionStorage.getItem('apiUrl'));
+    // });
+    $(document).ready(function () {
+        var userRole = sessionStorage.getItem('role');
+
+        if (userRole !== 'Admin') {
+            // Redirect non-admin users to a different page, like an error or login page
+            window.location.href = '/Auth/Login';
+        }
     });
 </script>

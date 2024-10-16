@@ -80,7 +80,7 @@ namespace CEG_RazorWebApp.Pages.Auth
 
 		}
 
-		public async Task<IActionResult> OnPostAsync()
+		/*public async Task<IActionResult> OnPostAsync()
 		{
 			AuthenAPI_URL += "Account/Login";
 
@@ -143,6 +143,6 @@ namespace CEG_RazorWebApp.Pages.Auth
 			}
 			_logger.LogInformation("Goofy Ahh Member Login Successful: " + TempData[Constants.ROLE_NAME] + " , Id: " + TempData[Constants.USR_ID]);
 			return Page();
-		}
+		}*/
     }
 }
