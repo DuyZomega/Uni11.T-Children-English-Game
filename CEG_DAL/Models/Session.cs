@@ -19,7 +19,7 @@ public partial class Session
 
     public int? Number { get; set; }
 
-    public virtual Course Course { get; set; } = null!;
+    public virtual Course? Course { get; set; } = null;
 
     public virtual ICollection<Homework> Homeworks { get; set; } = new List<Homework>();
 

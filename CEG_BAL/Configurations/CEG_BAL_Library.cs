@@ -20,16 +20,21 @@ namespace CEG_BAL.Configurations
             {
                 case var value when value.Equals(Constants.COURSE_STATUS_DRAFT):
                     {
-                        if (newStatus.Equals(Constants.COURSE_STATUS_AVAILABLE)) return true;
-                        break;
+                        validStatuses =
+                        [
+                            Constants.COURSE_STATUS_AVAILABLE,
+                            Constants.COURSE_STATUS_DRAFT
+                        ];
+                        return validStatuses.Contains(newStatus);
                     }
                 case var value when value.Equals(Constants.COURSE_STATUS_AVAILABLE):
                     {
                         validStatuses =
                         [
-                            Constants.COURSE_STATUS_NAME_POSTPONED,
-                            Constants.COURSE_STATUS_NAME_CANCELLED,
-                            Constants.COURSE_STATUS_NAME_END_OF_SERVICE
+                            Constants.COURSE_STATUS_AVAILABLE,
+                            Constants.COURSE_STATUS_POSTPONED,
+                            Constants.COURSE_STATUS_CANCELLED,
+                            Constants.COURSE_STATUS_END_OF_SERVICE
                         ];
                         return validStatuses.Contains(newStatus);
                     }
@@ -37,9 +42,10 @@ namespace CEG_BAL.Configurations
                     {
                         validStatuses =
                         [
-                            Constants.COURSE_STATUS_NAME_AVAILABLE,
-                            Constants.COURSE_STATUS_NAME_CANCELLED,
-                            Constants.COURSE_STATUS_NAME_END_OF_SERVICE
+                            Constants.COURSE_STATUS_POSTPONED,
+                            Constants.COURSE_STATUS_AVAILABLE,
+                            Constants.COURSE_STATUS_CANCELLED,
+                            Constants.COURSE_STATUS_END_OF_SERVICE
                         ];
                         return validStatuses.Contains(newStatus);
                     }
@@ -47,15 +53,20 @@ namespace CEG_BAL.Configurations
                     {
                         validStatuses =
                         [
-                            Constants.COURSE_STATUS_NAME_AVAILABLE,
-                            Constants.COURSE_STATUS_NAME_END_OF_SERVICE
+                            Constants.COURSE_STATUS_CANCELLED,
+                            Constants.COURSE_STATUS_AVAILABLE,
+                            Constants.COURSE_STATUS_END_OF_SERVICE
                         ];
                         return validStatuses.Contains(newStatus);
                     }
-                case var value when value.Equals(Constants.COURSE_STATUS_NAME_END_OF_SERVICE):
+                case var value when value.Equals(Constants.COURSE_STATUS_END_OF_SERVICE):
                     {
-                        if (newStatus.Equals(Constants.COURSE_STATUS_AVAILABLE)) return true;
-                        break;
+                        validStatuses =
+                        [
+                            Constants.COURSE_STATUS_AVAILABLE,
+                            Constants.COURSE_STATUS_END_OF_SERVICE
+                        ];
+                        return validStatuses.Contains(newStatus);
                     }
                 default :
                     {

@@ -27,7 +27,7 @@ public partial class Homework
 
     public virtual ICollection<HomeworkResult> HomeworkResults { get; set; } = new List<HomeworkResult>();
 
-    public virtual Session Session { get; set; } = null!;
+    public virtual Session? Session { get; set; }
 
     public virtual ICollection<StudentHomework> StudentHomeworks { get; set; } = new List<StudentHomework>();
 }

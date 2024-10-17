@@ -43,18 +43,7 @@ namespace CEG_BAL.Services.Implements
                 sess.Hours = newSes.Hours;
                 sess.Number = newSes.Number;
                 sess.CourseId = _unitOfWork.CourseRepositories.GetIdByName(newSes.CourseName).Result;
-
-                /*var sessionList = _unitOfWork.SessionRepositories.GetSessionListByCourseId(sess.CourseId).Result;
-                if (sessionList != null && sessionList.Count > 0)
-                {
-                    foreach(var session in sessionList)
-                    {
-                        
-                    }
-                } else
-                {
-                    sess.Number = 1;
-                }*/
+                sess.Course = null;
             }
 
             _unitOfWork.SessionRepositories.Create(sess);
@@ -80,8 +69,14 @@ namespace CEG_BAL.Services.Implements
 
         public void Update(SessionViewModel model)
         {
-            var sess = _mapper.Map<Session>(model);
-            sess.CourseId = _unitOfWork.SessionRepositories.GetByIdNoTracking(model.SessionId.Value).Result.CourseId;
+            var sess = _unitOfWork.SessionRepositories.GetByIdNoTracking(model.SessionId.Value).Result;
+            if(model != null)
+            {
+                sess.Title = model.Title;
+                sess.Description = model.Description;
+                sess.Number = model.Number;
+                sess.Hours = model.Hours;
+            }
             _unitOfWork.SessionRepositories.Update(sess);
             _unitOfWork.Save();
         }
