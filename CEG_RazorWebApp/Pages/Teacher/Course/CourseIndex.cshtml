@@ -216,8 +216,8 @@
             </div>
         </div>
     <script>
-        var token = '@HttpContext.Session.GetString(CEG_RazorWebApp.Libraries.Constants.ACC_TOKEN)';
-        var apiUrl = 'https://localhost:7143/api/';
+        var token = sessionStorage.getItem('token');
+        var apiUrl = sessionStorage.getItem('apiUrl');
         var classList = [];
         $(document).ready(function () {
             callApiGetClassList();

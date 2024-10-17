@@ -296,8 +296,8 @@
             </div>
         </div>
         <script>
-            var token = '@acctoken';
-            var apiUrl = '@apiUrl';
+        var token = sessionStorage.getItem('token');
+        var apiUrl = sessionStorage.getItem('apiUrl');
             var questionList = [];
             $(document).ready(function () {
                 callApiGetHomeworkDetail();

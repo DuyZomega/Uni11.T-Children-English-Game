@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace CEG_RazorWebApp.Pages.Teacher
 {
-    [Authorize(Policy = "SessionAuthorize")]
     public class TeacherIndexModel : PageModel
     {
         private readonly ILogger<TeacherIndexModel> _logger;
