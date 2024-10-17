@@ -18,6 +18,4 @@ public partial class Payment
     public DateTime ConfirmDate { get; set; }
 
     public virtual Parent Parent { get; set; } = null!;
-
-    public virtual ICollection<RegisteredClass> RegisteredClasses { get; set; } = new List<RegisteredClass>();
 }

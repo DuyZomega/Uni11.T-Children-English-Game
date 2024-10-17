@@ -27,7 +27,5 @@ public partial class Course
 
     public virtual ICollection<Class> Classes { get; set; } = new List<Class>();
 
-    public virtual ICollection<RegisteredClass> RegisteredClasses { get; set; } = new List<RegisteredClass>();
-
     public virtual ICollection<Session> Sessions { get; set; } = new List<Session>();
 }

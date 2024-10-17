@@ -18,7 +18,5 @@ namespace CEG_BAL.ViewModels
         public DateTime ConfirmDate { get; set; }
 
         public virtual Parent Parents { get; set; } = null!;
-
-        public virtual ICollection<RegisteredClass> RegisteredCourses { get; set; } = new List<RegisteredClass>();
     }
 }

@@ -17,8 +17,6 @@ namespace CEG_BAL.ViewModels
 
         public virtual ICollection<HomeworkResult> HomeworkResults { get; set; } = new List<HomeworkResult>();
 
-        public virtual RegisteredClass Session { get; set; } = null!;
-
         public virtual Student Student { get; set; } = null!;
 
         public virtual ICollection<StudentHomework> StudentHomeworks { get; set; } = new List<StudentHomework>();

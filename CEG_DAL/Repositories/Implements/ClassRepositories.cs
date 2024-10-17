@@ -33,9 +33,6 @@ namespace CEG_DAL.Repositories.Implements
         public async Task<List<Class>> GetClassListAdmin()
         {
             return await _dbContext.Classes
-                .Include(c => c.Teacher)
-                .ThenInclude(t => t.Account)
-                .Include(c => c.Course)
                 .Select(c => new Class
                 {
                     ClassId = c.ClassId,

@@ -42,8 +42,6 @@ public partial class MyDBContext : DbContext
 
     public virtual DbSet<Payment> Payments { get; set; }
 
-    public virtual DbSet<RegisteredClass> RegisteredClasses { get; set; }
-
     public virtual DbSet<Role> Roles { get; set; }
 
     public virtual DbSet<Session> Sessions { get; set; }
@@ -146,11 +144,17 @@ public partial class MyDBContext : DbContext
             entity.ToTable("Enroll");
 
             entity.Property(e => e.EnrollId).HasColumnName("enroll_id");
+            entity.Property(e => e.PaymentId).HasColumnName("payment_id");
             entity.Property(e => e.ClassId).HasColumnName("class_id");
+            entity.Property(e => e.RegistrationDate)
+                .HasColumnType("datetime")
+                .HasColumnName("registration_date");
             entity.Property(e => e.EnrolledDate)
                 .HasColumnType("datetime")
                 .HasColumnName("enrolled_date");
             entity.Property(e => e.StudentId).HasColumnName("student_id");
+
+            // entity.HasOne(d => d.Payment).WithMany(p => p.Enrol)
 
             entity.HasOne(d => d.Student).WithMany(p => p.Enrolls)
                 .HasForeignKey(d => d.StudentId)
@@ -341,34 +345,6 @@ public partial class MyDBContext : DbContext
                 .HasForeignKey(d => d.ParentId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Payment_Parents");
-        });
-
-        modelBuilder.Entity<RegisteredClass>(entity =>
-        {
-            entity.HasKey(e => e.RegisteredClassId).HasName("PK_RegisteredCourse_1");
-
-            entity.ToTable("RegisteredClass");
-
-            entity.Property(e => e.RegisteredClassId).HasColumnName("registered_class_id");
-            entity.Property(e => e.ClassId).HasColumnName("class_id");
-            entity.Property(e => e.ConfirmDate)
-                .HasColumnType("datetime")
-                .HasColumnName("confirm_date");
-            entity.Property(e => e.PaymentId).HasColumnName("payment_id");
-            entity.Property(e => e.PaymentStatus).HasColumnName("payment_status");
-            entity.Property(e => e.RegisteredDate)
-                .HasColumnType("datetime")
-                .HasColumnName("registered_date");
-
-            entity.HasOne(d => d.Class).WithMany(p => p.RegisteredClasses)
-                .HasForeignKey(d => d.ClassId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_RegisteredCourse_Course");
-
-            entity.HasOne(d => d.Payment).WithMany(p => p.RegisteredClasses)
-                .HasForeignKey(d => d.PaymentId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_RegisteredCourse_Payment");
         });
 
         modelBuilder.Entity<Role>(entity =>
