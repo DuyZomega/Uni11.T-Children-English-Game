@@ -102,5 +102,12 @@ namespace CEG_DAL.Repositories.Implements
                     }
                 }).ToListAsync();
         }
+
+        public async Task<int> GetIdByClassId(int id)
+        {
+            var result = await (from c in _dbContext.Classes where c.ClassId == id select c).FirstOrDefaultAsync();
+            if (result != null) return result.ClassId;
+            return 0;
+        }
     }
 }

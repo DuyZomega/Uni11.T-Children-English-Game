@@ -217,30 +217,28 @@
                 var formattedStartDate = formatDate(classObj.startDate);
                 var formattedEndDate = formatDate(classObj.endDate);
                 var cardHtml = `
-                    <div class="col-xl-3 col-lg-6 col-sm-6 my-3">
-                        <div class="card1 card-child">
-                            <div class="club-name">Class ID: ${classObj.classId}</div>
-                            <div class="card-body">
-                                <div class="club-title">
-                                    <ul>
-                                        <li><h6>Class name:</h6><span>${classObj.className}</span></li>
-                                        <li><h6>Course:</h6><span>${classObj.course.courseName}</span></li>
-                                        <li><h6>Teacher:</h6><span>${classObj.teacher.account.fullname}</span></li>
-                                        <li><h6>Start date:</h6><span>${formattedStartDate}</span></li>
-                                        <li><h6>End date:</h6><span>${formattedEndDate}</span></li>
-                                        <li><h6>Minimum amount of students:</h6><span>${classObj.minimumStudents}</span></li>
-                                        <li><h6>Maximum amount of students:</h6><span>${classObj.maximumStudents}</span></li>
-                                        <li><h6>Current amount of students:</h6><span>${classObj.studentProgress.length}</span></li>
-                                    </ul>
+                            <div class="col-xl-3 col-lg-6 col-sm-6 my-3">
+                                <div class="card1 card-child">
+                                    <div class="club-name">Class ID: ${classObj.classId}</div>
+                                    <div class="card-body">
+                                        <div class="club-title">
+                                            <ul>
+                                                <li><h6>Class name:</h6><span>${classObj.className}</span></li>
+                                                <li><h6>Course:</h6><span>${classObj.course.courseName}</span></li>
+                                                <li><h6>Teacher:</h6><span>${classObj.teacher.account.fullname}</span></li>
+                                                <li><h6>Start date:</h6><span>${formattedStartDate}</span></li>
+                                                <li><h6>End date:</h6><span>${formattedEndDate}</span></li>
+                                                <li><h6>Minimum amount of students:</h6><span>${classObj.minimumStudents}</span></li>
+                                                <li><h6>Maximum amount of students:</h6><span>${classObj.maximumStudents}</span></li>
+                                                <li><h6>Current amount of students:</h6><span>${classObj.studentProgress.length}</span></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="form-group mx-auto">
+                                        <a class="btn btn-primary clickable-row" href="/Teacher/Class/${classObj.classId}/Info" role="button">Details</a>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="form-group mx-auto">
-                                <form method="get" asp-route-id="${classObj.className}">
-                                    <button class="btn btn-primary clickable-row" type="submit">See Detail</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
                 `;
                 classList.append(cardHtml);
             });

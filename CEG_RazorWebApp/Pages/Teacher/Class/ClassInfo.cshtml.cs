@@ -1,5 +1,6 @@
 using AutoMapper;
 using CEG_RazorWebApp.Libraries;
+using CEG_RazorWebApp.Models.Class.Get;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Text.Encodings.Web;
@@ -27,6 +28,8 @@ namespace CEG_RazorWebApp.Pages.Teacher.Class
             IsEssential = true,
         };
         private readonly CEG_RAZOR_Library methcall = new();
+        public int ClassID { get; set; }
+        public ClassInfoVM? ClassInfo { get; set; } = new ClassInfoVM();
         public string? LayoutUrl { get; set; } = Constants.TEACHER_LAYOUT_URL;
         public void OnGet()
         {
