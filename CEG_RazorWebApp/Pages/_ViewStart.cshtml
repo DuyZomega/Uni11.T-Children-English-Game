@@ -1,3 +1,16 @@
-﻿@{
+﻿@inject IConfiguration Config
+@{
     Layout = "_Layout";
 }
+<script>
+    // Immediately store apiUrl in sessionStorage when the page loads
+    document.addEventListener('DOMContentLoaded', function () {
+        // Define your API URL here (you could get this value from a server-side config)
+        var apiUrl = '@Url.Content(Config["DefaultApiUrl:ConnectionString"] + Config["DefaultApiUrl:ApiUrl"] ?? "")';
+
+        // Store it in sessionStorage
+        sessionStorage.setItem('apiUrl', apiUrl);
+
+        console.log("API URL stored in sessionStorage:", sessionStorage.getItem('apiUrl'));
+    });
+</script>

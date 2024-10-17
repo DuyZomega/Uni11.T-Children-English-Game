@@ -43,7 +43,7 @@
                             <ul class="nav nav-tabs">
                                 <!-- dung vong for o day -->
                                 <li class="nav-item">
-                                    <a class="nav-link active" data-toggle="tab" href="#home1">
+                                    <a class="nav-link active" data-toggle="tab" href="/Admin/Class/Index">
                                         <i class='bx bx-home-alt-2'></i>
                                         <span>All Classes</span>
                                     </a>
@@ -141,8 +141,8 @@
         </div>
     </div>
     <script>
-        var token = '@HttpContext.Session.GetString(CEG_RazorWebApp.Libraries.Constants.ACC_TOKEN)';
-        var apiUrl = 'https://localhost:7143/api/';
+        var token = sessionStorage.getItem('token');
+        var apiUrl = sessionStorage.getItem('apiUrl');
         var classList = [];
         $(document).ready(function () {
             callApiGetClassList();
@@ -189,7 +189,7 @@
             });
             // Call API to get the list of course names
             $.ajax({
-                url: apiUrl + 'Course/All/Name', // API endpoint
+                url: apiUrl + 'Course/All/Name/Available', // API endpoint
                 type: 'GET',
                 success: function (response) {
                     // Log the entire response to the console for debugging
@@ -272,9 +272,9 @@
             });
         }
         function setClassDisplay(data){
-            var classList = $('#classList'); // Reference to the <classList> element
-            // classList.empty(); // Clear any existing options
-            classList.empty();
+            var classList = $('#classList');
+            // Reference to the <classList> element
+            classList.empty(); // Clear any existing options
             var cardCreateClassHtml = `
                 <div class="col-xl-3 col-lg-6 col-sm-6 my-3 item">
                     <div class="card1 card-child">

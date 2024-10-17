@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace CEG_RazorWebApp.Pages.Admin
 {
-    [Authorize(Policy = "SessionAuthorize")]
+    //[Authorize(Policy = "SessionAuthorize")]
     public class AdminIndexModel : PageModel
     {
 		private readonly ILogger<AdminIndexModel> _logger;

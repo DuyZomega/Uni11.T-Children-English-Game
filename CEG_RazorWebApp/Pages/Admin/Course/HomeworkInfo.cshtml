@@ -6,7 +6,6 @@
     var addQuestion = Model.AddQuestion;
     Layout = Model.LayoutUrl;
     var acctoken = Model.AccToken;
-    var apiUrl = Model.ApiUrl;
 }
 <html lang="en">
 <head>
@@ -93,28 +92,6 @@
                                                 <label class="col-form-label">Status:</label>
                                             </div>
                                             <div class="col-sm-7" id="homework-status">
-                                                @* @{
-                                                    switch (homeworkInfo.Status)
-                                                    {
-                                                        case "Available":
-                                                            {
-                                                                <span class="outcome" style="float: left;">@homeworkInfo.Status</span>
-                                                                break;
-                                                            }
-                                                        case "Draft":
-                                                        case "Postponed":
-                                                            {
-                                                                <span class="approval" style="float: left;">@homeworkInfo.Status</span>
-                                                                break;
-                                                            }
-                                                        case "EndofService":
-                                                        case "Cancelled":
-                                                            {
-                                                                <span class="destroy" style="float: left;">@homeworkInfo.Status</span>
-                                                                break;
-                                                            }
-                                                    }
-                                                } *@
                                             </div>
                                         </div>
                                         <div class="row mb-sm-2">
@@ -272,8 +249,8 @@
             </div>
         </div>
         <script>
-            var token = '@acctoken';
-            var apiUrl = '@apiUrl';
+            var token = sessionStorage.getItem('token');
+            var apiUrl = sessionStorage.getItem('apiUrl');
             var questionList = [];
             var homeworkQuestionList = [];
             $(document).ready(function () {
@@ -550,7 +527,7 @@
                                 homeworkQuestionList = response.data.homeworkQuestions;
                                 // Loop through each answer and generate the HTML
                                 response.data.homeworkQuestions.forEach(function (question) {
-                                    let questionHtml = generateQuestionHtml(question, response.data.status); // Assuming both questionInfo and updateAnswer are the same structure
+                                    let questionHtml = generateQuestionHtml(question, response.data.courseStatus); // Assuming both questionInfo and updateAnswer are the same structure
                                     $('#question_list').append(questionHtml);
                                 });
                             } else {
@@ -607,17 +584,44 @@
                 });
             }
             function generateQuestionHtml(questionInfo, status) {
-                var questionUpdateHtml = status === 'Draft' || status === 'Postponed' ? `
+                var questionUpdateToggleHtml = status === 'Draft' || status === 'Postponed' ? `
                     <div class="edit-info">
                         <i class='bx bxs-edit bx-sm' data-toggle="modal" data-target="#editquestion_${questionInfo.homeworkQuestionId}"></i>
+                    </div>
+                ` : '';
+                var questionUpdateHtml = status === 'Draft' || status === 'Postponed' ? `
+                    <div id="editquestion_${questionInfo.homeworkQuestionId}" class="modal fade" role="dialog">
+                        <div class="modal-dialog modal-dialog-centered modal-lg" role="content">
+                            <div class="modal-content modal-addRoom">
+                                <div class="modal-header">
+                                    <h4 class="modal-title truncate">Update Question ${questionInfo.question}</h4>
+                                </div>
+                                <form method="post" id="editQuestionForm_${questionInfo.homeworkQuestionId}" class="form-group">
+                                    <div class="modal-body">
+                                        <div class="col-12">
+                                            <div class="form-group row">
+                                                <label for="updateQuestion_${questionInfo.homeworkQuestionId}_Question" class="col-sm-4 col-form-label">Question</label>
+                                                <div class="col-sm-8">
+                                                    <textarea id="updateQuestion_${questionInfo.homeworkQuestionId}_Question" required class="form-control">${questionInfo.question}</textarea>
+                                                    <span id="error_message"
+                                                            class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer justify-content-center">
+                                        <button class="btn btn-success" type="submit" value="Update">Save</button>
+                                        <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 ` : '';
                 return `
                         <div class="card-header">
                             <h5>Question <label class="truncate">${questionInfo.question}</label> Details</h5>
-                            `
-                            + questionUpdateHtml +
-                            `
+                            ` + questionUpdateToggleHtml + `
                         </div>
                         <div class="card-body">
                             <div class="row mb-sm-2">
@@ -649,34 +653,7 @@
                             </div>
                         </div>
                         <hr class="container my-0">
-                        <div id="editquestion_${questionInfo.homeworkQuestionId}" class="modal fade" role="dialog">
-                            <div class="modal-dialog modal-dialog-centered modal-lg" role="content">
-                                <div class="modal-content modal-addRoom">
-                                    <div class="modal-header">
-                                        <h4 class="modal-title truncate">Update Question ${questionInfo.question}</h4>
-                                    </div>
-                                    <form method="post" id="editQuestionForm_${questionInfo.homeworkQuestionId}" class="form-group">
-                                        <div class="modal-body">
-                                            <div class="col-12">
-                                                <div class="form-group row">
-                                                    <label for="updateQuestion_${questionInfo.homeworkQuestionId}_Question" class="col-sm-4 col-form-label">Question</label>
-                                                    <div class="col-sm-8">
-                                                        <textarea id="updateQuestion_${questionInfo.homeworkQuestionId}_Question" required class="form-control">${questionInfo.question}</textarea>
-                                                        <span id="error_message"
-                                                              class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer justify-content-center">
-                                            <button class="btn btn-success" type="submit" value="Update">Save</button>
-                                            <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                        `;
+                        ` + questionUpdateHtml;
             }
             function getTypeOptions(selectedType) {
                 var options = ['Vocabulary', 'Grammar']; // Example statuses
@@ -699,12 +676,12 @@
             }
 
             function setHomeworkDisplay(data) {
-                var titleStatusHtml = data.status === 'Draft' || data.status === 'Postponed' ? `
+                var titleStatusHtml = data.courseStatus === 'Draft' || data.courseStatus === 'Postponed' ? `
                     <div class="edit-info" id="homework-homework-status">
                         <i class='bx bxs-edit bx-sm' data-toggle="modal" data-target="#editHomework"></i>
                     </div>
                     ` : '';
-                var questionAddHtml = data.status === 'Draft' || data.status === 'Postponed' ? `
+                var questionAddHtml = data.courseStatus === 'Draft' || data.courseStatus === 'Postponed' ? `
                     <div class="edit-info" id="homework-add-question">
                         <i class='bx bxs-add-to-queue bx-sm' data-toggle="modal" data-target="#addQuestion"></i>
                     </div>

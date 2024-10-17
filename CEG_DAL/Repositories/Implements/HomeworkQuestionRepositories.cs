@@ -56,12 +56,14 @@ namespace CEG_DAL.Repositories.Implements
         {
             var questions = await _dbContext.HomeworkQuestions.Include(q => q.HomeworkAnswers).ToListAsync();
 
-            var orderedQuestions = questions.GroupBy(q => q.Question)// Group by the Question string
-                .Select(g =>
-                    g.OrderBy(q => q.HomeworkQuestionId)
+            var orderedQuestions = questions
+                .GroupBy(q => q.Question) // Group by the Question string
+                .Select(g => g
+                    .OrderBy(q => q.HomeworkId == null ? 0 : 1) // Prioritize null HomeworkId values first
+                    .ThenBy(q => q.HomeworkQuestionId) // Then order by HomeworkQuestionId
                     .FirstOrDefault()
-                    ) // Select the latest HomeworkQuestionId for each Question
-                .OrderBy(q => q.Question) // Order by the Question string (descending)
+                )
+                .OrderBy(q => q.Question) // Order by the Question string
                 .ToList();
 
             return orderedQuestions;

@@ -846,6 +846,10 @@ html body {
 
 
     /* club list */
+    ul.nav.nav-tabs {
+        padding: 0px;
+    }
+
     .navs .nav-item .nav-link {
         color: #34495e;
     }

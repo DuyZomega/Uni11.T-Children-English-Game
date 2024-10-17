@@ -91,18 +91,7 @@
                     </div>
                     <div class="float-right">
                         <div class="btn-group me-1 mb-1">
-                            <div class="dropdown">
-                                @if (TempData["ROLE_NAME"] != null)
-                                {
-                                    <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        @TempData["USER_NAME"]
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="@Url.Page("AdminProfile", "Admin")"><i class='bx bx-user'></i>Admin Profile</a> <!--thêm theo user id và role-->
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" id="logout" asp-page-handler="Logout">Logout</a>
-                                    </div>
-                                }
+                            <div class="dropdown" id="settings-buttons">
                             </div>
                         </div>
                     </div>
@@ -123,6 +112,45 @@
     <script src="https://unpkg.com/filepond-plugin-file-poster/dist/filepond-plugin-file-poster.js"></script>
     <script>
         $(document).ready(function () {
+            var userRole = sessionStorage.getItem('role');
+
+            if (userRole !== 'Admin') {
+                // Redirect non-admin users to a different page, like an error or login page
+                window.location.href = '/Auth/Login';
+            }
+            else {
+                /*<button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        ` + sessionStorage.getItem('usrName') +`
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="Url.Page("AdminProfile", "Admin")"><i class='bx bx-user'></i>Admin Profile</a> <!--thêm theo user id và role-->
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" id="logout" asp-page-handler="Logout">Logout</a>
+                    </div>*/
+                var settingsHtml = `
+                    <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        ` + sessionStorage.getItem('usrName') +`
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" id="logout">Logout</a>
+                    </div>
+                    `;
+                $('#settings-buttons').html(settingsHtml);
+            }
+            // Attach click event handler to the logout button
+            document.getElementById("logout").addEventListener("click", function () {
+                // Clear sessionStorage (you can also use localStorage if you store data there)
+                // sessionStorage.clear(); // This will remove all items from sessionStorage
+
+                // Optionally, you can also clear specific items like this:
+                sessionStorage.removeItem("token");
+                sessionStorage.removeItem("role");
+                sessionStorage.removeItem("usrId");
+                sessionStorage.removeItem("usrName");
+
+                // Redirect to the login page (or another page, such as a logout confirmation)
+                window.location.href = '/Auth/Login'; // Adjust this path as necessary
+            });
             // Get the current URL path
             var currentUrl = window.location.pathname;
 
@@ -162,6 +190,7 @@
                 }
             });
         });
+
         // document.getElementById("logout").addEventListener("click", function () {
         //     Replace with your actual API endpoint URL
         //     const apiUrl = 'https:api.example.com/api/user';
