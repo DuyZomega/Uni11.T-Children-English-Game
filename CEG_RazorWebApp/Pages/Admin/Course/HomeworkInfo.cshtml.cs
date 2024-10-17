@@ -40,13 +40,12 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
         private CEG_RAZOR_Library methcall = new();
         public string? LayoutUrl { get; set; } = Constants.ADMIN_LAYOUT_URL;
         [BindProperty]
-        public int? CourseId { get; set; }
+        public int? CourseID { get; set; }
         [BindProperty]
-        public int? SessionId { get; set; }
-        public int? HomeworkId { get; set; }
+        public int? SessionID { get; set; }
+        public int? HomeworkID { get; set; }
         public UpdateHomeworkVM? UpdateHomeworkInfo { get; set; } = new UpdateHomeworkVM();
         public UpdateQuestionVM? AddQuestion { get; set; } = new UpdateQuestionVM();
-        public string? AccToken;
         public HomeworkInfoModel(ILogger<HomeworkInfoModel> logger, IConfiguration config, IMapper mapper)
         {
             _logger = logger;
@@ -64,11 +63,10 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
             [FromRoute][Required] int sessionId,
             [FromRoute][Required] int homeworkId)
         {
-            methcall.InitTempData(this);
-            CourseId = courseId;
-            SessionId = sessionId;
-            AccToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
-            HomeworkId = homeworkId;
+            // methcall.InitTempData(this);
+            CourseID = courseId;
+            SessionID = sessionId;
+            HomeworkID = homeworkId;
         }
         public IActionResult OnGetLogout()
         {

@@ -3,7 +3,6 @@
 @{
     ViewData["Title"] = "Admin Course Info Page";
     var courseInfo = Model.CourseInfo;
-    var sessionList = Model.Sessions;
     var updateCourse = Model.UpdateCourseInfo;
     var createSession = Model.CreateSession;
     Layout = Model.LayoutUrl;
@@ -35,13 +34,13 @@
                                     <span>/</span>
                                 </li>
                                 <li class="breadcrumd-item">
-                                    <a href="/Admin/Course/@courseInfo.CourseId/Info">@courseInfo.CourseId</a>
+                                    <a href="/Admin/Course/@Model.CourseID/Info">@Model.CourseID</a>
                                 </li>
                                 <li class="breadcrumd-item">
                                     <span>/</span>
                                 </li>
                                 <li class="breadcrumd-item">
-                                    <a href="/Admin/Course/@courseInfo.CourseId/Info">Info</a>
+                                    <a href="/Admin/Course/@Model.CourseID/Info">Info</a>
                                 </li>
                             </ol>
                         </div>
@@ -49,48 +48,18 @@
                     <div class="row">
                         <div class="col-12 customer-booking">
                             <div class="row">
+                                <div id="alertContainer"></div>
                                 <div class="card profile col-12 mb-4">
-                                    <div class="card-header">
-                                        <h4>Course Information</h4>
-                                        @{
-                                            if (courseInfo.Status.Equals("Draft") || courseInfo.Status.Equals("Postponed"))
-                                            {
-                                                <div class="edit-info">
-                                                    <i class='bx bxs-edit bx-sm' data-toggle="modal" data-target="#editCourse"></i>
-                                                </div>
-                                            }
-                                        }
+                                    <div class="card-header" id="course-title-status">
+                                        <h4>Course <label id="course-course-title" class="truncate"></label> Information</h4>
                                     </div>
-                                @if (TempData["Success"] != null)
-                                {
-                                    <div class="alert alert-success alert-dismissible fade show" id="notif">
-                                        <i class='bx bx-message-alt-x p-1'></i>
-                                        <strong class="mr-1">@TempData["Success"]</strong>
-                                        <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
-                                            <span><i class='bx bx-x'></i></span>
-                                        </button>
-                                    </div>
-                                    TempData["Success"] = null;
-                                }
-                                else if (TempData["Error"] != null)
-                                {
-                                    <div class="alert alert-danger alert-dismissible fade show" id="notif">
-                                        <i class='bx bx-message-alt-x p-1'></i>
-                                        <strong class="mr-1">@TempData["Error"]</strong>
-                                        <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
-                                            <span><i class='bx bx-x'></i></span>
-                                        </button>
-                                    </div>
-                                    TempData["Error"] = null;
-                                }
                                     <div class="card-body">
                                         <div class="row mb-sm-2">
                                             <div class="col-md-5 text-md-right">
                                                 <label class="col-form-label">Course ID:</label>
                                             </div>
                                             <div class="col-md-7">
-                                                <span>
-                                                    @courseInfo.CourseId
+                                                <span id="course-id">
                                                 </span>
                                             </div>
                                         </div>
@@ -98,29 +67,7 @@
                                             <div class="col-md-5 text-md-right">
                                                 <label class="col-form-label">Status:</label>
                                             </div>
-                                            <div class="col-sm-7">
-                                                @{
-                                                    switch (courseInfo.Status)
-                                                    {
-                                                        case "Available":
-                                                            {
-                                                                <span class="outcome" style="float: left;">@courseInfo.Status</span>
-                                                                break;
-                                                            }
-                                                        case "Draft":
-                                                        case "Postponed":
-                                                            {
-                                                                <span class="approval" style="float: left;">@courseInfo.Status</span>
-                                                                break;
-                                                            }
-                                                        case "EndofService":
-                                                        case "Cancelled":
-                                                            {
-                                                                <span class="destroy" style="float: left;">@courseInfo.Status</span>
-                                                                break;
-                                                            }
-                                                    }
-                                                }
+                                            <div class="col-sm-7" id="course-status">
                                             </div>
                                         </div>
                                         <div class="row mb-sm-2">
@@ -128,8 +75,7 @@
                                                 <label class="col-form-label">Course Name:</label>
                                             </div>
                                             <div class="col-md-7">
-                                                <span>
-                                                    @courseInfo.CourseName
+                                                <span id="course-name">
                                                 </span>
                                             </div>
                                         </div>
@@ -138,8 +84,7 @@
                                                 <label class="col-form-label">Course Type:</label>
                                             </div>
                                             <div class="col-md-7">
-                                                <span>
-                                                    @courseInfo.CourseType
+                                                <span id="course-type">
                                                 </span>
                                             </div>
                                         </div>
@@ -148,8 +93,7 @@
                                                 <label class="col-form-label">Course Description:</label>
                                             </div>
                                             <div class="col-md-7">
-                                                <span>
-                                                    @courseInfo.Description
+                                                <span id="course-description">
                                                 </span>
                                             </div>
                                         </div>
@@ -158,8 +102,7 @@
                                                 <label class="col-form-label">Total Hours:</label>
                                             </div>
                                             <div class="col-md-7">
-                                                <span>
-                                                    @courseInfo.TotalHours
+                                                <span id="course-totalHours">
                                                 </span>
                                             </div>
                                         </div>
@@ -168,8 +111,7 @@
                                                 <label class="col-form-label">Required Age:</label>
                                             </div>
                                             <div class="col-md-7">
-                                                <span>
-                                                    @courseInfo.RequiredAge
+                                                <span id="course-requiredAge">
                                                 </span>
                                             </div>
                                         </div>
@@ -178,8 +120,7 @@
                                                 <label class="col-form-label">Difficulty:</label>
                                             </div>
                                             <div class="col-md-7">
-                                                <span>
-                                                    @courseInfo.Difficulty
+                                                <span id="course-difficulty">
                                                 </span>
                                             </div>
                                         </div>
@@ -188,8 +129,7 @@
                                                 <label class="col-form-label">Category:</label>
                                             </div>
                                             <div class="col-md-7">
-                                                <span>
-                                                    @courseInfo.Category
+                                                <span id="course-category">
                                                 </span>
                                             </div>
                                         </div>
@@ -198,8 +138,7 @@
                                                 <label class="col-form-label">Sessions amount:</label>
                                             </div>
                                             <div class="col-md-7">
-                                                <span>
-                                                    @courseInfo.SessionsAmount Session(s)
+                                                <span id="course-sessions-amount">
                                                 </span>
                                             </div>
                                         </div>
@@ -208,8 +147,7 @@
                                                 <label class="col-form-label">Classes amount:</label>
                                             </div>
                                             <div class="col-md-7">
-                                                <span>
-                                                    @courseInfo.ClassesAmount Class(es)
+                                                <span id="course-classes-amount">
                                                 </span>
                                             </div>
                                         </div>
@@ -220,32 +158,10 @@
                         <div class="col-12 customer-booking">
                             <div class="row">
                                 <div class="card profile col-12 mb-4">
-                                    <div class="card-header">
+                                    <div class="card-header" id="course-allow-add-session">
                                         <h4>Course's Session List</h4>
-                                        @{
-                                            if (courseInfo.Status.Equals("Draft") || courseInfo.Status.Equals("Postponed"))
-                                            {
-                                                <div class="edit-info">
-                                                    <i class='bx bxs-add-to-queue bx-sm' data-toggle="modal" data-target="#createSession"></i>
-                                                </div>
-                                            }
-                                        }
                                     </div>
-                                    <div class="card-body">
-                                        @{
-                                            if (sessionList != null && sessionList.Count > 0)
-                                            {
-                                                @foreach (var sessionInfo in sessionList)
-                                                {
-                                                    <partial name="PartialViews/_SessionDetails" model="sessionInfo"/>
-                                                    @*await Html.PartialAsync("PartialViews/_AdminSessionDetails", sessionInfo);*@
-                                                }
-                                            }
-                                            else
-                                            {
-                                                <h5>Empty Session list</h5>
-                                            }
-                                        }
+                                    <div class="card-body" id="session_list">
                                     </div>
                                 </div>
                             </div>
@@ -254,54 +170,19 @@
                 </div>
             </div>
         </div>
-        <div id="editCourse" class="modal fade" role="dialog">
+        <div id="changeCourseStatus" class="modal fade" role="dialog">
             <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
                 <div class="modal-content modal-addRoom">
                     <div class="modal-header">
-                        <h4 class="modal-title">Edit Course</h4>
+                        <h4 class="modal-title">Update Course Status</h4>
                     </div>
-                    <form asp-route-courseId="@courseInfo.CourseId" asp-page-handler="Update" method="post" id="form">
+                    <form method="post" id="updateCourseStatusForm">
                         <div class="modal-body">
                             <div class="row p-4">
                                 <div class="col-12">
                                     <div class="row form-group">
-                                        <label asp-for="@updateCourse.CourseName" class="col-md-3 col-form-label text-md-right"></label>
-                                        <input asp-for="@updateCourse.CourseName" value="@updateCourse.CourseName" type="text" placeholder="Course Name..." required class="form-control col-md-7">
-                                        <span asp-validation-for="@updateCourse.CourseName" id="error_message"
-                                                class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
-
-                                        <label asp-for="@updateCourse.CourseType" class="col-md-3 col-form-label text-md-right"></label>
-                                        <input asp-for="@updateCourse.CourseType" value="@updateCourse.CourseType" type="text" placeholder="Course Type..." required class="form-control col-md-7">
-                                        <span asp-validation-for="@updateCourse.CourseType" id="error_message"
-                                                class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
-
-                                        <label asp-for="@updateCourse.Description" class="col-md-3 col-form-label text-md-right"></label>
-                                        <textarea asp-for="@updateCourse.Description" value="@updateCourse.Description" required class="form-control col-md-7"></textarea>
-                                        <span asp-validation-for="@updateCourse.Description" id="error_message"
-                                                class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
-
-                                        <label asp-for="@updateCourse.TotalHours" class="col-md-3 col-form-label mt-3 text-md-right"></label>
-                                        <input asp-for="@updateCourse.TotalHours" value="@updateCourse.TotalHours" type="number" class="form-control col-md-7 mt-3" required>
-                                        <span asp-validation-for="@updateCourse.TotalHours" id="error_message"
-                                                class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
-
-                                        <label asp-for="@updateCourse.RequiredAge" class="col-md-3 col-form-label mt-3 text-md-right"></label>
-                                        <input asp-for="@updateCourse.RequiredAge" value="@updateCourse.RequiredAge" type="number" min="11" max="18" class="form-control col-md-7 mt-3" required>
-                                        <span asp-validation-for="@updateCourse.RequiredAge" id="error_message"
-                                                class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
-
-                                        <label asp-for="@updateCourse.Difficulty" class="col-md-3 col-form-label mt-3 text-md-right"></label>
-                                        <select class="form-control col-md-7 custom-select" asp-for="@updateCourse.Difficulty" asp-items="@updateCourse.DefaultCourseDifficultySelectList"></select>
-                                        <span asp-validation-for="@updateCourse.Difficulty" id="error_message"
-                                                class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
-
-                                        <label asp-for="@updateCourse.Category" class="col-md-3 col-form-label mt-3 text-md-right"></label>
-                                        <select class="form-control col-md-7 custom-select" asp-for="@updateCourse.Category" asp-items="@updateCourse.DefaultCourseCategorySelectList"></select>
-                                        <span asp-validation-for="@updateCourse.Category" id="error_message"
-                                                class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
-
-                                        <label asp-for="@updateCourse.Status" class="col-md-3 col-form-label mt-3 text-md-right"></label>
-                                        <select class="form-control col-md-7 custom-select" asp-for="@updateCourse.Status" asp-items="@updateCourse.DefaultCourseStatusSelectList"></select>
+                                        <label for="updateCourseStatus_Status" class="col-md-3 col-form-label mt-3 text-md-right">New Status (this action cannot be undone!)</label>
+                                        <select class="form-control col-md-7 custom-select" id="updateCourseStatus_Status"></select>
                                         <span asp-validation-for="@updateCourse.Status" id="error_message"
                                                 class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
                                     </div>
@@ -309,7 +190,64 @@
                             </div>
                         </div>
                         <div class="modal-footer justify-content-center">
-                            <button class="btn btn-success" type="submit" name="action" value="updateCourse">Save</button>
+                            <button class="btn btn-success" type="submit">Update</button>
+                            <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div id="editCourse" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+                <div class="modal-content modal-addRoom">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Edit Course Infomation</h4>
+                    </div>
+                    <form method="post" id="EditCourseForm">
+                        <div class="modal-body">
+                            <div class="row p-4">
+                                <div class="col-12">
+                                    <div class="row form-group">
+                                        <label asp-for="@updateCourse.CourseName" class="col-md-3 col-form-label text-md-right"></label>
+                                        <input asp-for="@updateCourse.CourseName" value="@updateCourse.CourseName" type="text" placeholder="Course Name..." required class="form-control col-md-7">
+                                        <span asp-validation-for="@updateCourse.CourseName" id="error_message"
+                                              class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                        <label asp-for="@updateCourse.CourseType" class="col-md-3 col-form-label text-md-right"></label>
+                                        <input asp-for="@updateCourse.CourseType" value="@updateCourse.CourseType" type="text" placeholder="Course Type..." required class="form-control col-md-7">
+                                        <span asp-validation-for="@updateCourse.CourseType" id="error_message"
+                                              class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                        <label asp-for="@updateCourse.Description" class="col-md-3 col-form-label text-md-right"></label>
+                                        <textarea asp-for="@updateCourse.Description" value="@updateCourse.Description" required class="form-control col-md-7"></textarea>
+                                        <span asp-validation-for="@updateCourse.Description" id="error_message"
+                                              class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                        <label asp-for="@updateCourse.TotalHours" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                        <input asp-for="@updateCourse.TotalHours" value="@updateCourse.TotalHours" type="number" class="form-control col-md-7 mt-3" required>
+                                        <span asp-validation-for="@updateCourse.TotalHours" id="error_message"
+                                              class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                        <label asp-for="@updateCourse.RequiredAge" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                        <input asp-for="@updateCourse.RequiredAge" value="@updateCourse.RequiredAge" type="number" min="11" max="18" class="form-control col-md-7 mt-3" required>
+                                        <span asp-validation-for="@updateCourse.RequiredAge" id="error_message"
+                                              class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                        <label asp-for="@updateCourse.Difficulty" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                        <select class="form-control col-md-7 custom-select" asp-for="@updateCourse.Difficulty"></select>
+                                        <span asp-validation-for="@updateCourse.Difficulty" id="error_message"
+                                              class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                        <label asp-for="@updateCourse.Category" class="col-md-3 col-form-label mt-3 text-md-right"></label>
+                                        <select class="form-control col-md-7 custom-select" asp-for="@updateCourse.Category"></select>
+                                        <span asp-validation-for="@updateCourse.Category" id="error_message"
+                                              class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer justify-content-center">
+                            <button class="btn btn-success" type="submit">Save</button>
                             <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
                         </div>
                     </form>
@@ -322,7 +260,7 @@
                     <div class="modal-header">
                         <h4 class="modal-title">Add new Session</h4>
                     </div>
-                    <form asp-route-courseId="@courseInfo.CourseId" asp-page-handler="Create" method="post" id="form">
+                    <form method="post" id="AddSessionForm">
                         <div class="modal-body">
                             <div class="row p-4">
                                 <div class="col-12">
@@ -347,18 +285,497 @@
                                         <span asp-validation-for="@createSession.Hours" id="error_message"
                                                 class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
-                                        <input asp-for="@createSession.CourseName" value="@courseInfo.CourseName" type="text" required hidden readonly>
+                                        <input asp-for="@createSession.CourseName" type="text" required hidden readonly>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer justify-content-center">
-                            <button class="btn btn-success" type="submit" name="action" value="createSession">Create</button>
+                            <button class="btn btn-success" type="submit" >Create</button>
                             <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
+        <script>
+            var token = sessionStorage.getItem('token');
+            var apiUrl = sessionStorage.getItem('apiUrl');
+            // var questionList = [];
+            var sesssionList = [];
+            $(document).ready(function () {
+                callApiGetCourseDetail();
+                $('#EditCourseForm').submit(function (event) {
+                    event.preventDefault(); // Prevent the form from submitting normally
+
+                    //Get the form data
+                    var formData = {
+                        courseName: $('input[id="updateCourse_CourseName"]').val(),
+                        courseType: $('input[id="updateCourse_CourseType"]').val(),
+                        description: $('textarea[id="updateCourse_Description"]').val(),
+                        totalHours: $('input[id="updateCourse_TotalHours"]').val(),
+                        requiredAge: $('input[id="updateCourse_RequiredAge"]').val(),
+                        difficulty: $('select[id="updateCourse_Difficulty"]').val(),
+                        category: $('select[id="updateCourse_Category"]').val()
+                    };
+
+                    //Make the AJAX request
+                    callApiPutUpdateCourse(formData);
+                    $('#EditCourseForm').trigger("reset");
+                });
+                $('#updateCourseStatusForm').submit(function (event) {
+                    event.preventDefault(); // Prevent the form from submitting normally
+
+                    //Get the form data
+                    // var formData = {
+                    //     status: $('select[id="updateCourseStatus_Status"]').val()
+                    // };
+
+                    //Make the AJAX request
+                    callApiPutUpdateCourseStatus($('select[id="updateCourseStatus_Status"]').val());
+                    $('#updateCourseStatusForm').trigger("reset");
+                });
+                $('#AddSessionForm').submit(function (event) {
+                    event.preventDefault(); // Prevent the form from submitting normally
+
+                    var formData = {
+                            number: $('#createSession_Number').val(),
+                            title: $('#createSession_Title').val(),
+                            description: $('#createSession_Description').val(),
+                            hours: $('#createSession_Hours').val(),
+                            courseName: $('#createSession_CourseName').val()
+                        };
+                    console.log(formData);
+                    callApiPostCreateSession(formData);
+                    $('#AddSessionForm').trigger("reset");
+                });
+                $(document).on('submit', 'form[id^="editSessionForm_"]', function (event) {
+                    event.preventDefault();
+                    // Extract the answerId from the form's id
+                    let sessionId = $(this).attr('id').split('_')[1];
+
+                    // Collect form data
+                    let formData = {
+                        number: $('#updateSession_' + sessionId + '_Number').val(),
+                        title: $('#updateSession_' + sessionId + '_Title').val(),
+                        description: $('#updateSession_' + sessionId + '_Description').val(),
+                        hours: $('#updateSession_' + sessionId + '_Hours').val(),
+                    };
+
+                    // Call the API to update the answer
+                    callApiPutUpdateSession(formData, sessionId);
+
+                    // Optionally reset the form
+                    //$(this).trigger("reset");
+                });
+            });
+            // Function to display alerts
+            function showAlert(type, message) {
+                var alertHtml = '';
+
+                if (type === 'success') {
+                    alertHtml = `
+                                    <div class="alert alert-success alert-dismissible fade show" id="notif">
+                                        <i class='bx bx-message-alt-x p-1'></i>
+                                        <strong class="mr-1">` + message + `</strong>
+                                        <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+                                            <span><i class='bx bx-x'></i></span>
+                                        </button>
+                                    </div>
+                                `;
+                } else if (type === 'error') {
+                    alertHtml = `
+                                    <div class="alert alert-danger alert-dismissible fade show" id="notif">
+                                        <i class='bx bx-message-alt-x p-1'></i>
+                                        <strong class="mr-1">` + message + `</strong>
+                                        <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+                                            <span><i class='bx bx-x'></i></span>
+                                        </button>
+                                    </div>
+                                `;
+                }
+
+                // Inject the alert HTML into the alert container
+                $('#alertContainer').html(alertHtml);
+            }
+            function callApiPutUpdateCourse(formData) {
+                $.ajax({
+                    url: apiUrl + 'Course/'+ @Model.CourseID + '/Update', // Specify your Razor Page here
+                    type: 'PUT',
+                    data: JSON.stringify(formData),
+                    headers: {
+                        'Authorization': 'Bearer ' + token, // Token for authentication
+                    },
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (response) {
+                        // Handle success (display a success message or redirect, etc.)
+                        if (response.status) {
+                            showAlert('success', "Course update successfully");
+                            callApiGetCourseDetail();
+                        } else {
+                            showAlert('error', response.errorMessage);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle error (display the validation message, etc.)
+                        showAlert('error',"Error in api call:" + error);
+                    }
+                });
+            }
+            function callApiPutUpdateCourseStatus(formData) {
+                $.ajax({
+                    url: apiUrl + 'Course/'+ @Model.CourseID + '/Update/Status', // Specify your Razor Page here
+                    type: 'PUT',
+                    data: JSON.stringify(formData),
+                    headers: {
+                        'Authorization': 'Bearer ' + token, // Token for authentication
+                    },
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (response) {
+                        // Handle success (display a success message or redirect, etc.)
+                        if (response.status) {
+                            showAlert('success', "Course Status update successfully");
+                            callApiGetCourseDetail();
+                        } else {
+                            showAlert('error', response.errorMessage);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle error (display the validation message, etc.)
+                        showAlert('error',"Error in api call:" + error);
+                    }
+                });
+            }
+            function callApiPostCreateSession(formData) {
+                $.ajax({
+                    url: apiUrl + 'Session/Create', // Specify your Razor Page here
+                    type: 'POST',
+                    data: JSON.stringify(formData),
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (response) {
+                        // Handle success (display a success message or redirect, etc.)
+                        if (response.status) {
+                            showAlert('success', "Session create successfully");
+                            callApiGetCourseDetail();
+                        } else {
+                            showAlert('error', response.errorMessage);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle error (display the validation message, etc.)
+                        showAlert('error',"Error in api call:" + error);
+                    }
+                });
+            }
+            function callApiPutUpdateSession(formData, sessionId) {
+                $.ajax({
+                    url: apiUrl + 'Session/' + sessionId + '/Update', // Specify your Razor Page here
+                    type: 'PUT',
+                    data: JSON.stringify(formData),
+                    headers: {
+                        'Authorization': 'Bearer ' + token, // Token for authentication
+                    },
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (response) {
+                        // Handle success (display a success message or redirect, etc.)
+                        if (response.status) {
+                            showAlert('success', "Session update successfully");
+                            $('.modal-backdrop').remove();
+                            // Remove specific class from body
+                            $('body').removeClass('modal-open');
+
+                            // Remove all inline styles from body
+                            $('body').removeAttr('style');
+                            callApiGetCourseDetail();
+                        } else {
+                            showAlert('error', response.errorMessage);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle error (display the validation message, etc.)
+                        showAlert('error',"Error in api call:" + error);
+                    }
+                });
+            }
+            function callApiGetCourseDetail() {
+                $.ajax({
+                    url: apiUrl + 'Course/' + @Model.CourseID , // API endpoint
+                    type: 'GET',
+                    success: function (response) {
+                        // Log the entire response to the console for debugging
+                        // Check if the status is true
+                        if (response.status) {
+                            setCourseDisplay(response.data);
+                            // Check if homeworkAnswers is empty
+                            if (response.data.sessions && response.data.sessions.length > 0) {
+                                // Clear any existing answers
+                                $('#session_list').empty();
+
+                                sessionList = response.data.sessions;
+                                // Loop through each answer and generate the HTML
+                                response.data.sessions.forEach(function (session) {
+                                    let sessionHtml = generateSessionHtml(session, response.data.status); // Assuming both sessionInfo and updateAnswer are the same structure
+                                    $('#session_list').append(sessionHtml);
+                                });
+                            } else {
+                                // If the answer list is empty
+                                $('#session_list').html('<h5>No sessions found</h5>');
+                            }
+                        } else {
+                            console.error("API returned false status.");
+                        }
+                    },
+                    error: function (error) {
+                        alert("Error in api call:" + error);
+                        console.error("Error in api call:", error);
+                        //showAlert('success', 'Data fetched successfully.');
+                    }
+                });
+            }
+            function generateSessionHtml(sessionInfo, status) {
+                var sessionUpdateToggleHtml = status === 'Draft' || status === 'Postponed' ? `
+                    <div class="edit-info">
+                        <i class='bx bxs-edit bx-sm' data-toggle="modal" data-target="#editsession_${sessionInfo.sessionId}"></i>
+                    </div>
+                ` : '';
+                var sessionUpdateHtml = status === 'Draft' || status === 'Postponed' ? `
+                    <div id="editsession_${sessionInfo.sessionId}" class="modal fade" role="dialog">
+                        <div class="modal-dialog modal-dialog-centered modal-lg" role="content">
+                            <div class="modal-content modal-addRoom">
+                                <div class="modal-header">
+                                    <h4 class="modal-title truncate">Update Session ${sessionInfo.title}</h4>
+                                </div>
+                                <form method="post" id="editSessionForm_${sessionInfo.sessionId}" class="form-group">
+                                    <div class="modal-body">
+                                        <div class="col-12">
+                                            <div class="form-group row">
+                                                <label for="updateSession_${sessionInfo.sessionId}_Title" class="col-sm-4 col-form-label">Title</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" id="updateSession_${sessionInfo.sessionId}_Title" required class="form-control" value="${sessionInfo.title}">
+                                                    <span id="error_message"
+                                                            class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="updateSession_${sessionInfo.sessionId}_Description" class="col-sm-4 col-form-label">Description</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" id="updateSession_${sessionInfo.sessionId}_Description" required class="form-control" value="${sessionInfo.description}">
+                                                    <span id="error_message"
+                                                            class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="updateSession_${sessionInfo.sessionId}_Number" class="col-sm-4 col-form-label">Number</label>
+                                                <div class="col-sm-8">
+                                                    <input type="number" id="updateSession_${sessionInfo.sessionId}_Number" min="1" required class="form-control" value="${sessionInfo.number}">
+                                                    <span id="error_message"
+                                                            class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="updateSession_${sessionInfo.sessionId}_Hours" class="col-sm-4 col-form-label">Hours to learn</label>
+                                                <div class="col-sm-8">
+                                                    <input type="number" id="updateSession_${sessionInfo.sessionId}_Hours" min="1" required class="form-control" value="${sessionInfo.hours}">
+                                                    <span id="error_message"
+                                                            class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer justify-content-center">
+                                        <button class="btn btn-success" type="submit">Save</button>
+                                        <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                ` : '';
+                var statusText = '';
+                switch (status) {
+                    case 'Available':
+                        statusText = `<span class="outcome" style="float: left;">${status}</span>`
+                        break;
+                    case 'Draft':
+                    case 'Postponed':
+                        statusText = `<span class="approval" style="float: left;">${status}</span>`
+                        break;
+                    case 'EndofService':
+                    case 'Cancelled':
+                        statusText = `<span class="destroy" style="float: left;">${status}</span>`
+                        break;
+                }
+                // <div class="row mb-sm-2">
+                //     <div class="col-md-5 text-md-right">
+                //         <label class="col-form-label">Status:</label>
+                //     </div>
+                //     <div class="col-sm-7">
+                //         ` + statusText + `
+                //     </div>
+                // </div>
+                return `
+                    <div class="card-header">
+                        <h5>Session ${sessionInfo.number} <label class="truncate">${sessionInfo.title}</label> Details</h5>
+                        ` + sessionUpdateToggleHtml + `
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-sm-2">
+                            <div class="col-md-5 text-md-right">
+                                <label class="col-form-label">Session ID:</label>
+                            </div>
+                            <div class="col-md-7">
+                                <span>${sessionInfo.sessionId}</span>
+                            </div>
+                        </div>
+                        <div class="row mb-sm-2">
+                            <div class="col-sm-5 text-sm-right">
+                                <label for="meeting-name">Title:</label>
+                            </div>
+                            <div class="col-sm-7 text-sm-left">
+                                <span>${sessionInfo.title}</span>
+                            </div>
+                        </div>
+                        <div class="row mb-sm-2">
+                            <div class="col-sm-5 text-sm-right">
+                                <label for="meeting-name">Description:</label>
+                            </div>
+                            <div class="col-sm-7 text-sm-left">
+                                <span>${sessionInfo.description}</span>
+                            </div>
+                        </div>
+                        <div class="row mb-sm-2">
+                            <div class="col-sm-5 text-sm-right">
+                                <label for="meeting-name">Hours to learn:</label>
+                            </div>
+                            <div class="col-sm-7 text-sm-left">
+                                <span>${sessionInfo.hours}</span>
+                            </div>
+                        </div>
+                        <div class="row mb-sm-2">
+                            <div class="col-sm-5 text-sm-right">
+                                <label for="meeting-name">Homeworks Amount:</label>
+                            </div>
+                            <div class="col-sm-7 text-sm-left">
+                                <span>${sessionInfo.homeworks.length} Homework(s)</span>
+                            </div>
+                        </div>
+                        <div class="card-body d-flex justify-content-center">
+                            <a class="btn btn-success" href="/Admin/Course/` + @Model.CourseID + `/Session/${sessionInfo.sessionId}/Info">More Info</a>
+                        </div>
+                    </div>
+                    <hr class="container my-0">
+                    ` + sessionUpdateHtml;
+            }
+
+            function getDifficultyOptions(selectedDifficulty) {
+                var options = ['Beginner', 'Intermediate','Advanced']; // Example statuses
+                var html = '';
+
+                options.forEach(function (difficult) {
+                    html += `<option value="${difficult}" ${selectedDifficulty === difficult ? 'selected' : ''}>${difficult}</option>`;
+                });
+
+                return html;
+            }
+            function getCategoryOptions(selectedCategory) {
+                var options = ['Middle School', 'High School']; // Example statuses
+                var html = '';
+
+                options.forEach(function (category) {
+                    html += `<option value="${category}" ${selectedCategory === category ? 'selected' : ''} >${category}</option>`;
+                });
+
+                return html;
+            }
+            function getStatusOptions(selectedStatus) {
+                var options = ['Draft', 'Available','Postponed','Cancelled','EndofService']; // Example statuses
+                var html = '';
+                switch (selectedStatus) {
+                    case 'Available':
+                        options = ['Available','Postponed','Cancelled','EndofService']
+                        break;
+                    case 'Draft':
+                        options = ['Draft', 'Available']
+                        break;
+                    case 'Postponed':
+                        options = ['Available','Postponed','Cancelled','EndofService']
+                        break;
+                    case 'EndofService':
+                        options = ['Available','EndofService']
+                        break;
+                    case 'Cancelled':
+                        options = ['Available','Cancelled','EndofService']
+                        break;
+                }
+                options.forEach(function (status) {
+                    html += `<option value="${status}" ${selectedStatus === status ? 'selected' : ''} >${status}</option>`;
+                });
+
+                return html;
+            }
+            function setCourseDisplay(data) {
+                var titleStatusHtml = data.status === 'Draft' || data.status === 'Postponed' ? `
+                                <div class="edit-info" id="course-course-status">
+                                    <i class='bx bxs-adjust bx-sm' data-toggle="modal" data-target="#changeCourseStatus"></i>
+                                    <i class='bx bxs-edit bx-sm' data-toggle="modal" data-target="#editCourse"></i>
+                                </div>
+                                ` : '';
+                var sessionAddHtml = data.status === 'Draft' || data.status === 'Postponed' ? `
+                                <div class="edit-info" id="course-add-session">
+                                    <i class='bx bxs-add-to-queue bx-sm' data-toggle="modal" data-target="#createSession"></i>
+                                </div>
+                                ` : '';
+                var statusText = '';
+                switch (data.status) {
+                    case 'Available':
+                        statusText = `<span class="outcome" style="float: left;">${data.status}</span>`
+                        break;
+                    case 'Draft':
+                    case 'Postponed':
+                        statusText = `<span class="approval" style="float: left;">${data.status}</span>`
+                        break;
+                    case 'EndofService':
+                    case 'Cancelled':
+                        statusText = `<span class="destroy" style="float: left;">${data.status}</span>`
+                        break;
+                }
+                $('#updateCourse_Difficulty').empty();
+                $('#updateCourseStatus_Status').empty();
+                $('#updateCourse_Category').empty();
+                $('#createSession_CourseName').empty();
+
+                $('#course-title-status').find('#course-course-status').remove();
+                $('#course-allow-add-session').find('#course-add-session').remove();
+                $('#course-status').empty();
+
+                $('#course-id').text(data.courseId);
+                $('#course-title-status').append(titleStatusHtml);
+                $('#course-allow-add-session').append(sessionAddHtml);
+                $('#course-course-title').text(data.courseName);
+                $('#course-name').text(data.courseName);
+                $('#course-status').append(statusText);
+                $('#course-description').text(data.description);
+                $('#course-totalHours').text(data.totalHours);
+                $('#course-type').text(data.courseType);
+                $('#course-requiredAge').text(data.requiredAge);
+                $('#course-difficulty').text(data.difficulty);
+                $('#course-category').text(data.category);
+                $('#course-sessions-amount').text(data.sessions.length + ' Session(s)');
+                $('#course-classes-amount').text(data.classes.length + ' Class(es)');
+
+                $('#createSession_CourseName').val(data.courseName);
+
+
+                $('input[id="updateCourse_CourseName"]').val(data.courseName);
+                $('input[id="updateCourse_CourseType"]').val(data.courseType);
+                $('textarea[id="updateCourse_Description"]').val(data.description);
+                $('input[id="updateCourse_TotalHours"]').val(data.totalHours);
+                $('input[id="updateCourse_RequiredAge"]').val(data.requiredAge);
+                $('select[id="updateCourse_Difficulty"]').append(getDifficultyOptions(data.difficulty));
+                $('select[id="updateCourse_Category"]').append(getCategoryOptions(data.category));
+
+                $('select[id="updateCourseStatus_Status"]').append(getStatusOptions(data.status));
+            }
+        </script>
     </body>
 </html>

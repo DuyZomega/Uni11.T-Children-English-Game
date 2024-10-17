@@ -21,9 +21,31 @@ namespace CEG_DAL.Repositories.Implements
         public async Task<Course?> GetByIdNoTrackingInclude(int id)
         {
             return await _dbContext.Courses
-                .Include(c => c.Sessions)
-                .ThenInclude(s => s.Homeworks)
-                .Include(c => c.Classes)
+                .Select(c => new Course()
+                {
+                    CourseId = c.CourseId,
+                    CourseName = c.CourseName,
+                    CourseType = c.CourseType,
+                    Description = c.Description,
+                    Difficulty = c.Difficulty,
+                    Category = c.Category,
+                    Image = c.Image,
+                    RequiredAge = c.RequiredAge,
+                    TotalHours = c.TotalHours,
+                    Status = c.Status,
+                    Sessions = c.Sessions.Select(s => new Session
+                    {
+                        SessionId = s.SessionId,
+                        Title = s.Title,
+                        Description = s.Description,
+                        Hours = s.Hours,
+                        Number = s.Number,
+                        Status = s.Status,
+                        // Get all the associated homework
+                        Homeworks = s.Homeworks
+                    }).ToList(),
+                    Classes = c.Classes
+                })
                 .AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(cou => cou.CourseId == id);
         }
 
