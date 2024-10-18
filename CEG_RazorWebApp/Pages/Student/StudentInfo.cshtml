@@ -2,9 +2,9 @@
 @model CEG_RazorWebApp.Pages.Student.StudentInfoModel
 @{
     ViewData["Title"] = "Student Info Page";
-    var studentInfo = Model.StudentInfo;
+    // var studentInfo = Model.StudentInfo;
     Layout = Model.LayoutUrl;
-    var studentId = Model.StudentId;
+    // var studentId = Model.StudentId;
 }
 <html lang="en">
 <head>
@@ -32,7 +32,7 @@
                             <li class="breadcrumd-item">
                                 <span>/</span>
                             </li>
-                            <li class="breadcrumd-item">
+                            @*<li class="breadcrumd-item">
                                 <a href="/Admin/Account/@studentId/Info">@studentId</a>
                             </li>
                             <li class="breadcrumd-item">
@@ -40,7 +40,7 @@
                             </li>
                             <li class="breadcrumd-item">
                                 <a href="/Admin/Account/@studentId/Info">Info</a>
-                            </li>
+                            </li>*@
                         </ol>
                     </div>
                 </div>
@@ -163,7 +163,7 @@
                 $('#alertContainer').html(alertHtml);
             }
         });
-        function callApiGetAccountDetail() {
+        @*function callApiGetAccountDetail() {
             $.ajax({
                 url: apiUrl + 'Account/@studentId', // API endpoint
                 type: 'GET',
@@ -189,7 +189,7 @@
                     //showAlert('success', 'Data fetched successfully.');
                 }
             });
-        }
+        }*@
         function setAccountDisplay(data) {
             $('#account-id').text(data.studentId);
             $('#account-username').text(data.username);

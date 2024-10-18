@@ -13,6 +13,7 @@ namespace CEG_RazorWebApp.Libraries
         public readonly static string LOGOUT_REDIRECT_URL = "/Home/Index";
 
         public readonly static string ADMIN_LAYOUT_URL = "~/Pages/Shared/_ALayout.cshtml";
+        public readonly static string TEACHER_LAYOUT_URL = "~/Pages/Shared/_TLayout.cshtml";
         public readonly static string PARENT_LAYOUT_URL = "~/Pages/Shared/_PLayout.cshtml";
         //public readonly static string NEW_MEMBER_CONFIRM_REGISTRATION_URL = "/Auth/SignUp";
 

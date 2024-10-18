@@ -36,10 +36,12 @@
 								<div class="form-group">
 									<input placeholder="Username" asp-for="AuthenRequest.Username" class="form-control" />
 									<span asp-validation-for="AuthenRequest.Username" class="text-danger"></span>
+									<span id="error_message" class="helper-text text-danger"></span>
 								</div>
 								<div class="form-group">
-									<input type="password" placeholder="Password" asp-for="AuthenRequest.Password" class="form-control" />
+									<input type="password" placeholder="Password" asp-for="AuthenRequest.Password" class="form-control" minlength="6" maxlength="32" />
 									<span asp-validation-for="AuthenRequest.Password" class="text-danger"></span>
+									<span id="error_message" class="helper-text text-danger"></span>
 								</div>
 								<a href="#" class="float-end">Forgot Password?</a>
 								<button class="reg-button btn1 light-green" type="submit" value="Login">Login</button>
@@ -174,7 +176,65 @@
 					console.error("Error in api call:", error);
 				}
 			});
+    }
+		function formValidation() {
+			var isValid = true;
+			if ($("#FlowerBouquetName").val().trim() == "") {
+				$("#FlowerBouquetName-error").html("Name is required");
+				isValid = false;
+			} else {
+				$("#FlowerBouquetName-error").html("");
+			}
+
+			if ($("#Description").val().trim() == "") {
+				$("#Description-error").html("Description is required");
+				isValid = false;
+			} else {
+				$("#Description-error").html("");
+			}
+
+			if ($("#UnitPrice").val() <= 0) {
+				$("#UnitPrice-error").html("Unit price must be greater than 0");
+				isValid = false;
+			} else {
+				$("#UnitPrice-error").html("");
+			}
+
+			if ($("#UnitsInStock").val() <= 0) {
+				$("#UnitsInStock-error").html("Units in stock must be greater than 0");
+				isValid = false;
+			} else {
+				$("#UnitsInStock-error").html("");
+			}
+
+			if ($("#Category").val() == "") {
+				$("#Category-error").html("Category is required");
+				isValid = false;
+			} else {
+				$("#Category-error").html("");
+			}
+
+			if ($("#Supplier").val() == "") {
+				$("#Supplier-error").html("Supplier is required");
+				isValid = false;
+			} else {
+				$("#Supplier-error").html("");
+			}
+
+			return isValid;
 		}
+	</script>
+	<script>
+		Validator({
+			form: '#loginForm',
+			errorSelector: '#error_message',
+			rules: [
+				Validator.isNotEmpty('#userName'),
+				Validator.isRequired('#userName', 'Username or password is required'),
+				Validator.isNotEmpty('#password'),
+				Validator.minLength('#password', 1, 'Username or password is required'),
+			]
+		});
 	</script>
 </body>
 </html>

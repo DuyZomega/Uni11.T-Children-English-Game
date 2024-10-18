@@ -75,5 +75,68 @@ namespace CEG_BAL.Configurations
             }
             return false;
         }
+        public static bool IsClassNewStatusValid(string? currentStatus, string newStatus)
+        {
+            var validStatuses = Array.Empty<string>();
+            if (currentStatus == null) return false;
+            switch (currentStatus)
+            {
+                case var value when value.Equals(Constants.CLASS_STATUS_DRAFT):
+                    {
+                        validStatuses =
+                        [
+                            Constants.CLASS_STATUS_OPEN,
+                            Constants.CLASS_STATUS_DRAFT
+                        ];
+                        return validStatuses.Contains(newStatus);
+                    }
+                case var value when value.Equals(Constants.CLASS_STATUS_OPEN):
+                    {
+                        validStatuses =
+                        [
+                            Constants.CLASS_STATUS_OPEN,
+                            Constants.CLASS_STATUS_POSTPONED,
+                            Constants.CLASS_STATUS_CANCELLED,
+                            Constants.CLASS_STATUS_ENDED
+                        ];
+                        return validStatuses.Contains(newStatus);
+                    }
+                case var value when value.Equals(Constants.CLASS_STATUS_POSTPONED):
+                    {
+                        validStatuses =
+                        [
+                            Constants.CLASS_STATUS_POSTPONED,
+                            Constants.CLASS_STATUS_OPEN,
+                            Constants.CLASS_STATUS_CANCELLED,
+                            Constants.CLASS_STATUS_ENDED
+                        ];
+                        return validStatuses.Contains(newStatus);
+                    }
+                case var value when value.Equals(Constants.CLASS_STATUS_CANCELLED):
+                    {
+                        validStatuses =
+                        [
+                            Constants.CLASS_STATUS_CANCELLED,
+                            Constants.CLASS_STATUS_OPEN,
+                            Constants.CLASS_STATUS_ENDED
+                        ];
+                        return validStatuses.Contains(newStatus);
+                    }
+                case var value when value.Equals(Constants.CLASS_STATUS_ENDED):
+                    {
+                        validStatuses =
+                        [
+                            Constants.CLASS_STATUS_ENDED,
+                            Constants.CLASS_STATUS_OPEN          
+                        ];
+                        return validStatuses.Contains(newStatus);
+                    }
+                default:
+                    {
+                        break;
+                    }
+            }
+            return false;
+        }
     }
 }
