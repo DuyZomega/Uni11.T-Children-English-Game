@@ -1,0 +1,255 @@
+﻿@page "/Parent/Course/{courseId}/Info"
+@model CEG_RazorWebApp.Pages.Parent.Course.CourseInfoModel
+@{
+    ViewData["Title"] = "Parent Course Info Page";
+    var courseInfo = Model.CourseInfo;
+    Layout = Model.LayoutUrl;
+}
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>@ViewData["Title"]</title>
+    </head>
+    <body>
+        <div class="main-content">
+            <div class="main">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="offset-sm-6 col-sm-6  d-flex justify-content-sm-end p-md-0 mt-2 mt-sm-0 ">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumd-item">
+                                    <a href="#">Manage</a>
+                                </li>
+                                <li class="breadcrumd-item">
+                                    <span>/</span>
+                                </li>
+                                <li class="breadcrumd-item">
+                                    <a href="/Parent/Course/Index">Course</a>
+                                </li>
+                                <li class="breadcrumd-item">
+                                    <span>/</span>
+                                </li>
+                                <li class="breadcrumd-item">
+                                    <a href="/Parent/Course/@courseInfo.CourseId/Info">@courseInfo.CourseId</a>
+                                </li>
+                                <li class="breadcrumd-item">
+                                    <span>/</span>
+                                </li>
+                                <li class="breadcrumd-item">
+                                    <a href="/Parent/Course/@courseInfo.CourseId/Info">Info</a>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                <div class="row">
+                    <div class="col-12 customer-booking">
+                        <div class="row">
+                            <div class="card profile col-12 mb-4">
+                                <div class="card-header">
+                                    <h4>Course Information</h4>
+                                    @{
+                                        if (courseInfo.Status.Equals("Draft") || courseInfo.Status.Equals("Postponed"))
+                                        {
+                                            <div class="edit-info">
+                                                <i class='bx bxs-edit' data-toggle="modal" data-target="#editCourse"></i>
+                                            </div>
+                                        }
+                                    }
+                                </div>
+                                @if (TempData["Success"] != null)
+                                {
+                                    <div class="alert alert-success alert-dismissible fade show" id="notif">
+                                        <i class='bx bx-message-alt-x p-1'></i>
+                                        <strong class="mr-1">@TempData["Success"]</strong>
+                                        <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+                                            <span><i class='bx bx-x'></i></span>
+                                        </button>
+                                    </div>
+                                    TempData["Success"] = null;
+                                }
+                                else if (TempData["Error"] != null)
+                                {
+                                    <div class="alert alert-danger alert-dismissible fade show" id="notif">
+                                        <i class='bx bx-message-alt-x p-1'></i>
+                                        <strong class="mr-1">@TempData["Error"]</strong>
+                                        <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+                                            <span><i class='bx bx-x'></i></span>
+                                        </button>
+                                    </div>
+                                    TempData["Error"] = null;
+                                }
+                                <div class="card-body">
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Course ID:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span>
+                                                @courseInfo.CourseId
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Status:</label>
+                                        </div>
+                                        <div class="col-sm-7">
+                                            @{
+                                                switch (courseInfo.Status)
+                                                {
+                                                    case "Available":
+                                                        {
+                                                            <span class="outcome" style="float: left;">@courseInfo.Status</span>
+                                                            break;
+                                                        }
+                                                    case "Draft":
+                                                    case "Postponed":
+                                                        {
+                                                            <span class="approval" style="float: left;">@courseInfo.Status</span>
+                                                            break;
+                                                        }
+                                                    case "EndofService":
+                                                    case "Cancelled":
+                                                        {
+                                                            <span class="destroy" style="float: left;">@courseInfo.Status</span>
+                                                            break;
+                                                        }
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Course Name:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span>
+                                                @courseInfo.CourseName
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Course Type:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span>
+                                                @courseInfo.CourseType
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Course Description:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span>
+                                                @courseInfo.Description
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Total Hours:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span>
+                                                @courseInfo.TotalHours
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Required Age:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span>
+                                                @courseInfo.RequiredAge
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Difficulty:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span>
+                                                @courseInfo.Difficulty
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Category:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span>
+                                                @courseInfo.Category
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Sessions amount:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span>
+                                                @courseInfo.SessionsAmount Session(s)
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Classes amount:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span>
+                                                @courseInfo.ClassesAmount Class(es)
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 customer-booking">
+                        <div class="row">
+                            <div class="card profile col-12 mb-4">
+                                <div class="card-header">
+                                    <h4>Course's Session List</h4>
+                                    @{
+                                        if (courseInfo.Status.Equals("Draft") || courseInfo.Status.Equals("Postponed"))
+                                        {
+                                            <div class="edit-info">
+                                                <i class='bx bxs-add-to-queue' data-toggle="modal" data-target="#createSession"></i>
+                                            </div>
+                                        }
+                                    }
+                                </div>
+                                <div class="card-body">
+                                    @{ /*
+                                        if (sessionList != null && sessionList.Count > 0)
+                                        {
+                                            @foreach (var sessionInfo in sessionList)
+                                            {
+                                                <partial name="PartialViews/_SessionDetails" model="sessionInfo" />
+                                                @*await Html.PartialAsync("PartialViews/_AdminSessionDetails", sessionInfo);*@
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <h5>Empty Session list</h5>
+                                        }
+                                    */}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

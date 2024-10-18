@@ -16,6 +16,8 @@
 
         public int? Points { get; set; }
 
+        public int? Age { get; set; }
+
         public DateTime? Birthdate { get; set; }
 
         public string? Image { get; set; }
