@@ -17,11 +17,19 @@ public partial class Class
 
     public int? MaximumStudents { get; set; }
 
+    public int? NumberOfStudents { get; set; }
+
     public DateTime? StartDate { get; set; }
 
     public DateTime? EndDate { get; set; }
 
+    public string Status { get; set; } = null!;
+
     public virtual Course Course { get; set; } = null!;
+
+    public virtual ICollection<Enroll> Enrolls { get; set; } = new List<Enroll>();
+
+    public virtual ICollection<Schedule> Schedules { get; set; } = new List<Schedule>();
 
     public virtual ICollection<StudentProgress> StudentProgresses { get; set; } = new List<StudentProgress>();
 

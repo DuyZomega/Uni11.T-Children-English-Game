@@ -222,6 +222,8 @@ namespace CEG_BAL.AutoMapperProfile
                 .ReverseMap();
             CreateMap<HomeworkAnswer, HomeworkAnswerViewModel>()
                 .ReverseMap();
+            CreateMap<Transaction, TransactionViewModel>()
+                .ReverseMap();
         }
     }
 }

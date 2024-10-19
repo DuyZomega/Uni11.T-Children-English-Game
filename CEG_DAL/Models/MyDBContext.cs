@@ -40,9 +40,9 @@ public partial class MyDBContext : DbContext
 
     public virtual DbSet<Parent> Parents { get; set; }
 
-    public virtual DbSet<Payment> Payments { get; set; }
-
     public virtual DbSet<Role> Roles { get; set; }
+
+    public virtual DbSet<Schedule> Schedules { get; set; }
 
     public virtual DbSet<Session> Sessions { get; set; }
 
@@ -50,9 +50,11 @@ public partial class MyDBContext : DbContext
 
     public virtual DbSet<StudentHomework> StudentHomeworks { get; set; }
 
-    public virtual DbSet<StudentProgress> StudentProgress { get; set; }
+    public virtual DbSet<StudentProgress> StudentProgresses { get; set; }
 
     public virtual DbSet<Teacher> Teachers { get; set; }
+
+    public virtual DbSet<Transaction> Transactions { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -69,7 +71,7 @@ public partial class MyDBContext : DbContext
             entity.Property(e => e.Password).HasColumnName("password");
             entity.Property(e => e.RoleId).HasColumnName("role_id");
             entity.Property(e => e.Status)
-                .HasMaxLength(10)
+                .HasMaxLength(50)
                 .HasColumnName("status");
             entity.Property(e => e.Username).HasColumnName("username");
 
@@ -95,15 +97,19 @@ public partial class MyDBContext : DbContext
                 .HasColumnName("end_date");
             entity.Property(e => e.MaximumStudents).HasColumnName("maximum_students");
             entity.Property(e => e.MinimumStudents).HasColumnName("minimum_students");
+            entity.Property(e => e.NumberOfStudents).HasColumnName("number_of_students");
             entity.Property(e => e.StartDate)
                 .HasColumnType("datetime")
                 .HasColumnName("start_date");
+            entity.Property(e => e.Status)
+                .HasMaxLength(50)
+                .HasColumnName("status");
             entity.Property(e => e.TeacherId).HasColumnName("teacher_id");
 
             entity.HasOne(d => d.Course).WithMany(p => p.Classes)
                 .HasForeignKey(d => d.CourseId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Class_Course");
+                .HasConstraintName("FK_Class_Course1");
 
             entity.HasOne(d => d.Teacher).WithMany(p => p.Classes)
                 .HasForeignKey(d => d.TeacherId)
@@ -144,22 +150,33 @@ public partial class MyDBContext : DbContext
             entity.ToTable("Enroll");
 
             entity.Property(e => e.EnrollId).HasColumnName("enroll_id");
-            entity.Property(e => e.PaymentId).HasColumnName("payment_id");
             entity.Property(e => e.ClassId).HasColumnName("class_id");
-            entity.Property(e => e.RegistrationDate)
-                .HasColumnType("datetime")
-                .HasColumnName("registration_date");
             entity.Property(e => e.EnrolledDate)
                 .HasColumnType("datetime")
                 .HasColumnName("enrolled_date");
+            entity.Property(e => e.RegistrationDate)
+                .HasColumnType("datetime")
+                .HasColumnName("registration_date");
+            entity.Property(e => e.Status)
+                .HasMaxLength(50)
+                .HasColumnName("status");
             entity.Property(e => e.StudentId).HasColumnName("student_id");
+            entity.Property(e => e.TransactionId).HasColumnName("transaction_id");
 
-            // entity.HasOne(d => d.Payment).WithMany(p => p.Enrol)
+            entity.HasOne(d => d.Class).WithMany(p => p.Enrolls)
+                .HasForeignKey(d => d.ClassId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Enroll_Class");
 
             entity.HasOne(d => d.Student).WithMany(p => p.Enrolls)
                 .HasForeignKey(d => d.StudentId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Enroll_Student");
+
+            entity.HasOne(d => d.Transaction).WithMany(p => p.Enrolls)
+                .HasForeignKey(d => d.TransactionId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Enroll_Transaction");
         });
 
         modelBuilder.Entity<Game>(entity =>
@@ -191,9 +208,7 @@ public partial class MyDBContext : DbContext
             entity.ToTable("GameConfig");
 
             entity.Property(e => e.GameConfigId).HasColumnName("game_config_id");
-            entity.Property(e => e.CorrectAnswer)
-                .HasMaxLength(50)
-                .HasColumnName("correct_answer");
+            entity.Property(e => e.CorrectAnswer).HasColumnName("correct_answer");
             entity.Property(e => e.Point).HasColumnName("point");
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
@@ -228,9 +243,15 @@ public partial class MyDBContext : DbContext
 
             entity.Property(e => e.HomeworkId).HasColumnName("homework_id");
             entity.Property(e => e.Description).HasColumnName("description");
+            entity.Property(e => e.EndDate)
+                .HasColumnType("datetime")
+                .HasColumnName("end_date");
             entity.Property(e => e.GameConfigId).HasColumnName("game_config_id");
             entity.Property(e => e.Hours).HasColumnName("hours");
             entity.Property(e => e.SessionId).HasColumnName("session_id");
+            entity.Property(e => e.StartDate)
+                .HasColumnType("datetime")
+                .HasColumnName("start_date");
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .HasColumnName("status");
@@ -262,7 +283,6 @@ public partial class MyDBContext : DbContext
 
             entity.HasOne(d => d.HomeworkQuestion).WithMany(p => p.HomeworkAnswers)
                 .HasForeignKey(d => d.HomeworkQuestionId)
-                //.OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_HomeworkAnswer_HomeworkQuestion");
         });
 
@@ -278,7 +298,6 @@ public partial class MyDBContext : DbContext
 
             entity.HasOne(d => d.Homework).WithMany(p => p.HomeworkQuestions)
                 .HasForeignKey(d => d.HomeworkId)
-                //.OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_HomeworkQuestion_Homework");
         });
 
@@ -295,7 +314,6 @@ public partial class MyDBContext : DbContext
 
             entity.HasOne(d => d.Homework).WithMany(p => p.HomeworkResults)
                 .HasForeignKey(d => d.HomeworkId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_HomeworkResult_Homework");
 
             entity.HasOne(d => d.StudentProgress).WithMany(p => p.HomeworkResults)
@@ -322,31 +340,6 @@ public partial class MyDBContext : DbContext
                 .HasConstraintName("FK_Parents_Accounts");
         });
 
-        modelBuilder.Entity<Payment>(entity =>
-        {
-            entity.HasKey(e => e.PaymentId).HasName("PK_Payment_1");
-
-            entity.ToTable("Payment");
-
-            entity.Property(e => e.PaymentId).HasColumnName("payment_id");
-            entity.Property(e => e.ConfirmDate)
-                .HasColumnType("datetime")
-                .HasColumnName("confirm_date");
-            entity.Property(e => e.ParentId).HasColumnName("parent_id");
-            entity.Property(e => e.PaymentDate)
-                .HasColumnType("datetime")
-                .HasColumnName("payment_date");
-            entity.Property(e => e.PaymentStatus).HasColumnName("payment_status");
-            entity.Property(e => e.PaymentType)
-                .HasMaxLength(50)
-                .HasColumnName("payment_type");
-
-            entity.HasOne(d => d.Parent).WithMany(p => p.Payments)
-                .HasForeignKey(d => d.ParentId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Payment_Parents");
-        });
-
         modelBuilder.Entity<Role>(entity =>
         {
             entity.ToTable("Role");
@@ -355,6 +348,36 @@ public partial class MyDBContext : DbContext
             entity.Property(e => e.RoleName)
                 .HasMaxLength(50)
                 .HasColumnName("role_name");
+        });
+
+        modelBuilder.Entity<Schedule>(entity =>
+        {
+            entity.ToTable("Schedule");
+
+            entity.Property(e => e.ScheduleId)
+                .ValueGeneratedNever()
+                .HasColumnName("schedule_id");
+            entity.Property(e => e.ClassId).HasColumnName("class_id");
+            entity.Property(e => e.DayOfWeek)
+                .HasMaxLength(50)
+                .HasColumnName("day_of_week");
+            entity.Property(e => e.EndTime).HasColumnName("end_time");
+            entity.Property(e => e.SessionId).HasColumnName("session_id");
+            entity.Property(e => e.StartTime).HasColumnName("start_time");
+            entity.Property(e => e.Status)
+                .HasMaxLength(50)
+                .IsFixedLength()
+                .HasColumnName("status");
+
+            entity.HasOne(d => d.Class).WithMany(p => p.Schedules)
+                .HasForeignKey(d => d.ClassId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Schedule_Class");
+
+            entity.HasOne(d => d.Session).WithMany(p => p.Schedules)
+                .HasForeignKey(d => d.SessionId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Schedule_Session");
         });
 
         modelBuilder.Entity<Session>(entity =>
@@ -393,11 +416,11 @@ public partial class MyDBContext : DbContext
                 .HasColumnName("birthdate");
             entity.Property(e => e.CurLevel).HasColumnName("cur_level");
             entity.Property(e => e.Description).HasColumnName("description");
-            entity.Property(e => e.Highscore).HasColumnName("highscore");
             entity.Property(e => e.Image).HasColumnName("image");
             entity.Property(e => e.ParentId).HasColumnName("parent_id");
             entity.Property(e => e.Playtime).HasColumnName("playtime");
             entity.Property(e => e.Points).HasColumnName("points");
+            entity.Property(e => e.TotalPoint).HasColumnName("total_point");
 
             entity.HasOne(d => d.Account).WithMany(p => p.Students)
                 .HasForeignKey(d => d.AccountId)
@@ -425,7 +448,6 @@ public partial class MyDBContext : DbContext
 
             entity.HasOne(d => d.Homework).WithMany(p => p.StudentHomeworks)
                 .HasForeignKey(d => d.HomeworkId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_StudentHomework_Homework");
 
             entity.HasOne(d => d.StudentProgress).WithMany(p => p.StudentHomeworks)
@@ -468,11 +490,11 @@ public partial class MyDBContext : DbContext
             entity.Property(e => e.TeacherId).HasColumnName("teacher_id");
             entity.Property(e => e.AccountId).HasColumnName("account_id");
             entity.Property(e => e.Address).HasColumnName("address");
+            entity.Property(e => e.Certificate).HasColumnName("certificate");
             entity.Property(e => e.Email)
                 .HasMaxLength(50)
                 .HasColumnName("email");
             entity.Property(e => e.Image).HasColumnName("image");
-            entity.Property(e => e.Certificate).HasColumnName("certificate");
             entity.Property(e => e.Phone)
                 .HasMaxLength(50)
                 .HasColumnName("phone");
@@ -481,6 +503,33 @@ public partial class MyDBContext : DbContext
                 .HasForeignKey(d => d.AccountId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Teacher_Accounts");
+        });
+
+        modelBuilder.Entity<Transaction>(entity =>
+        {
+            entity.HasKey(e => e.TransactionId).HasName("PK_Transaction_1");
+
+            entity.ToTable("Transaction");
+
+            entity.Property(e => e.TransactionId).HasColumnName("transaction_id");
+            entity.Property(e => e.ConfirmDate)
+                .HasColumnType("datetime")
+                .HasColumnName("confirm_date");
+            entity.Property(e => e.ParentId).HasColumnName("parent_id");
+            entity.Property(e => e.TransactionAmount).HasColumnName("transaction_amount");
+            entity.Property(e => e.TransactionDate)
+                .HasColumnType("datetime")
+                .HasColumnName("transaction_date");
+            entity.Property(e => e.TransactionStatus).HasColumnName("transaction_status");
+            entity.Property(e => e.TransactionType)
+                .HasMaxLength(50)
+                .HasColumnName("transaction_type");
+            entity.Property(e => e.VnpayId).HasColumnName("vnpay_id");
+
+            entity.HasOne(d => d.Parent).WithMany(p => p.Transactions)
+                .HasForeignKey(d => d.ParentId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Transaction_Parents");
         });
 
         OnModelCreatingPartial(modelBuilder);

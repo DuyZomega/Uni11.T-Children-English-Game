@@ -396,7 +396,7 @@ namespace CEG_WebAPI.Controllers
                 StudentViewModel stu = new StudentViewModel()
                 {
                     Description = newStu.Description,
-                    Highscore = newStu.Highscore,
+                    TotalPoints = newStu.TotalPoints,
                     Birthdate = newStu.Birthdate,
                 };
                 _studentService.Create(stu, newStu);

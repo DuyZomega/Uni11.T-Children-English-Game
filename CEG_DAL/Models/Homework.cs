@@ -17,17 +17,21 @@ public partial class Homework
 
     public string? Status { get; set; }
 
+    public DateTime? StartDate { get; set; }
+
+    public DateTime? EndDate { get; set; }
+
     public int? Hours { get; set; }
 
     public string? Type { get; set; }
 
     public virtual GameConfig? GameConfig { get; set; }
 
-    public virtual ICollection<HomeworkQuestion>? HomeworkQuestions { get; set; } = new List<HomeworkQuestion>();
+    public virtual ICollection<HomeworkQuestion> HomeworkQuestions { get; set; } = new List<HomeworkQuestion>();
 
     public virtual ICollection<HomeworkResult> HomeworkResults { get; set; } = new List<HomeworkResult>();
 
-    public virtual Session? Session { get; set; }
+    public virtual Session Session { get; set; } = null!;
 
     public virtual ICollection<StudentHomework> StudentHomeworks { get; set; } = new List<StudentHomework>();
 }

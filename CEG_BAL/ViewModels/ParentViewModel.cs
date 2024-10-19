@@ -19,7 +19,7 @@ namespace CEG_BAL.ViewModels
 
         public virtual AccountViewModel Account { get; set; } = null!;
 
-        public virtual ICollection<PaymentViewModel> Payments { get; set; } = new List<PaymentViewModel>();
+        public virtual ICollection<TransactionViewModel> Payments { get; set; } = new List<TransactionViewModel>();
 
         public virtual ICollection<StudentViewModel> Students { get; set; } = new List<StudentViewModel>();
     }

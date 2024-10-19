@@ -6,7 +6,7 @@
         {
             Account = new AccountViewModel();
         }
-        public int Highscore { get; set; }
+        public int TotalPoints { get; set; }
 
         public string Description { get; set; } = null!;
 

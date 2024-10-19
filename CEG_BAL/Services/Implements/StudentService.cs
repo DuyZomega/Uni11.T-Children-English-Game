@@ -44,7 +44,7 @@ namespace CEG_BAL.Services.Implements
                 acc.Account.Gender = newStu.Account.Gender;
                 acc.Account.Password = newStu.Account.Password;
                 acc.Description = newStu.Description;
-                acc.Highscore = newStu.Highscore;
+                acc.TotalPoint = newStu.TotalPoints;
                 acc.Birthdate = newStu.Birthdate;
                 acc.ParentId = _unitOfWork.ParentRepositories.GetIdByUsername(newStu.ParentUsername).Result;
             }

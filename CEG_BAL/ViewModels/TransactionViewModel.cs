@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CEG_BAL.ViewModels
 {
-    public class PaymentViewModel
+    public class TransactionViewModel
     {
         public DateTime PaymentDate { get; set; }
 
