@@ -165,7 +165,7 @@ namespace CEG_WebAPI.Controllers
         }
         [HttpPut("{id}/Update/Status")]
         [Authorize(Roles = "Teacher")]
-        [ProducesResponseType(typeof(CourseViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ClassViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> UpdateStatus(
