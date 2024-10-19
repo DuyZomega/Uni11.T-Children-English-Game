@@ -11,7 +11,7 @@ public partial class Student
 
     public int AccountId { get; set; }
 
-    public int Highscore { get; set; }
+    public int TotalPoint { get; set; }
 
     public string Description { get; set; } = null!;
 

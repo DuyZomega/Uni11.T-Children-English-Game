@@ -41,6 +41,8 @@ public partial class MyDBContext : DbContext
 
     public virtual DbSet<Role> Roles { get; set; }
 
+    public virtual DbSet<Schedule> Schedules { get; set; }
+
     public virtual DbSet<Session> Sessions { get; set; }
 
     public virtual DbSet<Student> Students { get; set; }
@@ -98,6 +100,9 @@ public partial class MyDBContext : DbContext
             entity.Property(e => e.StartDate)
                 .HasColumnType("datetime")
                 .HasColumnName("start_date");
+            entity.Property(e => e.Status)
+                .HasMaxLength(50)
+                .HasColumnName("status");
             entity.Property(e => e.TeacherId).HasColumnName("teacher_id");
 
             entity.HasOne(d => d.Course).WithMany(p => p.Classes)
@@ -344,6 +349,36 @@ public partial class MyDBContext : DbContext
                 .HasColumnName("role_name");
         });
 
+        modelBuilder.Entity<Schedule>(entity =>
+        {
+            entity.ToTable("Schedule");
+
+            entity.Property(e => e.ScheduleId)
+                .ValueGeneratedNever()
+                .HasColumnName("schedule_id");
+            entity.Property(e => e.ClassId).HasColumnName("class_id");
+            entity.Property(e => e.DayOfWeek)
+                .HasMaxLength(50)
+                .HasColumnName("day_of_week");
+            entity.Property(e => e.EndTime).HasColumnName("end_time");
+            entity.Property(e => e.SessionId).HasColumnName("session_id");
+            entity.Property(e => e.StartTime).HasColumnName("start_time");
+            entity.Property(e => e.Status)
+                .HasMaxLength(50)
+                .IsFixedLength()
+                .HasColumnName("status");
+
+            entity.HasOne(d => d.Class).WithMany(p => p.Schedules)
+                .HasForeignKey(d => d.ClassId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Schedule_Class");
+
+            entity.HasOne(d => d.Session).WithMany(p => p.Schedules)
+                .HasForeignKey(d => d.SessionId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Schedule_Session");
+        });
+
         modelBuilder.Entity<Session>(entity =>
         {
             entity.ToTable("Session");
@@ -380,11 +415,11 @@ public partial class MyDBContext : DbContext
                 .HasColumnName("birthdate");
             entity.Property(e => e.CurLevel).HasColumnName("cur_level");
             entity.Property(e => e.Description).HasColumnName("description");
-            entity.Property(e => e.Highscore).HasColumnName("highscore");
             entity.Property(e => e.Image).HasColumnName("image");
             entity.Property(e => e.ParentId).HasColumnName("parent_id");
             entity.Property(e => e.Playtime).HasColumnName("playtime");
             entity.Property(e => e.Points).HasColumnName("points");
+            entity.Property(e => e.TotalPoint).HasColumnName("total_point");
 
             entity.HasOne(d => d.Account).WithMany(p => p.Students)
                 .HasForeignKey(d => d.AccountId)
