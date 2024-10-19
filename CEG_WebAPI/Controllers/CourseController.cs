@@ -251,7 +251,7 @@ namespace CEG_WebAPI.Controllers
                         ErrorMessage = "Course Does Not Exist!"
                     });
                 }
-                bool isValid = CEG_BAL_Library.IsCourseNewStatusValid(result.Status,status);
+                bool isValid = CEG_BAL_Library.IsCourseNewStatusValid(result.Status,status) && result.Classes?.Count == 0;
                 if (isValid)
                 {
                     _courseService.UpdateStatus(id, status);

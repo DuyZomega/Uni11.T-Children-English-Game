@@ -50,7 +50,7 @@
                                 <div class="tab-content">
                                     <!-- home1 -->
                                     <div class="tab-pane active" id="home1" role="tabpanel">
-                                        <div class="row search">
+                                        @* <div class="row search">
                                             <div class="col-sm-12 d-flex">
                                                 <div class="col-sm-12 d-flex justify-content-end align-items-center">
                                                     <div>
@@ -62,23 +62,23 @@
                                                     <i class='bx bxs-add-to-queue bx-sm' data-toggle="modal" data-target="#createQuestion"></i>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div id="history-table_wrapper" class="dataTables_wrapper no-footer">
-                                            <table id="history-table"
+                                        </div> *@
+                                        <div id="question-table_wrapper" class="dataTables_wrapper no-footer">
+                                            <table id="question-table"
                                                    class="table table-striped table-bordered dataTable no-footer"
-                                                   aria-describedby="history-table_info">
+                                                   aria-describedby="question-table_info">
                                                 <thead>
                                                     <tr>
                                                         <th class="sorting sorting_asc" tabindex="0"
-                                                            aria-controls="history-table" rowspan="1"
+                                                            aria-controls="question-table" rowspan="1"
                                                             colspan="1" aria-sort="ascending"
-                                                            aria-label="Account User Name: activate to sort column ascending">
+                                                            aria-label="Question: activate to sort column ascending">
                                                             Question
                                                         </th>
                                                         <th class="sorting sorting_asc" tabindex="0"
-                                                            aria-controls="history-table" rowspan="1"
+                                                            aria-controls="question-table" rowspan="1"
                                                             colspan="1" aria-sort="ascending"
-                                                            aria-label="Account Full Name: activate to sort column ascending">
+                                                            aria-label="Answers amount: activate to sort column ascending">
                                                             Amount of Answers
                                                         </th>
                                                     </tr>
@@ -130,7 +130,21 @@
             var apiUrl = sessionStorage.getItem('apiUrl');
             var questionList = [];
             $(document).ready(function () {
-                callApiGetQuestionList();
+                new DataTable('#question-table', {
+                    ajax: {
+                        url: apiUrl + 'Question/All/Ordered',
+                        dataSrc: 'data',
+                        headers: {
+                            'Authorization': 'Bearer ' + token// Include the JWT token
+                        }
+                    },
+                    responsive: true,
+                    columns: [
+                        { data: 'question' },
+                        { data: 'answersAmount' },
+                    ]
+                });
+                //callApiGetQuestionList();
                 $('#createQuestionForm').submit(function (event) {
                     event.preventDefault(); // Prevent the form from submitting normally
 
@@ -143,18 +157,24 @@
                     callApiPostCreateQuestion(formData);
                     $('#createQuestionForm').trigger("reset");
                 });
-                $('#search').on('keyup', function (event) {
-                    // Get the search term
-                    var searchTerm = $(this).val().toLowerCase();
+                // $('#search').on('keyup', function (event) {
+                //     Get the search term
+                //     var searchTerm = $(this).val().toLowerCase();
 
-                    // Filter the classes based on the search term
-                    var filteredquestionList = questionList.filter(function (question) {
-                        return question.question.toLowerCase().includes(searchTerm);
-                    });
+                //     Filter the classes based on the search term
+                //     var filteredquestionList = questionList.filter(function (question) {
+                //         return question.question.toLowerCase().includes(searchTerm);
+                //     });
 
-                    // Display the filtered questionList
-                    setQuestionDisplay(filteredquestionList);
-                });
+                //     Display the filtered questionList
+                //     setQuestionDisplay(filteredquestionList);
+                // });
+            });
+            $('#question-table tbody').on('click', 'tr', function () {
+                var data = $('#question-table').DataTable().row(this).data();
+
+                window.location.href = '/Admin/Question/' + data.homeworkQuestionId + '/Info';
+                // alert('You clicked on ' + data.homeworkQuestionId + "'s row");
             });
             // Function to display alerts
             function showAlert(type, message) {
@@ -221,8 +241,7 @@
                         // Check if the status is true
                         if (response.status) {
                             questionList = response.data;
-
-                            setQuestionDisplay(questionList);
+                            //setQuestionDisplay(questionList);
                         } else {
                             console.error("API returned false status.");
                         }
@@ -234,28 +253,28 @@
                     }
                 });
             }
-            function setQuestionDisplay(data){
-                var tableBody = $('#history-table tbody'); // Reference to the <id="history-table"> element
-                tableBody.empty(); // Clear any existing options
-                // Loop through the data array and append each class div
-                $.each(data, function (index, question) {
-                    // Construct card HTML
-                    var rowHtml = `
-                        <tr class="${index % 2 === 0 ? 'even' : 'odd'}">
-                            <td class="sorting_1">
-                                <input type="hidden" name="listRequest[${index}].Question" value="${question.homeworkQuestionId}" class="form-control" />
-                                <a href="/Admin/Question/${question.homeworkQuestionId}/Info">${question.question}</a>
-                            </td>
-                            <td>
-                                <input type="hidden" name="listRequest[${index}].AnswerAmounts" value="${question.answerAmounts}" class="form-control" />
-                                ${question.answersAmount}
-                            </td>
-                        </tr>
-                    `;
-                    // Append the constructed HTML to the class list container
-                    tableBody.append(rowHtml);
-                });
-            }
+            // function setQuestionDisplay(data){
+            //     var tableBody = $('#question-table tbody'); Reference to the <id="question-table"> element
+            //     tableBody.empty(); Clear any existing options
+            //     Loop through the data array and append each class div
+            //     $.each(data, function (index, question) {
+            //         Construct card HTML
+            //         var rowHtml = `
+            //             <tr class="${index % 2 === 0 ? 'even' : 'odd'}">
+            //                 <td class="sorting_1">
+            //                     <input type="hidden" name="listRequest[${index}].Question" value="${question.homeworkQuestionId}" class="form-control" />
+            //                     <a href="/Admin/Question/${question.homeworkQuestionId}/Info">${question.question}</a>
+            //                 </td>
+            //                 <td>
+            //                     <input type="hidden" name="listRequest[${index}].AnswerAmounts" value="${question.answerAmounts}" class="form-control" />
+            //                     ${question.answersAmount}
+            //                 </td>
+            //             </tr>
+            //         `;
+            //         Append the constructed HTML to the class list container
+            //         tableBody.append(rowHtml);
+            //     });
+            // }
             function getStatusOptions(selectedStatus) {
                 var options = ['Inactive', 'Active', 'Expired','Denied','Suspended']; // Example statuses
                 var html = '';
