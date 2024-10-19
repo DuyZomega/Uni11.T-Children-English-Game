@@ -17,5 +17,6 @@ namespace CEG_DAL.Repositories.Interfaces
         Task<Teacher?> GetByEmail(string email);
         Task<Teacher?> GetByFullname(string fullname);
         Task<int> GetIdByUsername(string username);
+        Task<int> GetIdByAccountId(int id);
     }
 }

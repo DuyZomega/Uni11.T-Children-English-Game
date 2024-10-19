@@ -25,5 +25,6 @@ namespace CEG_BAL.ViewModels
 
         public TeacherViewModel? Teacher { get; set; }
         public CourseViewModel? Course { get; set; }
+        public string Status { get; set; }
     }
 }

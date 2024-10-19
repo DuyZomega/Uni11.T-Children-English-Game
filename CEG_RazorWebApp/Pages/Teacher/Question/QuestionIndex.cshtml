@@ -1,0 +1,288 @@
+﻿@page "/Teacher/Question/Index"
+@model CEG_RazorWebApp.Pages.Teacher.Question.QuestionIndexModel
+@{
+    ViewData["Title"] = "Teacher All Questions Page";
+    var createQuestion = Model.CreateQuestion;
+    Layout = Model.LayoutUrl;
+}
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>@ViewData["Title"]</title>
+    </head>
+    <body>
+        <div class="main-content">
+            <div class="main">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="offset-sm-6 col-sm-6  d-flex justify-content-sm-end p-md-0 mt-2 mt-sm-0 ">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumd-item">
+                                    <a href="#">Manage</a>
+                                </li>
+                                <li class="breadcrumd-item">
+                                    <span>/</span>
+                                </li>
+                                <li class="breadcrumd-item">
+                                    <a href="/Teacher/Question/Index">Question</a>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                    <section>
+                        <div class="card">
+                            <div class="card-body">
+                                <!-- Nav tabs -->
+                                <ul class="nav nav-tabs">
+                                    <!-- dung vong for o day -->
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-toggle="tab" href="#home1">
+                                            <i class='bx bx-home-alt-2'></i>
+                                            <span>All Questions</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            <div id="alertContainer"></div>
+
+                                <!-- Tab panes -->
+                                <div class="tab-content">
+                                    <!-- home1 -->
+                                    <div class="tab-pane active" id="home1" role="tabpanel">
+                                        <div class="row search">
+                                            <div class="col-sm-12 d-flex">
+                                                <div class="col-sm-12 d-flex justify-content-end align-items-center">
+                                                    <div>
+                                                        <label>
+                                                            <input id="search" class="form-control" type="text" placeholder="Search Question...">
+                                                            <i class='bx bx-search-alt'></i>
+                                                        </label>
+                                                    </div>
+                                                    <i class='bx bxs-add-to-queue bx-sm' data-toggle="modal" data-target="#createQuestion"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="history-table_wrapper" class="dataTables_wrapper no-footer">
+                                            <table id="history-table"
+                                                   class="table table-striped table-bordered dataTable no-footer"
+                                                   aria-describedby="history-table_info">
+                                                <thead>
+                                                    <tr>
+                                                        <th>
+                                                            Question
+                                                        </th>
+                                                        <th>
+                                                            Amount of Answers
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <!-- end tapnet -->
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+        <div id="createQuestion" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+                <div class="modal-content modal-addRoom">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Add new Homework Question</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" id="createQuestionForm">
+                            <div class="row p-4">
+                                <div class="col-12">
+                                    <div class="row form-group">
+                                        <label asp-for="@createQuestion.Question" class="col-md-3 col-form-label text-md-right"></label>
+                                        <textarea asp-for="@createQuestion.Question" value="@createQuestion.Question" required class="form-control col-md-7"></textarea>
+                                        <span asp-validation-for="@createQuestion.Question" id="error_message"
+                                              class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                    </div>
+                                </div>
+                                <div class="modal-footer justify-content-center" style="margin-left:400px;">
+                                    <button class="btn btn-success" type="submit" name="action" value="createQuestion">Create</button>
+                                    <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @* <partial name="PartialViews/_CreateTeacherPartial" model="new AccountIndexModel.CreateTeacherModel(createTeacher)"/> *@
+        <script>
+        var token = sessionStorage.getItem('token');
+        var apiUrl = sessionStorage.getItem('apiUrl');
+            var questionList = [];
+            $(document).ready(function () {
+                callApiGetQuestionList();
+                $('#createQuestionForm').submit(function (event) {
+                    event.preventDefault(); // Prevent the form from submitting normally
+
+                    // Get the form data
+                    var formData = {
+                        question: $('textarea[id="createQuestion_Question"]').val()
+                    };
+
+                    // Make the AJAX request
+                    callApiPostCreateQuestion(formData);
+                    $('#createQuestionForm').trigger("reset");
+                });
+                $('#search').on('keyup', function (event) {
+                    // Get the search term
+                    var searchTerm = $(this).val().toLowerCase();
+
+                    // Filter the classes based on the search term
+                    var filteredquestionList = questionList.filter(function (question) {
+                        return question.question.toLowerCase().includes(searchTerm);
+                    });
+
+                    // Display the filtered questionList
+                    setQuestionDisplay(filteredquestionList);
+                });
+            });
+            // Function to display alerts
+            function showAlert(type, message) {
+                var alertHtml = '';
+
+                if (type === 'success') {
+                    alertHtml = `
+                        <div class="alert alert-success alert-dismissible fade show" id="notif">
+                            <i class='bx bx-message-alt-x p-1'></i>
+                            <strong class="mr-1">` + message + `</strong>
+                            <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+                                <span><i class='bx bx-x'></i></span>
+                            </button>
+                        </div>
+                    `;
+                } else if (type === 'error') {
+                    alertHtml = `
+                        <div class="alert alert-danger alert-dismissible fade show" id="notif">
+                            <i class='bx bx-message-alt-x p-1'></i>
+                            <strong class="mr-1">` + message + `</strong>
+                            <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+                                <span><i class='bx bx-x'></i></span>
+                            </button>
+                        </div>
+                    `;
+                }
+
+                // Inject the alert HTML into the alert container
+                $('#alertContainer').html(alertHtml);
+            }
+            function callApiPostCreateQuestion(formData){
+                $.ajax({
+                    url: apiUrl + 'Question/Create', // Specify your Razor Page here
+                    type: 'POST',
+                    data: JSON.stringify(formData),
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (response) {
+                        // Handle success (display a success message or redirect, etc.)
+                        if (response.status) {
+                            alert('Question created successfully!');
+                            callApiGetQuestionList();
+                        } else {
+                            console.error("API returned false status.");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle error (display the validation message, etc.)
+                        alert("Error in api call:" + error);
+                        console.error("Error in api call:", error);
+                    }
+                });
+            }
+            function callApiGetQuestionList() {
+                $.ajax({
+                    url: apiUrl + 'Question/All/Question', // API endpoint
+                    type: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + token// Include the JWT token
+                    },
+                    success: function (response) {
+                        // Log the entire response to the console for debugging
+                        // console.log("Returned object:", response);
+
+                        // Check if the status is true
+                        if (response.status) {
+                            questionList = response.data;
+
+                            setQuestionDisplay(questionList);
+                        } else {
+                            console.error("API returned false status.");
+                        }
+                    },
+                    error: function (error) {
+                        alert("Error in api call:" + error);
+                        console.error("Error in api call:", error);
+                        //showAlert('success', 'Data fetched successfully.');
+                    }
+                });
+            }
+            function setQuestionDisplay(data){
+                var tableBody = $('#history-table tbody'); // Reference to the <id="history-table"> element
+                tableBody.empty(); // Clear any existing options
+                // Loop through the data array and append each class div
+                $.each(data, function (index, question) {
+                    // Construct card HTML
+                    var rowHtml = `
+                        <tr class="${index % 2 === 0 ? 'even' : 'odd'}">
+                            <td class="sorting_1">
+                                <input type="hidden" name="listRequest[${index}].Question" value="${question.homeworkQuestionId}" class="form-control" />
+                                <a href="/Teacher/Question/${question.homeworkQuestionId}/Info">${question.question}</a>
+                            </td>
+                            <td>
+                                <input type="hidden" name="listRequest[${index}].AnswerAmounts" value="${question.answerAmounts}" class="form-control" />
+                                ${question.answerAmounts}
+                            </td>
+                        </tr>
+                    `;
+                    // Append the constructed HTML to the class list container
+                    tableBody.append(rowHtml);
+                });
+            }
+            function getStatusOptions(selectedStatus) {
+                var options = ['Inactive', 'Active', 'Expired','Denied','Suspended']; // Example statuses
+                var html = '';
+
+                options.forEach(function (status) {
+                    html += `<option value="${status}" ${selectedStatus === status ? 'selected' : ''}>${status}</option>`;
+                });
+
+                return html;
+            }
+            function formatDate(date) {
+                let d = new Date(date);
+
+                // Get day, month, year
+                let day = String(d.getDate()).padStart(2, '0');
+                let month = String(d.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+                let year = d.getFullYear();
+
+                // Get hours, minutes
+                let hours = String(d.getHours()).padStart(2, '0');
+                let minutes = String(d.getMinutes()).padStart(2, '0');
+
+                // Optionally, get seconds
+                let seconds = String(d.getSeconds()).padStart(2, '0');
+
+                // Return the formatted date and time as `dd/mm/yyyy hh:mm`
+                return `${day}/${month}/${year} ${hours}:${minutes}`;
+
+                // If you want to include seconds as well, use this return:
+                // return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+            }
+
+        </script>
+    </body>
+</html>
+

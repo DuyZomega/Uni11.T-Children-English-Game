@@ -86,7 +86,12 @@ namespace CEG_BAL.Services.Implements
             if (parentId == 0) return null;
             return _mapper.Map<List<StudentViewModel>>(await _unitOfWork.StudentRepositories.GetStudentByParentId(parentId));
         }
-
+        public async Task<List<StudentViewModel>> GetStudentByClassId(int id)
+        {
+            var classId = await _unitOfWork.ClassRepositories.GetIdByClassId(id);
+            if (classId == 0) return null;
+            return _mapper.Map<List<StudentViewModel>>(await _unitOfWork.StudentRepositories.GetStudentByClassId(classId));
+        }
         public void Update(StudentViewModel student)
         {
             var stu = _mapper.Map<Student>(student);

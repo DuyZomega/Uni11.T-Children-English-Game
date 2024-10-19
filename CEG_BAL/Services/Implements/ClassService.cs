@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static CEG_BAL.Configurations.Constants;
 
 namespace CEG_BAL.Services.Implements
 {
@@ -69,10 +70,24 @@ namespace CEG_BAL.Services.Implements
         {
             return _mapper.Map<List<ClassViewModel>>(await _unitOfWork.ClassRepositories.GetClassListAdmin());
         }
-
+        public async Task<List<ClassViewModel>> GetClassListByTeacherAccountId(int id)
+        {
+            var teacherId = await _unitOfWork.TeacherRepositories.GetIdByAccountId(id);
+            if (teacherId == 0) return null;
+            return _mapper.Map<List<ClassViewModel>>(await _unitOfWork.ClassRepositories.GetClassListByTeacherId(teacherId));
+        }
         public void Update(ClassViewModel classModel)
         {
             var clas = _mapper.Map<Class>(classModel);
+            _unitOfWork.ClassRepositories.Update(clas);
+            _unitOfWork.Save();
+        }
+
+        public void UpdateStatus(int classId, string classStatus)
+        {
+            var clas = _unitOfWork.ClassRepositories.GetByIdNoTracking(classId).Result;
+            if (clas == null) return;
+            clas.Status = classStatus;
             _unitOfWork.ClassRepositories.Update(clas);
             _unitOfWork.Save();
         }
