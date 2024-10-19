@@ -50,20 +50,10 @@
                                 <div class="tab-content">
                                     <!-- home1 -->
                                     <div class="tab-pane active" id="home1" role="tabpanel">
-                                        @* <div class="row search">
-                                            <div class="col-sm-12 d-flex">
-                                                <div class="col-sm-12 d-flex justify-content-end align-items-center">
-                                                    <div>
-                                                        <label>
-                                                            <input id="search" class="form-control" type="text" placeholder="Search Question...">
-                                                            <i class='bx bx-search-alt'></i>
-                                                        </label>
-                                                    </div>
-                                                    <i class='bx bxs-add-to-queue bx-sm' data-toggle="modal" data-target="#createQuestion"></i>
-                                                </div>
-                                            </div>
-                                        </div> *@
                                         <div id="question-table_wrapper" class="dataTables_wrapper no-footer">
+                                            <div class="col-sm-12 d-flex justify-content-end align-items-center">
+                                                <i class='bx bxs-add-to-queue bx-sm' data-toggle="modal" data-target="#createQuestion"></i>
+                                            </div>
                                             <table id="question-table"
                                                    class="table table-striped table-bordered dataTable no-footer"
                                                    aria-describedby="question-table_info">
@@ -128,9 +118,11 @@
         <script>
             var token = sessionStorage.getItem('token');
             var apiUrl = sessionStorage.getItem('apiUrl');
+            var table;
             var questionList = [];
             $(document).ready(function () {
-                new DataTable('#question-table', {
+                //callApiGetQuestionList();
+                table = new DataTable('#question-table', {
                     ajax: {
                         url: apiUrl + 'Question/All/Ordered',
                         dataSrc: 'data',
@@ -138,13 +130,13 @@
                             'Authorization': 'Bearer ' + token// Include the JWT token
                         }
                     },
+                    deferRender: false,
                     responsive: true,
                     columns: [
                         { data: 'question' },
                         { data: 'answersAmount' },
                     ]
                 });
-                //callApiGetQuestionList();
                 $('#createQuestionForm').submit(function (event) {
                     event.preventDefault(); // Prevent the form from submitting normally
 
@@ -171,8 +163,15 @@
                 // });
             });
             $('#question-table tbody').on('click', 'tr', function () {
-                var data = $('#question-table').DataTable().row(this).data();
-
+                var table = $('#question-table').DataTable();
+                var data = table.row(this).data();
+                if ($(this).hasClass('selected')) {
+                    $(this).removeClass('selected');
+                }
+                else {
+                    table.$('tr.selected').removeClass('selected');
+                    $(this).addClass('selected');
+                }
                 window.location.href = '/Admin/Question/' + data.homeworkQuestionId + '/Info';
                 // alert('You clicked on ' + data.homeworkQuestionId + "'s row");
             });
@@ -214,45 +213,44 @@
                     success: function (response) {
                         // Handle success (display a success message or redirect, etc.)
                         if (response.status) {
-                            alert('Question created successfully!');
-                            callApiGetQuestionList();
+                            showAlert('success', "Question created successfully");
+                            table.ajax.reload();
                         } else {
                             console.error("API returned false status.");
                         }
                     },
                     error: function (xhr, status, error) {
+                        showAlert('error', "Error in api call:" + error);
                         // Handle error (display the validation message, etc.)
-                        alert("Error in api call:" + error);
                         console.error("Error in api call:", error);
                     }
                 });
             }
-            function callApiGetQuestionList() {
-                $.ajax({
-                    url: apiUrl + 'Question/All/Ordered', // API endpoint
-                    type: 'GET',
-                    headers: {
-                        'Authorization': 'Bearer ' + token// Include the JWT token
-                    },
-                    success: function (response) {
-                        // Log the entire response to the console for debugging
-                        // console.log("Returned object:", response);
+            // function callApiGetQuestionList() {
+            //     $.ajax({
+            //         url: apiUrl + 'Question/All/Ordered', API endpoint
+            //         type: 'GET',
+            //         headers: {
+            //             'Authorization': 'Bearer ' + tokenInclude the JWT token
+            //         },
+            //         success: function (response) {
+            //             Log the entire response to the console for debugging
+            //             console.log("Returned object:", response);
 
-                        // Check if the status is true
-                        if (response.status) {
-                            questionList = response.data;
-                            //setQuestionDisplay(questionList);
-                        } else {
-                            console.error("API returned false status.");
-                        }
-                    },
-                    error: function (error) {
-                        alert("Error in api call:" + error);
-                        console.error("Error in api call:", error);
-                        //showAlert('success', 'Data fetched successfully.');
-                    }
-                });
-            }
+            //             Check if the status is true
+            //             if (response.status) {
+            //                 questionList = response.data;
+            //                 setQuestionDisplay(questionList);
+            //             } else {
+            //                 console.error("API returned false status.");
+            //             }
+            //         },
+            //         error: function (error) {
+            //             console.error("Error in api call:", error);
+            //             showAlert('success', 'Data fetched successfully.');
+            //         }
+            //     });
+            // }
             // function setQuestionDisplay(data){
             //     var tableBody = $('#question-table tbody'); Reference to the <id="question-table"> element
             //     tableBody.empty(); Clear any existing options
