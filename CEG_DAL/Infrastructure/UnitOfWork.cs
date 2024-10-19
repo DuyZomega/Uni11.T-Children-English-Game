@@ -24,13 +24,13 @@ namespace CEG_DAL.Infrastructure
         private IHomeworkAnswerRepositories _homeworkAnswerRepositories;
         private IHomeworkResultRepositories _homeworkResultRepositories;
         private IParentRepositories _parentRepositories;
-        private IPaymentRepositories _paymentRepositories;
         private IRoleRepositories _roleRepositories;
         private ISessionRepositories _sessionRepositories;
         private IStudentHomeworkRepositories _studentHomeworkRepositories;
         private IStudentProgressRepositories _studentProgressRepositories;
         private IStudentRepositories _studentRepositories;
         private ITeacherRepositories _teacherRepositories;
+        private ITransactionRepositories _transactionRepositories;
         public UnitOfWork(MyDBContext context)
         {
             _dbContext = context;
@@ -47,13 +47,14 @@ namespace CEG_DAL.Infrastructure
         public IHomeworkAnswerRepositories HomeworkAnswerRepositories => _homeworkAnswerRepositories ??= new HomeworkAnswerRepositories(_dbContext);
         public IHomeworkResultRepositories HomeworkResultRepositories => _homeworkResultRepositories ??= new HomeworkResultRepositories(_dbContext);
         public IParentRepositories ParentRepositories => _parentRepositories ??= new ParentRepositories(_dbContext);
-        public IPaymentRepositories PaymentRepositories => _paymentRepositories ??= new PaymentRepositories(_dbContext);
         public IRoleRepositories RoleRepositories => _roleRepositories ??= new RoleRepositories(_dbContext);
         public ISessionRepositories SessionRepositories => _sessionRepositories ??= new SessionRepositories(_dbContext);
         public IStudentHomeworkRepositories StudentHomeworkRepositories => _studentHomeworkRepositories ??= new StudentHomeworkRepositories(_dbContext);
         public IStudentProgressRepositories StudentProgressRepositories => _studentProgressRepositories ??= new StudentProgressRepositories(_dbContext);
         public IStudentRepositories StudentRepositories => _studentRepositories ??= new StudentRepositories(_dbContext);
         public ITeacherRepositories TeacherRepositories => _teacherRepositories ??= new TeacherRepositories(_dbContext);
+        public ITransactionRepositories TransactionRepositories => _transactionRepositories ??= new TransactionRepositories(_dbContext);
+
         public void Dispose()
         {
             _dbContext.Dispose();

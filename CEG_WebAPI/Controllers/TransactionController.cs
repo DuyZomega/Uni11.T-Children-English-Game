@@ -9,30 +9,30 @@ namespace CEG_WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PaymentController : ControllerBase
+    public class TransactionController : ControllerBase
     {
-        private readonly IPaymentService _paymentService;
+        private readonly ITransactionService _transactionService;
 
-        public PaymentController(IPaymentService paymentService)
+        public TransactionController(ITransactionService transactionService)
         {
-            _paymentService = paymentService;
+            _transactionService = transactionService;
         }
 
         [HttpGet("All")]
-        [ProducesResponseType(typeof(List<PaymentViewModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<TransactionViewModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetPaymentList()
+        public async Task<IActionResult> GetTransactionList()
         {
             try
             {
-                var result = await _paymentService.GetPaymentList();
+                var result = await _transactionService.GetTransactionList();
                 if (result == null)
                 {
                     return NotFound(new
                     {
                         Status = false,
-                        ErrorMessage = "Payment List Not Found!"
+                        ErrorMessage = "Transaction List Not Found!"
                     });
                 }
                 return Ok(new
@@ -53,21 +53,21 @@ namespace CEG_WebAPI.Controllers
         }
         [HttpGet("ByParent/{id}")]
         [Authorize(Roles = "Parent")]
-        [ProducesResponseType(typeof(List<PaymentViewModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<TransactionViewModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetPaymentByParentAccountId(
+        public async Task<IActionResult> GetTransactionByParentAccountId(
             [FromRoute][Required] int id)
         {
             try
             {
-                var result = await _paymentService.GetPaymentByParentAccountId(id);
+                var result = await _transactionService.GetTransactionByParentAccountId(id);
                 if (result == null)
                 {
                     return NotFound(new
                     {
                         Status = false,
-                        ErrorMessage = "Payment List Not Found!"
+                        ErrorMessage = "Transaction List Not Found!"
                     });
                 }
                 return Ok(new

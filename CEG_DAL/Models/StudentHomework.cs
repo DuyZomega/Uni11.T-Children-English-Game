@@ -7,7 +7,7 @@ public partial class StudentHomework
 {
     public int StudentHomeworkId { get; set; }
 
-    public int HomeworkId { get; set; }
+    public int? HomeworkId { get; set; }
 
     public int StudentProgressId { get; set; }
 
@@ -17,7 +17,7 @@ public partial class StudentHomework
 
     public int? Hours { get; set; }
 
-    public virtual Homework Homework { get; set; } = null!;
+    public virtual Homework? Homework { get; set; }
 
     public virtual StudentProgress StudentProgress { get; set; } = null!;
 }

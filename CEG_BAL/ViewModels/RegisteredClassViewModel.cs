@@ -17,7 +17,7 @@ namespace CEG_BAL.ViewModels
 
         public virtual CourseViewModel Course { get; set; } = null!;
 
-        public virtual PaymentViewModel Payment { get; set; } = null!;
+        public virtual TransactionViewModel Payment { get; set; } = null!;
 
         public virtual ICollection<StudentProgressViewModel> StudentProgress { get; set; } = new List<StudentProgressViewModel>();
     }

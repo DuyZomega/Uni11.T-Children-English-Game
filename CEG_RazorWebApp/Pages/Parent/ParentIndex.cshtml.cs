@@ -9,7 +9,7 @@ using System.Text.Json;
 
 namespace CEG_RazorWebApp.Pages.Parent
 {
-    [Authorize(Policy = "SessionAuthorize")]
+    //[Authorize(Policy = "SessionAuthorize")]
     public class ParentIndexModel : PageModel
     {
         private readonly ILogger<ParentIndexModel> _logger;
