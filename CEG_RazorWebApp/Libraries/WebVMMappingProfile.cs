@@ -223,7 +223,7 @@ namespace CEG_RazorWebApp.Libraries
             CreateMap<CreateStudentVM, CreateNewStudent>()
                 .AfterMap((src, dest) =>
                 {
-                    dest.Highscore = 0;
+                    dest.TotalPoints = 0;
                     dest.Account.Role = "Student";
                 })
                 .ReverseMap();

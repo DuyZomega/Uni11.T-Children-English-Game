@@ -34,9 +34,9 @@
                         </div>
                     </div>
                     <section>
-                    <div id="alertContainer"></div>
                         <div class="card">
                             <div class="card-body">
+                                <div id="alertContainer"></div>
                                 <!-- Nav tabs -->
                                 <ul class="nav nav-tabs">
                                     <!-- dung vong for o day -->
@@ -254,15 +254,15 @@
                     var statusText = '';
                     switch (courseObj.status) {
                         case 'Available':
-                            statusText = `<span class="stt1" style="float: left;">Status: ${courseObj.status}</span>`
+                            statusText = `<span class="outcome" style="float: left;">Status: ${courseObj.status}</span>`
                             break;
                         case 'Draft':
                         case 'Postponed':
-                            statusText = `<span class="stt3" style="float: left;">Status: ${courseObj.status}</span>`
+                            statusText = `<span class="approval" style="float: left;">Status: ${courseObj.status}</span>`
                             break;
                         case 'EndofService':
                         case 'Cancelled':
-                            statusText = `<span class="stt2" style="float: left;">Status: ${courseObj.status}</span>`
+                            statusText = `<span class="destroy" style="float: left;">Status: ${courseObj.status}</span>`
                             break;
                     }
                     // Construct card HTML
@@ -283,7 +283,7 @@
                                                     <li><h6>Total hours:</h6><span>${courseObj.totalHours}</span></li>
                                                     <li><h6>Required age:</h6><span>${courseObj.requiredAge}</span></li>
                                                     <li><h6>Difficulty:</h6><span>${courseObj.difficulty}</span></li>
-                                                    <li><h6>Description:</h6><span>${courseObj.description}</span></li>
+                                                    <li><h6>Description:</h6><span class="truncate">${courseObj.description}</span></li>
                                                     <li><h6>Sessions amount:</h6><span>${courseObj.sessions.length} Session(s)</span></li>
                                                     <li><h6>Classes amount:</h6><span>${courseObj.classes.length} Class(es)</span></li>
                                                 </ul>

@@ -12,8 +12,10 @@ namespace CEG_BAL.Services.Interfaces
     {
         void Create(ClassViewModel classModel, CreateNewClass newClass);
         void Update(ClassViewModel classModel);
+        void UpdateStatus(int classId, string classStatus);
         Task<List<ClassViewModel>> GetClassList();
         Task<List<ClassViewModel>> GetClassListAdmin();
+        Task<List<ClassViewModel>> GetClassListByTeacherAccountId(int id);
         Task<ClassViewModel?> GetClassById(int id);
     }
 }

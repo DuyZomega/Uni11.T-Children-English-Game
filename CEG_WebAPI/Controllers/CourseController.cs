@@ -211,6 +211,7 @@ namespace CEG_WebAPI.Controllers
                     });
                 }
                 course.CourseId = id;
+                course.Status = result.Status;
                 _courseService.Update(course);
                 result = await _courseService.GetCourseById(course.CourseId.Value);
                 return Ok(new
@@ -250,7 +251,7 @@ namespace CEG_WebAPI.Controllers
                         ErrorMessage = "Course Does Not Exist!"
                     });
                 }
-                bool isValid = CEG_BAL_Library.IsCourseNewStatusValid(result.Status,status);
+                bool isValid = CEG_BAL_Library.IsCourseNewStatusValid(result.Status,status) && result.Classes?.Count == 0;
                 if (isValid)
                 {
                     _courseService.UpdateStatus(id, status);
@@ -266,7 +267,7 @@ namespace CEG_WebAPI.Controllers
                     return BadRequest(new
                     {
                         Status = false,
-                        ErrorMessage = "New status is not a valid status for requested course"
+                        ErrorMessage = "New status is either an old status or not a valid status for requested course"
                     });
                 }
             }

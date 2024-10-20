@@ -9,7 +9,7 @@ using System.Text.Json;
 
 namespace CEG_RazorWebApp.Pages.Student
 {
-    [Authorize(Policy = "SessionAuthorize")]
+    // [Authorize(Policy = "SessionAuthorize")]
     public class StudentIndexModel : PageModel
     {
         private readonly ILogger<StudentIndexModel> _logger;

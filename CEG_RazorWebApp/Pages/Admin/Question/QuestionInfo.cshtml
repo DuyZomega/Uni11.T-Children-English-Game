@@ -110,7 +110,7 @@
                     <div class="modal-header">
                         <h4 class="modal-title">Edit Question</h4>
                     </div>
-                    <form method="put" asp-route-questionId="@Model.QuestionId" id="editQuestionForm" class="form-group">
+                    <form method="put" id="editQuestionForm" class="form-group">
                         <div class="modal-body">
                             <div class="modal-body">
                                 <div class="col-12">
@@ -139,7 +139,7 @@
                     <div class="modal-header">
                         <h4 class="modal-title">Add new Homework Answer</h4>
                     </div>
-                    <form asp-page-handler="Create" asp-route-questionId="@Model.QuestionId" method="post" id="createAnswerForm">
+                    <form method="post" id="createAnswerForm">
                         <div class="modal-body">
                             <div class="row p-4">
                                 <div class="col-12">
@@ -151,7 +151,7 @@
                                     </div>
                                     <div class="row form-group">
                                         <label asp-for="@createAnswer.Type" class="col-md-3 col-form-label text-md-right"></label>
-                                        <select class="form-control col-md-7 custom-select" asp-for="@createAnswer.Type" asp-items="@createAnswer.DefaultAnswerTypeSelectList"></select>
+                                        <select class="form-control col-md-7 custom-select" asp-for="@createAnswer.Type"></select>
                                         <span asp-validation-for="@createAnswer.Type" id="error_message"
                                                 class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
                                         <input asp-for="@createAnswer.QuestionId" value="@Model.QuestionId" type="text" required hidden readonly>
@@ -159,7 +159,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="modal-footer justify-content-center" style="margin-left:400px;">
+                        <div class="modal-footer justify-content-center">
                             <button class="btn btn-success" type="submit" name="action" value="createAnswer">Create</button>
                             <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
                         </div>
@@ -470,8 +470,10 @@
                 $('#question-title-status').append(titleStatusHtml);
                 $('#question-allow-add-answer').append(answerAddHtml);
                 $('#question-question').text(data.question);
-                $('#updateQuestion_Question').text(data.question);
                 $('#question-answers-amount').text(data.answersAmount + ' Answer(s)');
+
+                $('#updateQuestion_Question').text(data.question);
+                $('#createAnswer_Type').append(getTypeOptions());
             }
         </script>
     </body>

@@ -44,7 +44,7 @@ namespace CEG_BAL.Services.Implements
                 acc.Account.Gender = newStu.Account.Gender;
                 acc.Account.Password = newStu.Account.Password;
                 acc.Description = newStu.Description;
-                acc.Highscore = newStu.Highscore;
+                acc.TotalPoint = newStu.TotalPoints;
                 acc.Birthdate = newStu.Birthdate;
                 acc.ParentId = _unitOfWork.ParentRepositories.GetIdByUsername(newStu.ParentUsername).Result;
             }
@@ -86,7 +86,12 @@ namespace CEG_BAL.Services.Implements
             if (parentId == 0) return null;
             return _mapper.Map<List<StudentViewModel>>(await _unitOfWork.StudentRepositories.GetStudentByParentId(parentId));
         }
-
+        public async Task<List<StudentViewModel>> GetStudentByClassId(int id)
+        {
+            var classId = await _unitOfWork.ClassRepositories.GetIdByClassId(id);
+            if (classId == 0) return null;
+            return _mapper.Map<List<StudentViewModel>>(await _unitOfWork.StudentRepositories.GetStudentByClassId(classId));
+        }
         public void Update(StudentViewModel student)
         {
             var stu = _mapper.Map<Student>(student);

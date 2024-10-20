@@ -14,6 +14,7 @@ namespace CEG_BAL.Services.Interfaces
         Task<StudentViewModel?> GetStudentById(int id);
         Task<StudentViewModel?> GetStudentByAccountId(int id);
         Task<List<StudentViewModel>> GetStudentByParentAccountId(int id);
+        Task<List<StudentViewModel>> GetStudentByClassId(int id);
         void Create(StudentViewModel student, CreateNewStudent newStu);
         void Update(StudentViewModel student);
     }

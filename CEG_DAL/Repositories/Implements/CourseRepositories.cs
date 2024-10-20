@@ -18,38 +18,45 @@ namespace CEG_DAL.Repositories.Implements
             _dbContext = dbContext;
         }
 
-        public async Task<Course?> GetByIdNoTrackingInclude(int id)
-        {
-            return await _dbContext.Courses
-                .Include(c => c.Sessions)
-                .ThenInclude(s => s.Homeworks)
-                .Include(c => c.Classes)
-                .AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(cou => cou.CourseId == id);
-        }
-
         public async Task<Course?> GetByIdNoTracking(int id)
         {
             return await _dbContext.Courses
-                .AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(cou => cou.CourseId == id);
+                .AsNoTrackingWithIdentityResolution()
+                .SingleOrDefaultAsync(cou => cou.CourseId == id);
         }
 
-        public async Task<Course?> GetByIdNoTracking(int id, bool includeSessions = false, bool includeHomeworks = false)
+        public async Task<Course?> GetByIdNoTracking(int id, bool includeSessions = false, bool includeClasses = false, bool includeHomeworks = false)
         {
-            if (includeSessions && !includeHomeworks)
-            {
-                return await _dbContext.Courses
-                    .Include(c => c.Sessions)
-                    .AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(cou => cou.CourseId == id);
-            }
-            else if(includeHomeworks || (includeSessions && includeHomeworks))
-            {
-                return await _dbContext.Courses
-                    .Include(c => c.Sessions)
-                    .ThenInclude(s => s.Homeworks)
-                    .AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(cou => cou.CourseId == id);
-            }
-            return await _dbContext.Courses
-                .AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(cou => cou.CourseId == id);
+            var query = _dbContext.Courses
+                        .Select(c => new Course
+                        {
+                            CourseId = c.CourseId,
+                            CourseName = c.CourseName,
+                            CourseType = c.CourseType,
+                            Description = c.Description,
+                            Difficulty = c.Difficulty,
+                            Category = c.Category,
+                            Image = c.Image,
+                            RequiredAge = c.RequiredAge,
+                            TotalHours = c.TotalHours,
+                            Status = c.Status,
+                            // Include Sessions only if requested
+                            Sessions = includeSessions ? c.Sessions.Select(s => new Session
+                            {
+                                SessionId = s.SessionId,
+                                Title = s.Title,
+                                Description = s.Description,
+                                Hours = s.Hours,
+                                Number = s.Number,
+                                Status = s.Status,
+                                // Include Homeworks only if requested
+                                Homeworks = includeHomeworks ? s.Homeworks.ToList() : null
+                            }).ToList() : null,
+                            // Include Classes only if requested
+                            Classes = includeClasses ? c.Classes.ToList() : null
+                        }).AsNoTrackingWithIdentityResolution();
+
+            return await query.SingleOrDefaultAsync(cou => cou.CourseId == id);
         }
 
         public async Task<List<Course>> GetCourseList()

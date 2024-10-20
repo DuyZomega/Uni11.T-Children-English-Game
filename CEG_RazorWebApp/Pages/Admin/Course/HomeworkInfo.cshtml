@@ -5,7 +5,6 @@
     var updateHomework = Model.UpdateHomeworkInfo;
     var addQuestion = Model.AddQuestion;
     Layout = Model.LayoutUrl;
-    var acctoken = Model.AccToken;
 }
 <html lang="en">
 <head>
@@ -34,37 +33,37 @@
                                     <span>/</span>
                                 </li>
                                 <li class="breadcrumd-item">
-                                    <a href="/Admin/Course/@Model.CourseId/Info">@Model.CourseId</a>
+                                    <a href="/Admin/Course/@Model.CourseID/Info">@Model.CourseID</a>
                                 </li>
                                 <li class="breadcrumd-item">
                                     <span>/</span>
                                 </li>
                                 <li class="breadcrumd-item">
-                                    <a href="/Admin/Course/@Model.CourseId/Info">Session</a>
+                                    <a href="/Admin/Course/@Model.CourseID/Info">Session</a>
                                 </li>
                                 <li class="breadcrumd-item">
                                     <span>/</span>
                                 </li>
                                 <li class="breadcrumd-item">
-                                    <a href="/Admin/Course/@Model.CourseId/Session/@Model.SessionId/Info">@Model.SessionId</a>
+                                    <a href="/Admin/Course/@Model.CourseID/Session/@Model.SessionID/Info">@Model.SessionID</a>
                                 </li>
                                 <li class="breadcrumd-item">
                                     <span>/</span>
                                 </li>
                                 <li class="breadcrumd-item">
-                                    <a href="/Admin/Course/@Model.CourseId/Session/@Model.SessionId/Info">Homework</a>
+                                    <a href="/Admin/Course/@Model.CourseID/Session/@Model.SessionID/Info">Homework</a>
                                 </li>
                                 <li class="breadcrumd-item">
                                     <span>/</span>
                                 </li>
                                 <li class="breadcrumd-item">
-                                    <a href="/Admin/Course/@Model.CourseId/Session/@Model.SessionId/Homework/@Model.HomeworkId/Info">@Model.HomeworkId</a>
+                                    <a href="/Admin/Course/@Model.CourseID/Session/@Model.SessionID/Homework/@Model.HomeworkID/Info">@Model.HomeworkID</a>
                                 </li>
                                 <li class="breadcrumd-item">
                                     <span>/</span>
                                 </li>
                                 <li class="breadcrumd-item">
-                                    <a href="/Admin/Course/@Model.CourseId/Session/@Model.SessionId/Homework/@Model.HomeworkId/Info">Info</a>
+                                    <a href="/Admin/Course/@Model.CourseID/Session/@Model.SessionID/Homework/@Model.HomeworkID/Info">Info</a>
                                 </li>
                             </ol>
                         </div>
@@ -72,11 +71,11 @@
                     <div class="row">
                         <div class="col-12 customer-booking">
                             <div class="row">
+                                <div id="alertContainer"></div>
                                 <div class="card profile col-12 mb-4">
                                     <div class="card-header" id="homework-title-status">
                                         <h4 class="col-md-8">Homework <label id="homework-homework-title" class="truncate"></label> Information</h4>
                                     </div>
-                                <div id="alertContainer"></div>
                                     <div class="card-body">
                                         <div class="row mb-sm-2">
                                             <div class="col-md-5 text-md-right">
@@ -410,7 +409,7 @@
             }
             function callApiPutUpdateHomework(formData) {
                 $.ajax({
-                    url: apiUrl + 'Homework/@Model.HomeworkId/Update', // Specify your Razor Page here
+                    url: apiUrl + 'Homework/@Model.HomeworkID/Update', // Specify your Razor Page here
                     type: 'PUT',
                     data: JSON.stringify(formData),
                     headers: {
@@ -512,7 +511,7 @@
             }
             function callApiGetHomeworkDetail() {
                 $.ajax({
-                    url: apiUrl + 'Homework/@Model.HomeworkId', // API endpoint
+                    url: apiUrl + 'Homework/@Model.HomeworkID', // API endpoint
                     type: 'GET',
                     success: function (response) {
                         // Log the entire response to the console for debugging
@@ -649,7 +648,7 @@
                                 </div>
                             </div>
                             <div class="card-body d-flex justify-content-center">
-                                <a class="btn btn-success" href="/Admin/Course/` + @Model.CourseId + `/Session/` + @Model.SessionId + `/Homework/` + @Model.HomeworkId + `/Question/${questionInfo.homeworkQuestionId}/Info">More Info</a>
+                                <a class="btn btn-success" href="/Admin/Course/` + @Model.CourseID + `/Session/` + @Model.SessionID + `/Homework/` + @Model.HomeworkID + `/Question/${questionInfo.homeworkQuestionId}/Info">More Info</a>
                             </div>
                         </div>
                         <hr class="container my-0">

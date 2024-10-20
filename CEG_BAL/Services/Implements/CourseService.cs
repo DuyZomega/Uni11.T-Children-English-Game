@@ -54,7 +54,7 @@ namespace CEG_BAL.Services.Implements
 
         public async Task<CourseViewModel?> GetCourseById(int id)
         {
-            var user = await _unitOfWork.CourseRepositories.GetByIdNoTrackingInclude(id);
+            var user = await _unitOfWork.CourseRepositories.GetByIdNoTracking(id, true, true ,true);
             if (user != null)
             {
                 var urs = _mapper.Map<CourseViewModel>(user);
@@ -87,7 +87,7 @@ namespace CEG_BAL.Services.Implements
 
         public void UpdateStatus(int courseId, string courseStatus)
         {
-            var cou = _unitOfWork.CourseRepositories.GetByIdNoTracking(courseId).Result;
+            var cou = _unitOfWork.CourseRepositories.GetByIdNoTracking(courseId, includeClasses: true).Result;
             if (cou == null) return;
             cou.Status = courseStatus;
             _unitOfWork.CourseRepositories.Update(cou);
