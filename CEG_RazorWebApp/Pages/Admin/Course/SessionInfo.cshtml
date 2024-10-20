@@ -2,8 +2,8 @@
 @model CEG_RazorWebApp.Pages.Admin.Course.SessionInfoModel
 @{
     ViewData["Title"] = "Admin Session Info Page";
-    var sessionInfo = Model.SessionInfo;
-    var homeworkList = Model.Homeworks;
+    // var sessionInfo = Model.SessionInfo;
+    // var homeworkList = Model.Homeworks;
     var updateSession = Model.UpdateSessionInfo;
     var createHomework = Model.CreateHomework;
     Layout = Model.LayoutUrl;
@@ -35,73 +35,43 @@
                                 <span>/</span>
                             </li>
                             <li class="breadcrumd-item">
-                                <a href="/Admin/Course/@Model.CourseId/Info">@Model.CourseId</a>
+                                <a href="/Admin/Course/@Model.CourseID/Info">@Model.CourseID</a>
                             </li>
                             <li class="breadcrumd-item">
                                 <span>/</span>
                             </li>
                             <li class="breadcrumd-item">
-                                <a href="/Admin/Course/@Model.CourseId/Info">Session</a>
+                                <a href="/Admin/Course/@Model.CourseID/Info">Session</a>
                             </li>
                             <li class="breadcrumd-item">
                                 <span>/</span>
                             </li>
                             <li class="breadcrumd-item">
-                                <a href="/Admin/Course/@Model.CourseId/Session/@sessionInfo.SessionId/Info">@sessionInfo.SessionId</a>
+                                <a href="/Admin/Course/@Model.CourseID/Session/@Model.SessionID/Info">@Model.SessionID</a>
                             </li>
                             <li class="breadcrumd-item">
                                 <span>/</span>
                             </li>
                             <li class="breadcrumd-item">
-                                <a href="/Admin/Course/@Model.CourseId/Session/@sessionInfo.SessionId/Info">Info</a>
+                                <a href="/Admin/Course/@Model.CourseID/Session/@Model.SessionID/Info">Info</a>
                         </ol>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-12 customer-booking">
                         <div class="row">
+                            <div id="alertContainer"></div>
                             <div class="card profile col-12 mb-4">
-                                <div class="card-header">
-                                    <h4>Session @sessionInfo.Number Information</h4>
-                                    @{
-                                        if (sessionInfo.Status.Equals("Draft") || sessionInfo.Status.Equals("Postponed"))
-                                        {
-                                            <div class="edit-info">
-                                                <i class='bx bxs-edit' data-toggle="modal" data-target="#editSession"></i>
-                                            </div>
-                                        }
-                                    }
+                                <div class="card-header" id="session-title-status">
+                                    <h4 class="col-md-8">Session <label id="session-session-title" class="truncate"></label> Information</h4>
                                 </div>
-                                @if (TempData["Success"] != null)
-                                {
-                                    <div class="alert alert-success alert-dismissible fade show" id="notif">
-                                        <i class='bx bx-message-alt-x p-1'></i>
-                                        <strong class="mr-1">@TempData["Success"]</strong>
-                                        <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
-                                            <span><i class='bx bx-x'></i></span>
-                                        </button>
-                                    </div>
-                                    TempData["Success"] = null;
-                                }
-                                else if (TempData["Error"] != null)
-                                {
-                                    <div class="alert alert-danger alert-dismissible fade show" id="notif">
-                                        <i class='bx bx-message-alt-x p-1'></i>
-                                        <strong class="mr-1">@TempData["Error"]</strong>
-                                        <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
-                                            <span><i class='bx bx-x'></i></span>
-                                        </button>
-                                    </div>
-                                    TempData["Error"] = null;
-                                }
                                 <div class="card-body">
                                     <div class="row mb-sm-2">
                                         <div class="col-md-5 text-md-right">
                                             <label class="col-form-label">Session ID:</label>
                                         </div>
                                         <div class="col-md-7">
-                                            <span>
-                                                @sessionInfo.SessionId
+                                            <span id="session-id">
                                             </span>
                                         </div>
                                     </div>
@@ -109,29 +79,7 @@
                                         <div class="col-md-5 text-md-right">
                                             <label class="col-form-label">Status:</label>
                                         </div>
-                                        <div class="col-sm-7">
-                                            @{
-                                                switch (sessionInfo.Status)
-                                                {
-                                                    case "Available":
-                                                        {
-                                                            <span class="outcome" style="float: left;">@sessionInfo.Status</span>
-                                                            break;
-                                                        }
-                                                    case "Draft":
-                                                    case "Postponed":
-                                                        {
-                                                            <span class="approval" style="float: left;">@sessionInfo.Status</span>
-                                                            break;
-                                                        }
-                                                    case "EndofService":
-                                                    case "Cancelled":
-                                                        {
-                                                            <span class="destroy" style="float: left;">@sessionInfo.Status</span>
-                                                            break;
-                                                        }
-                                                }
-                                            }
+                                        <div class="col-sm-7" id="session-status">
                                         </div>
                                     </div>
                                     <div class="row mb-sm-2">
@@ -139,8 +87,7 @@
                                             <label class="col-form-label">Session Number:</label>
                                         </div>
                                         <div class="col-md-7">
-                                            <span>
-                                                @sessionInfo.Number
+                                            <span id="session-number">
                                             </span>
                                         </div>
                                     </div>
@@ -149,8 +96,7 @@
                                             <label class="col-form-label">Title:</label>
                                         </div>
                                         <div class="col-md-7">
-                                            <span>
-                                                @sessionInfo.Title
+                                            <span id="session-title">
                                             </span>
                                         </div>
                                     </div>
@@ -159,8 +105,7 @@
                                             <label class="col-form-label">Description:</label>
                                         </div>
                                         <div class="col-md-7">
-                                            <span>
-                                                @sessionInfo.Description
+                                            <span id="session-description">
                                             </span>
                                         </div>
                                     </div>
@@ -169,8 +114,7 @@
                                             <label class="col-form-label">Hours to learn:</label>
                                         </div>
                                         <div class="col-md-7">
-                                            <span>
-                                                @sessionInfo.Hours
+                                            <span id="session-hours">
                                             </span>
                                         </div>
                                     </div>
@@ -179,8 +123,7 @@
                                             <label class="col-form-label">Homeworks amount:</label>
                                         </div>
                                         <div class="col-md-7">
-                                            <span>
-                                                @sessionInfo.HomeworksAmount Homework(s)
+                                            <span id="session-homeworks-amount">
                                             </span>
                                         </div>
                                     </div>
@@ -191,19 +134,19 @@
                     <div class="col-12 customer-booking">
                         <div class="row">
                             <div class="card profile col-12 mb-4">
-                                <div class="card-header">
+                                <div class="card-header" id="session-allow-add-homework">
                                     <h4>Session's Homework List</h4>
-                                    @{
+                                    @* @{
                                         if (sessionInfo.Status.Equals("Draft") || sessionInfo.Status.Equals("Postponed"))
                                         {
                                             <div class="edit-info">
                                                 <i class='bx bxs-add-to-queue' data-toggle="modal" data-target="#createHomework"></i>
                                             </div>
                                         }
-                                    }
+                                    } *@
                                 </div>
-                                <div class="card-body">
-                                    @{
+                                <div class="card-body" id="homework_list">
+                                    @* @{
                                         if (homeworkList != null && homeworkList.Count > 0)
                                         {
                                             @foreach (var homeworkInfo in homeworkList)
@@ -216,7 +159,7 @@
                                         {
                                             <h5>Empty Homework list</h5>
                                         }
-                                    }
+                                    } *@
                                 </div>
                             </div>
                         </div>
@@ -229,9 +172,9 @@
         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
             <div class="modal-content modal-addRoom">
                 <div class="modal-header">
-                    <h4 class="modal-title">Edit Session</h4>
+                    <h4 class="modal-title">Edit Session Infomation</h4>
                 </div>
-                <form asp-page-handler="Update" method="post" asp-route-sessionId="@sessionInfo.SessionId" class="form-group">
+                <form method="post" id="EditSessionForm" class="form-group">
                     <div class="modal-body">
                         <div class="col-12">
                             <div class="form-group row">
@@ -246,7 +189,7 @@
                             <div class="form-group row">
                                 <label asp-for="@updateSession.Description" class="col-sm-4 col-form-label"></label>
                                 <div class="col-sm-8">
-                                    <textarea asp-for="@updateSession.Description" value="@updateSession.Description" required class="form-control col-md-7"></textarea>
+                                    <textarea asp-for="@updateSession.Description" required class="form-control col-md-7"></textarea>
                                     <span asp-validation-for="@updateSession.Description" id="error_message"
                                           class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
                                 </div>
@@ -270,7 +213,7 @@
                             <div class="form-group row">
                                 <label asp-for="@updateSession.Status" class="col-sm-4 col-form-label"></label>
                                 <div class="col-sm-8">
-                                    <select class="form-control custom-select" asp-for="@updateSession.Status" asp-items="@updateSession.DefaultSessionStatusSelectList"></select>
+                                    <select class="form-control custom-select" asp-for="@updateSession.Status"></select>
                                     <span asp-validation-for="@updateSession.Status" id="error_message"
                                           class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
                                 </div>
@@ -291,7 +234,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title">Add new Homework</h4>
                 </div>
-                <form asp-page-handler="Create" asp-route-sessionId="@sessionInfo.SessionId" method="post" id="form">
+                <form method="post" id="AddHomeworkForm">
                     <div class="modal-body">
                         <div class="row p-4">
                             <div class="col-12">
@@ -312,11 +255,11 @@
                                             class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
                                     <label asp-for="@createHomework.Type" class="col-md-3 col-form-label mt-3 text-md-right"></label>
-                                    <select class="form-control col-md-7 custom-select" asp-for="@createHomework.Type" asp-items="@createHomework.DefaultHomeworkTypeSelectList"></select>
+                                    <select class="form-control col-md-7 custom-select" asp-for="@createHomework.Type"></select>
                                     <span asp-validation-for="@createHomework.Type" id="error_message"
                                             class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
-                                    <input asp-for="@createHomework.SessionTitle" value="@sessionInfo.Title" type="text" required hidden readonly>
+                                    <input asp-for="@createHomework.SessionTitle" type="text" required hidden readonly>
                                 </div>
                             </div>
                         </div>
@@ -329,5 +272,437 @@
             </div>
         </div>
     </div>
+    <script>
+        var token = sessionStorage.getItem('token');
+        var apiUrl = sessionStorage.getItem('apiUrl');
+        // var questionList = [];
+        var homeworkList = [];
+        $(document).ready(function () {
+            callApiGetSessionDetail();
+            $('#EditSessionForm').submit(function (event) {
+                event.preventDefault(); // Prevent the form from submitting normally
+
+                //Get the form data
+                var formData = {
+                    title: $('input[id="updateSession_Title"]').val(),
+                    number: $('input[id="updateSession_Number"]').val(),
+                    description: $('textarea[id="updateSession_Description"]').val(),
+                    hours: $('input[id="updateSession_Hours"]').val(),
+                    status: $('input[id="updateSession_Status"]').val()
+                };
+
+                //Make the AJAX request
+                callApiPutUpdateSession(formData);
+                $('#EditSessionForm').trigger("reset");
+            });
+            $('#AddHomeworkForm').submit(function (event) {
+                event.preventDefault(); // Prevent the form from submitting normally
+
+                var formData = {
+                        title: $('#createHomework_Title').val(),
+                        description: $('#createHomework_Description').val(),
+                        hours: $('#createHomework_Hours').val(),
+                        type: $('#createHomework_Type').val(),
+                        sessionTitle: $('#createHomework_SessionTitle').val()
+                    };
+                callApiPostCreateHomework(formData);
+                $('#AddHomeworkForm').trigger("reset");
+            });
+            $(document).on('submit', 'form[id^="editHomeworkForm_"]', function (event) {
+                event.preventDefault();
+                // Extract the answerId from the form's id
+                let homeworkId = $(this).attr('id').split('_')[1];
+
+                // Collect form data
+                let formData = {
+                    title: $('#updateHomework_' + homeworkId + '_Title').val(),
+                    description: $('#updateHomework_' + homeworkId + '_Description').val(),
+                    hours: $('#updateHomework_' + homeworkId + '_Hours').val(),
+                    type: $('#updateHomework_' + homeworkId + '_Type').val(),
+                };
+
+                // Call the API to update the answer
+                callApiPutUpdateHomework(formData, homeworkId);
+
+                // Optionally reset the form
+                //$(this).trigger("reset");
+            });
+        });
+        // Function to display alerts
+        function showAlert(type, message) {
+            var alertHtml = '';
+
+            if (type === 'success') {
+                alertHtml = `
+                                <div class="alert alert-success alert-dismissible fade show" id="notif">
+                                    <i class='bx bx-message-alt-x p-1'></i>
+                                    <strong class="mr-1">` + message + `</strong>
+                                    <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+                                        <span><i class='bx bx-x'></i></span>
+                                    </button>
+                                </div>
+                            `;
+            } else if (type === 'error') {
+                alertHtml = `
+                                <div class="alert alert-danger alert-dismissible fade show" id="notif">
+                                    <i class='bx bx-message-alt-x p-1'></i>
+                                    <strong class="mr-1">` + message + `</strong>
+                                    <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+                                        <span><i class='bx bx-x'></i></span>
+                                    </button>
+                                </div>
+                            `;
+            }
+
+            // Inject the alert HTML into the alert container
+            $('#alertContainer').html(alertHtml);
+        }
+        function callApiPutUpdateSession(formData) {
+            $.ajax({
+                url: apiUrl + 'Session/'+ @Model.SessionID + '/Update', // Specify your Razor Page here
+                type: 'PUT',
+                data: JSON.stringify(formData),
+                headers: {
+                    'Authorization': 'Bearer ' + token, // Token for authentication
+                },
+                contentType: 'application/json; charset=utf-8',
+                success: function (response) {
+                    // Handle success (display a success message or redirect, etc.)
+                    if (response.status) {
+                        showAlert('success', "Session update successfully");
+                    } else {
+                        showAlert('error', response.errorMessage);
+                    }
+                    callApiGetSessionDetail();
+                },
+                error: function (xhr, status, error) {
+                    // Handle error (display the validation message, etc.)
+                    showAlert('error',"Error in api call:" + error);
+                    callApiGetSessionDetail();
+                }
+            });
+        }
+        function callApiPostCreateHomework(formData) {
+            $.ajax({
+                url: apiUrl + 'Homework/Create', // Specify your Razor Page here
+                type: 'POST',
+                data: JSON.stringify(formData),
+                contentType: 'application/json; charset=utf-8',
+                success: function (response) {
+                    // Handle success (display a success message or redirect, etc.)
+                    if (response.status) {
+                        showAlert('success', "Session create successfully");
+                    } else {
+                        showAlert('error', response.errorMessage);
+                    }
+                    callApiGetSessionDetail();
+                },
+                error: function (xhr, status, error) {
+                    // Handle error (display the validation message, etc.)
+                    showAlert('error',"Error in api call:" + error);
+                    callApiGetSessionDetail();
+                }
+            });
+        }
+        function callApiPutUpdateHomework(formData, homeworkId) {
+            $.ajax({
+                url: apiUrl + 'Homework/' + homeworkId + '/Update', // Specify your Razor Page here
+                type: 'PUT',
+                data: JSON.stringify(formData),
+                headers: {
+                    'Authorization': 'Bearer ' + token, // Token for authentication
+                },
+                contentType: 'application/json; charset=utf-8',
+                success: function (response) {
+                    // Handle success (display a success message or redirect, etc.)
+                    if (response.status) {
+                        showAlert('success', "Homework update successfully");
+                        $('.modal-backdrop').remove();
+                        // Remove specific class from body
+                        $('body').removeClass('modal-open');
+
+                        // Remove all inline styles from body
+                        $('body').removeAttr('style');
+                        callApiGetSessionDetail();
+                    } else {
+                        showAlert('error', response.errorMessage);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Handle error (display the validation message, etc.)
+                    showAlert('error',"Error in api call:" + error);
+                }
+            });
+        }
+        function callApiGetSessionDetail() {
+            $.ajax({
+                url: apiUrl + 'Session/' + @Model.SessionID , // API endpoint
+                type: 'GET',
+                success: function (response) {
+                    // Log the entire response to the console for debugging
+                    // Check if the status is true
+                    if (response.status) {
+                        setCourseDisplay(response.data);
+                        // Check if homeworkAnswers is empty
+                        if (response.data.homeworks && response.data.homeworks.length > 0) {
+                            // Clear any existing answers
+                            $('#homework_list').empty();
+
+                            homeworkList = response.data.homeworks;
+                            // Loop through each answer and generate the HTML
+                            response.data.homeworks.forEach(function (homework) {
+                                console.log(homework);;
+                                let homeworkHtml = generateHomeworkHtml(homework, response.data.status); // Assuming both homeworkInfo and updateAnswer are the same structure
+                                $('#homework_list').append(homeworkHtml);
+                            });
+                        } else {
+                            // If the answer list is empty
+                            $('#homework_list').html('<h5>No homeworks found</h5>');
+                        }
+                    } else {
+                        console.error("API returned false status.");
+                    }
+                },
+                error: function (error) {
+                    alert("Error in api call:" + error);
+                    console.error("Error in api call:", error);
+                    //showAlert('success', 'Data fetched successfully.');
+                }
+            });
+        }
+        function generateHomeworkHtml(homeworkInfo, status) {
+            var homeworkUpdateToggleHtml = status === 'Draft' || status === 'Postponed' ? `
+                <div class="edit-info">
+                    <i class='bx bxs-edit bx-sm' data-toggle="modal" data-target="#edithomework_${homeworkInfo.homeworkId}"></i>
+                </div>
+            ` : '';
+            var homeworkUpdateHtml = status === 'Draft' || status === 'Postponed' ? `
+                <div id="edithomework_${homeworkInfo.homeworkId}" class="modal fade" role="dialog">
+                    <div class="modal-dialog modal-dialog-centered modal-lg" role="content">
+                        <div class="modal-content modal-addRoom">
+                            <div class="modal-header">
+                                <h4 class="modal-title truncate">Update Homework ${homeworkInfo.title}</h4>
+                            </div>
+                            <form method="post" id="editHomeworkForm_${homeworkInfo.homeworkId}" class="form-group">
+                                <div class="modal-body">
+                                    <div class="col-12">
+                                        <div class="form-group row">
+                                            <label for="updateHomework_${homeworkInfo.homeworkId}_Title" class="col-sm-4 col-form-label">Title</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" id="updateHomework_${homeworkInfo.homeworkId}_Title" required class="form-control" value="${homeworkInfo.title}">
+                                                <span id="error_message"
+                                                        class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="updateHomework_${homeworkInfo.homeworkId}_Description" class="col-sm-4 col-form-label">Description</label>
+                                            <div class="col-sm-8">
+                                                <textarea id="updateHomework_${homeworkInfo.homeworkId}_Description" required class="form-control">${homeworkInfo.description}</textarea>
+                                                <span id="error_message"
+                                                        class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="updateHomework_${homeworkInfo.homeworkId}_Hours" class="col-sm-4 col-form-label">Hours to learn</label>
+                                            <div class="col-sm-8">
+                                                <input type="number" id="updateHomework_${homeworkInfo.homeworkId}_Hours" min="1" required class="form-control" value="${homeworkInfo.hours}">
+                                                <span id="error_message"
+                                                        class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="updateHomework_${homeworkInfo.homeworkId}_Type" class="col-sm-4 col-form-label">Type</label>
+                                            <div class="col-sm-8">
+                                                <select id="updateHomework_${homeworkInfo.homeworkId}_Type" class="form-control custom-select">
+                                                    ${getTypeOptions(homeworkInfo.type)}
+                                                </select>
+                                                <span id="error_message"
+                                                        class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer justify-content-center">
+                                    <button class="btn btn-success" type="submit">Save</button>
+                                    <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            ` : '';
+            var statusText = '';
+            switch (status) {
+                case 'Available':
+                    statusText = `<span class="outcome" style="float: left;">${status}</span>`
+                    break;
+                case 'Draft':
+                case 'Postponed':
+                    statusText = `<span class="approval" style="float: left;">${status}</span>`
+                    break;
+                case 'EndofService':
+                case 'Cancelled':
+                    statusText = `<span class="destroy" style="float: left;">${status}</span>`
+                    break;
+            }
+            // <div class="row mb-sm-2">
+            //     <div class="col-md-5 text-md-right">
+            //         <label class="col-form-label">Status:</label>
+            //     </div>
+            //     <div class="col-sm-7">
+            //         ` + statusText + `
+            //     </div>
+            // </div>
+            return `
+                <div class="card-header">
+                    <h5>Homework <label class="truncate">${homeworkInfo.title}</label> Details</h5>
+                    ` + homeworkUpdateToggleHtml + `
+                </div>
+                <div class="card-body">
+                    <div class="row mb-sm-2">
+                        <div class="col-md-5 text-md-right">
+                            <label class="col-form-label">Homework ID:</label>
+                        </div>
+                        <div class="col-md-7">
+                            <span>${homeworkInfo.homeworkId}</span>
+                        </div>
+                    </div>
+                    <div class="row mb-sm-2">
+                        <div class="col-sm-5 text-sm-right">
+                            <label for="meeting-name">Title:</label>
+                        </div>
+                        <div class="col-sm-7 text-sm-left">
+                            <span>${homeworkInfo.title}</span>
+                        </div>
+                    </div>
+                    <div class="row mb-sm-2">
+                        <div class="col-sm-5 text-sm-right">
+                            <label for="meeting-name">Description:</label>
+                        </div>
+                        <div class="col-sm-7 text-sm-left">
+                            <span>${homeworkInfo.description}</span>
+                        </div>
+                    </div>
+                    <div class="row mb-sm-2">
+                        <div class="col-sm-5 text-sm-right">
+                            <label for="meeting-name">Hours to do:</label>
+                        </div>
+                        <div class="col-sm-7 text-sm-left">
+                            <span>${homeworkInfo.hours}</span>
+                        </div>
+                    </div>
+                    <div class="row mb-sm-2">
+                        <div class="col-sm-5 text-sm-right">
+                            <label for="meeting-name">Type:</label>
+                        </div>
+                        <div class="col-sm-7 text-sm-left">
+                            <span>${homeworkInfo.type}</span>
+                        </div>
+                    </div>
+                    <div class="row mb-sm-2">
+                        <div class="col-sm-5 text-sm-right">
+                            <label for="meeting-name">Questions Amount:</label>
+                        </div>
+                        <div class="col-sm-7 text-sm-left">
+                            <span>${homeworkInfo.homeworkQuestions.length} Question(s)</span>
+                        </div>
+                    </div>
+                    <div class="card-body d-flex justify-content-center">
+                        <a class="btn btn-success" href="/Admin/Course/@Model.CourseID/Session/@Model.SessionID/Homework/${homeworkInfo.homeworkId}/Info">More Info</a>
+                    </div>
+                </div>
+                <hr class="container my-0">
+                ` + homeworkUpdateHtml;
+        }
+        function getTypeOptions(selectedType) {
+            var options = ['Vocabulary', 'Grammar']; // Example statuses
+            var html = '';
+
+            options.forEach(function (type) {
+                html += `<option value="${type}" ${selectedType === type ? 'selected' : ''}>${type}</option>`;
+            });
+
+            return html;
+        }
+        function getStatusOptions(selectedStatus) {
+            var options = ['Draft', 'Available','Postponed','Cancelled','EndofService']; // Example statuses
+            var html = '';
+            switch (selectedStatus) {
+                case 'Available':
+                    options = ['Available','Postponed','Cancelled','EndofService']
+                    break;
+                case 'Draft':
+                    options = ['Draft', 'Available']
+                    break;
+                case 'Postponed':
+                    options = ['Available','Postponed','Cancelled','EndofService']
+                    break;
+                case 'EndofService':
+                    options = ['Available','EndofService']
+                    break;
+                case 'Cancelled':
+                    options = ['Available','Cancelled','EndofService']
+                    break;
+            }
+            options.forEach(function (status) {
+                html += `<option value="${status}" ${selectedStatus === status ? 'selected' : ''} >${status}</option>`;
+            });
+
+            return html;
+        }
+        function setCourseDisplay(data) {
+            var titleStatusHtml = data.status === 'Draft' || data.status === 'Postponed' ? `
+                            <div class="edit-info" id="session-session-status">
+                                <i class='bx bxs-edit bx-sm' data-toggle="modal" data-target="#editSession"></i>
+                            </div>
+                            ` : '';
+            var homeworkAddHtml = data.status === 'Draft' || data.status === 'Postponed' ? `
+                            <div class="edit-info" id="session-add-homework">
+                                <i class='bx bxs-add-to-queue bx-sm' data-toggle="modal" data-target="#createHomework"></i>
+                            </div>
+                            ` : '';
+            var statusText = '';
+            switch (data.status) {
+                case 'Available':
+                    statusText = `<span class="outcome" style="float: left;">${data.status}</span>`
+                    break;
+                case 'Draft':
+                case 'Postponed':
+                    statusText = `<span class="approval" style="float: left;">${data.status}</span>`
+                    break;
+                case 'EndofService':
+                case 'Cancelled':
+                    statusText = `<span class="destroy" style="float: left;">${data.status}</span>`
+                    break;
+            }
+            $('#createHomework_SessionTitle').empty();
+            $('#createHomework_Type').empty();
+
+            $('#session-title-status').find('#session-session-status').remove();
+            $('#session-allow-add-homework').find('#session-add-homework').remove();
+            $('#session-status').empty();
+
+            $('#session-id').text(data.sessionId);
+            $('#session-title-status').append(titleStatusHtml);
+            $('#session-allow-add-homework').append(homeworkAddHtml);
+            $('#session-session-title').text(data.number + ' ' + data.title);
+
+            $('#session-number').text(data.number);
+            $('#session-status').append(statusText);
+            $('#session-description').text(data.description);
+            $('#session-title').text(data.title);
+            $('#session-hours').text(data.hours);
+            $('#session-homeworks-amount').text(data.homeworks.length + ' Homework(s)');
+
+            $('#createHomework_SessionTitle').val(data.title);
+            $('#createHomework_Type').append(getTypeOptions());
+
+            $('input[id="updateSession_Title"]').val(data.title);
+            $('textarea[id="updateSession_Description"]').val(data.description);
+            $('input[id="updateSession_Number"]').val(data.number);
+            $('input[id="updateSession_Hours"]').val(data.hours);
+            $('select[id="updateSession_Status"]').append(getStatusOptions(data.status));
+        }
+    </script>
 </body>
 </html>

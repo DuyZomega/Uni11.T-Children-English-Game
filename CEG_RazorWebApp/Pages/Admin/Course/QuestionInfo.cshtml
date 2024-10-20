@@ -142,7 +142,7 @@
                     <div class="modal-header">
                         <h4 class="modal-title">Edit Question</h4>
                     </div>
-                    <form method="put" asp-route-questionId="@Model.QuestionId" id="editQuestionForm" class="form-group">
+                    <form method="put" id="editQuestionForm" class="form-group">
                         <div class="modal-body">
                             <div class="modal-body">
                                 <div class="col-12">
@@ -171,7 +171,7 @@
                     <div class="modal-header">
                         <h4 class="modal-title">Add new Homework Answer</h4>
                     </div>
-                    <form asp-page-handler="Create" asp-route-questionId="@Model.QuestionId" method="post" id="createAnswerForm">
+                    <form method="post" id="createAnswerForm">
                         <div class="modal-body">
                             <div class="row p-4">
                                 <div class="col-12">
@@ -183,7 +183,7 @@
                                     </div>
                                     <div class="row form-group">
                                         <label asp-for="@createAnswer.Type" class="col-md-4 col-form-label text-md-right"></label>
-                                        <select class="col-md-8 form-control custom-select" asp-for="@createAnswer.Type" asp-items="@createAnswer.DefaultAnswerTypeSelectList"></select>
+                                        <select class="col-md-8 form-control custom-select" asp-for="@createAnswer.Type"></select>
                                         <span asp-validation-for="@createAnswer.Type" id="error_message"
                                                 class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
@@ -503,8 +503,10 @@
                 $('#question-title-status').append(titleStatusHtml);
                 $('#question-allow-add-answer').append(answerAddHtml);
                 $('#question-question').text(data.question);
-                $('#updateQuestion_Question').text(data.question);
                 $('#question-answers-amount').text(data.answersAmount + ' Answer(s)');
+
+                $('#updateQuestion_Question').text(data.question);
+                $('#createAnswer_Type').append(getTypeOptions());
             }
         </script>
     </body>
