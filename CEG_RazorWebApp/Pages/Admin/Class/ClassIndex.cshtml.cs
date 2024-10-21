@@ -14,26 +14,12 @@ namespace CEG_RazorWebApp.Pages.Admin.Class
 {
     public class ClassIndexModel : PageModel
     {
-        private readonly CEG_RAZOR_Library methcall = new();
-        [BindProperty]
-        public List<IndexClassInfoVM>? Classes { get; set; } 
         [BindProperty]
         public CreateClassVM? CreateClass { get; set; } = new CreateClassVM();
+        public string? SchedulePresets { get; set; }
         public void OnGet()
         {
-            methcall.InitTempData(this);
-        }
-        public IActionResult OnGetLogout()
-        {
-            //_httpClient.DefaultRequestHeaders.Authorization = null;
-            HttpContext.Session.Clear();
-            TempData.Clear();
-            SignOut();
-
-            // If using ASP.NET Identity, you may want to sign out the user
-            // Example: await SignInManager.SignOutAsync();
-
-            return RedirectToPage("/Home/Index");
+            SchedulePresets = JsonSerializer.Serialize(CreateClass.WeeklySchedulePresets);
         }
     }
 }

@@ -206,6 +206,10 @@ namespace CEG_BAL.AutoMapperProfile
                 .ReverseMap();
             CreateMap<Class, ClassViewModel>()
                 .ReverseMap();
+            CreateMap<Enroll, EnrollViewModel>()
+                .ReverseMap();
+            CreateMap<Schedule, ScheduleViewModel>()
+                .ReverseMap();
             CreateMap<Session, SessionViewModel>()
                 .ReverseMap();
             CreateMap<Homework, HomeworkViewModel>()

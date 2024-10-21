@@ -148,6 +148,10 @@ namespace CEG_RazorWebApp.Libraries
         public readonly static string CLASS_STATUS_ENDED = "Ended";
         public readonly static string CLASS_STATUS_NAME_ENDED = "Ended";
 
+        public readonly static string CLASS_SCHEDULE_MONDAY_THURSDAY = "Monday and Thursday each week";
+        public readonly static string CLASS_SCHEDULE_TUESDAY_FRIDAY = "Tuesday and Friday each week";
+        public readonly static string CLASS_SCHEDULE_WEDNESDAY_SATURDAY = "Wednesday and Saturday each week";
+
         public readonly static string HOMEWORK_TYPE_VOCAB = "Vocabulary";
         public readonly static string HOMEWORK_TYPE_NAME_VOCAB = "Vocabulary";
         public readonly static string HOMEWORK_TYPE_GRAMMAR = "Grammar";

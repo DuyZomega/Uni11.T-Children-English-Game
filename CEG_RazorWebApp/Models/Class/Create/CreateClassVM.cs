@@ -30,10 +30,18 @@ namespace CEG_RazorWebApp.Models.Class.Create
         [DataType(DataType.DateTime)]
         //startDate (30/9), endDate(30/10), daysInWeek(T2, T5) Phải sync ngày và thứ tạo (30/9 là T2)
         public DateTime StartDate { get; set; } = DateTime.Now.AddDays(10);
-        [Required(ErrorMessage = "Course end date is required")]
+        [Required(ErrorMessage = "Class end date is required")]
         [DateGreaterThan("StartDate",Constants.CLASS_MINIMUM_DAYS_REQ)]
         [DisplayName("Class end date")]
         [DataType(DataType.DateTime)]
         public DateTime EndDate { get; set; } = DateTime.Now.AddDays(40);
+        [Required(ErrorMessage = "Class weekly schedule is required")]
+        [DisplayName("Class weekly schedule")]
+        public string? WeeklySchedule { get; set; } = Constants.CLASS_SCHEDULE_MONDAY_THURSDAY;
+        public List<string>? WeeklySchedulePresets { get; set; } = new List<string>{
+            Constants.CLASS_SCHEDULE_MONDAY_THURSDAY,
+            Constants.CLASS_SCHEDULE_TUESDAY_FRIDAY,
+            Constants.CLASS_SCHEDULE_WEDNESDAY_SATURDAY
+        };
     }
 }

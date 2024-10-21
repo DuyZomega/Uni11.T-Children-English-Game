@@ -5,12 +5,6 @@ using CEG_BAL.ViewModels.Admin;
 using CEG_DAL.Infrastructure;
 using CEG_DAL.Models;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static CEG_BAL.Configurations.Constants;
 
 namespace CEG_BAL.Services.Implements
 {
@@ -45,6 +39,17 @@ namespace CEG_BAL.Services.Implements
                 clas.EndDate = newClass.EndDate;
                 clas.MinimumStudents = newClass.MinStudents;
                 clas.MaximumStudents = newClass.MaxStudents;
+                clas.Status = "Draft";
+                clas.Schedules = new List<Schedule>();
+                if (newClass.WeeklySchedule != null)
+                {
+                    var sessionList = _unitOfWork.SessionRepositories.GetSessionListByCourseId(clas.CourseId).Result;
+                    if (sessionList.Count > 0 && clas.StartDate.HasValue)
+                    {
+                        // Extract logic to handle different schedules into a helper function
+                        AssignSchedulesBasedOnDays(newClass.WeeklySchedule, clas.StartDate.Value.DayOfWeek, clas, sessionList, newClass.StartDate, sessionList.Select(s => s.Hours).ToList());
+                    }
+                }
             }
             _unitOfWork.ClassRepositories.Create(clas);
             _unitOfWork.Save();
@@ -90,6 +95,45 @@ namespace CEG_BAL.Services.Implements
             clas.Status = classStatus;
             _unitOfWork.ClassRepositories.Update(clas);
             _unitOfWork.Save();
+        }
+
+        // Helper Function to handle schedule assignment
+        private void AssignSchedulesBasedOnDays(string scheduleType, DayOfWeek startDay, Class clas, List<Session> sessionList, DateTime startDate, List<int?> sessionHours)
+        {
+            // Define possible day pairs for each schedule type
+            var dayPairs = new Dictionary<string, (DayOfWeek, DayOfWeek)>
+            {
+                { Configurations.Constants.CLASS_SCHEDULE_MONDAY_THURSDAY, (DayOfWeek.Monday, DayOfWeek.Thursday) },
+                { Configurations.Constants.CLASS_SCHEDULE_TUESDAY_FRIDAY, (DayOfWeek.Tuesday, DayOfWeek.Friday) },
+                { Configurations.Constants.CLASS_SCHEDULE_WEDNESDAY_SATURDAY, (DayOfWeek.Wednesday, DayOfWeek.Saturday) }
+            };
+
+            if (!dayPairs.TryGetValue(scheduleType, out (DayOfWeek, DayOfWeek) value))
+                return; // Invalid schedule type
+
+            var (firstDay, secondDay) = value;
+
+            // Only proceed if the start day matches one of the schedule days
+            if (startDay == firstDay || startDay == secondDay)
+            {
+                TimeOnly startTime = TimeOnly.FromDateTime(startDate);
+
+                for (int i = 0; i < sessionList.Count; i++)
+                {
+                    int? sessionDuration = sessionHours[i];
+                    if (sessionDuration.HasValue)
+                    {
+                        clas.Schedules.Add(new Schedule()
+                        {
+                            SessionId = sessionList[i].SessionId,
+                            DayOfWeek = i % 2 == 0 ? firstDay.ToString() : secondDay.ToString(),
+                            StartTime = startTime,
+                            EndTime = startTime.AddHours(sessionDuration.Value),
+                            Status = "Draft"
+                        });
+                    }
+                }
+            }
         }
     }
 }

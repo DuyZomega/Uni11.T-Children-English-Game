@@ -44,7 +44,22 @@ namespace CEG_DAL.Repositories.Implements
 
         public async Task<Homework?> GetByTitle(string name)
         {
-            return await _dbContext.Homeworks.Include(s => s.HomeworkQuestions).AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(home => home.Title == name);
+            return await _dbContext.Homeworks
+                .Select(h => new Homework()
+                {
+                    HomeworkId = h.HomeworkId,
+                    Title = h.Title,
+                    Description = h.Description,
+                    StartDate = h.StartDate,
+                    EndDate = h.EndDate,
+                    GameConfigId = h.GameConfigId,
+                    Hours = h.Hours,
+                    Type = h.Type,
+                    Status = h.Status,
+                    HomeworkQuestions = h.HomeworkQuestions,
+                })
+                .AsNoTrackingWithIdentityResolution()
+                .SingleOrDefaultAsync(home => home.Title == name);
         }
     }
 }

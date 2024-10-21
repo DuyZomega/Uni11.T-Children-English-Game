@@ -138,5 +138,16 @@ namespace CEG_BAL.Configurations
             }
             return false;
         }
+        public static bool IsClassNewWeeklyScheduleValid(string newSchedule)
+        {
+            var validSchedule = new List<string>()
+            {
+                Constants.CLASS_SCHEDULE_MONDAY_THURSDAY,
+                Constants.CLASS_SCHEDULE_TUESDAY_FRIDAY,
+                Constants.CLASS_SCHEDULE_WEDNESDAY_SATURDAY
+            };
+            if (validSchedule.Contains(newSchedule)) return true;
+            return false;
+        }
     }
 }

@@ -5,9 +5,7 @@
     ViewData["Title"] = "Admin All Classes Page";
     string? search = string.Empty;
 
-    var classes = Model.Classes;
     var createClass = Model.CreateClass;
-
     Layout = "~/Pages/Shared/_ALayout.cshtml";
 }
 <html lang="en">
@@ -127,6 +125,11 @@
                                     <input asp-for="@createClass.EndDate" type="datetime-local" value="@createClass.EndDate.ToString("yyyy-MM-ddTHH:mm")" class="form-control col-md-7" required>
                                     <span asp-validation-for="@createClass.EndDate" id="error_message"
                                             class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@createClass.WeeklySchedule" class="col-md-3 col-form-label text-md-right"></label>
+                                    <select class="form-control col-md-7 custom-select" asp-for="@createClass.WeeklySchedule" required></select>
+                                    <span asp-validation-for="@createClass.WeeklySchedule" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
                                 </div>
                             </div>
                         </div>
@@ -162,8 +165,6 @@
                 url: apiUrl + 'Teacher/All/Fullname', // API endpoint
                 type: 'GET',
                 success: function (response) {
-                    // Log the entire response to the console for debugging
-                    console.log("Returned object:", response);
 
                     // Check if the status is true
                     if (response.status) {
@@ -191,8 +192,6 @@
                 url: apiUrl + 'Course/All/Name/Available', // API endpoint
                 type: 'GET',
                 success: function (response) {
-                    // Log the entire response to the console for debugging
-                    console.log("Returned object:", response);
 
                     // Check if the status is true
                     if (response.status) {
@@ -216,34 +215,34 @@
                     //showAlert('success', 'Data fetched successfully.');
                 }
             });
-            // Function to display alerts
-            function showAlert(type, message) {
-                var alertHtml = '';
-
-                if (type === 'success') {
-                    alertHtml = `
-                        <div class="alert alert-success alert-dismissible fade show" id="notif">
-                            <i class='bx bx-message-alt-x p-1'></i>
-                            <strong class="mr-1">` + message + `</strong>
-                            <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
-                                <span><i class='bx bx-x'></i></span>
-                            </button>
-                        </div>`;
-                } else if (type === 'error') {
-                    alertHtml = `
-                        <div class="alert alert-danger alert-dismissible fade show" id="notif">
-                            <i class='bx bx-message-alt-x p-1'></i>
-                            <strong class="mr-1">` + message + `</strong>
-                            <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
-                                <span><i class='bx bx-x'></i></span>
-                            </button>
-                        </div>`;
-                }
-
-                // Inject the alert HTML into the alert container
-                $('#alertContainer').html(alertHtml);
-            }
         });
+        // Function to display alerts
+        function showAlert(type, message) {
+            var alertHtml = '';
+
+            if (type === 'success') {
+                alertHtml = `
+                                <div class="alert alert-success alert-dismissible fade show" id="notif">
+                                    <i class='bx bx-message-alt-x p-1'></i>
+                                    <strong class="mr-1">` + message + `</strong>
+                                    <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+                                        <span><i class='bx bx-x'></i></span>
+                                    </button>
+                                </div>`;
+            } else if (type === 'error') {
+                alertHtml = `
+                                <div class="alert alert-danger alert-dismissible fade show" id="notif">
+                                    <i class='bx bx-message-alt-x p-1'></i>
+                                    <strong class="mr-1">` + message + `</strong>
+                                    <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+                                        <span><i class='bx bx-x'></i></span>
+                                    </button>
+                                </div>`;
+            }
+
+            // Inject the alert HTML into the alert container
+            $('#alertContainer').html(alertHtml);
+        }
         function callApiGetClassList(){
             $.ajax({
                 url: apiUrl + 'Class/Admin/All', // API endpoint
@@ -253,7 +252,6 @@
                 },
                 success: function (response) {
                     // Log the entire response to the console for debugging
-                    console.log("Returned object:", response);
 
                     // Check if the status is true
                     if (response.status) {
@@ -286,16 +284,38 @@
                     </div>
                 </div>
             `;
+            var select = $('#createClass_WeeklySchedule'); // Reference to the <select> element
+            select.empty();
+            select.append(getScheduleOptions());
             classList.append(cardCreateClassHtml);
             // Loop through the data array and append each class div
             $.each(data, function (index, classObj) {
                 var formattedStartDate = formatDate(classObj.startDate);
                 var formattedEndDate = formatDate(classObj.endDate);
+                var statusText = '';
+                switch (classObj.status) {
+                    case 'Open':
+                        statusText = `<span class="outcome" style="float: left;">Status: ${classObj.status}</span>`
+                        break;
+                    case 'Draft':
+                    case 'Postponed':
+                        statusText = `<span class="approval" style="float: left;">Status: ${classObj.status}</span>`
+                        break;
+                    case 'Ended':
+                    case 'Cancelled':
+                        statusText = `<span class="destroy" style="float: left;">Status: ${classObj.status}</span>`
+                        break;
+                }
                 // Construct card HTML
                 var cardHtml = `
                     <div class="col-xl-3 col-lg-6 col-sm-6 my-3">
                         <div class="card1 card-child">
-                            <div class="club-name">Class ID: ${classObj.classId}</div>
+                            <div class="club-name">
+                                Class ID: ${classObj.classId}
+                                <div class="status">
+                                    ${statusText}
+                                </div>
+                            </div>
                             <div class="card-body">
                                 <div class="club-title">
                                     <ul>
@@ -304,9 +324,11 @@
                                         <li><h6>Teacher:</h6><span>${classObj.teacher.account.fullname}</span></li>
                                         <li><h6>Start date:</h6><span>${formattedStartDate}</span></li>
                                         <li><h6>End date:</h6><span>${formattedEndDate}</span></li>
-                                        <li><h6>Minimum amount of students:</h6><span>${classObj.minimumStudents}</span></li>
-                                        <li><h6>Maximum amount of students:</h6><span>${classObj.maximumStudents}</span></li>
-                                        <li><h6>Current amount of students:</h6><span>${classObj.studentProgress.length}</span></li>
+                                        <li><h6>Minimum students amount:</h6><span>${classObj.minimumStudents}</span></li>
+                                        <li><h6>Maximum students amount:</h6><span>${classObj.maximumStudents}</span></li>
+                                        <li><h6>Current students amount:</h6><span>${classObj.studentProgress.length}</span></li>
+                                        <li><h6>Weekly scheduled sessions amount:</h6><span>${classObj.schedules.length}</span></li>
+                                        <li><h6>Current enrolls amount:</h6><span>${classObj.enrolls.length}</span></li>
                                     </ul>
                                 </div>
                             </div>
@@ -322,6 +344,17 @@
                 // </form>
                 classList.append(cardHtml);
             });
+        }
+        function getScheduleOptions(selectedType) {
+            var options = @Html.Raw(Model.SchedulePresets); // Example types
+            console.log(options);
+            var html = '';
+
+            options.forEach(function (type) {
+                html += `<option value="${type}" ${selectedType === type ? 'selected' : ''}>${type}</option>`;
+            });
+
+            return html;
         }
         function formatDate(date) {
             let d = new Date(date);
@@ -356,6 +389,7 @@
                 CourseName: $("#createClass_CourseName").val(),
                 StartDate: $("#createClass_StartDate").val(),
                 EndDate: $("#createClass_EndDate").val(),
+                WeeklySchedule: $('#createClass_WeeklySchedule').val()
             };
 
             // Make the AJAX POST request

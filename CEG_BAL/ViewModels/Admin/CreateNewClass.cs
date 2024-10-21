@@ -39,5 +39,7 @@ namespace CEG_BAL.ViewModels.Admin
         [DisplayName("Class end date")]
         [DataType(DataType.DateTime)]
         public DateTime EndDate { get; set; }
+        [Required(ErrorMessage = "Class weekly schedule is required")]
+        public string? WeeklySchedule { get; set; }
     }
 }

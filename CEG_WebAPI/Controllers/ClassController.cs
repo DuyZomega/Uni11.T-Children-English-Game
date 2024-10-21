@@ -231,7 +231,7 @@ namespace CEG_WebAPI.Controllers
                     return BadRequest(new
                     {
                         Status = false,
-                        ErrorMessage = "Course Not Found or Course not Available!"
+                        ErrorMessage = "Course not found or course not Available."
                     });
                 }
                 var resultTeacherName = await _teacherService.IsTeacherExistByFullname(newClass.TeacherName);
@@ -240,7 +240,15 @@ namespace CEG_WebAPI.Controllers
                     return BadRequest(new
                     {
                         Status = false,
-                        ErrorMessage = "Teacher Not Found!"
+                        ErrorMessage = "Teacher not found."
+                    });
+                }
+                if (newClass.WeeklySchedule == null || !CEG_BAL_Library.IsClassNewWeeklyScheduleValid(newClass.WeeklySchedule))
+                {
+                    return BadRequest(new
+                    {
+                        Status = false,
+                        ErrorMessage = "Weekly schedule invalid."
                     });
                 }
                 ClassViewModel clas = new ClassViewModel();
@@ -249,7 +257,7 @@ namespace CEG_WebAPI.Controllers
                 {
                     Data = true,
                     Status = true,
-                    SuccessMessage = "Class Create Successfully!"
+                    SuccessMessage = "Class create successfully."
                 });
             }
             catch (Exception ex)

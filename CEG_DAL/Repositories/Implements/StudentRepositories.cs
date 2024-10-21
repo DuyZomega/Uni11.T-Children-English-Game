@@ -38,9 +38,12 @@ namespace CEG_DAL.Repositories.Implements
             return await _dbContext.Students.Where(stu => stu.ParentId == parentId)
                 .Include(stu => stu.Account).ToListAsync();
         }
-        public async Task<List<Enroll>> GetStudentByClassId(int classId)
+        public async Task<List<Student>> GetStudentByClassId(int classId)
         {
-            return await _dbContext.Enrolls.Where(stu => stu.ClassId == classId).ToListAsync();
+            return await _dbContext.Enrolls
+                .Where(stu => stu.ClassId == classId)
+                .Select(e => e.Student)
+                .ToListAsync();
         }
     }
 }
