@@ -4,6 +4,7 @@ using System.Security.Cryptography;
 using System.Text;
 using CEG_RazorWebApp.Models.VnPay;
 using System.Globalization;
+using CEG_RazorWebApp.Models.Transaction.Response;
 
 namespace CEG_RazorWebApp.Libraries
 {
@@ -12,7 +13,7 @@ namespace CEG_RazorWebApp.Libraries
         private readonly SortedList<string, string> _requestData = new SortedList<string, string>(new VnPayCompare());
         private readonly SortedList<string, string> _responseData = new SortedList<string, string>(new VnPayCompare());
 
-        public PaymentResponseModel GetFullResponseData(IQueryCollection collection, string hashSecret)
+        public TransactionResponseVM GetFullResponseData(IQueryCollection collection, string hashSecret)
         {
             var vnPay = new VnPayLibrary();
 
@@ -37,13 +38,13 @@ namespace CEG_RazorWebApp.Libraries
                 vnPay.ValidateSignature(vnpSecureHash, hashSecret); //check Signature
 
             if (!checkSignature || vnpResponseCode != "00")
-                return new PaymentResponseModel()
+                return new TransactionResponseVM()
                 {
                     Success = false,
                     Message = "Payment Failed"
                 };
 
-            return new PaymentResponseModel()
+            return new TransactionResponseVM()
             {
                 Success = true,
                 PaymentMethod = "VnPay",

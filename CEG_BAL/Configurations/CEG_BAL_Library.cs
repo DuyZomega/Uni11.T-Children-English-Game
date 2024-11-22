@@ -149,6 +149,64 @@ namespace CEG_BAL.Configurations
             }
             return false;
         }
+        public static bool IsScheduleNewStatusValid(string? currentStatus, string newStatus)
+        {
+            var validStatuses = Array.Empty<string>();
+            if (currentStatus == null) return false;
+            switch (currentStatus)
+            {
+                case var value when value.Equals(Constants.SCHEDULE_STATUS_DRAFT):
+                    {
+                        validStatuses =
+                        [
+                            Constants.SCHEDULE_STATUS_DRAFT,
+                            Constants.SCHEDULE_STATUS_UPCOMING
+                        ];
+                        return validStatuses.Contains(newStatus);
+                    }
+                case var value when value.Equals(Constants.SCHEDULE_STATUS_UPCOMING):
+                    {
+                        validStatuses =
+                        [
+                            Constants.SCHEDULE_STATUS_UPCOMING,
+                            Constants.SCHEDULE_STATUS_ONGOING,
+                            Constants.SCHEDULE_STATUS_NAME_CANCELLED
+                        ];
+                        return validStatuses.Contains(newStatus);
+                    }
+                case var value when value.Equals(Constants.SCHEDULE_STATUS_ONGOING):
+                    {
+                        validStatuses =
+                        [
+                            Constants.SCHEDULE_STATUS_ONGOING,
+                            Constants.SCHEDULE_STATUS_CANCELLED,
+                            Constants.SCHEDULE_STATUS_ENDED
+                        ];
+                        return validStatuses.Contains(newStatus);
+                    }
+                case var value when value.Equals(Constants.SCHEDULE_STATUS_CANCELLED):
+                    {
+                        validStatuses =
+                        [
+                            Constants.CLASS_STATUS_CANCELLED
+                        ];
+                        return validStatuses.Contains(newStatus);
+                    }
+                case var value when value.Equals(Constants.SCHEDULE_STATUS_ENDED):
+                    {
+                        validStatuses =
+                        [
+                            Constants.CLASS_STATUS_ENDED
+                        ];
+                        return validStatuses.Contains(newStatus);
+                    }
+                default:
+                    {
+                        break;
+                    }
+            }
+            return false;
+        }
         /*public static bool IsClassNewWeeklyScheduleValid(string newSchedule)
         {
             var validSchedule = new List<string>()

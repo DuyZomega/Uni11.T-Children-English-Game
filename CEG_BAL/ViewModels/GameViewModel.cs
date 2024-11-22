@@ -20,8 +20,8 @@ namespace CEG_BAL.ViewModels
 
         public string? Type { get; set; }
 
-        public virtual GameConfig? GameConfig { get; set; }
+        public GameConfigViewModel GameConfig { get; set; } = null!;
 
-        public virtual ICollection<GameLevel> GameLevels { get; set; } = new List<GameLevel>();
+        public List<GameLevelViewModel> GameLevels { get; set; } = new List<GameLevelViewModel>();
     }
 }

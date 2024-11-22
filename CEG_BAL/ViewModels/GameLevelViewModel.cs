@@ -13,6 +13,6 @@ namespace CEG_BAL.ViewModels
 
         public string? Status { get; set; }
 
-        public virtual Game Game { get; set; } = null!;
+        public GameViewModel Game { get; set; } = null!;
     }
 }

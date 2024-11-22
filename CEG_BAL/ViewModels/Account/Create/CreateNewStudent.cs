@@ -11,11 +11,12 @@ namespace CEG_BAL.ViewModels.Account.Create
         public CreateNewStudent()
         {
             TotalPoints = 0;
+            Account.Role = "Student";
         }
-        public string Description { get; set; }
+        public string Description { get; set; } = null!;
         public int TotalPoints { get; set; }
         public DateTime Birthdate { get; set; }
-        public string ParentUsername { get; set; }
-        public virtual CreateNewAccount Account { get; set; }
+        public string ParentFullname { get; set; } = null!;
+        public CreateNewAccount Account { get; set; } = new CreateNewAccount();
     }
 }

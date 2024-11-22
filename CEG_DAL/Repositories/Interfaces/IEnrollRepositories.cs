@@ -12,6 +12,7 @@ namespace CEG_DAL.Repositories.Interfaces
     {
         Task<List<Enroll>> GetEnrollsList();
         Task<Enroll>? GetByIdNoTracking(int id);
+        // Task<bool>? isExistedByStudentFullname(string studentFullname);
         Task<List<Enroll>> GetEnrollByParentId(int parentId);
     }
 }

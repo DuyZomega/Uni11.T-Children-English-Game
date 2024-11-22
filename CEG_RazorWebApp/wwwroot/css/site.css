@@ -32,12 +32,12 @@ nav {
 
 a {
     text-decoration: none;
-    color: darkgreen;
+    color: #00ace9;
 }
 
 .navbar .nav-name-text {
     text-align: center;
-    color: darkgreen;
+    color: #2c3e50;
     font-size: 30px;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-weight: 700;
@@ -48,7 +48,7 @@ a {
 .nav-item-text .nav-link {
     text-decoration: none;
     text-align: center;
-    color: black;
+    color: #00ace9;
     font-size: 22px;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-weight: 700;

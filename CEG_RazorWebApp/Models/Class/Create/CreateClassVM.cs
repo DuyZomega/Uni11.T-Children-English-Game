@@ -1,5 +1,5 @@
 ﻿using CEG_BAL.Attributes;
-using CEG_RazorWebApp.Libraries;
+using CEG_BAL.Configurations;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -35,5 +35,9 @@ namespace CEG_RazorWebApp.Models.Class.Create
         [DisplayName("Class end date")]
         [DataType(DataType.DateTime)]
         public DateTime EndDate { get; set; } = DateTime.Now.AddDays(40);
+        [Required(ErrorMessage = "Enrollment Fee is required")]
+        [Range(Constants.CLASS_MINIMUM_ENROLLMENT_FEE, Constants.CLASS_MAXIMUM_ENROLLMENT_FEE)]
+        [DisplayName("Enrollment Fee")]
+        public int EnrollmentFee { get; set; } = 1000000;
     }
 }

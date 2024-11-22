@@ -30,7 +30,7 @@
             <source src="~/images/media/LoadingSound.mp3" type="audio/mp3">
         </audio> --->
         <div class="loader">
-            <img src="~/images/Red_whiskered_bulbul_bird_logo_eps_10_generated 1.png" alt="Loading Image" class="loading-img">
+            <img src="~/images/study.png" alt="Loading Image" class="loading-img web-logo-image">
             <div class="text-animation">Loading... Please wait</div>
         </div>
     </div>
@@ -123,9 +123,9 @@
         <div class="header__bottom">
             <nav class="myNavBar navbar navbar-expand-lg navbar-dark container-fluid">
                 <div class="container-fluid">
-                    <a class="navbar-brand nav-name-text" href="@Url.Action("Index", "Home")">
-                        @* <img class="d-inline-block" src="/images/Red_whiskered_bulbul_bird_logo_eps_10_generated 1.png" /> *@
-                        <a class="navbar-brand nav-name-text" style="color:black" href="@Url.Action("Index", "Home")">Children English Game</a>
+                    <a class="navbar-brand nav-name-text" href="/Home/Index">
+                        <img class="d-inline-block web-logo-image" src="/images/study.png" />
+                        <a class="navbar-brand nav-name-text nav-link" href="/Home/Index">Children English Game</a>
                     </a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
@@ -133,13 +133,13 @@
                     <div class="collapse navbar-collapse" id="navbarText">
                         <ul class="navbar-nav ms-auto mb-2 mb-xl-0">
                             <li class="nav-item nav-item-text">
-                                <a class="nav-link" href="@Url.Action("Index", "Home")">Home</a>
+                                <a class="nav-link" href="/Home/Index">Home</a>
                             </li>
                             <li class="nav-item nav-item-text">
-                                <a class="nav-link" href="@Url.Action("Index","Class")">Classes</a>
+                                <a class="nav-link" href="/Home/Class/Index">Classes</a>
                             </li>
                             <li class="nav-item nav-item-text">
-                                <a class="nav-link" href="@Url.Action("Index", "Course")">Courses</a>
+                                <a class="nav-link" href="/Home/Course/Index">Courses</a>
                             </li>
                         </ul>
                     </div>
@@ -202,6 +202,35 @@
         function sendEmail(email) {
             var mailtoLink = 'mailto:' + email;
             window.open(mailtoLink, '_self');
+        }
+        // Function to display alerts
+        function showAlert(type, message) {
+            var alertHtml = '';
+
+            if (type === 'success') {
+                alertHtml = `
+                            <div class="alert alert-success alert-dismissible fade show" id="notif">
+                                <i class='bx bx-message-alt-x p-1'></i>
+                                <strong class="mr-1">` + message + `</strong>
+                                <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+                                    <span><i class='bx bx-x'></i></span>
+                                </button>
+                            </div>
+                        `;
+            } else if (type === 'error') {
+                alertHtml = `
+                            <div class="alert alert-danger alert-dismissible fade show" id="notif">
+                                <i class='bx bx-message-alt-x p-1'></i>
+                                <strong class="mr-1">` + message + `</strong>
+                                <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+                                    <span><i class='bx bx-x'></i></span>
+                                </button>
+                            </div>
+                        `;
+            }
+
+            // Inject the alert HTML into the alert container
+            $('#alertContainer').html(alertHtml);
         }
     </script>
     <script>

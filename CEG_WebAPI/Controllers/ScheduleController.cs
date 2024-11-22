@@ -182,7 +182,7 @@ namespace CEG_WebAPI.Controllers
                         ErrorMessage = "Schedule Does Not Exist!"
                     });
                 }
-                bool isValid = CEG_BAL_Library.IsClassNewStatusValid(result.Status, status);
+                bool isValid = CEG_BAL_Library.IsScheduleNewStatusValid(result.Status, status);
                 if (isValid)
                 {
                     _scheduleService.UpdateStatus(id, status);
@@ -198,7 +198,7 @@ namespace CEG_WebAPI.Controllers
                     return BadRequest(new
                     {
                         Status = false,
-                        ErrorMessage = "New status is either an old status or not a valid status for requested class"
+                        ErrorMessage = "New status is either an old status or not a valid status for requested schedule"
                     });
                 }
             }

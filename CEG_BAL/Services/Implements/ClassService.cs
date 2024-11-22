@@ -3,6 +3,7 @@ using CEG_BAL.Configurations;
 using CEG_BAL.Services.Interfaces;
 using CEG_BAL.ViewModels;
 using CEG_BAL.ViewModels.Admin;
+using CEG_BAL.ViewModels.Admin.Get;
 using CEG_BAL.ViewModels.Admin.Update;
 using CEG_DAL.Infrastructure;
 using CEG_DAL.Models;
@@ -41,6 +42,7 @@ namespace CEG_BAL.Services.Implements
                 clas.EndDate = newClass.EndDate;
                 clas.MinimumStudents = newClass.MinStudents;
                 clas.MaximumStudents = newClass.MaxStudents;
+                clas.EnrollmentFee = newClass.EnrollmentFee;
                 clas.Status = "Draft";
                 clas.Schedules = _mapper.Map<List<Schedule>>(newClass.Schedules);
                 foreach(var schedule in clas.Schedules)
@@ -65,22 +67,33 @@ namespace CEG_BAL.Services.Implements
 
         public async Task<ClassViewModel?> GetClassById(int id)
         {
-            var user = await _unitOfWork.ClassRepositories.GetByIdNoTracking(id,true,true);
-            if(user != null)
+            var clas = await _unitOfWork.ClassRepositories.GetByIdNoTracking(id, true, true);
+            if (clas != null)
             {
-                var usr = _mapper.Map<ClassViewModel>(user);
-                return usr;
+                var c = _mapper.Map<ClassViewModel>(clas);
+                return c;
             }
             return null;
         }
 
         public async Task<ClassViewModel?> GetByIdAdmin(int id)
         {
-            var user = await _unitOfWork.ClassRepositories.GetByIdNoTracking(id,true,true,true,true);
-            if(user != null)
+            var clas = await _unitOfWork.ClassRepositories.GetByIdNoTracking(id, true, true, true, true);
+            if (clas != null)
             {
-                var usr = _mapper.Map<ClassViewModel>(user);
-                return usr;
+                var c = _mapper.Map<ClassViewModel>(clas);
+                return c;
+            }
+            return null;
+        }
+
+        public async Task<ClassViewModel?> GetByIdParent(int id)
+        {
+            var clas = await _unitOfWork.ClassRepositories.GetByIdNoTracking(id, true, true, true, true);
+            if (clas != null)
+            {
+                var c = _mapper.Map<ClassViewModel>(clas);
+                return c;
             }
             return null;
         }
@@ -88,6 +101,11 @@ namespace CEG_BAL.Services.Implements
         public async Task<List<ClassViewModel>> GetClassList()
         {
             return _mapper.Map<List<ClassViewModel>>(await _unitOfWork.ClassRepositories.GetClassList());
+        }
+
+        public async Task<List<GetClassForTransaction>> GetClassOptionListByStatusOpen()
+        {
+            return _mapper.Map<List<GetClassForTransaction>>(await _unitOfWork.ClassRepositories.GetClassOptionListByStatusOpen());
         }
 
         public async Task<List<ClassViewModel>> GetListAdmin()
@@ -113,7 +131,7 @@ namespace CEG_BAL.Services.Implements
             _unitOfWork.ClassRepositories.Update(clas);
             _unitOfWork.Save();
         }
-        public void Update(ClassViewModel classModel,UpdateClass classNewModel)
+        public void Update(ClassViewModel classModel, UpdateClass classNewModel)
         {
             var mainClass = _mapper.Map<Class>(classModel);
             if (classNewModel != null)
@@ -124,6 +142,7 @@ namespace CEG_BAL.Services.Implements
                 mainClass.MaximumStudents = classNewModel.MaximumStudents;
                 mainClass.StartDate = classNewModel.StartDate;
                 mainClass.EndDate = classNewModel.EndDate;
+                mainClass.EnrollmentFee = classNewModel.EnrollmentFee;
             }
             mainClass.CourseId = mainClass.Course.CourseId;
             mainClass.Schedules = null;

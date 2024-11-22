@@ -2,7 +2,7 @@
 @model CEG_RazorWebApp.Pages.Admin.AdminIndexModel
 @{
     ViewData["Title"] = "Admin Index Page";
-    Layout = "_ALayout";
+    Layout = Model.LayoutUrl;
 }
 <html>
 <head>
@@ -18,20 +18,29 @@
         <div class="cardBox">
             <div class="card event">
                 <div class="inconBx">
-                    <i class='bx bx-home-heart'></i>
+                    <i class='bx bx-user'></i>
                 </div>
                 <div>
                     @* <div class="number">@Model.TotalUsers</div> *@
-                    <div class="cardName">Total Accounts</div>
+                    <div class="cardName"> Accounts</div>
                 </div>
             </div>
             <div class="card feedback">
                 <div class="inconBx">
-                    <i class='bx bx-conversation'></i>
+                    <i class='bx bx-calendar'></i>
                 </div>
                 <div>
                     @* <div class="number">@Model.TotalManagers</div> *@
-                    <div class="cardName">Teacher Accounts</div>
+                    <div class="cardName"> Classes</div>
+                </div>
+            </div>
+            <div class="card turnover">
+                <div class="inconBx">
+                    <i class='bx bx-briefcase-alt-2'></i>
+                </div>
+                <div>
+                    @* <div class="number">@Model.TotalStaffs</div> *@
+                    <div class="cardName"> Courses</div>
                 </div>
             </div>
             <div class="card turnover">
@@ -40,16 +49,7 @@
                 </div>
                 <div>
                     @* <div class="number">@Model.TotalStaffs</div> *@
-                    <div class="cardName">Student Accounts</div>
-                </div>
-            </div>
-            <div class="card turnover">
-                <div class="inconBx">
-                    <i class='bx bx-money'></i>
-                </div>
-                <div>
-                    @* <div class="number">@Model.TotalStaffs</div> *@
-                    <div class="cardName">Parent Accounts</div>
+                    <div class="cardName"> Transactions</div>
                 </div>
             </div>
         </div>
@@ -57,22 +57,7 @@
 </body>
 </html>
 <script>
-    // Immediately store apiUrl in sessionStorage when the page loads
-    // document.addEventListener('DOMContentLoaded', function () {
-    //     Define your API URL here (you could get this value from a server-side config)
-    //     var apiUrl = 'Url.Content(Config["DefaultApiUrl:ConnectionString"] + Config["DefaultApiUrl:ApiUrl"] ?? "https:localhost:7143/api/")';
-
-    //     Store it in sessionStorage
-    //     sessionStorage.setItem('apiUrl', apiUrl);
-
-    //     console.log("API URL stored in sessionStorage:", sessionStorage.getItem('apiUrl'));
-    // });
     $(document).ready(function () {
-        var userRole = sessionStorage.getItem('role');
 
-        if (userRole !== 'Admin') {
-            // Redirect non-admin users to a different page, like an error or login page
-            window.location.href = '/Auth/Login';
-        }
     });
 </script>

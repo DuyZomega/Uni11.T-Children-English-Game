@@ -11,12 +11,10 @@ namespace CEG_BAL.ViewModels
     {
         public int? TotalPoint { get; set; }
 
-        public int? WordAmount { get; set; }
+        public int? TotalCorrectAnswers { get; set; }
 
         public TimeOnly? Playtime { get; set; }
 
-        public virtual Homework Homework { get; set; } = null!;
-
-        public virtual StudentProgress StudentProgress { get; set; } = null!;
+        public List<StudentHomeworkViewModel> StudentHomework { get; set; } = new List<StudentHomeworkViewModel>();
     }
 }

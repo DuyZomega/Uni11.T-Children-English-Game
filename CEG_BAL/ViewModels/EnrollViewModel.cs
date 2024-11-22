@@ -20,10 +20,10 @@ namespace CEG_BAL.ViewModels
         public DateTime EnrolledDate { get; set; }
 
         public string? Status { get; set; }
-        public ClassViewModel Class { get; set; }
+        public ClassViewModel Class { get; set; } = null!;
 
-        public StudentViewModel Student { get; set; }
+        public StudentViewModel Student { get; set; } = null!;
 
-        public TransactionViewModel Transaction { get; set; }
+        public TransactionViewModel Transaction { get; set; } = null!;
     }
 }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CEG_BAL.Services.Interfaces;
 using CEG_BAL.ViewModels;
+using CEG_BAL.ViewModels.Transaction;
 using CEG_DAL.Infrastructure;
 using CEG_DAL.Models;
 using Microsoft.Extensions.Configuration;
@@ -30,11 +31,24 @@ namespace CEG_BAL.Services.Implements
             _jwtService = jwtServices;
             _configuration = configuration;
         }
-        public void Create(TransactionViewModel model)
+        public async Task<int> Create(TransactionViewModel model, CreateTransaction newTran)
         {
-            var pay = _mapper.Map<Transaction>(model);
-            _unitOfWork.TransactionRepositories.Create(pay);
+            var trans = _mapper.Map<Transaction>(model);
+            if (newTran != null)
+            {
+                trans.ParentId = await _unitOfWork.ParentRepositories.GetIdByFullname(newTran.ParentFullname);
+                trans.VnpayId = newTran.VnpayId;
+                trans.TransactionAmount = newTran.TransactionAmount;
+                trans.TransactionDate = DateTime.Now;
+                trans.TransactionStatus = "Completed";
+                trans.TransactionType = newTran.TransactionType;
+                trans.ConfirmDate = DateTime.Now;
+            }
+            _unitOfWork.TransactionRepositories.Create(trans);
             _unitOfWork.Save();
+
+            model.TransactionId = trans.TransactionId;
+            return trans.TransactionId;
         }
 
         public async Task<List<TransactionViewModel>> GetTransactionList()
@@ -58,6 +72,12 @@ namespace CEG_BAL.Services.Implements
             var parentId = await _unitOfWork.ParentRepositories.GetIdByAccountId(id);
             if (parentId == 0) return null;
             return _mapper.Map<List<TransactionViewModel>>(await _unitOfWork.TransactionRepositories.GetTransactionByParentId(parentId));
+        }
+
+        public async Task<TransactionViewModel?> GetTransactionByVnpayId(string? vnpayId)
+        {
+            return _mapper.Map<TransactionViewModel>(await
+                _unitOfWork.TransactionRepositories.GetTransactionByVnpayId(vnpayId));
         }
 
         public void Update(TransactionViewModel model)

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CEG_BAL.Services.Interfaces;
 using CEG_BAL.ViewModels;
+using CEG_BAL.ViewModels.Parent;
 using CEG_DAL.Infrastructure;
 using CEG_DAL.Models;
 using Microsoft.Extensions.Configuration;
@@ -30,9 +31,25 @@ namespace CEG_BAL.Services.Implements
             _jwtService = jwtServices;
             _configuration = configuration;
         }
-        public void Create(EnrollViewModel model)
+        public void Create(EnrollViewModel model, CreateNewEnroll newEn)
         {
+            var c = _unitOfWork.ClassRepositories.GetByClassName(newEn.ClassName).Result;
+            var s = _unitOfWork.StudentRepositories.GetByFullname(newEn.StudentName).Result;
+            var t = _unitOfWork.TransactionRepositories.GetById(newEn.TransactionId);
+
             var en = _mapper.Map<Enroll>(model);
+            if (newEn != null)
+            {
+                en.ClassId = c.ClassId;
+                en.StudentId = s.StudentId;
+                en.TransactionId = t.TransactionId;
+                en.RegistrationDate = DateTime.Now;
+                en.EnrolledDate = DateTime.Now;
+                en.Status = "Enrolled";
+                //en.Class = c;
+                //en.Student = s;
+                //en.Transaction = t;
+            }
             _unitOfWork.EnrollRepositories.Create(en);
             _unitOfWork.Save();
         }

@@ -211,7 +211,7 @@ body .lb-cancel {
 
 .header__bottom {
     padding-top: 45px;
-    background-color: #00ff32;
+    /*background-color: #00ff32;*/
 }
   .header__bottom .myNavBar {
     padding: 0 2.5rem; }
@@ -268,10 +268,10 @@ body .lb-cancel {
     outline: none; }
 
 .background {
-    background: url(../images/bg.png) 0 scroll;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+    background: url(../images/bg7.png) 0 scroll;
+    background-position: top;
+    background-repeat: repeat;
+    background-size: auto;
     min-height: 100vh; /* Ensures that the background covers the entire viewport height */
 }
 

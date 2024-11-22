@@ -50,7 +50,7 @@
     top: 18vw;
     left: 24vw;
     transform: translate(-50%, -50%);
-    background: rgba(74, 195, 0, 0.35);
+    background-color: skyblue;
     z-index: 147;
     border-radius: 5vw;
 }
@@ -82,11 +82,11 @@
 }
 .main-container {
     position: relative;
-    text-align:center;
+    text-align: center;
     width: 100%;
     height: auto;
     margin: 0px auto;
-    background: #99ffad;
+    background: deepskyblue;
     overflow: hidden;
     border-radius: 1rem;
     border-width: 1px;

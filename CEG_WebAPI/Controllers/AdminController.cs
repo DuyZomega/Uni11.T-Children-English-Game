@@ -376,7 +376,7 @@ namespace CEG_WebAPI.Controllers
                         ErrorMessage = "Username has already been taken!"
                     });
                 }
-                var resultParentUsername = await _accountService.IsAccountExistByUsername(newStu.ParentUsername);
+                /*var resultParentUsername = await _accountService.IsAccountExistByUsername(newStu.ParentFullname);
                 if (!resultParentUsername)
                 {
                     return BadRequest(new
@@ -384,7 +384,7 @@ namespace CEG_WebAPI.Controllers
                         Status = false,
                         ErrorMessage = "Parent Username not found!"
                     });
-                }
+                }*/
                 if (!newStu.Account.Password.Equals(newStu.Account.ConfirmPassword))
                 {
                     return BadRequest(new

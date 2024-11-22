@@ -201,9 +201,17 @@ namespace CEG_BAL.Configurations
         public const int CLASS_MINIMUM_STUDENTS_REQ = 10;
         public const int CLASS_MAXIMUM_STUDENTS_REQ = 20;
         public const int CLASS_MINIMUM_DAYS_REQ = 30;
+        public const int CLASS_MINIMUM_ENROLLMENT_FEE = 0;
+        public const int CLASS_MAXIMUM_ENROLLMENT_FEE = 100000000;
         public const int COURSE_TOTAL_HOURS = 1;
         public const int HOMEWORK_HOURS = 1;
         public const int SESSION_HOURS = 1;
+        public const int TRANSACTION_MINIMUM_AMOUNT = 5000;
+
+        public readonly static string VNPAY_PARENT_NAME_LABEL = "Parent: ";
+        public readonly static string VNPAY_AMOUNT_LABEL = "Amount: ";
+        public readonly static string VNPAY_STUDENT_NAME_LABEL = "Student for Enrollment: ";
+        public readonly static string VNPAY_CLASS_NAME_LABEL = "Enrolling Class: ";
 
         /* public readonly static string BIRD_STATUS_ACTIVE = "Active";
          public readonly static string BIRD_STATUS_INJURED = "Injured";

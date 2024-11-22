@@ -1,6 +1,8 @@
 ﻿using CEG_RazorWebApp.Services.Interfaces;
 using CEG_RazorWebApp.Models.VnPay;
 using CEG_RazorWebApp.Libraries;
+using CEG_RazorWebApp.Models.Transaction.Create;
+using CEG_RazorWebApp.Models.Transaction.Response;
 
 namespace CEG_RazorWebApp.Services.Implements
 {
@@ -13,23 +15,23 @@ namespace CEG_RazorWebApp.Services.Implements
             _configuration = configuration;
         }
 
-        public string CreatePaymentUrl(PaymentInformationModel model, HttpContext context)
+        public string CreatePaymentUrl(CreateTransactionVM model, HttpContext context)
         {
             var timeZoneById = TimeZoneInfo.FindSystemTimeZoneById(_configuration["TimeZoneId"]);
             var timeNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, timeZoneById);
             var tick = DateTime.Now.Ticks.ToString();
             var pay = new VnPayLibrary();
-            var urlCallBack = _configuration["PaymentCallBack:ReturnUrl"];
+            var urlCallBack = _configuration["PaymentCallBack:AdminReturnUrl"];
 
             pay.AddRequestData("vnp_Version", _configuration["Vnpay:Version"]);
             pay.AddRequestData("vnp_Command", _configuration["Vnpay:Command"]);
             pay.AddRequestData("vnp_TmnCode", _configuration["Vnpay:TmnCode"]);
-            pay.AddRequestData("vnp_Amount", ((int)model.PayAmount * 100).ToString());
+            pay.AddRequestData("vnp_Amount", ((int)model.TransactionAmount * 100).ToString());
             pay.AddRequestData("vnp_CreateDate", timeNow.ToString("yyyyMMddHHmmss"));
             pay.AddRequestData("vnp_CurrCode", _configuration["Vnpay:CurrCode"]);
             pay.AddRequestData("vnp_IpAddr", pay.GetIpAddress(context));
             pay.AddRequestData("vnp_Locale", _configuration["Vnpay:Locale"]);
-            pay.AddRequestData("vnp_OrderInfo", $"{model.Fullname},{model.PayAmount},{model.TransactionType}");
+            pay.AddRequestData("vnp_OrderInfo", $"{model.ParentFullname},{model.TransactionAmount},{model.TransactionType}");
             pay.AddRequestData("vnp_OrderType", model.TransactionType);
             pay.AddRequestData("vnp_ReturnUrl", urlCallBack);
             pay.AddRequestData("vnp_TxnRef", tick);
@@ -40,7 +42,7 @@ namespace CEG_RazorWebApp.Services.Implements
             return paymentUrl;
         }
 
-        public PaymentResponseModel PaymentExecute(IQueryCollection collections)
+        public TransactionResponseVM PaymentExecute(IQueryCollection collections)
         {
             var pay = new VnPayLibrary();
             var response = pay.GetFullResponseData(collections, _configuration["Vnpay:HashSecret"]);

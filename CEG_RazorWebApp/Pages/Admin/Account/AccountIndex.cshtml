@@ -52,67 +52,46 @@
                             <div class="tab-content">
                                 <!-- home1 -->
                                 <div class="tab-pane active" id="home1" role="tabpanel">
-                                    <div class="row search">
-                                        <div class="col-sm-12 d-flex">
-                                            <div class="col-sm-6 d-flex address-home">
-                                                <div class="rating-room">
-                                                    <button class="button--primary btn-success bg-success shadow btn-xs text-white" data-toggle="modal" data-target="#addParent" type="submit">Create Parent Account</button>
-                                                </div>
-                                                <div class="rating-room">
-                                                    <button class="button--primary btn-success bg-success shadow btn-xs text-white" data-toggle="modal" data-target="#addStudent" type="submit">Create Student Account</button>
-                                                </div>
-                                                <div class="rating-room">
-                                                    <button class="button--primary btn-success bg-success shadow btn-xs text-white" data-toggle="modal" data-target="#addTeacher" type="submit">Create Teacher Account</button>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6 d-flex justify-content-end">
-                                                <div>
-                                                    <label>
-                                                        <input id="search" class="form-control" type="text" placeholder="Search Username...">
-                                                        <i class='bx bx-search-alt'></i>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
+                                    <div class="row">
                                     </div>
-                                    <div id="history-table_wrapper" class="dataTables_wrapper no-footer">
-                                        <table id="history-table"
+                                    <div id="account-table_wrapper" class="dataTables_wrapper no-footer">
+                                        <table id="account-table"
                                                class="table table-striped table-bordered dataTable no-footer"
-                                               aria-describedby="history-table_info">
+                                               aria-describedby="account-table_info">
                                             <thead>
                                                 <tr>
                                                     <th class="sorting sorting_asc" tabindex="0"
-                                                        aria-controls="history-table" rowspan="1"
+                                                        aria-controls="account-table" rowspan="1"
                                                         colspan="1" aria-sort="ascending"
                                                         aria-label="Account User Name: activate to sort column ascending">
                                                         Username
                                                     </th>
                                                     <th class="sorting sorting_asc" tabindex="0"
-                                                        aria-controls="history-table" rowspan="1"
+                                                        aria-controls="account-table" rowspan="1"
                                                         colspan="1" aria-sort="ascending"
                                                         aria-label="Account Full Name: activate to sort column ascending">
                                                         Full name
                                                     </th>
                                                     <th class="sorting sorting_asc" tabindex="0"
-                                                        aria-controls="history-table" rowspan="1"
+                                                        aria-controls="account-table" rowspan="1"
                                                         colspan="1" aria-sort="ascending"
                                                         aria-label="Gender: activate to sort column ascending">
                                                         Gender
                                                     </th>
                                                     <th class="sorting sorting_asc" tabindex="0"
-                                                        aria-controls="history-table" rowspan="1"
+                                                        aria-controls="account-table" rowspan="1"
                                                         colspan="1" aria-sort="ascending"
                                                         aria-label="Account Created Date: activate to sort column ascending">
                                                         Created Date
                                                     </th>
                                                     <th class="sorting sorting_asc" tabindex="0"
-                                                        aria-controls="history-table" rowspan="1"
+                                                        aria-controls="account-table" rowspan="1"
                                                         colspan="1" aria-sort="ascending"
                                                         aria-label="Account Role: activate to sort column ascending">
                                                         Role
                                                     </th>
                                                     <th class="sorting sorting_asc" tabindex="0"
-                                                        aria-controls="history-table" rowspan="1"
+                                                        aria-controls="account-table" rowspan="1"
                                                         colspan="1" aria-sort="ascending"
                                                         aria-label="Status: activate to sort column ascending">
                                                         Status
@@ -132,189 +111,214 @@
             </div>
         </div>
     </div>
-    <div id="addStudent" class="modal fade" role="dialog">
+    <div id="createAccount" class="modal fade" role="dialog">
         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
             <div class="modal-content modal-addRoom">
                 <div class="modal-header">
-                    <h4 class="modal-title">Add new Student Account</h4>
+                    <h4 class="modal-title">Add new Account</h4>
                 </div>
-                <form method="post" asp-page-handler="Student" id="CreateStudentForm">
-                    <div class="modal-body">
-                        <div class="row p-4">
-                            <div class="col-12">
-                                <div class="row form-group">
-                                    <label asp-for="@createStudent.Account.Username" class="col-md-3 col-form-label text-md-right"></label>
-                                    <input asp-for="@createStudent.Account.Username" value="@createStudent.Account.Username" type="text" placeholder="User Name" required class="form-control col-md-7">
-                                    <span asp-validation-for="@createStudent.Account.Username" id="error_message"
-                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                <ul class="nav nav-tabs justify-content-center" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active align-items-center d-flex w-auto" data-toggle="tab" href="#student_Tab" role="tab" aria-controls="student" aria-selected="false">
+                            <span>Student</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link align-items-center d-flex w-auto" data-toggle="tab" href="#parent_Tab" role="tab" aria-controls="parent" aria-selected="false">
+                            <span>Parent</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link align-items-center d-flex w-auto" data-toggle="tab" href="#teacher_Tab" role="tab" aria-controls="teacher" aria-selected="true">
+                            <span>Teacher</span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div id="student_Tab" class="tab-pane fade show active">
+                        <div class="modal-header">
+                            <h6 class="modal-title">Student Account</h6>
+                        </div>
+                        <form method="post" id="createStudentForm">
+                            <div class="modal-body">
+                                <div class="row p-4">
+                                    <div class="col-12">
+                                        <div class="row form-group">
+                                            <label asp-for="@createStudent.Account.Username" class="col-md-4 col-form-label text-md-right"></label>
+                                            <input asp-for="@createStudent.Account.Username" value="@createStudent.Account.Username" type="text" placeholder="User Name" required class="form-control col-md-8">
+                                            <span asp-validation-for="@createStudent.Account.Username" id="error_message"
+                                                  class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
-                                    <label asp-for="@createStudent.Account.Fullname" class="col-md-3 col-form-label text-md-right"></label>
-                                    <input asp-for="@createStudent.Account.Fullname" value="@createStudent.Account.Fullname" type="text" placeholder="Full Name" required class="form-control col-md-7">
-                                    <span asp-validation-for="@createStudent.Account.Fullname" id="error_message"
-                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                            <label asp-for="@createStudent.Account.Fullname" class="col-md-4 col-form-label text-md-right"></label>
+                                            <input asp-for="@createStudent.Account.Fullname" value="@createStudent.Account.Fullname" type="text" placeholder="Full Name" required class="form-control col-md-8">
+                                            <span asp-validation-for="@createStudent.Account.Fullname" id="error_message"
+                                                  class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
-                                    <label asp-for="@createStudent.ParentUsername" class="col-md-3 col-form-label text-md-right"></label>
-                                    <input asp-for="@createStudent.ParentUsername" value="@createStudent.ParentUsername" type="text" placeholder="Parent's Account User Name" required class="form-control col-md-7">
-                                    <span asp-validation-for="@createStudent.ParentUsername" id="error_message"
-                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                            <label asp-for="@createStudent.ParentUsername" class="col-md-4 col-form-label text-md-right">Select existing Parent to be associated with this Student</label>
+                                            <div class="col-md-8 p-0">
+                                                <!-- search bar with dropdown list-->
+                                                <select id="select2-parent-fullname-dropdown" class="form-control custom-select" style="width: 100%;">
+                                                </select>
+                                            </div>
+                                            <span asp-validation-for="@createStudent.ParentUsername" id="error_message"
+                                                  class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
-                                    <label asp-for="@createStudent.Birthdate" class="col-md-3 col-form-label text-md-right"></label>
-                                    <input asp-for="@createStudent.Birthdate" value="@createStudent.Birthdate.ToString("yyyy-MM-ddTHH:mm")" type="datetime-local" min="@DateTime.Now.AddYears(-16).ToString("yyyy-MM-ddTHH:mm")" max="@DateTime.Now.AddYears(-12).ToString("yyyy-MM-ddTHH:mm")" asp-format="{0:yyyy-MM-ddTHH:mm}" required class="form-control col-md-7">
-                                    <span asp-validation-for="@createStudent.Birthdate" id="error_message"
-                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                            @* <label asp-for="@createStudent.ParentUsername" class="col-md-4 col-form-label text-md-right"></label>
+                                            <input asp-for="@createStudent.ParentUsername" value="@createStudent.ParentUsername" type="text" placeholder="Parent's Account User Name" required class="form-control col-md-8">
+                                            <span asp-validation-for="@createStudent.ParentUsername" id="error_message"
+                                                  class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span> *@
 
-                                    <label asp-for="@createStudent.Description" class="col-md-3 col-form-label text-md-right"></label>
-                                    <textarea asp-for="@createStudent.Description" value="@createStudent.Description" required class="form-control col-md-7"></textarea>
-                                    <span asp-validation-for="@createStudent.Description" id="error_message"
-                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                            <label asp-for="@createStudent.Birthdate" class="col-md-4 col-form-label text-md-right"></label>
+                                            <input asp-for="@createStudent.Birthdate" value="@createStudent.Birthdate.ToString("yyyy-MM-ddTHH:mm")" type="datetime-local" min="@DateTime.Now.AddYears(-16).ToString("yyyy-MM-ddTHH:mm")" max="@DateTime.Now.AddYears(-12).ToString("yyyy-MM-ddTHH:mm")" asp-format="{0:yyyy-MM-ddTHH:mm}" required class="form-control col-md-8">
+                                            <span asp-validation-for="@createStudent.Birthdate" id="error_message"
+                                                  class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
-                                    <label asp-for="@createStudent.Account.Gender" class="col-md-3 col-form-label mt-3 text-md-right"></label>
-                                    <select class="form-control col-md-7 custom-select" asp-for="@createStudent.Account.Gender" asp-items="@createStudent.Account.DefaultAccountGenderSelectList"></select>
-                                    <span asp-validation-for="@createStudent.Account.Gender" id="error_message"
-                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                            <label asp-for="@createStudent.Description" class="col-md-4 col-form-label text-md-right"></label>
+                                            <textarea asp-for="@createStudent.Description" value="@createStudent.Description" required class="form-control col-md-8"></textarea>
+                                            <span asp-validation-for="@createStudent.Description" id="error_message"
+                                                  class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
-                                    <label asp-for="@createStudent.Account.Password" class="col-md-3 col-form-label mt-3 text-md-right"></label>
-                                    <input asp-for="@createStudent.Account.Password" value="@createStudent.Account.Password" type="password" placeholder="Password" class="form-control col-md-7 mt-3" required>
-                                    <span asp-validation-for="@createStudent.Account.Password" id="error_message"
-                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                            <label asp-for="@createStudent.Account.Gender" class="col-md-4 col-form-label text-md-right"></label>
+                                            <select class="form-control col-md-8 custom-select" asp-for="@createStudent.Account.Gender"></select>
+                                            <span asp-validation-for="@createStudent.Account.Gender" id="error_message"
+                                                  class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
-                                    <label asp-for="@createStudent.Account.ConfirmPassword" class="col-md-3 col-form-label mt-3 text-md-right"></label>
-                                    <input asp-for="@createStudent.Account.ConfirmPassword" value="@createStudent.Account.ConfirmPassword" type="password" placeholder="Confirm Password" class="form-control col-md-7 mt-3" required>
-                                    <span asp-validation-for="@createStudent.Account.ConfirmPassword" id="error_message"
-                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                            <label asp-for="@createStudent.Account.Password" class="col-md-4 col-form-label text-md-right"></label>
+                                            <input asp-for="@createStudent.Account.Password" value="@createStudent.Account.Password" type="password" placeholder="Password" class="form-control col-md-8" required>
+                                            <span asp-validation-for="@createStudent.Account.Password" id="error_message"
+                                                  class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                            <label asp-for="@createStudent.Account.ConfirmPassword" class="col-md-4 col-form-label text-md-right"></label>
+                                            <input asp-for="@createStudent.Account.ConfirmPassword" value="@createStudent.Account.ConfirmPassword" type="password" placeholder="Confirm Password" class="form-control col-md-8" required>
+                                            <span asp-validation-for="@createStudent.Account.ConfirmPassword" id="error_message"
+                                                  class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+                            <div class="modal-footer justify-content-center">
+                                <button class="btn btn-success" type="submit">Create</button>
+                                <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div id="parent_Tab" class="tab-pane fade">
+                        <div class="modal-header">
+                            <h6 class="modal-title">Parent Account</h6>
                         </div>
-                    </div>
-                    <div class="modal-footer justify-content-center">
-                        <button class="btn btn-success" type="submit">Create</button>
-                        <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <div id="addParent" class="modal fade" role="dialog">
-        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-            <div class="modal-content modal-addRoom">
-                <div class="modal-header">
-                    <h4 class="modal-title">Add new Parent Account</h4>
-                </div>
-                <form method="post" asp-page-handler="Parent" id="CreateParentForm">
-                    <div class="modal-body">
-                        <div class="row p-4">
-                            <div class="col-12">
-                                <div class="row form-group">
-                                    <label asp-for="@createParent.Account.Username" class="col-md-3 col-form-label text-md-right"></label>
-                                    <input asp-for="@createParent.Account.Username" value="@createParent.Account.Username" type="text" placeholder="User Name" required class="form-control col-md-7">
-                                    <span asp-validation-for="@createParent.Account.Username" id="error_message"
-                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                        <form method="post" id="createParentForm">
+                            <div class="modal-body">
+                                <div class="row p-4">
+                                    <div class="col-12">
+                                        <div class="row form-group">
+                                            <label asp-for="@createParent.Account.Username" class="col-md-4 col-form-label text-md-right"></label>
+                                            <input asp-for="@createParent.Account.Username" value="@createParent.Account.Username" type="text" placeholder="User Name" required class="form-control col-md-8">
+                                            <span asp-validation-for="@createParent.Account.Username" id="error_message"
+                                                  class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
-                                    <label asp-for="@createParent.Account.Fullname" class="col-md-3 col-form-label text-md-right"></label>
-                                    <input asp-for="@createParent.Account.Fullname" value="@createParent.Account.Fullname" type="text" placeholder="Full Name" required class="form-control col-md-7">
-                                    <span asp-validation-for="@createParent.Account.Fullname" id="error_message"
-                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                            <label asp-for="@createParent.Account.Fullname" class="col-md-4 col-form-label text-md-right"></label>
+                                            <input asp-for="@createParent.Account.Fullname" value="@createParent.Account.Fullname" type="text" placeholder="Full Name" required class="form-control col-md-8">
+                                            <span asp-validation-for="@createParent.Account.Fullname" id="error_message"
+                                                  class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
-                                    <label asp-for="@createParent.Address" class="col-md-3 col-form-label text-md-right"></label>
-                                    <textarea asp-for="@createParent.Address" value="@createParent.Address" required class="form-control col-md-7"></textarea>
-                                    <span asp-validation-for="@createParent.Address" id="error_message"
-                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                            <label asp-for="@createParent.Address" class="col-md-4 col-form-label text-md-right"></label>
+                                            <textarea asp-for="@createParent.Address" value="@createParent.Address" required class="form-control col-md-8"></textarea>
+                                            <span asp-validation-for="@createParent.Address" id="error_message"
+                                                  class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
-                                    <label asp-for="@createParent.Account.Gender" class="col-md-3 col-form-label mt-3 text-md-right"></label>
-                                    <select class="form-control col-md-7 custom-select" asp-for="@createParent.Account.Gender" asp-items="@createParent.Account.DefaultAccountGenderSelectList"></select>
-                                    <span asp-validation-for="@createParent.Account.Gender" id="error_message"
-                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                            <label asp-for="@createParent.Account.Gender" class="col-md-4 col-form-label text-md-right"></label>
+                                            <select class="form-control col-md-8 custom-select" asp-for="@createParent.Account.Gender"></select>
+                                            <span asp-validation-for="@createParent.Account.Gender" id="error_message"
+                                                  class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
-                                    <label asp-for="@createParent.Email" class="col-md-3 col-form-label mt-3 text-md-right"></label>
-                                    <input asp-for="@createParent.Email" value="@createParent.Email" type="email" placeholder="Email" class="form-control col-md-7 mt-3" required>
-                                    <span asp-validation-for="@createParent.Email" id="error_message"
-                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                            <label asp-for="@createParent.Email" class="col-md-4 col-form-label text-md-right"></label>
+                                            <input asp-for="@createParent.Email" value="@createParent.Email" type="email" placeholder="Email" class="form-control col-md-8" required>
+                                            <span asp-validation-for="@createParent.Email" id="error_message"
+                                                  class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
-                                    <label asp-for="@createParent.Phone" class="col-md-3 col-form-label mt-3 text-md-right"></label>
-                                    <input asp-for="@createParent.Phone" value="@createParent.Phone" type="tel" placeholder="Phone number" class="form-control col-md-7 mt-3" required>
-                                    <span asp-validation-for="@createParent.Phone" id="error_message"
-                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                            <label asp-for="@createParent.Phone" class="col-md-4 col-form-label text-md-right"></label>
+                                            <input asp-for="@createParent.Phone" value="@createParent.Phone" type="tel" placeholder="Phone number" class="form-control col-md-8" required>
+                                            <span asp-validation-for="@createParent.Phone" id="error_message"
+                                                  class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
-                                    <label asp-for="@createParent.Account.Password" class="col-md-3 col-form-label mt-3 text-md-right"></label>
-                                    <input asp-for="@createParent.Account.Password" value="@createParent.Account.Password" type="password" placeholder="Password" class="form-control col-md-7 mt-3" required>
-                                    <span asp-validation-for="@createParent.Account.Password" id="error_message"
-                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                            <label asp-for="@createParent.Account.Password" class="col-md-4 col-form-label text-md-right"></label>
+                                            <input asp-for="@createParent.Account.Password" value="@createParent.Account.Password" type="password" placeholder="Password" class="form-control col-md-8" required>
+                                            <span asp-validation-for="@createParent.Account.Password" id="error_message"
+                                                  class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
-                                    <label asp-for="@createParent.Account.ConfirmPassword" class="col-md-3 col-form-label mt-3 text-md-right"></label>
-                                    <input asp-for="@createParent.Account.ConfirmPassword" value="@createParent.Account.ConfirmPassword" type="password" placeholder="Confirm Password" class="form-control col-md-7 mt-3" required>
-                                    <span asp-validation-for="@createParent.Account.ConfirmPassword" id="error_message"
-                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                            <label asp-for="@createParent.Account.ConfirmPassword" class="col-md-4 col-form-label text-md-right"></label>
+                                            <input asp-for="@createParent.Account.ConfirmPassword" value="@createParent.Account.ConfirmPassword" type="password" placeholder="Confirm Password" class="form-control col-md-8" required>
+                                            <span asp-validation-for="@createParent.Account.ConfirmPassword" id="error_message"
+                                                  class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+                            <div class="modal-footer justify-content-center">
+                                <button class="btn btn-success" type="submit">Create</button>
+                                <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div id="teacher_Tab" class="tab-pane fade">
+                        <div class="modal-header">
+                            <h6 class="modal-title">Teacher Account</h6>
                         </div>
-                    </div>
-                    <div class="modal-footer justify-content-center">
-                        <button class="btn btn-success" type="submit">Create</button>
-                        <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <div id="addTeacher" class="modal fade" role="dialog">
-        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-            <div class="modal-content modal-addRoom">
-                <div class="modal-header">
-                    <h4 class="modal-title">Add new Teacher Account</h4>
-                </div>
-                <form method="post" asp-page-handler="Teacher" id="CreateTeacherForm">
-                    <div class="modal-body">
-                        <div class="row p-4">
-                            <div class="col-12">
-                                <div class="row form-group">
-                                    <label asp-for="@createTeacher.Account.Username" class="col-md-3 col-form-label text-md-right"></label>
-                                    <input asp-for="@createTeacher.Account.Username" value="@createTeacher.Account.Username" type="text" placeholder="User Name" required class="form-control col-md-7">
-                                    <span asp-validation-for="@createTeacher.Account.Username" id="error_message"
-                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                        <form method="post" id="createTeacherForm">
+                            <div class="modal-body">
+                                <div class="row p-4">
+                                    <div class="col-12">
+                                        <div class="row form-group">
+                                            <label asp-for="@createTeacher.Account.Username" class="col-md-4 col-form-label text-md-right"></label>
+                                            <input asp-for="@createTeacher.Account.Username" value="@createTeacher.Account.Username" type="text" placeholder="User Name" required class="form-control col-md-8">
+                                            <span asp-validation-for="@createTeacher.Account.Username" id="error_message"
+                                                  class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
-                                    <label asp-for="@createTeacher.Account.Fullname" class="col-md-3 col-form-label text-md-right"></label>
-                                    <input asp-for="@createTeacher.Account.Fullname" value="@createTeacher.Account.Fullname" type="text" placeholder="Full Name" required class="form-control col-md-7">
-                                    <span asp-validation-for="@createTeacher.Account.Fullname" id="error_message"
-                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                            <label asp-for="@createTeacher.Account.Fullname" class="col-md-4 col-form-label text-md-right"></label>
+                                            <input asp-for="@createTeacher.Account.Fullname" value="@createTeacher.Account.Fullname" type="text" placeholder="Full Name" required class="form-control col-md-8">
+                                            <span asp-validation-for="@createTeacher.Account.Fullname" id="error_message"
+                                                  class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
-                                    <label asp-for="@createTeacher.Address" class="col-md-3 col-form-label text-md-right"></label>
-                                    <textarea asp-for="@createTeacher.Address" value="@createTeacher.Address" required class="form-control col-md-7"></textarea>
-                                    <span asp-validation-for="@createTeacher.Address" id="error_message"
-                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                            <label asp-for="@createTeacher.Address" class="col-md-4 col-form-label text-md-right"></label>
+                                            <textarea asp-for="@createTeacher.Address" value="@createTeacher.Address" required class="form-control col-md-8"></textarea>
+                                            <span asp-validation-for="@createTeacher.Address" id="error_message"
+                                                  class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
-                                    <label asp-for="@createTeacher.Account.Gender" class="col-md-3 col-form-label mt-3 text-md-right"></label>
-                                    <select class="form-control col-md-7 custom-select" asp-for="@createTeacher.Account.Gender" asp-items="@createTeacher.Account.DefaultAccountGenderSelectList"></select>
-                                    <span asp-validation-for="@createTeacher.Account.Gender" id="error_message"
-                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                            <label asp-for="@createTeacher.Account.Gender" class="col-md-4 col-form-label text-md-right"></label>
+                                            <select class="form-control col-md-8 custom-select" asp-for="@createTeacher.Account.Gender"></select>
+                                            <span asp-validation-for="@createTeacher.Account.Gender" id="error_message"
+                                                  class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
-                                    <label asp-for="@createTeacher.Email" class="col-md-3 col-form-label mt-3 text-md-right"></label>
-                                    <input asp-for="@createTeacher.Email" value="@createTeacher.Email" type="email" placeholder="Email" class="form-control col-md-7 mt-3" required>
-                                    <span asp-validation-for="@createTeacher.Email" id="error_message"
-                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                            <label asp-for="@createTeacher.Email" class="col-md-4 col-form-label text-md-right"></label>
+                                            <input asp-for="@createTeacher.Email" value="@createTeacher.Email" type="email" placeholder="Email" class="form-control col-md-8" required>
+                                            <span asp-validation-for="@createTeacher.Email" id="error_message"
+                                                  class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
-                                    <label asp-for="@createTeacher.Phone" class="col-md-3 col-form-label mt-3 text-md-right"></label>
-                                    <input asp-for="@createTeacher.Phone" value="@createTeacher.Phone" type="tel" placeholder="Phone number" class="form-control col-md-7 mt-3" required>
-                                    <span asp-validation-for="@createTeacher.Phone" id="error_message"
-                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                            <label asp-for="@createTeacher.Phone" class="col-md-4 col-form-label text-md-right"></label>
+                                            <input asp-for="@createTeacher.Phone" value="@createTeacher.Phone" type="tel" placeholder="Phone number" class="form-control col-md-8" required>
+                                            <span asp-validation-for="@createTeacher.Phone" id="error_message"
+                                                  class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
-                                    <label asp-for="@createTeacher.Account.Password" class="col-md-3 col-form-label mt-3 text-md-right"></label>
-                                    <input asp-for="@createTeacher.Account.Password" value="@createTeacher.Account.Password" type="password" placeholder="Password" class="form-control col-md-7 mt-3" required>
-                                    <span asp-validation-for="@createTeacher.Account.Password" id="error_message"
-                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                            <label asp-for="@createTeacher.Account.Password" class="col-md-4 col-form-label text-md-right"></label>
+                                            <input asp-for="@createTeacher.Account.Password" value="@createTeacher.Account.Password" type="password" placeholder="Password" class="form-control col-md-8" required>
+                                            <span asp-validation-for="@createTeacher.Account.Password" id="error_message"
+                                                  class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
-                                    <label asp-for="@createTeacher.Account.ConfirmPassword" class="col-md-3 col-form-label mt-3 text-md-right"></label>
-                                    <input asp-for="@createTeacher.Account.ConfirmPassword" value="@createTeacher.Account.ConfirmPassword" type="password" placeholder="Confirm Password" class="form-control col-md-7 mt-3" required>
-                                    <span asp-validation-for="@createTeacher.Account.ConfirmPassword" id="error_message"
-                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                            <label asp-for="@createTeacher.Account.ConfirmPassword" class="col-md-4 col-form-label text-md-right"></label>
+                                            <input asp-for="@createTeacher.Account.ConfirmPassword" value="@createTeacher.Account.ConfirmPassword" type="password" placeholder="Confirm Password" class="form-control col-md-8" required>
+                                            <span asp-validation-for="@createTeacher.Account.ConfirmPassword" id="error_message"
+                                                  class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                            <div class="modal-footer justify-content-center">
+                                <button class="btn btn-success" type="submit">Create</button>
+                                <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                            </div>
+                        </form>
                     </div>
-                    <div class="modal-footer justify-content-center">
-                        <button class="btn btn-success" type="submit">Create</button>
-                        <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
-                    </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
@@ -324,24 +328,204 @@
         var token = sessionStorage.getItem('token');
         var apiUrl = sessionStorage.getItem('apiUrl');
         var accountList = [];
+        var accountTable;
         $(document).ready(function () {
-            callApiGetAccountList();
-            $('#search').on('keyup', function (event) {
-                // Get the search term
-                var searchTerm = $(this).val().toLowerCase();
+            // Registering the custom feature with DataTables
+            DataTable.feature.register('searchIcon', function (settings, opts) {
+                // Set default options
+                let options = Object.assign({
+                    iconClass: 'bx bx-search-alt question-search-icon',
+                    hideLabel: true // Hide search label
+                }, opts);
 
-                // Filter the classes based on the search term
-                var filteredaccountList = accountList.filter(function (account) {
-                    return account.fullname.toLowerCase().includes(searchTerm);
-                });
+                // Create a container for the icon
+                let container = document.createElement('div');
+                // container.classList.add('dt-custom-toolbar'); // Optional custom class for styling
 
-                // Display the filtered accountList
-                setAccountDisplay(filteredaccountList);
+                // Create the icon element
+                let icon = document.createElement('i');
+                icon.className = options.iconClass;
+
+                // Check if pagination is enabled
+                // if (settings.oFeatures.bFilter) {
+                //     console.log(settings.oFeatures.bFilter);
+                //     console.log('Pagination is enabled for this DataTable.');
+                // }
+
+                setTimeout(() => {
+                    // Find the .dt-search container inside the DataTable wrapper
+                    let searchContainer = $(settings.nTableWrapper).find('.dt-search');
+                    if (searchContainer.length) {
+                        searchContainer.append(icon);
+                    } else {
+                        // Append icon to container
+                        container.appendChild(icon);
+                        // If .dt-search doesn't exist, insert the container in the DataTable toolbar instead
+                        $(settings.nTableWrapper).prepend(container);
+                    }
+                    if (options.hideLabel) {
+                        // Find the .dt-search label container inside the DataTable wrapper
+                        let searchLabel = searchContainer.find('label');
+                        if (searchLabel.length) {
+                            searchLabel.text('');
+                        } else {
+                            console.log('Label of search div not found!');
+                        }
+                    }
+                }, 100);
+                return '';
             });
-            $(document).on('change', '.status-dropdown', function () {
-                var accountId = $(this).data('accountid');
-                var newStatus = $(this).val();
-                callApiUpdateAccountStatus(accountId, newStatus);
+            // Registering the custom feature with DataTables
+            DataTable.feature.register('toggle', function (settings, opts) {
+                // Set default options
+                let options = Object.assign({
+                    iconClass: 'bx bxs-add-to-queue bx-sm',
+                    modalId: 'createAccount' // Modal ID that the icon will trigger
+                }, opts);
+
+                // Create a container for the icon
+                let container = document.createElement('div');
+                // container.classList.add('dt-custom-toolbar'); // Optional custom class for styling
+
+                // Create the icon element
+                let icon = document.createElement('i');
+                icon.className = options.iconClass;
+                container.className = 'dt-modal-toggle';
+                icon.setAttribute('data-toggle', 'modal');
+                icon.setAttribute('data-target', `#${options.modalId}`);
+
+                // Append icon to container
+                container.appendChild(icon);
+
+                // Insert the container in the DataTable toolbar
+                $(settings.nTableWrapper).prepend(container);
+                return container;
+            });
+            accountTable = new DataTable('#account-table', {
+                data: [],
+                deferRender: false,
+                responsive: true,
+                columns: [
+                    { 
+                        data: 'username',
+                        render: function (data, type, row, meta) {
+                            var url = row.role.roleName === 'Admin' ? '' : `href="/Admin/${row.role.roleName}/${row.accountId}/Info"`
+                            return `<a ${url}>${data}</a>`;
+                        }
+                    },
+                    { data: 'fullname' },
+                    { data: 'gender' },
+                    { 
+                        data: 'createdDate',
+                        render: DataTable.render.date("dddd, DD/MM/YYYY")
+                    },
+                    { data: 'role.roleName' },
+                    { 
+                        data: 'status',
+                        render: function (data, type, row, meta) {
+                            return `
+                                <select class="custom-select form-control status-dropdown" data-accountid="${row.accountId}" ${row.role.roleName === 'Admin' ? 'disabled' : ''}>
+                                `
+                                + getStatusOptions(data) +
+                                `
+                                </select>
+                                `;
+                        }
+                    }
+                ],
+                layout: {
+                    topEnd: {
+                        search: {
+                            placeholder: 'search info...'
+                        },
+                        searchIcon: {
+                        },
+                        toggle: {
+                        }
+                    }
+                }
+            }).on('draw', function (e, settings) {
+                accountTable.rows().every(function (rowIdx, tableLoop, rowLoop) {
+                    // if (rowIdx == "1") {
+                    //     console.log(rowIdx);
+                    //     var data = this.row(rowIdx).data();
+                    //     console.log(data);
+                    // }
+                    var node = $(this.cell(rowIdx, 5).node());
+                    node.children(0).on('change', function () {
+                        var accountId = node.children(0).data('accountid');
+                        var newStatus = node.children(0).val();
+                        callApiUpdateAccountStatus(accountId, newStatus);
+                    });
+                });
+            });
+            $('#select2-parent-fullname-dropdown').select2({
+                placeholder: 'Select a parent to be associate with this student',
+                allowClear: true,
+                width: 'resolve',
+                theme: 'bootstrap4'
+            });
+
+            callApiGetAccountList();
+
+            $('#createStudentForm').submit(function (event) {
+                event.preventDefault(); // Prevent the form from submitting normally
+                //Get the form data
+                var formData = {
+                    Account: {
+                        Username: $('#createStudent_Account_Username').val(),
+                        Fullname: $('#createStudent_Account_Fullname').val(),
+                        Gender: $('#createStudent_Account_Gender').val(),
+                        Password: $('#createStudent_Account_Password').val(),
+                        ConfirmPassword: $('#createStudent_Account_ConfirmPassword').val()
+                    },
+                    Birthdate: $('#createStudent_Birthdate').val(),
+                    Description: $('#createStudent_Description').val(),
+                    ParentFullname: $('#select2-parent-fullname-dropdown').select2('data')[0].text,
+                };
+                //Make the AJAX request
+                callApiPostCreateStudent(formData);
+                $('#createStudentForm').trigger("reset");
+            });
+
+            $('#createParentForm').submit(function (event) {
+                event.preventDefault(); // Prevent the form from submitting normally
+                //Get the form data
+                var formData = {
+                    Account: {
+                        Username: $('#createParent_Account_Username').val(),
+                        Fullname: $('#createParent_Account_Fullname').val(),
+                        Gender: $('#createParent_Account_Gender').val(),
+                        Password: $('#createParent_Account_Password').val(),
+                        ConfirmPassword: $('#createParent_Account_ConfirmPassword').val()
+                    },
+                    Email: $('#createParent_Email').val(),
+                    Address: $('#createParent_Address').val(),
+                    Phone: $('#createParent_Phone').val(),
+                };
+                //Make the AJAX request
+                callApiPostCreateParent(formData);
+                $('#createParentForm').trigger("reset");
+            });
+
+            $('#createTeacherForm').submit(function (event) {
+                event.preventDefault(); // Prevent the form from submitting normally
+                //Get the form data
+                var formData = {
+                    Account: {
+                        Username: $('#createTeacher_Account_Username').val(),
+                        Fullname: $('#createTeacher_Account_Fullname').val(),
+                        Gender: $('#createTeacher_Account_Gender').val(),
+                        Password: $('#createTeacher_Account_Password').val(),
+                        ConfirmPassword: $('#createTeacher_Account_ConfirmPassword').val()
+                    },
+                    Email: $('#createTeacher_Email').val(),
+                    Address: $('#createTeacher_Address').val(),
+                    Phone: $('#createTeacher_Phone').val(),
+                };
+                //Make the AJAX request
+                callApiPostCreateTeacher(formData);
+                $('#createTeacherForm').trigger("reset");
             });
         });
         function callApiGetAccountList() {
@@ -358,8 +542,10 @@
                     // Check if the status is true
                     if (response.status) {
                         accountList = response.data;
-
-                        setAccountDisplay(accountList);
+                        if (accountList && accountList.length > 0) {
+                            accountTable.clear().rows.add(accountList).draw();
+                        }
+                        setAccountDisplay();
                         showAlert('success','Account list get successfully!');
                     } else {
                         showAlert('error', "Error:" + response.errorMessage);
@@ -425,45 +611,189 @@
                 }
             });
         }
-        function setAccountDisplay(data) {
-            var tableBody = $('#history-table tbody'); // Reference to the <id="history-table"> element
-            tableBody.empty(); // Clear any existing options
-            // Loop through the data array and append each class div
-            $.each(data, function (index, account) {
-                var url = account.role.roleName === 'Admin' ? '' : `href="/Admin/${account.role.roleName}/${account.accountId}/Info"`
-                // Construct card HTML
-                var rowHtml = `
-                                <tr class="${index % 2 === 0 ? 'even' : 'odd'}">
-                                    <td class="sorting_1">
-                                        <input type="hidden" name="listRequest[${index}].UserName" value="${account.username}" class="form-control" />
-                                        <a ${url}>${account.username}</a>
-                                    </td>
-                                    <td>
-                                        <input type="hidden" name="listRequest[${index}].FullName" value="${account.fullname}" class="form-control" />
-                                        ${account.fullname}
-                                    </td>
-                                    <td>
-                                        <input type="hidden" name="listRequest[${index}].Gender" value="${account.gender}" class="form-control" />
-                                        ${account.gender}
-                                    </td>
-                                    <td>
-                                        <input type="hidden" name="listRequest[${index}].CreatedDate" value="${account.createdDate}" class="form-control" />
-                                        ${formatDate(account.createdDate, { includeAmPm : true })}
-                                    </td>
-                                    <td>
-                                        <input type="hidden" name="listRequest[${index}].Role" value="${account.role.roleName}" class="form-control" />
-                                        ${account.role.roleName}
-                                    </td>
-                                    <td>
-                                        <select class="form-control custom-select status-dropdown" data-accountid="${account.accountId}" name="listRequest[${index}].Status" ${account.role.roleName === 'Admin' ? 'disabled' : ''}>
-                                            ${getStatusOptions(account.status)} <!-- Helper function to generate select options -->
-                                        </select>
-                                    </td>
-                                </tr>
-                            `;
-                // Append the constructed HTML to the class list container
-                tableBody.append(rowHtml);
+        function callApiPostCreateStudent(formData) {
+            $.ajax({
+                url: apiUrl + 'Admin/Student/Create', // Specify your Razor Page here
+                type: 'POST',
+                data: JSON.stringify(formData),
+                headers: {
+                    'Authorization': 'Bearer ' + token, // Token for authentication
+                },
+                contentType: 'application/json; charset=utf-8',
+                success: function (response) {
+                    // Handle success (display a success message or redirect, etc.)
+                    if (response.status) {
+                        showAlert('success', "Student create successfully");
+                        callApiGetAccountList();
+                    } else {
+                        showAlert('error', "Error: \n" + response.errorMessage);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Attempt to parse the response text if it is available
+                    var errorResponse = xhr.responseText ? JSON.parse(xhr.responseText) : {};
+
+                    // Extract the custom error message if it exists
+                    var errorMessage = errorResponse.errorMessage || errorResponse.title || "An unknown error occurred.";
+                    // Check if errorResponse.errors exists and is an object
+                    if (errorResponse.errors && typeof errorResponse.errors === 'object') {
+                        // Loop through each field in the errors object and append to the errorMessage
+                        for (var field in errorResponse.errors) {
+                            if (errorResponse.errors.hasOwnProperty(field)) {
+                                // Add each error message for the field, joining multiple messages if they exist
+                                var fieldErrors = errorResponse.errors[field].join(", ");
+                                errorMessage += `\n${field}: ${fieldErrors}`;
+                            }
+                        }
+                    }
+                    // Display the error message using your custom showAlert function
+                    showAlert('error', "Error: \n" + errorMessage);
+                }
             });
+        }
+        function callApiPostCreateParent(formData) {
+            $.ajax({
+                url: apiUrl + 'Admin/Parent/Create', // Specify your Razor Page here
+                type: 'POST',
+                data: JSON.stringify(formData),
+                headers: {
+                    'Authorization': 'Bearer ' + token, // Token for authentication
+                },
+                contentType: 'application/json; charset=utf-8',
+                success: function (response) {
+                    // Handle success (display a success message or redirect, etc.)
+                    if (response.status) {
+                        showAlert('success', "Parent create successfully");
+                        callApiGetAccountList();
+                    } else {
+                        showAlert('error', "Error: \n" + response.errorMessage);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Attempt to parse the response text if it is available
+                    var errorResponse = xhr.responseText ? JSON.parse(xhr.responseText) : {};
+
+                    // Extract the custom error message if it exists
+                    var errorMessage = errorResponse.errorMessage || errorResponse.title || "An unknown error occurred.";
+                    // Check if errorResponse.errors exists and is an object
+                    if (errorResponse.errors && typeof errorResponse.errors === 'object') {
+                        // Loop through each field in the errors object and append to the errorMessage
+                        for (var field in errorResponse.errors) {
+                            if (errorResponse.errors.hasOwnProperty(field)) {
+                                // Add each error message for the field, joining multiple messages if they exist
+                                var fieldErrors = errorResponse.errors[field].join(", ");
+                                errorMessage += `\n${field}: ${fieldErrors}`;
+                            }
+                        }
+                    }
+                    // Display the error message using your custom showAlert function
+                    showAlert('error', "Error: \n" + errorMessage);
+                }
+            });
+        }
+        function callApiPostCreateTeacher(formData) {
+            $.ajax({
+                url: apiUrl + 'Admin/Teacher/Create', // Specify your Razor Page here
+                type: 'POST',
+                data: JSON.stringify(formData),
+                headers: {
+                    'Authorization': 'Bearer ' + token, // Token for authentication
+                },
+                contentType: 'application/json; charset=utf-8',
+                success: function (response) {
+                    // Handle success (display a success message or redirect, etc.)
+                    if (response.status) {
+                        showAlert('success', "Teacher create successfully");
+                        callApiGetAccountList();
+                    } else {
+                        showAlert('error', "Error: \n" + response.errorMessage);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Attempt to parse the response text if it is available
+                    var errorResponse = xhr.responseText ? JSON.parse(xhr.responseText) : {};
+
+                    // Extract the custom error message if it exists
+                    var errorMessage = errorResponse.errorMessage || errorResponse.title || "An unknown error occurred.";
+                    // Check if errorResponse.errors exists and is an object
+                    if (errorResponse.errors && typeof errorResponse.errors === 'object') {
+                        // Loop through each field in the errors object and append to the errorMessage
+                        for (var field in errorResponse.errors) {
+                            if (errorResponse.errors.hasOwnProperty(field)) {
+                                // Add each error message for the field, joining multiple messages if they exist
+                                var fieldErrors = errorResponse.errors[field].join(", ");
+                                errorMessage += `\n${field}: ${fieldErrors}`;
+                            }
+                        }
+                    }
+                    // Display the error message using your custom showAlert function
+                    showAlert('error', "Error: \n" + errorMessage);
+                }
+            });
+        }
+        function getParentNameList(){
+            // Call API to get the list of teacher names
+            $.ajax({
+                url: apiUrl + 'Parent/All/Fullname', // API endpoint
+                type: 'GET',
+                success: function (response) {
+                    // Check if the status is true
+                    if (response.status) {
+                        addParentOptions(response.data);
+                    } else {
+                        showAlert('error', "Error: \n" + response.errorMessage);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Attempt to parse the response text if it is available
+                    var errorResponse = xhr.responseText ? JSON.parse(xhr.responseText) : {};
+
+                    // Extract the custom error message if it exists
+                    var errorMessage = errorResponse.errorMessage || errorResponse.title || "An unknown error occurred.";
+                    // Check if errorResponse.errors exists and is an object
+                    if (errorResponse.errors && typeof errorResponse.errors === 'object') {
+                        // Loop through each field in the errors object and append to the errorMessage
+                        for (var field in errorResponse.errors) {
+                            if (errorResponse.errors.hasOwnProperty(field)) {
+                                // Add each error message for the field, joining multiple messages if they exist
+                                var fieldErrors = errorResponse.errors[field].join(", ");
+                                errorMessage += `\n${field}: ${fieldErrors}`;
+                            }
+                        }
+                    }
+                    // Display the error message using your custom showAlert function
+                    showAlert('error', "Error: \n" + errorMessage);
+                }
+            });
+        }
+        function setAccountDisplay(){
+            getParentNameList();
+            $('#createStudent_Account_Gender').empty();
+            $('#createStudent_Account_Gender').append(getGenderOptions());
+            $('#createParent_Account_Gender').empty();
+            $('#createParent_Account_Gender').append(getGenderOptions());
+            $('#createTeacher_Account_Gender').empty();
+            $('#createTeacher_Account_Gender').append(getGenderOptions());
+        }
+        function getGenderOptions(selectedGender) {
+            var options = ['Male', 'Female', 'Other']; // Example genders
+            var html = '';
+            options.forEach(function (gender) {
+                html += `<option value="${gender}" ${selectedGender === gender ? 'selected' : ''} >${gender}</option>`;
+            });
+
+            return html;
+        }
+        function addParentOptions(data) {
+            $('#select2-parent-fullname-dropdown').empty();
+            data.forEach(item => {
+                // Add each item as an option
+
+                let newOption = new Option(item, item, false, false);
+                $('#select2-parent-fullname-dropdown').append(newOption);
+            });
+            // Refresh the Select2 dropdown to show new options
+            $('#select2-parent-fullname-dropdown').trigger('change'); // Ensure Select2 is updated
         }
         function getStatusOptions(selectedStatus) {
             var options = ['Inactive', 'Active', 'Expired', 'Denied', 'Suspended']; // Example statuses

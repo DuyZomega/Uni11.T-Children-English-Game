@@ -15,8 +15,21 @@
     background-color: lightgreen;
     color: black;
 }
+
+.light-blue {
+    background-color: deepskyblue;
+}
+
+.nav-link:hover {
+    color: deepskyblue !important;
+}
+
+.header__bottom .myNavBar {
+    background-color: lightgrey !important;
+}
+
 .reg-button:hover {
-    background-color: lawngreen;
+    background-color: #2c3e50;
     transition: 0.7s;
 }
 .transparent {
@@ -25,24 +38,24 @@
 
 .main-container {
     background-color: transparent;
-    width: 1240px;
     margin-top: 80px;
     margin-bottom: 80px;
-    margin-left: auto;
-    margin-right: auto;
+    margin-left: 100px;
+    margin-right: 100px;
 }
 
 .box-container {
-    border: #5daa2d 1px solid;
+    margin-top: 150px;
+    border: #00ace9 3px solid;
     border-radius: 25px;
-    margin-top: 50px;
-    margin-left: 50px;
-    width: 530px;
+    width: 450px;
+    height: fit-content;
+    overflow: hidden;
 }
 
 .box-header {
-    border-radius: 25px 25px 0 0;
-    padding: 25px;
+    /*border-radius: inherit inherit 0px 0px;*/
+    padding: 10px;
 }
 
 .box-body {
@@ -67,7 +80,7 @@
 
 .write-title {
     font-weight: 700;
-    color: #1F5300;
+    color: #2c3e50;
     font-size: 64px;
 }
 
@@ -79,9 +92,14 @@
 }
 
 .reg-button {
-    width: 214px;
-    margin-top: 15px;
-    margin-left: 83px;
+    width: auto;
+    margin-left: 35% !important;
+    margin-right: 35% !important;
+    color: white !important;
+}
+
+.navbar-dark .navbar-brand:hover, .navbar-dark .navbar-brand:focus {
+    color: #00ace9 !important;
 }
 
 .reg-text {
@@ -107,11 +125,15 @@
 }
 
 .bird-image {
-    border-radius: 50%;
     height: 400px;
     width: 400px;
     margin-top: 20px;
-    margin-left: 100px;
+    /*margin-left: 100px;*/
+}
+.web-logo-image {
+    height: 50px;
+    width: 50px;
+    /*margin-left: 100px;*/
 }
 .login-gg {
     display: flex;

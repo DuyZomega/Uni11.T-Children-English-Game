@@ -9,8 +9,8 @@ namespace CEG_RazorWebApp.Models.Account.Create
     {
         public CreateAccountVM()
         {
-            CEG_RAZOR_Library lib = new CEG_RAZOR_Library();
-            DefaultAccountGenderSelectList = lib.GetGenderSelectableList(Constants.GENDER_TITLE);
+            /*CEG_RAZOR_Library lib = new CEG_RAZOR_Library();
+            DefaultAccountGenderSelectList = lib.GetGenderSelectableList(Constants.GENDER_TITLE);*/
             Status = Constants.ACCOUNT_STATUS_ACTIVE;
             // DefaultAccountStatusSelectList = lib.GetAccountStatusSelectableList(Status);
             CreatedDate = DateTime.Now;
@@ -29,6 +29,7 @@ namespace CEG_RazorWebApp.Models.Account.Create
         [Compare(otherProperty: "Password", ErrorMessage = "Password and Confirmation Password must match.")]
         [DataType(DataType.Password)]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Confirm Password is required")]
+        [DisplayName("Confirm Password")]
         public string? ConfirmPassword { get; set; }
         [Required(AllowEmptyStrings = false, ErrorMessage = "Full Name is required")]
         [StringLength(50, ErrorMessage = "Full Name must have more than or equal 6 characters and less than or equal 50 characters", MinimumLength = 6)]
@@ -38,7 +39,7 @@ namespace CEG_RazorWebApp.Models.Account.Create
         [Required(AllowEmptyStrings = false, ErrorMessage = "Please select a gender")]
         [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Gender is invalid")]
         public string? Gender { get; set; }
-        public List<SelectListItem> DefaultAccountGenderSelectList { get; set; }
+        // public List<SelectListItem> DefaultAccountGenderSelectList { get; set; }
         [Required(AllowEmptyStrings = false, ErrorMessage = "Please select a status")]
         [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Status is invalid")]
         public string? Status { get; set; }

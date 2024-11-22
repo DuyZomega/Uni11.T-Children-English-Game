@@ -17,12 +17,12 @@
 
         public string? Image { get; set; }
 
-        public virtual AccountViewModel Account { get; set; } = null!;
+        public AccountViewModel Account { get; set; } = null!;
 
-        public virtual ICollection<EnrollViewModel> Enrolls { get; set; } = new List<EnrollViewModel>();
+        public List<EnrollViewModel> Enrolls { get; set; } = new List<EnrollViewModel>();
 
-        public virtual ParentViewModel Parent { get; set; } = null!;
+        public ParentViewModel Parent { get; set; } = null!;
 
-        public virtual ICollection<StudentProgressViewModel> StudentProgresses { get; set; } = new List<StudentProgressViewModel>();
+        public List<StudentProgressViewModel> StudentProgresses { get; set; } = new List<StudentProgressViewModel>();
     }
 }

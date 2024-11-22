@@ -1,4 +1,4 @@
-﻿@page "/Student/Class/{classId}/Info"
+﻿@page "/Student/Class/Info"
 @model CEG_RazorWebApp.Pages.Student.Class.ClassInfoModel
 @{
     ViewData["Title"] = "Admin Class Info Page";
@@ -580,30 +580,30 @@
                 sessionTable.clear().draw();
             }
         }
-        function addTeacherOptions(data, baseTeacher) {
-            data.forEach(item => {
-                // Add each item as an option=
-                let newOption = new Option(item, item, false, false);
-                if (item === baseTeacher) {
-                    newOption = new Option(item, item, true, true);
-                }
-                $('#searchableTeacherDropdown').append(newOption);
-            });
-            // Refresh the Select2 dropdown to show new options
-            $('#searchableTeacherDropdown').trigger('change'); // Ensure Select2 is updated
-        }
-        function addCourseOptions(data, baseCourse) {
-            data.forEach(item => {
-                // Add each item as an option
-                let newOption = new Option(item.courseName, item.courseName, false, false);
-                if (item.courseName === baseCourse) {
-                    newOption = new Option(item.courseName, item.courseName, true, true);
-                }
-                $('#searchableCourseDropdown').append(newOption);
-            });
-            // Refresh the Select2 dropdown to show new options
-            $('#searchableCourseDropdown').trigger('change'); // Ensure Select2 is updated
-        }
+        // function addTeacherOptions(data, baseTeacher) {
+        //     data.forEach(item => {
+        //         Add each item as an option=
+        //         let newOption = new Option(item, item, false, false);
+        //         if (item === baseTeacher) {
+        //             newOption = new Option(item, item, true, true);
+        //         }
+        //         $('#searchableTeacherDropdown').append(newOption);
+        //     });
+        //     Refresh the Select2 dropdown to show new options
+        //     $('#searchableTeacherDropdown').trigger('change'); Ensure Select2 is updated
+        // }
+        // function addCourseOptions(data, baseCourse) {
+        //     data.forEach(item => {
+        //         Add each item as an option
+        //         let newOption = new Option(item.courseName, item.courseName, false, false);
+        //         if (item.courseName === baseCourse) {
+        //             newOption = new Option(item.courseName, item.courseName, true, true);
+        //         }
+        //         $('#searchableCourseDropdown').append(newOption);
+        //     });
+        //     Refresh the Select2 dropdown to show new options
+        //     $('#searchableCourseDropdown').trigger('change'); Ensure Select2 is updated
+        // }
         // Function to calculate today's date + 10 days
         function getDefaultDate() {
             var defaultDate = new Date();
@@ -615,35 +615,35 @@
             var newStatus = $(this).val();
             callApiUpdateEnrollStatus(enrollId, newStatus);
         });
-        function callApiUpdateEnrollStatus(enrollId, newStatus) {
-            $.ajax({
-                url: apiUrl + `Enroll/${enrollId}/Update/Status`, // API endpoint for updating status
-                type: 'PUT', // HTTP method PUT for updates
-                headers: {
-                    'Authorization': 'Bearer ' + token, // Token for authentication
-                },
-                contentType: 'application/json; charset=utf-8',
-                data: JSON.stringify(newStatus), // Data sent in the request body data: JSON.stringify({ status: newStatus.toString() }),
-                success: function (response) {
-                    if (response.status) {
-                        callApiGetClassDetail();
-                        showAlert('success', 'Student enrollment status updated');
-                    } else {
-                        showAlert('error', 'Failed to update status. Error: ' + response.errorMessage);
-                    }
-                },
-                error: function (xhr, status, error) {
-                    // Attempt to parse the response text if it is available
-                    var errorResponse = xhr.responseText ? JSON.parse(xhr.responseText) : {};
+        // function callApiUpdateEnrollStatus(enrollId, newStatus) {
+        //     $.ajax({
+        //         url: apiUrl + `Enroll/${enrollId}/Update/Status`, API endpoint for updating status
+        //         type: 'PUT', HTTP method PUT for updates
+        //         headers: {
+        //             'Authorization': 'Bearer ' + token, Token for authentication
+        //         },
+        //         contentType: 'application/json; charset=utf-8',
+        //         data: JSON.stringify(newStatus), Data sent in the request body data: JSON.stringify({ status: newStatus.toString() }),
+        //         success: function (response) {
+        //             if (response.status) {
+        //                 callApiGetClassDetail();
+        //                 showAlert('success', 'Student enrollment status updated');
+        //             } else {
+        //                 showAlert('error', 'Failed to update status. Error: ' + response.errorMessage);
+        //             }
+        //         },
+        //         error: function (xhr, status, error) {
+        //             Attempt to parse the response text if it is available
+        //             var errorResponse = xhr.responseText ? JSON.parse(xhr.responseText) : {};
 
-                    // Extract the custom error message if it exists
-                    var errorMessage = errorResponse.errorMessage || "An unknown error occurred.";
+        //             Extract the custom error message if it exists
+        //             var errorMessage = errorResponse.errorMessage || "An unknown error occurred.";
 
-                    // Display the error message using your custom showAlert function
-                    showAlert('error', "Error:" + errorMessage);
-                }
-            });
-        }
+        //             Display the error message using your custom showAlert function
+        //             showAlert('error', "Error:" + errorMessage);
+        //         }
+        //     });
+        // }
         // Function to display alerts
         function showAlert(type, message) {
             var alertHtml = '';
@@ -673,73 +673,73 @@
             // Inject the alert HTML into the alert container
             $('#alertContainer').html(alertHtml);
         }
-        function callApiPutUpdateClass(formData) {
-            $.ajax({
-                url: apiUrl + 'Class/@Model.ClassID/Update', // Specify your Razor Page here
-                type: 'PUT',
-                data: JSON.stringify(formData),
-                headers: {
-                    'Authorization': 'Bearer ' + token, // Token for authentication
-                },
-                contentType: 'application/json; charset=utf-8',
-                success: function (response) {
-                    // Handle success (display a success message or redirect, etc.)
-                    if (response.status) {
-                        showAlert('success', "Class update successfully");
-                        callApiGetClassDetail();
-                    } else {
-                        console.error("API returned false status.");
-                    }
-                },
-                error: function (xhr, status, error) {
-                    // Attempt to parse the response text if it is available
-                    var errorResponse = xhr.responseText ? JSON.parse(xhr.responseText) : {};
+        // function callApiPutUpdateClass(formData) {
+        //     $.ajax({
+        //         url: apiUrl + 'Class/@Model.ClassID/Update', Specify your Razor Page here
+        //         type: 'PUT',
+        //         data: JSON.stringify(formData),
+        //         headers: {
+        //             'Authorization': 'Bearer ' + token, Token for authentication
+        //         },
+        //         contentType: 'application/json; charset=utf-8',
+        //         success: function (response) {
+        //             Handle success (display a success message or redirect, etc.)
+        //             if (response.status) {
+        //                 showAlert('success', "Class update successfully");
+        //                 callApiGetClassDetail();
+        //             } else {
+        //                 console.error("API returned false status.");
+        //             }
+        //         },
+        //         error: function (xhr, status, error) {
+        //             Attempt to parse the response text if it is available
+        //             var errorResponse = xhr.responseText ? JSON.parse(xhr.responseText) : {};
 
-                    // Extract the custom error message if it exists
-                    var errorMessage = errorResponse.errorMessage || "An unknown error occurred.";
+        //             Extract the custom error message if it exists
+        //             var errorMessage = errorResponse.errorMessage || "An unknown error occurred.";
 
-                    // Display the error message using your custom showAlert function
-                    showAlert('error', "Error:" + errorMessage);
-                }
-            });
-        }
-        function callApiPutUpdateSchedule(formData, answerId) {
-            $.ajax({
-                url: apiUrl + 'Answer/' + answerId + '/Update', // Specify your Razor Page here
-                type: 'PUT',
-                data: JSON.stringify(formData),
-                headers: {
-                    'Authorization': 'Bearer ' + token, // Token for authentication
-                },
-                contentType: 'application/json; charset=utf-8',
-                success: function (response) {
-                    // Handle success (display a success message or redirect, etc.)
-                    if (response.status) {
-                        showAlert('success', "Answer update successfully");
-                        $('.modal-backdrop').remove();
-                        // Remove specific class from body
-                        $('body').removeClass('modal-open');
+        //             Display the error message using your custom showAlert function
+        //             showAlert('error', "Error:" + errorMessage);
+        //         }
+        //     });
+        // }
+        // function callApiPutUpdateSchedule(formData, answerId) {
+        //     $.ajax({
+        //         url: apiUrl + 'Answer/' + answerId + '/Update', Specify your Razor Page here
+        //         type: 'PUT',
+        //         data: JSON.stringify(formData),
+        //         headers: {
+        //             'Authorization': 'Bearer ' + token, Token for authentication
+        //         },
+        //         contentType: 'application/json; charset=utf-8',
+        //         success: function (response) {
+        //             Handle success (display a success message or redirect, etc.)
+        //             if (response.status) {
+        //                 showAlert('success', "Answer update successfully");
+        //                 $('.modal-backdrop').remove();
+        //                 Remove specific class from body
+        //                 $('body').removeClass('modal-open');
 
-                        // Remove all inline styles from body
-                        $('body').removeAttr('style');
-                        callApiGetClassDetail();
-                        showAlert('', '');
-                    } else {
-                        console.error("API returned false status.");
-                    }
-                },
-                error: function (xhr, status, error) {
-                    // Attempt to parse the response text if it is available
-                    var errorResponse = xhr.responseText ? JSON.parse(xhr.responseText) : {};
+        //                 Remove all inline styles from body
+        //                 $('body').removeAttr('style');
+        //                 callApiGetClassDetail();
+        //                 showAlert('', '');
+        //             } else {
+        //                 console.error("API returned false status.");
+        //             }
+        //         },
+        //         error: function (xhr, status, error) {
+        //             Attempt to parse the response text if it is available
+        //             var errorResponse = xhr.responseText ? JSON.parse(xhr.responseText) : {};
 
-                    // Extract the custom error message if it exists
-                    var errorMessage = errorResponse.errorMessage || "An unknown error occurred.";
+        //             Extract the custom error message if it exists
+        //             var errorMessage = errorResponse.errorMessage || "An unknown error occurred.";
 
-                    // Display the error message using your custom showAlert function
-                    showAlert('error', "Error:" + errorMessage);
-                }
-            });
-        }
+        //             Display the error message using your custom showAlert function
+        //             showAlert('error', "Error:" + errorMessage);
+        //         }
+        //     });
+        // }
         // function callApiPostCreateAnswer(formData){
         //     $.ajax({
         //         url: apiUrl + 'Answer/Create', Specify your Razor Page here
@@ -912,56 +912,56 @@
 
             return html;
         }
-        function getEnrollStatusOptions(selectedStatus) {
-            var options = ['Pending', 'Enrolled', 'Suspended']; // Example statuses
-            var html = '';
-            switch (selectedStatus) {
-                case 'Pending':
-                    options = ['Pending', 'Enrolled']
-                    break;
-                case 'Enrolled':
-                    options = ['Enrolled', 'Suspended']
-                    break;
-                case 'Suspended':
-                    options = ['Suspended']
-                    break;
-            }
-            options.forEach(function (status) {
-                html += `<option value="${status}" ${selectedStatus === status ? 'selected' : ''} >${status}</option>`;
-            });
+        // function getEnrollStatusOptions(selectedStatus) {
+        //     var options = ['Pending', 'Enrolled', 'Suspended']; Example statuses
+        //     var html = '';
+        //     switch (selectedStatus) {
+        //         case 'Pending':
+        //             options = ['Pending', 'Enrolled']
+        //             break;
+        //         case 'Enrolled':
+        //             options = ['Enrolled', 'Suspended']
+        //             break;
+        //         case 'Suspended':
+        //             options = ['Suspended']
+        //             break;
+        //     }
+        //     options.forEach(function (status) {
+        //         html += `<option value="${status}" ${selectedStatus === status ? 'selected' : ''} >${status}</option>`;
+        //     });
 
-            return html;
-        }
-        function callApiPutUpdateClassStatus(formData) {
-            $.ajax({
-                url: apiUrl + 'Class/' + @Model.ClassID + '/Update/Status', // Specify your Razor Page here
-                type: 'PUT',
-                data: JSON.stringify(formData),
-                headers: {
-                    'Authorization': 'Bearer ' + token, // Token for authentication
-                },
-                contentType: 'application/json; charset=utf-8',
-                success: function (response) {
-                    // Handle success (display a success message or redirect, etc.)
-                    if (response.status) {
-                        showAlert('success', "Class Status update successfully");
-                        callApiGetClassDetail();
-                    } else {
-                        showAlert('error', response.errorMessage);
-                    }
-                },
-                error: function (xhr, status, error) {
-                    // Attempt to parse the response text if it is available
-                    var errorResponse = xhr.responseText ? JSON.parse(xhr.responseText) : {};
+        //     return html;
+        // }
+        // function callApiPutUpdateClassStatus(formData) {
+        //     $.ajax({
+        //         url: apiUrl + 'Class/' + @Model.ClassID + '/Update/Status', Specify your Razor Page here
+        //         type: 'PUT',
+        //         data: JSON.stringify(formData),
+        //         headers: {
+        //             'Authorization': 'Bearer ' + token, Token for authentication
+        //         },
+        //         contentType: 'application/json; charset=utf-8',
+        //         success: function (response) {
+        //             Handle success (display a success message or redirect, etc.)
+        //             if (response.status) {
+        //                 showAlert('success', "Class Status update successfully");
+        //                 callApiGetClassDetail();
+        //             } else {
+        //                 showAlert('error', response.errorMessage);
+        //             }
+        //         },
+        //         error: function (xhr, status, error) {
+        //             Attempt to parse the response text if it is available
+        //             var errorResponse = xhr.responseText ? JSON.parse(xhr.responseText) : {};
 
-                    // Extract the custom error message if it exists
-                    var errorMessage = errorResponse.errorMessage || "An unknown error occurred.";
+        //             Extract the custom error message if it exists
+        //             var errorMessage = errorResponse.errorMessage || "An unknown error occurred.";
 
-                    // Display the error message using your custom showAlert function
-                    showAlert('error', "Error:" + errorMessage);
-                }
-            });
-        }
+        //             Display the error message using your custom showAlert function
+        //             showAlert('error', "Error:" + errorMessage);
+        //         }
+        //     });
+        // }
         function formatDate(date) {
             let d = new Date(date);
 

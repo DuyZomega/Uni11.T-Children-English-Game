@@ -49,6 +49,8 @@
                             <div class="tab-content">
                                 <!-- home1 -->
                                 <div class="tab-pane active" id="home1" role="tabpanel">
+                                    <div class="row">
+                                    </div>
                                     <div id="question-table_wrapper" class="dataTables_wrapper no-footer">
                                         <table id="question-table"
                                                class="table table-striped table-bordered dataTable no-footer"
@@ -266,35 +268,6 @@
         //     window.location.href = '/Admin/Question/' + data.homeworkQuestionId + '/Info';
         //     alert('You clicked on ' + data.homeworkQuestionId + "'s row");
         // });
-        // Function to display alerts
-        function showAlert(type, message) {
-            var alertHtml = '';
-
-            if (type === 'success') {
-                alertHtml = `
-                                <div class="alert alert-success alert-dismissible fade show" id="notif">
-                                    <i class='bx bx-message-alt-x p-1'></i>
-                                    <strong class="mr-1">` + message + `</strong>
-                                    <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
-                                        <span><i class='bx bx-x'></i></span>
-                                    </button>
-                                </div>
-                            `;
-            } else if (type === 'error') {
-                alertHtml = `
-                                <div class="alert alert-danger alert-dismissible fade show" id="notif">
-                                    <i class='bx bx-message-alt-x p-1'></i>
-                                    <strong class="mr-1">` + message + `</strong>
-                                    <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
-                                        <span><i class='bx bx-x'></i></span>
-                                    </button>
-                                </div>
-                            `;
-            }
-
-            // Inject the alert HTML into the alert container
-            $('#alertContainer').html(alertHtml);
-        }
         function callApiPostCreateQuestion(formData) {
             $.ajax({
                 url: apiUrl + 'Question/Create', // Specify your Razor Page here

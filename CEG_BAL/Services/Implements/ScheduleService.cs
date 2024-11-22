@@ -88,7 +88,11 @@ namespace CEG_BAL.Services.Implements
 
         public void UpdateStatus(int id, string status)
         {
-            throw new NotImplementedException();
+            var sche = _unitOfWork.ScheduleRepositories.GetByIdNoTracking(id).Result;
+            if (sche == null) return;
+            sche.Status = status;
+            _unitOfWork.ScheduleRepositories.Update(sche);
+            _unitOfWork.Save();
         }
     }
 }

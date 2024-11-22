@@ -38,17 +38,19 @@ namespace CEG_BAL.Services.Implements
             acc.Account.CreatedDate = DateTime.Now;
             acc.Account.Status = "Active";
             acc.Account.RoleId = _unitOfWork.RoleRepositories.GetRoleIdByRoleName("Student").Result;
+            if (_unitOfWork.ParentRepositories.GetIdByFullname(newStu.ParentFullname).Result == 0) throw new Exception("Parent Not Found!");
             if (newStu != null)
             {
                 acc.Account.Fullname = newStu.Account.Fullname;
                 acc.Account.Username = newStu.Account.Username;
                 acc.Account.Gender = newStu.Account.Gender;
                 acc.Account.Password = newStu.Account.Password;
+                acc.Account.RoleId = 2;
                 acc.Description = newStu.Description;
                 //acc.TotalPoint = newStu.TotalPoints;
                 acc.Birthdate = newStu.Birthdate;
                 acc.Age = CalculateAge(acc.Birthdate.Value);
-                acc.ParentId = _unitOfWork.ParentRepositories.GetIdByUsername(newStu.ParentUsername).Result;
+                acc.ParentId = _unitOfWork.ParentRepositories.GetIdByFullname(newStu.ParentFullname).Result;
             }
             _unitOfWork.StudentRepositories.Create(acc);
             _unitOfWork.Save();
@@ -80,6 +82,23 @@ namespace CEG_BAL.Services.Implements
         public async Task<List<StudentViewModel>> GetStudentList()
         {
             return _mapper.Map<List<StudentViewModel>>(await _unitOfWork.StudentRepositories.GetStudentList());
+        }
+
+        public async Task<List<string>> GetStudentNameList()
+        {
+            return await _unitOfWork.StudentRepositories.GetStudentNameList();
+        }
+
+        public async Task<List<string>> GetStudentNameListByParent(int id)
+        {
+            var parentId = await _unitOfWork.ParentRepositories.GetIdByAccountId(id);
+            if (parentId == 0) return null;
+            return await _unitOfWork.StudentRepositories.GetStudentNameListByParent(parentId);
+        }
+
+        public async Task<List<string>> GetStudentNameListByParentName(string parentName)
+        {
+            return await _unitOfWork.StudentRepositories.GetStudentNameListByParentName(parentName);
         }
 
         public async Task<List<StudentViewModel>> GetStudentByParentAccountId(int id)

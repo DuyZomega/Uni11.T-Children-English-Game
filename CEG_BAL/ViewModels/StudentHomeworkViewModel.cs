@@ -15,8 +15,14 @@ namespace CEG_BAL.ViewModels
 
         public string? Status { get; set; }
 
-        public virtual HomeworkViewModel Homework { get; set; } = null!;
+        public int? CorrectAnswers { get; set; }
 
-        public virtual StudentProgressViewModel StudentProgress { get; set; } = null!;
+        public HomeworkViewModel Homework { get; set; } = null!;
+
+        public HomeworkResultViewModel HomeworkResult { get; set; } = null!;
+
+        public List<StudentAnswerViewModel> StudentAnswers { get; set; } = new List<StudentAnswerViewModel>();
+
+        public StudentProgressViewModel StudentProgress { get; set; } = null!;
     }
 }

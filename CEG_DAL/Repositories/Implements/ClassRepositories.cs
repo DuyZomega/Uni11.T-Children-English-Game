@@ -29,6 +29,7 @@ namespace CEG_DAL.Repositories.Implements
                     EndDate = c.EndDate,
                     MinimumStudents = c.MinimumStudents,
                     MaximumStudents = c.MaximumStudents,
+                    EnrollmentFee = c.EnrollmentFee,
                     TeacherId = c.TeacherId,
                     CourseId = c.CourseId,
                     Status = c.Status,
@@ -115,6 +116,7 @@ namespace CEG_DAL.Repositories.Implements
                     EndDate = c.EndDate,
                     MinimumStudents = c.MinimumStudents,
                     MaximumStudents = c.MaximumStudents,
+                    EnrollmentFee = c.EnrollmentFee,
                     TeacherId = c.TeacherId,
                     CourseId = c.CourseId,
                     Status = c.Status,
@@ -143,6 +145,19 @@ namespace CEG_DAL.Repositories.Implements
                 .ToListAsync();
         }
 
+        public async Task<List<Class>> GetClassOptionListByStatusOpen()
+        {
+            return await _dbContext.Classes
+                .AsNoTrackingWithIdentityResolution()
+                .Where(c => c.Status.Equals("Open"))
+                .Select(c => new Class
+                {
+                    ClassName = c.ClassName,
+                    EnrollmentFee = c.EnrollmentFee
+                })
+                .ToListAsync();
+        }
+
         public async Task<List<Class>> GetClassListAdmin()
         {
             return await _dbContext.Classes
@@ -154,6 +169,7 @@ namespace CEG_DAL.Repositories.Implements
                     EndDate = c.EndDate,
                     MinimumStudents = c.MinimumStudents,
                     MaximumStudents = c.MaximumStudents,
+                    EnrollmentFee = c.EnrollmentFee,
                     TeacherId = c.TeacherId,
                     CourseId = c.CourseId,
                     Status = c.Status,
@@ -193,6 +209,7 @@ namespace CEG_DAL.Repositories.Implements
                     EndDate = c.EndDate,
                     MinimumStudents = c.MinimumStudents,
                     MaximumStudents = c.MaximumStudents,
+                    EnrollmentFee = c.EnrollmentFee,
                     TeacherId = c.TeacherId,
                     CourseId = c.CourseId,
                     Status = c.Status,
@@ -225,7 +242,7 @@ namespace CEG_DAL.Repositories.Implements
         {
             return await _dbContext.Classes
                 .AsNoTrackingWithIdentityResolution()
-                .Where(c => c.TeacherId == teacherId)
+                .Where(c => c.TeacherId == teacherId && c.Status != "Draft")
                 .Select(c => new Class
                 {
                     ClassId = c.ClassId,
@@ -234,6 +251,7 @@ namespace CEG_DAL.Repositories.Implements
                     EndDate = c.EndDate,
                     MinimumStudents = c.MinimumStudents,
                     MaximumStudents = c.MaximumStudents,
+                    EnrollmentFee = c.EnrollmentFee,
                     TeacherId = c.TeacherId,
                     CourseId = c.CourseId,
                     Status = c.Status,
@@ -267,6 +285,11 @@ namespace CEG_DAL.Repositories.Implements
             var result = await (from c in _dbContext.Classes where c.ClassId == id select c).FirstOrDefaultAsync();
             if (result != null) return result.ClassId;
             return 0;
+        }
+
+        public async Task<Class?> GetByClassName(string className)
+        {
+            return await _dbContext.Classes.AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(c => c.ClassName == className);
         }
     }
 }

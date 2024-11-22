@@ -90,6 +90,13 @@ namespace CEG_BAL.Services.Implements
             return false;
         }
 
+        public async Task<bool> IsParentExistByFullname(string fullname)
+        {
+            var acc = await _unitOfWork.ParentRepositories.GetByFullname(fullname);
+            if (acc != null) return true;
+            return false;
+        }
+
         public void Update(ParentViewModel parent)
         {
             var par = _mapper.Map<Parent>(parent);

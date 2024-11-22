@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using CEG_BAL.Configurations;
+using CEG_BAL.ViewModels.Parent;
 
 namespace CEG_WebAPI.Controllers
 {
@@ -126,11 +127,11 @@ namespace CEG_WebAPI.Controllers
         }
 
         [HttpPost("Create")]
-        [ProducesResponseType(typeof(HomeworkViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(EnrollViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> CreateHomework(
-            [FromBody][Required] EnrollViewModel newHw
+            [FromBody][Required] CreateNewEnroll newEn
             )
         {
             try
@@ -144,8 +145,8 @@ namespace CEG_WebAPI.Controllers
                         ErrorMessage = "Session Not Found!"
                     });
                 }*/
-                EnrollViewModel hw = new();
-                _enrollService.Create(hw);
+                EnrollViewModel en = new();
+                _enrollService.Create(en, newEn);
                 return Ok(new
                 {
                     Data = true,

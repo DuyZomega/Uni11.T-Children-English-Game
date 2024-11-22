@@ -17,14 +17,16 @@ namespace CEG_BAL.ViewModels
 
         public string Phone { get; set; } = null!;
 
+        public string Certificate { get; set; } = null!;
+
         public string Address { get; set; } = null!;
 
         public string? Image { get; set; }
 
-        public virtual AccountViewModel Account { get; set; } = null!;
+        public AccountViewModel Account { get; set; } = null!;
 
-        public virtual ICollection<ClassViewModel> Classes { get; set; } = new List<ClassViewModel>();
+        public List<ClassViewModel> Classes { get; set; } = new List<ClassViewModel>();
 
-        public virtual ICollection<CourseViewModel> Courses { get; set; } = new List<CourseViewModel>();
+        public List<CourseViewModel> Courses { get; set; } = new List<CourseViewModel>();
     }
 }

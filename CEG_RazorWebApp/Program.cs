@@ -1,5 +1,7 @@
 using CEG_RazorWebApp.Libraries;
 using CEG_RazorWebApp.Libraries.Authorizations;
+using CEG_RazorWebApp.Services.Implements;
+using CEG_RazorWebApp.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using System.Configuration;
@@ -89,8 +91,8 @@ namespace CEG_RazorWebApp
                 });
             });*/
             // Add scoped services
-            /*services.AddScoped<ISystemLoginService, SystemLoginService>();
-            services.AddScoped<IVnPayService, VnPayService>();*/
+            //services.AddScoped<ISystemLoginService, SystemLoginService>();
+            services.AddScoped<IVnPayService, VnPayService>();
 
             // Add Hosted services
             /*services.AddHostedService<MembershipExpiryService>();*/

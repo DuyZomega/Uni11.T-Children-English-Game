@@ -507,7 +507,6 @@
                         data: 'status',
                         width: '25%',
                         render: function (data, type, row, meta) {
-                            getEnrollStatusOptions(data);
                             return `<select class="custom-select form-control enroll-status" data-enrollid="${row.enrollId}">`
                                 + getEnrollStatusOptions(data) +
                                 `</select>`;
@@ -576,7 +575,6 @@
             });
         }
         function setAccountDisplay(data) {
-            console.log(data);
             if (data.enrolls && data.enrolls.length > 0) {
                 enrollTable.clear().rows.add(data.enrolls).draw();
             }

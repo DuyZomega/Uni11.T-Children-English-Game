@@ -46,7 +46,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-7 customer-booking">
+                    <div class="col-xl-6 customer-booking">
                         <div class="row">
                             <div class="card profile col-12 mb-4">
                                 <div class="card-header" id="class-title-status">
@@ -112,6 +112,15 @@
                                         </div>
                                         <div class="col-md-7">
                                             <span id="class-end-date">
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Enrollment Fee:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span id="class-enroll-fee">
                                             </span>
                                         </div>
                                     </div>
@@ -219,7 +228,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-5 cardFB">
+                    <div class="col-xl-6 cardFB">
                         <div class="card profile">
                             <div class="card-header">
                                 <h4>Enroll requests</h4>
@@ -307,12 +316,12 @@
                                               class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
                                         <label asp-for="@updateClass.MinStudents" class="col-md-3 col-form-label text-md-right"></label>
-                                        <input asp-for="@updateClass.MinStudents" value="@updateClass.MinStudents" type="number" min="@CEG_RazorWebApp.Libraries.Constants.CLASS_MINIMUM_STUDENTS_REQ" required class="form-control col-md-7">
+                                        <input asp-for="@updateClass.MinStudents" value="@updateClass.MinStudents" type="number" min="@CEG_BAL.Configurations.Constants.CLASS_MINIMUM_STUDENTS_REQ" required class="form-control col-md-7">
                                         <span asp-validation-for="@updateClass.MinStudents" id="error_message"
                                               class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
                                         <label asp-for="@updateClass.MaxStudents" class="col-md-3 col-form-label text-md-right"></label>
-                                        <input asp-for="@updateClass.MaxStudents" value="@updateClass.MaxStudents" type="number" max="@CEG_RazorWebApp.Libraries.Constants.CLASS_MAXIMUM_STUDENTS_REQ" required class="form-control col-md-7">
+                                        <input asp-for="@updateClass.MaxStudents" value="@updateClass.MaxStudents" type="number" max="@CEG_BAL.Configurations.Constants.CLASS_MAXIMUM_STUDENTS_REQ" required class="form-control col-md-7">
                                         <span asp-validation-for="@updateClass.MaxStudents" id="error_message"
                                               class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
@@ -333,6 +342,11 @@
                                         <label asp-for="@updateClass.EndDate" class="col-md-3 col-form-label text-md-right"></label>
                                         <input asp-for="@updateClass.EndDate" type="datetime-local" value="@updateClass.EndDate.ToString("yyyy-MM-ddTHH:mm")" class="form-control col-md-7" required>
                                         <span asp-validation-for="@updateClass.EndDate" id="error_message"
+                                              class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                        <label asp-for="@updateClass.EnrollmentFee" class="col-md-3 col-form-label text-md-right"></label>
+                                        <input asp-for="@updateClass.EnrollmentFee" value="@updateClass.EnrollmentFee" type="number" required class="form-control col-md-7">
+                                        <span asp-validation-for="@updateClass.EnrollmentFee" id="error_message"
                                               class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
                                     </div>
                                 </div>
@@ -441,8 +455,7 @@
     <script>
         var token = sessionStorage.getItem('token');
         var apiUrl = sessionStorage.getItem('apiUrl');
-        var enrollList;
-        var table;
+        var enrollTable;
         var scheduleTable;
         var sessionTable;
         var selectedSessionIds = new Set();
@@ -518,6 +531,22 @@
                 $(settings.nTableWrapper).prepend(container);
                 return container;
             });
+            DataTable.render.time = function (
+                { 
+                    includeId = "schedule-start-time" 
+                }
+            ) {
+                return function (data, type, row) {
+                    var str = moment(data, "HH:mm:ss");
+                    // console.log(str);
+                    if (type === 'display') {
+                        return '<span id="' + includeId + '">' + str.format("hh:mm A") + '</span >';
+                    }
+
+                    // Search, order and type can use the original data
+                    return str;
+                };
+            };
             table = new DataTable('#enroll-table', {
                 data: [],
                 deferRender: false,
@@ -527,19 +556,15 @@
                     { data: 'student.account.fullname' },
                     // { data: 'status' },
                     { // Add a select box in the last column
-                        data: null, // No need to map it to a specific data field
+                        data: 'status',
                         render: function (data, type, row, meta) {
-                            getEnrollStatusOptions(row.status);
-                            // Customize the select box based on your needs
-                            //<option value="enrolled" ${row.status === 'enrolled' ? 'selected' : ''}>Enrolled</option>
-                            //<option value="pending" ${row.status === 'pending' ? 'selected' : ''}>Pending</option>
                             return `
-                                        <select class="custom-select form-control enroll-status" data-enrollid="${row.enrollId}">
-                                        `
-                                + getEnrollStatusOptions(row.status) +
+                                <select class="custom-select form-control enroll-status" data-enrollid="${row.enrollId}">
                                 `
-                                        </select>
-                                        `;
+                                + getEnrollStatusOptions(data) +
+                                `
+                                </select>
+                                `;
                         }
                     }
                 ],
@@ -619,22 +644,22 @@
                     },
                     {
                         data: 'scheduleDate',
-                        render: function (data, type, row, meta) {
-                            // '<input type="datetime-local" id="schedule-start-date" class="form-control" value="' + data + '" asp-format="{0:yyyy-MM-ddTHH:mm}"/>';
-                            return '<span id="schedule-start-date">' + formatDate(data, { ignoreHour : true , addDayOfWeek : true }) + '</span >';
-                        }
+                        // render: function (data, type, row, meta) {
+                        //     '<input type="datetime-local" id="schedule-start-date" class="form-control" value="' + data + '" asp-format="{0:yyyy-MM-ddTHH:mm}"/>';
+                        //     return '<span id="schedule-start-date">' + formatDate(data, { ignoreHour : true , addDayOfWeek : true }) + '</span >';
+                        // },
+                        render: DataTable.render.date("dddd, DD/MM/YYYY")
                     },
                     {
                         data: 'startTime',
-                        render: function (data, type, row, meta) {
-                            return '<span id="schedule-start-time">' + formatTime(data, { includeAmPm : true }) + '</span >';
-                        }
+                        // render: function (data, type, row, meta) {
+                        //     return '<span id="schedule-start-time">' + formatTime(data, { includeAmPm : true }) + '</span >';
+                        // },
+                        render: DataTable.render.time({ includeId: "schedule-start-time" })
                     },
                     {
                         data: 'endTime',
-                        render: function (data, type, row, meta) {
-                            return '<span id="schedule-end-time">' + formatTime(data, { includeAmPm : true }) + '</span >';
-                        }
+                        render: DataTable.render.time({ includeId: "schedule-end-time" })
                     },
                     {
                         data: 'status'
@@ -818,35 +843,6 @@
                     showAlert('error', "Error: \n" + errorMessage);
                 }
             });
-        }
-        // Function to display alerts
-        function showAlert(type, message) {
-            var alertHtml = '';
-
-            if (type === 'success') {
-                alertHtml = `
-                                <div class="alert alert-success alert-dismissible fade show" id="notif">
-                                    <i class='bx bx-message-alt-x p-1'></i>
-                                    <strong class="mr-1">` + message + `</strong>
-                                    <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
-                                        <span><i class='bx bx-x'></i></span>
-                                    </button>
-                                </div>
-                            `;
-            } else if (type === 'error') {
-                alertHtml = `
-                                <div class="alert alert-danger alert-dismissible fade show" id="notif">
-                                    <i class='bx bx-message-alt-x p-1'></i>
-                                    <strong class="mr-1">` + message + `</strong>
-                                    <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
-                                        <span><i class='bx bx-x'></i></span>
-                                    </button>
-                                </div>
-                            `;
-            }
-
-            // Inject the alert HTML into the alert container
-            $('#alertContainer').html(alertHtml);
         }
         function callApiPutUpdateClass(formData) {
             $.ajax({
@@ -1055,17 +1051,14 @@
             return html;
         }
         function getEnrollStatusOptions(selectedStatus) {
-            var options = ['Pending', 'Enrolled', 'Suspended']; // Example statuses
+            var options = ['Enrolled', 'Cancelled']; // Example statuses
             var html = '';
             switch (selectedStatus) {
-                case 'Pending':
-                    options = ['Pending', 'Enrolled']
-                    break;
                 case 'Enrolled':
-                    options = ['Enrolled', 'Suspended']
+                    options = ['Enrolled', 'Cancelled']
                     break;
-                case 'Suspended':
-                    options = ['Suspended']
+                case 'Cancelled':
+                    options = ['Cancelled']
                     break;
             }
             options.forEach(function (status) {
@@ -1122,7 +1115,6 @@
                                 <i class='bx bxs-edit bx-sm' data-toggle="modal" data-target="#editClass"></i>
                             </div>
                             ` : '';
-            // classStatus = data.status;
             var filteredEnrollList = data.enrolls.filter(function (enroll) {
                 return enroll.status === 'Enrolled';
             });
@@ -1179,6 +1171,10 @@
                 let dadiv = $('div.dt-modal-toggle').parent();
                 dadiv.find('div.dt-modal-toggle').remove();
             }
+            formatter = new Intl.NumberFormat('vi-VN', {
+                style: 'currency',
+                currency: 'VND',
+            });
             // Display Class Info
             $('#class-title-status').find('#class-class-status').remove();
             $('#class-status').empty();
@@ -1196,6 +1192,7 @@
             $('#class-current-students-amount').text(filteredEnrollList.length + ' Student(s)');
             $('#class-minimum-students-amount').text(data.minimumStudents);
             $('#class-maximum-students-amount').text(data.maximumStudents);
+            $('#class-enroll-fee').text(formatter.format(data.enrollmentFee));
             $('#class-title-status').append(titleStatusHtml);
             $('#class-schedules-amount').text(data.schedules.length + ' Scheduled Session(s)');
 

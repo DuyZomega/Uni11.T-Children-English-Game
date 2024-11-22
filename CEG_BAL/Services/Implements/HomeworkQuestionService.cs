@@ -72,7 +72,7 @@ namespace CEG_BAL.Services.Implements
                 var quesvm = _mapper.Map<HomeworkQuestionViewModel>(ques);
                 if (ques.HomeworkId != null)
                 {
-                    var home = await _unitOfWork.HomeworkRepositories.GetByIdNoTracking(ques.HomeworkId.Value);
+                    var home = await _unitOfWork.HomeworkRepositories.GetByIdNoTracking(ques.HomeworkId);
                     //quesvm.HomeworkStatus = home?.Status;
                 }
                 quesvm.CourseStatus = await _unitOfWork.CourseRepositories.GetStatusByQuestionIdNoTracking(id);

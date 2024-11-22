@@ -1,0 +1,89 @@
+﻿@page "/Admin/Transaction/Return"
+@model CEG_RazorWebApp.Pages.Admin.Transaction.TransactionReturnModel
+@{
+    ViewData["Title"] = "Admin Transaction Return Page";
+    Layout = "~/Pages/Shared/_ALayout.cshtml";
+
+    var createTransaction = Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.CreateTransactionVM));
+    var correctValue = Model.TransactionResponse.Value / 100;
+}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center" id="transaction-response">@Model.TransactionResponse.Message</h2>
+
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <p><strong>Transaction ID:</strong> @Model.TransactionResponse.TransactionId</p>
+                        <p><strong>Order Description:</strong> @Model.TransactionResponse.OrderDescription</p>
+                        <p><strong>Transaction Type:</strong> @Model.TransactionResponse.TransactionType</p>
+                        <p><strong>Amount:</strong> @correctValue.ToString("C", new System.Globalization.CultureInfo("vi-VN"))</p>
+                        <p><strong>Payment Method:</strong> @Model.TransactionResponse.PaymentMethod</p>
+                        <p><strong>VNPay Transaction ID:</strong> @Model.TransactionResponse.VnpayId</p>
+                        <p><strong>Response Code:</strong> @Model.TransactionResponse.VnPayResponseCode</p>
+                    </div>
+                </div>
+
+                <div class="text-center mt-4">
+                    <a href="/Admin/Transaction/Index" class="btn btn-primary">Back to Transaction Index</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var token = sessionStorage.getItem('token');
+        var apiUrl = sessionStorage.getItem('apiUrl');
+        $(document).ready(function () {
+            callApiPostCreateTransaction();
+        });
+        function callApiPostCreateTransaction() {
+            // Call API to get the list of teacher names
+            $.ajax({
+                url: apiUrl + 'Transaction/Create', // API endpoint
+                type: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + token// Include the JWT token
+                },
+                contentType: 'application/json',
+                data: JSON.stringify(@createTransaction),
+                success: function (response) {
+                    // Check if the status is true
+                    if (!response.status) {
+                        $('#transaction-response').text("Transaction processed, but failed to save.");
+                        showAlert('error', "Error: \n" + response.errorMessage);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    $('#transaction-response').text("Transaction processed, but failed to save.");
+                    // Attempt to parse the response text if it is available
+                    var errorResponse = xhr.responseText ? JSON.parse(xhr.responseText) : {};
+
+                    // Extract the custom error message if it exists
+                    var errorMessage = errorResponse.errorMessage || errorResponse.title || "An unknown error occurred.";
+                    // Check if errorResponse.errors exists and is an object
+                    if (errorResponse.errors && typeof errorResponse.errors === 'object') {
+                        // Loop through each field in the errors object and append to the errorMessage
+                        for (var field in errorResponse.errors) {
+                            if (errorResponse.errors.hasOwnProperty(field)) {
+                                // Add each error message for the field, joining multiple messages if they exist
+                                var fieldErrors = errorResponse.errors[field].join(", ");
+                                errorMessage += `\n${field}: ${fieldErrors}`;
+                            }
+                        }
+                    }
+                    // Display the error message using your custom showAlert function
+                    showAlert('error', "Error: \n" + errorMessage);
+                }
+            });
+        }
+    </script>
+</body>
+</html>
