@@ -70,5 +70,10 @@ namespace CEG_DAL.Repositories.Implements
             }
             return false;
         }
+
+        public async Task<int> GetTotalAmount()
+        {
+            return await _dbContext.Accounts.CountAsync();
+        }
     }
 }

@@ -90,6 +90,42 @@ namespace CEG_WebAPI.Controllers
             }
         }
 
+        [HttpGet("All/Fullname/ByParent/{id}")]
+        [Authorize(Roles = "Parent")]
+        [ProducesResponseType(typeof(List<string>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetStudentNameListByParent(
+            [Required][FromRoute] int id)
+        {
+            try
+            {
+                var result = await _studentService.GetStudentNameListByParent(id);
+                if (result == null)
+                {
+                    return NotFound(new
+                    {
+                        Status = false,
+                        ErrorMessage = "Student Name List by parent Not Found!"
+                    });
+                }
+                return Ok(new
+                {
+                    Status = true,
+                    Data = result
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    Status = false,
+                    ErrorMessage = ex.Message,
+                    InnerExceptionMessage = ex.InnerException?.Message
+                });
+            }
+        }
+
         [HttpGet("All/Fullname/ByParent/Name/{parentName}")]
         [Authorize(Roles = "Admin,Teacher,Parent")]
         [ProducesResponseType(typeof(List<string>), StatusCodes.Status200OK)]

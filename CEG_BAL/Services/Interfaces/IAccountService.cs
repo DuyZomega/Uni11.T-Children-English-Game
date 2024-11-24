@@ -12,6 +12,7 @@ namespace CEG_BAL.Services.Interfaces
     public interface IAccountService
     {
         Task<List<AccountViewModel>> GetAccountList();
+        Task<int> GetTotalAmount();
         Task<AuthenResponse> AuthenticateAccount(AuthenRequest request);
         Task<AccountViewModel?> GetByLogin(string userName, string password);
         Task<AccountViewModel?> GetById(int id);

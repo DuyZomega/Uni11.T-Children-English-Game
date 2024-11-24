@@ -204,6 +204,7 @@ namespace CEG_BAL.Configurations
         public const int CLASS_MINIMUM_ENROLLMENT_FEE = 0;
         public const int CLASS_MAXIMUM_ENROLLMENT_FEE = 100000000;
         public const int COURSE_TOTAL_HOURS = 1;
+        public const int COURSE_TOTAL_HOURS_MINIMUM = 5;
         public const int HOMEWORK_HOURS = 1;
         public const int SESSION_HOURS = 1;
         public const int TRANSACTION_MINIMUM_AMOUNT = 5000;

@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Org.BouncyCastle.Math.EC.ECCurve;
 
 namespace CEG_BAL.Services.Implements
 {
@@ -20,17 +21,20 @@ namespace CEG_BAL.Services.Implements
         private readonly IMapper _mapper;
         private readonly IJWTService _jwtService;
         private readonly IConfiguration _configuration;
+        private readonly IEmailService _emailService;
 
         public StudentService(
             IUnitOfWork unitOfWork,
             IMapper mapper,
             IJWTService jwtServices,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            IEmailService emailService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _jwtService = jwtServices;
             _configuration = configuration;
+            _emailService = emailService;
         }
         public void Create(StudentViewModel student, CreateNewStudent newStu)
         {
@@ -54,6 +58,23 @@ namespace CEG_BAL.Services.Implements
             }
             _unitOfWork.StudentRepositories.Create(acc);
             _unitOfWork.Save();
+            var parent = _unitOfWork.ParentRepositories.GetByIdNoTracking(acc.ParentId).Result;
+            _ = _emailService.SendEmailAsync(
+                    _configuration.GetSection("Gmail:SenderName").Value,
+                    _configuration.GetSection("Gmail:Username").Value,
+                    newStu.ParentFullname,
+                    parent.Email,
+                    "Thank you for chosing us!",
+                    "   <h2>Your Children's Student Account has been created successfully!</h2>" +
+                    "<div>" +
+                    "   <h3>These below are your child student account username and password:</h3>" +
+                    "   <h4>Username: " + newStu.Account.Username + "</h4>" +
+                    "   <h4>Password: " + newStu.Account.Password + "</h4>" +
+                    "</div>",
+                    _configuration,
+                    _configuration.GetSection("Gmail:Username").Value,
+                    _configuration.GetSection("Gmail:Password").Value
+                ).Result;
         }
 
         public async Task<StudentViewModel?> GetStudentByAccountId(int id)

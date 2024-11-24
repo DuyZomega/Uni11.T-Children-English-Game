@@ -1,13 +1,13 @@
 ﻿@page "/Student/Homework/Index"
 @model CEG_RazorWebApp.Pages.Student.Homework.HomeworkIndexModel
 @{
-    ViewData["Title"] = "Admin All Classes Page";
+    ViewData["Title"] = "Homework Page";
     string? search = string.Empty;
 
     var classes = Model.Homeworks;
     var createClass = Model.Homeworks;
 
-    Layout = "~/Pages/Shared/_ALayout.cshtml";
+    Layout = "~/Pages/Shared/_SLayout.cshtml";
 }
 <html lang="en">
 <head>

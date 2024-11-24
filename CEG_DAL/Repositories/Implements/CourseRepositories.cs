@@ -160,5 +160,32 @@ namespace CEG_DAL.Repositories.Implements
                       : "NotFound")
                 .FirstOrDefaultAsync();
         }
+
+        public async Task<int> GetTotalAmount()
+        {
+            return await _dbContext.Courses.CountAsync();
+        }
+
+        public void UpdateTotalHoursByIdThroughSessionsSum(int id)
+        {
+            var selectedCourse = _dbContext.Courses.Where(cour => cour.CourseId.Equals(id)).Select(c => new Course()
+            {
+                CourseId = c.CourseId,
+                CourseName = c.CourseName,
+                CourseType = c.CourseType,
+                Description = c.Description,
+                Difficulty = c.Difficulty,
+                Category = c.Category,
+                Image = c.Image,
+                RequiredAge = c.RequiredAge,
+                TotalHours = c.TotalHours,
+                Status = c.Status,
+                Sessions = c.Sessions
+            }).SingleOrDefault();
+            if(selectedCourse == null) { return; }
+            selectedCourse.TotalHours = selectedCourse.Sessions.Sum(ses => ses.Hours);
+            _dbContext.Courses.Update(selectedCourse);
+            _dbContext.SaveChanges();
+        }
     }
 }

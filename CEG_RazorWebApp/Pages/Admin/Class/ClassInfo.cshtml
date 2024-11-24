@@ -696,34 +696,35 @@
                 },
             }).on('draw', function (e, settings) {
                 scheduleTable.column(6).visible(false, false);
-                scheduleTable.rows().every(function (rowIdx, tableLoop, rowLoop) {
-                    var data = this.cell(rowIdx, 2).data();
-                    var status = $('div#class-status').text().trim();
-                    if (status == 'Draft' || status == 'Postponed') {
-                        var node = $(this.cell(rowIdx, 2).node());
-                        // change display from span to input
-                        node.html('<input type="datetime-local" id="schedule-start-date-' + rowIdx + '" class="form-control" value="' + data + '" asp-format="{0:yyyy-MM-ddTHH:mm}"/>');
-                        // Add change event listener for each input
-                        node.children(0).on('change', function () {
+                updateScheduleTable();
+                // scheduleTable.rows().every(function (rowIdx, tableLoop, rowLoop) {
+                //     var data = this.cell(rowIdx, 2).data();
+                //     var status = $('div#class-status').text().trim();
+                //     if (status == 'Draft' || status == 'Postponed') {
+                //         var node = $(this.cell(rowIdx, 2).node());
+                //         change display from span to input
+                //         node.html('<input type="datetime-local" id="schedule-start-date-' + rowIdx + '" class="form-control" value="' + data + '" asp-format="{0:yyyy-MM-ddTHH:mm}"/>');
+                //         Add change event listener for each input
+                //         node.children(0).on('change', function () {
 
-                            let formData = {
-                                scheduleDate: $('input#schedule-start-date-' + rowIdx).val()
-                            };
-                            callApiPutUpdateSchedule(formData, scheduleTable.cell(rowIdx, 0).data());
+                //             let formData = {
+                //                 scheduleDate: $('input#schedule-start-date-' + rowIdx).val()
+                //             };
+                //             callApiPutUpdateSchedule(formData, scheduleTable.cell(rowIdx, 0).data());
 
-                            // const selectedStartDate = new Date(this.value);
-                            // const endDate = new Date(selectedStartDate);
-                            // endDate.setHours(endDate.getHours() + scheduleTable.cell(rowIdx, 6).data());
+                //             const selectedStartDate = new Date(this.value);
+                //             const endDate = new Date(selectedStartDate);
+                //             endDate.setHours(endDate.getHours() + scheduleTable.cell(rowIdx, 6).data());
 
-                            // let startTimeData = getTimeFromDate(selectedStartDate);
-                            // let endTimeData = getTimeFromDate(endDate);
+                //             let startTimeData = getTimeFromDate(selectedStartDate);
+                //             let endTimeData = getTimeFromDate(endDate);
 
-                            // scheduleTable.cell(rowIdx, 3).data(startTimeData);
+                //             scheduleTable.cell(rowIdx, 3).data(startTimeData);
 
-                            // scheduleTable.cell(rowIdx, 4).data(endTimeData);
-                        });
-                    }
-                });
+                //             scheduleTable.cell(rowIdx, 4).data(endTimeData);
+                //         });
+                //     }
+                // });
             });
 
             $('#editClassForm').submit(function (event) {
@@ -764,24 +765,30 @@
                 callApiPutUpdateClassStatus($('select[id="updateClassStatus_Status"]').val());
                 $('#updateClassStatusForm').trigger("reset");
             });
-            // $(document).on('submit', 'form[id^="editScheduleForm_"]', function (event) {
-            //     event.preventDefault();
-            //     Extract the answerId from the form's id
-            //     let answerId = $(this).attr('id').split('_')[1];
-
-            //     Collect form data
-            //     let formData = {
-            //         answer: $('#updateAnswer_' + answerId + '_Answer').val(),
-            //         type: $('#updateAnswer_' + answerId + '_Type').val()
-            //     };
-
-            //     Call the API to update the answer
-            //     callApiPutUpdateSchedule(formData, answerId);
-
-            //     Optionally reset the form
-            //     $(this).trigger("reset");
-            // });
         });
+        function updateScheduleTable() {
+            scheduleTable.rows().every(function (rowIdx, tableLoop, rowLoop) {
+                const currentStatus = $('div#class-status').text().trim(); // Current status
+                if (currentStatus === "Draft" || currentStatus === "Postponed") {
+                    const dateValue = this.cell(rowIdx, 2).data();
+                    const node = $(this.cell(rowIdx, 2).node());
+
+                    // Change display to a select box if not already updated
+                    if (!node.children('input[type=datetime-local]').length) {
+                        node.html(`<input type="datetime-local" id="schedule-start-date-${rowIdx}" class="form-control" value=${dateValue} asp-format="{0:yyyy-MM-ddTHH:mm}"/>`);
+
+                        // Add change event listener to the select element
+                        node.find('input[type=datetime-local]').on('change', function () {
+                            const newStatus = $(this).val();
+                            let formData = {
+                                scheduleDate: $('input#schedule-start-date-' + rowIdx).val()
+                            };
+                            callApiPutUpdateSchedule(formData, scheduleTable.cell(rowIdx, 0).data());
+                        });
+                    }
+                }
+            });
+        }
         function addTeacherOptions(data, baseTeacher) {
             data.forEach(item => {
                 // Add each item as an option=
@@ -859,7 +866,7 @@
                         showAlert('success', "Class update successfully");
                         callApiGetClassDetail();
                     } else {
-                        console.error("API returned false status.");
+                        showAlert('error', "Error: \n" + response.errorMessage);
                     }
                 },
                 error: function (xhr, status, error) {
@@ -905,7 +912,7 @@
                         // $('body').removeAttr('style');
                         callApiGetClassDetail();
                     } else {
-                        console.error("API returned false status.");
+                        showAlert('error', "Error: \n" + response.errorMessage);
                     }
                 },
                 error: function (xhr, status, error) {
@@ -945,7 +952,7 @@
                         showAlert('success', "Schedule create successfully");
                         callApiGetClassDetail();
                     } else {
-                        console.error("API returned false status.");
+                        showAlert('error', "Error: \n" + response.errorMessage);
                     }
                 },
                 error: function (xhr, status, error) {
@@ -974,6 +981,9 @@
             $.ajax({
                 url: apiUrl + 'Class/Admin/@Model.ClassID', // API endpoint
                 type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + token// Include the JWT token
+                },
                 success: function (response) {
                     // Log the entire response to the console for debugging
                     // Check if the status is true
@@ -999,7 +1009,7 @@
                         sessionTable.clear().rows.add(response.data.course.sessions).draw();
                         // console.log(response.data);
                     } else {
-                        console.error("API returned false status.");
+                        showAlert('error', "Error: \n" + response.errorMessage);
                     }
                 },
                 error: function (xhr, status, error) {
@@ -1082,7 +1092,7 @@
                         showAlert('success', "Class Status update successfully");
                         callApiGetClassDetail();
                     } else {
-                        showAlert('error', response.errorMessage);
+                        showAlert('error', "Error: \n" + response.errorMessage);
                     }
                 },
                 error: function (xhr, status, error) {

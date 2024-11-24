@@ -42,12 +42,13 @@ namespace CEG_BAL.Services.Implements
                 sess.Description = newSes.Description;
                 sess.Hours = newSes.Hours;
                 sess.SessionNumber = newSes.Number;
-                sess.CourseId = _unitOfWork.CourseRepositories.GetIdByName(newSes.CourseName).Result;
+                sess.CourseId = newSes.CourseId.Value;
                 sess.Course = null;
             }
 
             _unitOfWork.SessionRepositories.Create(sess);
             _unitOfWork.Save();
+            // _unitOfWork.CourseRepositories.UpdateTotalHoursByIdThroughSessionsSum(sess.CourseId);
         }
 
         public async Task<List<SessionViewModel>> GetSessionList()
@@ -79,6 +80,7 @@ namespace CEG_BAL.Services.Implements
             }
             _unitOfWork.SessionRepositories.Update(sess);
             _unitOfWork.Save();
+            _unitOfWork.CourseRepositories.UpdateTotalHoursByIdThroughSessionsSum(sess.CourseId);
         }
 
         public async Task<bool> IsSessionExistByTitle(string title)

@@ -21,8 +21,8 @@
                     <i class='bx bx-user'></i>
                 </div>
                 <div>
-                    @* <div class="number">@Model.TotalUsers</div> *@
-                    <div class="cardName"> Accounts</div>
+                    <div id="account-amount">0</div>
+                    <div class="cardName ">Accounts</div>
                 </div>
             </div>
             <div class="card feedback">
@@ -30,8 +30,8 @@
                     <i class='bx bx-calendar'></i>
                 </div>
                 <div>
-                    @* <div class="number">@Model.TotalManagers</div> *@
-                    <div class="cardName"> Classes</div>
+                    <div id="class-amount">0</div>
+                    <div class="cardName">Classes</div>
                 </div>
             </div>
             <div class="card turnover">
@@ -39,8 +39,8 @@
                     <i class='bx bx-briefcase-alt-2'></i>
                 </div>
                 <div>
-                    @* <div class="number">@Model.TotalStaffs</div> *@
-                    <div class="cardName"> Courses</div>
+                    <div id="course-amount">0</div>
+                    <div class="cardName">Courses</div>
                 </div>
             </div>
             <div class="card turnover">
@@ -48,8 +48,8 @@
                     <i class='bx bx-money'></i>
                 </div>
                 <div>
-                    @* <div class="number">@Model.TotalStaffs</div> *@
-                    <div class="cardName"> Transactions</div>
+                    <div id="transaction-amount">0</div>
+                    <div class="cardName">Transactions</div>
                 </div>
             </div>
         </div>
@@ -57,7 +57,167 @@
 </body>
 </html>
 <script>
+    var token = sessionStorage.getItem('token');
+    var apiUrl = sessionStorage.getItem('apiUrl');
     $(document).ready(function () {
-
+        callApiGetClassDetail();
+        callApiGetCourseDetail();
     });
+    function callApiGetClassDetail() {
+        $.ajax({
+            url: apiUrl + 'Account/All/Count', // API endpoint
+            type: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + token, // Token for authentication
+            },
+            success: function (response) {
+                // Check if the status is true
+                if (response.status) {
+                    $('#account-amount').empty();
+                    $('#account-amount').text(response.data);
+                    // setIndexDisplay(response.data);
+                    // Check if homeworkAnswers is empty
+                    // if (response.data.enrolls && response.data.enrolls.length > 0) {
+                    //     table.clear().rows.add(response.data.enrolls).draw();
+                    // }
+                    // if (response.data.schedules && response.data.schedules.length > 0) {
+                    //     Clear any existing answers
+                    //     $('#schedule_list').empty();
+                    //     console.log(response.data.schedules);
+                    //     scheduleTable.clear().rows.add(response.data.schedules).draw();
+                    //     Loop through each answer and generate the HTML
+                    //     response.data.homeworkAnswers.forEach(function (answer) {
+                    //         let answerHtml = generateAnswerHtml(answer,response.data.courseStatus); Assuming both answerInfo and updateAnswer are the same structure
+                    //         $('#schedule_list').append(answerHtml);
+                    //     });
+
+                    // }
+                    // console.log(response.data);
+                } else {
+                    showAlert('error', "Error: \n" + response.errorMessage);
+                }
+            },
+            error: function (xhr, status, error) {
+                // Attempt to parse the response text if it is available
+                var errorResponse = xhr.responseText ? JSON.parse(xhr.responseText) : {};
+
+                // Extract the custom error message if it exists
+                var errorMessage = errorResponse.errorMessage || errorResponse.title || "An unknown error occurred.";
+                // Check if errorResponse.errors exists and is an object
+                if (errorResponse.errors && typeof errorResponse.errors === 'object') {
+                    // Loop through each field in the errors object and append to the errorMessage
+                    for (var field in errorResponse.errors) {
+                        if (errorResponse.errors.hasOwnProperty(field)) {
+                            // Add each error message for the field, joining multiple messages if they exist
+                            var fieldErrors = errorResponse.errors[field].join(", ");
+                            errorMessage += `\n${field}: ${fieldErrors}`;
+                        }
+                    }
+                }
+                // Display the error message using your custom showAlert function
+                showAlert('error', "Error: \n" + errorMessage);
+            }
+        });
+    }
+    function callApiGetCourseDetail() {
+        $.ajax({
+            url: apiUrl + 'Course/All/Count', // API endpoint
+            type: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + token, // Token for authentication
+            },
+            success: function (response) {
+                // Check if the status is true
+                if (response.status) {
+                    $('#course-amount').empty();
+                    $('#course-amount').text(response.data);
+                } else {
+                    showAlert('error', "Error: \n" + response.errorMessage);
+                }
+            },
+            error: function (xhr, status, error) {
+                // Attempt to parse the response text if it is available
+                var errorResponse = xhr.responseText ? JSON.parse(xhr.responseText) : {};
+
+                // Extract the custom error message if it exists
+                var errorMessage = errorResponse.errorMessage || errorResponse.title || "An unknown error occurred.";
+                // Check if errorResponse.errors exists and is an object
+                if (errorResponse.errors && typeof errorResponse.errors === 'object') {
+                    // Loop through each field in the errors object and append to the errorMessage
+                    for (var field in errorResponse.errors) {
+                        if (errorResponse.errors.hasOwnProperty(field)) {
+                            // Add each error message for the field, joining multiple messages if they exist
+                            var fieldErrors = errorResponse.errors[field].join(", ");
+                            errorMessage += `\n${field}: ${fieldErrors}`;
+                        }
+                    }
+                }
+                // Display the error message using your custom showAlert function
+                showAlert('error', "Error: \n" + errorMessage);
+            }
+        });
+    }
+    // function setIndexDisplay(data) {
+    //     var titleStatusHtml = data.status === 'Draft' || data.status === 'Postponed' ? `
+    //                             <div class="edit-info" id="class-class-status">
+    //                                 <i class='bx bxs-adjust bx-sm' data-toggle="modal" data-target="#changeClassStatus"></i>
+    //                                 <i class='bx bxs-edit bx-sm' data-toggle="modal" data-target="#editClass"></i>
+    //                             </div>
+    //                             ` : '';
+    //     var filteredEnrollList = data.enrolls.filter(function (enroll) {
+    //         return enroll.status === 'Enrolled';
+    //     });
+    //     var statusText = '';
+    //     switch (data.status) {
+    //         case 'Open':
+    //         case 'Ongoing':
+    //             statusText = `<span class="outcome" style="float: left;">${data.status}</span>`
+    //             break;
+    //         case 'Draft':
+    //         case 'Postponed':
+    //             statusText = `<span class="approval" style="float: left;">${data.status}</span>`
+    //             break;
+    //         case 'Ended':
+    //         case 'Cancelled':
+    //             statusText = `<span class="destroy" style="float: left;">${data.status}</span>`
+    //             break;
+    //     }
+    //     if (data.status != 'Draft' && data.status != 'Postponed') {
+    //         let dadiv = $('div.dt-modal-toggle').parent();
+    //         dadiv.find('div.dt-modal-toggle').remove();
+    //     }
+    //     formatter = new Intl.NumberFormat('vi-VN', {
+    //         style: 'currency',
+    //         currency: 'VND',
+    //     });
+    //     Display Class Info
+    //     $('#class-title-status').find('#class-class-status').remove();
+    //     $('#class-status').empty();
+    //     $('select[id="updateClassStatus_Status"]').empty();
+    //     $('#class-status').append(statusText);
+    //     $('#class-id').text(data.classId);
+    //     $('#class-class-title').text(data.className);
+    //     $('#class-name').text(data.className);
+    //     $('#class-teacher').text(data.teacher.account.fullname);
+    //     $('#class-teacher').attr('href', `/Admin/Teacher/${data.teacher.accountId}/Info`);
+    //     $('#class-course').text(data.course.courseName);
+    //     $('#class-course').attr('href', `/Admin/Course/${data.course.courseId}/Info`);
+    //     $('#class-start-date').text(formatDate(data.startDate, { ignoreHour: true }));
+    //     $('#class-end-date').text(formatDate(data.endDate, { ignoreHour: true }));
+    //     $('#class-current-students-amount').text(filteredEnrollList.length + ' Student(s)');
+    //     $('#class-minimum-students-amount').text(data.minimumStudents);
+    //     $('#class-maximum-students-amount').text(data.maximumStudents);
+    //     $('#class-enroll-fee').text(formatter.format(data.enrollmentFee));
+    //     $('#class-title-status').append(titleStatusHtml);
+    //     $('#class-schedules-amount').text(data.schedules.length + ' Scheduled Session(s)');
+
+    //     Update Class Info
+    //     $('input[id="updateClass_ClassName"]').val(data.className);
+    //     $('input[id="updateClass_MinStudents"]').val(data.minimumStudents);
+    //     $('input[id="updateClass_MaxStudents"]').val(data.maximumStudents);
+    //     $('input[id="updateClass_StartDate"]').val(data.startDate);
+    //     $('input[id="updateClass_EndDate"]').val(data.endDate);
+    //     Update Class Status
+    //     $('select[id="updateClassStatus_Status"]').append(getStatusOptions(data.status));
+    // }
 </script>

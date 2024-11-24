@@ -156,5 +156,10 @@ namespace CEG_BAL.Services.Implements
             }
             return false;
         }
+
+        public async Task<int> GetTotalAmount()
+        {
+            return await _unitOfWork.AccountRepositories.GetTotalAmount();
+        }
     }
 }

@@ -20,15 +20,23 @@ namespace CEG_WebAPI.Controllers
         private readonly IParentService _parentService;
         private readonly IStudentService _studentService;
         private readonly IConfiguration _config;
+        private readonly IEmailService _emailService;
 
         public AdminController(
-            IAccountService accountService, ITeacherService teacherService, IParentService parentService, IStudentService studentService, IConfiguration config)
+            IAccountService accountService, 
+            ITeacherService teacherService, 
+            IParentService parentService, 
+            IStudentService studentService, 
+            IConfiguration config, 
+            IEmailService emailService
+            )
         {
             _accountService = accountService;
             _teacherService = teacherService;
             _parentService = parentService;
             _studentService = studentService;
             _config = config;
+            _emailService = emailService;
         }
         [HttpGet("{id}")]
         [Authorize(Roles = "Admin")]
@@ -261,7 +269,30 @@ namespace CEG_WebAPI.Controllers
                     Phone = newTeach.Phone,
                     Address = newTeach.Address,
                 };
-                _teacherService.Create(teach, newTeach);
+                // Upload image if provided
+                if (newTeach.ImageUpload != null)
+                {
+                    string imageUrl = await _teacherService.UploadToBlobAsync(newTeach.ImageUpload);
+                    teach.Certificate = imageUrl;
+                }
+                _teacherService.Create(teach, newTeach, newTeach.ImageUpload);
+
+                await _emailService.SendEmailAsync(
+                    _config.GetSection("Gmail:SenderName").Value,
+                    _config.GetSection("Gmail:Username").Value,
+                    newTeach.Account.Fullname,
+                    newTeach.Email,
+                    "Thank you for joining and supporting our CEG English Center community!",
+                    "   <h2>Your Teacher Account has been created successfully!</h2>" +
+                    "<div>" +
+                    "   <h3>These below are your account username and password:</h3>" +
+                    "   <h4>Username: " + newTeach.Account.Username + "</h4>" +
+                    "   <h4>Password: " + newTeach.Account.Password + "</h4>" +
+                    "</div>",
+                    _config,
+                    _config.GetSection("Gmail:Username").Value,
+                    _config.GetSection("Gmail:Password").Value
+                );
                 return Ok(new
                 {
                     Data = true,
@@ -331,6 +362,24 @@ namespace CEG_WebAPI.Controllers
                     Address = newPar.Address,
                 };
                 _parentService.Create(par, newPar);
+
+                await _emailService.SendEmailAsync(
+                    _config.GetSection("Gmail:SenderName").Value,
+                    _config.GetSection("Gmail:Username").Value,
+                    newPar.Account.Fullname,
+                    newPar.Email,
+                    "Thank you for chosing us!",
+                    "   <h2>Your Parent Account has been created successfully!</h2>" +
+                    "<div>" +
+                    "   <h3>These below are your account username and password:</h3>" +
+                    "   <h4>Username: " + newPar.Account.Username + "</h4>" +
+                    "   <h4>Password: " + newPar.Account.Password + "</h4>" +
+                    "</div>",
+                    _config,
+                    _config.GetSection("Gmail:Username").Value,
+                    _config.GetSection("Gmail:Password").Value
+                );
+
                 return Ok(new
                 {
                     Data = true,

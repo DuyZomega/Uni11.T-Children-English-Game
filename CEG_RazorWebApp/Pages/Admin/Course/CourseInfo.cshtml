@@ -285,7 +285,7 @@
                                     <span asp-validation-for="@createSession.Hours" id="error_message"
                                           class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
-                                    <input asp-for="@createSession.CourseName" type="text" required hidden readonly>
+                                    @* <input asp-for="@createSession.CourseName" type="text" required hidden readonly> *@
                                 </div>
                             </div>
                         </div>
@@ -343,7 +343,7 @@
                     title: $('#createSession_Title').val(),
                     description: $('#createSession_Description').val(),
                     hours: $('#createSession_Hours').val(),
-                    courseName: $('#createSession_CourseName').val()
+                    courseId: $('#course-id').text()
                 };
                 console.log(formData);
                 callApiPostCreateSession(formData);
@@ -356,7 +356,7 @@
 
                 // Collect form data
                 let formData = {
-                    number: $('#updateSession_' + sessionId + '_Number').val(),
+                    sessionNumber: $('#updateSession_' + sessionId + '_Number').val(),
                     title: $('#updateSession_' + sessionId + '_Title').val(),
                     description: $('#updateSession_' + sessionId + '_Description').val(),
                     hours: $('#updateSession_' + sessionId + '_Hours').val(),
@@ -369,34 +369,6 @@
                 //$(this).trigger("reset");
             });
         });
-        // Function to display alerts
-        function showAlert(type, message) {
-            var alertHtml = '';
-
-            if (type === 'success') {
-                alertHtml = `
-                                                            <div class="alert alert-success alert-dismissible fade show" id="notif">
-                                                                <i class='bx bx-message-alt-x p-1'></i>
-                                                                <strong class="mr-1">` + message + `</strong>
-                                                                <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
-                                                                    <span><i class='bx bx-x'></i></span>
-                                                                </button>
-                                                            </div>
-                                                        `;
-            } else if (type === 'error') {
-                alertHtml = `
-                                                            <div class="alert alert-danger alert-dismissible fade show" id="notif">
-                                                                <i class='bx bx-message-alt-x p-1'></i>
-                                                                <strong class="mr-1">` + message + `</strong>
-                                                                <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
-                                                                    <span><i class='bx bx-x'></i></span>
-                                                                </button>
-                                                            </div>
-                                                        `;
-            }
-            // Inject the alert HTML into the alert container
-            $('#alertContainer').html(alertHtml);
-        }
         function callApiPutUpdateCourse(formData) {
             $.ajax({
                 url: apiUrl + 'Course/' + @Model.CourseID + '/Update', // Specify your Razor Page here
@@ -645,7 +617,7 @@
                                                                     <div class="form-group row">
                                                                         <label for="updateSession_${sessionInfo.sessionId}_Number" class="col-sm-4 col-form-label">Number</label>
                                                                         <div class="col-sm-8">
-                                                                            <input type="number" id="updateSession_${sessionInfo.sessionId}_Number" min="1" required class="form-control" value="${sessionInfo.number}">
+                                                                            <input type="number" id="updateSession_${sessionInfo.sessionId}_Number" min="1" required class="form-control" value="${sessionInfo.sessionNumber}">
                                                                             <span id="error_message"
                                                                                     class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
                                                                         </div>
@@ -693,7 +665,7 @@
             // </div>
             return `
                                             <div class="card-header">
-                                                <h5>Session ${sessionInfo.number} <label class="truncate">${sessionInfo.title}</label> Details</h5>
+                                                <h5>Session ${sessionInfo.sessionNumber} <label class="truncate">${sessionInfo.title}</label> Details</h5>
                                                 ` + sessionUpdateToggleHtml + `
                                             </div>
                                             <div class="card-body">
@@ -756,7 +728,7 @@
             return html;
         }
         function getCategoryOptions(selectedCategory) {
-            var options = ['Middle School', 'High School']; // Example statuses
+            var options = ['Middle School']; // Example statuses
             var html = '';
 
             options.forEach(function (category) {

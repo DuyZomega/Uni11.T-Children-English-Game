@@ -468,7 +468,7 @@
             });
         });
         function callApiGetParentNameList(){
-            // Call API to get the list of teacher names
+            // Call API to get the list of parent names
             $.ajax({
                 url: apiUrl + 'Parent/All/Fullname', // API endpoint
                 type: 'GET',
@@ -504,7 +504,7 @@
             });
         }
         function callApiGetStudentNameList(parentName){
-            // Call API to get the list of teacher names
+            // Call API to get the list of student names
             $.ajax({
                 url: apiUrl + 'Student/All/Fullname/ByParent/Name/' + parentName, // API endpoint
                 type: 'GET',

@@ -12,6 +12,7 @@ namespace CEG_DAL.Repositories.Interfaces
     {
         Task<Account?> GetByLogin(string userName, string password);
         Task<List<Account>> GetAccountList();
+        Task<int> GetTotalAmount();
         Task<Account?> GetByIdNoTracking(int id);
         Task<Account?> GetByUsername(string username);
         Task<string> GetRoleByAccountId(int id);

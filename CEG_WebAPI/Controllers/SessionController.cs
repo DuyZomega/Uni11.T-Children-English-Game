@@ -136,8 +136,8 @@ namespace CEG_WebAPI.Controllers
         {
             try
             {
-                var resultCourseName = await _courseService.IsCourseExistByName(newSes.CourseName);
-                if (!resultCourseName)
+                var resultCourseName = await _courseService.GetCourseById(newSes.CourseId.Value);
+                if (resultCourseName == null)
                 {
                     return BadRequest(new
                     {

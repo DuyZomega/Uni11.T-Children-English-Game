@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "secrets1": {
+      "type": "secrets",
+      "connectionId": null
+    },
+    "storage1": {
+      "type": "storage",
+      "connectionId": "CEGStorageConnection"
+    }
+  }
+}

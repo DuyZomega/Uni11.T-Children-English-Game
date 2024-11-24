@@ -54,6 +54,7 @@ namespace CEG_BAL.Services.Implements
 
         public async Task<CourseViewModel?> GetCourseById(int id)
         {
+            _unitOfWork.CourseRepositories.UpdateTotalHoursByIdThroughSessionsSum(id);
             var user = await _unitOfWork.CourseRepositories.GetByIdNoTracking(id, true, true ,true);
             if (user != null)
             {
@@ -110,6 +111,11 @@ namespace CEG_BAL.Services.Implements
             var cou = await _unitOfWork.CourseRepositories.GetByName(name);
             if (cou != null && cou.Status.Equals(Constants.COURSE_STATUS_AVAILABLE)) return true;
             return false;
+        }
+
+        public async Task<int> GetTotalAmount()
+        {
+            return await _unitOfWork.CourseRepositories.GetTotalAmount();
         }
     }
 }

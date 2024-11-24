@@ -100,7 +100,7 @@
                                           class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
                                     <label asp-for="@createCourse.Category" class="col-md-3 col-form-label text-md-right"></label>
-                                    <input asp-for="@createCourse.Category" value="@createCourse.Category" type="text" placeholder="Course Type" required class="form-control col-md-7">
+                                    <input asp-for="@createCourse.Category" value="@createCourse.Category" type="text" placeholder="Course Type" readonly required class="form-control col-md-7">
                                     @* <select class="form-control col-md-7 custom-select" asp-for="@createCourse.Category" required></select> *@
                                     <span asp-validation-for="@createCourse.Category" id="error_message"
                                           class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
@@ -120,10 +120,10 @@
                                     <span asp-validation-for="@createCourse.RequiredAge" id="error_message"
                                           class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
 
-                                    <label asp-for="@createCourse.TotalHours" class="col-md-3 col-form-label text-md-right"></label>
+                                    @* <label asp-for="@createCourse.TotalHours" class="col-md-3 col-form-label text-md-right"></label>
                                     <input asp-for="@createCourse.TotalHours" value="@createCourse.TotalHours" type="number" min="1" placeholder="Full Name" required class="form-control col-md-7">
                                     <span asp-validation-for="@createCourse.TotalHours" id="error_message"
-                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span> *@
                                 </div>
                             </div>
                         </div>
@@ -156,34 +156,6 @@
                 setCourseDisplay(filteredcourseList);
             });
         });
-        // Function to display alerts
-        function showAlert(type, message) {
-            var alertHtml = '';
-
-            if (type === 'success') {
-                alertHtml = `
-                                <div class="alert alert-success alert-dismissible fade show" id="notif">
-                                    <i class='bx bx-message-alt-x p-1'></i>
-                                    <strong class="mr-1">` + message + `</strong>
-                                    <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
-                                        <span><i class='bx bx-x'></i></span>
-                                    </button>
-                                </div>
-                            `;
-            } else if (type === 'error') {
-                alertHtml = `
-                                <div class="alert alert-danger alert-dismissible fade show" id="notif">
-                                    <i class='bx bx-message-alt-x p-1'></i>
-                                    <strong class="mr-1">` + message + `</strong>
-                                    <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
-                                        <span><i class='bx bx-x'></i></span>
-                                    </button>
-                                </div>
-                            `;
-            }
-            // Inject the alert HTML into the alert container
-            $('#alertContainer').html(alertHtml);
-        }
         function callApiGetCourseList() {
             $.ajax({
                 url: apiUrl + 'Course/All', // API endpoint
@@ -314,7 +286,7 @@
                 Description: $("#createCourse_Description").val(),
                 Difficulty: $("#createCourse_Difficulty").val(),
                 RequiredAge: $("#createCourse_RequiredAge").val(),
-                TotalHours: $("#createCourse_TotalHours").val(),
+                TotalHours: 0,
             };
             // Make the AJAX POST request
             $.ajax({

@@ -96,6 +96,8 @@ namespace CEG_RazorWebApp
 
             // Add Hosted services
             /*services.AddHostedService<MembershipExpiryService>();*/
+
+            //services.AddSingleton
         }
 
         private static void ConfigureMiddleware(WebApplication app)

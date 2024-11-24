@@ -170,6 +170,9 @@
             $.each(data, function (index, enroll) {
                 var formattedStartDate = formatDate(enroll.class.startDate);
                 var formattedEndDate = formatDate(enroll.class.endDate);
+                var filteredEnrollList = enroll.class.enrolls.filter(function (enroll) {
+                    return enroll.status === 'Enrolled';
+                });
                 var statusText = '';
                 switch (enroll.class.status) {
                     case 'Open':
@@ -204,7 +207,7 @@
                                                 <li><h6>End date:</h6><span>${formattedEndDate}</span></li>
                                                 <li><h6>Minimum students amount:</h6><span>${enroll.class.minimumStudents}</span></li>
                                                 <li><h6>Maximum students amount:</h6><span>${enroll.class.maximumStudents}</span></li>
-                                                <li><h6>Current students amount:</h6><span>${enroll.class.studentProgress.length}</span></li>
+                                                <li><h6>Current students amount:</h6><span>${filteredEnrollList.length}</span></li>
                                                 <li><h6>Weekly scheduled sessions amount:</h6><span>${enroll.class.schedules.length}</span></li>
                                                 <li><h6>Current enrolls amount:</h6><span>${enroll.class.enrolls.length}</span></li>
                                             </ul>

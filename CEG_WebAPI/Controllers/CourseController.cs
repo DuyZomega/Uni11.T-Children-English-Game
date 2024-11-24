@@ -1,4 +1,5 @@
 ﻿using CEG_BAL.Configurations;
+using CEG_BAL.Services.Implements;
 using CEG_BAL.Services.Interfaces;
 using CEG_BAL.ViewModels;
 using CEG_BAL.ViewModels.Admin;
@@ -73,6 +74,33 @@ namespace CEG_WebAPI.Controllers
                         ErrorMessage = "Course Name List Not Found!"
                     });
                 }
+                return Ok(new
+                {
+                    Status = true,
+                    Data = result
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    Status = false,
+                    ErrorMessage = ex.Message,
+                    InnerExceptionMessage = ex.InnerException?.Message
+                });
+            }
+        }
+
+        [HttpGet("All/Count")]
+        [Authorize(Roles = "Admin")]
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetTotalCourseAmount()
+        {
+            try
+            {
+                var result = await _courseService.GetTotalAmount();
                 return Ok(new
                 {
                     Status = true,
@@ -246,6 +274,7 @@ namespace CEG_WebAPI.Controllers
                 }
                 course.CourseId = id;
                 course.Status = result.Status;
+                course.TotalHours = result.TotalHours;
                 _courseService.Update(course);
                 result = await _courseService.GetCourseById(course.CourseId.Value);
                 return Ok(new

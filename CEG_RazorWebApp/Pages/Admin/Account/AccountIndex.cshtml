@@ -308,6 +308,16 @@
                                             <input asp-for="@createTeacher.Account.ConfirmPassword" value="@createTeacher.Account.ConfirmPassword" type="password" placeholder="Confirm Password" class="form-control col-md-8" required>
                                             <span asp-validation-for="@createTeacher.Account.ConfirmPassword" id="error_message"
                                                   class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                            <label class="col-md-4 col-form-label text-md-right" asp-for="@createTeacher.ImageUpload">Upload Certificate Image:</label>
+                                            <input class="form-control col-md-8" type="file" asp-for="@createTeacher.ImageUpload" accept="image/*" />
+                                            <span asp-validation-for="@createTeacher.ImageUpload" id="error_message"
+                                                  class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                        </div>
+                                        <div class="row form-group justify-content-center">
+                                            <div id="preview-container">
+                                                <img class="w-100" id="image-preview" src="" alt="Certificate Image Preview" style="display:none; max-height: 800px;" />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -328,6 +338,8 @@
         var token = sessionStorage.getItem('token');
         var apiUrl = sessionStorage.getItem('apiUrl');
         var accountList = [];
+        const imageInput = $("#createTeacher_ImageUpload");
+        const previewImage = $("#image-preview");
         var accountTable;
         $(document).ready(function () {
             // Registering the custom feature with DataTables
@@ -510,23 +522,93 @@
 
             $('#createTeacherForm').submit(function (event) {
                 event.preventDefault(); // Prevent the form from submitting normally
-                //Get the form data
+                // console.log(imageInput[0].files[0]);
+                // Get the form data
                 var formData = {
                     Account: {
                         Username: $('#createTeacher_Account_Username').val(),
                         Fullname: $('#createTeacher_Account_Fullname').val(),
                         Gender: $('#createTeacher_Account_Gender').val(),
                         Password: $('#createTeacher_Account_Password').val(),
-                        ConfirmPassword: $('#createTeacher_Account_ConfirmPassword').val()
+                        ConfirmPassword: $('#createTeacher_Account_ConfirmPassword').val(),
                     },
                     Email: $('#createTeacher_Email').val(),
                     Address: $('#createTeacher_Address').val(),
                     Phone: $('#createTeacher_Phone').val(),
+                    // ImageUpload: imageInput[0].files[0],
                 };
+                // Create a FormData object
+                // var formData = new FormData();
+
+                // Add Account fields individually to FormData
+                // formData.append("Account.Username", $('#createTeacher_Account_Username').val());
+                // formData.append("Account.Fullname", $('#createTeacher_Account_Fullname').val());
+                // formData.append("Account.Gender", $('#createTeacher_Account_Gender').val());
+                // formData.append("Account.Password", $('#createTeacher_Account_Password').val());
+                // formData.append("Account.ConfirmPassword", $('#createTeacher_Account_ConfirmPassword').val());
+
+                // Add other fields
+                // formData.append("Email", $('#createTeacher_Email').val());
+                // formData.append("Address", $('#createTeacher_Address').val());
+                // formData.append("Phone", $('#createTeacher_Phone').val());
+
+                // Add the file (ensure you have a file input element with ID 'imageInput')
+                // var imageInputAvail = imageInput[0].files[0];
+                // if (imageInputAvail) {
+                //     formData.append("ImageUpload", imageInput[0].files[0]);
+                // }
+                console.log(formData);
                 //Make the AJAX request
                 callApiPostCreateTeacher(formData);
                 $('#createTeacherForm').trigger("reset");
             });
+
+            // Handle image selection and preview
+            imageInput.on("change", () => {
+                const file = imageInput[0].files[0];
+
+                if (file && file.type.startsWith("image/")) {
+                    const reader = new FileReader();
+
+                    reader.onload = (event) => {
+                        previewImage.attr("src", event.target.result);
+                        previewImage.show();
+                    };
+
+                    reader.readAsDataURL(file);
+                } else {
+                    showAlert("Please select a valid image file.");
+                    previewImage.hide();
+                }
+            });
+
+            // Handle the upload
+            // uploadButton.on("click", async () => {
+            //     const file = imageInput.files[0];
+
+            //     if (file) {
+            //         const formData = new FormData();
+            //         formData.append("image", file);
+
+            //         try {
+            //             const response = await fetch("/api/upload-image", {
+            //                 method: "POST",
+            //                 body: formData,
+            //             });
+
+            //             if (response.ok) {
+            //                 const result = await response.json();
+            //                 alert("Image uploaded successfully! URL: " + result.imageUrl);
+            //             } else {
+            //                 const error = await response.json();
+            //                 alert("Upload failed: " + error.message);
+            //             }
+            //         } catch (err) {
+            //             console.error("Upload error:", err);
+            //             alert("An error occurred while uploading the image.");
+            //         }
+            //     }
+            // });
         });
         function callApiGetAccountList() {
             $.ajax({
@@ -692,10 +774,13 @@
             });
         }
         function callApiPostCreateTeacher(formData) {
+            console.log(formData);
             $.ajax({
                 url: apiUrl + 'Admin/Teacher/Create', // Specify your Razor Page here
                 type: 'POST',
                 data: JSON.stringify(formData),
+                // contentType: false, Set to false to allow FormData to manage content type
+                // processData: false, Prevent jQuery from processing the FormData object
                 headers: {
                     'Authorization': 'Bearer ' + token, // Token for authentication
                 },

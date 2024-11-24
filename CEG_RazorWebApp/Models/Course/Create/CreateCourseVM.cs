@@ -21,10 +21,10 @@ namespace CEG_RazorWebApp.Models.Course.Create
         [Required(ErrorMessage = "Course Type is required")]
         [DisplayName("Course Type")]
         public string CourseType { get; set; } = null!;
-        [Required(ErrorMessage = "Total Hours is required")]
+        /*[Required(ErrorMessage = "Total Hours is required")]
         [Range(Constants.COURSE_TOTAL_HOURS, int.MaxValue)]
         [DisplayName("Total Hours")]
-        public int? TotalHours { get; set; } = Constants.COURSE_TOTAL_HOURS;
+        public int? TotalHours { get; set; } = Constants.COURSE_TOTAL_HOURS;*/
         public string? CourseImageHeader { get; set; }
         [Required(ErrorMessage = "Required Age is required")]
         [Range(Constants.COURSE_MINIMUM_AGE_REQ, Constants.COURSE_MAXIMUM_AGE_REQ)]
@@ -40,7 +40,5 @@ namespace CEG_RazorWebApp.Models.Course.Create
         [MinLength(1)]
         [DisplayName("Description")]
         public string Description { get; set; } = null!;
-        public List<SelectListItem> DefaultCourseDifficultySelectList { get; set; }
-        // public List<SelectListItem> DefaultCourseCategorySelectList { get; set; }
     }
 }

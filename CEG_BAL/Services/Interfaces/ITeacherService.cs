@@ -1,5 +1,6 @@
 ﻿using CEG_BAL.ViewModels;
 using CEG_BAL.ViewModels.Account.Create;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,8 @@ namespace CEG_BAL.Services.Interfaces
         Task<TeacherViewModel?> GetTeacherByAccountId(int id);
         Task<bool> IsTeacherExistByEmail(string email);
         Task<bool> IsTeacherExistByFullname(string fullname);
-        void Create(TeacherViewModel teacher, CreateNewTeacher newTeach);
+        void Create(TeacherViewModel teacher, CreateNewTeacher newTeach, IFormFile certImage);
         void Update(TeacherViewModel teacher);
+        Task<string> UploadToBlobAsync(IFormFile file);
     }
 }
