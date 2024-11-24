@@ -486,7 +486,7 @@
                     if (response.status) {
                         addTeacherOptions(response.data);
                     } else {
-                        console.error("API returned false status.");
+                        showAlert('error', "Error: \n" + response.errorMessage);
                     }
                 },
                 error: function (xhr, status, error) {
@@ -769,7 +769,7 @@
                     // Log the entire response to the console for debugging
                     // Check if the status is true
                     if (response.status) {
-                        alert('Class created successfully!');
+                        showAlert('success','Class created successfully!');
                         $('#createClassForm').trigger("reset");
                         callApiGetClassList();
                     } else {

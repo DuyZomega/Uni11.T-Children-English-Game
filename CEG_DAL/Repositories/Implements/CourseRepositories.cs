@@ -117,7 +117,7 @@ namespace CEG_DAL.Repositories.Implements
 
         public async Task<Course?> GetByName(string name)
         {
-            return await _dbContext.Courses.AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(cou => cou.CourseName == name);
+            return await _dbContext.Courses.AsNoTrackingWithIdentityResolution().FirstOrDefaultAsync(cou => cou.CourseName == name);
         }
 
         public async Task<int> GetIdByName(string name)

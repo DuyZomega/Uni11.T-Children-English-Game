@@ -252,7 +252,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[HomeworkQuestion](
 	[homework_question_id] [int] IDENTITY(1,1) NOT NULL,
-	[homework_id] [int] NOT NULL,
+	[homework_id] [int] NULL,
 	[question] [nvarchar](max) NULL,
  CONSTRAINT [PK_HomeworkData] PRIMARY KEY CLUSTERED 
 (
