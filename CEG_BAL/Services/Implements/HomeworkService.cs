@@ -31,14 +31,18 @@ namespace CEG_BAL.Services.Implements
             _jwtService = jwtServices;
             _configuration = configuration;
         }
-        public async void Create(HomeworkViewModel model, CreateNewHomework newHw)
+        public void Create(HomeworkViewModel model, CreateNewHomework newHw)
         {
             var hw = _mapper.Map<Homework>(model);
+            //hw.Status = "Draft";
             if (newHw != null)
             {
-                hw.StartDate = newHw.StartDate;
-                hw.EndDate = newHw.EndDate;
-                hw.SessionId = await _unitOfWork.SessionRepositories.GetIdByTitle(newHw.SessionTitle);
+                hw.Title = newHw.Title;
+                hw.Description = newHw.Description;
+                hw.Hours = newHw.Hours;
+                hw.Type = newHw.Type;
+                // hw.SessionId = _unitOfWork.SessionRepositories.GetIdByTitle(newHw.SessionTitle).Result;
+                hw.SessionId = newHw.SessionId.Value;
             }
             _unitOfWork.HomeworkRepositories.Create(hw);
             _unitOfWork.Save();
@@ -55,6 +59,7 @@ namespace CEG_BAL.Services.Implements
             if(user != null)
             {
                 var urs = _mapper.Map<HomeworkViewModel>(user);
+                urs.CourseStatus = await _unitOfWork.CourseRepositories.GetStatusByHomeworkIdNoTracking(id);
                 return urs;
             }
             return null;
@@ -63,8 +68,18 @@ namespace CEG_BAL.Services.Implements
         public void Update(HomeworkViewModel model)
         {
             var home = _mapper.Map<Homework>(model);
+            var homeDefault = _unitOfWork.HomeworkRepositories.GetByIdNoTracking(model.HomeworkId.Value).Result;
+            //home.Status = homeDefault.Status;
+            home.SessionId = homeDefault.SessionId;
             _unitOfWork.HomeworkRepositories.Update(home);
             _unitOfWork.Save();
+        }
+
+        public async Task<bool> IsHomeworkExistByTitle(string title)
+        {
+            var home = await _unitOfWork.HomeworkRepositories.GetByTitle(title);
+            if (home != null) return true;
+            return false;
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace CEG_WebMVC.Models.ViewModels.Course.Response
+﻿namespace CEG_WebMVC.Models.ViewModels.Admin.Response
 {
     public class AdminCourseCreateResponseVM
     {

@@ -5,25 +5,31 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
-  - enabled: 1
-    path: Assets/Comics/Scenes/ComicScene0.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 1
-    path: Assets/Comics/Scenes/ComicScene1.unity
-    guid: 96960fa81fd73a64c9ac1a06b0f55119
-  - enabled: 1
-    path: Assets/Comics/Scenes/ComicScene2.unity
-    guid: 792f2bcabcd1d8f459ea58d02983abcf
-  - enabled: 1
-    path: Assets/Scenes/Intro.unity
-    guid: 3fc6b919c66bf884da7caf559cf7f7e5
   - enabled: 1
     path: Assets/Scenes/Menu.unity
     guid: cd178d0531fbbbe4389c9b801a05b354
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Main.unity
     guid: c9b9317e7f7f3de4cb6a1e77f6d51a9b
+  - enabled: 1
+    path: Assets/Scenes/wordfinder/FindPuzzle.unity
+    guid: 430e910fc1568f641b9a3d824bbfa8a3
+  - enabled: 1
+    path: Assets/Scenes/Game.unity
+    guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 0
+    path: Assets/Scenes/wordfinder/GameScene.unity
+    guid: 87ef2d481defc9e48873a39bff0fb787
+  - enabled: 1
+    path: Assets/Scenes/wordfinder/ScoreBoard.unity
+    guid: 3ac0d8a70e9c8744fbcade723c376531
+  - enabled: 1
+    path: Assets/Scenes/wordfinder/SelectCategory.unity
+    guid: caf86e551dacd694e88b2d4b3e4b04b9
+  - enabled: 1
+    path: Assets/Scenes/wordfinder/Settings.unity
+    guid: 9a35e91c7b453224c97158bb43e2e776
+  - enabled: 0
+    path: Assets/Scenes/wordfinder/TestPuzzle.unity
+    guid: 3cf31e5619e23a34da0cd72f821c8495
   m_configObjects: {}

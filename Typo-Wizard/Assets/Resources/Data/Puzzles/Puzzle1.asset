@@ -1,0 +1,151 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b81ea0fb8f7f9ab4eae04104750df5ab, type: 3}
+  m_Name: Puzzle1
+  m_EditorClassIdentifier: 
+  timeInSeconds: 0
+  Columns: 10
+  Rows: 10
+  Board:
+  - Size: 10
+    Row:
+    - K
+    - G
+    - O
+    - A
+    - C
+    - T
+    - R
+    - C
+    - J
+    - D
+  - Size: 10
+    Row:
+    - S
+    - W
+    - A
+    - A
+    - P
+    - H
+    - V
+    - G
+    - O
+    - E
+  - Size: 10
+    Row:
+    - U
+    - G
+    - N
+    - U
+    - C
+    - D
+    - S
+    - W
+    - Y
+    - P
+  - Size: 10
+    Row:
+    - M
+    - F
+    - I
+    - T
+    - A
+    - O
+    - C
+    - Z
+    - I
+    - L
+  - Size: 10
+    Row:
+    - M
+    - T
+    - M
+    - U
+    - T
+    - G
+    - H
+    - Y
+    - P
+    - L
+  - Size: 10
+    Row:
+    - M
+    - I
+    - A
+    - M
+    - D
+    - V
+    - O
+    - M
+    - D
+    - K
+  - Size: 10
+    Row:
+    - E
+    - I
+    - L
+    - N
+    - T
+    - N
+    - O
+    - O
+    - V
+    - W
+  - Size: 10
+    Row:
+    - R
+    - Z
+    - R
+    - T
+    - R
+    - W
+    - L
+    - X
+    - Q
+    - M
+  - Size: 10
+    Row:
+    - A
+    - C
+    - M
+    - M
+    - E
+    - X
+    - U
+    - C
+    - V
+    - F
+  - Size: 10
+    Row:
+    - E
+    - U
+    - V
+    - M
+    - B
+    - N
+    - D
+    - H
+    - V
+    - V
+  SearchWords:
+  - Found: 0
+    Word: SUMMER
+  - Found: 0
+    Word: ANIMAL
+  - Found: 0
+    Word: AUTUMN
+  - Found: 0
+    Word: CAT
+  - Found: 0
+    Word: DOG
+  - Found: 0
+    Word: SCHOOL

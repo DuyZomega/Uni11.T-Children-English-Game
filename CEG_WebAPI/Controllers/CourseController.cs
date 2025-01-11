@@ -1,4 +1,6 @@
-﻿using CEG_BAL.Services.Interfaces;
+﻿using CEG_BAL.Configurations;
+using CEG_BAL.Services.Implements;
+using CEG_BAL.Services.Interfaces;
 using CEG_BAL.ViewModels;
 using CEG_BAL.ViewModels.Admin;
 using Microsoft.AspNetCore.Authorization;
@@ -36,6 +38,135 @@ namespace CEG_WebAPI.Controllers
                     {
                         Status = false,
                         ErrorMessage = "Course List Not Found!"
+                    });
+                }
+                return Ok(new
+                {
+                    Status = true,
+                    Data = result
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    Status = false,
+                    ErrorMessage = ex.Message,
+                    InnerExceptionMessage = ex.InnerException?.Message
+                });
+            }
+        }
+
+        [HttpGet("All/Name")]
+        [ProducesResponseType(typeof(List<string>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetCourseNameList()
+        {
+            try
+            {
+                var result = await _courseService.GetCourseNameList();
+                if (result == null)
+                {
+                    return NotFound(new
+                    {
+                        Status = false,
+                        ErrorMessage = "Course Name List Not Found!"
+                    });
+                }
+                return Ok(new
+                {
+                    Status = true,
+                    Data = result
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    Status = false,
+                    ErrorMessage = ex.Message,
+                    InnerExceptionMessage = ex.InnerException?.Message
+                });
+            }
+        }
+
+        [HttpGet("All/Count")]
+        [Authorize(Roles = "Admin")]
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetTotalCourseAmount()
+        {
+            try
+            {
+                var result = await _courseService.GetTotalAmount();
+                return Ok(new
+                {
+                    Status = true,
+                    Data = result
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    Status = false,
+                    ErrorMessage = ex.Message,
+                    InnerExceptionMessage = ex.InnerException?.Message
+                });
+            }
+        }
+
+        [HttpGet("All/Available")]
+        [ProducesResponseType(typeof(List<CourseViewModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetCourseAvailableList()
+        {
+            try
+            {
+                var result = await _courseService.GetListByStatus("Available");
+                if (result == null)
+                {
+                    return NotFound(new
+                    {
+                        Status = false,
+                        ErrorMessage = "Course List with status Available Not Found!"
+                    });
+                }
+                return Ok(new
+                {
+                    Status = true,
+                    Data = result
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    Status = false,
+                    ErrorMessage = ex.Message,
+                    InnerExceptionMessage = ex.InnerException?.Message
+                });
+            }
+        }
+
+        [HttpGet("All/Name/Available")]
+        [ProducesResponseType(typeof(List<string>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetCourseNameAvailableList()
+        {
+            try
+            {
+                var result = await _courseService.GetCourseNameByStatusList("Available");
+                if (result == null)
+                {
+                    return NotFound(new
+                    {
+                        Status = false,
+                        ErrorMessage = "Course Name List with status Available Not Found!"
                     });
                 }
                 return Ok(new
@@ -94,7 +225,9 @@ namespace CEG_WebAPI.Controllers
         [ProducesResponseType(typeof(CourseViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CreateCourse([FromBody][Required] CreateNewCourse newCourse)
+        public async Task<IActionResult> CreateCourse(
+            [FromBody][Required] CreateNewCourse newCourse
+            )
         {
             try
             {
@@ -106,6 +239,100 @@ namespace CEG_WebAPI.Controllers
                     Status = true,
                     SuccessMessage = "Course Create Successfully !"
                 });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    Status = false,
+                    ErrorMessage = ex.Message,
+                    InnerExceptionMessage = ex.InnerException?.Message
+                });
+            }
+        }
+
+        [HttpPut("{id}/Update")]
+        [Authorize(Roles = "Admin")]
+        [ProducesResponseType(typeof(CourseViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Update(
+            [FromRoute][Required] int id, 
+            [FromBody][Required] CourseViewModel course
+            )
+        {
+            try
+            {
+                var result = await _courseService.GetCourseById(id);
+                if (result == null)
+                {
+                    return NotFound(new
+                    {
+                        Status = false,
+                        ErrorMessage = "Course Does Not Exist!"
+                    });
+                }
+                course.CourseId = id;
+                course.Status = result.Status;
+                course.TotalHours = result.TotalHours;
+                _courseService.Update(course);
+                result = await _courseService.GetCourseById(course.CourseId.Value);
+                return Ok(new
+                {
+                    Status = true,
+                    Data = result
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    Status = false,
+                    ErrorMessage = ex.Message,
+                    InnerExceptionMessage = ex.InnerException?.Message
+                });
+            }
+        }
+        [HttpPut("{id}/Update/Status")]
+        [Authorize(Roles = "Admin")]
+        [ProducesResponseType(typeof(CourseViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> UpdateStatus(
+            [FromRoute][Required] int id,
+            [FromBody][Required] string status
+            )
+        {
+            try
+            {
+                var result = await _courseService.GetCourseById(id);
+                if (result == null)
+                {
+                    return NotFound(new
+                    {
+                        Status = false,
+                        ErrorMessage = "Course Does Not Exist!"
+                    });
+                }
+                bool isValid = CEG_BAL_Library.IsCourseNewStatusValid(result.Status,status) && result.Classes?.Count == 0;
+                if (isValid)
+                {
+                    _courseService.UpdateStatus(id, status);
+                    result = await _courseService.GetCourseById(id);
+                    return Ok(new
+                    {
+                        Status = true,
+                        Data = result
+                    });
+                }
+                else
+                {
+                    return BadRequest(new
+                    {
+                        Status = false,
+                        ErrorMessage = "New status is either an old status or not a valid status for requested course"
+                    });
+                }
             }
             catch (Exception ex)
             {

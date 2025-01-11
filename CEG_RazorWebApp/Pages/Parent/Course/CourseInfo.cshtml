@@ -1,0 +1,315 @@
+﻿@page "/Parent/Course/{courseId}/Info"
+@model CEG_RazorWebApp.Pages.Parent.Course.CourseInfoModel
+@{
+    ViewData["Title"] = "Parent Course Info Page";
+    var courseInfo = Model.CourseInfo;
+    Layout = Model.LayoutUrl;
+}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
+    <div class="main-content">
+        <div class="main">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="offset-sm-6 col-sm-6  d-flex justify-content-sm-end p-md-0 mt-2 mt-sm-0 ">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumd-item">
+                                <a href="#">Manage</a>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <span>/</span>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <a href="/Parent/Course/Index">Course</a>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <span>/</span>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <a href="/Parent/Course/@Model.CourseID/Info">@Model.CourseID</a>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <span>/</span>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <a href="/Parent/Course/@Model.CourseID/Info">Info</a>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 customer-booking">
+                        <div class="row">
+                            <div id="alertContainer"></div>
+                            <div class="card profile col-12 mb-4">
+                                <div class="card-header" id="course-title-status">
+                                    <h4>Course <label id="course-course-title" class="truncate"></label> Information</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Course ID:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span id="course-id">
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Status:</label>
+                                        </div>
+                                        <div class="col-sm-7" id="course-status">
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Course Name:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span id="course-name">
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Course Type:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span id="course-type">
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Course Description:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span id="course-description">
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Total Hours:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span id="course-totalHours">
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Required Age:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span id="course-requiredAge">
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Difficulty:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span id="course-difficulty">
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Category:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span id="course-category">
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Sessions amount:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span id="course-sessions-amount">
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Classes amount:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span id="course-classes-amount">
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 customer-booking">
+                        <div class="row">
+                            <div class="card profile col-12 mb-4">
+                                <div class="card-header">
+                                    <h4>Course's Class List</h4>
+                                </div>
+                                <div class="card-body" id="class_list">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var token = sessionStorage.getItem('token');
+        var apiUrl = sessionStorage.getItem('apiUrl');
+        var classList = [];
+        $(document).ready(function () {
+            callApiGetCourseDetail();
+        });
+        // Function to display alerts
+        function showAlert(type, message) {
+            var alertHtml = '';
+
+            if (type === 'success') {
+                alertHtml = `
+                                            <div class="alert alert-success alert-dismissible fade show" id="notif">
+                                                <i class='bx bx-message-alt-x p-1'></i>
+                                                <strong class="mr-1">` + message + `</strong>
+                                                <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+                                                    <span><i class='bx bx-x'></i></span>
+                                                </button>
+                                            </div>
+                                        `;
+            } else if (type === 'error') {
+                alertHtml = `
+                                            <div class="alert alert-danger alert-dismissible fade show" id="notif">
+                                                <i class='bx bx-message-alt-x p-1'></i>
+                                                <strong class="mr-1">` + message + `</strong>
+                                                <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+                                                    <span><i class='bx bx-x'></i></span>
+                                                </button>
+                                            </div>
+                                        `;
+            }
+
+            // Inject the alert HTML into the alert container
+            $('#alertContainer').html(alertHtml);
+        }
+        function callApiGetCourseDetail() {
+            $.ajax({
+                url: apiUrl + 'Course/' + @Model.CourseID , // API endpoint
+                type: 'GET',
+                success: function (response) {
+                    // Log the entire response to the console for debugging
+                    // Check if the status is true
+                    if (response.status) {
+                        setCourseDisplay(response.data);
+                        // Check if classes is empty
+                        if (response.data.classes && response.data.classes.length > 0) {
+                            // Clear any existing classes
+                            $('#class_list').empty();
+
+                            classList = response.data.classes;
+                            // Loop through each classes and generate the HTML
+                            response.data.classes.forEach(function (classInfo) {
+                                let classHtml = generateClassHtml(classInfo, response.data.status);
+                                $('#class_list').append(classHtml);
+                            });
+                        } else {
+                            // If the class list is empty
+                            $('#class_list').html('<h5>No classes found</h5>');
+                        }
+                    } else {
+                        console.error("API returned false status.");
+                    }
+                },
+                error: function (error) {
+                    alert("Error in api call:" + error);
+                    console.error("Error in api call:", error);
+                    //showAlert('success', 'Data fetched successfully.');
+                }
+            });
+        }
+        function generateClassHtml(classInfo, status) {
+            var statusText = '';
+            switch (status) {
+                case 'Available':
+                    statusText = `<span class="outcome" style="float: left;">${status}</span>`
+                    break;
+                case 'Draft':
+                case 'Postponed':
+                    statusText = `<span class="approval" style="float: left;">${status}</span>`
+                    break;
+                case 'EndofService':
+                case 'Cancelled':
+                    statusText = `<span class="destroy" style="float: left;">${status}</span>`
+                    break;
+            }
+            return `
+                            <div class="card-header">
+                                <h5>Class ${classInfo.className} Details</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row mb-sm-2">
+                                    <div class="col-md-5 text-md-right">
+                                        <label class="col-form-label">Class ID:</label>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <span>${classInfo.classId}</span>
+                                    </div>
+                                </div>
+                                <div class="row mb-sm-2">
+                                    <div class="col-md-5 text-md-right">
+                                        <label class="col-form-label">Teacher Name:</label>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <span>${classInfo.teacherName}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="container my-0">
+                            `
+        }
+        function setCourseDisplay(data) {
+            var statusText = '';
+            switch (data.status) {
+                case 'Available':
+                    statusText = `<span class="outcome" style="float: left;">${data.status}</span>`
+                    break;
+                case 'Draft':
+                case 'Postponed':
+                    statusText = `<span class="approval" style="float: left;">${data.status}</span>`
+                    break;
+                case 'EndofService':
+                case 'Cancelled':
+                    statusText = `<span class="destroy" style="float: left;">${data.status}</span>`
+                    break;
+            }
+            $('#course-title-status').find('#course-course-status').remove();
+            $('#course-status').empty();
+
+            $('#course-id').text(data.courseId);
+            $('#course-course-title').text(data.courseName);
+            $('#course-name').text(data.courseName);
+            $('#course-status').append(statusText);
+            $('#course-description').text(data.description);
+            $('#course-totalHours').text(data.totalHours);
+            $('#course-type').text(data.courseType);
+            $('#course-requiredAge').text(data.requiredAge);
+            $('#course-difficulty').text(data.difficulty);
+            $('#course-category').text(data.category);
+            $('#course-sessions-amount').text(data.sessions.length + ' Session(s)');
+            $('#course-classes-amount').text(data.classes.length + ' Class(es)');
+        }
+    </script>
+</body>
+</html>

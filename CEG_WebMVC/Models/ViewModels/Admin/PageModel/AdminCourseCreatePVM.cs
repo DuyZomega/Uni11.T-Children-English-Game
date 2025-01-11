@@ -1,7 +1,7 @@
 ﻿using CEG_WebMVC.Models.ViewModels.Course.Create;
 using CEG_WebMVC.Models.ViewModels.Session.Create;
 
-namespace CEG_WebMVC.Models.ViewModels.Course.PageModel
+namespace CEG_WebMVC.Models.ViewModels.Admin.PageModel
 {
     public class AdminCourseCreatePVM
     {

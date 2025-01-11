@@ -11,6 +11,8 @@ namespace CEG_BAL.ViewModels
 {
     public class AccountViewModel
     {
+        public int? AccountId { get; set; }
+
         public string Username { get; set; } = null!;
         [PasswordPropertyText]
         [DataType(DataType.Password)]
@@ -21,6 +23,8 @@ namespace CEG_BAL.ViewModels
         public DateTime CreatedDate { get; set; }
 
         public string Gender { get; set; } = null!;
+
+        public int TotalAmount { get; set; }
 
         public string Status { get; set; } = null!;
 

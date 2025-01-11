@@ -22,4 +22,6 @@ public partial class Game
     public virtual GameConfig GameConfig { get; set; } = null!;
 
     public virtual ICollection<GameLevel> GameLevels { get; set; } = new List<GameLevel>();
+
+    public virtual ICollection<StudentAnswer> StudentAnswers { get; set; } = new List<StudentAnswer>();
 }

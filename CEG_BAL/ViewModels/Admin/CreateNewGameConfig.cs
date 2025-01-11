@@ -8,8 +8,9 @@ namespace CEG_BAL.ViewModels.Admin
 {
     public class CreateNewGameConfig
     {
-        public string Title { get; set; }
-        public int Point { get; set; }
-        public string CorrectAnswer { get; set; }
+        public string Title { get; set; } = null!;
+        public int? Point { get; set; }
+        public string? CorrectAnswer { get; set; }
+        public string? Status { get; set; }
     }
 }

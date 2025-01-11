@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af6c0cce8f88e5343b561d3fc7fdca63, type: 3}
+  m_Name: Game Level Data
+  m_EditorClassIdentifier: 
+  data:
+  - categoryName: Food
+    boardData:
+    - {fileID: 11400000, guid: 8632a7a9a11e90c4584b059cbb8573ab, type: 2}
+    - {fileID: 11400000, guid: c8a038a9b6604f24782eb2d2efc6b7c8, type: 2}
+    - {fileID: 11400000, guid: 0cf1b0bfca1ac234c9c9ffbe098d4736, type: 2}
+  - categoryName: Animals
+    boardData:
+    - {fileID: 11400000, guid: fc985160983f65b45bcbf09bafee73bd, type: 2}
+  - categoryName: Work
+    boardData:
+    - {fileID: 11400000, guid: d93a54cfd847b554a8600741c6825c3b, type: 2}
+  - categoryName: cate1
+    boardData:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}

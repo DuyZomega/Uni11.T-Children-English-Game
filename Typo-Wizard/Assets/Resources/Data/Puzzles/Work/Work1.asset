@@ -1,0 +1,149 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b81ea0fb8f7f9ab4eae04104750df5ab, type: 3}
+  m_Name: Work1
+  m_EditorClassIdentifier: 
+  timeInSeconds: 180
+  Columns: 10
+  Rows: 10
+  Board:
+  - Size: 10
+    Row:
+    - S
+    - F
+    - U
+    - X
+    - N
+    - C
+    - F
+    - T
+    - A
+    - W
+  - Size: 10
+    Row:
+    - A
+    - A
+    - X
+    - Z
+    - X
+    - H
+    - A
+    - E
+    - H
+    - E
+  - Size: 10
+    Row:
+    - K
+    - Z
+    - L
+    - O
+    - R
+    - E
+    - R
+    - A
+    - X
+    - K
+  - Size: 10
+    Row:
+    - W
+    - Q
+    - K
+    - E
+    - M
+    - C
+    - M
+    - C
+    - E
+    - W
+  - Size: 10
+    Row:
+    - O
+    - C
+    - F
+    - A
+    - R
+    - A
+    - E
+    - H
+    - J
+    - Z
+  - Size: 10
+    Row:
+    - R
+    - E
+    - F
+    - Z
+    - N
+    - S
+    - R
+    - E
+    - A
+    - S
+  - Size: 10
+    Row:
+    - K
+    - O
+    - C
+    - K
+    - B
+    - F
+    - X
+    - R
+    - E
+    - B
+  - Size: 10
+    Row:
+    - E
+    - O
+    - A
+    - C
+    - B
+    - I
+    - T
+    - B
+    - G
+    - J
+  - Size: 10
+    Row:
+    - R
+    - H
+    - G
+    - X
+    - I
+    - Y
+    - B
+    - B
+    - O
+    - S
+  - Size: 10
+    Row:
+    - Q
+    - V
+    - J
+    - Y
+    - Y
+    - B
+    - D
+    - Z
+    - R
+    - Q
+  SearchWords:
+  - Found: 0
+    Word: SALERS
+  - Found: 0
+    Word: FARMER
+  - Found: 0
+    Word: WORKER
+  - Found: 0
+    Word: CEO
+  - Found: 0
+    Word: TEACHER

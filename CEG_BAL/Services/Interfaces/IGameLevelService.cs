@@ -1,4 +1,5 @@
 ﻿using CEG_BAL.ViewModels;
+using CEG_BAL.ViewModels.Admin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +10,9 @@ namespace CEG_BAL.Services.Interfaces
 {
     public interface IGameLevelService
     {
-        void Create(GameLevelViewModel model);
+        void Create(CreateNewGameLevel model);
         void Update(GameLevelViewModel model);
-        Task<List<GameLevelViewModel>> GetAllGameLevel();
+        Task<List<GameLevelViewModel>> GetList();
         Task<GameLevelViewModel> GetGameLevelById(int id);
     }
 }

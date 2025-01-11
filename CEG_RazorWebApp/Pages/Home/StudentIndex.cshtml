@@ -1,0 +1,64 @@
+﻿@page "/Home/Student/Index"
+@model CEG_RazorWebApp.Pages.Home.StudentIndexModel
+@{
+    ViewData["Title"] = "Student Index Page";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Leaderboard</title>
+    <link rel="stylesheet" href="~/css/leaderboard.css">
+</head>
+<body class="background">
+    <div class="contain">
+        <div class="leaderboard-container">
+            <h2>Student Leaderboard</h2>
+            <table class="table table-striped" id="leaderboard-table">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Student Name</th>
+                        <th>Total Points</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Data will be populated here via AJAX -->
+                </tbody>
+            </table>
+        </div>
+        <div class="pagination1 mb-3">
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+            referrerpolicy="no-referrer"></script>
+    <!-- BS4 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        var apiUrl = sessionStorage.getItem('apiUrl');
+        $(document).ready(function () {
+            // AJAX call to fetch leaderboard data
+            $.ajax({
+                url: apiUrl + 'Student/All/Rank',
+                type: "GET",
+                success: function (response) {
+                    var leaderboard = response.data; // Access the data array
+                    leaderboard.forEach(function (student) {
+                        $("#leaderboard-table tbody").append(`
+                            <tr>
+                                <td>${student.rank}</td>
+                                <td>${student.studentName}</td>
+                                <td>${student.points}</td>
+                            </tr>
+                        `);
+                    });
+                },
+                error: function () {
+                    alert("Failed to load leaderboard data.");
+                }
+            });
+        });
+    </script>
+</body>
+</html>

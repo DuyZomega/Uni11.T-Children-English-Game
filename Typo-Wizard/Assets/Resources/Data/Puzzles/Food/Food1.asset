@@ -1,0 +1,147 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b81ea0fb8f7f9ab4eae04104750df5ab, type: 3}
+  m_Name: Food1
+  m_EditorClassIdentifier: 
+  timeInSeconds: 100
+  Columns: 10
+  Rows: 10
+  Board:
+  - Size: 10
+    Row:
+    - L
+    - P
+    - D
+    - U
+    - X
+    - Y
+    - L
+    - O
+    - W
+    - L
+  - Size: 10
+    Row:
+    - N
+    - M
+    - B
+    - R
+    - E
+    - A
+    - D
+    - S
+    - N
+    - R
+  - Size: 10
+    Row:
+    - D
+    - P
+    - I
+    - Z
+    - Z
+    - A
+    - P
+    - B
+    - G
+    - I
+  - Size: 10
+    Row:
+    - G
+    - V
+    - U
+    - N
+    - Q
+    - H
+    - A
+    - Y
+    - S
+    - S
+  - Size: 10
+    Row:
+    - T
+    - D
+    - S
+    - Z
+    - H
+    - D
+    - S
+    - R
+    - Q
+    - F
+  - Size: 10
+    Row:
+    - Y
+    - D
+    - T
+    - Y
+    - S
+    - G
+    - T
+    - N
+    - L
+    - A
+  - Size: 10
+    Row:
+    - F
+    - H
+    - E
+    - N
+    - O
+    - D
+    - A
+    - W
+    - B
+    - H
+  - Size: 10
+    Row:
+    - X
+    - Y
+    - A
+    - M
+    - U
+    - G
+    - M
+    - B
+    - Y
+    - U
+  - Size: 10
+    Row:
+    - W
+    - U
+    - K
+    - Q
+    - I
+    - G
+    - O
+    - Q
+    - W
+    - E
+  - Size: 10
+    Row:
+    - A
+    - B
+    - G
+    - B
+    - V
+    - K
+    - G
+    - B
+    - W
+    - K
+  SearchWords:
+  - Found: 0
+    Word: BREAD
+  - Found: 0
+    Word: PIZZA
+  - Found: 0
+    Word: PASTA
+  - Found: 0
+    Word: STEAK

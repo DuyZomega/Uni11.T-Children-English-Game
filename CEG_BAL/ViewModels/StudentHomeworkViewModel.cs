@@ -9,16 +9,28 @@ namespace CEG_BAL.ViewModels
 {
     public class StudentHomeworkViewModel
     {
-        public int TotalPoint { get; set; }
+        public int HomeworkId { get; set; }
 
-        public DateTime? StartDate { get; set; }
+        public int StudentProgressId { get; set; }
 
-        public DateTime? EndDate { get; set; }
+        public int HomeworkResultId { get; set; }
+
+        public int HomeworkNumber { get; set; }
+
+        public int Point { get; set; }
+
+        public TimeSpan Playtime { get; set; }
 
         public string? Status { get; set; }
 
-        public virtual Homework Homework { get; set; } = null!;
+        public int? CorrectAnswers { get; set; }
 
-        public virtual StudentProgress StudentProgress { get; set; } = null!;
+        public HomeworkViewModel Homework { get; set; } = null!;
+
+        public HomeworkResultViewModel HomeworkResult { get; set; } = null!;
+
+        public List<StudentAnswerViewModel> StudentAnswers { get; set; } = new List<StudentAnswerViewModel>();
+
+        public StudentProgressViewModel StudentProgress { get; set; } = null!;
     }
 }

@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CEG_DAL.Models;
+using CEG_BAL.ViewModels.Admin;
 
 namespace CEG_BAL.Services.Implements
 {
@@ -30,10 +31,18 @@ namespace CEG_BAL.Services.Implements
             _jwtService = jwtServices;
             _configuration = configuration;
         }
-        public void Create(GameViewModel game)
+        public void Create(CreateNewGame newGame)
         {
-            var gam = _mapper.Map<Game>(game);
-            _unitOfWork.GameRepositories.Create(gam);
+            var game = new Game();
+            if (newGame != null)
+            {
+                game.DownloadLink = newGame.DownloadLink;
+                game.Title = newGame.Title;
+                game.Point = newGame.Point;
+                game.Status = newGame.Status;
+                game.Type = newGame.Type;
+            }
+            _unitOfWork.GameRepositories.Create(game);
             _unitOfWork.Save();
         }
 

@@ -20,12 +20,67 @@ namespace CEG_DAL.Repositories.Implements
 
         public async Task<Homework?> GetByIdNoTracking(int id)
         {
-            return await _dbContext.Homeworks.AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(home => home.HomeworkId == id);
+            return await _dbContext.Homeworks
+                .Include(h => h.HomeworkQuestions)
+                .ThenInclude(s => s.HomeworkAnswers)
+                .AsNoTrackingWithIdentityResolution()
+                .SingleOrDefaultAsync(home => home.HomeworkId == id);
         }
 
         public async Task<List<Homework>> GetHomeworksList()
         {
             return await _dbContext.Homeworks.ToListAsync();
+        }
+
+        public async Task<int> GetIdByTitle(string name)
+        {
+            var result = await (from s in _dbContext.Homeworks where s.Title == name select s).FirstOrDefaultAsync();
+            if (result != null) return result.HomeworkId;
+            return 0;
+        }
+
+        public async Task<List<Homework>?> GetListBySessionId(int sessionId)
+        {
+            return await _dbContext.Homeworks
+                .AsNoTrackingWithIdentityResolution()
+                .Where(home => home.SessionId == sessionId)
+                .ToListAsync();
+        }
+
+        public async Task<List<Homework>> GetListBySessionIds(int[] sesId)
+        {
+            return await _dbContext.Homeworks
+                .AsNoTrackingWithIdentityResolution()
+                .Where(h => sesId.Contains(h.SessionId))
+                .ToListAsync();
+        }
+
+        public async Task<List<int>> GetIdListByScheduleId(int schId)
+        {
+            return await _dbContext.Homeworks
+                .AsNoTrackingWithIdentityResolution()
+                .Where(home => home.Session.Schedules.Any(sch => sch.ScheduleId == schId))
+                .Select(hom => hom.HomeworkId)
+                .ToListAsync();
+        }
+
+        public async Task<Homework?> GetByTitle(string name)
+        {
+            return await _dbContext.Homeworks
+                .Select(h => new Homework()
+                {
+                    HomeworkId = h.HomeworkId,
+                    Title = h.Title,
+                    Description = h.Description,
+                    StartDate = h.StartDate,
+                    EndDate = h.EndDate,
+                    GameConfigId = h.GameConfigId,
+                    Hours = h.Hours,
+                    Type = h.Type,
+                    HomeworkQuestions = h.HomeworkQuestions,
+                })
+                .AsNoTrackingWithIdentityResolution()
+                .SingleOrDefaultAsync(home => home.Title == name);
         }
     }
 }

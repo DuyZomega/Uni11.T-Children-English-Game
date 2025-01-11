@@ -19,6 +19,8 @@ public partial class Account
 
     public string Gender { get; set; } = null!;
 
+    public int TotalAmount { get; set; }
+
     public string Status { get; set; } = null!;
 
     public virtual ICollection<Parent> Parents { get; set; } = new List<Parent>();
@@ -28,4 +30,6 @@ public partial class Account
     public virtual ICollection<Student> Students { get; set; } = new List<Student>();
 
     public virtual ICollection<Teacher> Teachers { get; set; } = new List<Teacher>();
+
+    public virtual ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
 }

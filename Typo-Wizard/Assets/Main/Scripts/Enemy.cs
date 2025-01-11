@@ -20,7 +20,7 @@ public class Enemy : MonoBehaviour
         _balloon2Animator.SetTrigger("Pop");
         gameObject.GetComponent<Rigidbody2D>().AddForce(Vector3.up * 2, ForceMode2D.Impulse);
         //playsound when ballon pop
-        FindObjectOfType<AudioManager>().PLay("BalloonPop");
+        FindObjectOfType<AudioManager>().PlaySound("BalloonPop");
         StartCoroutine(Fall());
     }
 
@@ -37,7 +37,7 @@ public class Enemy : MonoBehaviour
         Camera.main.GetComponent<Shake>().TriggerShake();
         _lowerAnimator.SetTrigger("Land");
         //playsound when enemy hit ground and screen shake
-        FindObjectOfType<AudioManager>().PLay("VillianHitGround");
+        FindObjectOfType<AudioManager>().PlaySound("VillianHitGround");
         yield return new WaitForSeconds(.3f);
         Destroy(gameObject);
         // Increase difficulty
@@ -71,9 +71,9 @@ public class Enemy : MonoBehaviour
         splash.GetComponent<Animator>().SetTrigger("Splash");
         yield return new WaitForSeconds(.3f);
         //playsound when lose game
-        audioM.PLay("GameOver");
+        audioM.PlaySound("GameOver");
         yield return new WaitForSeconds(1.5f);
-        audioM.Stop("BackGroundSound");
+        audioM.StopSound("BackGroundSound");
         Controller.INSTANCE.End();
     }
 

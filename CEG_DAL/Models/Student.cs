@@ -11,15 +11,9 @@ public partial class Student
 
     public int AccountId { get; set; }
 
-    public int Highscore { get; set; }
-
     public string Description { get; set; } = null!;
 
-    public int? Playtime { get; set; }
-
     public int? CurLevel { get; set; }
-
-    public int? Points { get; set; }
 
     public int? Age { get; set; }
 
@@ -28,6 +22,8 @@ public partial class Student
     public string? Image { get; set; }
 
     public virtual Account Account { get; set; } = null!;
+
+    public virtual ICollection<Attendance> Attendances { get; set; } = new List<Attendance>();
 
     public virtual ICollection<Enroll> Enrolls { get; set; } = new List<Enroll>();
 

@@ -1,0 +1,381 @@
+﻿@page "/Parent/Class/Index"
+@model CEG_RazorWebApp.Pages.Parent.Class.ClassIndexModel
+@{
+    Layout = null;
+    ViewData["Title"] = "Parent All Classes Page";
+    string? search = string.Empty;
+    Layout = "~/Pages/Shared/_PLayout.cshtml";
+}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
+    <div class="main-content">
+        <div class="main">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="offset-sm-6 col-sm-6  d-flex justify-content-sm-end p-md-0 mt-2 mt-sm-0 ">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumd-item">
+                                <a href="#">Manage</a>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <span>/</span>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <a href="/Parent/Class/Index">Class</a>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+                <section>
+                    <div id="alertContainer"></div>
+                    <div class="card">
+                        <div class="card-body">
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-pills nav-fill flex-column flex-sm-row" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link class-tab active flex-sm-fill text-sm-center" data-toggle="tab" href="#all_class_Tab" role="tab" aria-controls="class" aria-selected="true">
+                                        <i class='bx bx-home-alt-2'></i>
+                                        <span>All Classes</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link class-tab flex-sm-fill text-sm-center" data-toggle="tab" href="#all_enroll_Tab" role="tab" aria-controls="enroll" aria-selected="true">
+                                        <i class='bx bx-home-alt-2'></i>
+                                        <span>Enrolled Classes</span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <!-- all_class_Tab -->
+                                <div class="tab-pane fade show active" id="all_class_Tab" role="tabpanel">
+                                    <div class="row search">
+                                        <div class="col-sm-12 d-flex">
+                                            <div class="col-sm-6 d-flex address-home">
+                                            </div>
+                                            <div class="col-sm-6 d-flex justify-content-end">
+                                                <form method="get" asp-route-search="@search">
+                                                    <div>
+                                                        <label>
+                                                            <input asp-for="@search" class="form-control" type="text" placeholder="Search..." value="@search">
+                                                            <i class='bx bx-search-alt'></i>
+                                                        </label>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row card-content" id="classList"></div>
+                                </div>
+                                <!-- all_enroll_Tab -->
+                                <div class="tab-pane fade" id="all_enroll_Tab" role="tabpanel">
+                                    <div class="row search">
+                                        <div class="col-sm-12 d-flex">
+                                            <div class="col-sm-6 d-flex address-home">
+                                            </div>
+                                            <div class="col-sm-6 d-flex justify-content-end">
+                                                <form method="get" asp-route-search="@search">
+                                                    <div>
+                                                        <label>
+                                                            <input asp-for="@search" class="form-control" type="text" placeholder="Search..." value="@search">
+                                                            <i class='bx bx-search-alt'></i>
+                                                        </label>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row card-content" id="enrollList"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+    <script>
+        var token = sessionStorage.getItem('token');
+        var apiUrl = sessionStorage.getItem('apiUrl');
+        var id = sessionStorage.getItem('usrId');
+        var classList = [];
+        var enrollList = [];
+        $(document).ready(function () {
+            // Registering the custom feature with DataTables
+            DataTable.feature.register('searchIcon', function (settings, opts) {
+                // Set default options
+                let options = Object.assign({
+                    iconClass: 'bx bx-search-alt question-search-icon',
+                    hideLabel: true // Hide search label
+                }, opts);
+
+                // Create a container for the icon
+                let container = document.createElement('div');
+                // container.classList.add('dt-custom-toolbar'); // Optional custom class for styling
+
+                // Create the icon element
+                let icon = document.createElement('i');
+                icon.className = options.iconClass;
+
+                // Check if pagination is enabled
+                // if (settings.oFeatures.bFilter) {
+                //     console.log(settings.oFeatures.bFilter);
+                //     console.log('Pagination is enabled for this DataTable.');
+                // }
+
+                setTimeout(() => {
+                    // Find the .dt-search container inside the DataTable wrapper
+                    let searchContainer = $(settings.nTableWrapper).find('.dt-search');
+                    if (searchContainer.length) {
+                        searchContainer.append(icon);
+                    } else {
+                        // Append icon to container
+                        container.appendChild(icon);
+                        // If .dt-search doesn't exist, insert the container in the DataTable toolbar instead
+                        $(settings.nTableWrapper).prepend(container);
+                    }
+                    if (options.hideLabel) {
+                        // Find the .dt-search label container inside the DataTable wrapper
+                        let searchLabel = searchContainer.find('label');
+                        if (searchLabel.length) {
+                            searchLabel.text('');
+                        } else {
+                            console.log('Label of search div not found!');
+                        }
+                    }
+                }, 100);
+                return '';
+            });
+            callApiGetClassList();
+            callApiGetEnrollList();
+            // Search event handler for all_class_Tab
+            $('#all_class_Tab #search').on('keyup', function (event) {
+                var searchTerm = $(this).val().toLowerCase();
+                var filteredclassList = classList.filter(classObject =>
+                    classObject.className.toLowerCase().includes(searchTerm)
+                );
+                setClassDisplay(filteredclassList);
+            });
+
+            // Search event handler for all_enroll_Tab
+            $('#all_enroll_Tab #search').on('keyup', function (event) {
+                var searchTerm = $(this).val().toLowerCase();
+                var filteredenrollList = enrollList.filter(enroll =>
+                    enroll.class.className.toLowerCase().includes(searchTerm)
+                    // enroll.student.account.fullName.toLowerCase().includes(searchTerm)
+                );
+                setEnrollDisplay(filteredenrollList);
+            });
+        });
+        function callApiGetClassList() {
+            $.ajax({
+                url: apiUrl + 'Class/Parent/All', // API endpoint
+                type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + token// Include the JWT token
+                },
+                success: function (response) {
+                    // Log the entire response to the console for debugging
+
+                    // Check if the status is true
+                    if (response.status) {
+                        classList = response.data;
+                        setClassDisplay(classList);
+                    } else {
+                        console.error("API returned false status.");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Extract the custom error message if it exists
+                    var errorMessage = errorResponse.errorMessage || errorResponse.title || "An unknown error occurred.";
+                    // Check if errorResponse.errors exists and is an object
+                    if (errorResponse.errors && typeof errorResponse.errors === 'object') {
+                        // Loop through each field in the errors object and append to the errorMessage
+                        for (var field in errorResponse.errors) {
+                            if (errorResponse.errors.hasOwnProperty(field)) {
+                                // Add each error message for the field, joining multiple messages if they exist
+                                var fieldErrors = errorResponse.errors[field].join(", ");
+                                errorMessage += `\n${field}: ${fieldErrors}`;
+                            }
+                        }
+                    }
+                    // Display the error message using your custom showAlert function
+                    showAlert('error', "Error:" + errorMessage);
+                }
+            });
+        }
+        function setClassDisplay(data) {
+            var classList = $('#classList');
+            // Reference to the <classList> element
+            classList.empty(); // Clear any existing options
+            // Loop through the data array and append each class div
+            $.each(data, function (index, classObj) {
+                var formattedStartDate = formatDate(classObj.startDate, { ignoreHour: true });
+                var formattedEndDate = formatDate(classObj.endDate, { ignoreHour: true });
+                var filteredEnrollList = classObj.enrolls.filter(function (enroll) {
+                    return enroll.status === 'Enrolled';
+                });
+                var statusText = '';
+                switch (classObj.status) {
+                    case 'Open':
+                    case 'Ongoing':
+                        statusText = `<span class="outcome" style="float: left;">Status: ${classObj.status}</span>`
+                        break;
+                    case 'Draft':
+                    case 'Postponed':
+                        statusText = `<span class="approval" style="float: left;">Status: ${classObj.status}</span>`
+                        break;
+                    case 'Ended':
+                    case 'Cancelled':
+                        statusText = `<span class="destroy" style="float: left;">Status: ${classObj.status}</span>`
+                        break;
+                }
+                // Construct card HTML
+                var cardHtml = `
+                            <div class="col-xl-3 col-lg-6 col-sm-6 my-3">
+                                <div class="card1 card-child">
+                                    <div class="club-name">
+                                        Class Code: ${classObj.className}
+                                        <div class="status">
+                                            ${statusText}
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="club-title">
+                                            <ul>
+                                                <li><h6>Course:</h6><span>${classObj.course.courseName}</span></li>
+                                                <li><h6>Teacher:</h6><span>${classObj.teacher.account.fullname}</span></li>
+                                                <li><h6>Start date:</h6><span>${formattedStartDate}</span></li>
+                                                <li><h6>End date:</h6><span>${formattedEndDate}</span></li>
+                                                <li><h6>Minimum students amount:</h6><span>${classObj.minimumStudents}</span></li>
+                                                <li><h6>Maximum students amount:</h6><span>${classObj.maximumStudents}</span></li>
+                                                <li><h6>Current students amount:</h6><span>${filteredEnrollList.length}</span></li>
+                                                <li><h6>Weekly scheduled sessions amount:</h6><span>${classObj.schedules.length}</span></li>
+                                                <li><h6>Current enrolls amount:</h6><span>${classObj.enrolls.length}</span></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="form-group mx-auto">
+                                        <a class="btn btn-primary clickable-row" href="/Parent/Class/${classObj.classId}/Info" role="button">Details</a>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                // Append the constructed HTML to the class list container
+                // <form method="get" asp-route-id="${classObj.classId}">
+                //     <button class="btn btn-primary clickable-row" type="submit">See Detail</button>
+                // </form>
+                classList.append(cardHtml);
+            });
+        }
+        function callApiGetEnrollList() {
+            $.ajax({
+                url: apiUrl + `Enroll/Parent/${id}`, // API Endpoint
+                type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + token // Include the JWT token
+                },
+                success: function (response) {
+                    // Log the entire response to the console for debugging
+
+                    // Check if the status is true
+                    if (response.status) {
+                        enrollList = response.data;
+                        setEnrollDisplay(enrollList);
+                    } else {
+                        console.error("API returned false status.");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Extract the custom error message if it exists
+                    var errorMessage = errorResponse.errorMessage || errorResponse.title || "An unknown error occurred.";
+                    // Check if errorResponse.errors exists and is an object
+                    if (errorResponse.errors && typeof errorResponse.errors === 'object') {
+                        // Loop through each field in the errors object and append to the errorMessage
+                        for (var field in errorResponse.errors) {
+                            if (errorResponse.errors.hasOwnProperty(field)) {
+                                // Add each error message for the field, joining multiple messages if they exist
+                                var fieldErrors = errorResponse.errors[field].join(", ");
+                                errorMessage += `\n${field}: ${fieldErrors}`;
+                            }
+                        }
+                    }
+
+                    // Display the error message using your custom showAlert function
+                    showAlert('error', "Error:" + errorMessage);
+                }
+            });
+        }
+        function setEnrollDisplay(data) {
+            var enrollList = $('#enrollList');
+            // Reference to the <enrollList> element
+            enrollList.empty();
+            // Loop through the data array and append each class div
+            $.each(data, function (index, enroll) {
+                var formattedStartDate = formatDate(enroll.class.startDate);
+                var formattedEndDate = formatDate(enroll.class.endDate);
+                var filteredEnrollList = enroll.class.enrolls.filter(function (enroll) {
+                    return enroll.status === 'Enrolled';
+                });
+                var statusText = '';
+                switch (enroll.class.status) {
+                    case 'Open':
+                    case 'Ongoing':
+                        statusText = `<span class="outcome" style="float: left;">Status: ${enroll.class.status}</span>`
+                        break;
+                    case 'Draft':
+                    case 'Postponed':
+                        statusText = `<span class="approval" style="float: left;">Status: ${enroll.class.status}</span>`
+                        break;
+                    case 'Ended':
+                    case 'Cancelled':
+                        statusText = `<span class="destroy" style="float: left;">Status: ${enroll.class.status}</span>`
+                        break;
+                }
+                // Construct card HTML
+                var cardHtml = `
+                            <div class="col-xl-3 col-lg-6 col-sm-6 my-3">
+                                <div class="card1 card-child">
+                                    <div class="club-name">
+                                        Class Code: ${enroll.class.className}
+                                        <div class="status">
+                                            ${statusText}
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="club-title">
+                                            <ul>
+                                                <li><h6>Course:</h6><span>${enroll.class.course.courseName}</span></li>
+                                                <li><h6>Teacher:</h6><span>${enroll.class.teacher.account.fullname}</span></li>
+                                                <li><h6>Start date:</h6><span>${formattedStartDate}</span></li>
+                                                <li><h6>End date:</h6><span>${formattedEndDate}</span></li>
+                                                <li><h6>Minimum students amount:</h6><span>${enroll.class.minimumStudents}</span></li>
+                                                <li><h6>Maximum students amount:</h6><span>${enroll.class.maximumStudents}</span></li>
+                                                <li><h6>Current students amount:</h6><span>${filteredEnrollList.length}</span></li>
+                                                <li><h6>Weekly scheduled sessions amount:</h6><span>${enroll.class.schedules.length}</span></li>
+                                                <li><h6>Current enrolls amount:</h6><span>${enroll.class.enrolls.length}</span></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="form-group mx-auto">
+                                        <a class="btn btn-primary clickable-row" href="/Parent/Class/${enroll.class.classId}/Info" role="button">Details</a>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                // Append the constructed HTML to the enroll list container
+                // <form method="get" asp-route-id="${classObj.classId}">
+                //     <button class="btn btn-primary clickable-row" type="submit">See Detail</button>
+                // </form>
+                enrollList.append(cardHtml);
+            });
+        }
+    </script>
+</body>
+</html>

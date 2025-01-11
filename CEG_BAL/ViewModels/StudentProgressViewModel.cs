@@ -11,16 +11,16 @@ namespace CEG_BAL.ViewModels
     {
         public int? TotalPoint { get; set; }
 
-        public TimeOnly? Playtime { get; set; }
+        public int StudentId { get; set; }
 
-        public virtual Class Class { get; set; } = null!;
+        public TimeSpan Playtime { get; set; }
 
-        public virtual ICollection<HomeworkResult> HomeworkResults { get; set; } = new List<HomeworkResult>();
+        public ClassViewModel? Class { get; set; }
 
-        public virtual RegisteredClass Session { get; set; } = null!;
+        public List<HomeworkResultViewModel> HomeworkResults { get; set; } = new List<HomeworkResultViewModel>();
 
-        public virtual Student Student { get; set; } = null!;
+        public StudentViewModel? Student { get; set; }
 
-        public virtual ICollection<StudentHomework> StudentHomeworks { get; set; } = new List<StudentHomework>();
+        public List<StudentHomeworkViewModel> StudentHomeworks { get; set; } = new List<StudentHomeworkViewModel>();
     }
 }

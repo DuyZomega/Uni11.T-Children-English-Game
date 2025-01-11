@@ -17,10 +17,10 @@ namespace CEG_BAL.ViewModels
 
         public string? Address { get; set; }
 
-        public virtual AccountViewModel Account { get; set; } = null!;
+        public AccountViewModel Account { get; set; } = null!;
 
-        public virtual ICollection<PaymentViewModel> Payments { get; set; } = new List<PaymentViewModel>();
+        public List<TransactionViewModel> Transactions { get; set; } = new List<TransactionViewModel>();
 
-        public virtual ICollection<StudentViewModel> Students { get; set; } = new List<StudentViewModel>();
+        public List<StudentViewModel> Students { get; set; } = new List<StudentViewModel>();
     }
 }

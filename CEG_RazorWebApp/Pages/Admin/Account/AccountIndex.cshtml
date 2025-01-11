@@ -1,0 +1,1005 @@
+﻿@page "/Admin/Account/Index"
+@model CEG_RazorWebApp.Pages.Admin.Account.AccountIndexModel
+@{
+    ViewData["Title"] = "Admin All Account Statuses Page";
+    var createParent = Model.CreateParent;
+    var createTeacher = Model.CreateTeacher;
+    var createStudent = Model.CreateStudent;
+    Layout = Model.LayoutUrl;
+}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
+    <div class="main-content">
+        <div class="main">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="offset-sm-6 col-sm-6  d-flex justify-content-sm-end p-md-0 mt-2 mt-sm-0 ">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumd-item">
+                                <a href="#">Manage</a>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <span>/</span>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <a href="/Admin/Account/Index">Account</a>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+                <section>
+                    <div class="card">
+                        <div class="card-body">
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-tabs">
+                                <!-- dung vong for o day -->
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="tab" href="#home1">
+                                        <i class='bx bx-home-alt-2'></i>
+                                        <span>All Accounts</span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <div id="alertContainer"></div>
+
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <!-- home1 -->
+                                <div class="tab-pane active" id="home1" role="tabpanel">
+                                    <div class="row">
+                                    </div>
+                                    <div id="account-table_wrapper" class="dataTables_wrapper no-footer">
+                                        <table id="account-table"
+                                               class="table table-striped table-bordered dataTable no-footer"
+                                               aria-describedby="account-table_info">
+                                            <thead>
+                                                <tr>
+                                                    <th class="sorting sorting_asc" tabindex="0"
+                                                        aria-controls="account-table" rowspan="1"
+                                                        colspan="1" aria-sort="ascending"
+                                                        aria-label="Account User Name: activate to sort column ascending">
+                                                        Username
+                                                    </th>
+                                                    <th class="sorting sorting_asc" tabindex="0"
+                                                        aria-controls="account-table" rowspan="1"
+                                                        colspan="1" aria-sort="ascending"
+                                                        aria-label="Account Full Name: activate to sort column ascending">
+                                                        Full name
+                                                    </th>
+                                                    <th class="sorting sorting_asc" tabindex="0"
+                                                        aria-controls="account-table" rowspan="1"
+                                                        colspan="1" aria-sort="ascending"
+                                                        aria-label="Gender: activate to sort column ascending">
+                                                        Gender
+                                                    </th>
+                                                    <th class="sorting sorting_asc" tabindex="0"
+                                                        aria-controls="account-table" rowspan="1"
+                                                        colspan="1" aria-sort="ascending"
+                                                        aria-label="Account Created Date: activate to sort column ascending">
+                                                        Created Date
+                                                    </th>
+                                                    <th class="sorting sorting_asc" tabindex="0"
+                                                        aria-controls="account-table" rowspan="1"
+                                                        colspan="1" aria-sort="ascending"
+                                                        aria-label="Account Role: activate to sort column ascending">
+                                                        Role
+                                                    </th>
+                                                    <th class="sorting sorting_asc" tabindex="0"
+                                                        aria-controls="account-table" rowspan="1"
+                                                        colspan="1" aria-sort="ascending"
+                                                        aria-label="Status: activate to sort column ascending">
+                                                        Status
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <!-- end tapnet -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+    <div id="createAccount" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content modal-addRoom">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add new Account</h4>
+                </div>
+                <ul class="nav nav-tabs justify-content-center" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active align-items-center d-flex w-auto" data-toggle="tab" href="#student_Tab" role="tab" aria-controls="student" aria-selected="true">
+                            <span>Student</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link align-items-center d-flex w-auto" data-toggle="tab" href="#parent_Tab" role="tab" aria-controls="parent" aria-selected="false">
+                            <span>Parent</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link align-items-center d-flex w-auto" data-toggle="tab" href="#teacher_Tab" role="tab" aria-controls="teacher" aria-selected="false">
+                            <span>Teacher</span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div id="student_Tab" class="tab-pane fade show active">
+                        <div class="modal-header">
+                            <h6 class="modal-title">Student Account</h6>
+                        </div>
+                        <form method="post" id="createStudentForm">
+                            <div class="modal-body">
+                                <div class="row justify-content-center p-4">
+                                    <div class="col-xl-12 justify-content-around form-row">
+                                        <div class="form-group col-xl-4">
+                                            <label asp-for="@createStudent.Account.Username" class="col-form-label"></label>
+                                            <input asp-for="@createStudent.Account.Username" value="@createStudent.Account.Username" type="text" placeholder="User Name" required
+                                                   class="form-control">
+                                            <span asp-validation-for="@createStudent.Account.Username" id="error_message"
+                                                  class="helper-text text-danger d-block offset-md-5 col-md-7 col-sm-12 mt-2"></span>
+                                        </div>
+                                        <div class="form-group col-xl-8">
+                                            <label asp-for="@createStudent.Account.Fullname" class="col-form-label"></label>
+                                            <input asp-for="@createStudent.Account.Fullname" value="@createStudent.Account.Fullname" type="text" placeholder="Full Name" required
+                                                   class="form-control">
+                                            <span asp-validation-for="@createStudent.Account.Fullname" id="error_message"
+                                                  class="helper-text text-danger d-block offset-md-5 col-md-7 col-sm-12 mt-2"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-12 justify-content-around form-row">
+                                        <div class="form-group col-xl-4">
+                                            <label asp-for="@createStudent.Account.Gender" class="col-form-label"></label>
+                                            <select class="form-control custom-select" asp-for="@createStudent.Account.Gender"></select>
+                                            <span asp-validation-for="@createStudent.Account.Gender" id="error_message"
+                                                  class="helper-text text-danger d-block offset-md-5 col-md-7 col-sm-12 mt-2"></span>
+                                        </div>
+                                        <div class="form-group col-xl-8">
+                                            <label asp-for="@createStudent.Description" class="col-form-label"></label>
+                                            <textarea asp-for="@createStudent.Description" value="@createStudent.Description" required
+                                                      class="form-control"></textarea>
+                                            <span asp-validation-for="@createStudent.Description" id="error_message"
+                                                  class="helper-text text-danger d-block offset-md-5 col-md-7 col-sm-12 mt-2"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-12 justify-content-around form-row">
+                                        <div class="form-group col-xl-4">
+                                            <label asp-for="@createStudent.Birthdate" class="col-form-label"></label>
+                                            <input asp-for="@createStudent.Birthdate" 
+                                                    value="@createStudent.Birthdate.ToString("yyyy-MM-ddTHH:mm")" 
+                                                    type="datetime-local" 
+                                                    min="@DateTime.Now.AddYears(-16).ToString("yyyy-MM-ddTHH:mm")" 
+                                                    max="@DateTime.Now.AddYears(-12).ToString("yyyy-MM-ddTHH:mm")" 
+                                                    asp-format="{0:yyyy-MM-ddTHH:mm}"
+                                                   class="form-control" required>
+                                            <span asp-validation-for="@createStudent.Birthdate" id="error_message"
+                                                  class="helper-text text-danger d-block offset-md-5 col-md-7 col-sm-12 mt-2"></span>
+                                        </div>
+                                        <div class="form-group col-xl-8">
+                                            <label asp-for="@createStudent.ParentFullname" class="col-form-label"></label>
+                                            <div class="p-0">
+                                                <!-- search bar with dropdown list-->
+                                                <select id="select2-parent-fullname-dropdown" class="form-control custom-select">
+                                                </select>
+                                            </div>
+                                            <span asp-validation-for="@createStudent.ParentFullname" id="error_message"
+                                                  class="helper-text text-danger d-block offset-md-5 col-md-7 col-sm-12 mt-2"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-12 justify-content-around form-row">
+                                        <div class="form-group col-xl-6">
+                                            <label asp-for="@createStudent.Account.Password" class="col-form-label"></label>
+                                            <input asp-for="@createStudent.Account.Password" value="@createStudent.Account.Password" type="password" placeholder="Password" class="form-control" required>
+                                            <span asp-validation-for="@createStudent.Account.Password" id="error_message"
+                                                  class="helper-text text-danger d-block offset-md-5 col-md-7 col-sm-12 mt-2"></span>
+                                        </div>
+                                        <div class="form-group col-xl-6">
+                                            <label asp-for="@createStudent.Account.ConfirmPassword" class="col-form-label"></label>
+                                            <input asp-for="@createStudent.Account.ConfirmPassword" value="@createStudent.Account.ConfirmPassword" type="password" placeholder="Confirm Password" class="form-control" required>
+                                            <span asp-validation-for="@createStudent.Account.ConfirmPassword" id="error_message"
+                                                  class="helper-text text-danger d-block offset-md-5 col-md-7 col-sm-12 mt-2"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer justify-content-center">
+                                <button class="btn btn-success" type="submit">Create</button>
+                                <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div id="parent_Tab" class="tab-pane fade">
+                        <div class="modal-header">
+                            <h6 class="modal-title">Parent Account</h6>
+                        </div>
+                        <form method="post" id="createParentForm">
+                            <div class="modal-body">
+                                <div class="row justify-content-center p-4">
+                                    <div class="col-xl-12 justify-content-around form-row">
+                                        <div class="form-group col-xl-4">
+                                            <label asp-for="@createParent.Account.Username" class="col-form-label"></label>
+                                            <input asp-for="@createParent.Account.Username" value="@createParent.Account.Username" type="text" placeholder="User Name" required
+                                                   class="form-control">
+                                            <span asp-validation-for="@createParent.Account.Username" id="error_message"
+                                                  class="helper-text text-danger d-block offset-md-5 col-md-7 col-sm-12 mt-2"></span>
+                                        </div>
+                                        <div class="form-group col-xl-8">
+                                            <label asp-for="@createParent.Account.Fullname" class="col-form-label"></label>
+                                            <input asp-for="@createParent.Account.Fullname" value="@createParent.Account.Fullname" type="text" placeholder="Full Name" required
+                                                   class="form-control">
+                                            <span asp-validation-for="@createParent.Account.Fullname" id="error_message"
+                                                  class="helper-text text-danger d-block offset-md-5 col-md-7 col-sm-12 mt-2"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-12 justify-content-around form-row">
+                                        <div class="form-group col-xl-4">
+                                            <label asp-for="@createParent.Account.Gender" class="col-form-label"></label>
+                                            <select class="form-control custom-select" asp-for="@createParent.Account.Gender"></select>
+                                            <span asp-validation-for="@createParent.Account.Gender" id="error_message"
+                                                  class="helper-text text-danger d-block offset-md-5 col-md-7 col-sm-12 mt-2"></span>
+                                        </div>
+                                        <div class="form-group col-xl-8">
+                                            <label asp-for="@createParent.Address" class="col-form-label"></label>
+                                            <textarea asp-for="@createParent.Address" value="@createParent.Address" required
+                                                      class="form-control"></textarea>
+                                            <span asp-validation-for="@createParent.Address" id="error_message"
+                                                  class="helper-text text-danger d-block offset-md-5 col-md-7 col-sm-12 mt-2"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-12 justify-content-around form-row">
+                                        <div class="form-group col-xl-4">
+                                            <label asp-for="@createParent.Phone" class="col-form-label"></label>
+                                            <input asp-for="@createParent.Phone" value="@createParent.Phone" type="tel" placeholder="Phone number"
+                                                   class="form-control" required>
+                                            <span asp-validation-for="@createParent.Phone" id="error_message"
+                                                  class="helper-text text-danger d-block offset-md-5 col-md-7 col-sm-12 mt-2"></span>
+                                        </div>
+                                        <div class="form-group col-xl-8">
+                                            <label asp-for="@createParent.Email" class="col-form-label"></label>
+                                            <input asp-for="@createParent.Email" value="@createParent.Email" type="email" placeholder="Email"
+                                                   class="form-control" required>
+                                            <span asp-validation-for="@createParent.Email" id="error_message"
+                                                  class="helper-text text-danger d-block offset-md-5 col-md-7 col-sm-12 mt-2"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-12 justify-content-around form-row">
+                                        <div class="form-group col-xl-6">
+                                            <label asp-for="@createParent.Account.Password" class="col-form-label"></label>
+                                            <input asp-for="@createParent.Account.Password" value="@createParent.Account.Password" type="password" placeholder="Password" class="form-control" required>
+                                            <span asp-validation-for="@createParent.Account.Password" id="error_message"
+                                                  class="helper-text text-danger d-block offset-md-5 col-md-7 col-sm-12 mt-2"></span>
+                                        </div>
+                                        <div class="form-group col-xl-6">
+                                            <label asp-for="@createParent.Account.ConfirmPassword" class="col-form-label"></label>
+                                            <input asp-for="@createParent.Account.ConfirmPassword" value="@createParent.Account.ConfirmPassword" type="password" placeholder="Confirm Password" class="form-control" required>
+                                            <span asp-validation-for="@createParent.Account.ConfirmPassword" id="error_message"
+                                                  class="helper-text text-danger d-block offset-md-5 col-md-7 col-sm-12 mt-2"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer justify-content-center">
+                                <button class="btn btn-success" type="submit">Create</button>
+                                <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div id="teacher_Tab" class="tab-pane fade">
+                        <div class="modal-header">
+                            <h6 class="modal-title">Teacher Account</h6>
+                        </div>
+                        <form method="post" id="createTeacherForm">
+                            <div class="modal-body">
+                                <div class="row justify-content-center p-4">
+                                    <div class="col-xl-12 justify-content-around form-row">
+                                        <div class="form-group col-xl-4">
+                                            <label asp-for="@createTeacher.Account.Username" class="col-form-label"></label>
+                                            <input asp-for="@createTeacher.Account.Username" value="@createTeacher.Account.Username" type="text" placeholder="User Name" required 
+                                                class="form-control">
+                                            <span asp-validation-for="@createTeacher.Account.Username" id="error_message"
+                                                class="helper-text text-danger d-block offset-md-5 col-md-7 col-sm-12 mt-2"></span>
+
+                                            @* <label for="createSchedule_SessionNumber" class="col-form-label">Session Number</label>
+                                            <input id="createSchedule_SessionNumber" type="number" class="form-control" value="0" readonly="" required="">
+                                            <span id="error_message" class="helper-text text-danger d-block offset-md-5 col-md-7 col-sm-12 mt-2"></span> *@
+                                        </div>
+                                        <div class="form-group col-xl-8">
+                                            <label asp-for="@createTeacher.Account.Fullname" class="col-form-label"></label>
+                                            <input asp-for="@createTeacher.Account.Fullname" value="@createTeacher.Account.Fullname" type="text" placeholder="Full Name" required 
+                                                class="form-control">
+                                            <span asp-validation-for="@createTeacher.Account.Fullname" id="error_message"
+                                                class="helper-text text-danger d-block offset-md-5 col-md-7 col-sm-12 mt-2"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-12 justify-content-around form-row">
+                                        <div class="form-group col-xl-4">
+                                            <label asp-for="@createTeacher.Account.Gender" class="col-form-label"></label>
+                                            <select class="form-control custom-select" asp-for="@createTeacher.Account.Gender"></select>
+                                            <span asp-validation-for="@createTeacher.Account.Gender" id="error_message"
+                                                class="helper-text text-danger d-block offset-md-5 col-md-7 col-sm-12 mt-2"></span>
+                                        </div>
+                                        <div class="form-group col-xl-8">
+                                            <label asp-for="@createTeacher.Address" class="col-form-label"></label>
+                                            <textarea asp-for="@createTeacher.Address" value="@createTeacher.Address" required 
+                                                class="form-control"></textarea>
+                                            <span asp-validation-for="@createTeacher.Address" id="error_message"
+                                                class="helper-text text-danger d-block offset-md-5 col-md-7 col-sm-12 mt-2"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-12 justify-content-around form-row">
+                                        <div class="form-group col-xl-4">
+                                            <label asp-for="@createTeacher.Phone" class="col-form-label"></label>
+                                            <input asp-for="@createTeacher.Phone" value="@createTeacher.Phone" type="tel" placeholder="Phone number" 
+                                                class="form-control" required>
+                                            <span asp-validation-for="@createTeacher.Phone" id="error_message"
+                                                class="helper-text text-danger d-block offset-md-5 col-md-7 col-sm-12 mt-2"></span>
+                                        </div>
+                                        <div class="form-group col-xl-8">
+                                            <label asp-for="@createTeacher.Email" class="col-form-label"></label>
+                                            <input asp-for="@createTeacher.Email" value="@createTeacher.Email" type="email" placeholder="Email" 
+                                                class="form-control" required>
+                                            <span asp-validation-for="@createTeacher.Email" id="error_message"
+                                                class="helper-text text-danger d-block offset-md-5 col-md-7 col-sm-12 mt-2"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-12 justify-content-around form-row">
+                                        <div class="form-group col-xl-6">
+                                            <label asp-for="@createTeacher.Account.Password" class="col-form-label"></label>
+                                            <input asp-for="@createTeacher.Account.Password" value="@createTeacher.Account.Password" type="password" placeholder="Password" class="form-control" required>
+                                            <span asp-validation-for="@createTeacher.Account.Password" id="error_message"
+                                                  class="helper-text text-danger d-block offset-md-5 col-md-7 col-sm-12 mt-2"></span>
+                                        </div>
+                                        <div class="form-group col-xl-6">
+                                            <label asp-for="@createTeacher.Account.ConfirmPassword" class="col-form-label"></label>
+                                            <input asp-for="@createTeacher.Account.ConfirmPassword" value="@createTeacher.Account.ConfirmPassword" type="password" placeholder="Confirm Password" class="form-control" required>
+                                            <span asp-validation-for="@createTeacher.Account.ConfirmPassword" id="error_message"
+                                                  class="helper-text text-danger d-block offset-md-5 col-md-7 col-sm-12 mt-2"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-12 justify-content-around form-row">
+                                        <label class="col-form-label" asp-for="@createTeacher.ImageUpload">Upload Certificate Image:</label>
+                                        <div class="col-md-12 custom-file">
+                                            <input type="file" class="col-md-12 custom-file-input" asp-for="@createTeacher.ImageUpload" required accept="image/*">
+                                            <label class="col-md-12 custom-file-label" asp-for="@createTeacher.ImageUpload">Choose image to upload</label>
+                                            <div class="invalid-feedback">Example invalid custom file feedback</div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row col-xl-12 justify-content-center">
+                                        <div id="preview-container">
+                                            <img class="w-100" id="image-preview" src="" alt="Certificate Image Preview" style="display:none; max-height: 800px;" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer justify-content-center">
+                                <button class="btn btn-success" type="submit">Create</button>
+                                <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* <partial name="PartialViews/_CreateTeacherPartial" model="new AccountIndexModel.CreateTeacherModel(createTeacher)"/> *@
+    <script>
+        var token = sessionStorage.getItem('token');
+        var apiUrl = sessionStorage.getItem('apiUrl');
+        var accountList = [];
+        const imageInput = $("#createTeacher_ImageUpload");
+        let selectedFile = null; // Variable to hold the file
+        const previewImage = $("#image-preview");
+        var accountTable;
+        $(document).ready(function () {
+            // Registering the custom feature with DataTables
+            DataTable.feature.register('searchIcon', function (settings, opts) {
+                // Set default options
+                let options = Object.assign({
+                    iconClass: 'bx bx-search-alt question-search-icon',
+                    hideLabel: true // Hide search label
+                }, opts);
+
+                // Create a container for the icon
+                let container = document.createElement('div');
+                // container.classList.add('dt-custom-toolbar'); // Optional custom class for styling
+
+                // Create the icon element
+                let icon = document.createElement('i');
+                icon.className = options.iconClass;
+
+                // Check if pagination is enabled
+                // if (settings.oFeatures.bFilter) {
+                //     console.log(settings.oFeatures.bFilter);
+                //     console.log('Pagination is enabled for this DataTable.');
+                // }
+
+                setTimeout(() => {
+                    // Find the .dt-search container inside the DataTable wrapper
+                    let searchContainer = $(settings.nTableWrapper).find('.dt-search');
+                    if (searchContainer.length) {
+                        searchContainer.append(icon);
+                    } else {
+                        // Append icon to container
+                        container.appendChild(icon);
+                        // If .dt-search doesn't exist, insert the container in the DataTable toolbar instead
+                        $(settings.nTableWrapper).prepend(container);
+                    }
+                    if (options.hideLabel) {
+                        // Find the .dt-search label container inside the DataTable wrapper
+                        let searchLabel = searchContainer.find('label');
+                        if (searchLabel.length) {
+                            searchLabel.text('');
+                        } else {
+                            console.log('Label of search div not found!');
+                        }
+                    }
+                }, 100);
+                return '';
+            });
+            // Registering the custom feature with DataTables
+            DataTable.feature.register('toggle', function (settings, opts) {
+                // Set default options
+                let options = Object.assign({
+                    iconClass: 'bx bxs-add-to-queue bx-sm',
+                    modalId: 'createAccount' // Modal ID that the icon will trigger
+                }, opts);
+
+                // Create a container for the icon
+                let container = document.createElement('div');
+                // container.classList.add('dt-custom-toolbar'); // Optional custom class for styling
+
+                // Create the icon element
+                let icon = document.createElement('i');
+                icon.className = options.iconClass;
+                container.className = 'dt-modal-toggle';
+                icon.setAttribute('data-toggle', 'modal');
+                icon.setAttribute('data-target', `#${options.modalId}`);
+
+                // Append icon to container
+                container.appendChild(icon);
+
+                // Insert the container in the DataTable toolbar
+                $(settings.nTableWrapper).prepend(container);
+                return container;
+            });
+            accountTable = new DataTable('#account-table', {
+                data: [],
+                deferRender: false,
+                responsive: true,
+                columns: [
+                    { 
+                        data: 'username',
+                        render: function (data, type, row, meta) {
+                            var url = row.role.roleName === 'Admin' ? '' : `href="/Admin/${row.role.roleName}/${row.accountId}/Info"`
+                            return `<a ${url}>${data}</a>`;
+                        }
+                    },
+                    { data: 'fullname' },
+                    { data: 'gender' },
+                    { 
+                        data: 'createdDate',
+                        render: DataTable.render.date("dddd, DD/MM/YYYY")
+                    },
+                    { data: 'role.roleName' },
+                    { 
+                        data: 'status',
+                        render: function (data, type, row, meta) {
+                            return `
+                                <select class="custom-select form-control status-dropdown" data-accountid="${row.accountId}" ${row.role.roleName === 'Admin' ? 'disabled' : ''}>
+                                `
+                                + getStatusOptions(data) +
+                                `
+                                </select>
+                                `;
+                        }
+                    }
+                ],
+                layout: {
+                    topEnd: {
+                        search: {
+                            placeholder: 'search info...'
+                        },
+                        searchIcon: {
+                        },
+                        toggle: {
+                        }
+                    }
+                }
+            }).on('draw', function (e, settings) {
+                accountTable.rows().every(function (rowIdx, tableLoop, rowLoop) {
+                    // if (rowIdx == "1") {
+                    //     console.log(rowIdx);
+                    //     var data = this.row(rowIdx).data();
+                    //     console.log(data);
+                    // }
+                    var node = $(this.cell(rowIdx, 5).node());
+                    node.children(0).on('change', function () {
+                        var accountId = node.children(0).data('accountid');
+                        var newStatus = node.children(0).val();
+                        callApiUpdateAccountStatus(accountId, newStatus);
+                    });
+                });
+            });
+            $('#select2-parent-fullname-dropdown').select2({
+                placeholder: 'Select a parent to be associate with this student',
+                allowClear: true,
+                width: 'resolve',
+                theme: 'bootstrap4'
+            });
+
+            callApiGetAccountList();
+
+            $('#createStudentForm').submit(function (event) {
+                event.preventDefault(); // Prevent the form from submitting normally
+                //Get the form data
+                var formData = {
+                    Account: {
+                        Username: $('#createStudent_Account_Username').val(),
+                        Fullname: $('#createStudent_Account_Fullname').val(),
+                        Gender: $('#createStudent_Account_Gender').val(),
+                        Password: $('#createStudent_Account_Password').val(),
+                        ConfirmPassword: $('#createStudent_Account_ConfirmPassword').val()
+                    },
+                    Birthdate: $('#createStudent_Birthdate').val(),
+                    Description: $('#createStudent_Description').val(),
+                    ParentFullname: $('#select2-parent-fullname-dropdown').select2('data')[0].text,
+                };
+                //Make the AJAX request
+                callApiPostCreateStudent(formData);
+                $('#createStudentForm').trigger("reset");
+            });
+
+            $('#createParentForm').submit(function (event) {
+                event.preventDefault(); // Prevent the form from submitting normally
+                //Get the form data
+                var formData = {
+                    Account: {
+                        Username: $('#createParent_Account_Username').val(),
+                        Fullname: $('#createParent_Account_Fullname').val(),
+                        Gender: $('#createParent_Account_Gender').val(),
+                        Password: $('#createParent_Account_Password').val(),
+                        ConfirmPassword: $('#createParent_Account_ConfirmPassword').val()
+                    },
+                    Email: $('#createParent_Email').val(),
+                    Address: $('#createParent_Address').val(),
+                    Phone: $('#createParent_Phone').val(),
+                };
+                //Make the AJAX request
+                callApiPostCreateParent(formData);
+                $('#createParentForm').trigger("reset");
+            });
+
+            $('#createTeacherForm').submit(function (event) {
+                event.preventDefault(); // Prevent the form from submitting normally
+                // console.log(imageInput[0].files[0]);
+                // Get the form data
+                var formData = {
+                    Account: {
+                        Username: $('#createTeacher_Account_Username').val(),
+                        Fullname: $('#createTeacher_Account_Fullname').val(),
+                        Gender: $('#createTeacher_Account_Gender').val(),
+                        Password: $('#createTeacher_Account_Password').val(),
+                        ConfirmPassword: $('#createTeacher_Account_ConfirmPassword').val(),
+                    },
+                    Email: $('#createTeacher_Email').val(),
+                    Address: $('#createTeacher_Address').val(),
+                    Phone: $('#createTeacher_Phone').val(),
+                };
+                //Make the AJAX request
+                callApiPostCreateTeacher(formData);
+                $('#createTeacherForm').trigger("reset");
+            });
+
+            // Handle image selection and preview
+            imageInput.on("change", () => {
+                const file = imageInput[0].files[0];
+                if (file && file.type.startsWith("image/")) {
+                    const reader = new FileReader();
+
+                    reader.onload = (event) => {
+                        previewImage.attr("src", event.target.result);
+                        previewImage.show();
+                    };
+
+                    reader.readAsDataURL(file);
+                    selectedFile = file; // Store the file in memory
+                    // console.log('File selected:', selectedFile);
+                } else {
+                    showAlert("Please select a valid image file.");
+                    selectedFile = null; // Clear the reference if no file is selected
+                    previewImage.hide();
+                }
+            });
+
+            // Handle the upload
+            // uploadButton.on("click", async () => {
+            //     const file = imageInput.files[0];
+
+            //     if (file) {
+            //         const formData = new FormData();
+            //         formData.append("image", file);
+
+            //         try {
+            //             const response = await fetch("/api/upload-image", {
+            //                 method: "POST",
+            //                 body: formData,
+            //             });
+
+            //             if (response.ok) {
+            //                 const result = await response.json();
+            //                 alert("Image uploaded successfully! URL: " + result.imageUrl);
+            //             } else {
+            //                 const error = await response.json();
+            //                 alert("Upload failed: " + error.message);
+            //             }
+            //         } catch (err) {
+            //             console.error("Upload error:", err);
+            //             alert("An error occurred while uploading the image.");
+            //         }
+            //     }
+            // });
+        });
+        function callApiGetAccountList() {
+            $.ajax({
+                url: apiUrl + 'Account/All', // API endpoint
+                type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + token// Include the JWT token
+                },
+                success: function (response) {
+                    // Log the entire response to the console for debugging
+                    // console.log("Returned object:", response);
+
+                    // Check if the status is true
+                    if (response.status) {
+                        accountList = response.data;
+                        if (accountList && accountList.length > 0) {
+                            accountTable.clear().rows.add(accountList).draw();
+                        }
+                        setAccountDisplay();
+                        showAlert('success','Account list get successfully!');
+                    } else {
+                        showAlert('error', "Error:" + response.errorMessage);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Attempt to parse the response text if it is available
+                    var errorResponse = xhr.responseText ? JSON.parse(xhr.responseText) : {};
+
+                    // Extract the custom error message if it exists
+                    var errorMessage = errorResponse.errorMessage || errorResponse.title || "An unknown error occurred.";
+                    // Check if errorResponse.errors exists and is an object
+                    if (errorResponse.errors && typeof errorResponse.errors === 'object') {
+                        // Loop through each field in the errors object and append to the errorMessage
+                        for (var field in errorResponse.errors) {
+                            if (errorResponse.errors.hasOwnProperty(field)) {
+                                // Add each error message for the field, joining multiple messages if they exist
+                                var fieldErrors = errorResponse.errors[field].join(", ");
+                                errorMessage += `\n${field}: ${fieldErrors}`;
+                            }
+                        }
+                    }
+                    // Display the error message using your custom showAlert function
+                    showAlert('error', "Error: \n" + errorMessage);
+                }
+            });
+        }
+        function callApiUpdateAccountStatus(accountId,newStatus){
+            $.ajax({
+                url: apiUrl + `Account/${accountId}/Update/Status`, // API endpoint for updating status
+                type: 'PUT', // HTTP method PUT for updates
+                headers: {
+                    'Authorization': 'Bearer ' + token, // Token for authentication
+                },
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(newStatus), // Data sent in the request body data: JSON.stringify({ status: newStatus.toString() }),
+                success: function (response) {
+                    if (response.status) {
+                        showAlert('success','Status updated!');
+                    } else {
+                        showAlert('error','Failed to update status. Error:' + response.errorMessage);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Attempt to parse the response text if it is available
+                    var errorResponse = xhr.responseText ? JSON.parse(xhr.responseText) : {};
+
+                    // Extract the custom error message if it exists
+                    var errorMessage = errorResponse.errorMessage || errorResponse.title || "An unknown error occurred.";
+                    // Check if errorResponse.errors exists and is an object
+                    if (errorResponse.errors && typeof errorResponse.errors === 'object') {
+                        // Loop through each field in the errors object and append to the errorMessage
+                        for (var field in errorResponse.errors) {
+                            if (errorResponse.errors.hasOwnProperty(field)) {
+                                // Add each error message for the field, joining multiple messages if they exist
+                                var fieldErrors = errorResponse.errors[field].join(", ");
+                                errorMessage += `\n${field}: ${fieldErrors}`;
+                            }
+                        }
+                    }
+                    // Display the error message using your custom showAlert function
+                    showAlert('error', "Error: \n" + errorMessage);
+                }
+            });
+        }
+        function callApiPostCreateStudent(formData) {
+            $.ajax({
+                url: apiUrl + 'Admin/Student/Create', // Specify your Razor Page here
+                type: 'POST',
+                data: JSON.stringify(formData),
+                headers: {
+                    'Authorization': 'Bearer ' + token, // Token for authentication
+                },
+                contentType: 'application/json; charset=utf-8',
+                success: function (response) {
+                    // Handle success (display a success message or redirect, etc.)
+                    if (response.status) {
+                        showAlert('success', "Student create successfully");
+                        callApiGetAccountList();
+                    } else {
+                        showAlert('error', "Error: \n" + response.errorMessage);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Attempt to parse the response text if it is available
+                    var errorResponse = xhr.responseText ? JSON.parse(xhr.responseText) : {};
+
+                    // Extract the custom error message if it exists
+                    var errorMessage = errorResponse.errorMessage || errorResponse.title || "An unknown error occurred.";
+                    // Check if errorResponse.errors exists and is an object
+                    if (errorResponse.errors && typeof errorResponse.errors === 'object') {
+                        // Loop through each field in the errors object and append to the errorMessage
+                        for (var field in errorResponse.errors) {
+                            if (errorResponse.errors.hasOwnProperty(field)) {
+                                // Add each error message for the field, joining multiple messages if they exist
+                                var fieldErrors = errorResponse.errors[field].join(", ");
+                                errorMessage += `\n${field}: ${fieldErrors}`;
+                            }
+                        }
+                    }
+                    // Display the error message using your custom showAlert function
+                    showAlert('error', "Error: \n" + errorMessage);
+                }
+            });
+        }
+        function callApiPostCreateParent(formData) {
+            $.ajax({
+                url: apiUrl + 'Admin/Parent/Create', // Specify your Razor Page here
+                type: 'POST',
+                data: JSON.stringify(formData),
+                headers: {
+                    'Authorization': 'Bearer ' + token, // Token for authentication
+                },
+                contentType: 'application/json; charset=utf-8',
+                success: function (response) {
+                    // Handle success (display a success message or redirect, etc.)
+                    if (response.status) {
+                        showAlert('success', "Parent create successfully");
+                        callApiGetAccountList();
+                    } else {
+                        showAlert('error', "Error: \n" + response.errorMessage);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Attempt to parse the response text if it is available
+                    var errorResponse = xhr.responseText ? JSON.parse(xhr.responseText) : {};
+
+                    // Extract the custom error message if it exists
+                    var errorMessage = errorResponse.errorMessage || errorResponse.title || "An unknown error occurred.";
+                    // Check if errorResponse.errors exists and is an object
+                    if (errorResponse.errors && typeof errorResponse.errors === 'object') {
+                        // Loop through each field in the errors object and append to the errorMessage
+                        for (var field in errorResponse.errors) {
+                            if (errorResponse.errors.hasOwnProperty(field)) {
+                                // Add each error message for the field, joining multiple messages if they exist
+                                var fieldErrors = errorResponse.errors[field].join(", ");
+                                errorMessage += `\n${field}: ${fieldErrors}`;
+                            }
+                        }
+                    }
+                    // Display the error message using your custom showAlert function
+                    showAlert('error', "Error: \n" + errorMessage);
+                }
+            });
+        }
+        // Teacher/{teacherName}/Upload/Certificate
+        function callApiPostUploadTeacherCertificate(teacherName) {
+            // var fileInput = $('#fileInput')[0];
+            // if (imageInput[0].files.length === 0) {
+            //     alert('Please select a file to upload.');
+            //     return;
+            // }
+            console.log('File selected:', selectedFile);
+            var formData = new FormData();
+            formData.append('Certificate', selectedFile);
+
+            $.ajax({
+                url: apiUrl + 'Admin/Teacher/' + teacherName + '/Upload/Certificate', // Backend API endpoint
+                type: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + token, // Token for authentication
+                },
+                data: formData,
+                // contentType: false, Set to false to allow FormData to manage content type
+                // processData: false, Prevent jQuery from processing the FormData object
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    // Handle success (display a success message or redirect, etc.)
+                    if (response.status) {
+                    } else {
+                        showAlert('error', "Error: \n" + response.errorMessage);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Attempt to parse the response text if it is available
+                    var errorResponse = xhr.responseText ? JSON.parse(xhr.responseText) : {};
+
+                    // Extract the custom error message if it exists
+                    var errorMessage = errorResponse.errorMessage || errorResponse.title || "An unknown error occurred.";
+                    // Check if errorResponse.errors exists and is an object
+                    if (errorResponse.errors && typeof errorResponse.errors === 'object') {
+                        // Loop through each field in the errors object and append to the errorMessage
+                        for (var field in errorResponse.errors) {
+                            if (errorResponse.errors.hasOwnProperty(field)) {
+                                // Add each error message for the field, joining multiple messages if they exist
+                                var fieldErrors = errorResponse.errors[field].join(", ");
+                                errorMessage += `\n${field}: ${fieldErrors}`;
+                            }
+                        }
+                    }
+                    // Display the error message using your custom showAlert function
+                    showAlert('error', "Error: \n" + errorMessage);
+                }
+            });
+        }
+
+        function callApiPostCreateTeacher(formData) {
+            $.ajax({
+                url: apiUrl + 'Admin/Teacher/Create', // Specify your Razor Page here
+                type: 'POST',
+                data: JSON.stringify(formData),
+                // contentType: false, Set to false to allow FormData to manage content type
+                // processData: false, Prevent jQuery from processing the FormData object
+                headers: {
+                    'Authorization': 'Bearer ' + token, // Token for authentication
+                },
+                contentType: 'application/json; charset=utf-8',
+                success: function (response) {
+                    // Handle success (display a success message or redirect, etc.)
+                    if (response.status) {
+                        callApiPostUploadTeacherCertificate(formData.Account.Fullname);
+                        showAlert('success', "Teacher create successfully");
+                        callApiGetAccountList();
+                    } else {
+                        showAlert('error', "Error: \n" + response.errorMessage);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Attempt to parse the response text if it is available
+                    var errorResponse = xhr.responseText ? JSON.parse(xhr.responseText) : {};
+
+                    // Extract the custom error message if it exists
+                    var errorMessage = errorResponse.errorMessage || errorResponse.title || "An unknown error occurred.";
+                    // Check if errorResponse.errors exists and is an object
+                    if (errorResponse.errors && typeof errorResponse.errors === 'object') {
+                        // Loop through each field in the errors object and append to the errorMessage
+                        for (var field in errorResponse.errors) {
+                            if (errorResponse.errors.hasOwnProperty(field)) {
+                                // Add each error message for the field, joining multiple messages if they exist
+                                var fieldErrors = errorResponse.errors[field].join(", ");
+                                errorMessage += `\n${field}: ${fieldErrors}`;
+                            }
+                        }
+                    }
+                    // Display the error message using your custom showAlert function
+                    showAlert('error', "Error: \n" + errorMessage);
+                }
+            });
+        }
+
+        function getParentNameList(){
+            // Call API to get the list of teacher names
+            $.ajax({
+                url: apiUrl + 'Parent/All/Fullname', // API endpoint
+                type: 'GET',
+                success: function (response) {
+                    // Check if the status is true
+                    if (response.status) {
+                        addParentOptions(response.data);
+                    } else {
+                        showAlert('error', "Error: \n" + response.errorMessage);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Attempt to parse the response text if it is available
+                    var errorResponse = xhr.responseText ? JSON.parse(xhr.responseText) : {};
+
+                    // Extract the custom error message if it exists
+                    var errorMessage = errorResponse.errorMessage || errorResponse.title || "An unknown error occurred.";
+                    // Check if errorResponse.errors exists and is an object
+                    if (errorResponse.errors && typeof errorResponse.errors === 'object') {
+                        // Loop through each field in the errors object and append to the errorMessage
+                        for (var field in errorResponse.errors) {
+                            if (errorResponse.errors.hasOwnProperty(field)) {
+                                // Add each error message for the field, joining multiple messages if they exist
+                                var fieldErrors = errorResponse.errors[field].join(", ");
+                                errorMessage += `\n${field}: ${fieldErrors}`;
+                            }
+                        }
+                    }
+                    // Display the error message using your custom showAlert function
+                    showAlert('error', "Error: \n" + errorMessage);
+                }
+            });
+        }
+        function setAccountDisplay(){
+            getParentNameList();
+            $('#createStudent_Account_Gender').empty();
+            $('#createStudent_Account_Gender').append(getGenderOptions());
+            $('#createParent_Account_Gender').empty();
+            $('#createParent_Account_Gender').append(getGenderOptions());
+            $('#createTeacher_Account_Gender').empty();
+            $('#createTeacher_Account_Gender').append(getGenderOptions());
+        }
+        function getGenderOptions(selectedGender) {
+            var options = ['Male', 'Female', 'Other']; // Example genders
+            var html = '';
+            options.forEach(function (gender) {
+                html += `<option value="${gender}" ${selectedGender === gender ? 'selected' : ''} >${gender}</option>`;
+            });
+
+            return html;
+        }
+        function addParentOptions(data) {
+            $('#select2-parent-fullname-dropdown').empty();
+            data.forEach(item => {
+                // Add each item as an option
+
+                let newOption = new Option(item.parentName, item.parentName, false, false);
+                $('#select2-parent-fullname-dropdown').append(newOption);
+            });
+            // Refresh the Select2 dropdown to show new options
+            $('#select2-parent-fullname-dropdown').trigger('change'); // Ensure Select2 is updated
+        }
+        function getStatusOptions(selectedStatus) {
+            var options = ['Inactive', 'Active', 'Expired', 'Denied', 'Suspended']; // Example statuses
+            var html = '';
+            switch (selectedStatus) {
+                case 'Inactive':
+                    options = ['Inactive', 'Active', 'Suspended']
+                    break;
+                case 'Active':
+                    options = ['Active', 'Suspended']
+                    break;
+                case 'Expired':
+                    options = ['Expired', 'Active', 'Suspended']
+                    break;
+                case 'Denied':
+                    options = ['Denied']
+                    break;
+                case 'Suspended':
+                    options = ['Suspended']
+                    break;
+            }
+            options.forEach(function (status) {
+                html += `<option value="${status}" ${selectedStatus === status ? 'selected' : ''}>${status}</option>`;
+            });
+
+            return html;
+        }
+    </script>
+</body>
+</html>

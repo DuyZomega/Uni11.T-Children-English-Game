@@ -17,32 +17,35 @@ namespace CEG_BAL.Services.Implements
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        private readonly IJWTService _jwtService;
         private readonly IConfiguration _configuration;
 
         public SessionService(
             IUnitOfWork unitOfWork,
             IMapper mapper,
-            IJWTService jwtServices,
             IConfiguration configuration)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
-            _jwtService = jwtServices;
             _configuration = configuration;
         }
         public void Create(SessionViewModel model, CreateNewSession newSes)
         {
             var sess = _mapper.Map<Session>(model);
+            //sess.Status = "Draft";
+
             if (newSes != null)
             {
                 sess.Title = newSes.Title;
                 sess.Description = newSes.Description;
                 sess.Hours = newSes.Hours;
-                sess.CourseId = _unitOfWork.CourseRepositories.GetIdByName(newSes.CourseName).Result;
+                sess.SessionNumber = newSes.Number;
+                sess.CourseId = newSes.CourseId.Value;
+                sess.Course = null;
             }
+
             _unitOfWork.SessionRepositories.Create(sess);
             _unitOfWork.Save();
+            // _unitOfWork.CourseRepositories.UpdateTotalHoursByIdThroughSessionsSum(sess.CourseId);
         }
 
         public async Task<List<SessionViewModel>> GetSessionList()
@@ -56,6 +59,7 @@ namespace CEG_BAL.Services.Implements
             if (user != null)
             {
                 var urs = _mapper.Map<SessionViewModel>(user);
+                urs.CourseStatus = await _unitOfWork.CourseRepositories.GetStatusBySessionIdNoTracking(id);
                 return urs;
             }
             return null;
@@ -63,9 +67,17 @@ namespace CEG_BAL.Services.Implements
 
         public void Update(SessionViewModel model)
         {
-            var sess = _mapper.Map<Session>(model);
+            var sess = _unitOfWork.SessionRepositories.GetByIdNoTracking(model.SessionId.Value).Result;
+            if(model != null)
+            {
+                sess.Title = model.Title;
+                sess.Description = model.Description;
+                sess.SessionNumber = model.SessionNumber;
+                sess.Hours = model.Hours;
+            }
             _unitOfWork.SessionRepositories.Update(sess);
             _unitOfWork.Save();
+            _unitOfWork.CourseRepositories.UpdateTotalHoursByIdThroughSessionsSum(sess.CourseId);
         }
 
         public async Task<bool> IsSessionExistByTitle(string title)

@@ -2,6 +2,7 @@
 using CEG_BAL.Services.Interfaces;
 using CEG_BAL.ViewModels;
 using CEG_BAL.ViewModels.Admin;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
@@ -135,8 +136,8 @@ namespace CEG_WebAPI.Controllers
         {
             try
             {
-                var resultCourseName = await _courseService.IsCourseExistByName(newSes.CourseName);
-                if (!resultCourseName)
+                var resultCourseName = await _courseService.GetCourseById(newSes.CourseId.Value);
+                if (resultCourseName == null)
                 {
                     return BadRequest(new
                     {
@@ -150,7 +151,48 @@ namespace CEG_WebAPI.Controllers
                 {
                     Data = true,
                     Status = true,
-                    SuccessMessage = "Class Create Successfully!"
+                    SuccessMessage = "Session Create Successfully!"
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    Status = false,
+                    ErrorMessage = ex.Message,
+                    InnerExceptionMessage = ex.InnerException?.Message
+                });
+            }
+        }
+
+        [HttpPut("{id}/Update")]
+        [Authorize(Roles = "Admin")]
+        [ProducesResponseType(typeof(SessionViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Update(
+            [FromRoute][Required] int id, 
+            [FromBody][Required] SessionViewModel session
+            )
+        {
+            try
+            {
+                var result = await _sessionService.GetSessionById(id);
+                if (result == null)
+                {
+                    return NotFound(new
+                    {
+                        Status = false,
+                        ErrorMessage = "Session Does Not Exist"
+                    });
+                }
+                session.SessionId = id;
+                _sessionService.Update(session);
+                result = await _sessionService.GetSessionById(session.SessionId.Value);
+                return Ok(new
+                {
+                    Status = true,
+                    Data = result
                 });
             }
             catch (Exception ex)

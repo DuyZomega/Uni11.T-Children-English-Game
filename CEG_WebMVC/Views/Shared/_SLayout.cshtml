@@ -31,12 +31,12 @@
             <div class="navigation">  
                 <ul class="slide-menu">
                     <div class="logo">
-                        <a href="@Url.Action("StaffIndex", "Staff")">
+                        <a href="@Url.Action("StudentIndex", "Student")">
                             <img class="logo" src="~/images/Red_whiskered_bulbul_bird_logo_eps_10_generated 1.png" alt="logo">
                         </a>
                     </div>
                     <li class="active" data-toggle="tooltip"data-placement="right" title="Overview">
-                        <a href="@Url.Action("StaffIndex", "Staff")">
+                        <a href="@Url.Action("StudentIndex", "Student")">
                             <span><i class='bx bx-tachometer'></i></span>
                             <span class="title">Overview</span>
                         </a>
@@ -49,13 +49,13 @@
                         </a>
                         <ul class="collapse sub-menu" id="collapseOne">
                             <li data-toggle="tooltip"data-placement="right" title="Manage Meeting">
-                                <a href="@Url.Action("StaffMeeting", "Staff")" li class="dropdown-item">
+                                <a href="@Url.Action("Homework", "Student")" li class="dropdown-item">
                                     <i class='bx bx-home-alt-2'></i>
                                     <span class="title">Meeting</span>
                                 </a> 
                             </li>
                             <li data-toggle="tooltip"data-placement="right" title="Manage Fieldtrip">
-                                <a href="@Url.Action("StaffFieldTrip", "Staff")" li class="dropdown-item">
+                                <a href="@Url.Action("Course", "Student")" li class="dropdown-item">
                                     <i class='bx bx-calendar-edit'></i>
                                     <span class="title">Fieldtrip</span>
                                 </a>
@@ -70,7 +70,7 @@
                     </li>
                     </li>
                     <li data-toggle="tooltip"data-placement="right" title="Staff Profile">
-                        <a href="@Url.Action("StaffProfile", "Staff")">
+                        <a href="@Url.Action("StudentProfile", "Student")">
                             <span><i class='bx bx-user'></i></span>
                             <span class="title">Staff Profile</span>
                         </a>

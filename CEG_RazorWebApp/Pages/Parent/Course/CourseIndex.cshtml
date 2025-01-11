@@ -1,0 +1,207 @@
+﻿@page "/Parent/Course/Index"
+@model CEG_RazorWebApp.Pages.Parent.Course.CourseIndexModel
+@{
+    ViewData["Title"] = "Parent All Courses Page";
+    string? search = string.Empty;
+    Layout = Model.LayoutUrl;
+}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title>@ViewData["Title"]</title>
+</head>
+    <body>
+        <div class="main-content">
+            <div class="main">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="offset-sm-6 col-sm-6  d-flex justify-content-sm-end p-md-0 mt-2 mt-sm-0 ">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumd-item">
+                                    <a href="#">Manage</a>
+                                </li>
+                                <li class="breadcrumd-item">
+                                    <span>/</span>
+                                </li>
+                                <li class="breadcrumd-item">
+                                    <a href="/Parent/Course/Index">Course</a>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                    <section>
+                        <div class="card">
+                            <div class="card-body">
+                                <div id="alertContainer"></div>
+                                <!-- Nav tabs -->
+                                <ul class="nav nav-tabs">
+                                    <!-- dung vong for o day -->
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-toggle="tab" href="#home1">
+                                            <i class='bx bx-home-alt-2'></i>
+                                            <span>All Courses</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <!-- Tab panes -->
+                                <div class="tab-content">
+                                    <!-- home1 -->
+                                    <div class="tab-pane active" id="home1" role="tabpanel">
+                                        <div class="row search">
+                                            <div class="col-sm-12 d-flex">
+                                                <div class="col-sm-6 d-flex address-home">
+                                                </div>
+                                                <div class="col-sm-6 d-flex justify-content-end">
+                                                    <form method="get" asp-route-search="@search">
+                                                        <div>
+                                                            <label>
+                                                                <input asp-for="@search" class="form-control" type="text" placeholder="Search..." value="@search">
+                                                                <i class='bx bx-search-alt'></i>
+                                                            </label>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row card-content" id="courseList">
+                                            <!-- dung vong for o day -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+        <script>
+            var token = sessionStorage.getItem('token');
+            var apiUrl = sessionStorage.getItem('apiUrl');
+            var courseList = [];
+            $(document).ready(function () {
+                callApiGetCourseList();
+                $('#search').on('keyup', function (event) {
+                    // Get the search term
+                    var searchTerm = $(this).val().toLowerCase();
+
+                    // Filter the classes based on the search term
+                    var filteredcourseList = courseList.filter(function (courseObject) {
+                        return courseObject.courseName.toLowerCase().includes(searchTerm);
+                    });
+
+                    // Display the filtered classList
+                    setCourseDisplay(filteredcourseList);
+                });
+            });
+            // Function to display alerts
+            function showAlert(type, message) {
+                var alertHtml = '';
+
+                if (type === 'success') {
+                    alertHtml = `
+                        <div class="alert alert-success alert-dismissible fade show" id="notif">
+                            <i class='bx bx-message-alt-x p-1'></i>
+                            <strong class="mr-1">` + message + `</strong>
+                            <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+                                <span><i class='bx bx-x'></i></span>
+                            </button>
+                        </div>
+                    `;
+                } else if (type === 'error') {
+                    alertHtml = `
+                        <div class="alert alert-danger alert-dismissible fade show" id="notif">
+                            <i class='bx bx-message-alt-x p-1'></i>
+                            <strong class="mr-1">` + message + `</strong>
+                            <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+                                <span><i class='bx bx-x'></i></span>
+                            </button>
+                        </div>
+                    `;
+                }
+
+                // Inject the alert HTML into the alert container
+                $('#alertContainer').html(alertHtml);
+            }
+            function callApiGetCourseList() {
+                $.ajax({
+                    url: apiUrl + 'Course/All', // API endpoint
+                    type: 'GET',
+                    success: function (response) {
+                        // Log the entire response to the console for debugging
+                        console.log("Returned object:", response);
+
+                        // Check if the status is true
+                        if (response.status) {
+                            courseList = response.data;
+                            setCourseDisplay(courseList);
+                        } else {
+                            console.error("API returned false status.");
+                        }
+                    },
+                    error: function (error) {
+                        alert("Error in api call:" + error);
+                        console.error("Error in api call:", error);
+                        //showAlert('success', 'Data fetched successfully.');
+                    }
+                });
+            }
+            function setCourseDisplay(data) {
+                var courseList = $('#courseList');
+                // Reference to the <courseList> element
+                courseList.empty(); // Clear any existing options
+                // Loop through the data array and append each class div
+                $.each(data, function (index, courseObj) {
+                    var statusText = '';
+                    switch (courseObj.status) {
+                        case 'Available':
+                            statusText = `<span class="outcome" style="float: left;">Status: ${courseObj.status}</span>`
+                            break;
+                        case 'Draft':
+                        case 'Postponed':
+                            statusText = `<span class="approval" style="float: left;">Status: ${courseObj.status}</span>`
+                            break;
+                        case 'EndofService':
+                        case 'Cancelled':
+                            statusText = `<span class="destroy" style="float: left;">Status: ${courseObj.status}</span>`
+                            break;
+                    }
+                    // Construct card HTML
+                    var cardHtml = `
+                                <div class="col-xl-3 col-lg-6 col-sm-6 my-3">
+                                    <div class="card1 card-child">
+                                        <div class="club-name">
+                                            Course ID: ${courseObj.courseId}
+                                            <div class="status">
+                                                    ${statusText}
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="club-title">
+                                                <ul>
+                                                    <li><h6>Course name:</h6><span>${courseObj.courseName}</span></li>
+                                                    <li><h6>Course type:</h6><span>${courseObj.courseType}</span></li>
+                                                    <li><h6>Total hours:</h6><span>${courseObj.totalHours}</span></li>
+                                                    <li><h6>Required age:</h6><span>${courseObj.requiredAge}</span></li>
+                                                    <li><h6>Difficulty:</h6><span>${courseObj.difficulty}</span></li>
+                                                    <li><h6>Description:</h6><span class="truncate">${courseObj.description}</span></li>
+                                                    <li><h6>Sessions amount:</h6><span>${courseObj.sessions.length} Session(s)</span></li>
+                                                    <li><h6>Classes amount:</h6><span>${courseObj.classes.length} Class(es)</span></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="form-group mx-auto">
+                                            <a class="btn btn-primary clickable-row" href="/Parent/Course/${courseObj.courseId}/Info" role="button">Details</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                    // Append the constructed HTML to the class list container
+                    courseList.append(cardHtml);
+                });
+            }
+        </script>
+    </body>
+</html>

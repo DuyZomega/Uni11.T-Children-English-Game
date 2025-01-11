@@ -129,10 +129,15 @@ namespace CEG_BAL.Services.Implements
             _unitOfWork.Save();
         }
 
-        public async Task<bool> Delete(int id)
+        public async Task<bool> Disable(int id)
         {
-            var acc = _unitOfWork.AccountRepositories.GetById(id);
-            _unitOfWork.AccountRepositories.Delete(acc);
+            var acc = await _unitOfWork.AccountRepositories.GetByIdNoTracking(id);
+            if (acc == null)
+            {
+                return false;
+            }
+            acc.Status = "Disabled";
+            _unitOfWork.AccountRepositories.Update(acc);
             _unitOfWork.Save();
             return true;
         }
@@ -140,6 +145,21 @@ namespace CEG_BAL.Services.Implements
         public async Task<int> GetIdByUsername(string username)
         {
             return await _unitOfWork.AccountRepositories.GetIdByUsername(username);
+        }
+
+        public async Task<bool> UpdateStatus(string status, int id)
+        {
+            if(await _unitOfWork.AccountRepositories.UpdateStatusById(status, id))
+            {
+                _unitOfWork.Save();
+                return true;
+            }
+            return false;
+        }
+
+        public async Task<int> GetTotalAmount()
+        {
+            return await _unitOfWork.AccountRepositories.GetTotalAmount();
         }
     }
 }

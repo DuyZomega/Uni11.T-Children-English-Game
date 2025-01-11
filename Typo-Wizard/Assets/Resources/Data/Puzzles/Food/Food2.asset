@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b81ea0fb8f7f9ab4eae04104750df5ab, type: 3}
+  m_Name: Food2
+  m_EditorClassIdentifier: 
+  timeInSeconds: 100
+  Columns: 5
+  Rows: 5
+  Board:
+  - Size: 5
+    Row:
+    - C
+    - A
+    - K
+    - E
+    - G
+  - Size: 5
+    Row:
+    - J
+    - P
+    - X
+    - H
+    - R
+  - Size: 5
+    Row:
+    - X
+    - P
+    - E
+    - A
+    - A
+  - Size: 5
+    Row:
+    - X
+    - L
+    - T
+    - G
+    - P
+  - Size: 5
+    Row:
+    - I
+    - E
+    - R
+    - U
+    - E
+  SearchWords:
+  - Found: 0
+    Word: CAKE
+  - Found: 0
+    Word: APPLE
+  - Found: 0
+    Word: GRAPE

@@ -20,15 +20,23 @@ namespace CEG_WebAPI.Controllers
         private readonly IParentService _parentService;
         private readonly IStudentService _studentService;
         private readonly IConfiguration _config;
+        private readonly IEmailService _emailService;
 
         public AdminController(
-            IAccountService accountService, ITeacherService teacherService, IParentService parentService, IStudentService studentService, IConfiguration config)
+            IAccountService accountService, 
+            ITeacherService teacherService, 
+            IParentService parentService, 
+            IStudentService studentService, 
+            IConfiguration config, 
+            IEmailService emailService
+            )
         {
             _accountService = accountService;
             _teacherService = teacherService;
             _parentService = parentService;
             _studentService = studentService;
             _config = config;
+            _emailService = emailService;
         }
         [HttpGet("{id}")]
         [Authorize(Roles = "Admin")]
@@ -229,7 +237,7 @@ namespace CEG_WebAPI.Controllers
                         ErrorMessage = "Password is Empty!"
                     });
                 }
-                var resultEmail = await _teacherService.IsTeacherExistByEmail(newTeach.Email);
+                var resultEmail = await _teacherService.IsExistByEmail(newTeach.Email);
                 if (resultEmail)
                 {
                     return BadRequest(new
@@ -255,13 +263,62 @@ namespace CEG_WebAPI.Controllers
                         ErrorMessage = "Password and Confirm Password do not match!"
                     });
                 }
-                TeacherViewModel teach = new TeacherViewModel()
+                await _teacherService.Create(newTeach);
+
+                await _emailService.SendEmailAsync(
+                    _fromSenderName: _config.GetSection("Gmail:SenderName").Value,
+                    _fromEmail: _config.GetSection("Gmail:Username").Value,
+                    newTeach.Account.Fullname,
+                    newTeach.Email,
+                    "Thank you for joining and supporting our CEG English Center community!",
+                    "   <h2>Your Teacher Account has been created successfully!</h2>" +
+                    "<div>" +
+                    "   <h3>These below are your account username and password:</h3>" +
+                    "   <h4>Username: " + newTeach.Account.Username + "</h4>" +
+                    "   <h4>Password: " + newTeach.Account.Password + "</h4>" +
+                    "</div>",
+                    _config,
+                    _stmpUser: _config.GetSection("Gmail:Username").Value,
+                    _stmpAppPassword: _config.GetSection("Gmail:Password").Value
+                );
+                return Ok(new
                 {
-                    Email = newTeach.Email,
-                    Phone = newTeach.Phone,
-                    Address = newTeach.Address,
-                };
-                _teacherService.Create(teach, newTeach);
+                    Data = true,
+                    Status = true,
+                    SuccessMessage = "Teacher account create successfully.",
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    Status = false,
+                    ErrorMessage = ex.Message,
+                    InnerExceptionMessage = ex.InnerException?.Message
+                });
+            }
+        }
+
+        [HttpPost("Teacher/{teacherName}/Upload/Certificate")]
+        [Authorize(Roles = "Admin")]
+        [ProducesResponseType(typeof(TeacherViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> UploadTeacherCertificate(
+            [FromRoute][Required] string teacherName,
+            IFormFile certificate)
+        {
+            if (certificate == null || certificate.Length == 0)
+            {
+                return BadRequest(new
+                {
+                    Status = false,
+                    ErrorMessage = "No certificate was uploaded or object file was empty."
+                });
+            }
+            try
+            {
+                await _teacherService.UploadToBlobAsync(teacherName,certificate, CEG_BAL.Configurations.CEGConstants.TEACHER_IMAGE_CERTIFICATE_TYPE);
                 return Ok(new
                 {
                     Data = true,
@@ -331,6 +388,24 @@ namespace CEG_WebAPI.Controllers
                     Address = newPar.Address,
                 };
                 _parentService.Create(par, newPar);
+
+                await _emailService.SendEmailAsync(
+                    _config.GetSection("Gmail:SenderName").Value,
+                    _config.GetSection("Gmail:Username").Value,
+                    newPar.Account.Fullname,
+                    newPar.Email,
+                    "Thank you for chosing us!",
+                    "   <h2>Your Parent Account has been created successfully!</h2>" +
+                    "<div>" +
+                    "   <h3>These below are your account username and password:</h3>" +
+                    "   <h4>Username: " + newPar.Account.Username + "</h4>" +
+                    "   <h4>Password: " + newPar.Account.Password + "</h4>" +
+                    "</div>",
+                    _config,
+                    _config.GetSection("Gmail:Username").Value,
+                    _config.GetSection("Gmail:Password").Value
+                );
+
                 return Ok(new
                 {
                     Data = true,
@@ -376,7 +451,7 @@ namespace CEG_WebAPI.Controllers
                         ErrorMessage = "Username has already been taken!"
                     });
                 }
-                var resultParentUsername = await _accountService.IsAccountExistByUsername(newStu.ParentUsername);
+                /*var resultParentUsername = await _accountService.IsAccountExistByUsername(newStu.ParentFullname);
                 if (!resultParentUsername)
                 {
                     return BadRequest(new
@@ -384,7 +459,7 @@ namespace CEG_WebAPI.Controllers
                         Status = false,
                         ErrorMessage = "Parent Username not found!"
                     });
-                }
+                }*/
                 if (!newStu.Account.Password.Equals(newStu.Account.ConfirmPassword))
                 {
                     return BadRequest(new
@@ -396,7 +471,7 @@ namespace CEG_WebAPI.Controllers
                 StudentViewModel stu = new StudentViewModel()
                 {
                     Description = newStu.Description,
-                    Highscore = newStu.Highscore,
+                    //Point = newStu.TotalPoints,
                     Birthdate = newStu.Birthdate,
                 };
                 _studentService.Create(stu, newStu);

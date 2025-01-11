@@ -27,6 +27,20 @@ namespace CEG_DAL.Repositories.Implements
         {
             return await _dbContext.Parents.ToListAsync();
         }
+        public async Task<List<Parent>> GetParentNameList()
+        {
+            return await _dbContext.Parents
+                .AsNoTrackingWithIdentityResolution()
+                .Select(t => new Parent
+                {
+                    ParentId = t.ParentId,
+                    Account = new Account
+                    {
+                        Fullname = t.Account.Fullname,
+                    }
+                })
+                .ToListAsync();
+        }
 
         public async Task<Parent?> GetByEmail(string email)
         {
@@ -38,6 +52,37 @@ namespace CEG_DAL.Repositories.Implements
             var result = await (from p in _dbContext.Parents where p.Account.Username == username select p).FirstOrDefaultAsync();
             if (result != null)  return result.ParentId;
             return 0;
+        }
+
+        public async Task<int> GetIdByFullname(string fullname)
+        {
+            var result = await (from p in _dbContext.Parents where p.Account.Fullname == fullname select p).FirstOrDefaultAsync();
+            if (result != null) return result.ParentId;
+            return 0;
+        }
+
+        public async Task<Parent?> GetByFullname(string fullname)
+        {
+            return await _dbContext.Parents
+                .AsNoTrackingWithIdentityResolution()
+                .SingleOrDefaultAsync(t => t.Account.Fullname == fullname);
+        }
+
+        public async Task<Parent?> GetByAccountIdNoTracking(int id)
+        {
+            return await _dbContext.Parents
+                .Include(t => t.Account)
+                .ThenInclude(a => a.Role)
+                .AsNoTrackingWithIdentityResolution()
+                .SingleOrDefaultAsync(t => t.Account.AccountId == id);
+        }
+
+        public async Task<int?> GetIdByAccountIdNoTracking(int id)
+        {
+            return await _dbContext.Parents
+                .Where(par => par.AccountId == id)
+                .Select(p => p.ParentId)
+                .FirstOrDefaultAsync();
         }
     }
 }

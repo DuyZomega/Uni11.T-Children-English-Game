@@ -1,0 +1,149 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b81ea0fb8f7f9ab4eae04104750df5ab, type: 3}
+  m_Name: Hobbies1
+  m_EditorClassIdentifier: 
+  timeInSeconds: 60
+  Columns: 10
+  Rows: 10
+  Board:
+  - Size: 10
+    Row:
+    - G
+    - H
+    - M
+    - G
+    - M
+    - H
+    - R
+    - T
+    - K
+    - J
+  - Size: 10
+    Row:
+    - R
+    - R
+    - Z
+    - Q
+    - U
+    - H
+    - G
+    - R
+    - T
+    - W
+  - Size: 10
+    Row:
+    - E
+    - U
+    - W
+    - H
+    - S
+    - K
+    - H
+    - A
+    - D
+    - Y
+  - Size: 10
+    Row:
+    - A
+    - N
+    - H
+    - V
+    - I
+    - Z
+    - Z
+    - V
+    - P
+    - T
+  - Size: 10
+    Row:
+    - D
+    - U
+    - Z
+    - A
+    - C
+    - Q
+    - J
+    - E
+    - V
+    - Q
+  - Size: 10
+    Row:
+    - W
+    - Q
+    - K
+    - R
+    - N
+    - J
+    - D
+    - L
+    - E
+    - Q
+  - Size: 10
+    Row:
+    - H
+    - T
+    - J
+    - Z
+    - Z
+    - G
+    - H
+    - W
+    - O
+    - M
+  - Size: 10
+    Row:
+    - D
+    - J
+    - W
+    - F
+    - E
+    - Y
+    - O
+    - E
+    - L
+    - V
+  - Size: 10
+    Row:
+    - Q
+    - H
+    - H
+    - O
+    - I
+    - U
+    - M
+    - U
+    - U
+    - L
+  - Size: 10
+    Row:
+    - W
+    - U
+    - R
+    - U
+    - K
+    - I
+    - M
+    - Z
+    - T
+    - O
+  SearchWords:
+  - Found: 0
+    Word: MUSIC
+  - Found: 0
+    Word: READ
+  - Found: 0
+    Word: RUN
+  - Found: 0
+    Word: HANGOUT
+  - Found: 0
+    Word: TRAVEL

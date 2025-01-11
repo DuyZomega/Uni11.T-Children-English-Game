@@ -1,0 +1,1262 @@
+﻿@page "/Admin/Class/{classId}/Info"
+@model CEG_RazorWebApp.Pages.Admin.Class.ClassInfoModel
+@{
+    ViewData["Title"] = "Admin Class Info Page";
+    var updateClass = Model.UpdateClassVM;
+    var createSchedule = Model.CreateScheduleVM;
+    string? search = string.Empty;
+    Layout = "~/Pages/Shared/_ALayout.cshtml";
+}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
+    <div class="main-content">
+        <div id="alertContainer"></div>
+        <div class="main">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="offset-sm-6 col-sm-6  d-flex justify-content-sm-end p-md-0 mt-2 mt-sm-0 ">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumd-item">
+                                <a href="#">Manage</a>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <span>/</span>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <a href="/Admin/Class/Index">Class</a>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <span>/</span>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <a href="/Admin/Class/@Model.ClassID/Info">@Model.ClassID</a>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <span>/</span>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <a href="/Admin/Class/@Model.ClassID/Info">Info</a>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-6 customer-booking">
+                        <div class="row">
+                            <div class="card profile col-12 mb-4">
+                                <div class="card-header" id="class-title-status">
+                                    <h4 id="class-class-title">Class Information</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Status:</label>
+                                        </div>
+                                        <div class="col-sm-7" id="class-status">
+                                        </div>
+                                    </div>
+                                    @* <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Class Code:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span id="class-name">
+                                            </span>
+                                        </div>
+                                    </div> *@
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Course information:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <a id="class-course">
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Assigned Teacher:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <a id="class-teacher">
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Start Date:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span id="class-start-date">
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">End Date:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span id="class-end-date">
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Enrollment Fee:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span id="class-enroll-fee">
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Current students amount:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span id="class-current-students-amount">
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Minimum students amount:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span id="class-minimum-students-amount">
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Maximum students amount:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span id="class-maximum-students-amount">
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Scheduled sessions amount:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span id="class-schedules-amount">
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="card profile col-12 mb-4">
+                                <div class="card-header" id="class-allow-add-schedule">
+                                    <h4>Scheduled Session List</h4>
+                                </div>
+                                <div class="card-body" id="schedule_list">
+                                    @* <h5>No scheduled session found</h5> *@
+                                    <div id="schedule-table_wrapper" class="dataTables_wrapper no-footer">
+                                        <table id="schedule-table"
+                                               class="table table-striped table-bordered dataTable no-footer"
+                                               aria-describedby="schedule-table_info">
+                                            <thead>
+                                                <tr>
+                                                    <th class="sorting sorting_asc" tabindex="0"
+                                                        aria-controls="schedule-table" rowspan="1"
+                                                        colspan="1" aria-sort="ascending"
+                                                        aria-label="Number: activate to sort column ascending">
+                                                        Number
+                                                    </th>
+                                                    <th class="sorting sorting_asc" tabindex="0"
+                                                        aria-controls="schedule-table" rowspan="1"
+                                                        colspan="1" aria-sort="ascending"
+                                                        aria-label="Session Title: activate to sort column ascending">
+                                                        Session Title
+                                                    </th>
+                                                    <th class="sorting sorting_asc" tabindex="0"
+                                                        aria-controls="schedule-table" rowspan="1"
+                                                        colspan="1" aria-sort="ascending"
+                                                        aria-label="Date: activate to sort column ascending">
+                                                        Date
+                                                    </th>
+                                                    <th class="sorting sorting_asc" tabindex="0"
+                                                        aria-controls="schedule-table" rowspan="1"
+                                                        colspan="1" aria-sort="ascending"
+                                                        aria-label="Start Time: activate to sort column ascending">
+                                                        Start Time
+                                                    </th>
+                                                    <th class="sorting sorting_asc" tabindex="0"
+                                                        aria-controls="schedule-table" rowspan="1"
+                                                        colspan="1" aria-sort="ascending"
+                                                        aria-label="End Time: activate to sort column ascending">
+                                                        End Time
+                                                    </th>
+                                                    <th class="sorting sorting_asc" tabindex="0"
+                                                        aria-controls="schedule-table" rowspan="1"
+                                                        colspan="1" aria-sort="ascending"
+                                                        aria-label="Status: activate to sort column ascending">
+                                                        Status
+                                                    </th>
+                                                    <th class="sorting sorting_asc" tabindex="0"
+                                                        aria-controls="session-table" rowspan="1"
+                                                        colspan="1" aria-sort="ascending"
+                                                        aria-label="Hours: activate to sort column ascending">
+                                                        Session Hours
+                                                    </th>
+                                                    <th class="sorting sorting_asc" tabindex="0"
+                                                        aria-controls="session-table" rowspan="1"
+                                                        colspan="1" aria-sort="ascending"
+                                                        aria-label="ID: activate to sort column ascending">
+                                                        ID
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6 cardFB">
+                        <div class="card profile">
+                            <div class="card-header">
+                                <h4>Enroll requests</h4>
+                            </div>
+                            <div class="card-body">
+                                <div id="enroll-table_wrapper" class="dataTables_wrapper no-footer">
+                                    <table id="enroll-table"
+                                           class="table table-striped table-bordered dataTable no-footer"
+                                           aria-describedby="enroll-table_info">
+                                        <thead>
+                                            <tr>
+                                                <th class="sorting sorting_asc" tabindex="0"
+                                                    aria-controls="enroll-table" rowspan="1"
+                                                    colspan="1" aria-sort="ascending"
+                                                    aria-label="Request ID: activate to sort column ascending">
+                                                    Request ID
+                                                </th>
+                                                <th class="sorting sorting_asc" tabindex="0"
+                                                    aria-controls="enroll-table" rowspan="1"
+                                                    colspan="1" aria-sort="ascending"
+                                                    aria-label="Student Name: activate to sort column ascending">
+                                                    Student Name
+                                                </th>
+                                                <th class="sorting sorting_asc" tabindex="0"
+                                                    aria-controls="enroll-table" rowspan="1"
+                                                    colspan="1" aria-sort="ascending"
+                                                    aria-label="Status: activate to sort column ascending">
+                                                    Status
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="changeClassStatus" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content modal-addRoom">
+                <div class="modal-header">
+                    <h4 class="modal-title">Update Class Status</h4>
+                </div>
+                <form method="post" id="updateClassStatusForm">
+                    <div class="modal-body">
+                        <div class="row p-4">
+                            <div class="col-12">
+                                <div class="row form-group">
+                                    <label for="updateClassStatus_Status" class="col-md-3 col-form-label mt-3 text-md-right">New Status (this action cannot be undone!)</label>
+                                    <select class="form-control col-md-7 custom-select" id="updateClassStatus_Status"></select>
+                                    @* <span asp-validation-for="@updateClass.Status" id="error_message"
+                                    class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span> *@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer justify-content-center">
+                        <button class="btn btn-success" type="submit">Update</button>
+                        <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="editClass" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content modal-addRoom">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit Class Information</h4>
+                </div>
+                <form method="post" id="editClassForm" class="form-group">
+                    <div class="modal-body">
+                        <div class="modal-body">
+                            <div class="col-12">
+                                <div class="row form-group">
+                                    <div class="row form-group justify-content-center">
+                                        <label asp-for="@updateClass.ClassName" class="col-md-3 col-form-label text-md-right"></label>
+                                        <input asp-for="@updateClass.ClassName" value="@updateClass.ClassName" type="text" placeholder="Class Name..." required class="form-control col-md-7">
+                                        <span asp-validation-for="@updateClass.ClassName" id="error_message"
+                                              class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                        <label asp-for="@updateClass.MinStudents" class="col-md-3 col-form-label text-md-right"></label>
+                                        <input asp-for="@updateClass.MinStudents" value="@updateClass.MinStudents" type="number" min="@CEG_BAL.Configurations.CEGConstants.CLASS_MINIMUM_STUDENTS_REQ" required class="form-control col-md-7">
+                                        <span asp-validation-for="@updateClass.MinStudents" id="error_message"
+                                              class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                        <label asp-for="@updateClass.MaxStudents" class="col-md-3 col-form-label text-md-right"></label>
+                                        <input asp-for="@updateClass.MaxStudents" value="@updateClass.MaxStudents" type="number" max="@CEG_BAL.Configurations.CEGConstants.CLASS_MAXIMUM_STUDENTS_REQ" required class="form-control col-md-7">
+                                        <span asp-validation-for="@updateClass.MaxStudents" id="error_message"
+                                              class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                        <label asp-for="@updateClass.TeacherName" class="col-md-3 col-form-label text-md-right">Select a Teacher</label>
+                                        <div class="col-md-7">
+                                            <!-- search bar with dropdown list-->
+                                            <select id="searchableTeacherDropdown" class="form-control custom-select" style="width: 100%;">
+                                            </select>
+                                        </div>
+                                        <span asp-validation-for="@updateClass.TeacherName" id="error_message"
+                                              class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                        <label asp-for="@updateClass.StartDate" class="col-md-3 col-form-label text-md-right"></label>
+                                        <input asp-for="@updateClass.StartDate" type="datetime-local" class="form-control col-md-7" required>
+                                        <span asp-validation-for="@updateClass.StartDate" id="error_message"
+                                              class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                        <label asp-for="@updateClass.EndDate" class="col-md-3 col-form-label text-md-right"></label>
+                                        <input asp-for="@updateClass.EndDate" type="datetime-local" class="form-control col-md-7" required>
+                                        <span asp-validation-for="@updateClass.EndDate" id="error_message"
+                                              class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                        <label asp-for="@updateClass.EnrollmentFee" class="col-md-3 col-form-label text-md-right"></label>
+                                        <input asp-for="@updateClass.EnrollmentFee" value="@updateClass.EnrollmentFee" type="text" required class="form-control col-md-7">
+                                        <span asp-validation-for="@updateClass.EnrollmentFee" id="error_message"
+                                              class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer justify-content-center">
+                        <button class="btn btn-success" type="submit" value="Update">Save</button>
+                        <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="createSchedule" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content modal-addRoom">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add new Schedule</h4>
+                </div>
+                <form method="post" id="createScheduleForm">
+                    <div class="modal-body">
+                        <div class="row justify-content-center course-content-view">
+                            <label class="col-form-label">Course's Remaining Unscheduled Sessions</label>
+                            <div id="session-for-schedule-table_wrapper" class="dataTables_wrapper no-footer col-md-12">
+                                <table id="session-for-schedule-table"
+                                       class="table table-striped table-bordered dataTable no-footer"
+                                       aria-describedby="session-for-schedule-table_info">
+                                    <thead>
+                                        <tr>
+                                            <th class="sorting sorting_asc" tabindex="0"
+                                                aria-controls="session-table" rowspan="1"
+                                                colspan="1" aria-sort="ascending"
+                                                aria-label="Session Number: activate to sort column ascending">
+                                                Session Number
+                                            </th>
+                                            <th class="sorting sorting_asc" tabindex="0"
+                                                aria-controls="session-table" rowspan="1"
+                                                colspan="1" aria-sort="ascending"
+                                                aria-label="Title: activate to sort column ascending">
+                                                Session Title
+                                            </th>
+                                            <th class="sorting sorting_asc" tabindex="0"
+                                                aria-controls="session-table" rowspan="1"
+                                                colspan="1" aria-sort="ascending"
+                                                aria-label="Hours: activate to sort column ascending">
+                                                Session Hours
+                                            </th>
+                                            <th class="sorting sorting_asc" tabindex="0"
+                                                aria-controls="session-table" rowspan="1"
+                                                colspan="1" aria-sort="ascending"
+                                                aria-label="Description: activate to sort column ascending">
+                                                Session Description
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <span id="error_message" class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                        </div>
+                        <div class="justify-content-center row">
+                            <input id="createSchedule_SessionId" type="number" hidden required >
+                            <input id="createSchedule_ClassId" type="number" hidden required >
+                            <div class="row col-xl-6">
+                                <div class="form-group col-xl-4">
+                                    <label for="createSchedule_SessionNumber" class="col-form-label">Session Number</label>
+                                    <input id="createSchedule_SessionNumber" type="number" class="form-control" value="0" readonly="" required="">
+                                    <span id="error_message" class="helper-text text-danger d-block offset-md-5 col-md-7 col-sm-12 mt-2"></span>
+                                </div>
+                                <div class="form-group col-xl-8">
+                                    <label for="createSchedule_SessionTitle" class="col-form-label">Title</label>
+                                    <input id="createSchedule_SessionTitle" type="text" class="form-control" readonly="" required="">
+                                    <span id="error_message" class="helper-text text-danger d-block offset-md-5 col-md-7 col-sm-12 mt-2"></span>
+                                </div>
+                            </div>
+                            <div class="row col-xl-6">
+                                <div class="form-group col-xl-9" style="background-color: transparent;">
+                                    <label for="createSchedule_SessionDescription" class="col-form-label">Description</label>
+                                    <textarea id="createSchedule_SessionDescription" readonly="" required="" class="form-control"></textarea>
+                                    <span id="error_message" class="helper-text text-danger d-block offset-md-5 col-md-7 col-sm-8 mt-2"></span>
+                                </div>
+                                <div class="form-group col-xl-3">
+                                    <label for="createSchedule_SessionHours" class="col-form-label">Hours</label>
+                                    <input id="createSchedule_SessionHours" type="number" class="form-control" value="0" readonly="" required="">
+                                    <span id="error_message" class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                </div>
+                            </div>
+                            <div class="row col-xl-4">
+                                <div class="form-group col-xl-12">
+                                    <label class="col-form-label" asp-for="@createSchedule.ScheduleDate" ></label>
+                                    <input asp-for="@createSchedule.ScheduleDate" type="datetime-local"
+                                           value="@createSchedule.ScheduleDate.Value.ToString("yyyy-MM-ddTHH:mm")" class="form-control" required>
+                                    <span asp-validation-for="@createSchedule.ScheduleDate" id="error_message" class="helper-text text-danger d-block offset-md-5 col-md-7 col-sm-8 mt-2 field-validation-valid"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer justify-content-center">
+                        <button class="btn btn-success" type="submit" name="action">Create</button>
+                        <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        var token = sessionStorage.getItem('token');
+        var apiUrl = sessionStorage.getItem('apiUrl');
+        var enrollTable;
+        var scheduleTable;
+        var sessionTable;
+        var selectedSessionIds = new Set();
+        $(document).ready(function () {
+            // Registering the custom feature with DataTables
+            DataTable.feature.register('searchIcon', function (settings, opts) {
+                // Set default options
+                let options = Object.assign({
+                    iconClass: 'bx bx-search-alt question-search-icon',
+                    hideLabel: true // Hide search label
+                }, opts);
+
+                // Create a container for the icon
+                let container = document.createElement('div');
+                // container.classList.add('dt-custom-toolbar'); // Optional custom class for styling
+
+                // Create the icon element
+                let icon = document.createElement('i');
+                icon.className = options.iconClass;
+
+                // Check if pagination is enabled
+                // if (settings.oFeatures.bFilter) {
+                //     console.log(settings.oFeatures.bFilter);
+                //     console.log('Pagination is enabled for this DataTable.');
+                // }
+
+                setTimeout(() => {
+                    // Find the .dt-search container inside the DataTable wrapper
+                    let searchContainer = $(settings.nTableWrapper).find('.dt-search');
+                    if (searchContainer.length) {
+                        searchContainer.append(icon);
+                    } else {
+                        // Append icon to container
+                        container.appendChild(icon);
+                        // If .dt-search doesn't exist, insert the container in the DataTable toolbar instead
+                        $(settings.nTableWrapper).prepend(container);
+                    }
+                    if (options.hideLabel) {
+                        // Find the .dt-search label container inside the DataTable wrapper
+                        let searchLabel = searchContainer.find('label');
+                        if (searchLabel.length) {
+                            searchLabel.text('');
+                        } else {
+                            console.log('Label of search div not found!');
+                        }
+                    }
+                }, 100);
+                return '';
+            });
+            // Registering the custom feature with DataTables
+            DataTable.feature.register('toggle', function (settings, opts) {
+                // Set default options
+                let options = Object.assign({
+                    iconClass: 'bx bxs-add-to-queue bx-sm',
+                    modalId: 'createSchedule' // Modal ID that the icon will trigger
+                }, opts);
+
+                // Create a container for the icon
+                let container = document.createElement('div');
+                // container.classList.add('dt-custom-toolbar'); // Optional custom class for styling
+
+                // Create the icon element
+                let icon = document.createElement('i');
+                icon.className = options.iconClass;
+                container.className = 'dt-modal-toggle';
+                icon.setAttribute('data-toggle', 'modal');
+                icon.setAttribute('data-target', `#${options.modalId}`);
+
+                // Append icon to container
+                container.appendChild(icon);
+
+                // Insert the container in the DataTable toolbar
+                $(settings.nTableWrapper).prepend(container);
+                return container;
+            });
+            DataTable.render.time = function (
+                { 
+                    includeId = "schedule-start-time" 
+                }
+            ) {
+                return function (data, type, row) {
+                    var str = moment(data, "HH:mm:ss");
+                    // console.log(str);
+                    if (type === 'display') {
+                        return '<span id="' + includeId + '">' + str.format("hh:mm A") + '</span >';
+                    }
+
+                    // Search, order and type can use the original data
+                    return str;
+                };
+            };
+            table = new DataTable('#enroll-table', {
+                data: [],
+                deferRender: false,
+                responsive: true,
+                columns: [
+                    { data: 'enrollId' },
+                    { data: 'student.account.fullname' },
+                    // { data: 'status' },
+                    { // Add a select box in the last column
+                        data: 'status',
+                        render: function (data, type, row, meta) {
+                            return `
+                                <select class="custom-select enroll-status" data-enrollid="${row.enrollId}">
+                                `
+                                + getEnrollStatusOptions(data) +
+                                `
+                                </select>
+                                `;
+                        }
+                    }
+                ],
+                layout: {
+                    topEnd: {
+                        search: {
+                            placeholder: 'Search enroll...'
+                        },
+                        searchIcon: {
+                        }
+                    }
+                }
+            });
+            sessionTable = new DataTable('#session-for-schedule-table', {
+                lengthMenu: [5, 10, 25, 50],
+                pageLength: 5,
+                data: [],
+                deferRender: false,
+                responsive: true,
+                columns: [
+                    { data: 'sessionNumber' },
+                    { data: 'title' },
+                    { data: 'hours' },
+                    { data: 'description' }
+                ],
+                layout: {
+                    topEnd: {
+                        search: {
+                            placeholder: 'type session title...'
+                        },
+                        searchIcon: {
+                        }
+                    }
+                },
+                select: {
+                    style: 'single'
+                }
+            }).on('select', function (e, dt, type, indexes) {
+                if (type === 'row') {
+                    var data = sessionTable
+                        .row(indexes)
+                        .data();
+                    $('input#createSchedule_SessionId').val(data.sessionId);
+                    $('input#createSchedule_SessionNumber').val(data.sessionNumber);
+                    $('input#createSchedule_SessionTitle').val(data.title);
+                    $('textarea#createSchedule_SessionDescription').text(data.description);
+                    $('input#createSchedule_SessionHours').val(data.hours);
+                }
+            }).on('deselect', function (e, dt, type, indexes) {
+                if (type === 'row') {
+                    $('input#createSchedule_SessionId').val(0);
+                    $('input#createSchedule_SessionNumber').val(0);
+                    $('input#createSchedule_SessionTitle').val('');
+                    $('textarea#createSchedule_SessionDescription').text('');
+                    $('input#createSchedule_SessionHours').val(0);
+                }
+            });
+            $('#searchableTeacherDropdown').select2({
+                placeholder: 'Select a teacher name',
+                allowClear: true,
+                width: 'resolve',
+                theme: 'bootstrap4'
+            })
+            callApiGetClassDetail();
+
+            scheduleTable = new DataTable('#schedule-table', {
+                data: [],
+                lengthMenu: [5, 10, 25, 50],
+                pageLength: 5,
+                deferRender: false,
+                responsive: true,
+                columns: [
+                    {
+                        data: 'scheduleNumber'
+                    },
+                    {
+                        data: 'session.title'
+                    },
+                    {
+                        data: 'scheduleDate',
+                        // render: function (data, type, row, meta) {
+                        //     '<input type="datetime-local" id="schedule-start-date" class="form-control" value="' + data + '" asp-format="{0:yyyy-MM-ddTHH:mm}"/>';
+                        //     return '<span id="schedule-start-date">' + formatDate(data, { ignoreHour : true , addDayOfWeek : true }) + '</span >';
+                        // },
+                        render: DataTable.render.date("dddd, DD/MM/YYYY")
+                    },
+                    {
+                        data: 'startTime',
+                        // render: function (data, type, row, meta) {
+                        //     return '<span id="schedule-start-time">' + formatTime(data, { includeAmPm : true }) + '</span >';
+                        // },
+                        render: DataTable.render.time({ includeId: "schedule-start-time" })
+                    },
+                    {
+                        data: 'endTime',
+                        render: DataTable.render.time({ includeId: "schedule-end-time" })
+                    },
+                    {
+                        data: 'status'
+                    },
+                    {
+                        data: 'session.hours'
+                    },
+                    {
+                        data: 'scheduleId'
+                    }
+                    // ,
+                    // {
+                    //     data: 'options',
+                    //     defaultContent: '<i>Placeholder</i>',
+                    //     render: function (data, type, row, meta) {
+                    //         return '';
+                    //         setTimeout(function () {
+                    //             let statusText = 'Draft'
+                    //             statusText = $('#class-status').text().trim(); Adjust the delay if needed
+                    //             if (statusText != 'Draft' && statusText != 'Postponed')
+                    //                 return '<button class="btn btn-success">Edit</button> <button class="btn btn-danger">Delete</button>';
+                    //             else return '';
+                    //         }, 500);
+                    //     }
+                    // }
+                ],
+                layout: {
+                    topEnd: {
+                        search: {
+                            placeholder: 'search schedule data...'
+                        },
+                        searchIcon: {
+                        },
+                        toggle: {
+                        }
+                    }
+                },
+            }).on('draw', function (e, settings) {
+                scheduleTable.column(6).visible(false, false);
+                scheduleTable.column(7).visible(false, false);
+                updateScheduleTable();
+                // scheduleTable.rows().every(function (rowIdx, tableLoop, rowLoop) {
+                //     var data = this.cell(rowIdx, 2).data();
+                //     var status = $('div#class-status').text().trim();
+                //     if (status == 'Draft' || status == 'Postponed') {
+                //         var node = $(this.cell(rowIdx, 2).node());
+                //         change display from span to input
+                //         node.html('<input type="datetime-local" id="schedule-start-date-' + rowIdx + '" class="form-control" value="' + data + '" asp-format="{0:yyyy-MM-ddTHH:mm}"/>');
+                //         Add change event listener for each input
+                //         node.children(0).on('change', function () {
+
+                //             let formData = {
+                //                 scheduleDate: $('input#schedule-start-date-' + rowIdx).val()
+                //             };
+                //             callApiPutUpdateSchedule(formData, scheduleTable.cell(rowIdx, 0).data());
+
+                //             const selectedStartDate = new Date(this.value);
+                //             const endDate = new Date(selectedStartDate);
+                //             endDate.setHours(endDate.getHours() + scheduleTable.cell(rowIdx, 6).data());
+
+                //             let startTimeData = getTimeFromDate(selectedStartDate);
+                //             let endTimeData = getTimeFromDate(endDate);
+
+                //             scheduleTable.cell(rowIdx, 3).data(startTimeData);
+
+                //             scheduleTable.cell(rowIdx, 4).data(endTimeData);
+                //         });
+                //     }
+                // });
+            });
+
+            $('#editClassForm').submit(function (event) {
+                event.preventDefault(); // Prevent the form from submitting normally
+
+                //Get the form data
+                var formData = {
+                    ClassName: $('input[id="updateClass_ClassName"]').val(),
+                    MinimumStudents: $('input[id="updateClass_MinStudents"]').val(),
+                    maximumStudents: $('input[id="updateClass_MaxStudents"]').val(),
+                    teacherId: $('#searchableTeacherDropdown').val(),
+                    startDate: $('input[id="updateClass_StartDate"]').val(),
+                    endDate: $('input[id="updateClass_EndDate"]').val(),
+                    enrollmentFee: classAmount.getNumber(),
+                };
+
+                //Make the AJAX request
+                callApiPutUpdateClass(formData);
+                $('#editClassForm').trigger("reset");
+            });
+            $('#createScheduleForm').submit(function (event) {
+                event.preventDefault(); // Prevent the form from submitting normally
+
+                // Get the form data
+                var formData = {
+                    sessionId: $('input#createSchedule_SessionId').val(),
+                    classId: $('input#createSchedule_ClassId').val(),
+                    scheduleDate: $('input#createSchedule_ScheduleDate').val(),
+                };
+
+                // Make the AJAX request
+                callApiPostCreateSchedule(formData);
+                $('#createScheduleForm').trigger("reset");
+            });
+            $('#updateClassStatusForm').submit(function (event) {
+                event.preventDefault(); // Prevent the form from submitting normally
+
+                //Make the AJAX request
+                callApiPutUpdateClassStatus($('select[id="updateClassStatus_Status"]').val());
+                $('#updateClassStatusForm').trigger("reset");
+            });
+        });
+        const classAmount = new AutoNumeric('#editClassForm #updateClass_EnrollmentFee', {
+            currencySymbol: "₫",
+            currencySymbolPlacement: "s",
+            decimalCharacter: ",",
+            decimalPlaces: 0,
+            digitGroupSeparator: ".",
+            emptyInputBehavior: "min",
+            leadingZero: "allow",
+            maximumValue: "1000000000",
+            minimumValue: "0",
+            onInvalidPaste: "clamp",
+            outputFormat: "number",
+            wheelStep: "10000",
+            defaultValueOverride: "0"
+        });
+        function updateScheduleTable() {
+            scheduleTable.rows().every(function (rowIdx, tableLoop, rowLoop) {
+                const currentStatus = $('div#class-status').text().trim(); // Current status
+                if (currentStatus === "Draft" || currentStatus === "Postponed") {
+                    const dateValue = this.cell(rowIdx, 2).data();
+                    const node = $(this.cell(rowIdx, 2).node());
+
+                    const staDate = $('#class-start-date').data('stadate');
+                    const endDate = $('#class-end-date').data('enddate');
+
+                    // Change display to a select box if not already updated
+                    if (!node.children('input[type=datetime-local]').length) {
+                        node.html(`
+                        <input type="datetime-local" id="schedule-start-date-${rowIdx}" class="form-control" value=${dateValue}
+                                asp-format="{0:yyyy-MM-ddTHH:mm}" min="${staDate}" max="${endDate}"/>`);
+
+                        // Add change event listener to the select element
+                        node.find('input[type=datetime-local]').on('change', function () {
+                            // const newStatus = $(this).val();
+                            let formData = {
+                                scheduleDate: $('input#schedule-start-date-' + rowIdx).val()
+                            };
+                            callApiPutUpdateSchedule(formData, scheduleTable.cell(rowIdx, 7).data());
+                        });
+                    }
+                }
+            });
+        }
+        function addTeacherOptions(data, baseTeacher) {
+            const dropdown = $('#searchableTeacherDropdown');
+            data.forEach(item => {
+                const isSelected = item.teacherName === baseTeacher;
+                // Add each item as an option=
+                const newOption = new Option(item.teacherName, item.teacherId, isSelected, isSelected);
+                dropdown.append(newOption);
+            });
+            // Refresh the Select2 dropdown to show new options
+            dropdown.trigger('change'); // Ensure Select2 is updated
+        }
+        // Function to calculate today's date + 10 days
+        function getDefaultDate() {
+            var defaultDate = new Date();
+            defaultDate.setDate(defaultDate.getDate() + 10);
+            return defaultDate.toISOString().slice(0, 16); // Format as 'YYYY-MM-DDTHH:MM'
+        }
+        $(document).on('change', '.enroll-status', function () {
+            var enrollId = $(this).data('enrollid');
+            var newStatus = $(this).val();
+            callApiUpdateEnrollStatus(enrollId, newStatus);
+        });
+        function callApiUpdateEnrollStatus(enrollId, newStatus) {
+            $.ajax({
+                url: apiUrl + `Enroll/${enrollId}/Update/Status`, // API endpoint for updating status
+                type: 'PUT', // HTTP method PUT for updates
+                headers: {
+                    'Authorization': 'Bearer ' + token, // Token for authentication
+                },
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(newStatus), // Data sent in the request body data: JSON.stringify({ status: newStatus.toString() }),
+                success: function (response) {
+                    if (response.status) {
+                        callApiGetClassDetail();
+                        showAlert('success', 'Student enrollment status updated');
+                    } else {
+                        showAlert('error', 'Failed to update status. Error: ' + response.errorMessage);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Attempt to parse the response text if it is available
+                    var errorResponse = xhr.responseText ? JSON.parse(xhr.responseText) : {};
+
+                    // Extract the custom error message if it exists
+                    var errorMessage = errorResponse.errorMessage || errorResponse.title || "An unknown error occurred.";
+                    // Check if errorResponse.errors exists and is an object
+                    if (errorResponse.errors && typeof errorResponse.errors === 'object') {
+                        // Loop through each field in the errors object and append to the errorMessage
+                        for (var field in errorResponse.errors) {
+                            if (errorResponse.errors.hasOwnProperty(field)) {
+                                // Add each error message for the field, joining multiple messages if they exist
+                                var fieldErrors = errorResponse.errors[field].join(", ");
+                                errorMessage += `\n${field}: ${fieldErrors}`;
+                            }
+                        }
+                    }
+                    // Display the error message using your custom showAlert function
+                    showAlert('error', "Error: \n" + errorMessage);
+                }
+            });
+        }
+        function callApiPutUpdateClass(formData) {
+            $.ajax({
+                url: apiUrl + 'Class/@Model.ClassID/Update', // Specify your Razor Page here
+                type: 'PUT',
+                data: JSON.stringify(formData),
+                headers: {
+                    'Authorization': 'Bearer ' + token, // Token for authentication
+                },
+                contentType: 'application/json; charset=utf-8',
+                success: function (response) {
+                    // Handle success (display a success message or redirect, etc.)
+                    if (response.status) {
+                        showAlert('success', "Class update successfully");
+                        callApiGetClassDetail();
+                    } else {
+                        showAlert('error', "Error: \n" + response.errorMessage);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Attempt to parse the response text if it is available
+                    var errorResponse = xhr.responseText ? JSON.parse(xhr.responseText) : {};
+
+                    // Extract the custom error message if it exists
+                    var errorMessage = errorResponse.errorMessage || errorResponse.title || "An unknown error occurred.";
+                    // Check if errorResponse.errors exists and is an object
+                    if (errorResponse.errors && typeof errorResponse.errors === 'object') {
+                        // Loop through each field in the errors object and append to the errorMessage
+                        for (var field in errorResponse.errors) {
+                            if (errorResponse.errors.hasOwnProperty(field)) {
+                                // Add each error message for the field, joining multiple messages if they exist
+                                var fieldErrors = errorResponse.errors[field].join(", ");
+                                errorMessage += `\n${field}: ${fieldErrors}`;
+                            }
+                        }
+                    }
+                    // Display the error message using your custom showAlert function
+                    showAlert('error', "Error: \n" + errorMessage);
+                }
+            });
+        }
+        function callApiPutUpdateSchedule(formData, scheduleId) {
+            $.ajax({
+                url: apiUrl + 'Schedule/' + scheduleId + '/Update', // Specify your Razor Page here
+                type: 'PUT',
+                data: JSON.stringify(formData),
+                headers: {
+                    'Authorization': 'Bearer ' + token, // Token for authentication
+                },
+                contentType: 'application/json; charset=utf-8',
+                success: function (response) {
+                    // Handle success (display a success message or redirect, etc.)
+                    if (response.status) {
+                        // showAlert('success', "Answer update successfully");
+                        // $('.modal-backdrop').remove();
+                        // Remove specific class from body
+                        // $('body').removeClass('modal-open');
+
+                        // Remove all inline styles from body
+                        // $('body').removeAttr('style');
+                        callApiGetClassDetail();
+                    } else {
+                        showAlert('error', "Error: \n" + response.errorMessage);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Attempt to parse the response text if it is available
+                    var errorResponse = xhr.responseText ? JSON.parse(xhr.responseText) : {};
+
+                    // Extract the custom error message if it exists
+                    var errorMessage = errorResponse.errorMessage || errorResponse.title || "An unknown error occurred.";
+                    // Check if errorResponse.errors exists and is an object
+                    if (errorResponse.errors && typeof errorResponse.errors === 'object') {
+                        // Loop through each field in the errors object and append to the errorMessage
+                        for (var field in errorResponse.errors) {
+                            if (errorResponse.errors.hasOwnProperty(field)) {
+                                // Add each error message for the field, joining multiple messages if they exist
+                                var fieldErrors = errorResponse.errors[field].join(", ");
+                                errorMessage += `\n${field}: ${fieldErrors}`;
+                            }
+                        }
+                    }
+                    // Display the error message using your custom showAlert function
+                    showAlert('error', "Error: \n" + errorMessage);
+                }
+            });
+        }
+        function callApiPostCreateSchedule(formData) {
+            $.ajax({
+                url: apiUrl + 'Schedule/Create', // Specify your Razor Page here
+                type: 'POST',
+                data: JSON.stringify(formData),
+                headers: {
+                    'Authorization': 'Bearer ' + token, // Token for authentication
+                },
+                contentType: 'application/json; charset=utf-8',
+                success: function (response) {
+                    // Handle success (display a success message or redirect, etc.)
+                    if (response.status) {
+                        showAlert('success', "Schedule create successfully");
+                        callApiGetClassDetail();
+                    } else {
+                        showAlert('error', "Error: \n" + response.errorMessage);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Attempt to parse the response text if it is available
+                    var errorResponse = xhr.responseText ? JSON.parse(xhr.responseText) : {};
+
+                    // Extract the custom error message if it exists
+                    var errorMessage = errorResponse.errorMessage || errorResponse.title || "An unknown error occurred.";
+                    // Check if errorResponse.errors exists and is an object
+                    if (errorResponse.errors && typeof errorResponse.errors === 'object') {
+                        // Loop through each field in the errors object and append to the errorMessage
+                        for (var field in errorResponse.errors) {
+                            if (errorResponse.errors.hasOwnProperty(field)) {
+                                // Add each error message for the field, joining multiple messages if they exist
+                                var fieldErrors = errorResponse.errors[field].join(", ");
+                                errorMessage += `\n${field}: ${fieldErrors}`;
+                            }
+                        }
+                    }
+                    // Display the error message using your custom showAlert function
+                    showAlert('error', "Error: \n" + errorMessage);
+                }
+            });
+        }
+        function callApiGetClassDetail() {
+            $.ajax({
+                url: apiUrl + 'Class/Admin/@Model.ClassID', // API endpoint
+                type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + token// Include the JWT token
+                },
+                success: function (response) {
+                    // Log the entire response to the console for debugging
+                    // Check if the status is true
+                    if (response.status) {
+                        // console.log(response.data);
+                        setClassDisplay(response.data);
+                        // Check if homeworkAnswers is empty
+                        if (response.data.enrolls && response.data.enrolls.length > 0) {
+                            table.clear().rows.add(response.data.enrolls).draw();
+                        }
+                        if (response.data.schedules && response.data.schedules.length > 0) {
+                            // Clear any existing answers
+                            // $('#schedule_list').empty();
+                            // console.log(response.data.schedules);
+                            scheduleTable.clear().rows.add(response.data.schedules).draw();
+                            // Loop through each answer and generate the HTML
+                            // response.data.homeworkAnswers.forEach(function (answer) {
+                            //     let answerHtml = generateAnswerHtml(answer,response.data.courseStatus); Assuming both answerInfo and updateAnswer are the same structure
+                            //     $('#schedule_list').append(answerHtml);
+                            // });
+
+                        }
+                        // console.log(response.data.course.sessions);
+                        sessionTable.clear().rows.add(response.data.course.sessions).draw();
+                        // console.log(response.data);
+                    } else {
+                        showAlert('error', "Error: \n" + response.errorMessage);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Attempt to parse the response text if it is available
+                    var errorResponse = xhr.responseText ? JSON.parse(xhr.responseText) : {};
+
+                    // Extract the custom error message if it exists
+                    var errorMessage = errorResponse.errorMessage || errorResponse.title || "An unknown error occurred.";
+                    // Check if errorResponse.errors exists and is an object
+                    if (errorResponse.errors && typeof errorResponse.errors === 'object') {
+                        // Loop through each field in the errors object and append to the errorMessage
+                        for (var field in errorResponse.errors) {
+                            if (errorResponse.errors.hasOwnProperty(field)) {
+                                // Add each error message for the field, joining multiple messages if they exist
+                                var fieldErrors = errorResponse.errors[field].join(", ");
+                                errorMessage += `\n${field}: ${fieldErrors}`;
+                            }
+                        }
+                    }
+                    // Display the error message using your custom showAlert function
+                    showAlert('error', "Error: \n" + errorMessage);
+                }
+            });
+        }
+        function getStatusOptions(selectedStatus) {
+            var options = ['Draft', 'Open', 'Postponed', 'Cancelled', 'Ended']; // Example statuses
+            var html = '';
+            switch (selectedStatus) {
+                case 'Open':
+                    options = ['Open', 'Postponed', 'Cancelled', 'Ended']
+                    break;
+                case 'Draft':
+                    options = ['Draft', 'Open']
+                    break;
+                case 'Postponed':
+                    options = ['Open', 'Postponed', 'Cancelled', 'Ended']
+                    break;
+                case 'Ended':
+                    options = ['Open', 'Ended']
+                    break;
+                case 'Cancelled':
+                    options = ['Open', 'Cancelled', 'Ended']
+                    break;
+            }
+            options.forEach(function (status) {
+                html += `<option value="${status}" ${selectedStatus === status ? 'selected' : ''} >${status}</option>`;
+            });
+
+            return html;
+        }
+        function getEnrollStatusOptions(selectedStatus) {
+            var options = ['Enrolled', 'Cancelled']; // Example statuses
+            var html = '';
+            switch (selectedStatus) {
+                case 'Enrolled':
+                    options = ['Enrolled', 'Cancelled']
+                    break;
+                case 'Cancelled':
+                    options = ['Cancelled']
+                    break;
+            }
+            options.forEach(function (status) {
+                html += `<option value="${status}" ${selectedStatus === status ? 'selected' : ''} >${status}</option>`;
+            });
+
+            return html;
+        }
+        function callApiPutUpdateClassStatus(formData) {
+            $.ajax({
+                url: apiUrl + 'Class/' + @Model.ClassID + '/Update/Status', // Specify your Razor Page here
+                type: 'PUT',
+                data: JSON.stringify(formData),
+                headers: {
+                    'Authorization': 'Bearer ' + token, // Token for authentication
+                },
+                contentType: 'application/json; charset=utf-8',
+                success: function (response) {
+                    // Handle success (display a success message or redirect, etc.)
+                    if (response.status) {
+                        showAlert('success', "Class Status update successfully");
+                        callApiGetClassDetail();
+                    } else {
+                        showAlert('error', "Error: \n" + response.errorMessage);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Attempt to parse the response text if it is available
+                    var errorResponse = xhr.responseText ? JSON.parse(xhr.responseText) : {};
+
+                    // Extract the custom error message if it exists
+                    var errorMessage = errorResponse.errorMessage || errorResponse.title || "An unknown error occurred.";
+                    // Check if errorResponse.errors exists and is an object
+                    if (errorResponse.errors && typeof errorResponse.errors === 'object') {
+                        // Loop through each field in the errors object and append to the errorMessage
+                        for (var field in errorResponse.errors) {
+                            if (errorResponse.errors.hasOwnProperty(field)) {
+                                // Add each error message for the field, joining multiple messages if they exist
+                                var fieldErrors = errorResponse.errors[field].join(", ");
+                                errorMessage += `\n${field}: ${fieldErrors}`;
+                            }
+                        }
+                    }
+                    // Display the error message using your custom showAlert function
+                    showAlert('error', "Error: \n" + errorMessage);
+                }
+            });
+        }
+
+        function setClassDisplay(data) {
+            var titleStatusHtml = data.status === 'Draft' || data.status === 'Postponed' ? `
+                            <div class="edit-info" id="class-class-status">
+                                <i class='bx bxs-adjust bx-sm' data-toggle="modal" data-target="#changeClassStatus"></i>
+                                <i class='bx bxs-edit bx-sm' data-toggle="modal" data-target="#editClass"></i>
+                            </div>
+                            ` : '';
+            var filteredEnrollList = data.enrolls.filter(function (enroll) {
+                return enroll.status === 'Enrolled';
+            });
+            // Call API to get the list of teacher names
+            $.ajax({
+                url: apiUrl + 'Teacher/All/FullnameOption', // API endpoint
+                type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + token, // Token for authentication
+                },
+                success: function (response) {
+                    $('#searchableTeacherDropdown').empty()
+                    // Check if the status is true
+                    if (response.status) {
+                        addTeacherOptions(response.data, data.teacher.account.fullname);
+                    } else {
+                        showAlert('error', "Error: \n" + response.errorMessage);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Attempt to parse the response text if it is available
+                    var errorResponse = xhr.responseText ? JSON.parse(xhr.responseText) : {};
+
+                    // Extract the custom error message if it exists
+                    var errorMessage = errorResponse.errorMessage || errorResponse.title || "An unknown error occurred.";
+                    // Check if errorResponse.errors exists and is an object
+                    if (errorResponse.errors && typeof errorResponse.errors === 'object') {
+                        // Loop through each field in the errors object and append to the errorMessage
+                        for (var field in errorResponse.errors) {
+                            if (errorResponse.errors.hasOwnProperty(field)) {
+                                // Add each error message for the field, joining multiple messages if they exist
+                                var fieldErrors = errorResponse.errors[field].join(", ");
+                                errorMessage += `\n${field}: ${fieldErrors}`;
+                            }
+                        }
+                    }
+                    // Display the error message using your custom showAlert function
+                    showAlert('error', "Error: \n" + errorMessage);
+                }
+            });
+            var statusText = '';
+            switch (data.status) {
+                case 'Open':
+                case 'Ongoing':
+                    statusText = `<span class="outcome" style="float: left;">${data.status}</span>`
+                    break;
+                case 'Draft':
+                case 'Postponed':
+                    statusText = `<span class="approval" style="float: left;">${data.status}</span>`
+                    break;
+                case 'Ended':
+                case 'Cancelled':
+                    statusText = `<span class="destroy" style="float: left;">${data.status}</span>`
+                    break;
+            }
+            if (data.status != 'Draft' && data.status != 'Postponed') {
+                let dadiv = $('div.dt-modal-toggle').parent();
+                dadiv.find('div.dt-modal-toggle').remove();
+            }
+            formatter = new Intl.NumberFormat('vi-VN', {
+                style: 'currency',
+                currency: 'VND',
+            });
+            // Display Class Info
+            $('#class-title-status').find('#class-class-status').remove();
+            $('#class-status').empty();
+            $('select#updateClassStatus_Status').empty();
+            $('#class-status').append(statusText);
+            $('#class-class-title').text('Class ' + data.className + ' Informations');
+            // $('#class-class-title').text(data.className);
+            // $('#class-name').text(data.className);
+            $('#class-teacher').text(data.teacher.account.fullname);
+            $('#class-teacher').attr('href', `/Admin/Teacher/${data.teacher.accountId}/Info`);
+            $('#class-course').text(data.course.courseName);
+            $('#class-course').attr('href', `/Admin/Course/${data.course.courseId}/Info`);
+            $('#class-start-date').text(formatDate(data.startDate, { ignoreHour : true }));
+            $('#class-start-date').data('stadate', data.startDate);
+            $('#class-end-date').text(formatDate(data.endDate, { ignoreHour: true }));
+            $('#class-end-date').data('enddate', data.endDate);
+            $('#class-current-students-amount').text(filteredEnrollList.length + ' Student(s)');
+            $('#class-minimum-students-amount').text(data.minimumStudents);
+            $('#class-maximum-students-amount').text(data.maximumStudents);
+            $('#class-enroll-fee').text(formatter.format(data.enrollmentFee));
+            $('#class-title-status').append(titleStatusHtml);
+            $('#class-schedules-amount').text(data.schedules.length + ' Scheduled Session(s)');
+
+            // Update Class Info
+            $('input#updateClass_ClassName').val(data.className);
+            $('input#updateClass_MinStudents').val(data.minimumStudents);
+            $('input#updateClass_MaxStudents').val(data.maximumStudents);
+            $('input#updateClass_StartDate').val(data.startDate);
+            $('input#updateClass_StartDate').attr('min', data.startDate);
+            $('input#updateClass_EndDate').val(data.endDate);
+            $('input#updateClass_EndDate').attr('min', data.endDate);
+            $('input#updateClass_EnrollmentFee').val(data.enrollmentFee);
+            classAmount.set(data.enrollmentFee);
+            // Update Class Status
+            $('select#updateClassStatus_Status').append(getStatusOptions(data.status));
+
+            // Create Schedule
+            $('#createSchedule_ClassId').val(data.classId);
+            $('#createSchedule_ScheduleDate').attr('min', data.startDate);
+            $('#createSchedule_ScheduleDate').attr('max', data.endDate);
+
+            // Update Schedule
+
+        }
+    </script>
+</body>
+</html>

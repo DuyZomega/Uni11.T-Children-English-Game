@@ -6,8 +6,8 @@ namespace CEG_WebMVC.Models.ViewModels.Course.Get
     {
         public CourseInfoVM()
         {
-            SessionAmount = 0;
-            ClassAmount = 0;
+            SessionsAmount = 0;
+            ClassesAmount = 0;
         }
         
         public int? CourseId { get; set; }
@@ -21,8 +21,8 @@ namespace CEG_WebMVC.Models.ViewModels.Course.Get
         public int? RequiredAge { get; set; }
         public string? Difficulty { get; set; }
         public string? Category { get; set; }
-        public int? SessionAmount { get; set; }
-        public int? ClassAmount { get; set; }
+        public int? SessionsAmount { get; set; }
+        public int? ClassesAmount { get; set; }
 
         public string? Status { get; set; }
     }

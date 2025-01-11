@@ -1,0 +1,46 @@
+using AutoMapper;
+using CEG_BAL.ViewModels.Admin;
+using CEG_BAL.ViewModels;
+using CEG_RazorWebApp.Libraries;
+using CEG_RazorWebApp.Models.Admin.Response;
+using CEG_RazorWebApp.Models.HomeworkAnswer.Create;
+using CEG_RazorWebApp.Models.HomeworkQuestion.Create;
+using CEG_RazorWebApp.Models.HomeworkQuestion.Get;
+using CEG_RazorWebApp.Models.HomeworkQuestion.Update;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Net.Http.Headers;
+using System.Text.Encodings.Web;
+using System.Text.Json;
+using System.ComponentModel.DataAnnotations;
+using CEG_RazorWebApp.Models.HomeworkAnswer.Update;
+
+namespace CEG_RazorWebApp.Pages.Admin.Question
+{
+    public class QuestionInfoModel : PageModel
+    {
+        private readonly IConfiguration _config;
+        private readonly ILogger<QuestionInfoModel> _logger;
+        private readonly IMapper _mapper;
+        private CEG_RAZOR_Library methcall = new();
+        public int? QuestionId { get; set; }
+        public string? AccToken;
+        public string? ApiUrl;
+        public string? LayoutUrl { get; set; } = Constants.ADMIN_LAYOUT_URL;
+        public UpdateQuestionVM? UpdateQuestionInfo { get; set; } = new UpdateQuestionVM();
+        public CreateAnswerVM? CreateAnswer { get; set; } = new CreateAnswerVM();
+        public QuestionInfoModel(ILogger<QuestionInfoModel> logger, IConfiguration config, IMapper mapper)
+        {
+            _logger = logger;
+            _config = config;
+            _mapper = mapper;
+            ApiUrl = _config.GetSection(Constants.SYSTEM_DEFAULT_API_HTTPS_URL_CONFIG_PATH).Value + _config.GetSection(Constants.SYSTEM_DEFAULT_API_URL_CONFIG_PATH).Value;
+        }
+        public void OnGet(
+            [FromRoute][Required] int questionId)
+        {
+            AccToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
+            QuestionId = questionId;
+        }
+    }
+}

@@ -1,4 +1,5 @@
 ﻿using CEG_BAL.ViewModels;
+using CEG_BAL.ViewModels.Admin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace CEG_BAL.Services.Interfaces
 {
     public interface IGameService
     {
-        void Create(GameViewModel game);
+        void Create(CreateNewGame game);
         void Update(GameViewModel game);
         Task<List<GameViewModel>> GetGamesList();
         Task<GameViewModel> GetGameById(int id);

@@ -18,7 +18,7 @@ namespace CEG_DAL.Repositories.Implements
             _dbContext = dbContext;
         }
 
-        public async Task<GameConfig> GetByIdNoTracking(int id)
+        public async Task<GameConfig?> GetByIdNoTracking(int id)
         {
             return await _dbContext.GameConfigs.AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(config => config.GameConfigId == id);
         }

@@ -8,8 +8,11 @@ namespace CEG_BAL.ViewModels.Admin
 {
     public class CreateNewHomework
     {
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
-        public string SessionTitle { get; set; }
+        public string? Title { get; set; }
+        public string? Description { get; set; }
+        public int? Hours { get; set; }
+        public string? Type { get; set; }
+        public int? SessionId { get; set; }
+        public string? SessionTitle { get; set; }
     }
 }

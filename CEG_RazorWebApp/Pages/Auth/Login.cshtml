@@ -1,0 +1,201 @@
+﻿@page "/Auth/Login"
+@model CEG_RazorWebApp.Pages.Auth.LoginModel
+@{
+    ViewData["Title"] = "Login Page";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Untree.co">
+    <link rel="shortcut icon" href="#">
+    <meta name="description" content="">
+    <meta name="keywords" content="bootstrap, bootstrap4">
+    <link rel="stylesheet" href="~/css/main.css">
+    <title>@ViewData["Title"]</title>
+</head>
+<body class="background">
+    <div class="main-container">
+        <div class="row justify-content-around">
+            <div class="col-lg-5 row justify-content-center justify-content-lg-end">
+                <div class="box-container">
+                    <div class="box-header light-blue">
+                        <h4 class="mb-0 p-1 text-center"><b>Login</b></h4>
+                    </div>
+                    <div id="alertContainer"></div>
+                    <div class="d-flex box-body justify-content-center p-2">
+                        <form class="reg-form p-3" method="post" id="loginForm">
+                            <div class="form-group">
+                                <input placeholder="Username" asp-for="AuthenRequest.Username" class="form-control" />
+                                <span asp-validation-for="AuthenRequest.Username" class="text-danger"></span>
+                                <span id="error_message" class="helper-text text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <input type="password" placeholder="Password" asp-for="AuthenRequest.Password" class="form-control" minlength="6" maxlength="32" />
+                                <span asp-validation-for="AuthenRequest.Password" class="text-danger"></span>
+                                <span id="error_message" class="helper-text text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <!-- <a href="#">Forgot Password?</a> -->
+                                <div class="w-100 my-3"></div>
+                                <button class="btn1 light-blue px-4 reg-button" type="submit">
+                                    <span class="text-lg">Login</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-7 row justify-content-center">
+                <div class="write-container" style="text-align:center">
+                    <div class="write-title">Children English Game</div>
+                </div>
+                <div class="write-text">
+                    The Official Children English Game Website for CEG students, parents and CEG teachers to use.
+                </div>
+                <div class="row">
+                    <div class="d-flex justify-content-center">
+                        <img class="bird-image" src="~/images/study.png">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var apiUrl = sessionStorage.getItem('apiUrl');
+        var questionList = [];
+        $(document).ready(function () {
+            $('#loginForm').submit(function (event) {
+                event.preventDefault(); // Prevent the form from submitting normally
+
+                //Get the form data
+                var formData = {
+                    username: $('input[id="AuthenRequest_Username"]').val(),
+                    password: $('input[id="AuthenRequest_Password"]').val(),
+                };
+
+                //Make the AJAX request
+                callApiPostLogin(formData);
+            });
+        });
+        function callApiPostLogin(formData) {
+            $.ajax({
+                url: apiUrl + 'Account/Login', // Specify your Razor Page here
+                type: 'POST',
+                data: JSON.stringify(formData),
+                contentType: 'application/json; charset=utf-8',
+                success: function (response) {
+                    // Handle success (display a success message or redirect, etc.)
+                    if (response.status) {
+                        console.log(response.roleName);
+                        showAlert('success', "Login successfully");
+                        sessionStorage.setItem('token', response.data.accessToken);
+                        sessionStorage.setItem('role', response.data.roleName);
+                        sessionStorage.setItem('usrId', response.data.accountId);
+                        sessionStorage.setItem('usrName', response.data.userName);
+                        // Use switch to redirect based on role name
+                        switch (response.data.roleName) {
+                            case 'Admin':
+                                // Redirect to admin dashboard
+                                window.location.href = '/Admin/Index';
+                                break;
+
+                            case 'Teacher':
+                                // Redirect to teacher dashboard
+                                window.location.href = '/Teacher/Index';
+                                break;
+
+                            case 'Parent':
+                                // Redirect to parent dashboard
+                                window.location.href = '/Parent/Index';
+                                break;
+
+                            case 'Student':
+                                // Redirect to student dashboard
+                                window.location.href = '/Student/Index';
+                                break;
+
+                            default:
+                                // Redirect to a generic page or error page if role is not recognized
+                                window.location.href = '/Auth/Login';
+                                break;
+                        }
+                        $('#loginForm').trigger("reset");
+                    } else {
+                        showAlert('error', "Login failed! Error: " + response.errorMessage);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Attempt to parse the response text if it is available
+                    var errorResponse = xhr.responseText ? JSON.parse(xhr.responseText) : {};
+
+                    // Extract the custom error message if it exists
+                    var errorMessage = errorResponse.errorMessage || "An unknown error occurred.";
+
+                    // Display the error message using your custom showAlert function
+                    showAlert('error', "Login failed! Error: " + errorMessage);
+                }
+            });
+        }
+        function formValidation() {
+            var isValid = true;
+            if ($("#FlowerBouquetName").val().trim() == "") {
+                $("#FlowerBouquetName-error").html("Name is required");
+                isValid = false;
+            } else {
+                $("#FlowerBouquetName-error").html("");
+            }
+
+            if ($("#Description").val().trim() == "") {
+                $("#Description-error").html("Description is required");
+                isValid = false;
+            } else {
+                $("#Description-error").html("");
+            }
+
+            if ($("#UnitPrice").val() <= 0) {
+                $("#UnitPrice-error").html("Unit price must be greater than 0");
+                isValid = false;
+            } else {
+                $("#UnitPrice-error").html("");
+            }
+
+            if ($("#UnitsInStock").val() <= 0) {
+                $("#UnitsInStock-error").html("Units in stock must be greater than 0");
+                isValid = false;
+            } else {
+                $("#UnitsInStock-error").html("");
+            }
+
+            if ($("#Category").val() == "") {
+                $("#Category-error").html("Category is required");
+                isValid = false;
+            } else {
+                $("#Category-error").html("");
+            }
+
+            if ($("#Supplier").val() == "") {
+                $("#Supplier-error").html("Supplier is required");
+                isValid = false;
+            } else {
+                $("#Supplier-error").html("");
+            }
+
+            return isValid;
+        }
+    </script>
+    <script>
+        Validator({
+            form: '#loginForm',
+            errorSelector: '#error_message',
+            rules: [
+                Validator.isNotEmpty('#userName'),
+                Validator.isRequired('#userName', 'Username or password is required'),
+                Validator.isNotEmpty('#password'),
+                Validator.minLength('#password', 1, 'Username or password is required'),
+            ]
+        });
+    </script>
+</body>
+</html>

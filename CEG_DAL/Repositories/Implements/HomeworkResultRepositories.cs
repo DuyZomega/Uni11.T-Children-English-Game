@@ -18,14 +18,49 @@ namespace CEG_DAL.Repositories.Implements
             _dbContext = dbContext;
         }
 
-        public Task<HomeworkResult> GetByIdNoTracking(int id)
+        public async Task<HomeworkResult?> GetByIdNoTracking(int id)
         {
-            return _dbContext.HomeworkResults.AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(homere => homere.HomeworkResultId == id);
+            return await _dbContext.HomeworkResults.AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(homere => homere.HomeworkResultId == id);
         }
 
-        public async Task<List<HomeworkResult>> GetHomeworkResultsList()
+        public async Task<HomeworkResult?> GetByStudentIdAndHomeworkIdNoTracking(int stuId, int homId)
         {
-            return await _dbContext.HomeworkResults.ToListAsync();
+            return await _dbContext.HomeworkResults
+                .AsNoTrackingWithIdentityResolution()
+                .Where(homRes =>
+                    homRes.StudentHomeworks.Any(stuHom =>
+                        stuHom.HomeworkId == homId && stuHom.StudentProgress.StudentId == stuId
+                    )
+                )
+                .Select(homRes => new HomeworkResult
+                {
+                    HomeworkResultId = homRes.HomeworkResultId,
+                    Playtime = homRes.Playtime,
+                    TotalCorrectAnswers = homRes.TotalCorrectAnswers,
+                    TotalPoint = homRes.TotalPoint,
+                    StudentHomeworks = homRes.StudentHomeworks.Select(stuHom => new StudentHomework()
+                    {
+                        Playtime = stuHom.Playtime,
+                        HomeworkId = homId,
+                        CorrectAnswers = stuHom.CorrectAnswers,
+                        Point = stuHom.Point,
+                        Status = stuHom.Status,
+                        StudentProgress = new StudentProgress()
+                        {
+                            StudentId = stuId,
+                            Playtime = stuHom.StudentProgress.Playtime,
+                            TotalPoint = stuHom.StudentProgress.TotalPoint,
+                        }
+                    }).ToList()
+                })
+                .FirstOrDefaultAsync();
         }
+
+        public async Task<List<HomeworkResult>> GetList()
+        {
+            return await _dbContext.HomeworkResults.AsNoTrackingWithIdentityResolution().ToListAsync();
+        }
+
+
     }
 }

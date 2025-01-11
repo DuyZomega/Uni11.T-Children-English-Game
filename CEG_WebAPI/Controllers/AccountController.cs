@@ -5,6 +5,7 @@ using CEG_BAL.ViewModels.Authenticates;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using static Org.BouncyCastle.Math.EC.ECCurve;
 
 namespace CEG_WebAPI.Controllers
 {
@@ -13,11 +14,18 @@ namespace CEG_WebAPI.Controllers
     public class AccountController : Controller
     {
         private readonly IAccountService _accountService;
+        private readonly IConfiguration _configuration;
+        private readonly IEmailService _emailService;
 
         public AccountController(
-            IAccountService accountService)
+            IAccountService accountService, 
+            IConfiguration configuration, 
+            IEmailService emailService
+        )
         {
             _accountService = accountService;
+            _configuration = configuration;
+            _emailService = emailService;
         }
 
         [HttpPost("Login")]
@@ -127,6 +135,33 @@ namespace CEG_WebAPI.Controllers
             }
         }
 
+        [HttpGet("All/Count")]
+        [Authorize(Roles = "Admin")]
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetTotalAccountAmount()
+        {
+            try
+            {
+                var result = await _accountService.GetTotalAmount();
+                return Ok(new
+                {
+                    Status = true,
+                    Data = result
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    Status = false,
+                    ErrorMessage = ex.Message,
+                    InnerExceptionMessage = ex.InnerException?.Message
+                });
+            }
+        }
+
         [HttpGet("{id}")]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(AccountViewModel), StatusCodes.Status200OK)]
@@ -149,6 +184,127 @@ namespace CEG_WebAPI.Controllers
                 {
                     Status = true,
                     Data = result
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    Status = false,
+                    ErrorMessage = ex.Message,
+                    InnerExceptionMessage = ex.InnerException?.Message
+                });
+            }
+        }
+
+        [HttpPut("{id}/Update")]
+        [Authorize(Roles = "Admin")]
+        [ProducesResponseType(typeof(AccountViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Update([FromRoute] int id, AccountViewModel account)
+        {
+            try
+            {
+                var result = await _accountService.GetById(id);
+                if (result == null)
+                {
+                    return NotFound(new
+                    {
+                        Status = false,
+                        ErrorMessage = "Account Does Not Exist"
+                    });
+                }
+                account.AccountId = id;
+                _accountService.Update(account);
+                result = await _accountService.GetById(account.AccountId.Value);
+                return Ok(new
+                {
+                    Status = true,
+                    Data = result
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    Status = false,
+                    ErrorMessage = ex.Message,
+                    InnerExceptionMessage = ex.InnerException?.Message
+                });
+            }
+        }
+
+        [HttpPost("{id}/Disable")]
+        [Authorize(Roles = "Admin")]
+        [ProducesResponseType(typeof(AccountViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Disable([FromRoute] int id)
+        {
+            try
+            {
+                var result = await _accountService.GetById(id);
+                if (result == null)
+                {
+                    return NotFound(new
+                    {
+                        Status = false,
+                        ErrorMessage = "Account Does Not Exist"
+                    });
+                }
+                result.AccountId = id;
+                result.Status = "Inactive";
+                _accountService.Update(result);
+                result = await _accountService.GetById(id);
+                return Ok(new
+                {
+                    Status = true,
+                    Data = result
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    Status = false,
+                    ErrorMessage = ex.Message,
+                    InnerExceptionMessage = ex.InnerException?.Message
+                });
+            }
+        }
+
+        [HttpPut("{id}/Update/Status")]
+        [Authorize(Roles = "Admin")]
+        [ProducesResponseType(typeof(AccountViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> UpdateStatus(
+            [FromRoute][Required] int id,
+            [FromBody][Required] string status
+            )
+        {
+            try
+            {
+                var result = await _accountService.GetById(id);
+                if (result == null)
+                {
+                    return NotFound(new
+                    {
+                        Status = false,
+                        ErrorMessage = "Account does not exist"
+                    });
+                }
+                if(await _accountService.UpdateStatus(status, id))
+                    return Ok(new
+                    {
+                        Status = true,
+                        Data = result
+                    });
+                return BadRequest(new
+                {
+                    Status = false,
+                    ErrorMessage = "Failed to update account status"
                 });
             }
             catch (Exception ex)

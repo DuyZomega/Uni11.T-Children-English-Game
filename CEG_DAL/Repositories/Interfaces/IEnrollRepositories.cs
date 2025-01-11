@@ -10,7 +10,13 @@ namespace CEG_DAL.Repositories.Interfaces
 {
     public interface IEnrollRepositories : IRepositoryBase<Enroll>
     {
-        Task<List<Enroll>> GetEnrollsList();
-        Task<Enroll> GetByIdNoTracking(int id);
+        Task<List<Enroll>> GetList();
+        Task<Enroll?> GetByIdNoTracking(int id);
+        // Task<bool>? isExistedByStudentFullname(string studentFullname);
+        Task<List<Enroll>> GetEnrollByParentId(int? parentId);
+        Task<List<Enroll>> GetEnrollByStudentId(int? studentId);
+        Task<List<Enroll>> GetByClassId(int? claId);
+        Task<int> GetCountByClassId(int? claId);
+        Task<Enroll?> GetByStudentFullnameAndClassName(string stuFullName, string claName);
     }
 }

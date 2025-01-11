@@ -1,0 +1,154 @@
+﻿@page "/Teacher/Index"
+@model CEG_RazorWebApp.Pages.Teacher.TeacherIndexModel
+@{
+    Layout = null;
+    ViewData["Title"] = "Teacher Index Page";
+    Layout = Model.LayoutUrl;
+}
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- num of data -->
+        <div class="cardBox">
+            <div class="card event">
+                <div class="inconBx">
+                    <i class='bx bx-calendar'></i>
+                </div>
+                <div>
+                    <div id="class-amount" class="cardName">0</div>
+                    @* <div class="cardName">Active Classes</div> *@
+                </div>
+            </div>
+            <div class="card feedback">
+                <div class="inconBx">
+                    <i class='bx bxs-user-account'></i>
+                </div>
+                <div>
+                    <div id="student-amount">0</div>
+                    <div class="cardName">Students</div>
+                </div>
+            </div>
+            <div class="card report">
+                <div class="inconBx">
+                    <i class='bx bx-money'></i>
+                </div>
+                <div>
+                    <div id="earning-amount">0</div>
+                    <div class="cardName">Earned</div>
+                </div>
+            </div>
+            <div class="card turnover">
+                <div class="inconBx">
+                    <i class='bx bx-notepad'></i>
+                </div>
+                <div>
+                    <div id="transaction-amount">0</div>
+                    <div class="cardName">Scheduled sessions</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Immediately store apiUrl in sessionStorage when the page loads
+        // document.addEventListener('DOMContentLoaded', function () {
+        //     Define your API URL here (you could get this value from a server-side config)
+        //     var apiUrl = 'Url.Content(Config["DefaultApiUrl:ConnectionString"] + Config["DefaultApiUrl:ApiUrl"] ?? "https:localhost:7143/api/")';
+
+        //     Store it in sessionStorage
+        //     sessionStorage.setItem('apiUrl', apiUrl);
+
+        //     console.log("API URL stored in sessionStorage:", sessionStorage.getItem('apiUrl'));
+        // });
+        var token = sessionStorage.getItem('token');
+        var apiUrl = sessionStorage.getItem('apiUrl');
+        var id = sessionStorage.getItem('usrId');
+        $(document).ready(function () {
+            callApiGetClassCount();
+            callApiGetStudentCount();
+        });
+        function callApiGetClassCount() {
+            $.ajax({
+                url: apiUrl + `Class/${id}/All/Ongoing/Count`, // API endpoint
+                type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + token, // Token for authentication
+                },
+                success: function (response) {
+                // Check if the status is true
+                if (response.status) {
+                    $('#class-amount').empty();
+                    $('#class-amount').text(response.data + ' Active Classes');
+                } else {
+                    showAlert('error', "Error: \n" + response.errorMessage);
+                }
+            },
+            error: function (xhr, status, error) {
+                // Attempt to parse the response text if it is available
+                var errorResponse = xhr.responseText ? JSON.parse(xhr.responseText) : {};
+
+                // Extract the custom error message if it exists
+                var errorMessage = errorResponse.errorMessage || errorResponse.title || "An unknown error occurred.";
+                // Check if errorResponse.errors exists and is an object
+                if (errorResponse.errors && typeof errorResponse.errors === 'object') {
+                    // Loop through each field in the errors object and append to the errorMessage
+                    for (var field in errorResponse.errors) {
+                        if (errorResponse.errors.hasOwnProperty(field)) {
+                            // Add each error message for the field, joining multiple messages if they exist
+                            var fieldErrors = errorResponse.errors[field].join(", ");
+                            errorMessage += `\n${field}: ${fieldErrors}`;
+                        }
+                    }
+                }
+                // Display the error message using your custom showAlert function
+                showAlert('error', "Error: \n" + errorMessage);
+            }
+            });
+        }
+        function callApiGetStudentCount() {
+            $.ajax({
+                url: apiUrl + `Student/All/Count/ByTeacher/${id}`,
+                type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + token, // Token for authentication
+                },
+                success: function (response) {
+                    // Check if the status is true
+                    if (response.status) {
+                        $('#student-amount').empty();
+                        $('#student-amount').text(response.data);
+                    } else {
+                        showAlert('error', "Error: \n" + response.errorMessage);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Attempt to parse the response text if it is available
+                    var errorResponse = xhr.responseText ? JSON.parse(xhr.responseText) : {};
+
+                    // Extract the custom error message if it exists
+                    var errorMessage = errorResponse.errorMessage || errorResponse.title || "An unknown error occurred.";
+                    // Check if errorResponse.errors exists and is an object
+                    if (errorResponse.errors && typeof errorResponse.errors === 'object') {
+                        // Loop through each field in the errors object and append to the errorMessage
+                        for (var field in errorResponse.errors) {
+                            if (errorResponse.errors.hasOwnProperty(field)) {
+                                // Add each error message for the field, joining multiple messages if they exist
+                                var fieldErrors = errorResponse.errors[field].join(", ");
+                                errorMessage += `\n${field}: ${fieldErrors}`;
+                            }
+                        }
+                    }
+                    // Display the error message using your custom showAlert function
+                    showAlert('error', "Error: \n" + errorMessage);
+                }
+            });
+        }
+    </script>
+</body>
+</html>

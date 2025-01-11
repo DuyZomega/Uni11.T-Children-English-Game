@@ -9,10 +9,12 @@ namespace CEG_BAL.ViewModels
 {
     public class GameLevelViewModel
     {
+        public int? GameLevelId { get; set; }
+        public int? GameId { get; set; }
         public string Title { get; set; } = null!;
 
         public string? Status { get; set; }
 
-        public virtual Game Game { get; set; } = null!;
+        public GameViewModel Game { get; set; } = null!;
     }
 }

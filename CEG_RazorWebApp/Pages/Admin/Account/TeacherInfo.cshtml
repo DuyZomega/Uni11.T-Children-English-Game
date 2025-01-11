@@ -1,0 +1,513 @@
+﻿@page "/Admin/Teacher/{accountId}/Info"
+@model CEG_RazorWebApp.Pages.Admin.Account.TeacherInfoModel
+@{
+    ViewData["Title"] = "Teacher Account Info Page";
+    var accountInfo = Model.AccountInfo;
+    var updateTeacher = Model.UpdateTeacherInfo;
+    var updatePassword = Model.UpdatePasswordInfo;
+    Layout = Model.LayoutUrl;
+    var accountId = Model.AccountId;
+}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
+    <div class="main-content">
+        <div class="main">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="offset-sm-6 col-sm-6  d-flex justify-content-sm-end p-md-0 mt-2 mt-sm-0 ">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumd-item">
+                                <a href="#">Manage</a>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <span>/</span>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <a href="/Admin/Account/Index">Account</a>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <span>/</span>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <a href="/Admin/Teacher/@accountId/Info">@accountId</a>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <span>/</span>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <a href="/Admin/Teacher/@accountId/Info">Info</a>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+                <div id="alertContainer"></div>
+                <div class="row">
+                    <div class="col-12 customer-booking">
+                        <div class="row">
+                            <div class="card profile col-12 mb-4">
+                                <div class="card-header">
+                                    <h4 id="account-headerinfo">Account Information</h4>
+                                    <div class="edit-info" id="teacher-info-edit-toggle">
+                                        <i class='bx bxs-adjust bx-sm' data-toggle="modal" data-target="#changeStatus"></i>
+                                        <i class='bx bxs-edit bx-sm' data-toggle="modal" data-target="#editTeacher"></i>
+                                        <i class='bx bxs-lock bx-sm' data-toggle="modal" data-target="#changePassword"></i>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Account ID:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span id="account-id">
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Username:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span id="account-username">
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Full Name:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span id="account-fullname">
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Gender:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span id="account-gender">
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Email:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span id="teacher-account-email">
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Phone Number:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span id="teacher-account-phonenumber">
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Address:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span id="teacher-account-address">
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Created Date:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span id="account-createddate">
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Role:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span id="account-role">
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Status:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span id="account-status">
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="editTeacher" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content modal-addRoom">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit Teacher Account Informations</h4>
+                </div>
+                <form method="post" id="updateTeacherForm">
+                    <div class="modal-body">
+                        <div class="row p-4">
+                            <div class="col-12">
+                                <div class="row form-group">
+                                    <label asp-for="@updateTeacher.Account.Fullname" class="col-md-4 col-form-label text-md-right"></label>
+                                    <input asp-for="@updateTeacher.Account.Fullname" type="text" placeholder="Full Name" required class="form-control col-md-8">
+                                    <span asp-validation-for="@updateTeacher.Account.Fullname" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@updateTeacher.Account.Gender" class="col-md-4 col-form-label text-md-right"></label>
+                                    <select class="form-control col-md-8 custom-select" asp-for="@updateTeacher.Account.Gender"></select>
+                                    <span asp-validation-for="@updateTeacher.Account.Gender" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@updateTeacher.Phone" class="col-md-4 col-form-label text-md-right"></label>
+                                    <input asp-for="@updateTeacher.Phone" value="@updateTeacher.Phone" placeholder="Phone" required class="form-control col-md-8">
+                                    <span asp-validation-for="@updateTeacher.Phone" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@updateTeacher.Address" class="col-md-4 col-form-label text-md-right"></label>
+                                    <textarea asp-for="@updateTeacher.Address" value="@updateTeacher.Address" required class="form-control col-md-8"></textarea>
+                                    <span asp-validation-for="@updateTeacher.Address" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer justify-content-center">
+                        <button class="btn btn-success" type="submit">Save</button>
+                        <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="changePassword" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content modal-addRoom">
+                <div class="modal-header">
+                    <h4 class="modal-title">Change Teacher Account Password</h4>
+                </div>
+                <form method="post" id="updateAccountPasswordForm">
+                    <div class="modal-body">
+                        <div class="row p-4">
+                            <div class="col-12">
+                                <div class="row form-group">
+                                    <label asp-for="@updatePassword.Password" class="col-md-4 col-form-label mt-3 text-md-right"></label>
+                                    <input asp-for="@updatePassword.Password" value="@updatePassword.Password" type="password" placeholder="Password" class="form-control col-md-8 mt-3" required>
+                                    <span asp-validation-for="@updatePassword.Password" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@updatePassword.ConfirmPassword" class="col-md-4 col-form-label mt-3 text-md-right"></label>
+                                    <input asp-for="@updatePassword.ConfirmPassword" value="@updatePassword.ConfirmPassword" type="password" placeholder="Confirm Password" class="form-control col-md-8 mt-3" required>
+                                    <span asp-validation-for="@updatePassword.ConfirmPassword" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer justify-content-center">
+                        <button class="btn btn-success" type="submit">Save</button>
+                        <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="changeStatus" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content modal-addRoom">
+                <div class="modal-header">
+                    <h4 class="modal-title">Change Teacher Status</h4>
+                </div>
+                <form method="post" id="updateAccountStatusForm">
+                    <div class="modal-body">
+                        <div class="row p-4">
+                            <div class="col-12">
+                                <div class="row form-group">
+                                    <label for="updateTeacherStatus_Status" class="col-md-3 col-form-label mt-3 text-md-right">New Status (this action cannot be undone!)</label>
+                                    <select class="form-control col-md-7 custom-select" id="updateTeacherStatus_Status"></select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer justify-content-center">
+                        <button class="btn btn-success" type="submit">Save</button>
+                        <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        var token = sessionStorage.getItem('token');
+        var apiUrl = sessionStorage.getItem('apiUrl');
+        $(document).ready(function () {
+            // Registering the custom feature with DataTables
+            DataTable.feature.register('toggle', function (settings, opts) {
+                // Set default options
+                let options = Object.assign({
+                    iconClass: 'bx bxs-add-to-queue bx-sm',
+                    modalId: 'createSchedule' // Modal ID that the icon will trigger
+                }, opts);
+
+                // Create a container for the icon
+                let container = document.createElement('div');
+                // container.classList.add('dt-custom-toolbar'); // Optional custom class for styling
+
+                // Create the icon element
+                let icon = document.createElement('i');
+                icon.className = options.iconClass;
+                container.className = 'dt-modal-toggle';
+                icon.setAttribute('data-toggle', 'modal');
+                icon.setAttribute('data-target', `#${options.modalId}`);
+
+                // Append icon to container
+                container.appendChild(icon);
+
+                // Insert the container in the DataTable toolbar
+                $(settings.nTableWrapper).prepend(container);
+                return container;
+            });
+            callApiGetTeacherDetail();
+            $('#updateAccountStatusForm').submit(function (event) {
+                event.preventDefault(); // Prevent the form from submitting normally
+
+                //Make the AJAX request
+                callApiPutUpdateTeacherStatus($('select[id="updateTeacherStatus_Status"]').val());
+                $('#updateAccountStatusForm').trigger("reset");
+            });
+        });
+        function callApiGetTeacherDetail() {
+            $.ajax({
+                url: apiUrl + 'Teacher/Account/@accountId', // API endpoint
+                type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + token// Include the JWT token
+                },
+                success: function (response) {
+                    // Log the entire response to the console for debugging
+                    //console.log("Returned object:", response);
+
+                    // Check if the status is true
+                    if (response.status) {
+                        accountDetail = response.data;
+
+                        setAccountDisplay(accountDetail);
+                    } else {
+                        console.error("API returned false status.");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Attempt to parse the response text if it is available
+                    var errorResponse = xhr.responseText ? JSON.parse(xhr.responseText) : {};
+
+                    // Extract the custom error message if it exists
+                    var errorMessage = errorResponse.errorMessage || errorResponse.title || "An unknown error occurred.";
+                    // Check if errorResponse.errors exists and is an object
+                    if (errorResponse.errors && typeof errorResponse.errors === 'object') {
+                        // Loop through each field in the errors object and append to the errorMessage
+                        for (var field in errorResponse.errors) {
+                            if (errorResponse.errors.hasOwnProperty(field)) {
+                                // Add each error message for the field, joining multiple messages if they exist
+                                var fieldErrors = errorResponse.errors[field].join(", ");
+                                errorMessage += `\n${field}: ${fieldErrors}`;
+                            }
+                        }
+                    }
+                    // Display the error message using your custom showAlert function
+                    showAlert('error', "Error: \n" + errorMessage);
+                }
+            });
+        }
+        function setAccountDisplay(data) {
+            $('#account-status').empty();
+
+            $('#account-headerinfo').text(data.account.role.roleName + ' Account Information');
+            $('#account-id').text(data.account.accountId);
+            $('#account-username').text(data.account.username);
+            $('#account-fullname').text(data.account.fullname);
+            $('#teacher-account-email').text(data.email);
+            $('#teacher-account-phonenumber').text(data.phone);
+            $('#teacher-account-address').text(data.address);
+            $('#account-gender').text(data.account.gender);
+            $('#account-createddate').text(formatDate(data.account.createdDate, { includeAmPm : true })); // Format the date if needed
+            $('#account-role').text(data.account.role.roleName);
+            $('#account-status').text(data.account.status);
+
+            // Update Teacher Info
+            $('select[id="updateTeacher_Account_Gender"]').empty();
+
+            $('input[id="updateTeacher_Account_Fullname"]').val(data.account.fullname);
+            $('select[id="updateTeacher_Account_Gender"]').append(getGenderOptions(data.account.gender));
+            $('input[id="updateTeacher_Phone"]').val(data.phone);
+            $('textarea[id="updateTeacher_Address"]').val(data.address);
+
+            // Update Teacher Status
+            $('select[id="updateTeacherStatus_Status"]').append(getStatusOptions(data.account.status));
+        }
+        $("#updateTeacherForm").submit(function (event) {
+            event.preventDefault(); // Prevent the form from submitting
+            // Gather form data
+            var teacherData = {
+                Phone: $("#updateTeacher_Phone").val(),
+                Address: $("#updateTeacher_Address").val(),
+                Account: {
+                    Fullname: $("#updateTeacher_Account_Fullname").val(),
+                    Gender: $("#updateTeacher_Account_Gender").val(),
+                }
+            };
+            $.ajax({
+                url: apiUrl + 'Teacher/Account/@accountId/Update',
+                headers: {
+                    'Authorization': 'Bearer ' + token// Include the JWT token
+                },
+                type: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify(teacherData),
+                success: function (response) {
+                    // Log the entire response to the console for debugging
+                    // Check if the status is true
+                    if (response.status) {
+                        callApiGetTeacherDetail();
+                        showAlert('success', 'Teacher information updated');
+                    } else {
+                        showAlert('error', "Error: \n" + response.errorMessage);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Attempt to parse the response text if it is available
+                    var errorResponse = xhr.responseText ? JSON.parse(xhr.responseText) : {};
+
+                    // Extract the custom error message if it exists
+                    var errorMessage = errorResponse.errorMessage || errorResponse.title || "An unknown error occurred.";
+                    // Check if errorResponse.errors exists and is an object
+                    if (errorResponse.errors && typeof errorResponse.errors === 'object') {
+                        // Loop through each field in the errors object and append to the errorMessage
+                        for (var field in errorResponse.errors) {
+                            if (errorResponse.errors.hasOwnProperty(field)) {
+                                // Add each error message for the field, joining multiple messages if they exist
+                                var fieldErrors = errorResponse.errors[field].join(", ");
+                                errorMessage += `\n${field}: ${fieldErrors}`;
+                            }
+                        }
+                    }
+                    // Display the error message using your custom showAlert function
+                    showAlert('error', "Error: \n" + errorMessage);
+                }
+            });
+        });
+        function callApiPutUpdateTeacherStatus(newStatus) {
+            $.ajax({
+                url: apiUrl + 'Account/@accountId/Update/Status',
+                type: 'PUT',
+                data: JSON.stringify(newStatus),
+                headers: {
+                    'Authorization': 'Bearer ' + token, // Token for authentication
+                },
+                contentType: 'application/json; charset=utf-8',
+                success: function (response) {
+                    // Handle success (display a success message or redirect, etc.)
+                    if (response.status) {
+                        showAlert('success', 'Status updated!');
+                        callApiGetTeacherDetail();
+                    } else {
+                        showAlert('error', 'Failed to update status. Error:' + response.errorMessage);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Attempt to parse the response text if it is available
+                    var errorResponse = xhr.responseText ? JSON.parse(xhr.responseText) : {};
+
+                    // Extract the custom error message if it exists
+                    var errorMessage = errorResponse.errorMessage || errorResponse.title || "An unknown error occurred.";
+                    // Check if errorResponse.errors exists and is an object
+                    if (errorResponse.errors && typeof errorResponse.errors === 'object') {
+                        // Loop through each field in the errors object and append to the errorMessage
+                        for (var field in errorResponse.errors) {
+                            if (errorResponse.errors.hasOwnProperty(field)) {
+                                // Add each error message for the field, joining multiple messages if they exist
+                                var fieldErrors = errorResponse.errors[field].join(", ");
+                                errorMessage += `\n${field}: ${fieldErrors}`;
+                            }
+                        }
+                    }
+                    // Display the error message using your custom showAlert function
+                    showAlert('error', "Error: \n" + errorMessage);
+                }
+            });
+        }
+        function getGenderOptions(selectedGender) {
+            var options = ['Female', 'Male']; // Example statuses
+            var html = '';
+
+            options.forEach(function (gender) {
+                html += `<option value="${gender}" ${selectedGender === gender ? 'selected' : ''}>${gender}</option>`;
+            });
+
+            return html;
+        }
+        function getStatusOptions(selectedStatus) {
+            var options = ['Inactive', 'Active', 'Expired', 'Denied', 'Suspended']; // Example statuses
+            var html = '';
+            switch (selectedStatus) {
+                case 'Inactive':
+                    options = ['Inactive', 'Active', 'Suspended']
+                    break;
+                case 'Active':
+                    options = ['Active', 'Suspended']
+                    break;
+                case 'Expired':
+                    options = ['Expired', 'Active', 'Suspended']
+                    break;
+                case 'Denied':
+                    options = ['Denied']
+                    break;
+                case 'Suspended':
+                    options = ['Suspended']
+                    break;
+            }
+            options.forEach(function (status) {
+                html += `<option value="${status}" ${selectedStatus === status ? 'selected' : ''}>${status}</option>`;
+            });
+
+            return html;
+        }
+        function getStatusDisplay(currentStatus){
+            var html = '';
+            switch (currentStatus) {
+                case 'Active':
+                    html = `<span class="outcome" style="float: left;">${currentStatus}</span>`
+                    break;
+                case 'Inactive':
+                    html = `<span class="approval" style="float: left;">${currentStatus}</span>`
+                    break;
+                case 'Denied':
+                case 'Expired':
+                case 'Suspended':
+                    html = `<span class="destroy" style="float: left;">${currentStatus}</span>`
+                    break;
+            }
+            return html;
+        }
+    </script>
+</body>
+</html>

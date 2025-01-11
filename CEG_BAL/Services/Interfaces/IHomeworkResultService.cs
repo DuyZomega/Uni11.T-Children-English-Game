@@ -1,4 +1,6 @@
 ﻿using CEG_BAL.ViewModels;
+using CEG_BAL.ViewModels.Admin.Create;
+using CEG_BAL.ViewModels.Admin.Update;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +11,10 @@ namespace CEG_BAL.Services.Interfaces
 {
     public interface IHomeworkResultService
     {
-        void Create(HomeworkResultViewModel model);
-        void Update(HomeworkResultViewModel model);
-        Task<List<HomeworkResultViewModel>> GetAllHomeworkResult();
-        Task<HomeworkResultViewModel> GetHomeworkResultById(int id);
+        Task Create(CreateNewHomeworkResult model);
+        Task Update(int id, UpdateHomeworkResult upHomRes);
+        Task<List<HomeworkResultViewModel>> GetList();
+        Task<HomeworkResultViewModel?> GetById(int id);
+        Task<HomeworkResultViewModel?> GetByStudentIdAndHomeworkId(int stuId, int homId);
     }
 }

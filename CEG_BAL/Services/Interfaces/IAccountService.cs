@@ -12,13 +12,15 @@ namespace CEG_BAL.Services.Interfaces
     public interface IAccountService
     {
         Task<List<AccountViewModel>> GetAccountList();
+        Task<int> GetTotalAmount();
         Task<AuthenResponse> AuthenticateAccount(AuthenRequest request);
         Task<AccountViewModel?> GetByLogin(string userName, string password);
         Task<AccountViewModel?> GetById(int id);
         Task<bool> IsAccountExistByUsername(string username);
         void Create(AccountViewModel account, CreateNewAccount newAcc);
         void Update(AccountViewModel account);
-        Task<bool> Delete(int id);
+        Task<bool> Disable(int id);
+        Task<bool> UpdateStatus(string status, int id);
         Task<int> GetIdByUsername(string username);
     }
 }

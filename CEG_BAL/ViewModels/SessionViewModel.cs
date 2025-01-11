@@ -9,13 +9,25 @@ namespace CEG_BAL.ViewModels
 {
     public class SessionViewModel
     {
+        public int? SessionId { get; set; }
+
         public string Title { get; set; } = null!;
 
         public string? Description { get; set; }
+
         public int? Hours { get; set; }
 
         public string? Status { get; set; }
 
-        public virtual CourseViewModel Course { get; set; } = null!;
+        public string? CourseStatus { get; set; }
+
+        public int? SessionNumber {  get; set; }
+
+
+        public CourseViewModel? Course { get; set; } = null;
+
+        public List<HomeworkViewModel>? Homeworks { get; set; } = new List<HomeworkViewModel>();
+
+        public List<ScheduleViewModel>? Schedules { get; set; } = new List<ScheduleViewModel>();
     }
 }

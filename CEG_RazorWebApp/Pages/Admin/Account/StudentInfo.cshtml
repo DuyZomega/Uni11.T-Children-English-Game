@@ -1,0 +1,851 @@
+﻿@page "/Admin/Student/{accountId}/Info"
+@model CEG_RazorWebApp.Pages.Admin.Account.StudentInfoModel
+@{
+    ViewData["Title"] = "Student Account Info Page";
+    var accountInfo = Model.AccountInfo;
+    var updateStudent = Model.UpdateStudentInfo;
+    var updatePassword = Model.UpdatePasswordInfo;
+    Layout = Model.LayoutUrl;
+    var accountId = Model.AccountId;
+}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
+    <div class="main-content">
+        <div class="main">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="offset-sm-6 col-sm-6  d-flex justify-content-sm-end p-md-0 mt-2 mt-sm-0 ">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumd-item">
+                                <a href="#">Manage</a>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <span>/</span>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <a href="/Admin/Account/Index">Account</a>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <span>/</span>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <a href="/Admin/Student/@accountId/Info">@accountId</a>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <span>/</span>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <a href="/Admin/Student/@accountId/Info">Info</a>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+                <div id="alertContainer"></div>
+                <div class="row">
+                    <div class="col-lg-7 customer-booking">
+                        <div class="row">
+                            <div class="card profile col-12 mb-4">
+                                <div class="card-header">
+                                    <h4 id="account-headerinfo">Account Information</h4>
+                                    <div class="edit-info" id="student-info-edit-toggle">
+                                        <i class='bx bxs-adjust bx-sm' data-toggle="modal" data-target="#changeStatus"></i>
+                                        <i class='bx bxs-edit bx-sm' data-toggle="modal" data-target="#editStudent"></i>
+                                        <i class='bx bxs-lock bx-sm' data-toggle="modal" data-target="#changePassword"></i>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Account ID:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span id="account-id">
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Username:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span id="account-username">
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Full Name:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span id="account-fullname">
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Gender:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span id="account-gender">
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Age:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span id="student-account-age">
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Date of Birth:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span id="student-account-birthdate">
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Description:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span id="student-account-description">
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Current level:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span id="student-account-curlevel">
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Created Date:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span id="account-createddate">
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Role:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span id="account-role">
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Status:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span id="account-status">
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="card profile col-12 mb-4">
+                                <div class="card-header">
+                                    <h4 id="account-headerinfo">Parent Account Information</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Account ID:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <a href="#" id="account-parent-id">
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Full Name:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span id="account-parent-fullname">
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Gender:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span id="account-parent-gender">
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-sm-2">
+                                        <div class="col-md-5 text-md-right">
+                                            <label class="col-form-label">Status:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <span id="account-parent-status">
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-5 cardFB">
+                        <div class="card profile col-12 mb-4">
+                            <div class="card-header">
+                                <h4>Class Enrollment records</h4>
+                            </div>
+                            <div class="card-body">
+                                <div id="enroll-table_wrapper" class="dataTables_wrapper no-footer">
+                                    <table id="enroll-table"
+                                           class="table table-striped table-bordered dataTable no-footer"
+                                           aria-describedby="enroll-table_info">
+                                        <thead>
+                                            <tr>
+                                                <th class="sorting sorting_asc" tabindex="0"
+                                                    aria-controls="enroll-table" rowspan="1"
+                                                    colspan="1" aria-sort="ascending"
+                                                    aria-label="Request ID: activate to sort column ascending">
+                                                    ID
+                                                </th>
+                                                <th class="sorting sorting_asc" tabindex="0"
+                                                    aria-controls="enroll-table" rowspan="1"
+                                                    colspan="1" aria-sort="ascending"
+                                                    aria-label="Class Name: activate to sort column ascending">
+                                                    Class Name
+                                                </th>
+                                                <th class="sorting sorting_asc" tabindex="0"
+                                                    aria-controls="enroll-table" rowspan="1"
+                                                    colspan="1" aria-sort="ascending"
+                                                    aria-label="Class Name: activate to sort column ascending">
+                                                    Registration <br /> Date
+                                                </th>
+                                                <th class="sorting sorting_asc" tabindex="0"
+                                                    aria-controls="enroll-table" rowspan="1"
+                                                    colspan="1" aria-sort="ascending"
+                                                    aria-label="Enroll Date: activate to sort column ascending">
+                                                    Enrollment <br /> Date
+                                                </th>
+                                                <th class="sorting sorting_asc" tabindex="0"
+                                                    aria-controls="enroll-table" rowspan="1"
+                                                    colspan="1" aria-sort="ascending"
+                                                    aria-label="Status: activate to sort column ascending">
+                                                    Status
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="editStudent" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content modal-addRoom">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit Student Account Informations</h4>
+                </div>
+                <form method="post" id="updateStudentForm">
+                    <div class="modal-body">
+                        <div class="row p-4">
+                            <div class="col-12">
+                                <div class="row form-group">
+                                    <label asp-for="@updateStudent.Account.Fullname" class="col-md-4 col-form-label text-md-right"></label>
+                                    <input asp-for="@updateStudent.Account.Fullname" type="text" placeholder="Full Name" required class="form-control col-md-8">
+                                    <span asp-validation-for="@updateStudent.Account.Fullname" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@updateStudent.Account.Gender" class="col-md-4 col-form-label text-md-right"></label>
+                                    <select class="form-control col-md-8 custom-select" asp-for="@updateStudent.Account.Gender"></select>
+                                    <span asp-validation-for="@updateStudent.Account.Gender" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@updateStudent.Description" class="col-md-4 col-form-label text-md-right"></label>
+                                    <textarea asp-for="@updateStudent.Description" value="@updateStudent.Description" required class="form-control col-md-8"></textarea>
+                                    <span asp-validation-for="@updateStudent.Description" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@updateStudent.ParentFullname" class="col-md-4 col-form-label text-md-right">Parent Fullname</label>
+                                    <div class="col-md-8 p-0">
+                                        <!-- search bar with dropdown list-->
+                                        <select id="select2-parent-fullname-dropdown" class="form-control custom-select" style="width: 100%;">
+                                        </select>
+                                    </div>
+                                    <span asp-validation-for="@updateStudent.ParentFullname" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@updateStudent.Birthdate" class="col-md-4 col-form-label text-md-right"></label>
+                                    <!--value="updateStudent.Birthdate.Value.ToString("yyyy-MM-ddTHH:mm")"-->
+                                    <input asp-for="@updateStudent.Birthdate" type="date" min="@DateTime.Now.AddYears(-16).ToString("yyyy-MM-dd")" required max="@DateTime.Now.AddYears(-12).ToString("yyyy-MM-dd")" asp-format="{0:yyyy-MM-dd}" required class="form-control col-md-8">
+                                    <span asp-validation-for="@updateStudent.Birthdate" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer justify-content-center">
+                        <button class="btn btn-success" type="submit">Save</button>
+                        <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="changePassword" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content modal-addRoom">
+                <div class="modal-header">
+                    <h4 class="modal-title">Change Student Account Password</h4>
+                </div>
+                <form method="post" id="updateAccountPasswordForm">
+                    <div class="modal-body">
+                        <div class="row p-4">
+                            <div class="col-12">
+                                <div class="row form-group">
+                                    <label asp-for="@updatePassword.Password" class="col-md-4 col-form-label mt-3 text-md-right"></label>
+                                    <input asp-for="@updatePassword.Password" value="@updatePassword.Password" type="password" placeholder="Password" class="form-control col-md-8 mt-3" required>
+                                    <span asp-validation-for="@updatePassword.Password" id="error_message"
+                                    class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                    <label asp-for="@updatePassword.ConfirmPassword" class="col-md-4 col-form-label mt-3 text-md-right"></label>
+                                    <input asp-for="@updatePassword.ConfirmPassword" value="@updatePassword.ConfirmPassword" type="password" placeholder="Confirm Password" class="form-control col-md-8 mt-3" required>
+                                    <span asp-validation-for="@updatePassword.ConfirmPassword" id="error_message"
+                                    class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer justify-content-center">
+                        <button class="btn btn-success" type="submit">Save</button>
+                        <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="changeStatus" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content modal-addRoom">
+                <div class="modal-header">
+                    <h4 class="modal-title">Change Student Status</h4>
+                </div>
+                <form method="post" id="updateAccountStatusForm">
+                    <div class="modal-body">
+                        <div class="row p-4">
+                            <div class="col-12">
+                                <div class="row form-group">
+                                    <label for="updateStudentStatus_Status" class="col-md-3 col-form-label mt-3 text-md-right">New Status (this action cannot be undone!)</label>
+                                    <select class="form-control col-md-7 custom-select" id="updateStudentStatus_Status"></select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer justify-content-center">
+                        <button class="btn btn-success" type="submit">Save</button>
+                        <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        var token = sessionStorage.getItem('token');
+        var apiUrl = sessionStorage.getItem('apiUrl');
+        var enrollTable;
+        $(document).ready(function () {
+            // Registering the custom feature with DataTables
+            DataTable.feature.register('searchIcon', function (settings, opts) {
+                // Set default options
+                let options = Object.assign({
+                    iconClass: 'bx bx-search-alt question-search-icon',
+                    hideLabel: true // Hide search label
+                }, opts);
+
+                // Create a container for the icon
+                let container = document.createElement('div');
+                // container.classList.add('dt-custom-toolbar'); // Optional custom class for styling
+
+                // Create the icon element
+                let icon = document.createElement('i');
+                icon.className = options.iconClass;
+
+                // Check if pagination is enabled
+                // if (settings.oFeatures.bFilter) {
+                //     console.log(settings.oFeatures.bFilter);
+                //     console.log('Pagination is enabled for this DataTable.');
+                // }
+
+                setTimeout(() => {
+                    // Find the .dt-search container inside the DataTable wrapper
+                    let searchContainer = $(settings.nTableWrapper).find('.dt-search');
+                    if (searchContainer.length) {
+                        searchContainer.append(icon);
+                    } else {
+                        // Append icon to container
+                        container.appendChild(icon);
+                        // If .dt-search doesn't exist, insert the container in the DataTable toolbar instead
+                        $(settings.nTableWrapper).prepend(container);
+                    }
+                    if (options.hideLabel) {
+                        // Find the .dt-search label container inside the DataTable wrapper
+                        let searchLabel = searchContainer.find('label');
+                        if (searchLabel.length) {
+                            searchLabel.text('');
+                        } else {
+                            console.log('Label of search div not found!');
+                        }
+                    }
+                }, 100);
+                return '';
+            });
+            // Registering the custom feature with DataTables
+            DataTable.feature.register('toggle', function (settings, opts) {
+                // Set default options
+                let options = Object.assign({
+                    iconClass: 'bx bxs-add-to-queue bx-sm',
+                    modalId: 'createSchedule' // Modal ID that the icon will trigger
+                }, opts);
+
+                // Create a container for the icon
+                let container = document.createElement('div');
+                // container.classList.add('dt-custom-toolbar'); // Optional custom class for styling
+
+                // Create the icon element
+                let icon = document.createElement('i');
+                icon.className = options.iconClass;
+                container.className = 'dt-modal-toggle';
+                icon.setAttribute('data-toggle', 'modal');
+                icon.setAttribute('data-target', `#${options.modalId}`);
+
+                // Append icon to container
+                container.appendChild(icon);
+
+                // Insert the container in the DataTable toolbar
+                $(settings.nTableWrapper).prepend(container);
+                return container;
+            });
+            $('#select2-parent-fullname-dropdown').select2({
+                placeholder: 'Select a parent fullname',
+                allowClear: true,
+                width: 'resolve',
+                theme: 'bootstrap4'
+            })
+            enrollTable = new DataTable('#enroll-table', {
+                autoWidth: true,
+                data: [],
+                deferRender: false,
+                responsive: true,
+                columns: [
+                    { data: 'enrollId' },
+                    {
+                        data: 'class.className',
+                    },
+                    {
+                        data: 'registrationDate',
+                        render: function (data, type, row, meta) {
+                            return '<span id="enroll-reg-date">' + formatDate(data, { addDayOfWeek : true , includeAmPm : true, lineBreak : true }) + '</span >';
+                        }
+                    },
+                    {
+                        data: 'enrolledDate',
+                        render: function (data, type, row, meta) {
+                            return '<span id="enroll-date">' + formatDate(data, { addDayOfWeek : true, includeAmPm : true, lineBreak : true }) + '</span >';
+                        }
+                    },
+                    {
+                        data: 'status',
+                        width: '25%',
+                        render: function (data, type, row, meta) {
+                            return `<select class="custom-select form-control enroll-status" data-enrollid="${row.enrollId}">`
+                                + getEnrollStatusOptions(data) +
+                                `</select>`;
+                        }
+                    }
+                ],
+                layout: {
+                    topEnd: {
+                        search: {
+                            placeholder: 'Search enroll...'
+                        },
+                        searchIcon: {
+                        }
+                    }
+                }
+            });
+            callApiGetStudentDetail();
+            $('#updateAccountStatusForm').submit(function (event) {
+                event.preventDefault(); // Prevent the form from submitting normally
+
+                //Make the AJAX request
+                callApiPutUpdateStudentStatus($('select[id="updateStudentStatus_Status"]').val());
+                $('#updateAccountStatusForm').trigger("reset");
+            });
+        });
+        function callApiGetStudentDetail() {
+            $.ajax({
+                url: apiUrl + 'Student/Account/@accountId', // API endpoint
+                type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + token// Include the JWT token
+                },
+                success: function (response) {
+                    // Log the entire response to the console for debugging
+                    // console.log("Returned object:", response);
+
+                    // Check if the status is true
+                    if (response.status) {
+                        accountDetail = response.data;
+
+                        setAccountDisplay(accountDetail);
+                    } else {
+                        console.error("API returned false status.");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Attempt to parse the response text if it is available
+                    var errorResponse = xhr.responseText ? JSON.parse(xhr.responseText) : {};
+
+                    // Extract the custom error message if it exists
+                    var errorMessage = errorResponse.errorMessage || errorResponse.title || "An unknown error occurred.";
+                    // Check if errorResponse.errors exists and is an object
+                    if (errorResponse.errors && typeof errorResponse.errors === 'object') {
+                        // Loop through each field in the errors object and append to the errorMessage
+                        for (var field in errorResponse.errors) {
+                            if (errorResponse.errors.hasOwnProperty(field)) {
+                                // Add each error message for the field, joining multiple messages if they exist
+                                var fieldErrors = errorResponse.errors[field].join(", ");
+                                errorMessage += `\n${field}: ${fieldErrors}`;
+                            }
+                        }
+                    }
+                    // Display the error message using your custom showAlert function
+                    showAlert('error', "Error: \n" + errorMessage);
+                }
+            });
+        }
+        function setAccountDisplay(data) {
+            if (data.enrolls && data.enrolls.length > 0) {
+                enrollTable.clear().rows.add(data.enrolls).draw();
+            }
+            // Call API to get the list of parent names
+            $.ajax({
+                url: apiUrl + 'Parent/All/Fullname', // API endpoint
+                type: 'GET',
+                success: function (response) {
+                    // Check if the status is true
+                    if (response.status) {
+
+                        addParentOptions(response.data, data.parent.account.fullname);
+                    } else {
+                        showAlert('error', "Error: \n" + response.errorMessage);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Attempt to parse the response text if it is available
+                    var errorResponse = xhr.responseText ? JSON.parse(xhr.responseText) : {};
+
+                    // Extract the custom error message if it exists
+                    var errorMessage = errorResponse.errorMessage || errorResponse.title || "An unknown error occurred.";
+                    // Check if errorResponse.errors exists and is an object
+                    if (errorResponse.errors && typeof errorResponse.errors === 'object') {
+                        // Loop through each field in the errors object and append to the errorMessage
+                        for (var field in errorResponse.errors) {
+                            if (errorResponse.errors.hasOwnProperty(field)) {
+                                // Add each error message for the field, joining multiple messages if they exist
+                                var fieldErrors = errorResponse.errors[field].join(", ");
+                                errorMessage += `\n${field}: ${fieldErrors}`;
+                            }
+                        }
+                    }
+                    // Display the error message using your custom showAlert function
+                    showAlert('error', "Error: \n" + errorMessage);
+                }
+            });
+            // Student info
+            $('#account-status').empty();
+
+            $('#account-headerinfo').text(data.account.role.roleName + ' Account Information');
+            $('#account-id').text(data.account.accountId);
+            $('#account-username').text(data.account.username);
+            $('#account-fullname').text(data.account.fullname);
+            $('#student-account-age').text(data.age);
+            $('#student-account-birthdate').text(formatDate(data.birthdate, { ignoreHour : true }));
+            $('#student-account-description').text(data.description);
+            $('#student-account-totalscore').text(data.totalscore);
+            $('#student-account-playtime').text(data.playtime);
+            $('#student-account-curlevel').text(data.curLevel);
+            $('#student-account-points').text(data.points);
+            $('#account-gender').text(data.account.gender);
+            $('#account-createddate').text(formatDate(data.account.createdDate, { includeAmPm : true })); // Format the date if needed
+            $('#account-role').text(data.account.role.roleName);
+            $('#account-status').append(getStatusDisplay(data.account.status));
+
+            // Update Student Info
+            $('select[id="updateStudent_Account_Gender"]').empty();
+
+            $('input[id="updateStudent_Account_Fullname"]').val(data.account.fullname);
+            $('select[id="updateStudent_Account_Gender"]').append(getGenderOptions(data.account.gender));
+            $('textarea[id="updateStudent_Description"]').val(data.description);
+            $('input[id="updateStudent_Birthdate"]').val(formatDate(data.birthdate, { inputDateFormat : true }));
+
+            // Update Student Status
+            $('select[id="updateStudentStatus_Status"]').append(getStatusOptions(data.account.status));
+
+            // Parent Url
+            var url = `/Admin/${data.parent.account.role.roleName}/${data.parent.account.accountId}/Info`
+            // Parent Info
+            $('#account-parent-status').empty();
+
+            $('#account-parent-id').text(data.parent.account.accountId);
+            $('#account-parent-id').attr('href', url);
+            $('#account-parent-fullname').text(data.parent.account.fullname);
+            $('#account-parent-gender').text(data.parent.account.gender);
+            $('#account-parent-status').append(getStatusDisplay(data.parent.account.status));
+        }
+        $(document).on('change', '.enroll-status', function () {
+            var enrollId = $(this).data('enrollid');
+            var newStatus = $(this).val();
+            callApiUpdateEnrollStatus(enrollId, newStatus);
+        });
+        $("#updateStudentForm").submit(function (event) {
+            event.preventDefault(); // Prevent the form from submitting
+            // Gather form data
+            var studentData = {
+                Description: $("#updateStudent_Description").val(),
+                Birthdate: $("#updateStudent_Birthdate").val(),
+                ParentFullname: $('#select2-parent-fullname-dropdown').select2('data')[0].text,
+                Account: {
+                    Fullname: $("#updateStudent_Account_Fullname").val(),
+                    Gender: $("#updateStudent_Account_Gender").val(),
+                }
+            };
+            // console.log(studentData);
+            // Make the AJAX POST request
+            $.ajax({
+                url: apiUrl + 'Student/Account/@accountId/Update',
+                headers: {
+                    'Authorization': 'Bearer ' + token// Include the JWT token
+                },
+                type: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify(studentData),
+                success: function (response) {
+                    // Log the entire response to the console for debugging
+                    // Check if the status is true
+                    if (response.status) {
+                        callApiGetStudentDetail();
+                        showAlert('success', 'Student information updated');
+                    } else {
+                        showAlert('error', "Error: \n" + response.errorMessage);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Attempt to parse the response text if it is available
+                    var errorResponse = xhr.responseText ? JSON.parse(xhr.responseText) : {};
+
+                    // Extract the custom error message if it exists
+                    var errorMessage = errorResponse.errorMessage || errorResponse.title || "An unknown error occurred.";
+                    // Check if errorResponse.errors exists and is an object
+                    if (errorResponse.errors && typeof errorResponse.errors === 'object') {
+                        // Loop through each field in the errors object and append to the errorMessage
+                        for (var field in errorResponse.errors) {
+                            if (errorResponse.errors.hasOwnProperty(field)) {
+                                // Add each error message for the field, joining multiple messages if they exist
+                                var fieldErrors = errorResponse.errors[field].join(", ");
+                                errorMessage += `\n${field}: ${fieldErrors}`;
+                            }
+                        }
+                    }
+                    // Display the error message using your custom showAlert function
+                    showAlert('error', "Error: \n" + errorMessage);
+                }
+            });
+        });
+        function callApiPutUpdateStudentStatus(newStatus) {
+            $.ajax({
+                url: apiUrl + 'Account/@accountId/Update/Status',
+                type: 'PUT',
+                data: JSON.stringify(newStatus),
+                headers: {
+                    'Authorization': 'Bearer ' + token, // Token for authentication
+                },
+                contentType: 'application/json; charset=utf-8',
+                success: function (response) {
+                    // Handle success (display a success message or redirect, etc.)
+                    if (response.status) {
+                        showAlert('success', 'Status updated!');
+                        callApiGetStudentDetail();
+                    } else {
+                        showAlert('error', 'Failed to update status. Error:' + response.errorMessage);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Attempt to parse the response text if it is available
+                    var errorResponse = xhr.responseText ? JSON.parse(xhr.responseText) : {};
+
+                    // Extract the custom error message if it exists
+                    var errorMessage = errorResponse.errorMessage || errorResponse.title || "An unknown error occurred.";
+                    // Check if errorResponse.errors exists and is an object
+                    if (errorResponse.errors && typeof errorResponse.errors === 'object') {
+                        // Loop through each field in the errors object and append to the errorMessage
+                        for (var field in errorResponse.errors) {
+                            if (errorResponse.errors.hasOwnProperty(field)) {
+                                // Add each error message for the field, joining multiple messages if they exist
+                                var fieldErrors = errorResponse.errors[field].join(", ");
+                                errorMessage += `\n${field}: ${fieldErrors}`;
+                            }
+                        }
+                    }
+                    // Display the error message using your custom showAlert function
+                    showAlert('error', "Error: \n" + errorMessage);
+                }
+            });
+        }
+        function callApiUpdateEnrollStatus(enrollId, newStatus) {
+            $.ajax({
+                url: apiUrl + `Enroll/${enrollId}/Update/Status`, // API endpoint for updating status
+                type: 'PUT', // HTTP method PUT for updates
+                headers: {
+                    'Authorization': 'Bearer ' + token, // Token for authentication
+                },
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(newStatus), // Data sent in the request body data: JSON.stringify({ status: newStatus.toString() }),
+                success: function (response) {
+                    if (response.status) {
+                        callApiGetStudentDetail();
+                        showAlert('success', 'Student enrollment status updated');
+                    } else {
+                        showAlert('error', 'Failed to update status. Error: ' + response.errorMessage);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Attempt to parse the response text if it is available
+                    var errorResponse = xhr.responseText ? JSON.parse(xhr.responseText) : {};
+
+                    // Extract the custom error message if it exists
+                    var errorMessage = errorResponse.errorMessage || errorResponse.title || "An unknown error occurred.";
+                    // Check if errorResponse.errors exists and is an object
+                    if (errorResponse.errors && typeof errorResponse.errors === 'object') {
+                        // Loop through each field in the errors object and append to the errorMessage
+                        for (var field in errorResponse.errors) {
+                            if (errorResponse.errors.hasOwnProperty(field)) {
+                                // Add each error message for the field, joining multiple messages if they exist
+                                var fieldErrors = errorResponse.errors[field].join(", ");
+                                errorMessage += `\n${field}: ${fieldErrors}`;
+                            }
+                        }
+                    }
+                    // Display the error message using your custom showAlert function
+                    showAlert('error', "Error: \n" + errorMessage);
+                }
+            });
+        }
+        function getGenderOptions(selectedGender) {
+            var options = ['Female', 'Male']; // Example statuses
+            var html = '';
+
+            options.forEach(function (gender) {
+                html += `<option value="${gender}" ${selectedGender === gender ? 'selected' : ''}>${gender}</option>`;
+            });
+
+            return html;
+        }
+        function getStatusOptions(selectedStatus) {
+            var options = ['Inactive', 'Active', 'Expired', 'Denied', 'Suspended']; // Example statuses
+            var html = '';
+            switch (selectedStatus) {
+                case 'Inactive':
+                    options = ['Inactive', 'Active', 'Suspended']
+                    break;
+                case 'Active':
+                    options = ['Active', 'Suspended']
+                    break;
+                case 'Expired':
+                    options = ['Expired', 'Active', 'Suspended']
+                    break;
+                case 'Denied':
+                    options = ['Denied']
+                    break;
+                case 'Suspended':
+                    options = ['Suspended']
+                    break;
+            }
+            options.forEach(function (status) {
+                html += `<option value="${status}" ${selectedStatus === status ? 'selected' : ''}>${status}</option>`;
+            });
+
+            return html;
+        }
+        function addParentOptions(data, parentFullname) {
+            $('#select2-parent-fullname-dropdown').empty();
+            data.forEach(item => {
+                // Add each item as an option
+
+                let newOption = parentFullname == item.parentName ? new Option(item.parentName, item.parentName, true, true) : new Option(item.parentName, item.parentName, false, false);
+                $('#select2-parent-fullname-dropdown').append(newOption);
+            });
+            // Refresh the Select2 dropdown to show new options
+            $('#select2-parent-fullname-dropdown').trigger('change'); // Ensure Select2 is updated
+        }
+        function getStatusDisplay(currentStatus){
+            var html = '';
+            switch (currentStatus) {
+                case 'Active':
+                    html = `<span class="outcome" style="float: left;">${currentStatus}</span>`
+                    break;
+                case 'Inactive':
+                    html = `<span class="approval" style="float: left;">${currentStatus}</span>`
+                    break;
+                case 'Denied':
+                case 'Expired':
+                case 'Suspended':
+                    html = `<span class="destroy" style="float: left;">${currentStatus}</span>`
+                    break;
+            }
+            return html;
+        }
+        function getEnrollStatusOptions(selectedStatus) {
+            var options = ['Pending', 'Enrolled']; // Example statuses
+            var html = '';
+            switch (selectedStatus) {
+                case 'Pending':
+                    options = ['Pending', 'Enrolled']
+                    break;
+                case 'Enrolled':
+                    options = ['Enrolled']
+                    break;
+            }
+            options.forEach(function (status) {
+                html += `<option value="${status}" ${selectedStatus === status ? 'selected' : ''} >${status}</option>`;
+            });
+
+            return html;
+        }
+    </script>
+</body>
+</html>
+

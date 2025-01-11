@@ -1,0 +1,287 @@
+﻿@page "/Student/Homework/Index"
+@model CEG_RazorWebApp.Pages.Student.Homework.HomeworkIndexModel
+@{
+    ViewData["Title"] = "Homework Page";
+    string? search = string.Empty;
+
+    var classes = Model.Homeworks;
+    var createClass = Model.Homeworks;
+
+    Layout = "~/Pages/Shared/_SLayout.cshtml";
+}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
+    <div class="main-content">
+        <div class="main">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="offset-sm-6 col-sm-6  d-flex justify-content-sm-end p-md-0 mt-2 mt-sm-0 ">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumd-item">
+                                <a href="#">Manage</a>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <span>/</span>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <a href="/Student/Homework/Index">Homework</a>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+                <section>
+                    <div class="card">
+                        <div class="card-body">
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-tabs">
+                                <!-- dung vong for o day -->
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="tab" href="#home1">
+                                        <i class='bx bx-home-alt-2'></i>
+                                        <span>All Homework</span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <div id="alertContainer"></div>
+
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <!-- home1 -->
+                                <div class="tab-pane active" id="home1" role="tabpanel">
+                                    <div class="row">
+                                    </div>
+                                    <div id="homework-table_wrapper" class="dataTables_wrapper no-footer">
+                                        <table id="homework-table"
+                                               class="table table-striped table-bordered dataTable no-footer compact"
+                                               aria-describedby="homework-table_info">
+                                            <thead>
+                                                <tr>
+                                                    <th class="sorting sorting_asc" tabindex="0"
+                                                        aria-controls="homework-table" rowspan="1"
+                                                        colspan="1" aria-sort="ascending"
+                                                        aria-label="Homework Number: activate to sort column ascending">
+                                                        Homework Number
+                                                    </th>
+                                                    <th class="sorting sorting_asc" tabindex="0"
+                                                        aria-controls="homework-table" rowspan="1"
+                                                        colspan="1" aria-sort="ascending"
+                                                        aria-label="Homework Name: activate to sort column ascending">
+                                                        Homework Name
+                                                    </th>
+                                                    <th class="sorting sorting_asc" tabindex="0"
+                                                        aria-controls="homework-table" rowspan="1"
+                                                        colspan="1" aria-sort="ascending"
+                                                        aria-label="Class Name: activate to sort column ascending">
+                                                        Class Name
+                                                    </th>
+                                                    <th class="sorting sorting_asc" tabindex="0"
+                                                        aria-controls="homework-table" rowspan="1"
+                                                        colspan="1" aria-sort="ascending"
+                                                        aria-label="Session Name: activate to sort column ascending">
+                                                        Session Name
+                                                    </th>
+                                                    <th class="sorting sorting_asc" tabindex="0"
+                                                        aria-controls="homework-table" rowspan="1"
+                                                        colspan="1" aria-sort="ascending"
+                                                        aria-label="Points: activate to sort column ascending">
+                                                        Points
+                                                    </th>
+                                                    <th class="sorting sorting_asc" tabindex="0"
+                                                        aria-controls="homework-table" rowspan="1"
+                                                        colspan="1" aria-sort="ascending"
+                                                        aria-label="Status: activate to sort column ascending">
+                                                        Status
+                                                    </th>
+                                                    <th class="sorting sorting_asc" tabindex="0"
+                                                        aria-controls="homework-table" rowspan="1"
+                                                        colspan="1" aria-sort="ascending"
+                                                        aria-label="Options: activate to sort column ascending">
+                                                        Options
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                    <!-- end tapnet -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+    <div id="addClass" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content modal-addRoom">
+            </div>
+        </div>
+    </div>
+    <script>
+        var token = sessionStorage.getItem('token');
+        var apiUrl = sessionStorage.getItem('apiUrl');
+        var id =sessionStorage.getItem('usrId');
+        var homeworkList = [];
+        var homeworkTable;
+        $(document).ready(function () {
+            // Registering the custom feature with DataTables
+            DataTable.feature.register('searchIcon', function (settings, opts) {
+                // Set default options
+                let options = Object.assign({
+                    iconClass: 'bx bx-search-alt question-search-icon',
+                    hideLabel: true // Hide search label
+                }, opts);
+
+                // Create a container for the icon
+                let container = document.createElement('div');
+                // container.classList.add('dt-custom-toolbar'); // Optional custom class for styling
+
+                // Create the icon element
+                let icon = document.createElement('i');
+                icon.className = options.iconClass;
+
+                // Check if pagination is enabled
+                // if (settings.oFeatures.bFilter) {
+                //     console.log(settings.oFeatures.bFilter);
+                //     console.log('Pagination is enabled for this DataTable.');
+                // }
+
+                setTimeout(() => {
+                    // Find the .dt-search container inside the DataTable wrapper
+                    let searchContainer = $(settings.nTableWrapper).find('.dt-search');
+                    if (searchContainer.length) {
+                        searchContainer.append(icon);
+                    } else {
+                        // Append icon to container
+                        container.appendChild(icon);
+                        // If .dt-search doesn't exist, insert the container in the DataTable toolbar instead
+                        $(settings.nTableWrapper).prepend(container);
+                    }
+                    if (options.hideLabel) {
+                        // Find the .dt-search label container inside the DataTable wrapper
+                        let searchLabel = searchContainer.find('label');
+                        if (searchLabel.length) {
+                            searchLabel.text('');
+                        } else {
+                            console.log('Label of search div not found!');
+                        }
+                    }
+                }, 100);
+                return '';
+            });
+            homeworkTable = new DataTable('#homework-table', {
+                data: [],
+                deferRender: false,
+                responsive: true,
+                lengthMenu: [5, 10, 25, 50],
+                pageLength: 5,
+                columns: [
+                    {
+                        data: 'homeworkNumber',
+                        className: 'dt-head-left'
+                    },
+                    {
+                        data: 'homework.title',
+                    },
+                    {
+                        data: 'studentProgress.class.className',
+                    },
+                    {
+                        data: 'homework.session.title',
+                    },
+                    {
+                        data: 'point',
+                    },
+                    {
+                        data: 'status',
+                        render: function (data, type, row, meta) {
+                            // console.log(row);
+                            const submitted = data === 'Submitted' ?
+                                '<span class="outcome" style="float: left;">Submitted</span>' :
+                                '<span class="destroy" style="float: left;">Not Submitted</span>';
+                            return ` ${submitted} `;
+                        },
+                    },
+                    {
+                        data: null,
+                        render: function (data, type, row, meta) {
+                            // const selectedRowData = scheduleTable.rows({ selected: true }).data().toArray();
+                            console.log(row);
+
+                            if (row.status && row.status === "Not Submitted") {
+                                return `
+                                    <button class="btn btn-primary btn-sm submit-button">
+                                        Download Homework
+                                    </button>
+                                `;
+                            }
+                            return `<span>No Action Required</span>`;
+                        },
+                        orderable: false,
+                        searchable: false,
+                    }
+                ],
+                layout: {
+                    topEnd: {
+                        search: {
+                            placeholder: 'Search homework...'
+                        },
+                        searchIcon: {
+                        }
+                    }
+                },
+            });
+            callApiGetHomeworkList();
+        });
+        function callApiGetHomeworkList() {
+            $.ajax({
+                url: apiUrl + 'StudentHomework/ByStudent/' + id, // API endpoint
+                type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + token// Include the JWT token
+                },
+                success: function (response) {
+                    // Log the entire response to the console for debugging
+                    console.log("Returned object:", response);
+
+                    // Check if the status is true
+                    if (response.status) {
+                        homeworkList = response.data;
+                        if (homeworkList && homeworkList.length > 0) {
+                            homeworkTable.clear().rows.add(homeworkList).draw();
+                        }
+                    } else {
+                        showAlert('error', "Error:" + response.errorMessage);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Attempt to parse the response text if it is available
+                    var errorResponse = xhr.responseText ? JSON.parse(xhr.responseText) : {};
+
+                    // Extract the custom error message if it exists
+                    var errorMessage = errorResponse.errorMessage || errorResponse.title || "An unknown error occurred.";
+                    // Check if errorResponse.errors exists and is an object
+                    if (errorResponse.errors && typeof errorResponse.errors === 'object') {
+                        // Loop through each field in the errors object and append to the errorMessage
+                        for (var field in errorResponse.errors) {
+                            if (errorResponse.errors.hasOwnProperty(field)) {
+                                // Add each error message for the field, joining multiple messages if they exist
+                                var fieldErrors = errorResponse.errors[field].join(", ");
+                                errorMessage += `\n${field}: ${fieldErrors}`;
+                            }
+                        }
+                    }
+                    // Display the error message using your custom showAlert function
+                    showAlert('error', "Error: \n" + errorMessage);
+                }
+            });
+        }
+    </script>
+</body>
+</html>

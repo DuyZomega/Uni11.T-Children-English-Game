@@ -1,8 +1,12 @@
 ﻿using CEG_BAL.Services.Implements;
 using CEG_BAL.Services.Interfaces;
 using CEG_BAL.ViewModels;
+using CEG_BAL.ViewModels.Admin.Get;
+using CEG_BAL.ViewModels.Admin.Update;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace CEG_WebAPI.Controllers
 {
@@ -53,6 +57,40 @@ namespace CEG_WebAPI.Controllers
             }
         }
 
+        [HttpGet("All/Fullname")]
+        [ProducesResponseType(typeof(List<GetParentNameOption>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetParentNameList()
+        {
+            try
+            {
+                var result = await _parentService.GetParentNameList();
+                if (result == null)
+                {
+                    return NotFound(new
+                    {
+                        Status = false,
+                        ErrorMessage = "Parent Name List Not Found!"
+                    });
+                }
+                return Ok(new
+                {
+                    Status = true,
+                    Data = result
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    Status = false,
+                    ErrorMessage = ex.Message,
+                    InnerExceptionMessage = ex.InnerException?.Message
+                });
+            }
+        }
+
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(ParentViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -70,6 +108,81 @@ namespace CEG_WebAPI.Controllers
                         ErrorMessage = "Parent Not Found!"
                     });
                 }
+                return Ok(new
+                {
+                    Status = true,
+                    Data = result
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    Status = false,
+                    ErrorMessage = ex.Message,
+                    InnerExceptionMessage = ex.InnerException?.Message
+                });
+            }
+        }
+        [HttpGet("Account/{id}")]
+        [Authorize(Roles = "Admin, Parent")]
+        [ProducesResponseType(typeof(ParentViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetParentByAccountId(
+            [FromRoute][Required] int id
+            )
+        {
+            try
+            {
+                var result = await _parentService.GetParentByAccountId(id);
+                if (result == null)
+                {
+                    return NotFound(new
+                    {
+                        Status = false,
+                        ErrorMessage = "Parent Not Found!"
+                    });
+                }
+                return Ok(new
+                {
+                    Status = true,
+                    Data = result
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    Status = false,
+                    ErrorMessage = ex.Message,
+                    InnerExceptionMessage = ex.InnerException?.Message
+                });
+            }
+        }
+
+        [HttpPut("Account/{id}/Update")]
+        [Authorize(Roles = "Admin")]
+        [ProducesResponseType(typeof(ParentViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Update(
+            [FromRoute][Required] int id,
+            [FromBody][Required] UpdateParent parent)
+        {
+            try
+            {
+                var result = await _parentService.GetParentByAccountId(id);
+                if (result == null)
+                {
+                    return NotFound(new
+                    {
+                        Status = false,
+                        ErrorMessage = "Parent Does Not Exist"
+                    });
+                }
+                _parentService.Update(result,parent);
+                result = await _parentService.GetParentByAccountId(id);
                 return Ok(new
                 {
                     Status = true,

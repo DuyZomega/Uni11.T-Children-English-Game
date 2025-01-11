@@ -31,32 +31,68 @@ namespace CEG_DAL.Repositories.Implements
 
         public async Task<Account?> GetByIdNoTracking(int id)
         {
-            return await _dbContext.Accounts.AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(acc => acc.AccountId == id);
+            return await _dbContext.Accounts.AsNoTrackingWithIdentityResolution().Include(a => a.Role).SingleOrDefaultAsync(acc => acc.AccountId == id);
         }
 
         public async Task<Account?> GetByUsername(string username)
         {
-            return await _dbContext.Accounts.AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(acc => acc.Username == username);
+            return await _dbContext.Accounts
+                .AsNoTrackingWithIdentityResolution()
+                .Include(a => a.Role)
+                .SingleOrDefaultAsync(acc => acc.Username == username);
         }
 
         public async Task<string?> GetRoleByAccountId(int id)
         {
-            var acc = await _dbContext.Accounts.AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(acc => acc.AccountId == id);
-            if (acc != null)
-            {
-                var roleId = acc.RoleId;
-                var role = await _dbContext.Roles.AsNoTracking().SingleOrDefaultAsync(r => r.RoleId == roleId);
-                var roleName = role.RoleName;
-                return roleName;
-            }
-            return null;
+            return await _dbContext.Accounts.AsNoTrackingWithIdentityResolution()
+                .Where(acc => acc.AccountId == id)
+                .Select(acc => acc.Role.RoleName)
+                .SingleOrDefaultAsync();
+        }
+
+        public async Task<List<Account>> GetListByRole(string role)
+        {
+            return await _dbContext.Accounts
+                .AsNoTrackingWithIdentityResolution()
+                .Where(acc => acc.Role.RoleName == role)
+                .ToListAsync();
         }
 
         public async Task<int> GetIdByUsername(string username)
         {
-            var result = await (from acc in _dbContext.Accounts where acc.Username.Trim().ToLower() == username.Trim().ToLower() select acc).FirstOrDefaultAsync();
+            return await _dbContext.Accounts
+                .AsNoTrackingWithIdentityResolution()
+                .Where(acc => acc.Username.Trim().ToLower() == username.Trim().ToLower())
+                .Select(acc => acc.AccountId)
+                .FirstOrDefaultAsync();
+            /*var result = await (from acc in _dbContext.Accounts where acc.Username.Trim().ToLower() == username.Trim().ToLower() select acc).FirstOrDefaultAsync();
             if (result != null) return result.AccountId;
-            return 0;
+            return 0;*/
+        }
+        public async Task<int> GetIdByFullname(string fullname)
+        {
+            return await _dbContext.Accounts
+                .AsNoTrackingWithIdentityResolution()
+                .Where(acc => acc.Fullname.Trim().ToLower() == fullname.Trim().ToLower())
+                .Select(acc => acc.AccountId)
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<bool> UpdateStatusById(string status, int id)
+        {
+            var acc = await _dbContext.Accounts.AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(acc => acc.AccountId == id);
+            if (acc != null)
+            {
+                acc.Status = status;
+                _dbContext.Accounts.Update(acc);
+                return true;
+            }
+            return false;
+        }
+
+        public async Task<int> GetTotalAmount()
+        {
+            return await _dbContext.Accounts.CountAsync();
         }
     }
 }

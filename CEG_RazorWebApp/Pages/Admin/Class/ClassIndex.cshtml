@@ -1,0 +1,741 @@
+﻿@page "/Admin/Class/Index"
+@model CEG_RazorWebApp.Pages.Admin.Class.ClassIndexModel
+@{
+    Layout = null;
+    ViewData["Title"] = "Admin All Classes Page";
+    string? search = string.Empty;
+
+    var createClass = Model.CreateClass;
+    Layout = "~/Pages/Shared/_ALayout.cshtml";
+}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
+    <div class="main-content">
+        <div id="alertContainer"></div>
+        <div class="main">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="offset-sm-6 col-sm-6  d-flex justify-content-sm-end p-md-0 mt-2 mt-sm-0 ">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumd-item">
+                                <a href="#">Manage</a>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <span>/</span>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <a href="/Admin/Class/Index">Class</a>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+                <section>
+                    <div class="card">
+                        <div class="card-body">
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-tabs">
+                                <!-- dung vong for o day -->
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="tab" href="/Admin/Class/Index">
+                                        <i class='bx bx-home-alt-2'></i>
+                                        <span>All Classes</span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <!-- home1 -->
+                                <div class="tab-pane active" id="home1" role="tabpanel">
+                                    <div class="row search">
+                                        <div class="col-sm-12 d-flex">
+                                            <div class="col-sm-6 d-flex address-home">
+                                            </div>
+                                            <div class="col-sm-6 d-flex justify-content-end">
+                                                <form method="get" asp-route-search="@search">
+                                                    <div>
+                                                        <label>
+                                                            <input asp-for="@search" class="form-control" type="text" placeholder="Search..." value="@search">
+                                                            <i class='bx bx-search-alt'></i>
+                                                        </label>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row card-content" id="classList">
+                                        <!-- dung vong for o day -->
+                                    </div>
+                                    <!-- end tapnet -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+    <div id="addClass" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content modal-addRoom">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add new Class</h4>
+                </div>
+                <form method="post" id="createClassForm">
+                    <div class="modal-body">
+                        <div class="container-fluid p-5">
+                            <div class="row form-group">
+                                <label asp-for="@createClass.ClassName" class="col-md-4 col-form-label text-md-right">Class code</label>
+                                <input asp-for="@createClass.ClassName" value="@createClass.ClassName" type="text" placeholder="Class Name..." required class="form-control col-md-8">
+                                <span asp-validation-for="@createClass.ClassName" id="error_message"
+                                      class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                <label asp-for="@createClass.MinimumStudents" class="col-md-4 col-form-label text-md-right"></label>
+                                <input asp-for="@createClass.MinimumStudents" value="@createClass.MinimumStudents" type="number" min="@CEG_RazorWebApp.Libraries.Constants.CLASS_MINIMUM_STUDENTS_REQ" required class="form-control col-md-8">
+                                <span asp-validation-for="@createClass.MinimumStudents" id="error_message"
+                                      class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                <label asp-for="@createClass.MaximumStudents" class="col-md-4 col-form-label text-md-right"></label>
+                                <input asp-for="@createClass.MaximumStudents" value="@createClass.MaximumStudents" type="number" max="@CEG_RazorWebApp.Libraries.Constants.CLASS_MAXIMUM_STUDENTS_REQ" required class="form-control col-md-8">
+                                <span asp-validation-for="@createClass.MaximumStudents" id="error_message"
+                                      class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                <label asp-for="@createClass.TeacherName" class="col-md-4 col-form-label text-md-right">Select a Teacher</label>
+                                <div class="col-md-8 p-0">
+                                    <!-- search bar with dropdown list-->
+                                    <select id="searchableTeacherDropdown" class="form-control custom-select" style="width: 100%;">
+                                    </select>
+                                </div>
+                                <span asp-validation-for="@createClass.TeacherName" id="error_message"
+                                      class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+
+                                <label asp-for="@createClass.CourseName" class="col-md-4 col-form-label text-md-right">Select a available Course</label>
+                                <div class="col-md-8 p-0">
+                                    <!-- search bar with dropdown list-->
+                                    <select id="searchableCourseDropdown" class="form-control custom-select" style="width: 100%;">
+                                    </select>
+                                </div>
+                                <span asp-validation-for="@createClass.CourseName" id="error_message"
+                                      class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                <label asp-for="@createClass.StartDate" class="col-md-4 col-form-label text-md-right"></label>
+                                <input asp-for="@createClass.StartDate" type="date" value="@createClass.StartDate.ToString("yyyy-MM-dd")" min="@createClass.StartDate.ToString("yyyy-MM-dd")" max="@DateTime.Now.AddYears(1).ToString("yyyy-MM-dd")" class="form-control col-md-8" required>
+                                <span asp-validation-for="@createClass.StartDate" id="error_message"
+                                      class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                <label asp-for="@createClass.EndDate" class="col-md-4 col-form-label text-md-right"></label>
+                                <input asp-for="@createClass.EndDate" type="date" value="@createClass.EndDate.ToString("yyyy-MM-dd")" min="@createClass.EndDate.ToString("yyyy-MM-dd")" max="@DateTime.Now.AddYears(1).ToString("yyyy-MM-dd")" class="form-control col-md-8" required>
+                                <span asp-validation-for="@createClass.EndDate" id="error_message"
+                                      class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
+                                <label asp-for="@createClass.EnrollmentFee" class="col-md-4 col-form-label text-md-right"></label>
+                                <input asp-for="@createClass.EnrollmentFee" value="@createClass.EnrollmentFee" type="text" required class="form-control col-md-8">
+                                <span asp-validation-for="@createClass.EnrollmentFee" id="error_message"
+                                      class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+                            </div>
+                            <hr>
+                            <div class="row form-group justify-content-center">
+                                <label class="col-form-label">Course's Sessions preview</label>
+                                <div id="session-table_wrapper" class="dataTables_wrapper no-footer col-md-12">
+                                    <table id="session-table"
+                                           class="table table-striped table-bordered dataTable no-footer"
+                                           aria-describedby="session-table_info">
+                                        <thead>
+                                            <tr>
+                                                <th class="sorting sorting_asc" tabindex="0"
+                                                    aria-controls="session-table" rowspan="1"
+                                                    colspan="1" aria-sort="ascending"
+                                                    aria-label="Select Session: activate to sort column ascending">
+                                                    Add to Class
+                                                </th>
+                                                <th class="sorting sorting_asc" tabindex="0"
+                                                    aria-controls="session-table" rowspan="1"
+                                                    colspan="1" aria-sort="ascending"
+                                                    aria-label="Session Number: activate to sort column ascending">
+                                                    Session Number
+                                                </th>
+                                                <th class="sorting sorting_asc" tabindex="0"
+                                                    aria-controls="session-table" rowspan="1"
+                                                    colspan="1" aria-sort="ascending"
+                                                    aria-label="Title: activate to sort column ascending">
+                                                    Session Title
+                                                </th>
+                                                <th class="sorting sorting_asc" tabindex="0"
+                                                    aria-controls="schedule-table" rowspan="1"
+                                                    colspan="1" aria-sort="ascending"
+                                                    aria-label="hour: activate to sort column ascending">
+                                                    Hours
+                                                </th>
+                                                <th class="sorting sorting_asc" tabindex="0"
+                                                    aria-controls="schedule-table" rowspan="1"
+                                                    colspan="1" aria-sort="ascending"
+                                                    aria-label="Description: activate to sort column ascending">
+                                                    Schedule Start Date & Time
+                                                </th>
+                                                <th class="sorting sorting_asc" tabindex="0"
+                                                    aria-controls="schedule-table" rowspan="1"
+                                                    colspan="1" aria-sort="ascending"
+                                                    aria-label="Description: activate to sort column ascending">
+                                                    Schedule End Date & Time
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer justify-content-center">
+                        <button class="btn btn-success" type="submit">Create</button>
+                        <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        var token = sessionStorage.getItem('token');
+        var apiUrl = sessionStorage.getItem('apiUrl');
+        var classList = [];
+        var courseList;
+        var sessionTable;
+        var scheduleTable;
+        var selectedSessionIds = new Map();
+        $(document).ready(function () {
+            // Registering the custom feature with DataTables
+            DataTable.feature.register('searchIcon', function (settings, opts) {
+                // Set default options
+                let options = Object.assign({
+                    iconClass: 'bx bx-search-alt question-search-icon',
+                    hideLabel: true // Hide search label
+                }, opts);
+
+                // Create a container for the icon
+                let container = document.createElement('div');
+                // container.classList.add('dt-custom-toolbar'); // Optional custom class for styling
+
+                // Create the icon element
+                let icon = document.createElement('i');
+                icon.className = options.iconClass;
+
+                // Check if pagination is enabled
+                // if (settings.oFeatures.bFilter) {
+                //     console.log(settings.oFeatures.bFilter);
+                //     console.log('Pagination is enabled for this DataTable.');
+                // }
+
+                setTimeout(() => {
+                    // Find the .dt-search container inside the DataTable wrapper
+                    let searchContainer = $(settings.nTableWrapper).find('.dt-search');
+                    if (searchContainer.length) {
+                        searchContainer.append(icon);
+                    } else {
+                        // Append icon to container
+                        container.appendChild(icon);
+                        // If .dt-search doesn't exist, insert the container in the DataTable toolbar instead
+                        $(settings.nTableWrapper).prepend(container);
+                    }
+                    if (options.hideLabel) {
+                        // Find the .dt-search label container inside the DataTable wrapper
+                        let searchLabel = searchContainer.find('label');
+                        if (searchLabel.length) {
+                            searchLabel.text('');
+                        } else {
+                            console.log('Label of search div not found!');
+                        }
+                    }
+                }, 100);
+                return '';
+            });
+            DataTable.render.customDate = function (
+                {
+                    formatString = "dddd, DD/MM/YYYY hh",
+                    includeId = "schedule-start-time"
+                }
+            ) {
+                return function (data, type, row) {
+                    var str = moment(getDefaultDate()).add(row.hours,"h");
+
+                    // console.log(str);
+
+                    if (type === 'display') {
+                        return '<span id="' + includeId + '">' + str.format(formatString) + '</span >';
+                    }
+
+                    // Search, order and type can use the original data
+                    return str;
+                };
+            };
+            sessionTable = new DataTable('#session-table', {
+                data: [],
+                deferRender: false,
+                responsive: true,
+                columns: [
+                    { 
+                        data: null,
+                        orderable: false,
+                        render: DataTable.render.select()
+                    },
+                    { data: 'sessionNumber' },
+                    { data: 'title' },
+                    {
+                        data: 'hours',
+                        render: function (data, type, row, meta) {
+                            return '<span id="schedule-hour">' + data + '</span >';
+                        }
+                    },
+                    { // Add a select box in the last column
+                        data: null, // No need to map it to a specific data field 'startDate'
+                        render: function (data, type, row, meta) {
+                            // return data ? $.fn.dataTable.render.datetime(data, 'YYYY-MM-DD HH:mm').display(data) : '';
+                            return '<input type="datetime-local" id="schedule-start-date" class="form-control" value="' + getDefaultDate() + '" min="' + getDefaultDate() + '" asp-format="{0:yyyy-MM-ddTHH:mm}" disabled/>';
+                        }
+                    },
+                    {
+                        data: null, // 'endDate'
+                        // render: function (data, type, row, meta) {
+                        //     var endDateTime = new Date(getDefaultDate());
+                        //     endDateTime.setHours(endDateTime.getHours() + row.hours);
+
+                        //     return '<span id="schedule-end-date">' + formatDate(endDateTime, { includeAmPm: true, monthBeforeDate: true }) + '</span >';
+                        // },
+                        render: DataTable.render.customDate({ formatString: "MM/DD/YYYY hh:mm A", includeId: "schedule-end-date" })
+                    }
+                ],
+                layout: {
+                    topEnd: {
+                        search: {
+                            placeholder: 'type session title...'
+                        },
+                        searchIcon: {
+                        }
+                    }
+                },
+                select: {
+                    style: 'multi',
+                    selector: 'td:first-child'
+                },
+                order: [
+                    [1, 'asc']
+                ]
+            }).on('select', function (e, dt, type, indexes) {
+                if (type === 'row') {
+                    indexes.forEach(function (rowIdx) {
+                        var data = dt.row(rowIdx).data();
+                        var dateCell = $(dt.cell(rowIdx, 4).node()).find('input');
+
+                        // If not selected, add to selected set
+                        selectedSessionIds.set(rowIdx, data.sessionId);
+
+                        // Enable input in the date cell
+                        dateCell.prop('disabled', false);
+                        dateCell.on('change', function () {
+                            var endDateTime = new Date(dateCell.val());
+                            endDateTime.setHours(endDateTime.getHours() + data.hours);
+
+                            var endTimeCell = $(dt.cell(rowIdx, 5).node()).find('#schedule-end-date');
+                            endTimeCell.text(moment(endDateTime).format("MM/DD/YYYY hh:mm A"));
+                        });
+                    });
+                }
+            }).on('deselect', function (e, dt, type, indexes) {
+                if (type === 'row') {
+                    indexes.forEach(function (rowIdx) {
+                        // var data = dt.row(rowIdx).data();
+                        var dateCell = $(dt.cell(rowIdx, 4).node()).find('input');
+
+                        // If already selected, unselect and remove from scheduleTable
+                        selectedSessionIds.delete(rowIdx);
+
+                        // Disable input in the date cell
+                        dateCell.prop('disabled', true);
+                    });
+                }
+            });
+
+            $('#searchableCourseDropdown').select2({
+                placeholder: 'Select a course name',
+                allowClear: true,
+                width: 'resolve',
+                theme: 'bootstrap4'
+            })
+            .on('select2:select', function (e) {
+                // console.log(e);
+                var selectedCourseId = $('#searchableCourseDropdown').val();
+                // Filter options based on the search input
+                // console.log(courseList);
+                var results = courseList.filter(function (item) {
+                    return item && item.courseId == selectedCourseId;
+                });
+
+                if (results.length > 0 && results[0].sessions) {
+                    sessionTable.clear().rows.add(results[0].sessions).draw();
+                    // scheduleTable.clear().draw();
+                } else {
+                    console.error('Selected course or its sessions not found.');
+                    sessionTable.clear().draw();
+                    // scheduleTable.clear().draw();
+                }
+            })
+            ;
+
+            $('#searchableTeacherDropdown').select2({
+                placeholder: 'Select a teacher name',
+                allowClear: true,
+                width: 'resolve',
+                theme: 'bootstrap4'
+            });
+
+            callApiGetClassList();
+
+            $('#search').on('keyup', function (event) {
+                // Get the search term
+                var searchTerm = $(this).val().toLowerCase();
+
+                // Filter the classes based on the search term
+                var filteredclassList = classList.filter(function (classObject) {
+                    return classObject.className.toLowerCase().includes(searchTerm);
+                });
+
+                // Display the filtered classList
+                setClassDisplay(filteredclassList);
+            });
+            // Call API to get the list of teacher names
+            $.ajax({
+                url: apiUrl + 'Teacher/All/FullnameOption', // API endpoint
+                type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + token, // Token for authentication
+                },
+                success: function (response) {
+
+                    // Check if the status is true
+                    if (response.status) {
+                        addTeacherOptions(response.data);
+                    } else {
+                        showAlert('error',"API returned false status.");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Attempt to parse the response text if it is available
+                    var errorResponse = xhr.responseText ? JSON.parse(xhr.responseText) : {};
+
+                    // Extract the custom error message if it exists
+                    var errorMessage = errorResponse.errorMessage || errorResponse.title || "An unknown error occurred.";
+                    // Check if errorResponse.errors exists and is an object
+                    if (errorResponse.errors && typeof errorResponse.errors === 'object') {
+                        // Loop through each field in the errors object and append to the errorMessage
+                        for (var field in errorResponse.errors) {
+                            if (errorResponse.errors.hasOwnProperty(field)) {
+                                // Add each error message for the field, joining multiple messages if they exist
+                                var fieldErrors = errorResponse.errors[field].join(", ");
+                                errorMessage += `\n${field}: ${fieldErrors}`;
+                            }
+                        }
+                    }
+                    // Display the error message using your custom showAlert function
+                    showAlert('error', "Error: \n" + errorMessage);
+                }
+            });
+            // Call API to get the list of course names
+            $.ajax({
+                url: apiUrl + 'Course/All/Available',// API endpoint
+                type: 'GET',
+                success: function (response) {
+
+                    // Check if the status is true
+                    if (response.status) {
+                        courseList = response.data;
+                        addCourseOptions(courseList);
+                    } else {
+                        showAlert('error',"API returned false status.");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Attempt to parse the response text if it is available
+                    var errorResponse = xhr.responseText ? JSON.parse(xhr.responseText) : {};
+
+                    // Extract the custom error message if it exists
+                    var errorMessage = errorResponse.errorMessage || errorResponse.title || "An unknown error occurred.";
+                    // Check if errorResponse.errors exists and is an object
+                    if (errorResponse.errors && typeof errorResponse.errors === 'object') {
+                        // Loop through each field in the errors object and append to the errorMessage
+                        for (var field in errorResponse.errors) {
+                            if (errorResponse.errors.hasOwnProperty(field)) {
+                                // Add each error message for the field, joining multiple messages if they exist
+                                var fieldErrors = errorResponse.errors[field].join(", ");
+                                errorMessage += `\n${field}: ${fieldErrors}`;
+                            }
+                        }
+                    }
+                    // Display the error message using your custom showAlert function
+                    showAlert('error', "Error: \n" + errorMessage);
+                }
+            });
+        });
+        const classAmount = new AutoNumeric('#createClassForm #createClass_EnrollmentFee', {
+            currencySymbol: "₫",
+            currencySymbolPlacement: "s",
+            decimalCharacter: ",",
+            decimalPlaces: 0,
+            digitGroupSeparator: ".",
+            emptyInputBehavior: "min",
+            leadingZero: "allow",
+            maximumValue: "1000000000",
+            minimumValue: "0",
+            onInvalidPaste: "clamp",
+            outputFormat: "number",
+            wheelStep: "10000",
+            defaultValueOverride: "0"
+        });
+        function addTeacherOptions(data) {
+            const dropdown = $('#searchableTeacherDropdown');
+            data.forEach(item => {
+                // Add each item as an option
+                let newOption = new Option(item.teacherName, item.teacherId, false, false);
+                dropdown.append(newOption);
+            });
+            // Refresh the Select2 dropdown to show new options
+            dropdown.trigger('change'); // Ensure Select2 is updated
+        }
+        function addCourseOptions(data) {
+            const dropdown = $('#searchableCourseDropdown');
+            data.forEach(item => {
+                // Add each item as an option
+                let newOption = new Option(item.courseName, item.courseId, false, false);
+                dropdown.append(newOption);
+            });
+            // Refresh the Select2 dropdown to show new options
+            dropdown.trigger('change'); // Ensure Select2 is updated
+            // render default data using first data
+            var results = data[0]
+
+            if (results && results.sessions) {
+                sessionTable.clear().rows.add(results.sessions).draw();
+            } else {
+                console.error('Selected course or its sessions not found.');
+                sessionTable.clear().draw();
+            }
+        }
+        // Function to calculate today's date + 10 days
+        function getDefaultDate() {
+            let currentDate = new Date(); // Get the current date and time
+            let defaultDate = new Date(currentDate); // Copy the current date
+
+            // Add 10 days to the date
+            defaultDate.setDate(currentDate.getDate() + 10);
+            // console.log(currentDate);
+            // console.log(defaultDate);
+
+            // Get year, month, day, hours, and minutes in local time
+            let year = defaultDate.getFullYear();
+            let month = String(defaultDate.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+            let day = String(defaultDate.getDate()).padStart(2, '0');
+            let hours = String(defaultDate.getHours()).padStart(2, '0');
+            let minutes = String(defaultDate.getMinutes()).padStart(2, '0');
+
+            // Construct formatted string in 'YYYY-MM-DDTHH:MM' format
+            return `${year}-${month}-${day}T${hours}:${minutes}`;
+        }
+        function callApiGetClassList() {
+            $.ajax({
+                url: apiUrl + 'Class/All', // API endpoint
+                type: 'GET',
+                success: function (response) {
+                    // Log the entire response to the console for debugging
+
+                    // Check if the status is true
+                    if (response.status) {
+                        classList = response.data;
+                        setClassDisplay(classList);
+                    } else {
+                        showAlert('error',"API returned false status.");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Attempt to parse the response text if it is available
+                    var errorResponse = xhr.responseText ? JSON.parse(xhr.responseText) : {};
+
+                    // Extract the custom error message if it exists
+                    var errorMessage = errorResponse.errorMessage || errorResponse.title || "An unknown error occurred.";
+                    // Check if errorResponse.errors exists and is an object
+                    if (errorResponse.errors && typeof errorResponse.errors === 'object') {
+                        // Loop through each field in the errors object and append to the errorMessage
+                        for (var field in errorResponse.errors) {
+                            if (errorResponse.errors.hasOwnProperty(field)) {
+                                // Add each error message for the field, joining multiple messages if they exist
+                                var fieldErrors = errorResponse.errors[field].join(", ");
+                                errorMessage += `\n${field}: ${fieldErrors}`;
+                            }
+                        }
+                    }
+                    // Display the error message using your custom showAlert function
+                    showAlert('error', "Error: \n" + errorMessage);
+                }
+            });
+        }
+        function setClassDisplay(data) {
+            var classList = $('#classList');
+            // Reference to the <classList> element
+            classList.empty(); // Clear any existing options
+            var cardCreateClassHtml = `
+                        <div class="col-xl-3 col-lg-6 col-sm-6 my-3 item">
+                            <div class="card1 card-child">
+                                <div class="card-body add-club">
+                                    <button class="border-0" data-toggle="modal" data-target="#addClass">
+                                        <span>Add Class</span>
+                                        <i class='bx bx-add-to-queue'></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+            classList.append(cardCreateClassHtml);
+            // Loop through the data array and append each class div
+            $.each(data, function (index, classObj) {
+                var formattedStartDate = formatDate(classObj.startDate, { ignoreHour : true });
+                var formattedEndDate = formatDate(classObj.endDate, { ignoreHour: true });
+                var filteredEnrollList = classObj.enrolls.filter(function (enroll) {
+                    return enroll.status === 'Enrolled';
+                });
+                var statusText = '';
+                switch (classObj.status) {
+                    case 'Open':
+                    case 'Ongoing':
+                        statusText = `<span class="outcome" style="float: left;">Status: ${classObj.status}</span>`
+                        break;
+                    case 'Draft':
+                    case 'Postponed':
+                        statusText = `<span class="approval" style="float: left;">Status: ${classObj.status}</span>`
+                        break;
+                    case 'Ended':
+                    case 'Cancelled':
+                        statusText = `<span class="destroy" style="float: left;">Status: ${classObj.status}</span>`
+                        break;
+                }
+                formatter = new Intl.NumberFormat('vi-VN', {
+                    style: 'currency',
+                    currency: 'VND',
+                });
+                // Construct card HTML
+                var cardHtml = `
+                    <div class="col-xl-3 col-lg-6 col-sm-6 my-3">
+                        <div class="card1 card-child">
+                            <div class="club-name">
+                                Class Code: ${classObj.className}
+                                <div class="status">
+                                    ${statusText}
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="club-title">
+                                    <ul>
+                                        <li><h6>Course:</h6><span>${classObj.course.courseName}</span></li>
+                                        <li><h6>Teacher:</h6><span>${classObj.teacher.account.fullname}</span></li>
+                                        <li><h6>Start date:</h6><span>${formattedStartDate}</span></li>
+                                        <li><h6>End date:</h6><span>${formattedEndDate}</span></li>
+                                        <li><h6>Enrollment Fee:</h6><span>${formatter.format(classObj.enrollmentFee)}</span></li>
+                                        <li><h6>Minimum students amount:</h6><span>${classObj.minimumStudents}</span></li>
+                                        <li><h6>Maximum students amount:</h6><span>${classObj.maximumStudents}</span></li>
+                                        <li><h6>Current students amount:</h6><span>${filteredEnrollList.length}</span></li>
+                                        <li><h6>Weekly scheduled sessions amount:</h6><span>${classObj.schedules.length}</span></li>
+                                        <li><h6>Current enrolls amount:</h6><span>${classObj.enrolls.length}</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="form-group mx-auto">
+                                <a class="btn btn-primary clickable-row" href="/Admin/Class/${classObj.classId}/Info" role="button">Details</a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                // Append the constructed HTML to the class list container
+                // <form method="get" asp-route-id="${classObj.classId}">
+                //     <button class="btn btn-primary clickable-row" type="submit">See Detail</button>
+                // </form>
+                classList.append(cardHtml);
+            });
+        }
+        $("#createClassForm").submit(function (event) {
+            event.preventDefault(); // Prevent the form from submitting
+
+            // Get the teacherId (value of the selected option)
+            // var teacherId = $('#searchableTeacherDropdown').val();
+
+            // Get the TeacherName (text of the selected option)
+            // var teacherName = $('#searchableTeacherDropdown').select2('data')[0].text;
+
+            // Gather form data
+            var classData = {
+                ClassName: $("#createClass_ClassName").val(),
+                MinStudents: $("#createClass_MinStudents").val(),
+                MaxStudents: $("#createClass_MaxStudents").val(),
+                TeacherId: $('#searchableTeacherDropdown').val(),
+                CourseId: $('#searchableCourseDropdown').val(),
+                StartDate: $("#createClass_StartDate").val(),
+                EndDate: $("#createClass_EndDate").val(),
+                EnrollmentFee: classAmount.getNumber(),
+                Schedules: []
+            };
+            // Gather schedule data dynamically (example assuming each schedule is in a row in a table)
+            selectedSessionIds.forEach((value, key) => {
+                var schedule = {
+                    ScheduleDate: $(sessionTable.row(key).node()).find('#schedule-start-date').val(), // Example date input
+                    SessionId: value
+                };
+                classData.Schedules.push(schedule);
+            });
+
+            // Make the AJAX POST request
+            $.ajax({
+                url: apiUrl + 'Class/Create',
+                headers: {
+                    'Authorization': 'Bearer ' + token// Include the JWT token
+                },
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(classData),
+                success: function (response) {
+                    // Log the entire response to the console for debugging
+                    // Check if the status is true
+                    if (response.status) {
+                        showAlert('success','Class created successfully!');
+                        $('#createClassForm').trigger("reset");
+                        callApiGetClassList();
+                    } else {
+                        showAlert('error',"API returned false status. Message:", response.ErrorMessage);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Attempt to parse the response text if it is available
+                    var errorResponse = xhr.responseText ? JSON.parse(xhr.responseText) : {};
+
+                    // Extract the custom error message if it exists
+                    var errorMessage = errorResponse.errorMessage || errorResponse.title || "An unknown error occurred.";
+                    // Check if errorResponse.errors exists and is an object
+                    if (errorResponse.errors && typeof errorResponse.errors === 'object') {
+                        // Loop through each field in the errors object and append to the errorMessage
+                        for (var field in errorResponse.errors) {
+                            if (errorResponse.errors.hasOwnProperty(field)) {
+                                // Add each error message for the field, joining multiple messages if they exist
+                                var fieldErrors = errorResponse.errors[field].join(", ");
+                                errorMessage += `\n${field}: ${fieldErrors}`;
+                            }
+                        }
+                    }
+                    // Display the error message using your custom showAlert function
+                    showAlert('error', "Error: \n" + errorMessage);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CEG_DAL.Models;
 using CEG_BAL.ViewModels.Admin;
+using CEG_BAL.Configurations;
 
 namespace CEG_BAL.Services.Implements
 {
@@ -53,7 +54,8 @@ namespace CEG_BAL.Services.Implements
 
         public async Task<CourseViewModel?> GetCourseById(int id)
         {
-            var user = await _unitOfWork.CourseRepositories.GetByIdNoTracking(id);
+            _unitOfWork.CourseRepositories.UpdateTotalHoursByIdThroughSessionsSum(id);
+            var user = await _unitOfWork.CourseRepositories.GetByIdNoTracking(id, true, true ,true);
             if (user != null)
             {
                 var urs = _mapper.Map<CourseViewModel>(user);
@@ -64,7 +66,21 @@ namespace CEG_BAL.Services.Implements
 
         public async Task<List<CourseViewModel>> GetCourseList()
         {
-            return _mapper.Map<List<CourseViewModel>>(await _unitOfWork.CourseRepositories.GetCourseList());
+            return _mapper.Map<List<CourseViewModel>>(await _unitOfWork.CourseRepositories.GetList());
+        }
+        public async Task<List<CourseViewModel>?> GetListByStatus(string status)
+        {
+            return _mapper.Map<List<CourseViewModel>>(await _unitOfWork.CourseRepositories.GetListByStatus(status));
+        }
+
+        public async Task<List<string>> GetCourseNameList()
+        {
+            return await _unitOfWork.CourseRepositories.GetNameList();
+        }
+
+        public async Task<List<string>> GetCourseNameByStatusList(string status)
+        {
+            return await _unitOfWork.CourseRepositories.GetNameListByStatus(status);
         }
 
         public void Update(CourseViewModel course)
@@ -74,11 +90,42 @@ namespace CEG_BAL.Services.Implements
             _unitOfWork.Save();
         }
 
-        public async Task<bool> IsCourseExistByName(string name)
+        public void UpdateStatus(int courseId, string courseStatus)
+        {
+            var cou = _unitOfWork.CourseRepositories.GetByIdNoTracking(courseId, includeClasses: true).Result;
+            if (cou == null) return;
+            cou.Status = courseStatus;
+            _unitOfWork.CourseRepositories.Update(cou);
+            _unitOfWork.Save();
+        }
+
+        public async Task<bool> IsExistByName(string name)
         {
             var cou = await _unitOfWork.CourseRepositories.GetByName(name);
-            if (cou != null) return true;
-            return false;
+            return cou != null;
+        }
+
+        public async Task<bool> IsAvailableByName(string name)
+        {
+            var cou = await _unitOfWork.CourseRepositories.GetByName(name);
+            return cou != null && cou.Status.Equals(CEGConstants.COURSE_STATUS_AVAILABLE);
+        }
+
+        public async Task<bool> IsExistById(int id)
+        {
+            var cou = await _unitOfWork.CourseRepositories.GetByIdNoTracking(id);
+            return cou != null;
+        }
+
+        public async Task<bool> IsAvailableById(int id)
+        {
+            var cou = await _unitOfWork.CourseRepositories.GetByIdNoTracking(id);
+            return cou != null && cou.Status.Equals(CEGConstants.COURSE_STATUS_AVAILABLE);
+        }
+
+        public async Task<int> GetTotalAmount()
+        {
+            return await _unitOfWork.CourseRepositories.GetTotalAmount();
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿@model CEG_WebMVC.Models.ViewModels.Course.PageModel.AdminCourseInfoPVM
+﻿@model CEG_WebMVC.Models.ViewModels.Admin.PageModel.AdminCourseInfoPVM
 @{
     ViewData["Title"] = "Admin Course Info Page";
     var courseInfo = Model.CourseInfo;
@@ -40,7 +40,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-7 customer-booking">
+                    <div class="col-12 customer-booking">
                         <div class="row">
                             <div class="card profile col-12 mb-4">
                                 <div class="card-header">
@@ -166,21 +166,21 @@
                                     </div>
                                     <div class="row mb-sm-2">
                                         <div class="col-md-5 text-md-right">
-                                            <label class="col-form-label">Total Session Amount:</label>
+                                            <label class="col-form-label">Sessions amount:</label>
                                         </div>
                                         <div class="col-md-7">
                                             <span >
-                                                @courseInfo.SessionAmount Sessions
+                                                @courseInfo.SessionsAmount Session(s)
                                             </span>
                                         </div>
                                     </div>
                                     <div class="row mb-sm-2">
                                         <div class="col-md-5 text-md-right">
-                                            <label class="col-form-label">Total Class Amount:</label>
+                                            <label class="col-form-label">Classes amount:</label>
                                         </div>
                                         <div class="col-md-7">
                                             <span >
-                                                @courseInfo.ClassAmount Classes
+                                                @courseInfo.ClassesAmount Class(es)
                                             </span>
                                         </div>
                                     </div>
@@ -188,7 +188,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-7 customer-booking">
+                    <div class="col-12 customer-booking">
                         <div class="row">
                             <div class="card profile col-12 mb-4">
                                 <div class="card-header">
@@ -206,86 +206,14 @@
                                     @{
                                         if (sessionList != null && sessionList.Count > 0)
                                         {
-                                            @foreach (var sessionDetail in sessionList)
+                                            @foreach (var sessionInfo in sessionList)
                                             {
-                                                <div class="card-header">
-                                                    <h5>Session @sessionDetail.Title Details</h5>
-                                                    @{
-                                                        if (courseInfo.Status.Equals("Draft") || courseInfo.Status.Equals("Postponed"))
-                                                        {
-                                                            <div class="edit-info">
-                                                                <i class='bx bxs-edit-alt' data-toggle="modal" data-target="#editsession_@sessionDetail.SessionId"></i>
-                                                            </div>
-                                                        }
-                                                    }
-                                                </div>
-                                                <div class="row mb-sm-2">
-                                                    <div class="col-sm-5 text-sm-right">
-                                                        <label for="meeting-name">Title:</label>
-                                                    </div>
-                                                    <div class="col-sm-7 text-sm-left">
-                                                        <span>@sessionDetail.Title</span>
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-sm-2">
-                                                    <div class="col-sm-5 text-sm-right">
-                                                        <label for="meeting-name">Description:</label>
-                                                    </div>
-                                                    <div class="col-sm-7 text-sm-left">
-                                                        <span>@sessionDetail.Description</span>
-                                                    </div>
-                                                </div>
-                                                <hr class="container my-0">
-                                                // if (detailsFieldTrip.Status.Equals("OnHold") || detailsFieldTrip.Status.Equals("Postponed"))
-                                                // {
-                                                //     <div id="editactandtras_@sessionDetail.TripDetailsId" class="modal fade" role="dialog">
-                                                //         <div class="modal-dialog modal-dialog-centered modal-lg" role="content">
-                                                //             <div class="modal-content modal-addRoom">
-                                                //                 <div class="modal-header">
-                                                //                     <h4 class="modal-title">Update Field Trip Activities and Transportation @sessionDetail.Title</h4>
-                                                //                 </div>
-                                                //                 <form asp-action="ManagerUpdateFieldTripActAndTras" asp-controller="Manager" method="post" asp-route-id="@detailsFieldTrip.TripId" asp-route-addDeId="@sessionDetail.TripDetailsId" class="form-group">
-                                                //                     @{
-                                                //                         var updateActAndTras = updateAAT.TripDetailsId.Value.Equals(sessionDetail.TripDetailsId.Value) ? updateAAT : sessionDetail;
-                                                //                         <div class="modal-body">
-                                                //                             <div class="row justify-content-center">
-                                                //                                 <input asp-for="@updateActAndTras.TripDetailsId" type="number"
-                                                //                                        value="@sessionDetail.TripDetailsId" class="form-control" required hidden>
-                                                //                                 <input asp-for="@updateActAndTras.Type" type="text"
-                                                //                                        value="@sessionDetail.Type" class="form-control" required hidden>
-                                                //                                 <div class="col-12 col-md-12">
-                                                //                                     <div class="form-group row">
-                                                //                                         <label asp-for="@updateActAndTras.Title" class="col-sm-4 col-form-label"></label>
-                                                //                                         <div class="col-sm-8">
-                                                //                                             <input asp-for="@updateActAndTras.Title" type="text"
-                                                //                                                    value="@updateActAndTras.Title" class="form-control" required>
-                                                //                                             <span asp-validation-for="@updateActAndTras.Title" id="error_message"
-                                                //                                                   class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
-                                                //                                         </div>
-                                                //                                     </div>
-                                                //                                     <div class="form-group row">
-                                                //                                         <label asp-for="@updateActAndTras.Description" class="col-sm-4 col-form-label"></label>
-                                                //                                         <div class="col-sm-8">
-                                                //                                             <input asp-for="@updateActAndTras.Description" type="text"
-                                                //                                                    value="@sessionDetail.Description" class="form-control" required>
-                                                //                                             <span asp-validation-for="@updateActAndTras.Description" id="error_message"
-                                                //                                                   class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
-                                                //                                         </div>
-                                                //                                     </div>
-                                                //                                 </div>
-                                                //                             </div>
-                                                //                         </div>
-                                                //                     }
-                                                //                     <div class="modal-footer justify-content-center">
-                                                //                         <button class="btn btn-success" type="submit" value="Update">Save</button>
-                                                //                         <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
-                                                //                     </div>
-                                                //                 </form>
-                                                //             </div>
-                                                //         </div>
-                                                //     </div>
-                                                // }
+                                                @await Html.PartialAsync("PartialViews/_AdminSessionDetails", sessionInfo);
                                             }
+                                        }
+                                        else
+                                        {
+                                            <h5>Empty Session list</h5>
                                         }
                                     }
                                 </div>
@@ -303,7 +231,7 @@
                     <h4 class="modal-title">Edit Course</h4>
                 </div>
                 <div class="modal-body">
-                    <form asp-action="AdminUpdateCourse" asp-controller="Admin" method="put" id="form">
+                    <form asp-action="AdminCourseUpdate" asp-controller="Admin" asp-route-courseId="@courseInfo.CourseId" method="post" id="form">
                         <div class="row p-4">
                             <div class="col-12">
                                 <div class="row form-group">
@@ -365,10 +293,15 @@
                     <h4 class="modal-title">Add new Session</h4>
                 </div>
                 <div class="modal-body">
-                    <form asp-action="AdminSessionCreate" asp-controller="Admin" method="post" id="form">
+                    <form asp-action="AdminSessionCreate" asp-controller="Admin" asp-route-courseId="@courseInfo.CourseId" method="post" id="form">
                         <div class="row p-4">
                             <div class="col-12">
                                 <div class="row form-group">
+                                    <label asp-for="@createSession.Number" class="col-md-3 col-form-label text-md-right"></label>
+                                    <input asp-for="@createSession.Number" value="@createSession.Number" type="number" min="1" required class="form-control col-md-7">
+                                    <span asp-validation-for="@createSession.Number" id="error_message"
+                                          class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
+
                                     <label asp-for="@createSession.Title" class="col-md-3 col-form-label text-md-right"></label>
                                     <input asp-for="@createSession.Title" value="@createSession.Title" type="text" placeholder="Title" required class="form-control col-md-7">
                                     <span asp-validation-for="@createSession.Title" id="error_message"
@@ -383,7 +316,7 @@
                                     <input asp-for="@createSession.Hours" value="@createSession.Hours" type="number" class="form-control col-md-7 mt-3" required>
                                     <span asp-validation-for="@createSession.Hours" id="error_message"
                                           class="helper-text text-danger d-block offset-md-5 col-md-5 col-sm-8 mt-2"></span>
-                                    <input asp-for="@createSession.CourseId" value="@courseInfo.CourseId" type="number" required hidden readonly>
+
                                     <input asp-for="@createSession.CourseName" value="@courseInfo.CourseName" type="text" required hidden readonly>
                                 </div>
                             </div>

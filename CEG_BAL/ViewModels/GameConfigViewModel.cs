@@ -9,6 +9,7 @@ namespace CEG_BAL.ViewModels
 {
     public class GameConfigViewModel
     {
+        public int? GameConfigId { get; set; }
         public string Title { get; set; } = null!;
 
         public int? Point { get; set; }
@@ -17,8 +18,8 @@ namespace CEG_BAL.ViewModels
 
         public string? Status { get; set; }
 
-        public virtual ICollection<Game> Games { get; set; } = new List<Game>();
+        public List<GameViewModel> Games { get; set; } = new List<GameViewModel>();
 
-        public virtual ICollection<Homework> Homeworks { get; set; } = new List<Homework>();
+        public List<HomeworkViewModel> Homeworks { get; set; } = new List<HomeworkViewModel>();
     }
 }

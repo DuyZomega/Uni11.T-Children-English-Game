@@ -1,0 +1,52 @@
+﻿@page "/Home/Course/Index"
+@model CEG_RazorWebApp.Pages.Home.CourseIndexModel
+@{
+    ViewData["Title"] = "Children English Game Course List Page";
+}
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/Meeting.css">
+</head>
+<body class="background">
+    <div class="Title"><h1>Courses</h1></div>
+    <hr />
+    <div class="header__breadcrumb container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/Home/Index" class="text-decoration-none">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">All Courses</li>
+            </ol>
+        </nav>
+    </div>
+    <!-- CONTENT -->
+    <section class="content__list-room container">
+        <div class="row contain">
+            <div class="col-12">
+                <div id="course-list" class="content__list row">
+                    <!-- Course list will be rendered here -->
+                </div>
+                <div class="pagination mb-3" id="pagination-controls">
+                    <!-- Pagination buttons will be generated here -->
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+        var apiUrl = sessionStorage.getItem('apiUrl');
+        var courseList[];
+        var pageSize = 9;
+        var currentPage = 1;
+        $(document).ready(function () {
+            callApiGetCourseList();
+        });
+        function callApiGetCourseList() {
+            $.ajax({
+
+            })
+        }
+    </script>
+</body>
+</html>

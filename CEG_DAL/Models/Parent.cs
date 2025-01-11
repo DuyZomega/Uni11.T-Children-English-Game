@@ -17,7 +17,5 @@ public partial class Parent
 
     public virtual Account Account { get; set; } = null!;
 
-    public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();
-
     public virtual ICollection<Student> Students { get; set; } = new List<Student>();
 }

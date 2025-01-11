@@ -1,0 +1,284 @@
+﻿@page "/Student/Profile"
+@model CEG_RazorWebApp.Pages.Student.Profile.StudentInfoModel
+@{
+    ViewData["Title"] = "Student Account Info Page";
+    var accountInfo = Model.AccountInfo;
+    var updateStudent = Model.UpdateStudentInfo;
+    var updatePassword = Model.UpdatePasswordInfo;
+    Layout = Model.LayoutUrl;
+}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
+    <div class="main-content">
+        <div class="main">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="offset-sm-6 col-sm-6  d-flex justify-content-sm-end p-md-0 mt-2 mt-sm-0 ">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumd-item">
+                                <a href="#">Manage</a>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <span>/</span>
+                            </li>
+                            <li class="breadcrumd-item">
+                                <a href="/Student/Profile">Profile</a>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+                <section>
+                    <div class="card">
+                        <div class="card-body">
+                            <div id="accordion">
+                                <!-- Thông tin cá nhân -->
+                                <div class="card mb-2">
+                                    <div class="card-header card-setting" id="headingOne">
+                                        <h5 class="mb-0">
+                                            <button class="btn btn-link" data-toggle="collapse" data-target="#profile"
+                                                    aria-expanded="true" aria-controls="profile">
+                                                Student Profile <i class='bx bx-chevron-right'></i>
+                                            </button>
+                                        </h5>
+                                    </div>
+                                    <div class="collapse show" id="profile" aria-labelledby="profile" data-parent="#accordion">
+                                        <div class="card-body">
+                                            <div class="user-profile">
+                                                <div class="row">
+                                                    <div class="col-lg-4">
+                                                        <div class="profile-pic">
+                                                            <img src="~/images/avatar2.png" id="output" width="200" />
+                                                            <div class="upload">
+                                                                <button class="btn btn-warning" data-toggle="modal" data-target="#uploadImg">Details</button>
+                                                                <i class='bx bxs-camera-plus'></i>
+                                                            </div>
+                                                        </div>
+                                                        <div class="profile-name" id="account-fullname"></div>
+                                                    </div>
+                                                    <div class="col-lg-8">
+                                                        <div class="profile-content">
+                                                            <div class="contact-infor">
+                                                                <div class="info-title">
+                                                                    <h4>Personal Information</h4>
+                                                                </div>
+                                                                <div class="info-content">
+                                                                    <div class="table-responsive">
+                                                                        <table class="table table-borderless class-info-table">
+                                                                            <colgroup>
+                                                                                <col style="width: 30%;">
+                                                                                <col style="width: 70%;">
+                                                                            </colgroup>
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <th class="text-md-right">Account ID:</th>
+                                                                                    <td id="account-id"></td>
+                                                                                </tr>
+                                                                                <tr class="status-info">
+                                                                                    <th class="text-md-right">Status:</th>
+                                                                                    <td id="account-status"></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th class="text-md-right">Username:</th>
+                                                                                    <td id="account-username"></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th class="text-md-right">Gender:</th>
+                                                                                    <td id="account-gender"></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th class="text-md-right">Age:</th>
+                                                                                    <td id="student-account-age"></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th class="text-md-right">Date of Birth:</th>
+                                                                                    <td id="student-account-birthdate"></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th class="text-md-right">Description:</th>
+                                                                                    <td id="student-account-description"></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th class="text-md-right">Current Level:</th>
+                                                                                    <td id="student-account-curlevel"></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th class="text-md-right">Created Date:</th>
+                                                                                    <td id="account-createddate"></td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+    <script>
+        var token = sessionStorage.getItem('token');
+        var apiUrl = sessionStorage.getItem('apiUrl');
+        var id = sessionStorage.getItem('usrId');
+        $(document).ready(function () {
+            // Registering the custom feature with DataTables
+            DataTable.feature.register('searchIcon', function (settings, opts) {
+                // Set default options
+                let options = Object.assign({
+                    iconClass: 'bx bx-search-alt question-search-icon',
+                    hideLabel: true // Hide search label
+                }, opts);
+
+                // Create a container for the icon
+                let container = document.createElement('div');
+                // container.classList.add('dt-custom-toolbar'); // Optional custom class for styling
+
+                // Create the icon element
+                let icon = document.createElement('i');
+                icon.className = options.iconClass;
+
+                // Check if pagination is enabled
+                // if (settings.oFeatures.bFilter) {
+                //     console.log(settings.oFeatures.bFilter);
+                //     console.log('Pagination is enabled for this DataTable.');
+                // }
+
+                setTimeout(() => {
+                    // Find the .dt-search container inside the DataTable wrapper
+                    let searchContainer = $(settings.nTableWrapper).find('.dt-search');
+                    if (searchContainer.length) {
+                        searchContainer.append(icon);
+                    } else {
+                        // Append icon to container
+                        container.appendChild(icon);
+                        // If .dt-search doesn't exist, insert the container in the DataTable toolbar instead
+                        $(settings.nTableWrapper).prepend(container);
+                    }
+                    if (options.hideLabel) {
+                        // Find the .dt-search label container inside the DataTable wrapper
+                        let searchLabel = searchContainer.find('label');
+                        if (searchLabel.length) {
+                            searchLabel.text('');
+                        } else {
+                            console.log('Label of search div not found!');
+                        }
+                    }
+                }, 100);
+                return '';
+            });
+            enrollTable = new DataTable('#enroll-table', {
+                autoWidth: true,
+                data: [],
+                deferRender: false,
+                responsive: true,
+                columns: [
+                    { data: 'enrollId' },
+                    {
+                        data: 'class.className',
+                    },
+                    {
+                        data: 'registrationDate',
+                        render: function (data, type, row, meta) {
+                            return '<span id="enroll-reg-date">' + formatDate(data, { addDayOfWeek : true , includeAmPm : true, lineBreak : true }) + '</span >';
+                        }
+                    },
+                    {
+                        data: 'enrolledDate',
+                        render: function (data, type, row, meta) {
+                            return '<span id="enroll-date">' + formatDate(data, { addDayOfWeek : true, includeAmPm : true, lineBreak : true }) + '</span >';
+                        }
+                    },
+                    {
+                        data: 'status',
+                        width: '25%',
+                        render: function (data, type, row, meta) {
+                            return `<select class="custom-select form-control enroll-status" data-enrollid="${row.enrollId}">`
+                                + getEnrollStatusOptions(data) +
+                                `</select>`;
+                        }
+                    }
+                ],
+                layout: {
+                    topEnd: {
+                        search: {
+                            placeholder: 'Search enroll...'
+                        },
+                        searchIcon: {
+                        }
+                    }
+                }
+            });
+            callApiGetStudentDetail();
+        });
+        function callApiGetStudentDetail() {
+            $.ajax({
+                url: apiUrl + 'Student/Account/' + id, // API endpoint
+                type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + token// Include the JWT token
+                },
+                success: function (response) {
+                    // Log the entire response to the console for debugging
+                    // console.log("Returned object:", response);
+
+                    // Check if the status is true
+                    if (response.status) {
+                        setAccountDisplay(response.data);
+                    } else {
+                        console.error("API returned false status.");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Attempt to parse the response text if it is available
+                    var errorResponse = xhr.responseText ? JSON.parse(xhr.responseText) : {};
+
+                    // Extract the custom error message if it exists
+                    var errorMessage = errorResponse.errorMessage || errorResponse.title || "An unknown error occurred.";
+                    // Check if errorResponse.errors exists and is an object
+                    if (errorResponse.errors && typeof errorResponse.errors === 'object') {
+                        // Loop through each field in the errors object and append to the errorMessage
+                        for (var field in errorResponse.errors) {
+                            if (errorResponse.errors.hasOwnProperty(field)) {
+                                // Add each error message for the field, joining multiple messages if they exist
+                                var fieldErrors = errorResponse.errors[field].join(", ");
+                                errorMessage += `\n${field}: ${fieldErrors}`;
+                            }
+                        }
+                    }
+                    // Display the error message using your custom showAlert function
+                    showAlert('error', "Error: \n" + errorMessage);
+                }
+            });
+        }
+        function setAccountDisplay(data) {
+            $('#student-account-age').text(data.age);
+            $('#student-account-birthdate').text(formatDate(data.birthdate, { ignoreHour : true }));
+            $('#student-account-description').text(data.description);
+            $('#student-account-curlevel').text(data.curLevel);
+
+            $('#account-headerinfo').text(data.account.role.roleName + ' Account Information');
+            $('#account-id').text(data.account.accountId);
+            $('#account-username').text(data.account.username);
+            $('#account-fullname').text(data.account.fullname);
+            $('#account-gender').text(data.account.gender);
+            $('#account-createddate').text(formatDate(data.account.createdDate, { ignoreHour: true })); // Format the date if needed
+            $('#account-role').text(data.account.role.roleName);
+            $('#account-status').text(data.account.status);
+        }
+    </script>
+</body>
+</html>

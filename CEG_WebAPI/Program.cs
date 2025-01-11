@@ -1,4 +1,5 @@
 using CEG_BAL.AutoMapperProfile;
+using CEG_BAL.Configurations;
 using CEG_BAL.Services.Implements;
 using CEG_BAL.Services.Interfaces;
 using CEG_DAL.Infrastructure;
@@ -18,8 +19,10 @@ namespace CEG_WebAPI
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Configure services for web app.
+            // Load secrets.json for local development
+            builder.Configuration.AddUserSecrets<Program>();
 
+            // Configure services for web app.
             ConfigureServices(builder.Services, builder.Configuration);
 
             var app = builder.Build();
@@ -61,6 +64,12 @@ namespace CEG_WebAPI
                 options.UseSqlServer(config.GetConnectionString("DefaultConnection"));
             });
 
+            services.AddHttpContextAccessor();
+
+            // Add Azure Storage configuration
+            services.Configure<AzureStorageConfig>(config.GetSection("AzureStorage"));
+            services.AddSingleton<IAzureStorageService, AzureStorageService>();
+
             // Register custom services
             RegisterServices(services);
         }
@@ -69,6 +78,7 @@ namespace CEG_WebAPI
         {
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IAttendanceService,AttendanceService>();
             services.AddScoped<IClassService, ClassService>();
             services.AddScoped<ICourseService, CourseService>();
             services.AddScoped<IEnrollService, EnrollService>();
@@ -76,14 +86,24 @@ namespace CEG_WebAPI
             services.AddScoped<IGameLevelService, GameLevelService>();
             services.AddScoped<IGameService, GameService>();
             services.AddScoped<IHomeworkResultService, HomeworkResultService>();
+            services.AddScoped<IHomeworkQuestionService, HomeworkQuestionService>();
+            services.AddScoped<IHomeworkAnswerService, HomeworkAnswerService>();
             services.AddScoped<IHomeworkService, HomeworkService>();
             services.AddScoped<IJWTService, JWTService>();
             services.AddScoped<IParentService, ParentService>();
-            services.AddScoped<IPaymentService, PaymentService>();
-            services.AddScoped<IRegisteredClassService, RegisteredClassService>();
+            services.AddScoped<ITransactionService, TransactionService>();
             services.AddScoped<ISessionService, SessionService>();
             services.AddScoped<IStudentService, StudentService>();
+            services.AddScoped<IScheduleService, ScheduleService>();
             services.AddScoped<ITeacherService, TeacherService>();
+            services.AddScoped<IStudentAnswerService, StudentAnswerService>();
+            services.AddScoped<IStudentHomeworkService, StudentHomeworkService>();
+            services.AddScoped<IStudentProgressService, StudentProgressService>();
+
+
+            services.AddScoped<IVnpayService, VnpayService>();
+
+            services.AddTransient<IEmailService, EmailService>();
         }
 
         private static void AddSwaggerServices(IServiceCollection services)
@@ -149,7 +169,7 @@ namespace CEG_WebAPI
             {
                 options.AddDefaultPolicy(policy =>
                 {
-                    policy.AllowAnyOrigin()
+                    policy.WithOrigins("https://localhost:7236", "https://localhost:5150")
                           .AllowAnyHeader()
                           .AllowAnyMethod();
                 });
@@ -159,6 +179,7 @@ namespace CEG_WebAPI
         {
             services.AddRazorPages().AddJsonOptions(options =>
             {
+                options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
                 options.JsonSerializerOptions.Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping;
             });
         }
@@ -185,9 +206,9 @@ namespace CEG_WebAPI
         {
             app.UseHttpsRedirection();
             app.UseRouting();
+            app.UseCors();
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseCors();
         }
     }
 }

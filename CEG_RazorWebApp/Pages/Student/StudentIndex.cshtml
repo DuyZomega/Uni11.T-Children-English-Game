@@ -1,0 +1,98 @@
+﻿@page "/Student/Index"
+@model CEG_RazorWebApp.Pages.Student.StudentIndexModel
+@{
+    Layout = null;
+    ViewData["Title"] = "Student Index Page";
+    Layout = "~/Pages/Shared/_SLayout.cshtml";
+}
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- num of data -->
+        <div class="cardBox">
+            <div class="card event">
+                <div class="inconBx">
+                    <i class='bx bx-home-heart'></i>
+                </div>
+                <div>
+                    <div id="homework-amount">0</div>
+                    <div class="cardName">Homework</div>
+                </div>
+            </div>
+            <div class="card feedback">
+                <div class="inconBx">
+                    <i class='bx bx-conversation'></i>
+                </div>
+                <div>
+                    <div id="total-playtime">0</div>
+                    <div class="cardName">Total Play Time</div>
+                </div>
+            </div>
+            <div class="card turnover">
+                <div class="inconBx">
+                    <i class='bx bx-money'></i>
+                </div>
+                <div>
+                    <div id="total-point">0</div>
+                    <div class="cardName">Total Points</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var token = sessionStorage.getItem('token');
+        var apiUrl = sessionStorage.getItem('apiUrl');
+        var id = sessionStorage.getItem('usrId');
+        $(document).ready(function () {
+            callApiGetStudentTimeAndPoint();
+        });
+        function callApiGetStudentTimeAndPoint() {
+            $.ajax({
+                url: apiUrl + `StudentProgress/Dashboard/${id}`,
+                type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + token, // Token for authentication
+                },
+                success: function (response) {
+                    // Check if the status is true
+                    if (response.status) {
+                        $('#total-playtime').empty();
+                        $('#total-playtime').text(response.data.totalPlaytime);
+                        $('#total-point').empty();
+                        $('#total-point').text(response.data.totalPoints);
+                    } else {
+                        showAlert('error', "Error: \n" + response.errorMessage);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Attempt to parse the response text if it is available
+                    var errorResponse = xhr.responseText ? JSON.parse(xhr.responseText) : {};
+
+                    // Extract the custom error message if it exists
+                    var errorMessage = errorResponse.errorMessage || errorResponse.title || "An unknown error occurred.";
+                    // Check if errorResponse.errors exists and is an object
+                    if (errorResponse.errors && typeof errorResponse.errors === 'object') {
+                        // Loop through each field in the errors object and append to the errorMessage
+                        for (var field in errorResponse.errors) {
+                            if (errorResponse.errors.hasOwnProperty(field)) {
+                                // Add each error message for the field, joining multiple messages if they exist
+                                var fieldErrors = errorResponse.errors[field].join(", ");
+                                errorMessage += `\n${field}: ${fieldErrors}`;
+                            }
+                        }
+                    }
+                    // Display the error message using your custom showAlert function
+                    showAlert('error', "Error: \n" + errorMessage);
+                }
+            });
+        }
+    </script>
+</body>
+</html>

@@ -13,9 +13,11 @@ public partial class Teacher
 
     public string Phone { get; set; } = null!;
 
+    public string Certificate { get; set; } = null!;
+
     public string Address { get; set; } = null!;
 
-    public string? Image { get; set; }
+    public string Image { get; set; } = null!;
 
     public virtual Account Account { get; set; } = null!;
 
