@@ -207,49 +207,22 @@ public class Controller : MonoBehaviour
         Debug.Log(success ? "HomeworkResult sent successfully!" : "Failed to send HomeworkResult");
     }
 
-    public async void SendStudentProgress(int studentId, int classId, int totalPoint, TimeSpan playtime)
+    public async void SendStudentProgress(int studentProgressId, int totalPoint, TimeSpan playtime)
     {
         var studentProgressRequest = new StudentProgressRequest()
         {
-            StudentId = studentId,
-            ClassId = classId,
-            TotalPoint = totalPoint,
-            Playtime = playtime.ToString(@"hh\:mm\:ss")
+            student_progress_id = studentProgressId,
+            student_id = AccountManager.Instance.StudentId,  // Use global studentId here
+            class_id = AccountManager.Instance.ClassId,      // Use global classId here
+            total_point = totalPoint,
+            playtime = playtime.ToString(@"hh\:mm\:ss")
         };
 
         string jsonRequestBody = JsonUtility.ToJson(studentProgressRequest);
+        Debug.Log("Send StudentProgress: " + jsonRequestBody);
+
         string url = $"{_baseUrl}/api/StudentProgress/Create";
-
-        bool success = await SendPostRequest(url, jsonRequestBody);
-        Debug.Log(success ? "StudentProgress sent successfully!" : "Failed to send StudentProgress");
-
-        //// Fetch the list of progress entries
-        //UnityWebRequest www = UnityWebRequest.Get(getUrl);
-        //www.SetRequestHeader("Content-Type", "application/json");
-        //await www.SendWebRequest();
-
-        //if (www.result == UnityWebRequest.Result.Success)
-        //{
-        //    string responseText = www.downloadHandler.text;
-        //    var wrapper = JsonUtility.FromJson<StudentProgressResponseListWrapper>(responseText);
-
-        //    if (wrapper != null && wrapper.data != null && wrapper.data.Count > 0)
-        //    {
-        //        var latestProgress = wrapper.data.OrderByDescending(p => p.student_progress_id).First();
-        //        Debug.Log("Created student_progress_id = " + latestProgress.student_progress_id);
-        //        return latestProgress.student_progress_id;
-        //    }
-        //    else
-        //    {
-        //        Debug.LogError("Student progress list is empty or null");
-        //        return 0;
-        //    }
-        //}
-        //else
-        //{
-        //    Debug.LogError($"Failed to get student_progress_id: {www.error}");
-        //    return 0;
-        //}
+        await SendPostRequest(url, jsonRequestBody);
     }
 
 

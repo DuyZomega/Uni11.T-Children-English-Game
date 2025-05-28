@@ -85,6 +85,7 @@
     <Compile Include="Assets\GoogleSignIn\Impl\BaseObject.cs" />
     <Compile Include="Assets\Scenes\wordfinder\Scripts\ScriptableObjects\ObjectInGame\UserScoreObject.cs" />
     <Compile Include="Assets\Unity-2D-Platformer\Scripts Backup\SkipIntro.cs" />
+    <Compile Include="Assets\Main\Scripts\SessioinList.cs" />
     <Compile Include="Assets\Scripts\Mono\GameManager.cs" />
     <Compile Include="Assets\Main\Scripts\Shake.cs" />
     <Compile Include="Assets\Unity-2D-Platformer\Scripts Backup\LevelManager.cs" />
@@ -102,6 +103,7 @@
     <Compile Include="Assets\Unity-2D-Platformer\Scripts Backup\RestartLvl3.cs" />
     <Compile Include="Assets\Unity-2D-Platformer\Scripts Backup\GoToAbandon.cs" />
     <Compile Include="Assets\GoogleSignIn\GoogleSignInUser.cs" />
+    <Compile Include="Assets\DynamicUIDemo\DynamicUIDemo.cs" />
     <Compile Include="Assets\GoogleSignIn\GoogleSignInConfiguration.cs" />
     <Compile Include="Assets\Unity-2D-Platformer\Assets\Extra UI materials\Script\Togglescript.cs" />
     <Compile Include="Assets\Intro\Scripts\WizardAnimation.cs" />
@@ -192,6 +194,7 @@
     <Compile Include="Assets\GoogleSignIn\Impl\NativeFuture.cs" />
     <Compile Include="Assets\Unity-2D-Platformer\Scripts Backup\PlayerHealth.cs" />
     <Compile Include="Assets\Main\Scripts\BestScore.cs" />
+    <Compile Include="Assets\Scenes\wordfinder\Scripts\VolumeSlider.cs" />
     <Compile Include="Assets\Unity-2D-Platformer\Scripts Backup\CollectableObjects.cs" />
     <Compile Include="Assets\Scenes\wordfinder\Scripts\GameOverPopup.cs" />
     <Compile Include="Assets\Scenes\wordfinder\Scripts\BoardDataEditorUI.cs" />
@@ -200,6 +203,7 @@
     <Compile Include="Assets\Unity-2D-Platformer\Scripts Backup\PlayerControl.cs" />
     <Compile Include="Assets\Intro\Scripts\StartFlicker.cs" />
     <Compile Include="Assets\Scenes\wordfinder\Scripts\ScriptableObjects\ObjectInGame\LevelObject.cs" />
+    <Compile Include="Assets\DynamicUIDemo\OneSingleTile.cs" />
     <Compile Include="Assets\Unity-2D-Platformer\Assets\UI Assets\Scripts\ScrollDetailTexture.cs" />
     <Compile Include="Assets\Scenes\wordfinder\Scripts\ScriptableObjects\ObjectInGame\WordObject.cs" />
     <Compile Include="Assets\Unity-2D-Platformer\Scripts Backup\CamerController.cs" />
@@ -211,6 +215,7 @@
     <Compile Include="Assets\Scenes\wordfinder\Scripts\GameDataSelector.cs" />
     <Compile Include="Assets\Unity-2D-Platformer\Assets\Game assets\Scripts\RestartLVL2.cs" />
     <Compile Include="Assets\Unity-2D-Platformer\Assets\Game assets\Scripts\Continue.cs" />
+    <Compile Include="Assets\Scenes\wordfinder\Scripts\SettingMenu.cs" />
     <Compile Include="Assets\Main\Scripts\VolumeSlider.cs" />
     <Compile Include="Assets\Main\Scripts\BackGroundMusic.cs" />
     <Compile Include="Assets\Menu\UI SlideShow\Scripts\SelectImage.cs" />
@@ -219,6 +224,7 @@
     <Compile Include="Assets\Scenes\wordfinder\Scripts\SelectPuzzleButton.cs" />
     <Compile Include="Assets\Unity-2D-Platformer\Assets\Game assets\Scripts\RestartGO.cs" />
     <Compile Include="Assets\Main\Scripts\Typer.cs" />
+    <Compile Include="Assets\Main\Scripts\ClassList.cs" />
     <Compile Include="Assets\Unity-2D-Platformer\Scripts Backup\Restart2.cs" />
     <Compile Include="Assets\Unity-2D-Platformer\Assets\Game assets\Scripts\GoToIntro.cs" />
   </ItemGroup>

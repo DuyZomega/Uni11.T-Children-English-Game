@@ -5,6 +5,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
 using TMPro;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ClassList : MonoBehaviour
@@ -73,12 +74,14 @@ public class ClassList : MonoBehaviour
 
         // Get student ID from account manager
         string studentId = AccountManager.Instance._user.UserId;
+        Debug.Log($"Fetching enrolled classes for Student ID: {studentId}");  // Log student ID
+
         string url = $"{_baseUrl}/api/Class/Enrolled/{studentId}";
+        Debug.Log($"Request URL: {url}");  // Log full API URL
 
         UnityWebRequest request = UnityWebRequest.Get(url);
         request.SetRequestHeader("Content-Type", "application/json");
 
-        // Add authorization if needed
         if (!string.IsNullOrEmpty(AccountManager.Instance.GetAccessToken()))
         {
             request.SetRequestHeader("Authorization", "Bearer " + AccountManager.Instance.GetAccessToken());
@@ -95,6 +98,7 @@ public class ClassList : MonoBehaviour
         }
         else
         {
+            Debug.Log("Class list fetch succeeded");
             string response = request.downloadHandler.text;
             try
             {

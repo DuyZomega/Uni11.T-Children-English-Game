@@ -21,7 +21,15 @@ using Application = UnityEngine.Application;
 public class ApiClient : MonoBehaviour
 {
     public static ApiClient Instance;
-
+    [Header("UI Elements")]
+    public GameObject classListPanel;
+    public GameObject classItemPrefab;
+    public Transform classListContent;
+    public TMP_Text statusText;
+    public string userId;
+    public int classId;
+    public int homeworkId;
+    public string accountId;
     [System.Serializable]
     public class LoginPayload
     {
@@ -151,10 +159,10 @@ public class ApiClient : MonoBehaviour
     {
         if (Instance == null)
         {
-            DontDestroyOnLoad(gameObject);
             Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
-        else
+        else if (Instance != this)
         {
             Destroy(gameObject);
         }
@@ -515,5 +523,175 @@ public class ApiClient : MonoBehaviour
 
         Debug.Log("PlayerPrefs cleared and user logged out.");
         Application.Quit();
+    }
+    private List<ClassData> _enrolledClasses = new List<ClassData>();
+
+    [Serializable]
+    public class ClassData
+    {
+        public int class_id;
+        public string class_name;
+        public string description;
+        public string teacher_name;
+        public string status; // Active, Archived, etc.
+        public string start_date;
+        public string end_date;
+    }
+
+    [Serializable]
+    public class ApiListResponse<T>
+    {
+        public bool status;
+        public string successMessage;
+        public List<T> data;
+    }
+    //private void Start()
+    //{
+    //    // Only fetch classes if the user is logged in
+    //    if (PlayerPrefs.HasKey("IsLoggedIn") && PlayerPrefs.GetInt("IsLoggedIn") == 1)
+    //    {
+    //        StartCoroutine(FetchEnrolledClasses());
+    //    }
+    //}
+
+    // Fetches classes the student is already enrolled in
+    public IEnumerator FetchEnrolledClasses()
+    {
+        if (statusText != null)
+            statusText.text = "Loading classes...";
+
+        // Get student ID from account manager
+        string studentId = AccountManager.Instance._user.UserId;
+        string url = $"{_baseUrl}/api/Class/Enrolled/{studentId}";
+
+        UnityWebRequest request = UnityWebRequest.Get(url);
+        request.SetRequestHeader("Content-Type", "application/json");
+
+        // Add authorization if needed
+        if (!string.IsNullOrEmpty(AccountManager.Instance.GetAccessToken()))
+        {
+            request.SetRequestHeader("Authorization", "Bearer " + AccountManager.Instance.GetAccessToken());
+        }
+
+        yield return request.SendWebRequest();
+
+        if (request.result == UnityWebRequest.Result.ConnectionError ||
+            request.result == UnityWebRequest.Result.ProtocolError)
+        {
+            Debug.LogError("Failed to fetch enrolled classes: " + request.error);
+            if (statusText != null)
+                statusText.text = "Failed to load classes. Please try again.";
+        }
+        else
+        {
+            string response = request.downloadHandler.text;
+            try
+            {
+                // Fix JSON format if needed for JsonUtility
+                if (!response.StartsWith("{"))
+                {
+                    response = "{\"status\":true,\"successMessage\":\"Success\",\"data\":" + response + "}";
+                }
+
+                ApiListResponse<ClassData> apiResponse = JsonUtility.FromJson<ApiListResponse<ClassData>>(response);
+
+                if (apiResponse.status)
+                {
+                    _enrolledClasses = apiResponse.data;
+                    Debug.Log($"Fetched {_enrolledClasses.Count} enrolled classes");
+                    PopulateClassList();
+
+                    if (statusText != null)
+                        statusText.text = $"Found {_enrolledClasses.Count} classes";
+                }
+                else
+                {
+                    if (statusText != null)
+                        statusText.text = "No classes found";
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"Error parsing class data: {e.Message}");
+                if (statusText != null)
+                    statusText.text = "Error loading classes";
+            }
+        }
+    }
+
+    // Populate UI with class list
+    private void PopulateClassList()
+    {
+        // Clear existing items
+        foreach (Transform child in classListContent)
+        {
+            Destroy(child.gameObject);
+        }
+
+        // Add new items
+        foreach (var classData in _enrolledClasses)
+        {
+            GameObject classItem = Instantiate(classItemPrefab, classListContent);
+
+            // Set class name
+            Transform nameTransform = classItem.transform.Find("ClassName");
+            if (nameTransform != null)
+            {
+                TMP_Text nameText = nameTransform.GetComponent<TMP_Text>();
+                if (nameText != null)
+                {
+                    nameText.text = classData.class_name;
+                }
+            }
+
+            // Set teacher name
+            Transform teacherTransform = classItem.transform.Find("TeacherName");
+            if (teacherTransform != null)
+            {
+                TMP_Text teacherText = teacherTransform.GetComponent<TMP_Text>();
+                if (teacherText != null)
+                {
+                    teacherText.text = "Teacher: " + classData.teacher_name;
+                }
+            }
+
+            // Set status
+            Transform statusTransform = classItem.transform.Find("Status");
+            if (statusTransform != null)
+            {
+                TMP_Text statusText = statusTransform.GetComponent<TMP_Text>();
+                if (statusText != null)
+                {
+                    statusText.text = classData.status;
+                }
+            }
+
+            // Set dates
+            Transform dateTransform = classItem.transform.Find("Dates");
+            if (dateTransform != null)
+            {
+                TMP_Text dateText = dateTransform.GetComponent<TMP_Text>();
+                if (dateText != null)
+                {
+                    dateText.text = $"{classData.start_date} - {classData.end_date}";
+                }
+            }
+        }
+    }
+
+    // Refresh class list manually
+    public void RefreshClassList()
+    {
+        StartCoroutine(FetchEnrolledClasses());
+    }
+
+    // Return to the main menu or dashboard
+    public void ReturnToMainMenu()
+    {
+        // Implementation for navigation back to main menu
+        if (classListPanel != null)
+        {
+            classListPanel.SetActive(false);
+        }
     }
 }
