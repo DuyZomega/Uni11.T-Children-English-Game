@@ -29,19 +29,19 @@
                                 <span>/</span>
                             </li>
                             <li class="breadcrumd-item">
-                                <a href="/Admin/Account/Index">Account</a>
+                                <a href="/admin/accounts">Account</a>
                             </li>
                             <li class="breadcrumd-item">
                                 <span>/</span>
                             </li>
                             <li class="breadcrumd-item">
-                                <a href="/Admin/Parent/@accountId/Info">@accountId</a>
+                                <a href="/admin/accounts/parent/@accountId">@accountId</a>
                             </li>
                             <li class="breadcrumd-item">
                                 <span>/</span>
                             </li>
                             <li class="breadcrumd-item">
-                                <a href="/Admin/Parent/@accountId/Info">Info</a>
+                                <a href="/admin/accounts/parent/@accountId">Info</a>
                             </li>
                         </ol>
                     </div>
@@ -298,7 +298,7 @@
         });
         function callApiGetParentDetail() {
             $.ajax({
-                url: apiUrl + 'Parent/Account/@accountId', // API endpoint
+                url: apiUrl + 'parent/account/@accountId', // API endpoint
                 type: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + token// Include the JWT token
@@ -376,7 +376,7 @@
                 }
             };
             $.ajax({
-                url: apiUrl + 'Parent/Account/@accountId/Update',
+                url: apiUrl + 'parent/account/@accountId',
                 headers: {
                     'Authorization': 'Bearer ' + token// Include the JWT token
                 },
@@ -417,7 +417,7 @@
         });
         function callApiPutUpdateParentStatus(newStatus) {
             $.ajax({
-                url: apiUrl + 'Account/@accountId/Update/Status',
+                url: apiUrl + 'account/@accountId/status',
                 type: 'PUT',
                 data: JSON.stringify(newStatus),
                 headers: {

@@ -758,7 +758,7 @@
         });
         function callApiGetAccountList() {
             $.ajax({
-                url: apiUrl + 'Account/All', // API endpoint
+                url: apiUrl + 'account', // API endpoint
                 type: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + token// Include the JWT token
@@ -803,7 +803,7 @@
         }
         function callApiUpdateAccountStatus(accountId,newStatus){
             $.ajax({
-                url: apiUrl + `Account/${accountId}/Update/Status`, // API endpoint for updating status
+                url: apiUrl + `account/${accountId}/status`, // API endpoint for updating status
                 type: 'PUT', // HTTP method PUT for updates
                 headers: {
                     'Authorization': 'Bearer ' + token, // Token for authentication
@@ -842,7 +842,7 @@
         }
         function callApiPostCreateStudent(formData) {
             $.ajax({
-                url: apiUrl + 'Admin/Student/Create', // Specify your Razor Page here
+                url: apiUrl + 'admin/accounts/student', // Specify your Razor Page here
                 type: 'POST',
                 data: JSON.stringify(formData),
                 headers: {
@@ -882,7 +882,7 @@
         }
         function callApiPostCreateParent(formData) {
             $.ajax({
-                url: apiUrl + 'Admin/Parent/Create', // Specify your Razor Page here
+                url: apiUrl + 'admin/accounts/parent', // Specify your Razor Page here
                 type: 'POST',
                 data: JSON.stringify(formData),
                 headers: {
@@ -932,7 +932,7 @@
             formData.append('Certificate', selectedFile);
 
             $.ajax({
-                url: apiUrl + 'Admin/Teacher/' + teacherName + '/Upload/Certificate', // Backend API endpoint
+                url: apiUrl + 'admin/accounts/teacher/' + teacherName + '/certificate', // Backend API endpoint
                 type: 'POST',
                 headers: {
                     'Authorization': 'Bearer ' + token, // Token for authentication
@@ -974,7 +974,7 @@
 
         function callApiPostCreateTeacher(formData) {
             $.ajax({
-                url: apiUrl + 'Admin/Teacher/Create', // Specify your Razor Page here
+                url: apiUrl + 'admin/accounts/teacher', // Specify your Razor Page here
                 type: 'POST',
                 data: JSON.stringify(formData),
                 // contentType: false, Set to false to allow FormData to manage content type
@@ -1019,7 +1019,7 @@
         function getParentNameList(){
             // Call API to get the list of teacher names
             $.ajax({
-                url: apiUrl + 'Parent/All/Fullname', // API endpoint
+                url: apiUrl + 'parent/names', // API endpoint
                 type: 'GET',
                 success: function (response) {
                     // Check if the status is true

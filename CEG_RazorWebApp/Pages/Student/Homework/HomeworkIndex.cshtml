@@ -250,7 +250,7 @@
         });
         function callApiGetHomeworkList() {
             $.ajax({
-                url: apiUrl + 'StudentHomework/ByStudent/' + id, // API endpoint
+                url: apiUrl + 'studenthomework/student/' + id, // API endpoint
                 type: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + token// Include the JWT token

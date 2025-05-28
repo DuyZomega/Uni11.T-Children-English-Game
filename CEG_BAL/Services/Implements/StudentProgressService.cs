@@ -77,6 +77,9 @@ namespace CEG_BAL.Services.Implements
             // Map changes from the update model to the entity
             _mapper.Map(upStuPro, stuPro);
 
+            stuPro.StudentProgressId = stuProId;
+            stuPro.StudentHomeworks = null;
+
             // Reattach entity and mark it as modified
             _unitOfWork.StudentProgressRepositories.Update(stuPro);
 

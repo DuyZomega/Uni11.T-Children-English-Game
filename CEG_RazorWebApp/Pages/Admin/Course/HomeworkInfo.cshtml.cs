@@ -24,7 +24,6 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
         private readonly IMapper _mapper;
         private readonly IConfiguration _config;
         private readonly HttpClient _httpClient = null;
-        private string AdminAPI_URL = "";
         private readonly JsonSerializerOptions jsonOptions = new JsonSerializerOptions
         {
             Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
@@ -38,12 +37,15 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
             IsEssential = true,
         };
         private CEG_RAZOR_Library methcall = new();
+        
+        [BindProperty]
+        public int? CourseId { get; set; }
+        [BindProperty]
+        public int? SessionId { get; set; }
+        public int? HomeworkId { get; set; }
+        public string? AccToken;
+        public string? ApiUrl;
         public string? LayoutUrl { get; set; } = Constants.ADMIN_LAYOUT_URL;
-        [BindProperty]
-        public int? CourseID { get; set; }
-        [BindProperty]
-        public int? SessionID { get; set; }
-        public int? HomeworkID { get; set; }
         public UpdateHomeworkVM? UpdateHomeworkInfo { get; set; } = new UpdateHomeworkVM();
         public UpdateQuestionVM? AddQuestion { get; set; } = new UpdateQuestionVM();
         public HomeworkInfoModel(ILogger<HomeworkInfoModel> logger, IConfiguration config, IMapper mapper)
@@ -51,12 +53,7 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
             _logger = logger;
             _config = config;
             _mapper = mapper;
-            _httpClient = new HttpClient()
-            {
-                BaseAddress = new Uri(config.GetSection(Constants.SYSTEM_DEFAULT_API_HTTPS_URL_CONFIG_PATH).Value)
-            };
-            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            AdminAPI_URL = config.GetSection(Constants.SYSTEM_DEFAULT_API_URL_CONFIG_PATH).Value;
+            ApiUrl = _config.GetSection(Constants.SYSTEM_DEFAULT_API_HTTPS_URL_CONFIG_PATH).Value + _config.GetSection(Constants.SYSTEM_DEFAULT_API_URL_CONFIG_PATH).Value;
         }
         public void OnGet(
             [FromRoute][Required] int courseId,
@@ -64,9 +61,10 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
             [FromRoute][Required] int homeworkId)
         {
             // methcall.InitTempData(this);
-            CourseID = courseId;
-            SessionID = sessionId;
-            HomeworkID = homeworkId;
+            AccToken = HttpContext.Session.GetString(Constants.ACC_TOKEN);
+            CourseId = courseId;
+            SessionId = sessionId;
+            HomeworkId = homeworkId;
         }
     }
 }

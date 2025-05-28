@@ -26,7 +26,7 @@
                                 <span>/</span>
                             </li>
                             <li class="breadcrumd-item">
-                                <a href="/Parent/Profile">Profile</a>
+                                <a href="/parent/Profile">Profile</a>
                             </li>
                         </ol>
                     </div>
@@ -182,7 +182,7 @@
         });
         function callApiGetParentDetail() {
             $.ajax({
-                url: apiUrl + 'Parent/Account/' + id, // API endpoint
+                url: apiUrl + 'parent/account/' + id, // API endpoint
                 type: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + token// Include the JWT token

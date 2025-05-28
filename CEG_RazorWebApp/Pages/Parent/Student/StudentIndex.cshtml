@@ -216,7 +216,7 @@
         
         function callApiGetStudentList() {
             $.ajax({
-                url: apiUrl + `Student/ByParent/${id}`, // API endpoint
+                url: apiUrl + `student/parent/${id}`, // API endpoint
                 type: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + token // Include the JWT token

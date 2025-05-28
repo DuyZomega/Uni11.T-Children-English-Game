@@ -57,7 +57,7 @@
         });
         function callApiGetCourseList() {
             $.ajax({
-                url: apiUrl + 'Course/All/Available', // API endpoint
+                url: apiUrl + 'course/status/available', // API endpoint
                 type: 'GET',
                 success: function (response) {
                     // Check if the status is true
@@ -114,24 +114,24 @@
                 // var formattedStartDate = formatDate(courseItem.startDate, { ignoreHour: true });
                 // var formattedEndDate = formatDate(courseItem.endDate, { ignoreHour: true });
                 var courseHtml = `
-                            <div class="col-12 col-lg-4 col-md-6 mb-4">
-                                <div class="card">
-                                    <div class="card-header bg-card-header text-black">
-                                        <h5 class="card-title bg-card-header-text">${courseItem.courseName}</h5>
-                                        <h3><span class="badge badge-primary bg-info">${courseItem.status}</span></h3>
-                                    </div>
-                                    <div class="card-body">
-                                        <p><strong>Type:</strong> ${courseItem.courseType}</p>
-                                        <p><strong>Duration:</strong> ${courseItem.totalHours} hours</p>
-                                        <p><strong>For age:</strong> ${courseItem.requiredAge} years old</p>
-                                        <p><strong>Difficulty:</strong> ${courseItem.difficulty}</p>
-                                    </div>
-                                    <div class="card-footer">
-                                        <button class="btn btn-skyblue btn-guest-details" onclick="viewClassDetails(${courseItem.courseId})">Details</button>
-                                    </div>
-                                </div>
+                    <div class="col-12 col-lg-4 col-md-6 mb-4">
+                        <div class="card">
+                            <div class="card-header bg-card-header text-black">
+                                <h5 class="card-title bg-card-header-text">${courseItem.courseName}</h5>
+                                <h3><span class="badge badge-primary bg-info">${courseItem.status}</span></h3>
                             </div>
-                        `;
+                            <div class="card-body">
+                                <p><strong>Type:</strong> ${courseItem.courseType}</p>
+                                <p><strong>Duration:</strong> ${courseItem.totalHours} hours</p>
+                                <p><strong>For age:</strong> ${courseItem.requiredAge} years old</p>
+                                <p><strong>Difficulty:</strong> ${courseItem.difficulty}</p>
+                            </div>
+                            <div class="card-footer">
+                                <button class="btn btn-skyblue btn-guest-details" onclick="viewClassDetails(${courseItem.courseId})">Details</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
                 courseListContainer.append(courseHtml);
             });
         }

@@ -47,7 +47,7 @@
         function callApiPostCreateTransaction() {
             // Call API to create transaction
             $.ajax({
-                url: apiUrl + 'Transaction/Create', // API endpoint
+                url: apiUrl + 'transaction', // API endpoint
                 type: 'POST',
                 headers: {
                     'Authorization': 'Bearer ' + token// Include the JWT token

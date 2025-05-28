@@ -26,7 +26,7 @@
                                 <span>/</span>
                             </li>
                             <li class="breadcrumd-item">
-                                <a href="/Teacher/Profile">Profile</a>
+                                <a href="/teacher/profile">Profile</a>
                             </li>
                         </ol>
                     </div>
@@ -234,7 +234,7 @@
         });
         function callApiGetTeacherDetail() {
             $.ajax({
-                url: apiUrl + 'Teacher/Account/' + id, // API endpoint
+                url: apiUrl + 'teacher/account/' + id, // API endpoint
                 type: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + token// Include the JWT token

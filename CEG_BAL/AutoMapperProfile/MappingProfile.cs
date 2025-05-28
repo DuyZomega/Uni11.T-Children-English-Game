@@ -210,6 +210,7 @@ namespace CEG_BAL.AutoMapperProfile
                     dest.AnswersAmount = src.HomeworkAnswers != null ? src.HomeworkAnswers.Count : 0;
                 })
                 .ReverseMap();
+            CreateMap<CreateNewQuestion, HomeworkQuestion>();
             CreateMap<UpdateQuestion, HomeworkQuestion>();
 
             // Homework Answer

@@ -16,30 +16,30 @@
     <div class="main-content">
         <!-- num of data -->
         <div class="cardBox">
-            <div class="card event">
+            <div class="align-items-center justify-content-between card event">
                 <div class="inconBx">
                     <i class='bx bx-home-heart'></i>
                 </div>
-                <div>
-                    <div id="children-amount">0</div>
+                <div class="amount">
+                    <div id="children-amount" class="number">0</div>
                     <div class="cardName">Children</div>
                 </div>
             </div>
-            <div class="card feedback">
+            <div class="align-items-center justify-content-between card feedback">
                 <div class="inconBx">
                     <i class='bx bx-conversation'></i>
                 </div>
-                <div>
-                    <div id="progress-amount">0</div>
+                <div class="amount">
+                    <div id="progress-amount" class="number">0</div>
                     <div class="cardName">Student Progress</div>
                 </div>
             </div>
-            <div class="card turnover">
+            <div class="align-items-center justify-content-between card turnover">
                 <div class="inconBx">
                     <i class='bx bx-money'></i>
                 </div>
-                <div>
-                    <div id="transaction-amount">0</div>
+                <div class="amount">
+                    <div id="transaction-amount" class="number">0</div>
                     <div class="cardName">Transactions</div>
                 </div>
             </div>
@@ -55,7 +55,7 @@
         });
         function callApiGetStudentCountByParent() {
             $.ajax({
-                url: apiUrl + `Student/All/Count/ByParent/${id}`, // API endpoint
+                url: apiUrl + `student/count/parent/${id}`, // API endpoint
                 type: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + token, // Token for authentication
@@ -93,8 +93,11 @@
         }
         function callApiGetTransactionCount() {
             $.ajax({
-                url: apiUrl + `Transaction/All/Count/${id}`, // API endpoint
+                url: apiUrl + `transaction/count/${id}`, // API endpoint
                 type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + token, // Token for authentication
+                },
                 success: function (response) {
                     // Check if the status is true
                     if (response.status) {

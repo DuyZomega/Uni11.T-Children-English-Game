@@ -1306,7 +1306,7 @@
 
         function callApiUpdateAttendanceStatus(attId, newStatus) {
             $.ajax({
-                url: apiUrl + `attendance/${attId}/Status`, // API endpoint for updating status
+                url: apiUrl + `attendance/${attId}/status`, // API endpoint for updating status
                 type: 'PUT', // HTTP method PUT for updates
                 headers: {
                     'Authorization': 'Bearer ' + token, // Token for authentication
@@ -1346,7 +1346,7 @@
 
         function callApiUpdateScheduleStatus(scheduleId, newStatus) {
             $.ajax({
-                url: apiUrl + `schedule/${scheduleId}/Status`, // API endpoint for updating status
+                url: apiUrl + `schedule/${scheduleId}/status`, // API endpoint for updating status
                 type: 'PUT', // HTTP method PUT for updates
                 headers: {
                     'Authorization': 'Bearer ' + token, // Token for authentication

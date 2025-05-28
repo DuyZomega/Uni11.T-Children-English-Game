@@ -123,7 +123,7 @@
         // Function to call API for class list
         function callApiGetClassList() {
             $.ajax({
-                url: apiUrl + `Class/${id}/All`, // Use teacherId in the API URL
+                url: apiUrl + `class/teacher/account/${id}`, // Use teacher account Id in the API URL
                 type: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + token

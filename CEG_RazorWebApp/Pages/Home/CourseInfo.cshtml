@@ -57,7 +57,7 @@
         });
         function callApiGetCourseList() {
             $.ajax({
-                url: apiUrl + 'Course/All/Available', // API endpoint
+                url: apiUrl + 'course/status/available', // API endpoint
                 type: 'GET',
                 success: function (response) {
                     // Check if the status is true

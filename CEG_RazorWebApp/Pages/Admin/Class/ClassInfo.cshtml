@@ -1303,7 +1303,7 @@
         }
         function callApiPutUpdateClassStatus(formData) {
             $.ajax({
-                url: apiUrl + 'Class/' + @Model.ClassID + '/Update/Status', // Specify your Razor Page here
+                url: apiUrl + 'class/' + @Model.ClassID + '/status', // Specify your Razor Page here
                 type: 'PUT',
                 data: JSON.stringify(formData),
                 headers: {
@@ -1364,7 +1364,7 @@
             });
             // Call API to get the list of teacher names
             $.ajax({
-                url: apiUrl + 'Teacher/All/FullnameOption', // API endpoint
+                url: apiUrl + 'teacher/fullnameoption', // API endpoint
                 type: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + token, // Token for authentication
@@ -1431,9 +1431,9 @@
             // $('#class-class-title').text(data.className);
             // $('#class-name').text(data.className);
             $('#class-teacher').text(data.teacher.account.fullname);
-            $('#class-teacher').attr('href', `/Admin/Teacher/${data.teacher.accountId}/Info`);
+            $('#class-teacher').attr('href', `/admin/accounts/teacher/${data.teacher.accountId}`);
             $('#class-course').text(data.course.courseName);
-            $('#class-course').attr('href', `/Admin/Course/${data.course.courseId}/Info`);
+            $('#class-course').attr('href', `/admin/courses/${data.course.courseId}`);
             $('#class-start-date').text(formatDate(data.startDate, { ignoreHour : true }));
             $('#class-start-date').data('stadate', data.startDate);
             $('#class-end-date').text(formatDate(data.endDate, { ignoreHour: true }));

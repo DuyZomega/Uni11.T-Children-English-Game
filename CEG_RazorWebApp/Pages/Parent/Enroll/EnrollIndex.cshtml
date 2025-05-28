@@ -39,7 +39,7 @@
                             <ul class="nav nav-tabs">
                                 <!-- dung vong for o day -->
                                 <li class="nav-item">
-                                    <a class="nav-link active" data-toggle="tab" href="/Parent/Enroll/Index">
+                                    <a class="nav-link active" data-toggle="tab" href="/parent/enrolled_classes">
                                         <i class='bx bx-home-alt-2'></i>
                                         <span>All Enrolled Classes</span>
                                     </a>
@@ -148,7 +148,7 @@
         });
         function callApiGetEnrollList() {
             $.ajax({
-                url: apiUrl + `Enroll/Parent/${id}`, // API Endpoint
+                url: apiUrl + `enroll/parent/account/${id}`, // API Endpoint
                 type: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + token // Include the JWT token
@@ -236,7 +236,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group mx-auto">
-                                        <a class="btn btn-primary clickable-row" href="/Parent/Class/${enroll.class.classId}/Info" role="button">Details</a>
+                                        <a class="btn btn-primary clickable-row" href="/parent/classes/${enroll.class.classId}" role="button">Details</a>
                                     </div>
                                 </div>
                             </div>

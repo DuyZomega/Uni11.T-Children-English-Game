@@ -96,38 +96,9 @@
                     setCourseDisplay(filteredcourseList);
                 });
             });
-            // Function to display alerts
-            function showAlert(type, message) {
-                var alertHtml = '';
-
-                if (type === 'success') {
-                    alertHtml = `
-                        <div class="alert alert-success alert-dismissible fade show" id="notif">
-                            <i class='bx bx-message-alt-x p-1'></i>
-                            <strong class="mr-1">` + message + `</strong>
-                            <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
-                                <span><i class='bx bx-x'></i></span>
-                            </button>
-                        </div>
-                    `;
-                } else if (type === 'error') {
-                    alertHtml = `
-                        <div class="alert alert-danger alert-dismissible fade show" id="notif">
-                            <i class='bx bx-message-alt-x p-1'></i>
-                            <strong class="mr-1">` + message + `</strong>
-                            <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
-                                <span><i class='bx bx-x'></i></span>
-                            </button>
-                        </div>
-                    `;
-                }
-
-                // Inject the alert HTML into the alert container
-                $('#alertContainer').html(alertHtml);
-            }
             function callApiGetCourseList() {
                 $.ajax({
-                    url: apiUrl + 'Course/All', // API endpoint
+                    url: apiUrl + 'course', // API endpoint
                     type: 'GET',
                     success: function (response) {
                         // Log the entire response to the console for debugging
@@ -193,7 +164,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group mx-auto">
-                                            <a class="btn btn-primary clickable-row" href="/Parent/Course/${courseObj.courseId}/Info" role="button">Details</a>
+                                            <a class="btn btn-primary clickable-row" href="/parent/courses/${courseObj.courseId}" role="button">Details</a>
                                         </div>
                                     </div>
                                 </div>

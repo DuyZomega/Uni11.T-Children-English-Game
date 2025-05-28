@@ -322,8 +322,7 @@
                     var value = selectedData[0].id;
                     enrollAmount.set(value);
                 }
-            })
-            ;
+            });
 
             transactionTable = new DataTable('#transaction-table', {
                 data: [],
@@ -405,7 +404,7 @@
             };
             // Send AJAX request
             $.ajax({
-                url: apiUrl + 'Transaction/GenerateUrl',
+                url: apiUrl + 'transaction/generateurl',
                 type: 'POST',
                 headers: {
                     'Authorization': 'Bearer ' + token// Include the JWT token
@@ -444,7 +443,7 @@
         });
         function autofillParentFullName() {
             $.ajax({
-                url: apiUrl + 'Parent/Account/' + id, // API endpoint
+                url: apiUrl + 'parent/account/' + id, // API endpoint
                 type: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + token// Include the JWT token
@@ -480,7 +479,7 @@
         function callApiGetStudentNameList(){
             // Call API to get the list of student names
             $.ajax({
-                url: apiUrl + 'Student/All/Fullname/ByParent/' + id, // API endpoint
+                url: apiUrl + 'student/names/parent/' + id, // API endpoint
                 type: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + token// Include the JWT token
@@ -519,7 +518,7 @@
         function callApiGetClassNameList(studentName) {
             // Call API to get the list of teacher names
             $.ajax({
-                url: apiUrl + 'Class/All/Status/Open?stuFullName=' + studentName, // API endpoint
+                url: apiUrl + 'class/options/status/open?stuFullname=' + studentName, // API endpoint
                 type: 'GET',
                 success: function (response) {
                     // Check if the status is true
@@ -553,7 +552,7 @@
         }
         function addParentOptions(callback) {
             $.ajax({
-                url: apiUrl + 'Parent/Account/' + id, // API endpoint
+                url: apiUrl + 'parent/account/' + id, // API endpoint
                 type: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + token, // Token for authentication
@@ -639,7 +638,7 @@
 
         function callApiGetTransactionList() {
             $.ajax({
-                url: apiUrl + `Transaction/ByParent/${id}`, // API Endpoint
+                url: apiUrl + `transaction/parent/${id}`, // API Endpoint
                 type: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + token // Include the JWT token
