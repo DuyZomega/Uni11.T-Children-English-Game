@@ -72,11 +72,11 @@ public class ClassList : MonoBehaviour
         if (statusText != null)
             statusText.text = "Loading classes...";
 
-        // Get student ID from account manager
-        string studentId = AccountManager.Instance._user.UserId;
-        Debug.Log($"Fetching enrolled classes for Student ID: {studentId}");  // Log student ID
+        // Get account ID from account manager
+        string accountId = AccountManager.Instance._user.UserId;
+        Debug.Log($"Fetching enrolled classes for Account ID: {accountId}");  // Log account ID
 
-        string url = $"{_baseUrl}/api/Class/Enrolled/{studentId}";
+        string url = $"{_baseUrl}/api/Class/Enrolled/{accountId}";
         Debug.Log($"Request URL: {url}");  // Log full API URL
 
         UnityWebRequest request = UnityWebRequest.Get(url);
