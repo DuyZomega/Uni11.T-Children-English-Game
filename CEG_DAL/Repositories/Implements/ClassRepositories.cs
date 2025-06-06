@@ -108,32 +108,39 @@ namespace CEG_DAL.Repositories.Implements
                             Description = sch.Session.Description,
                             Hours = sch.Session.Hours
                         },
+                        Attendances = includeAttendances && sch.Attendances != null ? sch.Attendances.Select(att => new Attendance()
+                        {
+                            AttendanceId = att.AttendanceId,
+                            StudentId = att.StudentId,
+                            HasAttended = att.HasAttended
+                        }).OrderBy(att => att.Student.Account.Fullname).ToList() : null
                     }).OrderBy(sch => sch.ScheduleDate).ToList() : null,
-                    Enrolls = c.Enrolls.Select(s => new Enroll()
+                    Enrolls = c.Enrolls.Select(enr => new Enroll()
                     {
-                        EnrollId = s.EnrollId,
-                        StudentId = s.StudentId,
-                        ClassId = s.ClassId,
-                        EnrolledDate = s.EnrolledDate,
-                        TransactionId = s.TransactionId,
-                        RegistrationDate = s.RegistrationDate,
+                        EnrollId = enr.EnrollId,
+                        StudentId = enr.StudentId,
+                        ClassId = enr.ClassId,
+                        EnrolledDate = enr.EnrolledDate,
+                        TransactionId = enr.TransactionId,
+                        RegistrationDate = enr.RegistrationDate,
                         Student = new Student()
                         {
                             Account = new Account()
                             {
-                                Fullname = s.Student.Account.Fullname
-                            }
+                                Fullname = enr.Student.Account.Fullname
+                            },
+                            StudentProgresses = c.StudentProgresses.Where(stupro => stupro.ClassId == c.ClassId && stupro.StudentId == enr.StudentId)
+                                .Select(stupro => new StudentProgress()
+                                {
+                                    StudentProgressId = stupro.StudentProgressId,
+                                    ClassId = stupro.ClassId,
+                                    StudentId = stupro.StudentId,
+                                    Playtime = stupro.Playtime,
+                                    TotalPoint = stupro.TotalPoint
+                                }).ToList()
                         },
-                        Status = s.Status
-                    }).ToList(),
-                    StudentProgresses = c.StudentProgresses.Select(s => new StudentProgress()
-                    {
-                        StudentProgressId = s.StudentProgressId,
-                        ClassId = s.ClassId,
-                        StudentId = s.StudentId,
-                        Playtime = s.Playtime,
-                        TotalPoint = s.TotalPoint,
-                    }).ToList(),
+                        Status = enr.Status
+                    }).ToList()
                 })
                 .SingleOrDefaultAsync();
         }

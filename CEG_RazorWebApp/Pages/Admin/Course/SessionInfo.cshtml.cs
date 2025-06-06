@@ -21,8 +21,8 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
     {
         public string? LayoutUrl { get; set; } = Constants.ADMIN_LAYOUT_URL;
         [BindProperty]
-        public int? CourseID { get; set; }
-        public int? SessionID { get; set; }
+        public int? CourseId { get; set; }
+        public int? SessionId { get; set; }
         // public SessionInfoVM? SessionInfo { get; set; }
         public UpdateSessionVM? UpdateSessionInfo { get; set; } = new UpdateSessionVM();
         public CreateHomeworkVM? CreateHomework { get; set; } = new CreateHomeworkVM();
@@ -30,8 +30,8 @@ namespace CEG_RazorWebApp.Pages.Admin.Course
             [FromRoute][Required] int courseId,
             [FromRoute][Required] int sessionId)
         {
-            CourseID = courseId;
-            SessionID = sessionId;
+            CourseId = courseId;
+            SessionId = sessionId;
         }
     }
 }

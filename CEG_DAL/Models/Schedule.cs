@@ -19,7 +19,7 @@ public partial class Schedule
 
     public string? Status { get; set; }
 
-    public virtual ICollection<Attendance> Attendances { get; set; } = new List<Attendance>();
+    public virtual ICollection<Attendance>? Attendances { get; set; } = new List<Attendance>();
 
     public virtual Class Class { get; set; } = null!;
 

@@ -23,12 +23,55 @@ namespace CEG_WebAPI.Controllers
             _studentAnswerService = studentAnswerService;
             _config = config;
         }
-
+        [Obsolete("This api use old Api mapping that is not correct. Use new api instead", false)]
         [HttpGet("All")]
         [ProducesResponseType(typeof(List<StudentAnswerViewModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetStudentAnswerList()
+        {
+            return await GetList();
+        }
+        [Obsolete("This api use old Api mapping that is not correct. Use new api instead", false)]
+        [HttpGet("ByStudent/{id}")]
+        [ProducesResponseType(typeof(StudentAnswerViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetStudentAnswerByStudentId(
+            [FromRoute][Required] int id
+            )
+        {
+            return await GetListByStudentId(id);
+        }
+        [Obsolete("This api use old Api mapping that is not correct. Use new api instead", false)]
+        [HttpPost("Create")]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> CreateStudentAnswer(
+            [FromBody][Required] CreateNewStudentAnswer newStuAns
+            )
+        {
+            return await Create(newStuAns);
+        }
+        [Obsolete("This api use old Api mapping that is not correct. Use new api instead", false)]
+        [HttpPut("{id}/Update")]
+        [ProducesResponseType(typeof(StudentAnswerViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> UpdateStudentAnswer(
+            [FromRoute][Required] int id,
+            [FromBody][Required] UpdateStudentAnswer upStuAns
+            )
+        {
+            return await Update(id, upStuAns);
+        }
+
+        [HttpGet]
+        [ProducesResponseType(typeof(List<StudentAnswerViewModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetList()
         {
             try
             {
@@ -62,7 +105,7 @@ namespace CEG_WebAPI.Controllers
         [ProducesResponseType(typeof(StudentAnswerViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetStudentAnswerById(
+        public async Task<IActionResult> GetById(
             [FromRoute][Required] int id
             )
         {
@@ -94,11 +137,11 @@ namespace CEG_WebAPI.Controllers
             }
         }
 
-        [HttpGet("ByStudent/{id}")]
-        [ProducesResponseType(typeof(StudentAnswerViewModel), StatusCodes.Status200OK)]
+        [HttpGet("student/{id}")]
+        [ProducesResponseType(typeof(List<StudentAnswerViewModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetStudentAnswerByStudentId(
+        public async Task<IActionResult> GetListByStudentId(
             [FromRoute][Required] int id
             )
         {
@@ -130,11 +173,11 @@ namespace CEG_WebAPI.Controllers
             }
         }
 
-        [HttpPost("Create")]
+        [HttpPost]
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CreateStudentAnswer(
+        public async Task<IActionResult> Create(
             [FromBody][Required] CreateNewStudentAnswer newStuAns
             )
         {
@@ -158,7 +201,8 @@ namespace CEG_WebAPI.Controllers
                 });
             }
         }
-        [HttpPut("{id}/Update")]
+
+        [HttpPut("{id}")]
         [ProducesResponseType(typeof(StudentAnswerViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -178,7 +222,7 @@ namespace CEG_WebAPI.Controllers
                         ErrorMessage = "Student answer does not exist."
                     });
                 }
-                await _studentAnswerService.Update(id,upStuAns);
+                await _studentAnswerService.Update(id, upStuAns);
                 result = await _studentAnswerService.GetById(id);
                 return Ok(new
                 {

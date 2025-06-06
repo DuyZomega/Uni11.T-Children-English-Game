@@ -233,7 +233,7 @@ namespace CEG_BAL.Services.Implements
                 // - `cla.Schedules`: A collection of schedules associated with the class
                 // - `.Select(s => s.SessionId)`: Extracts the SessionId from each schedule
                 // - `.Distinct()`: Ensures each SessionId appears only once
-                var sessionIds = cla.Schedules.Select(s => s.SessionId).Distinct();
+                var sessionIds = cla.Schedules.Select(s => s.Session.SessionId).Distinct();
 
                 // Fetch a dictionary mapping session IDs to their associated homework lists
 
@@ -251,7 +251,7 @@ namespace CEG_BAL.Services.Implements
 
                 foreach (var enr in cla.Enrolls)
                 {
-                    bool isStuProExist = 
+                    bool isStuProExist = cla.StudentProgresses != null &&
                         cla.StudentProgresses.Any(stuPro => stuPro.ClassId == enr.ClassId && stuPro.StudentId == enr.StudentId);
                     // Add student progress
                     var stuPro = new StudentProgress()
@@ -278,17 +278,21 @@ namespace CEG_BAL.Services.Implements
                             HasAttended = CEGConstants.ATTENDANCE_STATUS_ABSENT,
                         };
                         var scheExist = await _unitOfWork.ScheduleRepositories.GetByIdNoTracking(sche.ScheduleId);
-                        bool isScheAttExist = scheExist != null && scheExist.Attendances.Any(att => att.StudentId == enr.StudentId && att.ScheduleId == sche.ScheduleId);
-                        if (!isScheAttExist)
+                        if(scheExist != null)
                         {
-                            // Add attendance
-                            sche.Attendances.Add(att);
+                            bool isScheAttExist = scheExist.Attendances != null && scheExist.Attendances.Any(att => att.StudentId == enr.StudentId && att.ScheduleId == sche.ScheduleId);
+                            if (!isScheAttExist)
+                            {
+                                sche.Attendances ??= new List<Attendance>();
+                                // Add attendance
+                                sche.Attendances.Add(att);
+                            }
                         }
 
                         enr.Student = null;
 
                         // Get homework list for the session using TryGetValue method
-                        if (homeworkDictionary.TryGetValue(sche.SessionId, out List<Homework> homList))
+                        if (homeworkDictionary.TryGetValue(sche.Session.SessionId, out List<Homework> homList))
                         {
                             // Add student homework for each homework item in the list
                             foreach (var hom in homList)
@@ -311,8 +315,11 @@ namespace CEG_BAL.Services.Implements
                             }
                         }
                     }
-                    if(!isStuProExist)
+                    if (!isStuProExist)
+                    {
+                        cla.StudentProgresses ??= new List<StudentProgress>();
                         cla.StudentProgresses.Add(stuPro);
+                    }
                     // Add attendance without setting the Schedule navigation property
                     /*var attendance = new Attendance()
                     {

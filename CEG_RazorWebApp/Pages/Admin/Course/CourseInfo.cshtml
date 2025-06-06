@@ -1666,7 +1666,7 @@
                     totalHours: $('input[id="updateCourse_TotalHours"]').val(),
                     requiredAge: $('input[id="updateCourse_RequiredAge"]').val(),
                     difficulty: $('select[id="updateCourse_Difficulty"]').val(),
-                    category: $('select[id="updateCourse_Category"]').val()
+                    category: $('input[id="updateCourse_Category"]').val()
                 };
 
                 //Make the AJAX request
@@ -1811,7 +1811,7 @@
 
                 if (confirm(`Delete homework "${rowData.title}"?`)) {
                     $.ajax({
-                        url: apiUrl + 'Homework/' + rowData.homeworkId + '/Delete',
+                        url: apiUrl + 'homework/' + rowData.homeworkId,
                         type: 'DELETE',
                         headers: { 'Authorization': 'Bearer ' + token },
                         success: function (response) {
@@ -1864,7 +1864,7 @@
 
                 if (confirm(`Update homework "${rowData.title}"?`)) {
                     $.ajax({
-                        url: apiUrl + 'Homework/' + rowData.homeworkId + '/Update',
+                        url: apiUrl + 'homework/' + rowData.homeworkId,
                         type: 'PUT',
                         data: JSON.stringify(formData),
                         headers: {
@@ -1912,7 +1912,7 @@
 
                 if (confirm(`Delete question "${rowData.question}"?`)) {
                     $.ajax({
-                        url: apiUrl + 'Question/' + rowData.homeworkQuestionId + '/Homework/' + homId + '/Delete',
+                        url: apiUrl + 'question/' + rowData.homeworkQuestionId + '/for-homework/' + homId,
                         type: 'DELETE',
                         headers: { 'Authorization': 'Bearer ' + token },
                         success: function (response) {
@@ -1970,7 +1970,7 @@
 
                 if (confirm(`Update question "${rowData.question}"?`)) {
                     $.ajax({
-                        url: apiUrl + 'Question/' + rowData.homeworkQuestionId + '/Update',
+                        url: apiUrl + 'question/' + rowData.homeworkQuestionId,
                         type: 'PUT',
                         data: JSON.stringify(formData),
                         headers: {
@@ -2025,7 +2025,7 @@
 
                 if (confirm(`Delete answer "${rowData.answer}"?`)) {
                     $.ajax({
-                        url: apiUrl + 'Answer/' + rowData.homeworkAnswerId,
+                        url: apiUrl + 'answer/' + rowData.homeworkAnswerId,
                         type: 'DELETE',
                         headers: { 'Authorization': 'Bearer ' + token },
                         success: function (response) {
@@ -2089,7 +2089,7 @@
 
                 if (confirm(`Update answer "${rowData.answer}"?`)) {
                     $.ajax({
-                        url: apiUrl + 'Answer/' + rowData.homeworkAnswerId + '/Update',
+                        url: apiUrl + 'answer/' + rowData.homeworkAnswerId,
                         type: 'PUT',
                         data: JSON.stringify(formData),
                         headers: {
@@ -2164,7 +2164,7 @@
         }
         function callApiPostCreateHomework(formData) {
             $.ajax({
-                url: apiUrl + 'Homework/Create', // Specify your Razor Page here
+                url: apiUrl + 'homework', // Specify your Razor Page here
                 type: 'POST',
                 data: JSON.stringify(formData),
                 contentType: 'application/json; charset=utf-8',
@@ -2200,7 +2200,7 @@
         }
         function callApiPutUpdateCourse(formData) {
             $.ajax({
-                url: apiUrl + 'Course/' + @Model.CourseID + '/Update', // Specify your Razor Page here
+                url: apiUrl + 'course/' + @Model.CourseID, // Specify your Razor Page here
                 type: 'PUT',
                 data: JSON.stringify(formData),
                 headers: {
@@ -2242,7 +2242,7 @@
         }
         function callApiPutUpdateCourseStatus(formData) {
             $.ajax({
-                url: apiUrl + 'Course/' + @Model.CourseID + '/Update/Status', // Specify your Razor Page here
+                url: apiUrl + 'course/' + @Model.CourseID + '/status', // Specify your Razor Page here
                 type: 'PUT',
                 data: JSON.stringify(formData),
                 headers: {
@@ -2283,7 +2283,7 @@
         }
         function callApiPostCreateSession(formData) {
             $.ajax({
-                url: apiUrl + 'Session/Create', // Specify your Razor Page here
+                url: apiUrl + 'session', // Specify your Razor Page here
                 type: 'POST',
                 data: JSON.stringify(formData),
                 contentType: 'application/json; charset=utf-8',
@@ -2320,7 +2320,7 @@
         }
         function callApiPutUpdateSession(formData, sessionId) {
             $.ajax({
-                url: apiUrl + 'Session/' + sessionId + '/Update', // Specify your Razor Page here
+                url: apiUrl + 'session/' + sessionId, // Specify your Razor Page here
                 type: 'PUT',
                 data: JSON.stringify(formData),
                 headers: {
@@ -2361,7 +2361,7 @@
         }
         function callApiDeleteSession(sessionId) {
             $.ajax({
-                url: apiUrl + 'Session/' + sessionId + '/Delete', // Specify your Razor Page here
+                url: apiUrl + 'session/' + sessionId, // Specify your Razor Page here
                 type: 'DELETE',
                 headers: {
                     'Authorization': 'Bearer ' + token, // Token for authentication
@@ -2400,7 +2400,7 @@
         }
         function callApiGetQuestionList(homId) {
             $.ajax({
-                url: apiUrl + 'Question/All/ByHomework/' + homId, // API endpoint
+                url: apiUrl + 'question/homework/' + homId, // API endpoint
                 type: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + token, // Token for authentication
@@ -2447,7 +2447,7 @@
         }
         function callApiPostChooseQuestion(questionId, homeworkId) {
             $.ajax({
-                url: apiUrl + 'Question/' + questionId + '/Update/HomeworkId/' + homeworkId, // Specify your Razor Page here
+                url: apiUrl + 'question/' + questionId + '/for-homework/' + homeworkId, // Specify your Razor Page here
                 type: 'PUT',
                 headers: {
                     'Authorization': 'Bearer ' + token, // Token for authentication
@@ -2461,7 +2461,7 @@
                         let selectedHomTableRow = getSelectedHomeworkTableRowInfo();
                         let rowHomId = selectedHomTableRow.rowHomData.homeworkId;
                         callApiGetCourseDetail();
-                        console.log(selectedHomTableRow.rowHomIndex);
+                        // console.log(selectedHomTableRow.rowHomIndex);
                         homeworkTable.row(selectedHomTableRow.rowHomIndex).select();
                         $('#homId_adding').val(rowHomId);
                         callApiGetQuestionList(rowHomId);
@@ -2494,7 +2494,7 @@
         }
         function callApiPostCreateQuestion(formData, homeworkId) {
             $.ajax({
-                url: apiUrl + 'Question/Create/HomeworkId/' + homeworkId, // Specify your Razor Page here
+                url: apiUrl + 'question/for-homework/' + homeworkId, // Specify your Razor Page here
                 type: 'POST',
                 data: JSON.stringify(formData),
                 contentType: 'application/json; charset=utf-8',
@@ -2504,6 +2504,7 @@
                         showAlert('success', "Question create successfully");
 
                         let selectedHomTableRow = getSelectedHomeworkTableRowInfo();
+                        console.log(selectedHomTableRow);
                         let rowHomId = selectedHomTableRow.rowHomData.homeworkId;
                         callApiGetCourseDetail();
                         homeworkTable.row(selectedHomTableRow.rowHomIndex).select();
@@ -2538,7 +2539,7 @@
         }
         function callApiPostCreateAnswer(formData) {
             $.ajax({
-                url: apiUrl + 'Answer/Create', // Specify your Razor Page here
+                url: apiUrl + 'answer', // Specify your Razor Page here
                 type: 'POST',
                 data: JSON.stringify(formData),
                 headers: {
@@ -2621,7 +2622,7 @@
         }
         function callApiGetCourseDetail() {
             $.ajax({
-                url: apiUrl + 'Course/' + @Model.CourseID , // API endpoint
+                url: apiUrl + 'course/' + @Model.CourseID , // API endpoint
                 type: 'GET',
                 success: function (response) {
                     // Log the entire response to the console for debugging
@@ -2680,7 +2681,7 @@
         }
         function callApiGetQuestionOptionList(homId) {
             $.ajax({
-                url: apiUrl + 'Question/All/Exclude/ByHomework/' + homId, // API endpoint
+                url: apiUrl + 'question/excluded-from-homework/' + homId, // API endpoint
                 type: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + token // Include the JWT token

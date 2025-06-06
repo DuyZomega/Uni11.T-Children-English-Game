@@ -3,6 +3,7 @@ using CEG_BAL.Services.Interfaces;
 using CEG_BAL.ViewModels;
 using CEG_BAL.ViewModels.Admin.Get;
 using CEG_BAL.ViewModels.Admin.Update;
+using CEG_WebAPI.Constants;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -23,11 +24,54 @@ namespace CEG_WebAPI.Controllers
             _config = config;
         }
 
+        [Obsolete("This api use old Api mapping that is not correct. Use new api instead", false)]
         [HttpGet("All")]
         [ProducesResponseType(typeof(List<ParentViewModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetParentList()
+        {
+            return await GetList();
+        }
+        [Obsolete("This api use old Api mapping that is not correct. Use new api instead", false)]
+        [HttpGet("All/Fullname")]
+        [ProducesResponseType(typeof(List<GetParentNameOption>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetParentNameList()
+        {
+            return await GetNameList();
+        }
+        /*[Obsolete("This api use old Api mapping that is not correct. Use new api instead", false)]
+        [HttpGet("Account/{id}")]
+        [Authorize(Roles = $"{Roles.Admin}, {Roles.Parent}")]
+        [ProducesResponseType(typeof(ParentViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetParentByAccountId(
+            [FromRoute][Required] int id
+            )
+        {
+            return await GetByAccountId(id);
+        }*/
+        [Obsolete("This api use old Api mapping that is not correct. Use new api instead", false)]
+        [HttpPut("Account/{id}/Update")]
+        [Authorize(Roles = Roles.Admin)]
+        [ProducesResponseType(typeof(ParentViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> UpdateParent(
+            [FromRoute][Required] int id,
+            [FromBody][Required] UpdateParent parent)
+        {
+            return await Update(id, parent);
+        }
+
+        [HttpGet]
+        [ProducesResponseType(typeof(List<ParentViewModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetList()
         {
             try
             {
@@ -57,11 +101,11 @@ namespace CEG_WebAPI.Controllers
             }
         }
 
-        [HttpGet("All/Fullname")]
+        [HttpGet("names")]
         [ProducesResponseType(typeof(List<GetParentNameOption>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetParentNameList()
+        public async Task<IActionResult> GetNameList()
         {
             try
             {
@@ -95,7 +139,9 @@ namespace CEG_WebAPI.Controllers
         [ProducesResponseType(typeof(ParentViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetParentById([FromRoute] int id)
+        public async Task<IActionResult> GetById(
+            [FromRoute][Required] int id
+            )
         {
             try
             {
@@ -124,12 +170,13 @@ namespace CEG_WebAPI.Controllers
                 });
             }
         }
-        [HttpGet("Account/{id}")]
-        [Authorize(Roles = "Admin, Parent")]
+
+        [HttpGet("account/{id}")]
+        [Authorize(Roles = $"{Roles.Admin}, {Roles.Parent}")]
         [ProducesResponseType(typeof(ParentViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetParentByAccountId(
+        public async Task<IActionResult> GetByAccountId(
             [FromRoute][Required] int id
             )
         {
@@ -161,14 +208,15 @@ namespace CEG_WebAPI.Controllers
             }
         }
 
-        [HttpPut("Account/{id}/Update")]
-        [Authorize(Roles = "Admin")]
+        [HttpPut("account/{id}")]
+        [Authorize(Roles = Roles.Admin)]
         [ProducesResponseType(typeof(ParentViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Update(
             [FromRoute][Required] int id,
-            [FromBody][Required] UpdateParent parent)
+            [FromBody][Required] UpdateParent parent
+            )
         {
             try
             {
@@ -181,7 +229,7 @@ namespace CEG_WebAPI.Controllers
                         ErrorMessage = "Parent Does Not Exist"
                     });
                 }
-                _parentService.Update(result,parent);
+                _parentService.Update(result, parent);
                 result = await _parentService.GetParentByAccountId(id);
                 return Ok(new
                 {

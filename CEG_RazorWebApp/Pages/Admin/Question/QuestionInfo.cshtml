@@ -453,7 +453,7 @@
         }
         function callApiPutUpdateQuestion(formData) {
             $.ajax({
-                url: apiUrl + 'Question/@Model.QuestionId/Update', // Specify your Razor Page here
+                url: apiUrl + 'question/@Model.QuestionId', // Specify your Razor Page here
                 type: 'PUT',
                 data: JSON.stringify(formData),
                 headers: {
@@ -494,7 +494,7 @@
         }
         function callApiPutUpdateAnswer(formData, answerId) {
             $.ajax({
-                url: apiUrl + 'Answer/' + answerId + '/Update', // Specify your Razor Page here
+                url: apiUrl + 'answer/' + answerId, // Specify your Razor Page here
                 type: 'PUT',
                 data: JSON.stringify(formData),
                 headers: {
@@ -541,7 +541,7 @@
         }
         function callApiPostCreateAnswer(formData) {
             $.ajax({
-                url: apiUrl + 'Answer/Create', // Specify your Razor Page here
+                url: apiUrl + 'answer', // Specify your Razor Page here
                 type: 'POST',
                 data: JSON.stringify(formData),
                 headers: {
@@ -582,7 +582,7 @@
         }
         function callApiGetQuestionDetail() {
             $.ajax({
-                url: apiUrl + 'Question/@Model.QuestionId', // API endpoint
+                url: apiUrl + 'question/@Model.QuestionId', // API endpoint
                 type: 'GET',
                 success: function (response) {
                     // Log the entire response to the console for debugging

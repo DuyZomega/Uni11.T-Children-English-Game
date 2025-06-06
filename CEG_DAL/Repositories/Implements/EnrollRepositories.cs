@@ -74,6 +74,7 @@ namespace CEG_DAL.Repositories.Implements
                         TeacherId = e.Class.TeacherId,
                         CourseId = e.Class.CourseId,
                         Status = e.Class.Status,
+                        EnrollmentFee = e.Class.EnrollmentFee,
                         Teacher = new Teacher // Create a new Teacher object
                         {
                             TeacherId = e.Class.Teacher.TeacherId,

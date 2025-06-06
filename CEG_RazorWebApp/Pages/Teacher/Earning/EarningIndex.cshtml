@@ -598,7 +598,7 @@
         }
         function callApiGetTransactionList() {
             $.ajax({
-                url: apiUrl + `Transaction/All/ByTeacher/${id}`, // API endpoint
+                url: apiUrl + `transaction/teacher/${id}`, // API endpoint
                 type: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + token// Include the JWT token

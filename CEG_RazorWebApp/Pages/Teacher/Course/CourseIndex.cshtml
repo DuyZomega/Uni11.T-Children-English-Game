@@ -1,4 +1,4 @@
-﻿@page "/Teacher/Course/Index"
+﻿@page "/teacher/courses"
 @model CEG_RazorWebApp.Pages.Teacher.Course.CourseIndexModel
 @{
     ViewData["Title"] = "Teacher All Courses Page";
@@ -28,7 +28,7 @@
                                     <span>/</span>
                                 </li>
                                 <li class="breadcrumd-item">
-                                    <a href="/Teacher/Course/Index">Course</a>
+                                    <a href="/teacher/courses">Course</a>
                                 </li>
                             </ol>
                         </div>
@@ -234,7 +234,7 @@
             });
             // Call API to get the list of teacher names
             $.ajax({
-                url: apiUrl + 'Teacher/All/Fullname', // API endpoint
+                url: apiUrl + 'teacher/fullnameoption', // API endpoint
                 type: 'GET',
                 success: function (response) {
                     // Log the entire response to the console for debugging
@@ -263,7 +263,7 @@
             });
             // Call API to get the list of course names
             $.ajax({
-                url: apiUrl + 'Course/All/Name', // API endpoint
+                url: apiUrl + 'course/names', // API endpoint
                 type: 'GET',
                 success: function (response) {
                     // Log the entire response to the console for debugging
@@ -291,38 +291,11 @@
                     //showAlert('success', 'Data fetched successfully.');
                 }
             });
-            // Function to display alerts
-            function showAlert(type, message) {
-                var alertHtml = '';
-
-                if (type === 'success') {
-                    alertHtml = `
-                                <div class="alert alert-success alert-dismissible fade show" id="notif">
-                                    <i class='bx bx-message-alt-x p-1'></i>
-                                    <strong class="mr-1">` + message + `</strong>
-                                    <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
-                                        <span><i class='bx bx-x'></i></span>
-                                    </button>
-                                </div>`;
-                } else if (type === 'error') {
-                    alertHtml = `
-                                <div class="alert alert-danger alert-dismissible fade show" id="notif">
-                                    <i class='bx bx-message-alt-x p-1'></i>
-                                    <strong class="mr-1">` + message + `</strong>
-                                    <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
-                                        <span><i class='bx bx-x'></i></span>
-                                    </button>
-                                </div>`;
-                }
-
-                // Inject the alert HTML into the alert container
-                $('#alertContainer').html(alertHtml);
-            }
         });
         // Function to call API for class list
         function callApiGetClassList() {
             $.ajax({
-                url: apiUrl + `Class/${id}/All`, // Use teacherId in the API URL
+                url: apiUrl + `class/teacher/account/${id}`, // Use teacherId in the API URL
                 type: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + token
@@ -368,7 +341,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group mx-auto">
-                                                <a class="btn btn-primary clickable-row" href="/Teacher/Class/${classObj.classId}/Info" role="button">Details</a>
+                                                <a class="btn btn-primary clickable-row" href="/teacher/classes/${classObj.classId}" role="button">Details</a>
                                             </div>
                                         </div>
                                     </div>

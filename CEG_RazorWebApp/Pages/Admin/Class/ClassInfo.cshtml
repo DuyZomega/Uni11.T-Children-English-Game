@@ -324,6 +324,12 @@
                                                             <th class="sorting sorting_asc" tabindex="0"
                                                                 aria-controls="enroll-table" rowspan="1"
                                                                 colspan="1" aria-sort="ascending"
+                                                                aria-label="Student Points: activate to sort column ascending">
+                                                                Total Points
+                                                            </th>
+                                                            <th class="sorting sorting_asc" tabindex="0"
+                                                                aria-controls="enroll-table" rowspan="1"
+                                                                colspan="1" aria-sort="ascending"
                                                                 aria-label="Student Status: activate to sort column ascending">
                                                                 Status
                                                             </th>
@@ -665,7 +671,7 @@
                     return str;
                 };
             };
-            table = new DataTable('#enroll-table', {
+            enrollTable = new DataTable('#enroll-table', {
                 data: [],
                 lengthMenu: [8, 10, 25, 50],
                 pageLength: 8,
@@ -677,6 +683,21 @@
                         className: 'dt-head-left'
                     },
                     { data: 'student.account.fullname' },
+                    { 
+                        data: null,
+                        render: function (data, type, row, meta){
+                            // Check if studentProgresses exists and is an array
+                            if (data.student && data.student.studentProgresses && Array.isArray(data.student.studentProgresses)) {
+                                // Calculate the sum of totalPoint
+                                const sum = data.student.studentProgresses.reduce((accumulator, progress) => {
+                                    return accumulator + (progress.totalPoint || 0);
+                                }, 0);
+
+                                return sum;
+                            }
+                            return 0; // Return 0 if no studentProgresses
+                        }
+                    },
                     // { data: 'status' },
                     { // Add a select box in the last column
                         data: 'status',
@@ -928,7 +949,7 @@
 
                 if (confirm(`Delete schedule "${rowData.session.title}"?`)) {
                     $.ajax({
-                        url: apiUrl + 'Schedule/' + rowData.scheduleId + '/Delete',
+                        url: apiUrl + 'schedule/' + rowData.scheduleId,
                         type: 'DELETE',
                         headers: { 'Authorization': 'Bearer ' + token },
                         success: function (response) {
@@ -1015,7 +1036,7 @@
         });
         function callApiUpdateEnrollStatus(enrollId, newStatus) {
             $.ajax({
-                url: apiUrl + `Enroll/${enrollId}/Update/Status`, // API endpoint for updating status
+                url: apiUrl + `enroll/${enrollId}/status`, // API endpoint for updating status
                 type: 'PUT', // HTTP method PUT for updates
                 headers: {
                     'Authorization': 'Bearer ' + token, // Token for authentication
@@ -1054,7 +1075,7 @@
         }
         function callApiPutUpdateClass(formData) {
             $.ajax({
-                url: apiUrl + 'Class/@Model.ClassID/Update', // Specify your Razor Page here
+                url: apiUrl + 'class/@Model.ClassID', // Specify your Razor Page here
                 type: 'PUT',
                 data: JSON.stringify(formData),
                 headers: {
@@ -1094,7 +1115,7 @@
         }
         function callApiPutUpdateSchedule(formData, scheduleId) {
             $.ajax({
-                url: apiUrl + 'Schedule/' + scheduleId + '/Update', // Specify your Razor Page here
+                url: apiUrl + 'schedule/' + scheduleId, // Specify your Razor Page here
                 type: 'PUT',
                 data: JSON.stringify(formData),
                 headers: {
@@ -1140,7 +1161,7 @@
         }
         function callApiPostCreateSchedule(formData) {
             $.ajax({
-                url: apiUrl + 'Schedule/Create', // Specify your Razor Page here
+                url: apiUrl + 'schedule', // Specify your Razor Page here
                 type: 'POST',
                 data: JSON.stringify(formData),
                 headers: {
@@ -1180,7 +1201,7 @@
         }
         function callApiGetClassDetail() {
             $.ajax({
-                url: apiUrl + 'Class/Admin/@Model.ClassID', // API endpoint
+                url: apiUrl + 'class/@Model.ClassID/admin', // API endpoint
                 type: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + token// Include the JWT token
@@ -1191,9 +1212,10 @@
                     if (response.status) {
                         // console.log(response.data);
                         setClassDisplay(response.data);
+                        console.log(response.data);
                         // Check if homeworkAnswers is empty
                         if (response.data.enrolls && response.data.enrolls.length > 0) {
-                            table.clear().rows.add(response.data.enrolls).draw();
+                            enrollTable.clear().rows.add(response.data.enrolls).draw();
                         }
                         if (response.data.schedules && response.data.schedules.length > 0) {
                             // Clear any existing answers
@@ -1281,7 +1303,7 @@
         }
         function callApiPutUpdateClassStatus(formData) {
             $.ajax({
-                url: apiUrl + 'Class/' + @Model.ClassID + '/Update/Status', // Specify your Razor Page here
+                url: apiUrl + 'class/' + @Model.ClassID + '/status', // Specify your Razor Page here
                 type: 'PUT',
                 data: JSON.stringify(formData),
                 headers: {
@@ -1342,7 +1364,7 @@
             });
             // Call API to get the list of teacher names
             $.ajax({
-                url: apiUrl + 'Teacher/All/FullnameOption', // API endpoint
+                url: apiUrl + 'teacher/fullnameoption', // API endpoint
                 type: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + token, // Token for authentication
@@ -1409,9 +1431,9 @@
             // $('#class-class-title').text(data.className);
             // $('#class-name').text(data.className);
             $('#class-teacher').text(data.teacher.account.fullname);
-            $('#class-teacher').attr('href', `/Admin/Teacher/${data.teacher.accountId}/Info`);
+            $('#class-teacher').attr('href', `/admin/accounts/teacher/${data.teacher.accountId}`);
             $('#class-course').text(data.course.courseName);
-            $('#class-course').attr('href', `/Admin/Course/${data.course.courseId}/Info`);
+            $('#class-course').attr('href', `/admin/courses/${data.course.courseId}`);
             $('#class-start-date').text(formatDate(data.startDate, { ignoreHour : true }));
             $('#class-start-date').data('stadate', data.startDate);
             $('#class-end-date').text(formatDate(data.endDate, { ignoreHour: true }));

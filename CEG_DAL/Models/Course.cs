@@ -34,7 +34,7 @@ public partial class Course
 
     public string? Category { get; set; }
 
-    public virtual ICollection<Class> Classes { get; set; } = new List<Class>();
+    public virtual ICollection<Class>? Classes { get; set; } = new List<Class>();
 
-    public virtual ICollection<Session> Sessions { get; set; } = new List<Session>();
+    public virtual ICollection<Session>? Sessions { get; set; } = new List<Session>();
 }

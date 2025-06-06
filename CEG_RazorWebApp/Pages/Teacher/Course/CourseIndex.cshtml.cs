@@ -49,7 +49,7 @@ namespace CEG_RazorWebApp.Pages.Teacher.Course
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             TeacherAPI_URL = config.GetSection(Constants.SYSTEM_DEFAULT_API_URL_CONFIG_PATH).Value;
         }
-        public IActionResult OnGetInfo(
+        /*public IActionResult OnGetInfo(
             [Required] int courseId)
         {
             return Redirect("/Teacher/Course/" + courseId + "/Info");
@@ -86,15 +86,15 @@ namespace CEG_RazorWebApp.Pages.Teacher.Course
                 return Redirect("/Teacher/Index");
             }
             /*TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = ViewBag.Success = "Course List Get Successfully!";*/
-            TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = "Course List Get Successfully!";
+            /*TempData[Constants.ALERT_DEFAULT_SUCCESS_NAME] = "Course List Get Successfully!";
             var courseTempData = methcall.GetValidationTempData<CreateCourseVM>(this, TempData, Constants.CREATE_COURSE_DETAILS_VALID, "createCourse", jsonOptions);
 
             Courses = _mapper.Map<List<IndexCourseInfoVM>>(courseListResponse.Data);
             CreateCourse = courseTempData != null ? courseTempData : new CreateCourseVM();
 
             return Page();
-        }
-        public IActionResult OnGetLogout()
+        }*/
+        /*public IActionResult OnGetLogout()
         {
             _httpClient.DefaultRequestHeaders.Authorization = null;
             HttpContext.Session.Clear();
@@ -105,6 +105,6 @@ namespace CEG_RazorWebApp.Pages.Teacher.Course
             // Example: await SignInManager.SignOutAsync();
 
             return RedirectToPage(Constants.LOGOUT_REDIRECT_URL);
-        }
+        }*/
     }
 }

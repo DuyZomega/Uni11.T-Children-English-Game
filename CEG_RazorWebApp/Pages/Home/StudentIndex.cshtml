@@ -40,7 +40,7 @@
         $(document).ready(function () {
             // AJAX call to fetch leaderboard data
             $.ajax({
-                url: apiUrl + 'Student/All/Rank',
+                url: apiUrl + 'student/rank',
                 type: "GET",
                 success: function (response) {
                     var leaderboard = response.data; // Access the data array

@@ -27,13 +27,13 @@ public partial class Class
 
     public string Status { get; set; } = null!;
 
-    public virtual Course Course { get; set; } = null!;
+    public virtual Course? Course { get; set; }
 
-    public virtual ICollection<Enroll> Enrolls { get; set; } = new List<Enroll>();
+    public virtual ICollection<Enroll>? Enrolls { get; set; } = new List<Enroll>();
 
-    public virtual ICollection<Schedule> Schedules { get; set; } = new List<Schedule>();
+    public virtual ICollection<Schedule>? Schedules { get; set; } = new List<Schedule>();
 
-    public virtual ICollection<StudentProgress> StudentProgresses { get; set; } = new List<StudentProgress>();
+    public virtual ICollection<StudentProgress>? StudentProgresses { get; set; } = new List<StudentProgress>();
 
-    public virtual Teacher Teacher { get; set; } = null!;
+    public virtual Teacher? Teacher { get; set; }
 }

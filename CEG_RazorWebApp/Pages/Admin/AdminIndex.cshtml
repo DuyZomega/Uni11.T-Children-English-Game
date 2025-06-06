@@ -136,7 +136,7 @@
         });
         function callApiGetAccountCount() {
             $.ajax({
-                url: apiUrl + 'Account/All/Count', // API endpoint
+                url: apiUrl + 'account/count', // API endpoint
                 type: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + token, // Token for authentication
@@ -192,7 +192,7 @@
         }
         function callApiGetCourseCount() {
             $.ajax({
-                url: apiUrl + 'Course/All/Count', // API endpoint
+                url: apiUrl + 'course/count', // API endpoint
                 type: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + token, // Token for authentication
@@ -230,7 +230,7 @@
         }
         function callApiGetClassCount() {
             $.ajax({
-                url: apiUrl + 'Class/All/Count', // API endpoint
+                url: apiUrl + 'class/count', // API endpoint
                 type: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + token, // Token for authentication
@@ -306,7 +306,7 @@
         // }
         function callApiGetTransactionList() {
             $.ajax({
-                url: apiUrl + 'Transaction/All', // API endpoint
+                url: apiUrl + 'transaction', // API endpoint
                 type: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + token// Include the JWT token

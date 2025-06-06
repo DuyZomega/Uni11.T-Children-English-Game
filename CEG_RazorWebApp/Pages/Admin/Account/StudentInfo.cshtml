@@ -29,19 +29,19 @@
                                 <span>/</span>
                             </li>
                             <li class="breadcrumd-item">
-                                <a href="/Admin/Account/Index">Account</a>
+                                <a href="/admin/accounts">Account</a>
                             </li>
                             <li class="breadcrumd-item">
                                 <span>/</span>
                             </li>
                             <li class="breadcrumd-item">
-                                <a href="/Admin/Student/@accountId/Info">@accountId</a>
+                                <a href="/admin/accounts/student/@accountId">@accountId</a>
                             </li>
                             <li class="breadcrumd-item">
                                 <span>/</span>
                             </li>
                             <li class="breadcrumd-item">
-                                <a href="/Admin/Student/@accountId/Info">Info</a>
+                                <a href="/admin/accounts/student/@accountId">Info</a>
                             </li>
                         </ol>
                     </div>
@@ -507,7 +507,7 @@
         });
         function callApiGetStudentDetail() {
             $.ajax({
-                url: apiUrl + 'Student/Account/@accountId', // API endpoint
+                url: apiUrl + 'student/account/@accountId', // API endpoint
                 type: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + token// Include the JWT token
@@ -553,7 +553,7 @@
             }
             // Call API to get the list of parent names
             $.ajax({
-                url: apiUrl + 'Parent/All/Fullname', // API endpoint
+                url: apiUrl + 'parent/names', // API endpoint
                 type: 'GET',
                 success: function (response) {
                     // Check if the status is true
@@ -616,7 +616,7 @@
             $('select[id="updateStudentStatus_Status"]').append(getStatusOptions(data.account.status));
 
             // Parent Url
-            var url = `/Admin/${data.parent.account.role.roleName}/${data.parent.account.accountId}/Info`
+            var url = `/admin/accounts/${data.parent.account.role.roleName.toLowerCase()}/${data.parent.account.accountId}`;
             // Parent Info
             $('#account-parent-status').empty();
 
@@ -646,7 +646,7 @@
             // console.log(studentData);
             // Make the AJAX POST request
             $.ajax({
-                url: apiUrl + 'Student/Account/@accountId/Update',
+                url: apiUrl + 'student/account/@accountId',
                 headers: {
                     'Authorization': 'Bearer ' + token// Include the JWT token
                 },
@@ -687,7 +687,7 @@
         });
         function callApiPutUpdateStudentStatus(newStatus) {
             $.ajax({
-                url: apiUrl + 'Account/@accountId/Update/Status',
+                url: apiUrl + 'account/@accountId/status',
                 type: 'PUT',
                 data: JSON.stringify(newStatus),
                 headers: {
@@ -727,7 +727,7 @@
         }
         function callApiUpdateEnrollStatus(enrollId, newStatus) {
             $.ajax({
-                url: apiUrl + `Enroll/${enrollId}/Update/Status`, // API endpoint for updating status
+                url: apiUrl + `enroll/${enrollId}/status`, // API endpoint for updating status
                 type: 'PUT', // HTTP method PUT for updates
                 headers: {
                     'Authorization': 'Bearer ' + token, // Token for authentication

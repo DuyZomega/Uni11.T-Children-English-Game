@@ -254,7 +254,7 @@
         });
         function callApiGetClassList() {
             $.ajax({
-                url: apiUrl + 'Class/Parent/All', // API endpoint
+                url: apiUrl + 'class/parent', // API endpoint
                 type: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + token// Include the JWT token
@@ -370,7 +370,7 @@
         }
         function callApiGetEnrollList() {
             $.ajax({
-                url: apiUrl + `Enroll/Parent/${id}`, // API Endpoint
+                url: apiUrl + `enroll/parent/account/${id}`, // API Endpoint
                 type: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + token // Include the JWT token

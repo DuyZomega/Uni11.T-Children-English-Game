@@ -32,7 +32,8 @@ namespace CEG_BAL.ViewModels
         public List<EnrollViewModel>? Enrolls { get; set; } = new List<EnrollViewModel>();
 
         public List<ScheduleViewModel>? Schedules { get; set; } = new List<ScheduleViewModel>();
-        //public List<StudentProgressViewModel>? StudentProgress { get; set; } = new List<StudentProgressViewModel>();
+        public List<StudentProgressViewModel>? StudentProgress { get; set; } = new List<StudentProgressViewModel>();
+        public List<AttendanceViewModel>? Attendances { get; set; } = new List<AttendanceViewModel>();
 
         public TeacherViewModel? Teacher { get; set; }
 

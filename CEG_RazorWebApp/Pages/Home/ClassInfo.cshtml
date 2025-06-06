@@ -1,4 +1,4 @@
-﻿@page "/Home/Class"
+﻿@page "/classes/info"
 @model CEG_RazorWebApp.Pages.Home.ClassInfoModel
 @{
     ViewData["Title"] = "Children English Game Class Info Page";
@@ -54,7 +54,7 @@
         });
         function callApiGetClassList() {
             $.ajax({
-                url: apiUrl + 'Class/All/Home', // API endpoint
+                url: apiUrl + 'class/home', // API endpoint
                 type: 'GET',
                 success: function (response) {
                     // Check if the status is true

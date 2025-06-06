@@ -19,21 +19,6 @@ public class PauseMenu : MonoBehaviour
 
     //[SerializeField]
 
-
-
-
-    //private GameObject mainMenu;
-public void Resume()
-    {
-        EventSystem.current.SetSelectedGameObject(null);
-        GameIsPause = false;
-        Time.timeScale = 1f;
-        Cursor.lockState = CursorLockMode.None;
-        pauseMenuUI.SetActive(false);       
-        
-        
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -49,6 +34,18 @@ public void Resume()
             }
         }
     }
+
+
+    //private GameObject mainMenu;
+public void Resume()
+    {     
+        pauseMenuUI.SetActive(false);  
+        Time.timeScale = 1f;
+        GameIsPause = false;
+        Cursor.lockState = CursorLockMode.None;
+    }
+
+
         
 
     public void Quit()

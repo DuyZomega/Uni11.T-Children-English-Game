@@ -1,4 +1,4 @@
-﻿@page "/Admin/Course/{courseId}/Session/{sessionId}/Homework/{homeworkId}/Info"
+﻿@page "/admin/courses/{courseId}/sessions/{sessionId}/homeworks/{homeworkId}"
 @model CEG_RazorWebApp.Pages.Admin.Course.HomeworkInfoModel
 @{
     ViewData["Title"] = "Admin Homework Info Page";
@@ -27,43 +27,43 @@
                                 <span>/</span>
                             </li>
                             <li class="breadcrumd-item">
-                                <a href="/Admin/Course/Index">Course</a>
+                                <a href="/admin/courses">Course</a>
                             </li>
                             <li class="breadcrumd-item">
                                 <span>/</span>
                             </li>
                             <li class="breadcrumd-item">
-                                <a href="/Admin/Course/@Model.CourseID/Info">@Model.CourseID</a>
+                                <a href="/admin/courses/@Model.CourseId">@Model.CourseId</a>
                             </li>
                             <li class="breadcrumd-item">
                                 <span>/</span>
                             </li>
                             <li class="breadcrumd-item">
-                                <a href="/Admin/Course/@Model.CourseID/Info">Session</a>
+                                <a href="/admin/courses/@Model.CourseId">Session</a>
                             </li>
                             <li class="breadcrumd-item">
                                 <span>/</span>
                             </li>
                             <li class="breadcrumd-item">
-                                <a href="/Admin/Course/@Model.CourseID/Session/@Model.SessionID/Info">@Model.SessionID</a>
+                                <a href="/admin/courses/@Model.CourseId/sessions/@Model.SessionId">@Model.SessionId</a>
                             </li>
                             <li class="breadcrumd-item">
                                 <span>/</span>
                             </li>
                             <li class="breadcrumd-item">
-                                <a href="/Admin/Course/@Model.CourseID/Session/@Model.SessionID/Info">Homework</a>
+                                <a href="/admin/courses/@Model.CourseId/sessions/@Model.SessionId">Homework</a>
                             </li>
                             <li class="breadcrumd-item">
                                 <span>/</span>
                             </li>
                             <li class="breadcrumd-item">
-                                <a href="/Admin/Course/@Model.CourseID/Session/@Model.SessionID/Homework/@Model.HomeworkID/Info">@Model.HomeworkID</a>
+                                <a href="/admin/courses/@Model.CourseId/sessions/@Model.SessionId/homeworks/@Model.HomeworkId">@Model.HomeworkId</a>
                             </li>
                             <li class="breadcrumd-item">
                                 <span>/</span>
                             </li>
                             <li class="breadcrumd-item">
-                                <a href="/Admin/Course/@Model.CourseID/Session/@Model.SessionID/Homework/@Model.HomeworkID/Info">Info</a>
+                                <a href="/admin/courses/@Model.CourseId/sessions/@Model.SessionId/homeworks/@Model.HomeworkId">Info</a>
                             </li>
                         </ol>
                     </div>
@@ -371,37 +371,9 @@
                 });
             }
         }
-        // Function to display alerts
-        function showAlert(type, message) {
-            var alertHtml = '';
-
-            if (type === 'success') {
-                alertHtml = `
-                                        <div class="alert alert-success alert-dismissible fade show" id="notif">
-                                            <i class='bx bx-message-alt-x p-1'></i>
-                                            <strong class="mr-1">` + message + `</strong>
-                                            <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
-                                                <span><i class='bx bx-x'></i></span>
-                                            </button>
-                                        </div>
-                                    `;
-            } else if (type === 'error') {
-                alertHtml = `
-                                        <div class="alert alert-danger alert-dismissible fade show" id="notif">
-                                            <i class='bx bx-message-alt-x p-1'></i>
-                                            <strong class="mr-1">` + message + `</strong>
-                                            <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
-                                                <span><i class='bx bx-x'></i></span>
-                                            </button>
-                                        </div>
-                                    `;
-            }
-            // Inject the alert HTML into the alert container
-            $('#alertContainer').html(alertHtml);
-        }
         function callApiPutUpdateHomework(formData) {
             $.ajax({
-                url: apiUrl + 'Homework/@Model.HomeworkID/Update', // Specify your Razor Page here
+                url: apiUrl + 'homework/@Model.HomeworkId', // Specify your Razor Page here
                 type: 'PUT',
                 data: JSON.stringify(formData),
                 headers: {
@@ -441,7 +413,7 @@
         }
         function callApiPostCreateQuestion(formData, homeworkId) {
             $.ajax({
-                url: apiUrl + 'Question/Create/HomeworkId/' + homeworkId, // Specify your Razor Page here
+                url: apiUrl + 'question/for-homework/' + homeworkId, // Specify your Razor Page here
                 type: 'POST',
                 data: JSON.stringify(formData),
                 contentType: 'application/json; charset=utf-8',
@@ -478,7 +450,7 @@
         }
         function callApiPutUpdateQuestion(formData, questionId) {
             $.ajax({
-                url: apiUrl + 'Question/' + questionId + '/Update', // Specify your Razor Page here
+                url: apiUrl + 'question/' + questionId, // Specify your Razor Page here
                 type: 'PUT',
                 data: JSON.stringify(formData),
                 headers: {
@@ -523,7 +495,7 @@
         }
         function callApiPostChooseQuestion(questionId, homeworkId) {
             $.ajax({
-                url: apiUrl + 'Question/' + questionId + '/Update/HomeworkId/' + homeworkId, // Specify your Razor Page here
+                url: apiUrl + 'question/' + questionId + '/for-homework/' + homeworkId, // Specify your Razor Page here
                 type: 'PUT',
                 headers: {
                     'Authorization': 'Bearer ' + token, // Token for authentication
@@ -562,7 +534,7 @@
         }
         function callApiGetHomeworkDetail() {
             $.ajax({
-                url: apiUrl + 'Homework/@Model.HomeworkID', // API endpoint
+                url: apiUrl + 'homework/@Model.HomeworkId', // API endpoint
                 type: 'GET',
                 success: function (response) {
                     // Log the entire response to the console for debugging
@@ -612,7 +584,7 @@
         }
         function callApiGetQuestionList() {
             $.ajax({
-                url: apiUrl + 'Question/All/Ordered', // API endpoint
+                url: apiUrl + 'question/ordered', // API endpoint
                 type: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + token// Include the JWT token
@@ -728,7 +700,7 @@
                                                 </div>
                                             </div>
                                             <div class="card-body d-flex justify-content-center">
-                                                <a class="btn btn-success" href="/Admin/Course/` + @Model.CourseID + `/Session/` + @Model.SessionID + `/Homework/` + @Model.HomeworkID + `/Question/${questionInfo.homeworkQuestionId}/Info">More Info</a>
+                                                <a class="btn btn-success" href="/admin/courses/` + @Model.CourseId + `/sessions/` + @Model.SessionId + `/homeworks/` + @Model.HomeworkId + `/questions/${questionInfo.homeworkQuestionId}">More Info</a>
                                             </div>
                                         </div>
                                         <hr class="container my-0">

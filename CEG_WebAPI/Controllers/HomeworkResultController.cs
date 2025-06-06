@@ -6,6 +6,7 @@ using CEG_BAL.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.Identity.Client;
 
 namespace CEG_WebAPI.Controllers
 {
@@ -22,11 +23,56 @@ namespace CEG_WebAPI.Controllers
             _config = config;
         }
 
+        [Obsolete("This api use old Api mapping that is not correct. Use new api instead", false)]
         [HttpGet("All")]
         [ProducesResponseType(typeof(List<HomeworkResultViewModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetStudentAnswerList()
+        {
+            return await GetList();
+        }
+        [Obsolete("This api use old Api mapping that is not correct. Use new api instead", false)]
+        [HttpGet("ByStudent/{stuId}/ByHomework/{homId}")]
+        [ProducesResponseType(typeof(HomeworkResultViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetHomeworkResultByStudentIdAndHomeworkId(
+            [FromRoute][Required] int stuId,
+            [FromRoute][Required] int homId
+            )
+        {
+            return await GetByStudentIdAndHomeworkId(stuId, homId);
+        }
+        [Obsolete("This api use old Api mapping that is not correct. Use new api instead", false)]
+        [HttpPost("Create")]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> CreateStudentAnswer(
+            [FromBody][Required] CreateNewHomeworkResult newHomRes
+            )
+        {
+            return await Create(newHomRes);
+        }
+        [Obsolete("This api use old Api mapping that is not correct. Use new api instead", false)]
+        [HttpPut("{id}/Update")]
+        [ProducesResponseType(typeof(HomeworkResultViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> UpdateStudentAnswer(
+        [FromRoute][Required] int id,
+            [FromBody][Required] UpdateHomeworkResult upHomRes
+            )
+        {
+            return await Update(id, upHomRes);
+        }
+
+        [HttpGet]
+        [ProducesResponseType(typeof(List<HomeworkResultViewModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetList()
         {
             try
             {
@@ -60,7 +106,7 @@ namespace CEG_WebAPI.Controllers
         [ProducesResponseType(typeof(HomeworkResultViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetHomeworkResultById(
+        public async Task<IActionResult> GetById(
             [FromRoute][Required] int id
             )
         {
@@ -92,18 +138,18 @@ namespace CEG_WebAPI.Controllers
             }
         }
 
-        [HttpGet("ByStudent/{stuId}/ByHomework/{homId}")]
+        [HttpGet("student/{stuId}/homework/{homId}")]
         [ProducesResponseType(typeof(HomeworkResultViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetHomeworkResultByStudentIdAndHomeworkId(
+        public async Task<IActionResult> GetByStudentIdAndHomeworkId(
             [FromRoute][Required] int stuId,
             [FromRoute][Required] int homId
             )
         {
             try
             {
-                var result = await _homeworkResultService.GetByStudentIdAndHomeworkId(stuId,homId);
+                var result = await _homeworkResultService.GetByStudentIdAndHomeworkId(stuId, homId);
                 if (result == null)
                 {
                     return NotFound(new
@@ -129,11 +175,11 @@ namespace CEG_WebAPI.Controllers
             }
         }
 
-        [HttpPost("Create")]
+        [HttpPost]
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CreateStudentAnswer(
+        public async Task<IActionResult> Create(
             [FromBody][Required] CreateNewHomeworkResult newHomRes
             )
         {
@@ -157,12 +203,13 @@ namespace CEG_WebAPI.Controllers
                 });
             }
         }
-        [HttpPut("{id}/Update")]
+
+        [HttpPut("{id}")]
         [ProducesResponseType(typeof(HomeworkResultViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Update(
-        [FromRoute][Required] int id,
+            [FromRoute][Required] int id,
             [FromBody][Required] UpdateHomeworkResult upHomRes
             )
         {

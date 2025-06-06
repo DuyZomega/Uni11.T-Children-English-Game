@@ -313,6 +313,12 @@
                                                                 aria-label="Student Name: activate to sort column ascending">
                                                                 Student Name
                                                             </th>
+                                                            <th class="sorting sorting_asc" tabindex="0"
+                                                                aria-controls="enroll-table" rowspan="1"
+                                                                colspan="1" aria-sort="ascending"
+                                                                aria-label="Student Points: activate to sort column ascending">
+                                                                Student Points
+                                                            </th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -442,8 +448,22 @@
                         className: 'dt-head-left'
                     },
                     { data: 'student.account.fullname' },
-                    // { data: 'status' },
-                    // { Add a select box in the last column
+                    {
+                        data: null,
+                        render: function (data, type, row, meta){
+                            // Check if studentProgresses exists and is an array
+                            if (data.student && data.student.studentProgresses && Array.isArray(data.student.studentProgresses)) {
+                                // Calculate the sum of totalPoint
+                                const sum = data.student.studentProgresses.reduce((accumulator, progress) => {
+                                    return accumulator + (progress.totalPoint || 0);
+                                }, 0);
+
+                                return sum;
+                            }
+                            return 0; // Return 0 if no studentProgresses
+                        }
+                    }
+                    // ,{ Add a select box in the last column
                     //     data: 'status',
                     //     render: function (data, type, row, meta) {
                     //         return `
@@ -1096,7 +1116,7 @@
         }
         function callApiGetClassDetail() {
             $.ajax({
-                url: apiUrl + 'Class/Teacher/@Model.ClassID', // API endpoint
+                url: apiUrl + 'class/@Model.ClassID/teacher', // API endpoint
                 type: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + token, // Token for authentication
@@ -1147,7 +1167,7 @@
         }
         function callApiGetStudentDetail() {
             $.ajax({
-                url: apiUrl + 'Student/ByClass/@Model.ClassID', // API endpoint
+                url: apiUrl + 'student/class/@Model.ClassID', // API endpoint
                 type: 'GET',
                 success: function (response) {
                     // Log the entire response to the console for debugging
@@ -1197,7 +1217,7 @@
         }
         function callApiPostEmailRemindHomework(creEmaReq) {
             $.ajax({
-                url: apiUrl + 'Teacher/SendRemindHomeworkEmail', // API endpoint
+                url: apiUrl + 'teacher/sendremindhomeworkemail', // API endpoint
                 type: 'POST',
                 headers: {
                     'Authorization': 'Bearer ' + token, // Token for authentication
@@ -1238,7 +1258,7 @@
 
         function callApiGetAttendanceList(scheduleId) {
             $.ajax({
-                url: apiUrl + 'Teacher/Student/Attendance/All/ByScheduleId/' + scheduleId, // API endpoint
+                url: apiUrl + 'teacher/student/attendance/schedule/' + scheduleId, // API endpoint
                 type: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + token, // Token for authentication
@@ -1286,7 +1306,7 @@
 
         function callApiUpdateAttendanceStatus(attId, newStatus) {
             $.ajax({
-                url: apiUrl + `Attendance/${attId}/Update/Status`, // API endpoint for updating status
+                url: apiUrl + `attendance/${attId}/status`, // API endpoint for updating status
                 type: 'PUT', // HTTP method PUT for updates
                 headers: {
                     'Authorization': 'Bearer ' + token, // Token for authentication
@@ -1326,7 +1346,7 @@
 
         function callApiUpdateScheduleStatus(scheduleId, newStatus) {
             $.ajax({
-                url: apiUrl + `Schedule/${scheduleId}/Update/Status`, // API endpoint for updating status
+                url: apiUrl + `schedule/${scheduleId}/status`, // API endpoint for updating status
                 type: 'PUT', // HTTP method PUT for updates
                 headers: {
                     'Authorization': 'Bearer ' + token, // Token for authentication

@@ -40,7 +40,7 @@ namespace CEG_WebAPI.Controllers
         }*/
         [Obsolete("This api use old Api mapping that is not correct. Use new api instead", false)]
         [HttpGet("All")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = Roles.Admin)]
         [ProducesResponseType(typeof(List<AccountViewModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -51,7 +51,7 @@ namespace CEG_WebAPI.Controllers
 
         [Obsolete("This api use old Api mapping that is not correct. Use new api instead", false)]
         [HttpGet("All/Count")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = Roles.Admin)]
         [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -61,7 +61,7 @@ namespace CEG_WebAPI.Controllers
         }
         [Obsolete("This api use old Api mapping that is not correct. Use new api instead", false)]
         [HttpPut("{id}/Update")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = Roles.Admin)]
         [ProducesResponseType(typeof(AccountViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -71,7 +71,7 @@ namespace CEG_WebAPI.Controllers
         }
         [Obsolete("This api use old Api mapping that is not correct. Use new api instead", false)]
         [HttpPut("{id}/Update/Status")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = Roles.Admin)]
         [ProducesResponseType(typeof(AccountViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -84,7 +84,7 @@ namespace CEG_WebAPI.Controllers
         }
         [Obsolete("This api use old Api mapping that is not correct. Use new api instead", false)]
         [HttpPost("{id}/Disable")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = Roles.Admin)]
         [ProducesResponseType(typeof(AccountViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

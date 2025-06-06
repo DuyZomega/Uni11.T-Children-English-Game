@@ -17,39 +17,39 @@
     <div class="main-content">
         <!-- num of data -->
         <div class="cardBox">
-            <div class="card event">
+            <div class="align-items-center justify-content-between card event">
                 <div class="inconBx">
                     <i class='bx bx-calendar'></i>
                 </div>
-                <div>
-                    <div id="class-amount" class="cardName">0</div>
-                    @* <div class="cardName">Active Classes</div> *@
+                <div class="amount">
+                    <div id="class-amount" class="number">0</div>
+                    <div class="cardName">Active Classes</div>
                 </div>
             </div>
-            <div class="card feedback">
+            <div class="align-items-center justify-content-between card feedback">
                 <div class="inconBx">
                     <i class='bx bxs-user-account'></i>
                 </div>
-                <div>
-                    <div id="student-amount">0</div>
+                <div class="amount">
+                    <div id="student-amount" class="number">0</div>
                     <div class="cardName">Students</div>
                 </div>
             </div>
-            <div class="card report">
+            <div class="align-items-center justify-content-between card report">
                 <div class="inconBx">
                     <i class='bx bx-money'></i>
                 </div>
-                <div>
-                    <div id="earning-amount">0</div>
+                <div class="amount">
+                    <div id="earning-amount" class="number">0</div>
                     <div class="cardName">Earned</div>
                 </div>
             </div>
-            <div class="card turnover">
+            <div class="align-items-center justify-content-between card turnover">
                 <div class="inconBx">
                     <i class='bx bx-notepad'></i>
                 </div>
-                <div>
-                    <div id="transaction-amount">0</div>
+                <div class="amount">
+                    <div id="transaction-amount" class="number">0</div>
                     <div class="cardName">Scheduled sessions</div>
                 </div>
             </div>
@@ -80,7 +80,7 @@
         });
         function callApiGetClassCount() {
             $.ajax({
-                url: apiUrl + `Class/${id}/All/Ongoing/Count`, // API endpoint
+                url: apiUrl + `class/count/teacher/account/${id}/status/ongoing`, // API endpoint
                 type: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + token, // Token for authentication
@@ -89,7 +89,7 @@
                 // Check if the status is true
                 if (response.status) {
                     $('#class-amount').empty();
-                    $('#class-amount').text(response.data + ' Active Classes');
+                    $('#class-amount').text(response.data);
                 } else {
                     showAlert('error', "Error: \n" + response.errorMessage);
                 }
@@ -118,7 +118,7 @@
         }
         function callApiGetStudentCount() {
             $.ajax({
-                url: apiUrl + `Student/All/Count/ByTeacher/${id}`,
+                url: apiUrl + `student/count/teacher/${id}`,
                 type: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + token, // Token for authentication
@@ -156,7 +156,7 @@
         }
         function callApiGetSumValue() {
             $.ajax({
-                url: apiUrl + `Transaction/All/Sum/ByTeacher/${id}`,
+                url: apiUrl + `transaction/sum/teacher/${id}`,
                 type: 'GET',
                 success: function (response) {
                     // Check if the status is true

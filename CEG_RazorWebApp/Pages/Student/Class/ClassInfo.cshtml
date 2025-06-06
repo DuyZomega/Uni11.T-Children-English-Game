@@ -417,7 +417,7 @@
         }
         function callApiGetClassDetail() {
             $.ajax({
-                url: apiUrl + 'Class/Student/@Model.ClassID', // API endpoint
+                url: apiUrl + 'class/@Model.ClassID/student', // API endpoint
                 type: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + token// Include the JWT token

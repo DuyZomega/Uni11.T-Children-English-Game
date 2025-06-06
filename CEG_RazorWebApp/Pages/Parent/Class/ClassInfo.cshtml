@@ -223,6 +223,12 @@
                                                                 aria-label="Student Name: activate to sort column ascending">
                                                                 Student Name
                                                             </th>
+                                                            <th class="sorting sorting_asc" tabindex="0"
+                                                                aria-controls="enroll-table" rowspan="1"
+                                                                colspan="1" aria-sort="ascending"
+                                                                aria-label="Student Points: activate to sort column ascending">
+                                                                Student Points
+                                                            </th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -319,8 +325,22 @@
                 columns: [
                     { data: 'studentId' },
                     { data: 'student.account.fullname' },
-                    // { data: 'status' },
-                    // { Add a select box in the last column
+                    {
+                        data: null,
+                        render: function (data, type, row, meta){
+                            // Check if studentProgresses exists and is an array
+                            if (data.student && data.student.studentProgresses && Array.isArray(data.student.studentProgresses)) {
+                                // Calculate the sum of totalPoint
+                                const sum = data.student.studentProgresses.reduce((accumulator, progress) => {
+                                    return accumulator + (progress.totalPoint || 0);
+                                }, 0);
+
+                                return sum;
+                            }
+                            return 0; // Return 0 if no studentProgresses
+                        }
+                    }
+                    // ,{ Add a select box in the last column
                     //     data: 'status',
                     //     render: function (data, type, row, meta) {
                     //         return `
@@ -488,7 +508,7 @@
         }
         function callApiGetClassDetail() {
             $.ajax({
-                url: apiUrl + 'Class/Parent/@Model.ClassID', // API endpoint
+                url: apiUrl + 'class/@Model.ClassID/parent', // API endpoint
                 type: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + token// Include the JWT token
@@ -500,7 +520,7 @@
                         setClassDisplay(response.data);
                         // Check if homeworkAnswers is empty
                         if (response.data.enrolls && response.data.enrolls.length > 0) {
-                            console.log(response.data.enrolls);
+                            // console.log(response.data.enrolls);
                             enrollTable.clear().rows.add(response.data.enrolls).draw();
                         }
                         if (response.data.schedules && response.data.schedules.length > 0) {

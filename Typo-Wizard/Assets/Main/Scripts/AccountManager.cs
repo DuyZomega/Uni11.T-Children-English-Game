@@ -109,8 +109,6 @@ public class AccountManager : MonoBehaviour
     private string accessToken;
     [HideInInspector]
     public int currentIndex;
-    [HideInInspector]
-    public UserProgressResponse UserProgressResponse;
 
     [Header("Login")]
     public TMP_InputField nameLoginField;

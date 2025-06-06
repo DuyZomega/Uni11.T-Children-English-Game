@@ -18,7 +18,7 @@ namespace CEG_RazorWebApp.Pages.Student.Class
 {
     public class ClassInfoModel : PageModel
     {
-        public int ClassID;
+        public int ClassID { get; set; }
         public void OnGet(
             [FromRoute][Required] int classId)
         {

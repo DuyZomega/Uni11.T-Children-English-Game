@@ -412,7 +412,7 @@
                 };
                 // Send AJAX request
                 $.ajax({
-                    url: apiUrl + 'Transaction/Create',
+                    url: apiUrl + 'transaction',
                     type: 'POST',
                     headers: {
                         'Authorization': 'Bearer ' + token// Include the JWT token
@@ -455,7 +455,7 @@
         function callApiGetParentNameList(){
             // Call API to get the list of parent names
             $.ajax({
-                url: apiUrl + 'Parent/All/Fullname', // API endpoint
+                url: apiUrl + 'parent/names', // API endpoint
                 type: 'GET',
                 success: function (response) {
                     // Check if the status is true
@@ -491,7 +491,7 @@
         function callApiGetStudentNameList(parentName){
             // Call API to get the list of student names
             $.ajax({
-                url: apiUrl + 'Student/All/Fullname/ByParent/Name/' + parentName, // API endpoint
+                url: apiUrl + 'student/names/parent/name/' + parentName, // API endpoint
                 type: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + token// Include the JWT token
@@ -530,7 +530,7 @@
         function callApiGetClassNameList(studentName) {
             // Call API to get the list of teacher names
             $.ajax({
-                url: apiUrl + 'Class/All/Status/Open?stuFullname=' + studentName, // API endpoint
+                url: apiUrl + 'class/options/status/open?stuFullname=' + studentName, // API endpoint
                 type: 'GET',
                 success: function (response) {
                     // Check if the status is true
@@ -619,7 +619,7 @@
         }
         function callApiGetTransactionList() {
             $.ajax({
-                url: apiUrl + 'Transaction/All', // API endpoint
+                url: apiUrl + 'transaction', // API endpoint
                 type: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + token// Include the JWT token

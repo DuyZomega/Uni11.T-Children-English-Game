@@ -173,7 +173,7 @@
             });
             table = new DataTable('#question-table', {
                 ajax: {
-                    url: apiUrl + 'Question/All/Ordered',
+                    url: apiUrl + 'question/ordered',
                     dataSrc: 'data',
                     headers: {
                         'Authorization': 'Bearer ' + token// Include the JWT token
@@ -251,7 +251,7 @@
         // });
         function callApiPostCreateQuestion(formData) {
             $.ajax({
-                url: apiUrl + 'Question/Create', // Specify your Razor Page here
+                url: apiUrl + 'question', // Specify your Razor Page here
                 type: 'POST',
                 data: JSON.stringify(formData),
                 contentType: 'application/json; charset=utf-8',

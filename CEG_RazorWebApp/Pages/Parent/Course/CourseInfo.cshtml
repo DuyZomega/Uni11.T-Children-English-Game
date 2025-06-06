@@ -1,4 +1,4 @@
-﻿@page "/Parent/Course/{courseId}/Info"
+﻿@page "/parent/courses/{courseId}"
 @model CEG_RazorWebApp.Pages.Parent.Course.CourseInfoModel
 @{
     ViewData["Title"] = "Parent Course Info Page";
@@ -26,19 +26,19 @@
                                 <span>/</span>
                             </li>
                             <li class="breadcrumd-item">
-                                <a href="/Parent/Course/Index">Course</a>
+                                <a href="/parent/courses">Course</a>
                             </li>
                             <li class="breadcrumd-item">
                                 <span>/</span>
                             </li>
                             <li class="breadcrumd-item">
-                                <a href="/Parent/Course/@Model.CourseID/Info">@Model.CourseID</a>
+                                <a href="/parent/courses/@Model.CourseID">@Model.CourseID</a>
                             </li>
                             <li class="breadcrumd-item">
                                 <span>/</span>
                             </li>
                             <li class="breadcrumd-item">
-                                <a href="/Parent/Course/@Model.CourseID/Info">Info</a>
+                                <a href="/parent/courses/@Model.CourseID">Info</a>
                             </li>
                         </ol>
                     </div>
@@ -175,38 +175,9 @@
         $(document).ready(function () {
             callApiGetCourseDetail();
         });
-        // Function to display alerts
-        function showAlert(type, message) {
-            var alertHtml = '';
-
-            if (type === 'success') {
-                alertHtml = `
-                                            <div class="alert alert-success alert-dismissible fade show" id="notif">
-                                                <i class='bx bx-message-alt-x p-1'></i>
-                                                <strong class="mr-1">` + message + `</strong>
-                                                <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
-                                                    <span><i class='bx bx-x'></i></span>
-                                                </button>
-                                            </div>
-                                        `;
-            } else if (type === 'error') {
-                alertHtml = `
-                                            <div class="alert alert-danger alert-dismissible fade show" id="notif">
-                                                <i class='bx bx-message-alt-x p-1'></i>
-                                                <strong class="mr-1">` + message + `</strong>
-                                                <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
-                                                    <span><i class='bx bx-x'></i></span>
-                                                </button>
-                                            </div>
-                                        `;
-            }
-
-            // Inject the alert HTML into the alert container
-            $('#alertContainer').html(alertHtml);
-        }
         function callApiGetCourseDetail() {
             $.ajax({
-                url: apiUrl + 'Course/' + @Model.CourseID , // API endpoint
+                url: apiUrl + 'course/@Model.CourseID', // API endpoint
                 type: 'GET',
                 success: function (response) {
                     // Log the entire response to the console for debugging

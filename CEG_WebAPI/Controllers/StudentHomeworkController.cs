@@ -22,11 +22,54 @@ namespace CEG_WebAPI.Controllers
             _config = config;
         }
 
+        [Obsolete("This api use old Api mapping that is not correct. Use new api instead", false)]
         [HttpGet("All")]
         [ProducesResponseType(typeof(List<StudentHomeworkViewModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetStudentHomeworkList()
+        {
+            return await GetList();
+        }
+        [Obsolete("This api use old Api mapping that is not correct. Use new api instead", false)]
+        [HttpGet("ByStudent/{stuId}")]
+        [ProducesResponseType(typeof(List<StudentHomeworkViewModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetStudentHomeworkByStudentId(
+            [FromRoute][Required] int stuId)
+        {
+            return await GetByStudentId(stuId);
+        }
+        [Obsolete("This api use old Api mapping that is not correct. Use new api instead", false)]
+        [HttpPost("Create")]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> CreateStudentHomework(
+            [FromBody][Required] CreateNewStudentHomework newStuHom
+            )
+        {
+            return await Create(newStuHom);
+        }
+        [Obsolete("This api use old Api mapping that is not correct. Use new api instead", false)]
+        [HttpPut("{id}/Update")]
+        [ProducesResponseType(typeof(StudentHomeworkViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> UpdateStudentHomework(
+            [FromRoute][Required] int id,
+            [FromBody][Required] UpdateStudentHomework upStuHom
+            )
+        {
+            return await Update(id, upStuHom);
+        }
+
+        [HttpGet]
+        [ProducesResponseType(typeof(List<StudentHomeworkViewModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetList()
         {
             try
             {
@@ -60,7 +103,7 @@ namespace CEG_WebAPI.Controllers
         [ProducesResponseType(typeof(StudentHomeworkViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetStudentHomeworkById(
+        public async Task<IActionResult> GetById(
             [FromRoute][Required] int id
             )
         {
@@ -92,11 +135,11 @@ namespace CEG_WebAPI.Controllers
             }
         }
 
-        [HttpGet("ByStudent/{stuId}")]
+        [HttpGet("student/{stuId}")]
         [ProducesResponseType(typeof(List<StudentHomeworkViewModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetStudentHomeworkByStudentId(
+        public async Task<IActionResult> GetByStudentId(
             [FromRoute][Required] int stuId)
         {
             try
@@ -128,11 +171,11 @@ namespace CEG_WebAPI.Controllers
             }
         }
 
-        [HttpPost("Create")]
+        [HttpPost]
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CreateStudentHomework(
+        public async Task<IActionResult> Create(
             [FromBody][Required] CreateNewStudentHomework newStuHom
             )
         {
@@ -156,7 +199,8 @@ namespace CEG_WebAPI.Controllers
                 });
             }
         }
-        [HttpPut("{id}/Update")]
+
+        [HttpPut("{id}")]
         [ProducesResponseType(typeof(StudentHomeworkViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

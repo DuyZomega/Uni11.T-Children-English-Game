@@ -1,5 +1,5 @@
 ﻿@page "/home"
-@model IndexModel
+@model CEG_RazorWebApp.Pages.Home.IndexModel
 @{
     ViewData["Title"] = "Children English Game Home Page";
 }
@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"]</title>
     <link rel="stylesheet" href="~/css/Index.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
 </head>
 <body class="background">
     @{
@@ -100,47 +101,25 @@
     </section>
     <section class="club container-fluid main-container-header mb-5" style="background-color:white">
         <div class="row">
-            <div class="col-12">
+            <div class="col-12 p-3">
                 <h3 class="heading"><i class="fa fa-newspaper"></i> Latest contents from us</h3>
             </div>
         </div>
         <div class="row">
-            <div class="col-12 club__content">
+            <div class="col-12 club__content container-fluid">
                 <div class="d-flex justify-content-between align-items-center">
-                    <h5><i class="fa fa-sort-amount-down"></i> Our available courses</h5>
+                    <h5 class="listTitle"><i class="fa fa-sort-amount-down"></i> Our available courses</h5>
                     <a href="/courses" class="font-a"> See All <i class="fa fa-angle-right"></i></a>
                 </div>
-                <div class="famousList-carousel owl-carousel owl-theme">
-                    @* @foreach (var data in meetingList)
-                    {
-                    <div class="club-item">
-                    <a href="#" class="club-image">
-                    <img class="img-fluid" src="~/images/meeting.png" alt="nt1">
-                    </a>
-                    <div class="club-title">
-                    <div class="d-flex justify-content-between">
-                    <a href="@Url.Action("MeetingPost", "Meeting",new {id = data.MeetingId})" class="text-decoration-none truncate">@data.MeetingName</a>
-                    </div>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                    <p class="club-price">
-                    <i class="fas fa-calendar"></i>
-                    From @data.StartDate.ToString("MM/dd/yyyy")
-                    to @data.EndDate.ToString("MM/dd/yyyy")
-                    </p>
-                    <button class="button--primary">
-                    <a class="text-decoration-none text-black"
-                    href="@Url.Action("MeetingPost", "Meeting",new {id = data.MeetingId})">See More</a>
-                    </button>
-                    </div>
-                    </div>
-                    } *@
+                <!-- Carousel for Courses -->
+                <div class="courseList-carousel owl-carousel owl-theme">
                 </div>
                 <div class="d-flex justify-content-between align-items-center">
-                    <h5><i class="fa fa-sort-amount-down"></i> Our available classes</h5>
+                    <h5 class="listTitle"><i class="fa fa-sort-amount-down"></i> Our available classes</h5>
                     <a href="/classes" class="font-a"> See All <i class="fa fa-angle-right"></i></a>
                 </div>
-                <div class="ratingList-carousel owl-carousel owl-theme">
+                <!-- Carousel for Classes -->
+                <div class="classList-carousel owl-carousel owl-theme" id="classes">
                     @* @foreach (var data in fieldtripList)
                     {
                     <div class="club-item">
@@ -169,11 +148,10 @@
             </div>
         </div>
     </section>
-    <hr class="container my-0" />
     <!-- SERVICES -->
-    <section id="services" class="services spacing">
-        <div class="container px-0" style="background-color:white">
-            <h3 class="heading"><i class="fa fa-concierge-bell"></i>Service</h3>
+    <section id="services" class="container-fluid main-container-header mb-5 services spacing">
+        <div class="container-fluid px-0" style="background-color:white">
+            <h3 class="heading p-3"><i class="fa fa-concierge-bell"></i>Service</h3>
             <div class="row">
                 <div class="offset-1 col-4 service-item">
                     <i class="fa fa-cog"></i>
@@ -188,11 +166,10 @@
             </div>
         </div>
     </section>
-    <hr class="container my-0" />
-    <section id="aboutUs" class="about-us container px-0 spacing">
-        <h3 class="heading" style="background-color:white"><i class="fa fa-id-card"></i> About Us</h3>
+    <section id="aboutUs" class="about-us px-0 spacing container-fluid main-container-header mb-5">
+        <h3 class="heading p-3 mb-0" style="background-color:white"><i class="fa fa-id-card"></i> About Us</h3>
         <div class="row">
-            <div class="col-6 card intro-desc">
+            @* <div class="col-6 card intro-desc">
                 <div class="intro-title d-flex">
                     <img class="img-fluid" src="~/images/a1.png alt="logo" />
                     <p class="card-text my-3">
@@ -205,12 +182,12 @@
                 <div class="card-text">
                 </div>
             </div>
-            <div class="col-6 intro-img" style="background-image: url(../images/chaomao1.jpg)" alt="cover-1"></div>
+            <div class="col-6 intro-img" style="background-image: url(../images/chaomao1.jpg)" alt="cover-1"></div> *@
         </div>
     </section>
     <hr class="container my-0" />
     <!-- TEAM MEMBER -->
-    <section id="teamMember" class="team-member spacing">
+    @* <section id="teamMember" class="team-member spacing">
         <div class="container">
             <h3 class="heading" style="background-color:white"><i class="fa fa-users"></i>Team</h3>
             <div class="team-carousel owl-carousel owl-theme">
@@ -284,7 +261,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> *@
 
 
     <!-- BackToTop -->
@@ -306,68 +283,282 @@
             interval: 3000,
         });
     </script>
-    <!-- owl carousels -->
-    <script src="~/js/owl.carousel.min.js"></script>
-    <script>
-        $(".famousList-carousel").owlCarousel({
-            loop: true,
-            margin: 10,
-            nav: true,
-            dots: false,
-            responsive: {
-                0: {
-                    items: 1,
-                },
-                576: {
-                    items: 2,
-                },
-                1200: {
-                    items: 4,
-                },
-            },
-        });
-        $(".ratingList-carousel").owlCarousel({
-            loop: true,
-            margin: 10,
-            nav: true,
-            dots: false,
-            responsive: {
-                0: {
-                    items: 1,
-                },
-                576: {
-                    items: 2,
-                },
-                1200: {
-                    items: 4,
-                },
-            },
-        });
-        $(".team-carousel").owlCarousel({
-            loop: true,
-            nav: true,
-            dots: false,
-            responsive: {
-                0: {
-                    items: 1,
-                },
-                600: {
-                    items: 3,
-                },
-                1000: {
-                    items: 3,
-                },
-            },
-        });
-    </script>
     <!-- backToTop -->
     <script src="~/js/util.js"></script>
     <script src="~/js/main-backToTop.js"></script>
+    @* <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script> *@
     <!-- main js -->
     <script>
         $(document).ready(function () {
             $('[data-toggle="tooltip"]').tooltip();
         });
+        // var apiUrl = sessionStorage.getItem('apiUrl');
+        var classList = []; // Store all fetched classes
+        function callApiGetCourseList() {
+            $.ajax({
+                url: 'https://localhost:7143/api/' + 'course/status/available', // API endpoint
+                type: 'GET',
+                success: function (response) {
+                    // Check if the status is true
+                    if (response.status) {
+                        courseList = response.data;
+                        setCourseDisplay(courseList);
+                    } else {
+                        console.error("API returned false status.");
+                    }
+                },
+                error: function (xhr) {
+                    // Attempt to parse the response text if it is available
+                    var errorResponse = xhr.responseText ? JSON.parse(xhr.responseText) : {};
+                    // Extract the custom error message if it exists
+                    var errorMessage = errorResponse.errorMessage || errorResponse.title || "An unknown error occurred.";
+                    // Check if errorResponse.errors exists and is an object
+                    if (errorResponse.errors && typeof errorResponse.errors === 'object') {
+                        // Loop through each field in the errors object and append to the errorMessage
+                        for (var field in errorResponse.errors) {
+                            if (errorResponse.errors.hasOwnProperty(field)) {
+                                // Add each error message for the field, joining multiple messages if they exist
+                                var fieldErrors = errorResponse.errors[field].join(", ");
+                                errorMessage += `\n${field}: ${fieldErrors}`;
+                            }
+                        }
+                    }
+                    // Display the error message using your custom showAlert function
+                    showAlert('error', "Error:" + errorMessage);
+                }
+            });
+        }
+        function callApiGetClassList() {
+            $.ajax({
+                url: 'https://localhost:7143/api/' + 'class/home', // API endpoint
+                type: 'GET',
+                success: function (response) {
+                    // Check if the status is true
+                    if (response.status) {
+                        setClassDisplay(response.data);
+                    } else {
+                        console.error("API returned false status.");
+                    }
+                },
+                error: function (xhr) {
+                    // Attempt to parse the response text if it is available
+                    var errorResponse = xhr.responseText ? JSON.parse(xhr.responseText) : {};
+                    // Extract the custom error message if it exists
+                    var errorMessage = errorResponse.errorMessage || errorResponse.title || "An unknown error occurred.";
+                    // Check if errorResponse.errors exists and is an object
+                    if (errorResponse.errors && typeof errorResponse.errors === 'object') {
+                        // Loop through each field in the errors object and append to the errorMessage
+                        for (var field in errorResponse.errors) {
+                            if (errorResponse.errors.hasOwnProperty(field)) {
+                                // Add each error message for the field, joining multiple messages if they exist
+                                var fieldErrors = errorResponse.errors[field].join(", ");
+                                errorMessage += `\n${field}: ${fieldErrors}`;
+                            }
+                        }
+                    }
+                    // Display the error message using your custom showAlert function
+                    showAlert('error', "Error:" + errorMessage);
+                }
+            });
+        }
+        function setCourseDisplay(data) {
+            var courseDiv = $('.courseList-carousel');
+            // Reference to the <classList> element
+            courseDiv.empty(); // Clear any existing options
+            if (!data || data.length === 0) {
+                courseDiv.append(`
+                    <div class="col-12 text-center my-5">
+                        <div class="alert alert-warning" role="alert">
+                            <i class='bx bx-sm bx-error-circle mr-2'></i> We couldn't find any available courses for you, sorry.'.
+                        </div>
+                    </div>
+                `);
+                return; // Stop execution if no classes
+            }
+            // Loop through the data array and append each class div
+            $.each(data, function (index, courseObj) {
+                // var formattedStartDate = formatDate(courseObj.startDate, { ignoreHour: true });
+                // var formattedEndDate = formatDate(courseObj.endDate, { ignoreHour: true });
+                var statusText = '';
+                switch (courseObj.status) {
+                    case 'Available':
+                    case 'Ongoing':
+                        statusText = `<span class="badge badge-success" style="float: left;">${courseObj.status}</span>`
+                        break;
+                    case 'Draft':
+                    case 'Postponed':
+                        statusText = `<span class="badge badge-warning" style="float: left;">${courseObj.status}</span>`
+                        break;
+                    case 'Ended':
+                    case 'Cancelled':
+                        statusText = `<span class="badge badge-danger" style="float: left;">${courseObj.status}</span>`
+                        break;
+                }
+                // Construct card HTML
+                var cardHtml = `
+                    <div class="club-item course-item">
+                        <a href="#" class="club-image">
+                            <img class="img-fluid" src="../images/middleSchoolers2.png" alt="nt1">
+                        </a>
+                        <div class="club-title course-title">
+                            <a href="/courses/${courseObj.courseId}" class="text-decoration-none truncate">${courseObj.courseName}</a>
+                            <h5 class="club-status">
+                                ${statusText}
+                            </h5>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <p class="">
+                                <i class="fas fa-calendar"></i>
+                            </p>
+                            <a class="text-view-details-button text-decoration-none text-black"
+                                    href="/courses/${courseObj.courseId}">See More</a>
+                        </div>
+                    </div>
+                `;
+                courseDiv.append(cardHtml);
+            });
+            courseDiv.owlCarousel({
+                loop: true,
+                margin: 10,
+                nav: true,
+                dots: false,
+                responsive: {
+                    0: {
+                        items: 1,
+                    },
+                    576: {
+                        items: 2,
+                    },
+                    1200: {
+                        items: 4,
+                    },
+                },
+            });
+        }
+        function setClassDisplay(data) {
+            var classDiv = $('.classList-carousel');
+            // Reference to the <classList> element
+            classDiv.empty(); // Clear any existing options
+            if (!data || data.length === 0) {
+                classDiv.append(`
+                    <div class="col-12 text-center my-5">
+                        <div class="alert alert-warning" role="alert">
+                            <i class='bx bx-sm bx-error-circle mr-2'></i> We couldn't find any available classes for you, sorry.'.
+                        </div>
+                    </div>
+                `);
+                return; // Stop execution if no classes
+            }
+            // Loop through the data array and append each class div
+            $.each(data, function (index, classObj) {
+                var formattedStartDate = formatDate(classObj.startDate, { ignoreHour: true });
+                var formattedEndDate = formatDate(classObj.endDate, { ignoreHour: true });
+                var filteredEnrollList = classObj.enrolls.filter(function (enroll) {
+                    return enroll.status === 'Enrolled';
+                });
+                var statusText = '';
+                switch (classObj.status) {
+                    case 'Open':
+                    case 'Ongoing':
+                        statusText = `<span class="badge badge-success" style="float: left;">${classObj.status}</span>`
+                        break;
+                    case 'Draft':
+                    case 'Postponed':
+                        statusText = `<span class="badge badge-warning" style="float: left;">${classObj.status}</span>`
+                        break;
+                    case 'Ended':
+                    case 'Cancelled':
+                        statusText = `<span class="badge badge-danger" style="float: left;">${classObj.status}</span>`
+                        break;
+                }
+                // Construct card HTML
+                var cardHtml = `
+                    <div class="club-item class-item">
+                        <a href="#" class="club-image">
+                            <img class="img-fluid" src="../images/middleSchoolers2.png" alt="nt1">
+                        </a>
+                        <div class="club-title class-title">
+                            <a href="/classes/${classObj.classId}" class="text-decoration-none truncate">${classObj.className}</a>
+                            <h5 class="club-status">
+                                ${statusText}
+                            </h5>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <p class="">
+                                <i class="fas fa-calendar"></i>
+                                From ${formattedStartDate}
+                                to ${formattedEndDate}
+                            </p>
+                            <a class="text-view-details-button text-decoration-none text-black"
+                                    href="/classes/${classObj.courseId}">See More</a>
+                        </div>
+                    </div>
+                `;
+                // <div class="col-xl-3 col-lg-6 col-sm-6 my-3">
+                //         <div class="card1 card-child shadow-sm h-100">
+                //             <div class="club-name d-flex justify-content-between align-items-center flex-wrap">
+                //                 <strong class="text-truncate" style="max-width: 200px;">${classObj.className}</strong>
+                //                 ${statusText}
+                //             </div>
+                //             <div class="card-body">
+                //                 <h5 class="card-title h-14"><strong>Course: </strong><br/> ${classObj.course.courseName}</h5>
+                //             </div>
+                //             <ul class="list-group list-group-flush">
+                //                 <li class="list-group-item"></li>
+                //                 <li class="list-group-item d-flex align-items-center"><i class='bx bx-sm bx-book-reader mr-2'></i><span> Teacher: ${classObj.teacher.account.fullname}</span></li>
+                //                 <li class="list-group-item d-flex align-items-center"><i class='bx bx-sm bx-calendar-event mr-2'></i><span> Class start at ${formattedStartDate} and ends at ${formattedEndDate}</span></li>
+                //                 <li class="list-group-item d-flex align-items-center"><i class='bx bx-sm bx-user-circle mr-2'></i><span> Require ${classObj.minimumStudents} - ${classObj.maximumStudents} students</span></li>
+                //                 <li class="list-group-item d-flex align-items-center"><i class='bx bx-sm bx-money mr-2'></i><span> ${vnd.format(classObj.enrollmentFee)}</span></li>
+                //                 <li class="list-group-item d-flex align-items-center"><i class='bx bx-sm bx-child mr-2'></i><span> ${filteredEnrollList.length} enrolled students - ${classObj.enrolls.length} enrolls</span></li>
+                //                 <li class="list-group-item d-flex align-items-center"><i class='bx bx-sm bx-spreadsheet mr-2'></i><span> ${classObj.schedules.length} scheduled session(s)</span></li>
+                //             </ul>
+                //             <div class="club-footer d-flex justify-content-around">
+                //                 <a class="btn btn-primary clickable-row d-flex align-items-center" href="/parent/classes/${classObj.classId}" role="button"><i class='bx bx-info-circle mr-2'></i> Details</a>
+                //             </div>
+                //         </div>
+                //     </div>
+                // Append the constructed HTML to the class list container
+                // <form method="get" asp-route-id="${classObj.classId}">
+                //     <button class="btn btn-primary clickable-row" type="submit">See Detail</button>
+                // </form>
+                classDiv.append(cardHtml);
+            });
+            classDiv.owlCarousel({
+                loop: true,
+                margin: 10,
+                nav: true,
+                dots: false,
+                responsive: {
+                    0: {
+                        items: 1,
+                    },
+                    576: {
+                        items: 2,
+                    },
+                    1200: {
+                        items: 4,
+                    },
+                },
+            });
+        }
+    </script>
+    <script>
+        // $(".team-carousel").owlCarousel({
+        //     loop: true,
+        //     nav: true,
+        //     dots: false,
+        //     responsive: {
+        //         0: {
+        //             items: 1,
+        //         },
+        //         600: {
+        //             items: 3,
+        //         },
+        //         1000: {
+        //             items: 3,
+        //         },
+        //     },
+        // });
     </script>
     <script>
         $(document).ready(function () {
@@ -387,8 +578,9 @@
                 e.preventDefault();
                 $('html, body').animate({ scrollTop: 0 }, 'slow');
             });
+            callApiGetCourseList();
+            callApiGetClassList();
         });
     </script>
-    <script src="~/js/user-script.js"></script>
 </body>
 </html>

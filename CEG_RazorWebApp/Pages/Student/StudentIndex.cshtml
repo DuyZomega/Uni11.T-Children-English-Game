@@ -17,30 +17,30 @@
     <div class="main-content">
         <!-- num of data -->
         <div class="cardBox">
-            <div class="card event">
+            <div class="align-items-center justify-content-between card event">
                 <div class="inconBx">
                     <i class='bx bx-home-heart'></i>
                 </div>
-                <div>
-                    <div id="homework-amount">0</div>
+                <div class="amount">
+                    <div id="homework-amount" class="number">0</div>
                     <div class="cardName">Homework</div>
                 </div>
             </div>
-            <div class="card feedback">
+            <div class="align-items-center justify-content-between card feedback">
                 <div class="inconBx">
                     <i class='bx bx-conversation'></i>
                 </div>
-                <div>
-                    <div id="total-playtime">0</div>
+                <div class="amount">
+                    <div id="total-playtime" class="number">0</div>
                     <div class="cardName">Total Play Time</div>
                 </div>
             </div>
-            <div class="card turnover">
+            <div class="align-items-center justify-content-between card turnover">
                 <div class="inconBx">
                     <i class='bx bx-money'></i>
                 </div>
-                <div>
-                    <div id="total-point">0</div>
+                <div class="amount">
+                    <div id="total-point" class="number">0</div>
                     <div class="cardName">Total Points</div>
                 </div>
             </div>
@@ -55,7 +55,7 @@
         });
         function callApiGetStudentTimeAndPoint() {
             $.ajax({
-                url: apiUrl + `StudentProgress/Dashboard/${id}`,
+                url: apiUrl + `studentprogress/dashboard/${id}`,
                 type: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + token, // Token for authentication
