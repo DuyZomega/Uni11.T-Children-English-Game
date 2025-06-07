@@ -748,7 +748,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 190288760036577026, guid: baf90bea95c2fb9458dcef5e8da33600, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 580520236009020977, guid: baf90bea95c2fb9458dcef5e8da33600, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -837,6 +837,10 @@ PrefabInstance:
     - target: {fileID: 1604125309048517752, guid: baf90bea95c2fb9458dcef5e8da33600, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7571796004378957081, guid: baf90bea95c2fb9458dcef5e8da33600, type: 3}
+      propertyPath: m_Text
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2325,11 +2329,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5210806350275648073, guid: 499d0aac377dfe043b81a1179ebb1eea, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 215.5
+      value: 111
       objectReference: {fileID: 0}
     - target: {fileID: 5210806350275648073, guid: 499d0aac377dfe043b81a1179ebb1eea, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 267
+      value: -173
       objectReference: {fileID: 0}
     - target: {fileID: 5210806350275648073, guid: 499d0aac377dfe043b81a1179ebb1eea, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -2357,7 +2361,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8465969299310210831, guid: 499d0aac377dfe043b81a1179ebb1eea, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3667,19 +3671,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1346527319}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 568725857}
-        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1346527319
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4360,8 +4352,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: SettingMenu, Assembly-CSharp
+      - m_Target: {fileID: 568725859}
+        m_TargetAssemblyTypeName: SettingMenu2, Assembly-CSharp
         m_MethodName: SetQuality
         m_Mode: 0
         m_Arguments:
@@ -4569,7 +4561,7 @@ MonoBehaviour:
       - m_Target: {fileID: 568725859}
         m_TargetAssemblyTypeName: SettingMenu2, Assembly-CSharp
         m_MethodName: SetResolution
-        m_Mode: 3
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -5074,7 +5066,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 19, y: -0}
+  m_AnchoredPosition: {x: 19, y: 0}
   m_SizeDelta: {x: 47.306225, y: -2.2196999}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1927154888

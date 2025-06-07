@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 402451587608880143}
   - component: {fileID: 1324824920063564364}
   - component: {fileID: 8510663231447771534}
-  - component: {fileID: 2215991829692471930}
   m_Layer: 5
   m_Name: ClassButton
   m_TagString: Untagged
@@ -122,22 +121,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &2215991829692471930
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5357294668026276178}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d67419eb6aba844aad388a7d418d838, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameData: {fileID: 11400000, guid: 0046218b15ddd0a4d83db9b5228a4843, type: 2}
-  levelData: {fileID: 11400000, guid: f3123ef09c140eb478d3a50f2543f4b1, type: 2}
-  categoryText: {fileID: 0}
-  progressBarFilling: {fileID: 0}
 --- !u!1 &8373702915400250230
 GameObject:
   m_ObjectHideFlags: 0

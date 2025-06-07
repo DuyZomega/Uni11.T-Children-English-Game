@@ -71,6 +71,7 @@
     <Compile Include="Assets\Scenes\wordfinder\Scripts\WordItem.cs" />
     <Compile Include="Assets\Unity-2D-Platformer\Assets\UI Assets\Scripts\EnemyHazard.cs" />
     <Compile Include="Assets\Unity-2D-Platformer\Assets\UI Assets\Scripts\ApplicationManager.cs" />
+    <Compile Include="Assets\Scenes\wordfinder\Scripts\SelectClassButton.cs" />
     <Compile Include="Assets\Unity-2D-Platformer\Assets\UI Assets\Scripts\ResizePanel.cs" />
     <Compile Include="Assets\Unity-2D-Platformer\Scripts Backup\SkipCutscene.cs" />
     <Compile Include="Assets\Scenes\wordfinder\Scripts\ScriptableObjects\GameLevelData.cs" />
@@ -221,6 +222,7 @@
     <Compile Include="Assets\Menu\UI SlideShow\Scripts\SelectImage.cs" />
     <Compile Include="Assets\Scenes\wordfinder\Scripts\WordChecker.cs" />
     <Compile Include="Assets\Unity-2D-Platformer\Assets\Game assets\Scripts\GOtoMenu.cs" />
+    <Compile Include="Assets\Main\Scripts\ClassList1.cs" />
     <Compile Include="Assets\Scenes\wordfinder\Scripts\SelectPuzzleButton.cs" />
     <Compile Include="Assets\Unity-2D-Platformer\Assets\Game assets\Scripts\RestartGO.cs" />
     <Compile Include="Assets\Main\Scripts\Typer.cs" />
@@ -646,12 +648,12 @@
       <HintPath>Library\PackageCache\com.unity.ext.nunit@2.0.3\net40\unity-custom\nunit.framework.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Unity.VisualScripting.Antlr3.Runtime">
-      <HintPath>Library\PackageCache\com.unity.visualscripting@1.9.5\Runtime\VisualScripting.Flow\Dependencies\NCalc\Unity.VisualScripting.Antlr3.Runtime.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>Library\PackageCache\com.unity.nuget.newtonsoft-json@3.2.1\Runtime\Newtonsoft.Json.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.VisualScripting.Antlr3.Runtime">
+      <HintPath>Library\PackageCache\com.unity.visualscripting@1.9.5\Runtime\VisualScripting.Flow\Dependencies\NCalc\Unity.VisualScripting.Antlr3.Runtime.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">

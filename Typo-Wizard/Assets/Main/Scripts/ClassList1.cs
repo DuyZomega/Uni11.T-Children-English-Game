@@ -10,9 +10,9 @@ using UnityEngine.UI;
 using Unity.VisualScripting;
 using Newtonsoft.Json;
 
-public class ClassList : MonoBehaviour
+public class ClassList2 : MonoBehaviour
 {
-    public static ClassList Instance;
+    public static ClassList2 Instance;
 
     [Header("UI Elements")]
     public GameObject classListPanel;
@@ -20,7 +20,7 @@ public class ClassList : MonoBehaviour
     public Transform classListContent;
     public TMP_Text statusText;
     public TMP_Text classNameText;
-    private string classSceneName = "Intro";
+    private string classSceneName = "Intro Video";
     private bool _classLocked;
     // Base URL for API calls - should match AccountManager
     private readonly string _baseUrl = "https://cegwebapi-bsamgfdjgqbyg2fr.eastus-01.azurewebsites.net";
@@ -28,8 +28,6 @@ public class ClassList : MonoBehaviour
     // Class data
     private List<ClassData> _enrolledClasses = new List<ClassData>();
 
-    public int ClassId { get; set; }
-    public int StudentId { get; set; }
     [Serializable]
     public class ClassData
     {
@@ -265,10 +263,6 @@ public class ClassList : MonoBehaviour
                 btn.onClick.AddListener(() =>
                 {
                     Debug.Log($"Clicked class: {className} (ID: {classId})");
-
-                    // Set the selected class ID to the singleton instance
-                    ClassList.Instance.ClassId = classId;
-                    ClassList.Instance.StudentId = AccountManager.Instance.StudentId;
                     SceneManager.LoadScene(classSceneName);
                 });
             }

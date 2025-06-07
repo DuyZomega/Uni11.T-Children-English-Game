@@ -674,8 +674,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseMenuUI: {fileID: 108310487}
-  optionMenu: {fileID: 617988445}
-  mainMenu: {fileID: 0}
 --- !u!114 &108310494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2291,7 +2289,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8501635205583888102, guid: 7abc404ee49d83b48b0be2c0f8a208ee, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 89.00003
+      value: 68.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8501635205952621093, guid: 7abc404ee49d83b48b0be2c0f8a208ee, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 24.8
       objectReference: {fileID: 0}
     - target: {fileID: 8501635206347084168, guid: 7abc404ee49d83b48b0be2c0f8a208ee, type: 3}
       propertyPath: m_SizeDelta.y
@@ -2353,6 +2355,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8501635207184306437, guid: 7abc404ee49d83b48b0be2c0f8a208ee, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 115.8
+      objectReference: {fileID: 0}
     - target: {fileID: 8501635207199126282, guid: 7abc404ee49d83b48b0be2c0f8a208ee, type: 3}
       propertyPath: m_SizeDelta.y
       value: 69.6433
@@ -2360,6 +2366,10 @@ PrefabInstance:
     - target: {fileID: 8501635207199126282, guid: 7abc404ee49d83b48b0be2c0f8a208ee, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 89.8929
+      objectReference: {fileID: 0}
+    - target: {fileID: 8501635207310594823, guid: 7abc404ee49d83b48b0be2c0f8a208ee, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3238,7 +3248,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &997655556
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3434,7 +3444,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1057148024
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5482,8 +5492,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseMenuUI: {fileID: 108310487}
-  optionMenu: {fileID: 0}
-  mainMenu: {fileID: 0}
 --- !u!1 &1687097508
 GameObject:
   m_ObjectHideFlags: 0
@@ -6868,7 +6876,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2074018989
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7003,7 +7011,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2076349479
 RectTransform:
   m_ObjectHideFlags: 0

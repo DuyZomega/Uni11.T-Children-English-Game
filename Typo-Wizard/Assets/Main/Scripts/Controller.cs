@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,10 +43,10 @@ public class Controller : MonoBehaviour
     [Serializable]
     public class HomeworkResultRequest
     {
-        public int HomeworkResultId { get; set; }
-        public int TotalPoint { get; set; }
-        public int TotalCorrectAnswers { get; set; }
-        public string Playtime { get; set; } // Format: hh:mm:ss
+        public int HomeworkResultId;
+        public int TotalPoint;
+        public int TotalCorrectAnswers;
+        public string Playtime;// Format: hh:mm:ss
     }
     [Serializable]
     public class StudentProgressRequest
@@ -59,6 +59,10 @@ public class Controller : MonoBehaviour
     void Start()
     {
         INSTANCE = this;
+        int studentId = ClassList.Instance.StudentId;
+        int classId = ClassList.Instance.ClassId;
+        Debug.Log($"Loaded scene with ClassId: {classId}, StudentId: {studentId}");
+        
     }
 
     // Update is called once per frame
@@ -83,7 +87,11 @@ public class Controller : MonoBehaviour
     [Serializable]
     public class StudentProgressResponse
     {
-        public int student_progress_id;
+        public int StudentProgressId;
+        public int StudentId;
+        public int ClassId;
+        public int Point;
+        public TimeSpan PlayTime;
         // Add more fields if needed based on the API response
     }
     [Serializable]
@@ -91,6 +99,22 @@ public class Controller : MonoBehaviour
     {
         public bool status;
         public List<StudentProgressResponse> data;
+    }
+    [Serializable]
+    public class HomeWorkResultResponse
+    {
+        public int HomeWorkResultId;
+        public int StudentId;
+        public int HomeWorkId;
+        public int Point;
+        public TimeSpan PlayTime;
+        // Add more fields if needed based on the API response
+    }
+    [Serializable]
+    public class HomeWorkResultListWrapper
+    {
+        public bool status;
+        public List<HomeWorkResultResponse> data;
     }
     public bool CastSpell(string text)
     {
@@ -126,10 +150,10 @@ public class Controller : MonoBehaviour
         string jsonRequestBody = JsonUtility.ToJson(requestData);
         Debug.Log("JSON Body: " + jsonRequestBody);
 
-        string url = $"{_baseUrl}/api/StudentHomework/Create";
+        string url = $"{_baseUrl}/api/StudentHomework";
         Debug.Log("JSON Body: " + jsonRequestBody);
         bool success = await SendPostRequest(url, jsonRequestBody);
-        Debug.Log(success ? "HomeworkResult sent successfully!" : "Failed to send HomeworkResult");
+        Debug.Log(success ? "StudentHomework sent successfully!" : "Failed to send StudentHomework");
     }
     private async Task<bool> SendPostRequest(string url, string jsonRequestBody)
     {
@@ -190,51 +214,255 @@ public class Controller : MonoBehaviour
             return request.downloadHandler.text;
         }
     }
-    public async void SendHomeworkResult(int homeworkResultId, int totalPoint, int totalCorrectAnswers, TimeSpan playtime)
+    //public async void SendHomeworkResult(int totalPoint, int totalCorrectAnswers, TimeSpan playtime)
+    //{
+    //    var homeworkResultRequest = new HomeworkResultRequest()
+    //    {
+    //        //HomeworkResultId = homeworkResultId,
+    //        TotalPoint = totalPoint,
+    //        TotalCorrectAnswers = totalCorrectAnswers,
+    //        Playtime = playtime.ToString(@"hh\:mm\:ss")
+    //    };
+
+    //    string jsonRequestBody = JsonUtility.ToJson(homeworkResultRequest);
+
+    //    string url = $"{_baseUrl}/api/HomeworkResult";
+    //    bool success = await SendPostRequest(url, jsonRequestBody);
+    //    Debug.Log(success ? "HomeworkResult sent successfully!" : "Failed to send HomeworkResult");
+    //}
+    [Serializable]
+    public class HomeworkResultGetResponse
+    {
+        public bool status;
+        public HomeworkResultData data;
+    }
+    [Serializable]
+    public class HomeworkResultData
+    {
+        public int id;
+        public int totalPoint;
+        public int totalCorrectAnswers;
+        public string playtime;
+        public List<object> studentHomeworks;  // Or a proper class if you have it
+    }
+    private async Task<int> GetHomeworkResultId(int studentId, int homeworkId, int point, TimeSpan playtime)
+    {
+        string url = $"{_baseUrl}/api/HomeworkResult/student/{studentId}/homework/{homeworkId}";
+        string response = await SendGetRequest(url);
+        if (!string.IsNullOrEmpty(response))
+        {
+            var wrapper = JsonUtility.FromJson<HomeWorkResultListWrapper>(response);
+            if (wrapper != null && wrapper.status && wrapper.data.Count > 0)
+            {
+                // Match based on known values
+                var match = wrapper.data
+                    .Where(r => r.StudentId == studentId &&
+                                r.HomeWorkId == homeworkId &&
+                                r.Point == point &&
+                                r.PlayTime == playtime)
+                    .LastOrDefault(); // Assumes latest is last in list
+
+                if (match != null)
+                {
+                    return match.HomeWorkResultId;
+                }
+            }
+        }
+
+        Debug.LogWarning("Failed to retrieve HomeworkResult ID");
+        return 0;
+    }
+    private async Task<int> GetStudentProgressId(int studentId, int classId, int point, TimeSpan playtime)
+    {
+        string url = $"{_baseUrl}/api/StudentProgress/student/{studentId}";
+        string response = await SendGetRequest(url);
+
+        if (!string.IsNullOrEmpty(response))
+        {
+            var wrapper = JsonUtility.FromJson<StudentProgressResponseListWrapper>(response);
+
+            if (wrapper != null && wrapper.status && wrapper.data.Count > 0)
+            {
+                // Find the last progress matching all the criteria
+                var match = wrapper.data
+                    .Where(p => p.StudentId == studentId &&
+                                p.ClassId == classId &&
+                                p.Point == point &&
+                                p.PlayTime == playtime)
+                    .LastOrDefault();
+
+                if (match != null)
+                {
+                    return match.StudentProgressId;
+                }
+            }
+        }
+
+        Debug.LogWarning("Failed to retrieve matching StudentProgress ID");
+        return 0;
+    }
+    private async Task<string> SendGetRequest(string url)
+    {
+        UnityWebRequest request = UnityWebRequest.Get(url);
+        var operation = request.SendWebRequest();
+
+        while (!operation.isDone)
+        {
+            await Task.Yield();
+        }
+
+        if (request.result != UnityWebRequest.Result.Success)
+        {
+            Debug.LogError($"GET request failed: {request.error}");
+            return null;
+        }
+        else
+        {
+            Debug.Log($"GET request succeeded: {request.downloadHandler.text}");
+            return request.downloadHandler.text;
+        }
+    }
+    //public async void SendStudentProgress(int studentId, int classId, int totalPoint, TimeSpan playtime)
+    //{
+    //    var studentProgressRequest = new StudentProgressRequest()
+    //    {
+    //        StudentId = studentId,
+    //        ClassId = classId,
+    //        TotalPoint = totalPoint,
+    //        Playtime = playtime.ToString(@"hh\:mm\:ss")
+    //    };
+
+    //    string jsonRequestBody = JsonUtility.ToJson(studentProgressRequest);
+    //    string url = $"{_baseUrl}/api/StudentProgress";
+
+    //    bool success = await SendPostRequest(url, jsonRequestBody);
+    //    Debug.Log(success ? "StudentProgress sent successfully!" : "Failed to send StudentProgress");     
+    //}
+    public async Task<int> SendStudentProgress(int studentId, int classId, int totalPoint, TimeSpan playtime)
+    {
+        var studentProgressRequest = new StudentProgressRequest()
+        {
+            StudentId = ClassList.Instance.StudentId,
+            ClassId = ClassList.Instance.ClassId,
+            TotalPoint = totalPoint,
+            Playtime = playtime.ToString(@"hh\:mm\:ss")
+        };
+
+        string jsonRequestBody = JsonUtility.ToJson(studentProgressRequest);
+        string url = $"{_baseUrl}/api/StudentProgress";
+        // Step 1: POST request
+        bool postSuccess = await SendPostRequest(url, jsonRequestBody);
+        if (!postSuccess)
+        {
+            Debug.LogError("Failed to create StudentProgress.");
+            return 0;
+        }
+        //string getUrl = $"{_baseUrl}/api/StudentProgress/student/{studentId}";
+        //string getResponse = await SendGetRequest(getUrl);
+
+        //if (!string.IsNullOrEmpty(getResponse))
+        //{
+        //    var getResult = JsonUtility.FromJson<StudentProgressResponseListWrapper>(getResponse);
+        //    if (getResult != null && getResult.status && getResult.data.Count > 0)
+        //    {
+        //        int latestId = getResult.data.Last().StudentProgressId;
+        //        Debug.Log($"Received StudentProgress ID: {latestId}");
+        //        return latestId;
+        //    }
+        //    else
+        //    {
+        //        Debug.LogWarning("Student progress get call succeeded but status is false or no data returned.");
+        //    }
+        //}
+        //else
+        //{
+        //    Debug.LogError("StudentProgress GET response was empty.");
+        //}
+
+        return 0; // failed to get ID
+    }
+    public async Task<int> SendHomeworkResult(int totalPoint, int totalCorrectAnswers, TimeSpan playtime)
     {
         var homeworkResultRequest = new HomeworkResultRequest()
         {
-            HomeworkResultId = homeworkResultId,
             TotalPoint = totalPoint,
             TotalCorrectAnswers = totalCorrectAnswers,
             Playtime = playtime.ToString(@"hh\:mm\:ss")
         };
 
         string jsonRequestBody = JsonUtility.ToJson(homeworkResultRequest);
+        string url = $"{_baseUrl}/api/HomeworkResult";
 
-        string url = $"{_baseUrl}/api/HomeworkResult/Create";
-        bool success = await SendPostRequest(url, jsonRequestBody);
-        Debug.Log(success ? "HomeworkResult sent successfully!" : "Failed to send HomeworkResult");
-    }
+        string response = await SendPostRequestWithResponse(url, jsonRequestBody);
 
-    public async void SendStudentProgress(int studentProgressId, int totalPoint, TimeSpan playtime)
-    {
-        var studentProgressRequest = new StudentProgressRequest()
+        if (!string.IsNullOrEmpty(response))
         {
-            student_progress_id = studentProgressId,
-            student_id = AccountManager.Instance.StudentId,  // Use global studentId here
-            class_id = AccountManager.Instance.ClassId,      // Use global classId here
-            total_point = totalPoint,
-            playtime = playtime.ToString(@"hh\:mm\:ss")
-        };
+            ResponseWithId result = JsonUtility.FromJson<ResponseWithId>(response);
+            if (result != null && result.status)
+            {
+                Debug.Log("HomeworkResultId received: " + result.data);
+                return result.data;
+            }
+        }
 
-        string jsonRequestBody = JsonUtility.ToJson(studentProgressRequest);
-        Debug.Log("Send StudentProgress: " + jsonRequestBody);
-
-        string url = $"{_baseUrl}/api/StudentProgress/Create";
-        await SendPostRequest(url, jsonRequestBody);
+        return 0; // failed to get ID
     }
-
-
     [Serializable]
     private class ResponseWithId
     {
         public bool status;
         public int data;
     }
+    //public void End()
+    //{
+    //    // Save best score
+    //    if (gameOverMenuUI != null)
+    //    {
+    //        gameOverMenuUI.Setup(_score);
+    //    }
+    //    else
+    //    {
+    //        Debug.LogWarning("gameOverMenuUI is null when trying to call Setup in End()");
+    //    }
+
+    //    // Dummy values  replace with real ones dynamically if needed
+    //    int homeworkId = 1;
+    //    int studentProgressId = 1;
+    //    int homeworkResultId = 1;
+    //    int studentId = ClassList.Instance.StudentId;
+    //    int classId = ClassList.Instance.ClassId;
+
+    //    int point = _score;
+    //    int totalCorrectAnswers = _score;
+    //    TimeSpan playtime = TimeSpan.FromSeconds(Time.timeSinceLevelLoad);
+    //    string status = "Submitted";
+
+    //    // Log all values for debugging
+    //    Debug.Log("<color=yellow>=== END GAME DATA DEBUG ===</color>");
+    //    Debug.Log($"Score / Point: {point}");
+    //    Debug.Log($"Playtime: {playtime.ToString(@"hh\:mm\:ss")}");
+    //    Debug.Log($"Status: {status}");
+    //    Debug.Log($"Correct Answers: {totalCorrectAnswers}");
+
+    //    Debug.Log("<color=cyan>--- StudentHomework Data ---</color>");
+    //    Debug.Log($"HomeworkId: {homeworkId}");
+    //    Debug.Log($"StudentId: {studentId}");
+    //    Debug.Log($"ClassId: {classId}");
+    //    Debug.Log("<color=cyan>--- StudentProgress Data ---</color>");
+
+
+    //    // Call API methods with debug info already inside each
+    //    SendStudentHomework(homeworkId, studentProgressId, homeworkResultId, point, playtime, status, totalCorrectAnswers);
+    //    SendHomeworkResult(point, totalCorrectAnswers, playtime);
+    //    SendStudentProgress(studentId, classId, point, playtime);
+
+
+    //    // End game visuals
+    //    StartCoroutine(GameOver());
+    //    gameOverMenuUI.Setup(_score);
+    //}
     public void End()
     {
-        // Save best score
         if (gameOverMenuUI != null)
         {
             gameOverMenuUI.Setup(_score);
@@ -243,47 +471,36 @@ public class Controller : MonoBehaviour
         {
             Debug.LogWarning("gameOverMenuUI is null when trying to call Setup in End()");
         }
+        gameOverMenuUI?.Setup(_score);
+        _ = HandleEndAsync(); // Fire and forget async method
+    }
 
-        // Dummy values � replace with real ones dynamically if needed
+    private async Task HandleEndAsync()
+    {
+        int studentId = ClassList.Instance.StudentId;
+        int classId = ClassList.Instance.ClassId;
         int homeworkId = 1;
         int studentProgressId = 1;
         int homeworkResultId = 1;
-        int studentId = 1;
-        int classId = 10;
-
         int point = _score;
         int totalCorrectAnswers = _score;
         TimeSpan playtime = TimeSpan.FromSeconds(Time.timeSinceLevelLoad);
         string status = "Submitted";
 
-        // Log all values for debugging
-        Debug.Log("<color=yellow>=== END GAME DATA DEBUG ===</color>");
-        Debug.Log($"Score / Point: {point}");
-        Debug.Log($"Playtime: {playtime.ToString(@"hh\:mm\:ss")}");
-        Debug.Log($"Status: {status}");
-        Debug.Log($"Correct Answers: {totalCorrectAnswers}");
+        await SendHomeworkResult(point, totalCorrectAnswers, playtime);
+        await SendStudentProgress(studentId, classId, point, playtime);
 
-        Debug.Log("<color=cyan>--- StudentHomework Data ---</color>");
-        Debug.Log($"HomeworkId: {homeworkId}");
-        Debug.Log($"StudentProgressId: {studentProgressId}");
-        Debug.Log($"HomeworkResultId: {homeworkResultId}");
+        //// Now get the actual IDs via GET
+        //int homeworkResultId = await GetHomeworkResultId(studentId, homeworkId, point, playtime);
+        //Debug.LogWarning($"{homeworkResultId}");
+        //int studentProgressId = await GetStudentProgressId(studentId, classId, point, playtime);
+        //Debug.LogWarning($"{studentId}");
+            await SendStudentHomework(homeworkId, studentProgressId, homeworkResultId, point, playtime, status, totalCorrectAnswers);
 
-        Debug.Log("<color=cyan>--- HomeworkResult Data ---</color>");
-        Debug.Log($"HomeworkResultId: {homeworkResultId}");
-
-        Debug.Log("<color=cyan>--- StudentProgress Data ---</color>");
-        Debug.Log($"StudentId: {studentId}");
-        Debug.Log($"ClassId: {classId}");
-
-        // Call API methods with debug info already inside each
-        SendStudentHomework(homeworkId, studentProgressId, homeworkResultId, point, playtime, status, totalCorrectAnswers);
-        SendHomeworkResult(homeworkResultId, point, totalCorrectAnswers, playtime);
-        SendStudentProgress(studentId, classId, point, playtime);
-
-        // End game visuals
         StartCoroutine(GameOver());
         gameOverMenuUI.Setup(_score);
     }
+
     IEnumerator GameOver()
     {
         var dieGo = barry.transform.GetChild(2).gameObject;

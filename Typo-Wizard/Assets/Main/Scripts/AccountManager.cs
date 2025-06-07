@@ -42,7 +42,7 @@ public class AccountManager : MonoBehaviour
         public int student_homework_id { get; set; }
         public string answer { get; set; } // Nullable
         public string type { get; set; } // Not Nullable
-        
+
     }
     [Serializable]
     public class StudentHomeworkRequest
@@ -160,7 +160,7 @@ public class AccountManager : MonoBehaviour
             checkActive();
         }
     }
-private void SetUIForRole()
+    private void SetUIForRole()
     {
         LoginScreen.SetActive(false);
 
@@ -280,6 +280,14 @@ private void SetUIForRole()
                 PlayerPrefs.SetString("Username", _user.Username);
                 PlayerPrefs.SetString("RoleName", _user.RoleName);
                 Debug.Log($"Logged in user Account ID: {_user.UserId}");
+                if (int.TryParse(_user.UserId, out int parsedAccountId))
+                {
+                    StartCoroutine(FetchStudentId(parsedAccountId));
+                }
+                else
+                {
+                    Debug.LogError("Invalid Account ID format. Cannot parse to int.");
+                }
                 PlayerPrefs.SetInt("IsLoggedIn", 1);
                 PlayerPrefs.SetString(usernameKey, _user.Username);
                 PlayerPrefs.Save();
@@ -314,156 +322,56 @@ private void SetUIForRole()
             }
         }
     }
-    //public async void SendStudentAnswer(int gameId, int studentHomeworkId, string answer, string type)
-    //{
-    //    // Create a new StudentAnswer object
-    //    var studentAnswerRequest = new StudentAnswerRequest()
-    //    {
-    //        game_id = 1,
-    //        student_homework_id = studentHomeworkId,
-    //        answer = answer,
-    //        type = type
-    //    };
+    private IEnumerator FetchStudentId(int accountId)
+    {
+        var task = GetStudentIdByAccountId(accountId);
+        yield return new WaitUntil(() => task.IsCompleted);
 
-    //    // Convert the object to JSON
-    //    string jsonRequestBody = JsonUtility.ToJson(studentAnswerRequest);
-    //    Debug.Log("Send StudentAnswer: " + jsonRequestBody);
+        if (task.Result != -1)
+        {
+            StudentId = task.Result;
+            Debug.Log("Successfully fetched StudentId: " + StudentId);
+        }
+        else
+        {
+            Debug.LogError("Failed to fetch StudentId.");
+        }
+    }
 
-    //    // Define the URL for StudentAnswer API
-    //    string url = $"{_baseUrl}/api/StudentAnswer/Create";
+    [Serializable]
+    private class ResponseWithId
+    {
+        public bool status;
+        public int data;
+    }
 
-    //    await SendPostRequest(url, jsonRequestBody);
-    //}
-    //public async void SendStudentHomework(int studentHomeworkId, int homeworkId, int studentProgressId, int homeworkResultId, int point, TimeSpan playtime, string status, int correctAnswers)
-    //{
-    //    // Create a new StudentHomework object
-    //    var studentHomeworkRequest = new StudentHomeworkRequest()
-    //    {
-    //        student_homework_id = studentHomeworkId,
-    //        homework_id = homeworkId,
-    //        student_progress_id = studentProgressId,
-    //        homework_result_id = homeworkResultId,
-    //        point = point,
-    //        playtime = playtime.ToString(@"hh\:mm\:ss"),
-    //        status = status,
-    //        correct_answers = correctAnswers
-    //    };
+    public async Task<int> GetStudentIdByAccountId(int accountId)
+    {
+        string url = $"{_baseUrl}/api/Student/id/account/{accountId}";
+        UnityWebRequest request = UnityWebRequest.Get(url);
+        request.SetRequestHeader("Content-Type", "application/json");
 
-    //    // Convert the object to JSON
-    //    string jsonRequestBody = JsonUtility.ToJson(studentHomeworkRequest);
-    //    Debug.Log("Send StudentHomework: " + jsonRequestBody);
+        var operation = request.SendWebRequest();
+        while (!operation.isDone)
+        {
+            await Task.Yield();
+        }
 
-    //    // Define the URL for StudentHomework API
-    //    string url = $"{_baseUrl}/api/StudentHomework/Create";
+        if (request.result != UnityWebRequest.Result.Success)
+        {
+            Debug.LogError("Failed to get studentId: " + request.error);
+            return -1;
+        }
 
-    //    await SendPostRequest(url, jsonRequestBody);
-    //}
-    //private async Task SendPostRequest(string url, string jsonRequestBody)
-    //{
-    //    // Create a UnityWebRequest POST object
-    //    UnityWebRequest request = new UnityWebRequest(url, "POST");
+        var json = request.downloadHandler.text;
+        Debug.Log("Response: " + json);
 
-    //    // Set the request headers
-    //    request.SetRequestHeader("Content-Type", "application/json");
+        ResponseWithId response = JsonUtility.FromJson<ResponseWithId>(json);
+        return response.data;
+    }
 
-    //    // Attach the JSON data to the request
-    //    byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(jsonRequestBody);
-    //    request.uploadHandler = new UploadHandlerRaw(bodyRaw);
-    //    request.downloadHandler = new DownloadHandlerBuffer();
-
-    //    // Send the request
-    //    var operation = request.SendWebRequest();
-    //    while (!operation.isDone)
-    //    {
-    //        await Task.Yield();
-    //    }
-
-    //    // Check for errors
-    //    if (request.result != UnityWebRequest.Result.Success)
-    //    {
-    //        Debug.LogError($"Error sending POST request to {url}: {request.error}");
-    //    }
-    //    else
-    //    {
-    //        Debug.Log($"POST request to {url} successful! Response: {request.downloadHandler.text}");
-    //    }
-    //}
-    //public async void SendHomeworkResult(int homeworkResultId, int totalPoint, int totalCorrectAnswers, TimeSpan playtime)
-    //{
-    //    var homeworkResultRequest = new HomeworkResultRequest()
-    //    {
-    //        homework_result_id = homeworkResultId,
-    //        total_point = totalPoint,
-    //        total_correct_answers = totalCorrectAnswers,
-    //        playtime = playtime.ToString(@"hh\:mm\:ss")
-    //    };
-
-    //    string jsonRequestBody = JsonUtility.ToJson(homeworkResultRequest);
-    //    Debug.Log("Send HomeworkResult: " + jsonRequestBody);
-
-    //    string url = $"{_baseUrl}/api/HomeworkResult/Create";
-    //    await SendPostRequest(url, jsonRequestBody);
-    //}
-    //public async void SendStudentProgress(int studentProgressId, int studentId, int classId, int totalPoint, TimeSpan playtime)
-    //{
-    //    var studentProgressRequest = new StudentProgressRequest()
-    //    {
-    //        student_progress_id = studentProgressId,
-    //        student_id = studentId,
-    //        class_id = classId,
-    //        total_point = totalPoint,
-    //        playtime = playtime.ToString(@"hh\:mm\:ss")
-    //    };
-
-    //    string jsonRequestBody = JsonUtility.ToJson(studentProgressRequest);
-    //    Debug.Log("Send StudentProgress: " + jsonRequestBody);
-
-    //    string url = $"{_baseUrl}/api/StudentProgress/Create";
-    //    await SendPostRequest(url, jsonRequestBody);
-    //}
-    //public async Task FetchHomeworkQuestions(int sessionId)
-    //{
-    //    // Define the API endpoint
-    //    string url = $"{_baseUrl}/api/Question/All/BySession/{sessionId}";
-    //    Debug.Log($"Fetching questions from: {url}");
-
-    //    // Create a GET request
-    //    UnityWebRequest request = UnityWebRequest.Get(url);
-
-    //    // Send the request
-    //    var operation = request.SendWebRequest();
-    //    while (!operation.isDone)
-    //    {
-    //        await Task.Yield();
-    //    }
-
-    //    // Handle the response
-    //    if (request.result != UnityWebRequest.Result.Success)
-    //    {
-    //        Debug.LogError($"Error fetching questions: {request.error}");
-    //    }
-    //    else
-    //    {
-    //        Debug.Log("Questions fetched successfully!");
-
-    //        // Parse the JSON response
-    //        string jsonResponse = request.downloadHandler.text;
-    //        List<HomeworkQuestion> questions = JsonUtilityHelper.FromJsonList<HomeworkQuestion>(jsonResponse);
-
-    //        // Log the questions and answers
-    //        foreach (var question in questions)
-    //        {
-    //            Debug.Log($"Question ID: {question.homework_question_id}, Text: {question.question}");
-    //            foreach (var answer in question.answers)
-    //            {
-    //                Debug.Log($"  Answer ID: {answer.homework_answer_id}, Text: {answer.answer}, Type: {answer.type}");
-    //            }
-    //        }
-    //    }
-    //}
-
-// Utility class for parsing JSON lists
-public static class JsonUtilityHelper
+    // Utility class for parsing JSON lists
+    public static class JsonUtilityHelper
 {
     public static List<T> FromJsonList<T>(string json)
     {
@@ -478,7 +386,7 @@ public static class JsonUtilityHelper
         public List<T> list;
     }
 }
-public string GetAccessToken()
+    public string GetAccessToken()
     {
         return accessToken;
     }
@@ -490,12 +398,11 @@ public string GetAccessToken()
     public void Logout()
     {
         _user = null;
-        _gameData = new Dictionary<string, List<LevelObject>>();
+        //_gameData = new Dictionary<string, List<LevelObject>>();
 
         PlayerPrefs.DeleteAll(); // Clears all saved PlayerPrefs data
         PlayerPrefs.Save();      // Save the changes
-
-        Debug.Log("PlayerPrefs cleared and user logged out.");
+       Debug.Log("PlayerPrefs cleared and user logged out.");
         Application.Quit();
     }
 }

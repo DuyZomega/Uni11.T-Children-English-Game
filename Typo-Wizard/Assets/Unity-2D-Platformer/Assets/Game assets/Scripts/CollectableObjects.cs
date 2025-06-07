@@ -4,19 +4,16 @@ using UnityEngine;
 
 public class CollectableObjects : MonoBehaviour
 {
-    //Variable for Initial score and coins add on score
     private LevelManager GameLevelManager;
     public int coinValue;
+
+    [Header("Optional GameObject to activate")]
+    public GameObject prefabToActivate;  // Assign this in Inspector
 
     [System.Obsolete]
     void Start()
     {
-        GameLevelManager = FindObjectOfType<LevelManager>();      
-    }
-
-    void Update()
-    {
-        
+        GameLevelManager = FindObjectOfType<LevelManager>();
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -24,8 +21,13 @@ public class CollectableObjects : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             GameLevelManager.AddCoins(coinValue);
-            Destroy(gameObject);          
+
+            if (prefabToActivate != null)
+            {
+                prefabToActivate.SetActive(true);
+            }
+
+            Destroy(gameObject); // Destroy this collectible
         }
-      
     }
 }
