@@ -25,5 +25,6 @@ namespace CEG_BAL.Services.Interfaces
         void Update(StudentViewModel student, UpdateStudent studentNewInfo);
         Task<int> GetTotalAmountByParent(int id);
         Task<int> GetTotalAmountByTeacher(int id);
+        Task<int?> GetIdByAccountId(int id);
     }
 }
