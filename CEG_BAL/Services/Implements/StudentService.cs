@@ -194,5 +194,10 @@ namespace CEG_BAL.Services.Implements
             if (teacherId == 0) throw new Exception("Teacher not found.");
             return await _unitOfWork.StudentRepositories.GetStudentCountByTeacherId(teacherId);
         }
+
+        public async Task<int?> GetIdByAccountId(int id)
+        {
+            return await _unitOfWork.StudentRepositories.GetIdByAccountIdNoTracking(id);
+        }
     }
 }

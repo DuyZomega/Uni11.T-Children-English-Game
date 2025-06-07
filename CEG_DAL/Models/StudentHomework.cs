@@ -7,11 +7,11 @@ public partial class StudentHomework
 {
     public int StudentHomeworkId { get; set; }
 
-    public int HomeworkId { get; set; }
+    public int? HomeworkId { get; set; }
 
-    public int StudentProgressId { get; set; }
+    public int? StudentProgressId { get; set; }
 
-    public int HomeworkResultId { get; set; }
+    public int? HomeworkResultId { get; set; }
 
     public int? Point { get; set; }
 
