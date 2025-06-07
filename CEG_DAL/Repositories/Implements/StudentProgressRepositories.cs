@@ -93,7 +93,7 @@ namespace CEG_DAL.Repositories.Implements
         {
             return await _dbContext.StudentProgresses
                 .AsNoTrackingWithIdentityResolution()
-                .Where(stuPro => stuPro.StudentHomeworks.Any(stuHom => stuHom.HomeworkId == homId))
+                .Where(stuPro => stuPro.StudentHomeworks.Any(stuHom => stuHom.HomeworkId.HasValue && stuHom.HomeworkId.GetValueOrDefault() == homId))
                 .Select(stuPro => new StudentProgress()
                 {
                     StudentId = stuPro.StudentId,
