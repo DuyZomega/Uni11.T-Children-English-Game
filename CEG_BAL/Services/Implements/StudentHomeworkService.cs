@@ -74,9 +74,9 @@ namespace CEG_BAL.Services.Implements
 
         public async Task<List<StudentHomeworkViewModel>?> GetListByStudentId(int id)
         {
-            var studentId = await _unitOfWork.StudentRepositories.GetIdByAccountIdNoTracking(id);
-            if (studentId == 0) return null;
-            var list = await _unitOfWork.StudentHomeworkRepositories.GetListByStudentId(studentId);
+            /*var studentId = await _unitOfWork.StudentRepositories.GetIdByAccountIdNoTracking(id);
+            if (studentId == 0) return null;*/
+            var list = await _unitOfWork.StudentHomeworkRepositories.GetListByStudentId(id);
             if (list.Count == 0) return null;
             var stuHomList = _mapper.Map<List<StudentHomeworkViewModel>>(list);
             for (int i = 0; i < stuHomList.Count; i++)

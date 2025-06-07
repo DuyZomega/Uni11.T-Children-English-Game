@@ -29,7 +29,7 @@ namespace CEG_DAL.Repositories.Implements
                 .AsNoTrackingWithIdentityResolution()
                 .Where(homRes =>
                     homRes.StudentHomeworks.Any(stuHom =>
-                        stuHom.HomeworkId == homId && stuHom.StudentProgress.StudentId == stuId
+                        stuHom.HomeworkId.HasValue && stuHom.HomeworkId.GetValueOrDefault() == homId && stuHom.StudentProgress.StudentId == stuId
                     )
                 )
                 .Select(homRes => new HomeworkResult
