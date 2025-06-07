@@ -297,7 +297,7 @@ namespace CEG_BAL.Services.Implements
                             // Add student homework for each homework item in the list
                             foreach (var hom in homList)
                             {
-                                if(stuPro.StudentHomeworks.Any(stuHom => stuHom.HomeworkId == hom.HomeworkId)) continue;
+                                if(stuPro.StudentHomeworks.Any(stuHom => stuHom.HomeworkId.HasValue && stuHom.HomeworkId.GetValueOrDefault() == hom.HomeworkId)) continue;
                                 stuPro.StudentHomeworks.Add(new StudentHomework()
                                 {
                                     CorrectAnswers = 0,
@@ -479,7 +479,7 @@ namespace CEG_BAL.Services.Implements
                             // Add student homework for each homework item in the list
                             foreach (var hom in homList)
                             {
-                                if (stuPro.StudentHomeworks.Any(stuHom => stuHom.HomeworkId == hom.HomeworkId)) continue;
+                                if (stuPro.StudentHomeworks.Any(stuHom => stuHom.HomeworkId.HasValue && stuHom.HomeworkId.GetValueOrDefault() == hom.HomeworkId)) continue;
                                 stuPro.StudentHomeworks.Add(new StudentHomework()
                                 {
                                     CorrectAnswers = 0,
