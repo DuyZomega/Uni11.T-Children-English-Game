@@ -38,7 +38,7 @@ namespace CEG_DAL.Repositories.Implements
                         HomeworkResult = stuHom.HomeworkResult,
                         Homework = new Homework()
                         {
-                            HomeworkId = stuHom.HomeworkId,
+                            HomeworkId = stuHom.Homework.HomeworkId,
                             Title = stuHom.Homework.Title,
                         },
                         Status = stuHom.Status,
@@ -71,7 +71,7 @@ namespace CEG_DAL.Repositories.Implements
                         HomeworkResult = stuHom.HomeworkResult,
                         Homework = new Homework()
                         {
-                            HomeworkId = stuHom.HomeworkId,
+                            HomeworkId = stuHom.Homework.HomeworkId,
                             Title = stuHom.Homework.Title,
                         },
                         Status = stuHom.Status,
@@ -109,7 +109,7 @@ namespace CEG_DAL.Repositories.Implements
                         HomeworkResult = stuHom.HomeworkResult,
                         Homework = new Homework()
                         {
-                            HomeworkId = stuHom.HomeworkId,
+                            HomeworkId = stuHom.Homework.HomeworkId,
                             Title = stuHom.Homework.Title,
                         },
                         Status = stuHom.Status,
@@ -126,7 +126,7 @@ namespace CEG_DAL.Repositories.Implements
         {
             return await _dbContext.StudentProgresses
                 .AsNoTrackingWithIdentityResolution()
-                .Where(stuPro => stuPro.StudentHomeworks.Any(stuHom => homIds.Contains(stuHom.HomeworkId)))
+                .Where(stuPro => stuPro.StudentHomeworks.Any(stuHom => homIds.Contains(stuHom.HomeworkId.GetValueOrDefault())))
                 .Select(stuPro => new StudentProgress()
                 {
                     StudentId = stuPro.StudentId,
@@ -142,7 +142,7 @@ namespace CEG_DAL.Repositories.Implements
                         HomeworkResult = stuHom.HomeworkResult,
                         Homework = new Homework()
                         {
-                            HomeworkId = stuHom.HomeworkId,
+                            HomeworkId = stuHom.Homework.HomeworkId,
                             Title = stuHom.Homework.Title,
                         },
                         Status = stuHom.Status,

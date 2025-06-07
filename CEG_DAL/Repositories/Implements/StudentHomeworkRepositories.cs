@@ -49,7 +49,7 @@ namespace CEG_DAL.Repositories.Implements
                     Status = stuHom.Status,
                     StudentProgress = new StudentProgress()
                     {
-                        StudentProgressId = stuHom.StudentProgressId,
+                        StudentProgressId = stuHom.StudentProgress.StudentProgressId,
                         //StudentId = (int)id,
                         TotalPoint = stuHom.StudentProgress.TotalPoint,
                         Playtime = stuHom.StudentProgress.Playtime,
