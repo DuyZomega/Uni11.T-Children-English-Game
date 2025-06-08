@@ -298,7 +298,7 @@ namespace CEG_WebAPI.Controllers
                         ErrorMessage = "Schedule Not Found!"
                     });
                 }
-                var stuHomList = await _studentHomeworkService.GetListByStudentId(emaReq.StudentId);
+                var stuHomList = await _studentHomeworkService.GetListByAccountId(emaReq.StudentId);
                 if (stuHomList == null)
                 {
                     return NotFound(new
